@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">DevMethod workflow</title>
+  <desc id="desc">A project moves from clarity through a verified delivery to a reusable checkpoint.</desc>
+  <rect width="1200" height="420" rx="28" fill="#0b1020"/>
+  <text x="72" y="86" fill="#ffffff" font-family="Arial, sans-serif" font-size="38" font-weight="700">From an idea to a verified delivery</text>
+  <text x="72" y="124" fill="#aeb9d7" font-family="Arial, sans-serif" font-size="20">DevMethod keeps decisions, implementation and evidence connected.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="72" y="190" width="290" height="144" rx="20" fill="#182347" stroke="#7190ff" stroke-width="2"/>
+    <circle cx="116" cy="234" r="20" fill="#7190ff"/><text x="108" y="241" fill="#0b1020" font-size="18" font-weight="700">1</text>
+    <text x="154" y="240" fill="#fff" font-size="25" font-weight="700">Make it clear</text>
+    <text x="104" y="286" fill="#c8d2ef" font-size="18">Explore · frame · design</text>
+    <text x="104" y="314" fill="#c8d2ef" font-size="18">Architecture · plan · ready</text>
+    <path d="M390 262h88" stroke="#7190ff" stroke-width="5" stroke-linecap="round"/><path d="M468 250l22 12-22 12" fill="#7190ff"/>
+    <rect x="512" y="190" width="290" height="144" rx="20" fill="#182347" stroke="#4dd6ad" stroke-width="2"/>
+    <circle cx="556" cy="234" r="20" fill="#4dd6ad"/><text x="548" y="241" fill="#0b1020" font-size="18" font-weight="700">2</text>
+    <text x="594" y="240" fill="#fff" font-size="25" font-weight="700">Build the slice</text>
+    <text x="544" y="286" fill="#c8d2ef" font-size="18">Implement · test · review</text>
+    <text x="544" y="314" fill="#c8d2ef" font-size="18">Correct when evidence fails</text>
+    <path d="M830 262h88" stroke="#4dd6ad" stroke-width="5" stroke-linecap="round"/><path d="M908 250l22 12-22 12" fill="#4dd6ad"/>
+    <rect x="952" y="190" width="176" height="144" rx="20" fill="#182347" stroke="#ffcf5b" stroke-width="2"/>
+    <circle cx="996" cy="234" r="20" fill="#ffcf5b"/><text x="988" y="241" fill="#0b1020" font-size="18" font-weight="700">3</text>
+    <text x="984" y="240" fill="#fff" font-size="23" font-weight="700">Prove it</text>
+    <text x="984" y="286" fill="#c8d2ef" font-size="17">Verify · integrate</text>
+    <text x="984" y="314" fill="#c8d2ef" font-size="17">Handoff · next</text>
+  </g>
+</svg>
