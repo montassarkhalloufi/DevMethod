@@ -8,7 +8,7 @@ import { createHash } from 'node:crypto';
 import { initialize, tools, modules } from '../dist/init.js';
 
 function fixture(t) {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'devmethod-'));
+  const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'devmethod-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   return root;
 }

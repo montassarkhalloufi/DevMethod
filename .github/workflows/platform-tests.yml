@@ -1,0 +1,51 @@
+name: Platform installation tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  installation:
+    name: Install on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Record runtime
+        run: |
+          node --version
+          npm --version
+          node -p 'process.platform + " " + process.arch'
+      - name: Install development dependencies
+        run: npm ci --ignore-scripts
+      - name: Build and run installer tests
+        run: npm test
+      - name: Check committed build
+        run: git diff --exit-code -- dist/
+      - name: Package
+        run: npm pack --json > package-result.json
+      - name: Install each host profile through npx
+        run: |
+          PACKAGE_FILE="$(node -p 'require("./package-result.json")[0].filename')"
+          for HOST in codex claude cursor; do
+            export CASE_DIR="$RUNNER_TEMP/devmethod $HOST"
+            npx --yes --offline --package="./$PACKAGE_FILE" devmethod init --tool "$HOST" --dest "$CASE_DIR"
+            node --input-type=module -e 'import fs from "node:fs"; import path from "node:path"; import assert from "node:assert/strict"; import {createHash} from "node:crypto"; const root=fs.realpathSync(process.env.CASE_DIR); const manifest=JSON.parse(fs.readFileSync(path.join(root,"kit-manifest.json"))); assert.equal(manifest.skills.length,6); for (const [file,hash] of Object.entries(manifest.files)) assert.equal(createHash("sha256").update(fs.readFileSync(path.join(root,file))).digest("hex"),hash); console.log("Verified installed payload:", manifest.tool);'
+          done
