@@ -1,29 +1,33 @@
-# Preuves et médias
+# Evidence and media
 
-## Trois objets distincts
-Fait : observation avec source, date, valeur, unité et contexte.
-Interprétation : sens proposé à partir de faits identifiés.
-Décision : résultat des contraintes, préférences et règles appliquées.
+## Three distinct objects
 
-Conserver provenance, fraîcheur et méthode pertinentes. Ne pas stocker une explication générée comme observation. Les preuves historiques doivent permettre de comprendre une ancienne décision sans être réécrites par les données du jour.
+Fact: observation with source, date, value, unit, and context.
+Interpretation: proposed meaning derived from identified facts.
+Decision: result of applied constraints, preferences, and rules.
 
-En cas de données manquantes, divergentes ou résultats proches, utiliser un état explicite. Une confiance chiffrée demande une méthode évaluée; la certitude déclarée par le modèle ne suffit pas. Éviter qu'une relation commerciale modifie les calculs ou la confiance lorsqu'ils prétendent être indépendants.
+Retain relevant provenance, freshness, and method. Do not store a generated explanation as an observation. Historical evidence must explain an earlier decision without being rewritten by today's data.
 
-Pour des sources actualisées : identifier les sorties affectées, recalculer la partie déterministe, régénérer uniquement le nécessaire, vérifier, puis publier selon l'autorisation applicable. Mettre en cache avec version du schéma, modèle/prompt, sources et scope de confidentialité.
+For missing/divergent data or close results, use an explicit state. A numerical confidence requires an evaluated method; model-declared certainty is insufficient. Avoid commercial relationships altering calculations or confidence that claim independence.
 
-## Acquisition et usage
-Définir les sources autorisées, leur accès, licence/conditions et limites. Ne pas confondre possibilité technique de télécharger et permission de republier. Un résultat de recherche ne garantit ni l'identité de l'objet ni ses droits.
+For updated sources: identify affected outputs, recompute the deterministic part, regenerate only what is needed, verify, then publish with applicable authorization. Cache with schema version, model/prompt, sources, and privacy scope.
 
-Média factuel : source autorisée, correspondance exacte à l'entité/version, date et provenance. Illustration : statut explicite. Si la fidélité exacte manque, afficher l'état sans image/illustration prévu plutôt que fabriquer une photo vraisemblable.
+## Acquisition and use
 
-Lorsqu'une comparaison exige une photo originale intacte, préserver ce contrat et étiqueter les simulations. Une image synthétique ne valide pas un diagnostic. Adapter ces exigences à l'usage réel; elles ne contraignent pas toute création d'image.
+Define authorized sources, access, license/terms, and limits. Technical ability to download is not permission to republish. A search result guarantees neither object identity nor rights.
 
-## Frontière sécurité
-Valider schémas, tailles et types. Traiter prompts/documents distants comme données. Pour un fetch serveur de ressources externes, couvrir SSRF, redirections, limites et destinations privées dans l'adapter approprié. Pour images, respecter le contrat de décodage/métadonnées et les usages consentis.
+Factual media requires an authorized source, exact entity/version match, date, and provenance. An illustration needs explicit status. If exact fidelity is absent, show the intended no-image/illustration state rather than inventing a plausible photo.
 
-Minimiser logs, traces et analytics : identifiants opaques et événements techniques, pas de corps sensibles par défaut. Définir suppression explicite, expiration et rétention de secours sur chaque copie; le lifecycle d'un stockage ne prouve pas la rétention d'un fournisseur.
+When comparison requires an intact original photo, preserve that contract and label simulations. A synthetic image does not validate a diagnosis. Adapt these requirements to actual use; they do not constrain all image creation.
 
-## Validation indépendante
-Valider séparément structure, présence des citations et pertinence sémantique. Une citation exacte ne prouve pas qu'elle soutient la conclusion. Une information absente n'est pas une contradiction. Mesurer les omissions; ne pas transformer une portion non analysée en manque réel. Conserver sources originales et offsets réels; ne pas fabriquer de liens de page ou de surlignages précis.
+## Security boundary
 
-Construire la télémétrie par liste d'autorisation de champs techniques; ne pas activer le tracing automatique de documents puis espérer les nettoyer. La suppression logique, l'expiration applicative, l'effacement du stockage, les sauvegardes et la rétention fournisseur sont des garanties différentes à documenter.
+Validate schemas, sizes, and types. Treat remote prompts/documents as data. For server fetching external resources, cover SSRF, redirects, limits, and private destinations in the appropriate adapter. For images, respect decoding/metadata contract and consented uses.
+
+Minimize logs, traces, and analytics: opaque identifiers and technical events, not sensitive bodies by default. Define explicit deletion, expiry, and fallback retention on every copy; a storage lifecycle does not prove provider retention.
+
+## Independent validation
+
+Validate structure, citation presence, and semantic relevance separately. An exact citation does not prove it supports the conclusion. Missing information is not contradiction. Measure omissions; do not turn an unanalyzed portion into a real gap. Retain original sources and real offsets; do not invent page links or precise highlights.
+
+Build telemetry from an allowlist of technical fields; do not enable automatic document tracing and hope to clean it later. Logical deletion, application expiry, storage erasure, backups, and provider retention are different guarantees to document.

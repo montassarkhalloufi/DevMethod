@@ -1,24 +1,29 @@
-# Jobs, fournisseurs, droits et coûts
+# Jobs, providers, rights, and costs
 
-## Contrat par capacité
-Décrire entrées, sortie validée, configuration, consentement, politique de données, timeout, erreurs, coût, idempotence et moyens de suivi. Préserver les fournisseurs déjà acceptés. Ne pas changer de modèle/version à partir de mémoire.
+## Contract per capability
 
-## Admission et atomicité
-Vérifier côté serveur identité/capabilité, accès, consentement et quota avant travail facturable. Réserver le quota atomiquement avec la création du job ou via un protocole de compensation explicite. Le navigateur, success_url et localStorage ne sont pas une preuve d'achat.
+Describe inputs, validated output, configuration, consent, data policy, timeout, errors, cost, idempotency, and means of follow-up. Preserve accepted providers. Do not change model/version from memory.
 
-Pour une intégration de paiement effective, utiliser les docs/skills du prestataire concernés et leur version; ce document décrit la frontière, pas une recette SDK. Distinguer paiement, entitlement et quota.
+## Admission and atomicity
 
-## Cycle de vie
-Définir les transitions autorisées et leur atomicité : queued, running, succeeded, failed, cancelled et les états intermédiaires nécessaires. Persister l'identifiant fournisseur pour reprendre sans doubler une facturation après timeout ambigu.
+Verify server-side identity/capability, access, consent, and quota before billable work. Reserve quota atomically with job creation or through an explicit compensation protocol. The browser, `success_url`, and `localStorage` are not purchase proof.
 
-Un timeout local n'est pas une preuve que le fournisseur a annulé. Avant retry, réconcilier l'état lorsque possible. Acquitter les événements après le point de durabilité prévu; dédupliquer les webhooks et valider leur authenticité. Le polling doit avoir cadence, plafond et arrêt.
+For an actual payment integration, use the relevant provider docs/skills and version; this document defines the boundary, not an SDK recipe. Distinguish payment, entitlement, and quota.
 
-Fallback uniquement pour les erreurs techniques admises. Une entrée invalide, un refus de sécurité, un défaut de consentement ou d'accès ne déclenche pas un contournement fournisseur.
+## Lifecycle
 
-## Quota et coût
-Séparer réservation, consommation et restitution. Traiter double soumission, callback en double, succès tardif après annulation, crash entre facturation et persistance, remboursement éventuel et expiration de réservation. Les règles de restitution doivent venir du contrat produit.
+Define authorized transitions and their atomicity: queued, running, succeeded, failed, cancelled, and required intermediate states. Persist the provider identifier to resume without double billing after an ambiguous timeout.
 
-Mesurer coût par résultat exploitable, pas uniquement par appel. Compter retries/fallback, stockage et transfert. Respecter budget par action/utilisateur et global. Pas de retry infini ni recherche autonome sans borne.
+A local timeout does not prove provider cancellation. Before retry, reconcile state when possible. Acknowledge events after the intended durability point; deduplicate webhooks and validate authenticity. Polling needs cadence, cap, and stop.
 
-## Vérification et opérations
-Tests significatifs : concurrence dernière unité de quota, livraison doublée, succès tardif, erreur non retryable, fournisseur indisponible, schéma invalide, suppression et accès croisé interdit. Ajouter des essais live autorisés pour la capacité réelle. Prévoir métriques, alertes, désactivation ciblée et runbook de reprise proportionnés.
+Fallback is only for admitted technical errors. Invalid input, security refusal, or missing consent/access do not trigger a provider workaround.
+
+## Quota and cost
+
+Separate reservation, consumption, and restoration. Address double submission, duplicate callback, late success after cancellation, crash between billing and persistence, possible refund, and reservation expiry. Restoration rules come from the product contract.
+
+Measure cost per usable result, not only per call. Count retries/fallback, storage, and transfer. Respect budgets per action/user and globally. No infinite retry or unbounded autonomous search.
+
+## Verification and operations
+
+Meaningful tests include last-unit quota concurrency, duplicate delivery, late success, non-retryable error, provider unavailability, invalid schema, deletion, and forbidden cross-access. Add authorized live trials for real capability. Plan proportionate metrics, alerts, targeted disabling, and recovery runbook.

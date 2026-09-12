@@ -1,24 +1,21 @@
-# Décisions produit et exploitation
+# Product and operations decisions
 
-## Tester la valeur avant d'ajouter de la complexité
-Identifier l'utilisateur, le travail qu'il cherche à accomplir, l'alternative actuelle, la friction et le signal de succès. Pour un produit IA/comparatif, demander ce que le produit apporte au-delà d'un prompt public : données autorisées/fraîches, calcul vérifiable, contexte durable, historique, simulation, monitoring ou exécution d'un workflow. Cette question n'impose pas toutes ces fonctions dans le MVP.
+## Test value before adding complexity
 
-Conserver les exclusions, critères métier et contrats déjà validés. Ne pas transformer « autonome » en promesse « zéro opération humaine » : décrire les exceptions, alertes, reprises et temps opérateur attendu. Choisir une architecture que l'équipe actuelle peut exploiter.
+Identify the user, job to be done, current alternative, friction, and success signal. For an AI/comparison product, ask what it provides beyond a public prompt: authorized/fresh data, verifiable calculation, durable context, history, simulation, monitoring, or workflow execution. This does not require all those functions in an MVP.
 
-## Coût total
-Comparer au minimum :
-- coûts fixes mensuels et seuils minimums;
-- unités facturées : appels, tokens, images, jobs, stockage, transferts;
-- amplification : retries, fallback, rafraîchissement, polling;
-- CI et consommation des agents de développement;
-- travail d'exploitation, sauvegarde/restauration et dépendance fournisseur.
+Preserve validated exclusions, business criteria, and contracts. Do not turn “autonomous” into a “zero human operation” promise: describe exceptions, alerts, recovery, and expected operator time. Choose an architecture the current team can operate.
 
-Utiliser les tarifs vérifiés pour une décision économique concrète. Séparer hypothèses et mesures. Définir un budget et une action à son dépassement : limiter, différer, servir un résultat précédent autorisé ou échouer explicitement. Un cache n'est pas gratuit ni toujours partageable.
+## Total cost
 
-## Choix techniques
-Conserver la stack acceptée tant qu'aucun problème démontré ne justifie un changement. Sur un nouveau projet, comparer une solution simple et les alternatives justifiées. Ne pas imposer NestJS, Next.js, Cloudflare, GCP, PostgreSQL, D1, un monorepo ou des microservices par héritage.
+Compare at least fixed monthly costs and minimum thresholds; billed units (calls, tokens, images, jobs, storage, transfers); amplification (retries, fallback, refresh, polling); CI and development-agent usage; and operations, backup/restore, and provider dependency. Use verified pricing for a concrete economic decision. Separate assumptions from measurements. Define a budget and the action on breach: limit, defer, serve an authorized previous result, or fail explicitly. A cache is neither free nor always shareable.
 
-Un découpage en services se justifie par des contraintes d'isolation, de responsabilité ou de déploiement; pas par le nombre de substantifs métier. Formaliser un déclencheur observable de scaling, puis différer ce qui n'est pas nécessaire aujourd'hui.
+## Technical choices
 
-## Sources de vérité par question
-La documentation décrit l'intention; le ticket le périmètre; la référence visuelle l'apparence approuvée; le code et les tests le comportement livré. Résoudre les divergences explicitement. Une date récente seule ne transforme pas une proposition en décision canonique.
+Keep the accepted stack until a demonstrated problem justifies change. In a new project, compare a simple solution and justified alternatives. Do not impose NestJS, Next.js, Cloudflare, GCP, PostgreSQL, D1, a monorepo, or microservices by inheritance.
+
+Service splitting is justified by isolation, ownership, or deployment constraints, not by the number of business nouns. Formalize an observable scaling trigger, then defer what is not needed today.
+
+## Sources of truth by question
+
+Documentation describes intent; the ticket describes scope; the visual reference describes approved appearance; code and tests describe delivered behavior. Resolve divergence explicitly. A recent date alone does not turn a proposal into a canonical decision.

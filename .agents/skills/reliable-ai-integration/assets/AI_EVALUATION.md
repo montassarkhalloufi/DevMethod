@@ -1,19 +1,20 @@
-# Évaluation d'une capacité IA
-Capacité / objectif utilisateur :
-Version code / schéma / prompt / modèle :
-Fournisseur et configuration testés, sans secrets :
-Données : synthétiques | autorisées réelles; provenance et consentement :
-Critères avant essai : exactitude utile, abstention, fidélité, latence, coût :
-Scénarios normaux :
-Cas ambigu / manquant / contradictoire :
-Échec fournisseur / timeout / doublon :
-Accès / quota / consentement :
-Tests exécutés et résultats :
-Essais live exécutés / non exécutés :
-Biais et limites de l'échantillon :
-Décision de livraison dans le scope :
+# AI capability evaluation
 
-Jeux : calibration | held-out | adversarial; cas utilisés pour corriger le prompt :
-Répétitions, échecs conservés et modification du grader :
-Couverture et omissions / validité des citations / pertinence sémantique :
-Ne pas rebaptiser un jeu de calibration en benchmark indépendant après correction.
+Capability / user objective:
+Code / schema / prompt / model version:
+Provider and tested configuration, without secrets:
+Data: synthetic | authorized real; provenance and consent:
+Pre-trial criteria: useful accuracy, abstention, fidelity, latency, cost:
+Normal scenarios:
+Ambiguous / missing / contradictory cases:
+Provider failure / timeout / duplicate:
+Access / quota / consent:
+Tests run and results:
+Live trials run / not run:
+Sample bias and limits:
+Delivery decision within scope:
+
+Sets: calibration | held-out | adversarial; cases used to correct the prompt:
+Repetitions, retained failures, and grader changes:
+Coverage and omissions / citation validity / semantic relevance:
+Do not relabel a calibration set as an independent benchmark after correction.

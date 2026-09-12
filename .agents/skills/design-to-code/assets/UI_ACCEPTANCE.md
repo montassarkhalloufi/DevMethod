@@ -1,12 +1,13 @@
-# Vérification UI
-Scope / commit :
-Référence approuvée / version / écran :
-Viewports et états rendus :
-Comportements essayés :
-Clavier / focus / labels / débordement :
-Écarts vérifiés et corrigés :
-Choix d'adaptation non décrits par la référence :
-Données et médias : réels, fixtures ou simulations :
-Captures / chemins des preuves :
-Limites : non exécuté, non accessible ou restant à valider :
-Décision : conforme au scope | écarts ouverts | bloqué sur référence
+# UI verification
+
+Scope / commit:
+Approved reference / version / screen:
+Rendered viewports and states:
+Behaviors tried:
+Keyboard / focus / labels / overflow:
+Verified and corrected gaps:
+Adaptation choices not described by the reference:
+Data and media: real, fixtures, or simulations:
+Screenshots / evidence paths:
+Limitations: not run, inaccessible, or still to validate:
+Decision: scope-conformant | open gaps | blocked on reference

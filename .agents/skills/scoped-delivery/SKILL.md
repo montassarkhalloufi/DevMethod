@@ -5,27 +5,31 @@ description: Turn an authorized software scope into a bounded implementation, me
 
 # Scoped Delivery
 
-Finir le périmètre autorisé sans réinventer le projet, multiplier les revues ou confondre un statut avec une preuve.
+Complete authorized scope without reinventing the project, multiplying reviews, or confusing status with evidence.
 
-## Avant d'agir
-Lire CONTRIBUTING.md et les décisions acceptées, les instructions applicables, la décision/ticket et l'état réel du code/PR. Identifier les fichiers possédés et les changements utilisateur existants. Préserver la politique du projet sur branches, worktrees, CI et compétences obligatoires.
+## Before acting
 
-Un scope est prêt si l'objectif, exclusions, contrats, dépendances et critères de succès sont suffisamment définis. Utiliser [assets/SLICE.md](assets/SLICE.md) pour un ticket substantiel, sans bureaucratie pour une correction claire. Une contradiction bloque uniquement le travail qui dépend de l'arbitrage.
+Read `CONTRIBUTING.md`, accepted decisions, applicable instructions, the decision/ticket, and the real code/PR state. Identify owned files and existing user changes. Preserve project policy on branches, worktrees, CI, and required skills.
 
-## Livrer
-- Une intention cohérente par tranche; préférer une verticale utile à des couches laissées déconnectées.
-- Un writer par branche/surface par défaut. Les sous-agents ne se déclenchent que si la session et l'environnement les autorisent et qu'un travail borné le justifie.
-- Si travail parallèle autorisé : worktrees/branches isolés, propriétaire unique des contrats/migrations/lockfiles, dépendances et ordre de merge explicites. Reviews en lecture seule.
-- Tests ciblés pendant l'implémentation, puis vérifications des surfaces affectées. Ne pas répéter un check vert inchangé ni écrire un test qui compare seulement l'implémentation à elle-même.
-- Lire [references/verification-and-cost.md](references/verification-and-cost.md) pour les critères de review et les coûts.
-- Pour une PR, garder draft tant que le code change. Reviewer un commit identifié; une modification ultérieure invalide les preuves affectées. Regrouper les corrections puis revue ciblée.
-- Les merges, déploiements, messages et mises à jour de documents externes suivent les autorisations présentes, jamais un vieux prompt copié. Si l'action finale n'est pas autorisée, préparer un résultat concret vérifié avant de demander.
-- Après une intégration autorisée, vérifier l'état réel. Continuer uniquement le backlog explicitement inclus dans la mission, en respectant budget et limites du projet.
+Scope is ready when objective, exclusions, contracts, dependencies, and success criteria are sufficiently defined. Use [the slice record](assets/SLICE.md) for a substantial ticket, without bureaucracy for a clear fix. A contradiction blocks only work depending on that trade-off.
 
-## Reprise
-Enregistrer [assets/CHECKPOINT.md](assets/CHECKPOINT.md) pour un travail long : sources versions, scope, commit, validations, blockers, prochaine action. Ne pas recopier les espaces Notion/Drive ou tout le registre d'outils. À la reprise, vérifier seulement les éléments susceptibles d'avoir changé.
+## Deliver
 
-Mettre à jour ensemble décisions affectées, contrats publics, tests et statut réel d'implémentation. Exécuter les commandes qualité documentées du projet; ne pas affaiblir un test ou lint pour obtenir du vert. Examiner le diff pour secrets, données personnelles et changements involontaires. Respecter la politique de publication et de migration existante.
+- One coherent intent per slice; prefer a useful vertical slice to disconnected layers.
+- One writer per branch/surface by default. Subagents run only when session/environment authorize them and bounded work justifies it.
+- When parallel work is authorized: isolated worktrees/branches, a single owner for contracts/migrations/lockfiles, explicit dependencies and merge order. Reviews are read-only.
+- Use focused tests during implementation, then verify affected surfaces. Do not repeat an unchanged green check or write a test that merely compares implementation with itself.
+- Read [verification and cost](references/verification-and-cost.md) for review criteria and costs.
+- For a PR, keep it draft while code changes. Review an identified commit; a later change invalidates affected evidence. Group corrections, then conduct focused review.
+- Merges, deployments, messages, and external-document updates follow current authorization, never an old copied prompt. If the final action is not authorized, prepare a concrete verified result before asking.
+- After authorized integration, verify real status. Continue only backlog explicitly included in the mission, respecting project budget and limits.
 
-## Compte rendu
-Dire ce qui fonctionne, les preuves de vérification, les limites matérielles et ce qui reste requis. Distinguer implémenté localement, PR, intégré, déployé et vérifié en production. Un statut « Done » ne prouve aucun de ces états.
+## Resume
+
+Record [a checkpoint](assets/CHECKPOINT.md) for long work: source versions, scope, commit, validation, blockers, next action. Do not copy Notion/Drive spaces or the full tool registry. On resumption, verify only items that may have changed.
+
+Update affected decisions, public contracts, tests, and real implementation status together. Run documented project quality commands; never weaken a test or lint to obtain green. Review the diff for secrets, personal data, and unintended changes. Respect existing publication and migration policy.
+
+## Report
+
+State what works, verification evidence, material limitations, and what remains required. Distinguish locally implemented, PR, integrated, deployed, and production-verified. A “Done” status proves none of those states.

@@ -1,18 +1,19 @@
-# ADR — [décision concrète]
-Statut : PROPOSED | ACCEPTED | REJECTED | SUPERSEDED
-Date / propriétaire / décision explicite d'acceptation :
-Remplace / remplacé par :
-Contexte et objectif :
-Décision actuelle :
-Faits vérifiés (sources, dates/versions) :
-Hypothèses et inconnues :
-Options viables et compromis :
-Recommandation :
-Conséquences produit, technique, sécurité et exploitation :
-Coût fixe/variable et hypothèses :
-Migration / compatibilité / retour arrière :
-Périmètre bloqué ou indépendant :
-Critère de réexamen :
-Tickets / contrats / preuves d'implémentation :
+# ADR — [concrete decision]
 
-Ne passer à ACCEPTED que si l'autorité compétente ou la session l'a accepté.
+Status: PROPOSED | ACCEPTED | REJECTED | SUPERSEDED
+Date / owner / explicit acceptance decision:
+Replaces / replaced by:
+Context and objective:
+Current decision:
+Verified facts (sources, dates/versions):
+Assumptions and unknowns:
+Viable options and trade-offs:
+Recommendation:
+Product, technical, security, and operating consequences:
+Fixed/variable cost and assumptions:
+Migration / compatibility / rollback:
+Blocked or independent scope:
+Review criterion:
+Tickets / contracts / implementation evidence:
+
+Move to ACCEPTED only when the competent authority or the session has accepted it.

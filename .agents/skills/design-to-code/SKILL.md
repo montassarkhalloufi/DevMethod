@@ -5,15 +5,16 @@ description: Translate an approved mockup or design direction into coherent prod
 
 # Design to Code
 
-Une maquette approuvée est un contrat visuel. Ne pas « améliorer » sa direction sans demande. Les contraintes produit, d'accessibilité et de sécurité restent applicables; rendre visible un conflit plutôt que le masquer.
+An approved mockup is a visual contract. Do not “improve” its direction without a request. Product, accessibility, and security constraints still apply; make a conflict visible rather than hiding it.
 
-## Exécution
-1. Lire et voir réellement la référence : écran/version, viewport, tokens, hiérarchie, contenu, médias et états. Si elle manque, retrouver l'asset indiqué; n'inventer ni sa géométrie ni un verdict de fidélité.
-2. Identifier le parcours, l'action principale et les états nécessaires. Lire [references/ux-contract.md](references/ux-contract.md).
-3. Extraire les tokens et primitives déjà présents : typographie, couleurs sémantiques, espacements, grille, contours, rayons, ombres, iconographie. Conserver la bibliothèque UI en place.
-4. Mapper référence → composants → données → interactions. Séparer primitives neutres et composants métier; créer uniquement ce dont l'écran a besoin.
-5. Implémenter le comportement réel demandé et les états vides/chargement/erreur utiles. Étiqueter les fixtures de prototype; ne pas laisser un bouton afficher un faux succès.
-6. Rendre dans le navigateur et comparer aux mêmes dimensions desktop/mobile. Vérifier lisibilité, défilement, interactions, clavier et focus. Une compilation verte ne valide pas l'apparence.
-7. Corriger les écarts prioritaires puis reporter les vérifications réellement faites avec [la fiche](assets/UI_ACCEPTANCE.md). Ne jamais annoncer « pixel perfect » ou « 100 % fidèle » sans base mesurable.
+## Execution
 
-Si la demande concerne React, résoudre react-feature-engineering seulement pour la partie implémentation. Ce skill n'impose pas de framework, de palette ou de style commun aux projets.
+1. Read and actually view the reference: screen/version, viewport, tokens, hierarchy, content, media, and states. If it is missing, find the referenced asset; do not invent its geometry or a fidelity verdict.
+2. Identify the journey, primary action, and required states. Read [the UX contract](references/ux-contract.md).
+3. Extract existing tokens and primitives: typography, semantic colors, spacing, grid, borders, radii, shadows, and iconography. Preserve the existing UI library.
+4. Map reference → components → data → interactions. Separate neutral primitives from business components; create only what the screen needs.
+5. Implement required real behavior and useful empty/loading/error states. Label prototype fixtures; never leave a button that shows fake success.
+6. Render in a browser and compare at the same desktop/mobile dimensions. Check legibility, scrolling, interactions, keyboard, and focus. A green compilation does not validate appearance.
+7. Correct priority gaps and report checks actually performed with [the record](assets/UI_ACCEPTANCE.md). Never claim “pixel perfect” or “100% faithful” without a measurable basis.
+
+If the request concerns React, resolve `react-feature-engineering` only for implementation. This skill imposes no framework, palette, or shared style across projects.

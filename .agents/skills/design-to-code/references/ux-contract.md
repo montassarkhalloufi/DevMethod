@@ -1,24 +1,29 @@
-# Contrat UX et vérification
+# UX contract and verification
 
-## Référence verrouillée
-Conserver proportions, densité, ordre, labels, position des actions, iconographie et traitement des données. Une image générique de design system n'autorise pas à inventer tous les écrans métier. Si une référence desktop ne décrit pas le mobile, adapter la composition avec les mêmes priorités et noter les choix déduits.
+## Locked reference
 
-Matrice minimale : route/parcours, statut public/privé, action, données, référence approuvée, breakpoint, chargement, vide, erreur et recovery. Ajouter succès, données obsolètes, droits insuffisants ou incertitude seulement s'ils ont un sens.
+Preserve proportions, density, order, labels, action positions, iconography, and data treatment. A generic design-system image does not authorize inventing every business screen. If a desktop reference does not describe mobile, adapt composition with the same priorities and record inferred choices.
 
-## Rendu hybride quand le produit le demande
-Choisir par surface : HTML public utile et indexable; îlots interactifs pour scénarios/personnalisation; workspace privé dynamique. Prévoir cache et invalidation selon visibilité et fraîcheur. Une page publique ne doit pas embarquer de données privées; noindex ne constitue pas un contrôle d'accès. Un prototype peut être noindex sans devenir un modèle de rendu production.
+Minimum matrix: route/journey, public/private status, action, data, approved reference, breakpoint, loading, empty, error, and recovery. Add success, stale data, insufficient rights, or uncertainty only when meaningful.
 
-## Confiance et médias
-Montrer valeur et prochaine action compréhensible avant la pression commerciale. Ne pas inventer témoignages, urgences, compteurs, précision scientifique ou résultats.
+## Hybrid rendering when product requires it
 
-Pour une donnée visuelle factuelle, préserver l'identité de l'objet/personne, la provenance et les droits de réutilisation. Une image générée n'est pas une preuve de l'apparence exacte d'un produit. Pour des transformations personnelles, distinguer original, comparaison déterministe et simulation générative; appliquer le contrat spécifique du projet.
+Choose per surface: useful indexable public HTML; interactive islands for scenarios/personalization; dynamic private workspace. Plan cache and invalidation by visibility and freshness. A public page must not embed private data; `noindex` is not access control. A prototype may be noindex without becoming a production rendering model.
 
-Pour un produit piloté par IA, composer via un registre de composants et des schémas validés quand cette architecture est retenue. Ne pas exécuter du JSX/HTML arbitraire provenant d'un modèle.
+## Trust and media
 
-## QA proportionnée
-Comparer même viewport, état et contenu; les données dynamiques doivent être stabilisées pour une comparaison utile. Examiner les écarts de structure avant les détails décoratifs. Tester débordements, zoom, texte long, focus visible, clavier, labels et information qui ne dépend pas uniquement de la couleur. Préférer les primitives accessibles existantes.
+Show value and understandable next action before commercial pressure. Do not invent testimonials, urgency, counters, scientific precision, or results.
 
-Classer les constats : défaut reproductible, conflit de décision ou préférence esthétique. Donner preuve, conséquence et correction. Conserver les captures dans la documentation du scope si utile; ne pas multiplier les screenbooks parallèles.
+For factual visual data, preserve object/person identity, provenance, and reuse rights. A generated image is not evidence of a product's exact appearance. For personal transformations, distinguish original, deterministic comparison, and generative simulation; apply the project's specific contract.
 
-## Copie produit et accessibilité
-Utiliser le catalogue de traduction du projet. Préserver annonces de statut/erreur, reduced motion, focus, clavier et mise en page étroite. Ne pas inventer un pourcentage de progression en l'absence d'événements mesurables. Préserver saisies et sélection en cas d'échec. Les constantes de géométrie et les tokens sémantiques ont un propriétaire explicite.
+For an AI-driven product, compose through a component registry and validated schemas when that architecture is adopted. Do not execute arbitrary JSX/HTML produced by a model.
+
+## Proportionate QA
+
+Compare the same viewport, state, and content; stabilize dynamic data for useful comparison. Examine structural differences before decorative detail. Test overflow, zoom, long text, visible focus, keyboard, labels, and information not conveyed by color alone. Prefer existing accessible primitives.
+
+Classify findings as reproducible defect, decision conflict, or aesthetic preference. Give evidence, consequence, and correction. Keep screenshots in scope documentation when useful; do not multiply parallel screenbooks.
+
+## Product copy and accessibility
+
+Use the project translation catalog. Preserve status/error announcements, reduced motion, focus, keyboard, and narrow layouts. Do not invent a progress percentage without measurable events. Preserve input and selection on failure. Geometry constants and semantic tokens have an explicit owner.

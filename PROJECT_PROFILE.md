@@ -1,26 +1,26 @@
-# Profil projet
+# Project profile
 
-À renseigner depuis les sources au premier démarrage; conserver les inconnues explicites. Ce profil est un modèle, pas une décision déjà acceptée.
+Complete from source material during first startup; keep unknowns explicit. This profile is a template, not an already accepted decision.
 
-- Projet / alias :
-- Objectif utilisateur et critère de succès :
-- Phase / scope autorisé / exclusions :
-- Contraintes fondatrices : temps opérateur, budget fixe, coût variable, délai.
-- Source produit et décisions acceptées (liens + date/version) :
-- Source des tickets / critères de readiness :
-- Référence UI approuvée (écran, version, viewport, états) :
-- Code canonique (repo, branche, commit inspecté) :
-- Stack effective (runtime, frameworks, package manager, versions lockfile) :
-- Domaine / frontières / données possédées :
-- Commandes locales réellement disponibles :
-- Parcours critiques / risques à vérifier :
-- Données personnelles, finalités, rétentions validées :
-- Intégrations et contrats; ne mettre aucune valeur de secret :
-- Rendu par surface : public statique/ISR/SSR, interactif, privé; selon besoin.
-- Politique CI, budget et autorisations applicables :
-- Skills obligatoires + chemin local + provenance :
-- Actions externes déjà autorisées dans cette session et limites :
-- Hypothèses réversibles / décisions à arbitrer :
-- Prochaine tranche indépendante :
+- Project / alias:
+- User objective and success criterion:
+- Phase / authorized scope / exclusions:
+- Foundational constraints: operator time, fixed budget, variable cost, deadline.
+- Product source and accepted decisions (links + date/version):
+- Ticket source / readiness criteria:
+- Approved UI reference (screen, version, viewport, states):
+- Canonical code (repository, branch, inspected commit):
+- Effective stack (runtime, frameworks, package manager, lockfile versions):
+- Domain / boundaries / owned data:
+- Local commands actually available:
+- Critical journeys / risks to verify:
+- Personal data, purposes, approved retention:
+- Integrations and contracts; do not enter any secret value:
+- Rendering by surface: public static/ISR/SSR, interactive, private; as needed.
+- Applicable CI policy, budget, and authorizations:
+- Required skills + local path + provenance:
+- External actions already authorized in this session and limits:
+- Reversible assumptions / decisions to resolve:
+- Next independent slice:
 
-Les autorisations de session ne deviennent pas des autorisations permanentes pour toutes les sessions.
+Session authorizations do not become permanent authorizations for every session.

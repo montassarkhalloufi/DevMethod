@@ -1,22 +1,23 @@
-# Contrats HTTP, retries et idempotence
+# HTTP contracts, retries, and idempotency
 
-Documenter avant de coder une nouvelle opération distante :
-- méthode, chemin, identité/autorisation, entrées validées et tailles;
-- succès observable, ressource créée ou état de job réel;
-- erreurs stables, limites, request ID et détails sûrs;
-- empreinte de requête normalisée, paramètres influençant le calcul;
-- portée de clé par identité/capabilité, durée, capacité et atomicité;
-- comportement même clé/même entrée, même clé/entrée différente;
-- traitement d'une déconnexion, timeout ambigu, crash et reprise;
-- garantie dans un processus vs plusieurs, après redémarrage et après expiration;
-- données gardées pour rejeu, suppression et sauvegardes.
+Document before implementing a new remote operation:
 
-Utiliser les sémantiques HTTP appropriées : 200 pour un succès synchrone retourné; 201 pour création selon le contrat et localisation quand pertinente; 202 implique travail accepté encore incomplet avec le contrat de suivi nécessaire. Préserver les choix existants. Ne pas transformer un timeout navigateur en certitude d'annulation distante.
+- method, path, identity/authorization, validated inputs, and sizes;
+- observable success, created resource, or real job state;
+- stable errors, limits, request ID, and safe details;
+- normalized request fingerprint and calculation-affecting parameters;
+- key scope by identity/capability, duration, capacity, and atomicity;
+- same-key/same-input and same-key/different-input behavior;
+- disconnect, ambiguous timeout, crash, and recovery behavior;
+- guarantee within one process versus many, after restart, and after expiry;
+- retained replay data, deletion, and backups.
 
-Les erreurs peuvent suivre Problem Details si retenu. Les headers locaux d'un prototype ne constituent pas une authentification. Limiter et ordonner les collections lorsqu'elles existent, sans créer une pagination inutile.
+Use appropriate HTTP semantics: 200 for returned synchronous success; 201 for creation according to the contract and location when relevant; 202 means accepted but incomplete work and needs its follow-up contract. Preserve existing choices. Do not turn a browser timeout into certainty of remote cancellation.
 
-Avant retry d'un appel payant, déterminer si son résultat/facturation est inconnu, si le fournisseur déduplique et si une reprise d'état est possible. Une clé seule ne garantit ni exécution unique ni gratuité du retry. Si le calcul a réussi mais sa persistance échoue, une reprise peut réutiliser le résultat uniquement dans les limites documentées.
+Errors may follow Problem Details where adopted. Prototype-local headers are not authentication. Limit and order collections when present without adding needless pagination.
 
-Mettre à jour schémas publics, documentation, génération OpenAPI si existante, tests et stratégie de compatibilité ensemble. Un schéma généré sans dérive ne prouve pas la correspondance de tous les comportements HTTP : vérifier également statuts, headers, erreurs et contraintes observables.
+Before retrying a paid call, determine whether outcome/billing is unknown, whether the provider deduplicates, and whether state reconciliation is possible. A key alone guarantees neither exactly-once execution nor a free retry. If calculation succeeded but persistence failed, recovery may reuse its result only within documented limits.
 
-Références normatives à consulter pour la question précise : [HTTP semantics](https://www.rfc-editor.org/rfc/rfc9110.html) et [Problem Details](https://www.rfc-editor.org/rfc/rfc9457.html). Définir les seuils, délais et champs depuis le contrat du projet, sans reprendre ceux d'un exemple comme défaut universel.
+Update public schemas, documentation, OpenAPI generation where present, tests, and compatibility strategy together. A drift-free generated schema does not prove every HTTP behavior matches: also verify statuses, headers, errors, and observable constraints.
+
+Consult [HTTP semantics](https://www.rfc-editor.org/rfc/rfc9110.html) and [Problem Details](https://www.rfc-editor.org/rfc/rfc9457.html) for the precise issue. Define thresholds, timeouts, and fields from the project contract, never from an example as a universal default.

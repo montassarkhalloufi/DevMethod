@@ -1,21 +1,24 @@
-# Démarrage du kit
+# Start the kit
 
-Le dossier contient six skills indépendants. Copier `.agents/skills/` dans le projet en préservant ses fichiers existants. Si une version existe déjà, comparer les changements avant de la mettre à jour. Garder PROJECT_PROFILE.md et compléter depuis le projet la stack, les commandes, le scope, les permissions de déploiement et les exigences de données avant adoption. ENGINEERING_POLICY.template.md conserve la politique fournie; la fusionner avec CONTRIBUTING.md et les instructions existantes.
+This folder contains six independent skills. Copy `.agents/skills/` into the project while preserving its existing files. If a version already exists, compare changes before updating it. Keep `PROJECT_PROFILE.md` and complete the stack, commands, scope, deployment permissions, and data requirements from the project before adoption. `ENGINEERING_POLICY.template.md` retains the included policy; merge it with `CONTRIBUTING.md` and existing instructions.
 
-Dans Codex, commencer par `$project-foundation status`. Dans Claude Code ou Cursor, commencer par `/project-foundation status`. Pour une demande libre :
-> Utilise le skill project-foundation sur ce projet. Lis les instructions et sources existantes, complète le profil sans réinventer les décisions, puis réalise le périmètre suivant : [mon objectif]. Applique seulement les modules pertinents. Préserve la maquette validée, les frontières d'architecture et les règles React. Avance jusqu'à un résultat vérifié dans ce périmètre.
+In Codex, start with `$project-foundation status`. In Claude Code or Cursor, start with `/project-foundation status`. For an open-ended request:
 
-L'installateur copie la méthode et ses modèles vierges, pas le contexte du projet adopté. Conserver séparément le profil rempli, les décisions, tickets et instructions. Le manifeste décrit l'installation initiale : les adaptations locales changent normalement ses empreintes. Pour mettre à jour, installer dans un dossier neuf puis comparer les changements.
+> Use the `project-foundation` skill for this project. Read existing instructions and sources, complete the profile without reinventing decisions, then deliver the following scope: [my objective]. Apply only relevant modules. Preserve the approved mockup, architecture boundaries, and React rules. Progress to a verified result within this scope.
 
-Si les skills ne sont pas découverts automatiquement :
-> Lis .agents/skills/project-foundation/SKILL.md et ses seules références utiles, puis réalise : [mon objectif].
+The installer copies the method and its blank templates, not the adopted project's context. Keep the completed profile, decisions, tickets, and instructions separately. The manifest describes the initial installation: local adaptations normally change its hashes. To update, install into a fresh folder and compare changes.
 
-AGENTS.foundation.md fournit un fragment à fusionner dans les instructions existantes. Il ne remplace jamais un AGENTS.md. Le kit ne contient pas les skills tiers Vercel : appliquer les versions déjà approuvées du projet; leur ajout éventuel est distinct.
+If skills are not discovered automatically:
 
-Exemples :
-- « Reprends ce ticket et livre sa tranche complète. »
-- « Voici la maquette approuvée : implémente cette page et vérifie desktop/mobile. »
-- « Compare ces deux architectures avec mon budget et propose un ADR. »
-- « Corrige la séparation vue/hooks/métier de cette feature, sans refonte globale. »
+> Read `.agents/skills/project-foundation/SKILL.md` and only its relevant references, then complete: [my objective].
 
-Ce kit réduit le cadrage répétitif; il ne prouve pas à lui seul la qualité de l'application ni sa préparation à la production.
+`AGENTS.foundation.md` provides a fragment to merge into existing instructions. It never replaces an `AGENTS.md`. The kit does not include third-party Vercel skills: apply versions already approved by the project; adding them is separate.
+
+Examples:
+
+- “Resume this ticket and deliver its complete slice.”
+- “Here is the approved mockup: implement this page and verify desktop/mobile.”
+- “Compare these two architectures against my budget and propose an ADR.”
+- “Fix the view/hooks/business separation of this feature without a global rewrite.”
+
+This kit reduces repetitive framing; it does not by itself prove application quality or production readiness.

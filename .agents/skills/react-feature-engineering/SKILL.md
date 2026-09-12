@@ -5,36 +5,40 @@ description: Implement or refactor React features with clear view, custom-hook, 
 
 # React Feature Engineering
 
-Préserver les conventions du projet, les décisions acceptées et la version réellement installée. Compléter les skills Vercel approuvés; ne pas les remplacer ni importer automatiquement leur dernière version.
+Preserve project conventions, accepted decisions, and the version actually installed. Complement approved Vercel skills; do not replace them or automatically import their latest version.
 
-## Placer chaque responsabilité
-| Responsabilité | Emplacement conceptuel |
+## Place each responsibility
+
+| Responsibility | Conceptual location |
 |---|---|
-| Routes, layouts, assemblage, providers | app |
-| Vue métier, props typées, callbacks d'intention | feature/components |
-| État React, interaction navigateur, subscription cohérente | feature/hooks |
-| Transformation pure et view model | feature/model ou fonction nommée |
-| Règle métier / calcul faisant autorité | domaine / cas d'usage |
-| Accès initial serveur et actions autorisées | feature/server ou frontière serveur |
-| Primitives stables sans sens métier | shared UI |
+| Routes, layouts, composition, providers | `app` |
+| Business view, typed props, intent callbacks | `feature/components` |
+| React state, browser interaction, coherent subscription | `feature/hooks` |
+| Pure transformation and view model | `feature/model` or named function |
+| Authoritative business rule/calculation | domain / use case |
+| Initial server access and authorized actions | `feature/server` or server boundary |
+| Stable primitives without business meaning | shared UI |
 
-Créer seulement les dossiers nécessaires et respecter les noms existants. Dépendances : app → features → shared/contrats; jamais l'inverse, ni import profond entre features.
+Create only needed folders and respect existing names. Dependencies are `app → features → shared/contracts`; never the reverse or deep imports between features.
 
-## Vue, hooks et effets
-La vue décrit le rendu et émet des intentions. Garder son état visuel local simple. Mettre orchestration réseau et SDK hors des composants de présentation. Une composition serveur peut appeler les services serveur sans hook artificiel.
+## View, hooks, and effects
 
-Un custom hook encapsule une responsabilité React concrète : useDecisionDraft, usePhotoUpload ou useMonitoringControls. Une transformation pure n'est pas un hook. Les hooks n'hébergent pas les règles métier faisant autorité.
+The view describes rendering and emits intents. Keep simple local visual state there. Keep network/SDK orchestration outside presentation components. Server composition may call server services without an artificial hook.
 
-Ne pas stocker via effet une valeur dérivable. Déclencher une action utilisateur dans son handler/action. Réserver les effets à la synchronisation externe, avec cleanup et dépendances complètes. Ne pas créer useMount/useEffectOnce pour contourner le modèle React. Éviter un composant géant comme une fragmentation en wrappers vides.
+A custom hook encapsulates a concrete React responsibility, such as `useDecisionDraft`, `usePhotoUpload`, or `useMonitoringControls`. A pure transformation is not a hook. Hooks do not host authoritative business rules.
 
-Lire [references/review-and-sources.md](references/review-and-sources.md) pour les sources, scénarios et priorités de revue.
+Do not store a derivable value through an effect. Trigger a user action in its handler/action. Reserve effects for external synchronization, with cleanup and complete dependencies. Do not create `useMount`/`useEffectOnce` to bypass the React model. Avoid both giant components and fragmentation into empty wrappers.
 
-## Serveur, état et performance
-Choisir les frontières selon le framework installé : initial data côté serveur lorsque pertinent, petites zones clientes pour l'interaction. Ne pas faire passer toute la page en client pour un seul contrôle.
+Read [review and sources](references/review-and-sources.md) for sources, scenarios, and review priorities.
 
-Distinguer état serveur/cache, brouillon durable et état UI. Éviter deux vérités mutables sur la même donnée. Vérifier clés de cache, scope utilisateur et invalidation.
+## Server, state, and performance
 
-Traiter d'abord les waterfalls, le JavaScript client inutile et les récupérations dupliquées. Paralléliser seulement le travail indépendant dans les limites des ressources. N'ajouter memo/useMemo/useCallback qu'avec une raison mesurée ou une identité stable nécessaire.
+Choose boundaries for the installed framework: initial server data when useful, small client areas for interaction. Do not make the entire page client-side for one control.
 
-## Vérification
-Tester les règles pures sans React, les interactions au niveau composant et les frontières runtime au navigateur si nécessaire. Couvrir le risque concret : requête obsolète, double soumission, erreur de mutation, cache privé, focus après action. Employer les commandes du repo; ne pas installer une nouvelle stack de tests pour une retouche simple. Rapporter ce qui a été exécuté et ce qui ne l'a pas été.
+Distinguish server/cache state, durable draft, and UI state. Avoid two mutable sources of truth for the same data. Verify cache keys, user scope, and invalidation.
+
+Address waterfalls, unnecessary client JavaScript, and duplicate fetching first. Parallelize only independent work within resource limits. Add `memo`/`useMemo`/`useCallback` only with a measured reason or a necessary stable identity.
+
+## Verification
+
+Test pure rules without React, component-level interactions, and runtime boundaries in a browser when needed. Cover the concrete risk: stale request, double submission, mutation error, private cache, focus after action. Use repository commands; do not install a new test stack for a small adjustment. Report what ran and what did not.

@@ -1,25 +1,28 @@
-# Vérification et coût
+# Verification and cost
 
-## Vérifier au niveau du risque
-- Documentation seule : exactitude, diff et liens; pas de build applicatif ou CI distante sans besoin.
-- Logique pure : invariants, bornes et erreurs au test unitaire.
-- Accès données : contrainte, transaction et concurrence au niveau intégration.
-- Contrat externe : schéma, mapping, erreur, version et idempotence.
-- UI : comportement accessible, rendu réel et référence approuvée.
-- Frontière framework/SSR/auth : intégration/navigateur, pas seulement mocks.
-- Paiement/droits/quota : sources serveur, doublons, accès croisé et atomicité.
-- Migration/release : compatibilité, restauration ou forward-fix et vérification après changement.
+## Verify at the level of risk
 
-Utiliser les gates du projet même s'ils sont plus stricts. Ne pas inventer une commande indisponible; rapporter la commande réellement exécutée et son issue. Une vérification non exécutée reste telle quelle.
+- Documentation only: accuracy, diff, and links; no application build or remote CI without need.
+- Pure logic: invariants, bounds, and errors in unit tests.
+- Data access: constraint, transaction, and concurrency in integration tests.
+- External contract: schema, mapping, error, version, and idempotency.
+- UI: accessible behavior, real rendering, and approved reference.
+- Framework/SSR/auth boundary: integration/browser, not mocks alone.
+- Payment/entitlement/quota: server sources, duplicates, cross-access, and atomicity.
+- Migration/release: compatibility, restore or forward-fix, and post-change verification.
 
-## Revue bornée
-Relier chaque constat à un emplacement, une conséquence observable, un scénario et une correction. Distinguer bug, risque démontré et préférence. Ne pas demander plusieurs avis identiques pour créer une apparence de certitude. Si une revue indépendante est nécessaire mais impossible, le signaler au lieu de la simuler.
+Use project gates even when stricter. Do not invent an unavailable command; report the command actually run and its outcome. An unrun check remains unrun.
 
-Évaluer diff complet, frontières, comportement, sécurité et tests au commit annoncé. Réexaminer les zones touchées après corrections, et l'ensemble seulement si l'impact le justifie.
+## Bounded review
 
-## Coût opérationnel
-Travailler localement avant de pousser quand l'environnement le permet. Lire les logs d'un échec avant de relancer. Les agents cloud et CI distante consomment des ressources, même avec un worktree.
+Connect every finding to a location, observable consequence, scenario, and correction. Distinguish bug, demonstrated risk, and preference. Do not request multiple identical opinions to create an appearance of certainty. If independent review is required but impossible, report it rather than simulating it.
 
-Conserver les politiques plus strictes déjà acceptées du projet, notamment les budgets CI et la revue d'un commit figé. Les plafonds précis restent dans le profil local; ne pas imposer une CI manuelle ou sa désactivation aux autres projets.
+Evaluate complete diff, boundaries, behavior, security, and tests at the stated commit. Re-examine touched areas after corrections, and the whole only when impact warrants it.
 
-Ne pas lancer matrices, builds de containers, Terraform ou tests stateful lourds pour une retouche sans impact. Ne jamais supprimer un gate requis afin de faire baisser le coût. Respecter les autorisations pour les appels payants et les limites de consommation visibles.
+## Operational cost
+
+Work locally before pushing when the environment allows it. Read failure logs before rerunning. Cloud agents and remote CI consume resources, even with a worktree.
+
+Preserve stricter accepted project policies, especially CI budgets and review of a frozen commit. Precise caps remain in the local profile; do not impose manual CI or its disablement on other projects.
+
+Do not run matrices, container builds, Terraform, or heavy stateful tests for a no-impact touch-up. Never remove a required gate to lower cost. Respect authorization for paid calls and visible consumption limits.

@@ -1,28 +1,31 @@
-# Frontières backend
+# Backend boundaries
 
-Défaut pragmatique, à adapter aux contrats existants.
+A pragmatic default, adapted to existing contracts.
 
-## Responsabilités
-- Présentation : identité de confiance, validation et mapping du transport, appel d'un cas d'usage, présentation des erreurs/résultats.
-- Application : cas d'usage, autorisation métier, transactions, idempotence, ports requis, orchestration du domaine.
-- Domaine : invariants, transitions d'état, règles et erreurs métier indépendantes des frameworks, de HTTP, ORM, broker ou fournisseur IA.
-- Infrastructure : implémentations de ports, persistance, messages, stockage, fournisseurs, mapping des représentations.
-- Composition : assemblage concret, sans règles métier cachées.
+## Responsibilities
 
-Dépendances : Présentation → Application → Domaine; Infrastructure dépend vers l'intérieur et implémente les ports; Composition assemble les bords. Le domaine ne dépend pas d'un SDK. Ne pas cacher les cycles derrière des barrels.
+- Presentation: trusted identity, transport validation/mapping, use-case call, and result/error presentation.
+- Application: use cases, business authorization, transactions, idempotency, required ports, and domain orchestration.
+- Domain: invariants, state transitions, rules, and business errors independent of frameworks, HTTP, ORM, broker, or AI provider.
+- Infrastructure: port implementations, persistence, messages, storage, providers, and representation mapping.
+- Composition: concrete assembly, with no hidden business rules.
 
-Les ports d'I/O requis par les cas d'usage appartiennent par défaut à Application, y compris pour la persistance. Préserver une convention intérieure différente lorsqu'elle est déjà acceptée dans le projet; ne pas déplacer les ports sous couvert de DDD générique.
+Dependencies are Presentation → Application → Domain. Infrastructure depends inward and implements ports; Composition assembles the edges. The domain does not depend on an SDK. Do not hide cycles behind barrels.
 
-Domain Entity, Persistence Row, DTO et Integration Event sont des contrats distincts. Ne pas ajouter quatre mappers identiques par cérémonie; séparer les représentations là où leurs responsabilités divergent. Pas de GenericRepository, BaseEntity ou service attrape-tout par défaut.
+I/O ports required by use cases belong in Application by default, including persistence. Preserve a different inner convention if it is already accepted; do not move ports under the banner of generic DDD.
 
-## Concevoir une tranche
-Exprimer une intention, ses entrées/sorties, préconditions, effets, erreurs stables et propriétaire. Identifier l'invariant puis l'endroit où il est garanti sous concurrence. Un contrôle côté client ne protège ni les droits ni les quotas.
+Domain Entity, Persistence Row, DTO, and Integration Event are distinct contracts. Do not add four identical mappers ceremonially; separate representations where responsibilities diverge. No default GenericRepository, BaseEntity, or catch-all service.
 
-Pour les données, préciser propriétaire, transaction, unicité, index utiles, concurrence, migration et restauration/forward-fix. Une migration déjà appliquée ne se réécrit pas. Préférer expand/migrate/contract si plusieurs versions coexistent.
+## Design a slice
 
-Pour les messages, préciser producteur, consommateur, contrat/version, accusé de traitement, redelivery, idempotence, backoff, poison message et récupération. Ne pas promettre « exactement une fois » grâce au broker seul. Outbox/inbox uniquement si un besoin d'atomicité et de reprise le justifie.
+State an intent, inputs/outputs, preconditions, effects, stable errors, and owner. Identify the invariant and where it is guaranteed under concurrency. A client-side check protects neither rights nor quotas.
 
-Ne pas accéder à la base ou au code privé d'un autre service. Utiliser ses contrats acceptés. Une projection reconstruite ne doit pas réécrire les preuves historiques d'une décision.
+For data, specify owner, transaction, uniqueness, useful indexes, concurrency, migration, and restore/forward-fix. Do not rewrite an applied migration. Prefer expand/migrate/contract when versions coexist.
 
-## Vérifier
-Tests domaine pour invariants; tests cas d'usage avec ports factices; intégration réelle pour transactions, contraintes et concurrence; contrat/HTTP pour le transport. S'appuyer sur les vérifications d'import existantes; si un gate d'architecture est nécessaire, couvrir alias, imports type-only et tous les packages concernés. Une recherche textuelle seule ne prouve pas l'absence de dépendances interdites.
+For messages, specify producer, consumer, contract/version, acknowledgement, redelivery, idempotency, backoff, poison message, and recovery. Do not promise “exactly once” through a broker alone. Use outbox/inbox only when atomicity and recovery need it.
+
+Do not access another service's database or private code. Use its accepted contracts. A rebuilt projection must not rewrite historical evidence of a decision.
+
+## Verify
+
+Use domain tests for invariants; use-case tests with faked ports; real integration tests for transactions, constraints, and concurrency; contract/HTTP tests for transport. Rely on existing import checks; if an architecture gate is needed, cover aliases, type-only imports, and every relevant package. Text search alone does not prove forbidden dependencies are absent.
