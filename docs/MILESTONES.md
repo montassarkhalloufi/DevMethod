@@ -32,6 +32,6 @@ This gate documents the blocked scope; it is not an implemented host scheduler. 
 
 ## Resume
 
-Read this checkpoint, the PR diffs, CONTRIBUTING, current ADR statuses and actual git state. Preserve all branches and project customizations. Combine only the reviewed implementation branches in an isolated local branch for joint verification; do not merge main. If source or contracts changed, invalidate affected evidence before rerunning relevant checks. Resolve native budget/host prerequisites, pin BMAD and supply B2's design source before dependent runs. Retain failures and unavailable environments in denominators.
+Read this checkpoint, the PR diffs, CONTRIBUTING, current ADR statuses and actual git state. Preserve all branches and project customizations. Combine only the reviewed implementation branches in an isolated local branch for joint verification; merge these four PRs only after final checks and read-only review under the current authorization. If source or contracts changed, invalidate affected evidence before rerunning relevant checks. Resolve native budget/host prerequisites, pin BMAD and supply B2's design source before dependent runs. Retain failures and unavailable environments in denominators.
 
 Recommended next command: `$project-foundation correct-course DEVMETHOD-NATIVE` to resolve the budget and native prerequisites within this same scope. Do not start another backlog item.
