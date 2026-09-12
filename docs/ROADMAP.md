@@ -27,3 +27,7 @@ Additional stack packs, a workflow builder or orchestration should solve repeate
 - Prefer a failed or blocked verification over a false claim of completion.
 - Separate source implementation, npm publication, OS installation and native model behavior.
 - Preserve required maintainer review for public releases; a recommended next step grants no new permission.
+
+## Current authorized development
+
+See [the milestone checkpoint](MILESTONES.md) for the focused draft PRs, verification, dependencies and resume boundary. Provenance/update previews and checkpoint inspection are implemented in candidate branches; fixture/comparison utilities are tested, while actual native and matched model evidence remain pending. Bounded orchestration is blocked on those prerequisites. The table above retains the roadmap's priority order; candidate implementation is not a released or behaviorally validated capability.
