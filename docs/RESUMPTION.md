@@ -1,6 +1,6 @@
 # Checkpoint resumption
 
-The optional format 1 JSON checkpoint records source pins and evidence dependencies. Its read-only inspector is available in `dist/checkpoint.js`; it does not execute tests, update hashes, change project files or grant permission. Existing Markdown checkpoints remain supported as a manual workflow. No migration or new module is required.
+The optional format 1 JSON checkpoint records source pins and evidence dependencies. Its read-only inspector is available through `devmethod resume` and `dist/checkpoint.js`; it does not execute tests, update hashes, change project files or grant permission. Existing Markdown checkpoints remain supported as a manual workflow. No migration or new module is required.
 
 ## Record and resume
 
@@ -8,6 +8,14 @@ The optional format 1 JSON checkpoint records source pins and evidence dependenc
 2. For machine inspection, write a separate JSON checkpoint using the contract below. Compute SHA-256 from the exact bytes of each relevant source and saved evidence artifact. Include code, tests, contracts and instructions that the evidence relies on. Record versions of tools or external sources in a pinned local inventory; refresh that inventory from the actual environment on resumption.
 3. On resumption, inspect the checkpoint against the actual project. Review changed sources and affected evidence, including transitive dependencies. Repeat the affected checks before recording replacement artifacts and hashes. Never merely rehash changed files to make an earlier success look current.
 4. Respect the original scope and current permissions. A ready report is evidence consistency, not authorization. A completed scope with stale evidence may need reassessment; it still supplies no next action and never authorizes additional backlog.
+
+Inspect a JSON checkpoint with the offline CLI:
+
+```sh
+devmethod resume --dest /absolute/project --checkpoint checkpoint.json --json
+```
+
+`--checkpoint` is required and must be relative to the destination; destination defaults to the current directory. Omit `--json` for a readable report. The command only inspects evidence and displays the recorded next action; it never executes that action. Exit 0 means `ready` or `complete`; exit 1 means `reverify`, `blocked` or `invalid`; exit 2 means invalid invocation. Callers must retain the report and respect the original scope even when inspection succeeds. Other command flags (`--tool`, `--modules`, `--dry-run`) are rejected.
 
 Example API usage from a source checkout (or replace the import with the installed package's absolute `dist/checkpoint.js` path):
 
