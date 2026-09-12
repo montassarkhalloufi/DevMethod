@@ -4,11 +4,13 @@ import { createInterface } from 'node:readline/promises';
 import { stdin, stdout } from 'node:process';
 import { initialize, tools } from './init.js';
 import { diagnose } from './doctor.js';
+import { previewUpdate } from './update.js';
 const help = `DevMethod — install and inspect reusable AI skills
 
 devmethod init [--tool codex|claude|cursor] [--dest PATH]
                [--modules name,name] [--dry-run]
 devmethod doctor [--dest PATH] [--json]
+devmethod update-preview [--dest PATH] [--json]
 
 For init, an interactive terminal asks for the host when --tool is omitted.
 Non-interactive init calls require --tool. Destination defaults to the current directory.
@@ -27,9 +29,26 @@ try {
     if (values.help)
         console.log(help);
     else {
-        if (positionals.length !== 1 || !['init', 'doctor'].includes(positionals[0] ?? ''))
+        if (positionals.length !== 1 || !['init', 'doctor', 'update-preview'].includes(positionals[0] ?? ''))
             throw new Error(help);
-        if (positionals[0] === 'doctor') {
+        if (positionals[0] === 'update-preview') {
+            if (values.tool !== undefined || values.modules !== undefined || values['dry-run'] !== undefined)
+                throw new Error('update-preview accepts only --dest and --json');
+            const report = previewUpdate(values.dest ?? process.cwd());
+            if (values.json)
+                console.log(JSON.stringify(report, null, 2));
+            else {
+                console.log(`DevMethod update preview: ${report.status}; installed ${report.installed?.packageVersion ?? 'unknown'} → bundled ${report.candidate?.packageVersion ?? 'unknown'}`);
+                for (const entry of report.entries)
+                    console.log(`${entry.classification}: ${entry.path}${entry.collision ? ' (existing unrecorded file)' : ''}${entry.missing ? ' (missing locally)' : ''}; candidate changed: ${entry.candidateChanged}`);
+                for (const finding of report.findings)
+                    console.log(`${finding.code}: ${finding.message}`);
+                console.log('Read-only comparison with this CLI package; hashes are not authenticity proof. Review a fresh staging installation before any manual update.');
+            }
+            if (report.status === 'error')
+                process.exitCode = 1;
+        }
+        else if (positionals[0] === 'doctor') {
             if (values.tool !== undefined || values.modules !== undefined || values['dry-run'] !== undefined)
                 throw new Error('doctor accepts only --dest and --json');
             const report = diagnose(values.dest ?? process.cwd());
@@ -46,7 +65,7 @@ try {
         }
         else {
             if (values.json !== undefined)
-                throw new Error('--json is supported only by doctor');
+                throw new Error('--json is supported only by doctor and update-preview');
             let tool = values.tool;
             if (!tool && stdin.isTTY && stdout.isTTY) {
                 const terminal = createInterface({ input: stdin, output: stdout });

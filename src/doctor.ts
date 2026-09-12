@@ -1,11 +1,11 @@
 import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { tools, modules, templates, type Tool } from './init.js';
+import { tools, modules, templates, type Tool, type Provenance } from './init.js';
 import { checkPath, stat } from './filesystem.js';
 
 type Finding = { severity: 'warning' | 'error'; code: string; path?: string; message: string };
-type Manifest = { format: 2; kit: 'devmethod'; tool: Tool; skills: string[]; files: Record<string, string> };
+export type Manifest = { format: 2; kit: 'devmethod'; tool: Tool; skills: string[]; files: Record<string, string>; provenance?: Provenance };
 export type DoctorReport = {
   format: 1; destination: string; status: 'ok' | 'warning' | 'error';
   tool?: Tool; skills?: string[]; checked: number; unchanged: number; findings: Finding[];
@@ -15,7 +15,7 @@ function object(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
-function validateManifest(value: unknown): Manifest {
+export function validateManifest(value: unknown): Manifest {
   if (!object(value) || value.format !== 2 || value.kit !== 'devmethod' ||
       typeof value.tool !== 'string' || !Object.hasOwn(tools, value.tool) ||
       !Array.isArray(value.skills) || !value.skills.includes('project-foundation') ||
@@ -37,6 +37,12 @@ function validateManifest(value: unknown): Manifest {
        (parts.length >= 5 && ['assets', 'references'].includes(parts[3] ?? '') && name.endsWith('.md')));
     if (!safe || (!rootFile && !skillFile)) throw new Error(`Manifest contains an unsupported path: ${name}`);
     if (typeof hash !== 'string' || !/^[a-f0-9]{64}$/i.test(hash)) throw new Error(`Invalid SHA-256 for: ${name}`);
+  }
+  if (value.provenance !== undefined) {
+    const p = value.provenance;
+    if (!object(p) || p.packageName !== 'devmethod-ai' || typeof p.packageVersion !== 'string' ||
+        !/^[0-9]+\.[0-9]+\.[0-9]+(?:[-+][a-zA-Z0-9.+-]+)?$/.test(p.packageVersion) ||
+        typeof p.payloadSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(p.payloadSha256)) throw new Error('Invalid installation provenance.');
   }
   return value as Manifest;
 }

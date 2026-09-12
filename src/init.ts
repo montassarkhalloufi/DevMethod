@@ -32,28 +32,29 @@ export function initialize(options: { destination: string; tool: Tool; selected?
   checkPath(destination);
   if (destination === packageRoot || destination.startsWith(packageRoot + path.sep)) throw new Error('Install outside the distribution directory');
   if (stat(destination) && !stat(destination)?.isDirectory()) throw new Error('Destination must be a directory');
-  const files = new Map<string, Buffer>();
   for (const name of selected) {
     for (const otherRoot of Object.values(tools)) {
       if (otherRoot !== tools[options.tool] && stat(path.join(destination, otherRoot, name))) throw new Error(`Duplicate skill in another host directory: ${otherRoot}/${name}`);
     }
-    const source = path.join(packageRoot, '.agents/skills', name);
-    checkPath(source);
-    for (const relative of walk(source)) {
-      if (!/^(SKILL\.md|assets\/.*\.md|references\/.*\.md)$/.test(relative)) throw new Error(`Unexpected payload file: ${name}/${relative}`);
-      files.set(`${tools[options.tool]}/${name}/${relative}`, profile(fs.readFileSync(path.join(source, relative)), options.tool));
-    }
   }
-  for (const template of templates) files.set(template, profile(fs.readFileSync(path.join(packageRoot, '.agents/skills/project-foundation/assets', template)), options.tool));
-  files.set('DEVMETHOD-LICENSE', fs.readFileSync(path.join(packageRoot, 'LICENSE')));
+  const files = bundledFiles(options.tool, selected);
   const hashes = Object.fromEntries([...files].map(([name, data]) => [name, createHash('sha256').update(data).digest('hex')]));
-  files.set('kit-manifest.json', Buffer.from(JSON.stringify({ format: 2, kit: 'devmethod', tool: options.tool, skills: selected, files: hashes }, null, 2) + '\n'));
+  const manifest = { format: 2, kit: 'devmethod', tool: options.tool, skills: selected, files: hashes, provenance: bundledProvenance(hashes) };
+  files.set('kit-manifest.json', Buffer.from(JSON.stringify(manifest, null, 2) + '\n'));
   const pending: [string, Buffer][] = [];
   for (const [relative, data] of files) {
     const target = path.join(destination, relative);
     checkPath(target);
     const info = stat(target);
     if (info) {
+      // Legacy manifests remain byte-for-byte intact on an otherwise identical init.
+      if (relative === 'kit-manifest.json' && info.isFile()) {
+        const existing = JSON.parse(fs.readFileSync(target, 'utf8'));
+        if (existing.provenance === undefined && existing.format === 2 && existing.kit === manifest.kit && existing.tool === manifest.tool &&
+            JSON.stringify(existing.skills) === JSON.stringify(selected) &&
+            Object.keys(existing.files ?? {}).length === Object.keys(hashes).length &&
+            Object.entries(hashes).every(([name, hash]) => existing.files?.[name] === hash)) continue;
+      }
       if (!info.isFile() || !fs.readFileSync(target).equals(data)) throw new Error(`Conflict; no files written: ${relative}`);
     } else pending.push([target, data]);
   }
@@ -81,4 +82,28 @@ export function initialize(options: { destination: string; tool: Tool; selected?
     }
   }
   return { destination, tool: options.tool, skills: selected, files: files.size, new: pending.length, identical: files.size - pending.length, dryRun: Boolean(options.dryRun) };
+}
+
+/** The exact host-profiled payload shipped with this CLI. */
+export function bundledFiles(tool: Tool, selected: readonly string[]): Map<string, Buffer> {
+  const files = new Map<string, Buffer>();
+  for (const name of selected) {
+    const source = path.join(packageRoot, '.agents/skills', name);
+    checkPath(source);
+    for (const relative of walk(source)) {
+      if (!/^(SKILL\.md|assets\/.*\.md|references\/.*\.md)$/.test(relative)) throw new Error(`Unexpected payload file: ${name}/${relative}`);
+      files.set(`${tools[tool]}/${name}/${relative}`, profile(fs.readFileSync(path.join(source, relative)), tool));
+    }
+  }
+  for (const template of templates) files.set(template, profile(fs.readFileSync(path.join(packageRoot, '.agents/skills/project-foundation/assets', template)), tool));
+  files.set('DEVMETHOD-LICENSE', fs.readFileSync(path.join(packageRoot, 'LICENSE')));
+  return files;
+}
+
+export type Provenance = { packageName: string; packageVersion: string; payloadSha256: string };
+export function bundledProvenance(hashes: Record<string, string>): Provenance {
+  const metadata = JSON.parse(fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'));
+  const canonical = Object.keys(hashes).sort().map(name => [name, hashes[name]]);
+  return { packageName: metadata.name, packageVersion: metadata.version,
+    payloadSha256: createHash('sha256').update(JSON.stringify(canonical)).digest('hex') };
 }
