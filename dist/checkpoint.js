@@ -21,7 +21,7 @@ function ids(value) {
 function validate(input) {
     if (!object(input) || input.format !== 1)
         throw new Error('Expected checkpoint format 1. Markdown checkpoints remain a manual workflow.');
-    if (!nonempty(input.scope) || !['active', 'blocked', 'complete'].includes(String(input.status)))
+    if (!nonempty(input.scope) || typeof input.status !== 'string' || !['active', 'blocked', 'complete'].includes(input.status))
         throw new Error('Checkpoint needs a nonempty scope and status active, blocked or complete.');
     if (input.nextAction !== null && !nonempty(input.nextAction))
         throw new Error('nextAction must be a nonempty string or null.');
@@ -33,7 +33,7 @@ function validate(input) {
         throw new Error('sources must contain pinned IDs, safe relative paths and lowercase SHA-256 hashes.');
     if (!Array.isArray(input.evidence) || !input.evidence.every(item => pinned(item) && object(item)
         && ids(item.sourceIds) && item.sourceIds.length > 0 && ids(item.dependsOn)
-        && ['passed', 'failed', 'not-run'].includes(String(item.outcome))))
+        && typeof item.outcome === 'string' && ['passed', 'failed', 'not-run'].includes(item.outcome)))
         throw new Error('evidence needs pinned artifacts, sourceIds, dependsOn and outcome passed, failed or not-run.');
     const state = input;
     const sources = new Set(state.sources.map(source => source.id));

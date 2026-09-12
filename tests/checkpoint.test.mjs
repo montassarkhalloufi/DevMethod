@@ -84,6 +84,26 @@ test('invalid schema, IDs, dependencies and cycles fail before reading sources',
   for (const input of [null, [], 'legacy markdown', { format: 1 }]) assert.equal(inspectCheckpoint(root, input).status, 'invalid');
 });
 
+test('array enum values are rejected without inspecting source or evidence files', t => {
+  const { root, state } = fixture(t);
+  for (const status of ['active', 'blocked', 'complete']) {
+    const input = structuredClone(state);
+    input.status = [status];
+    const report = inspectCheckpoint(root, input);
+    assert.equal(report.status, 'invalid');
+    assert.deepEqual(report.sources, []);
+    assert.deepEqual(report.evidence, []);
+  }
+  for (const outcome of ['passed', 'failed', 'not-run']) {
+    const input = structuredClone(state);
+    input.evidence[0].outcome = [outcome];
+    const report = inspectCheckpoint(root, input);
+    assert.equal(report.status, 'invalid');
+    assert.deepEqual(report.sources, []);
+    assert.deepEqual(report.evidence, []);
+  }
+});
+
 test('portable paths reject traversal, absolute, Windows aliases and control characters', t => {
   const { root, state } = fixture(t);
   for (const file of ['../outside', '/etc/passwd', 'a/../b', './contract.md', 'a//b', 'a\\b', 'C:/file', 'a:stream', 'a\0b', 'a\nb', 'NUL', 'con.txt', 'dir/COM1', 'trailing.', 'space ']) {
