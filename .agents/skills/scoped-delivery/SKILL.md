@@ -27,7 +27,7 @@ Scope is ready when objective, exclusions, contracts, dependencies, and success 
 
 ## Resume
 
-Record [a checkpoint](assets/CHECKPOINT.md) for long work: source versions, scope, commit, validation, blockers, next action. Do not copy Notion/Drive spaces or the full tool registry. On resumption, verify only items that may have changed.
+Record [a checkpoint](assets/CHECKPOINT.md) for long work: source versions, scope, commit, validation, blockers, next action. Do not copy Notion/Drive spaces or the full tool registry. On resumption, inspect actual source and evidence changes, then repeat affected checks. Optional content hashes and explicit evidence dependencies make this selective: invalidate evidence that depends on changed or unavailable sources/artifacts, including dependent reviews, while retaining independent results. Age alone is not staleness. Never replace hashes merely to preserve an old success. Existing Markdown checkpoints continue to work manually. A completed checkpoint authorizes no new work.
 
 Update affected decisions, public contracts, tests, and real implementation status together. Run documented project quality commands; never weaken a test or lint to obtain green. Review the diff for secrets, personal data, and unintended changes. Respect existing publication and migration policy.
 
