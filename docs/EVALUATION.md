@@ -35,3 +35,5 @@ Publish a result only with its pinned input, actual evidence and limitations. Pr
 ## Executable fixture and evidence tooling
 
 See [the native evaluation workspace](../evaluation/README.md) for pinned B1/B3/B4/B5 fixtures, preparation, before/after file evidence, immutable acceptance checks and host evidence requirements. B2 still needs a pinned React project and approved screen. Host observations and raw transcripts remain local until explicitly approved for publication.
+
+Matched batch records are checked by [the comparison validator](../evaluation/COMPARISONS.md). This validates consistency and preserves unavailable/failure denominators; it does not execute models or prove comparative outcomes.
