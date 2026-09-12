@@ -1,0 +1,3 @@
+# Evaluation hashes pin exact bytes across platform checkouts.
+examples/bugfix/** text eol=lf
+evaluation/fixtures/** text eol=lf
