@@ -1,6 +1,6 @@
 # Authorized milestone checkpoint
 
-Baseline: `ce11461252f6a3b8e14f7af021c362e5d4742915`, matching main after merged PR #1. The starting checkout was clean. PR #1 introduced diagnostics and workflow guidance; ADR 001 is accepted and ADR 002 remains labeled proposed. New ADRs are proposals, not inferred maintainer acceptance. This campaign does not merge main or publish npm.
+Baseline: `ce11461252f6a3b8e14f7af021c362e5d4742915`, matching main after merged PR #1. The starting checkout was clean. PR #1 introduced diagnostics and workflow guidance; ADR 001 is accepted and ADR 002 remains labeled proposed. New ADRs are proposals, not inferred maintainer acceptance. The initial boundary excluded main merges; the maintainer subsequently authorized merging these PRs after repeat testing and review. npm publication remains excluded.
 
 | Milestone | Delivered slice | Remaining gate |
 |---|---|---|
@@ -26,12 +26,12 @@ Before running or retrying model evaluations, record the user's explicit maximum
 
 Do not activate worker dispatch until actual native evidence confirms discovery, bounded edits, failure reporting, local-only integration and fresh-session resumption for the selected pinned host. Confirm provenance/update preservation, evidence invalidation, matched-case outcomes and a supported dispatch/cancellation contract. Reviewer approval of the actual evidence is required; a nonempty evidence filename or a test fixture is insufficient.
 
-After those prerequisites pass, the authorized slice is at most two concurrent implementation workers on isolated worktrees and non-overlapping file ownership. One supervising owner retains shared contracts and integration order. Each task must have a fixed scope, dependency list, acceptance checks, budget allocation, timeout, cancellation rule and checkpoint path. A failed prerequisite, conflicting write, stale evidence, unavailable usage, exhausted budget, host failure or missing authorization stops affected dispatch. Keep independent work bounded by the existing authorization. Review a frozen commit read-only; corrections invalidate affected checks. On completion record scope exhausted; do not discover or dispatch further backlog. Merges, releases and new spending remain outside this campaign.
+After those prerequisites pass, the authorized slice is at most two concurrent implementation workers on isolated worktrees and non-overlapping file ownership. One supervising owner retains shared contracts and integration order. Each task must have a fixed scope, dependency list, acceptance checks, budget allocation, timeout, cancellation rule and checkpoint path. A failed prerequisite, conflicting write, stale evidence, unavailable usage, exhausted budget, host failure or missing authorization stops affected dispatch. Keep independent work bounded by the existing authorization. Review a frozen commit read-only; corrections invalidate affected checks. On completion record scope exhausted; do not discover or dispatch further backlog. Only the four reviewed implementation PRs are authorized for main integration after final checks. Releases and new spending remain outside this campaign.
 
 This gate documents the blocked scope; it is not an implemented host scheduler. Do not weaken it to claim M5 complete.
 
 ## Resume
 
-Read this checkpoint, the PR diffs, CONTRIBUTING, current ADR statuses and actual git state. Preserve all branches and project customizations. Combine only the reviewed candidate branches in an isolated local branch for joint verification; do not merge main. If source or contracts changed, invalidate affected evidence before rerunning relevant checks. Resolve native budget/host prerequisites, pin BMAD and supply B2's design source before dependent runs. Retain failures and unavailable environments in denominators.
+Read this checkpoint, the PR diffs, CONTRIBUTING, current ADR statuses and actual git state. Preserve all branches and project customizations. Combine only the reviewed implementation branches in an isolated local branch for joint verification; do not merge main. If source or contracts changed, invalidate affected evidence before rerunning relevant checks. Resolve native budget/host prerequisites, pin BMAD and supply B2's design source before dependent runs. Retain failures and unavailable environments in denominators.
 
 Recommended next command: `$project-foundation correct-course DEVMETHOD-NATIVE` to resolve the budget and native prerequisites within this same scope. Do not start another backlog item.
