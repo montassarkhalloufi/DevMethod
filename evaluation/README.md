@@ -25,3 +25,5 @@ Evaluate every stage in COMPATIBILITY.md's native smoke protocol to claim full w
 ## Budget and stop conditions
 
 No repeated native model runs are authorized by these scripts. Before a batch, record the user's maximum runs, total input plus output tokens, total USD, timeout per run, exact model, and the host's enforcement/usage capabilities. Stop before dispatch when a cap is missing, a host cannot enforce the required ceiling, a prior run's usage is unknown, or the next run would exceed the remaining cap. Authentication/setup probes consume no model runs. Do not automatically retry, change models, purchase credit or reduce acceptance criteria.
+
+Fixture paths have Git `eol=lf` attributes so pinned bytes survive Windows checkout. Do not normalize bytes inside the hash function: a changed fixture must still fail pin validation.
