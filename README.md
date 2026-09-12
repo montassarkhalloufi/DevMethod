@@ -10,7 +10,9 @@ DevMethod is the public name of the kit. Its entry-point skill remains `project-
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**0.1 release candidate, published on npm.** Installation profiles are provided for Codex, Claude Code and Cursor. Native authenticated Claude Code and Cursor sessions have not been validated yet. See [compatibility and smoke tests](COMPATIBILITY.md). The current skills and templates are primarily in French; they can follow the user's requested language.
+**0.1 release candidate, published on npm.** Installation profiles are provided for Codex, Claude Code and Cursor. Native authenticated Claude Code and Cursor sessions have not been validated yet. See [compatibility and smoke tests](COMPATIBILITY.md). Repository skills, templates and documentation are in English; agents can respond in the user's requested language. Repository changes do not update an already published npm tarball.
+
+**Source additions awaiting a new release:** read-only `doctor`, explicit quick/standard/major paths and a verification record template. These additions are not available in the published `0.1.0-rc.1` package. See [diagnostics](docs/DOCTOR.md) for reviewed-checkout usage.
 
 ## Install in a project
 
@@ -35,6 +37,28 @@ Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment pe
 The installer includes `DEVMETHOD-LICENSE` so it preserves your application's LICENSE. Retain that MIT notice with redistributed copies. Repository-level release documents and the CLI are not copied into your application.
 
 Installation copies the reusable method and blank templates, not another project's context. Preserve filled profiles, decisions, tickets and instruction files separately. Manifest hashes describe the initial installation; local template customization is expected to change them. To install elsewhere, run the CLI again.
+
+## Inspect an adopted installation
+
+From a reviewed source checkout, inspect an installed project without changing it:
+
+```bash
+node dist/cli.js doctor --dest /path/to/project --json
+```
+
+Doctor reports missing files, changes from the initial manifest and duplicate host copies. Customized profiles and skills produce warnings; they are preserved. It does not execute an agent or certify application quality. See [diagnostic codes and exit statuses](docs/DOCTOR.md).
+
+## Choose the amount of process
+
+The stages below are available entry points, not fourteen mandatory conversations.
+
+| Path | Typical work | Expected process |
+|---|---|---|
+| Quick | Clear bug fix inside existing contracts | Inline readiness, implementation, focused verification and review |
+| Standard | Feature spanning components or sessions | Ready slice, relevant contracts, checks and resumable evidence |
+| Major | New product decisions or consequential architecture changes | Resolve decisions, split into slices, verify integration |
+
+Risk and repository policy override apparent size. Reuse accepted UI, architecture and project context; only fill actual gaps. See [work sizing](.agents/skills/project-foundation/references/work-sizing.md) and [starter exercises](examples/README.md).
 
 ## Run the workflow
 
@@ -64,7 +88,7 @@ Replace `status` with an action below. These are prompts to the skill, not shell
 See the [full command contract](.agents/skills/project-foundation/references/operating-commands.md). A failed check returns to correction; a blocked gate leads to handoff or replanning. Tests, code review and native permissions remain necessary.
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[Understand] --> B[Decide]
   B --> C[Build]
   C --> D[Verify]
@@ -81,11 +105,11 @@ Use the modules your project needs. Adapt the workflow to your stack, architectu
 
 ## Where DevMethod can improve
 
-The objective is not to imitate another workflow. It is to become more dependable in daily projects: host-validated installation, explicit project context, evidence-based delivery and clear recovery when a check fails. See the public [roadmap](docs/ROADMAP.md).
+The target is a compact engineering workflow for verifiable changes in existing repositories. BMad already documents adaptive planning, existing-codebase workflows and broader automation; DevMethod has not demonstrated parity or superiority. Read the [sourced comparison](docs/BMAD-COMPARISON.md), [prioritized roadmap](docs/ROADMAP.md), and [evaluation protocol](docs/EVALUATION.md). We aim to measure correct outcomes, honest evidence, context cost and reliable resumption under matched conditions.
 
 ## Demo material
 
-The workflow illustration above is kept in the repository as an SVG so it remains reviewable and usable in dark mode. A recorded demonstration should show a real project and its actual checks; until one is recorded, the [native smoke protocol](COMPATIBILITY.md#native-smoke-protocol) is the honest demonstration script.
+The workflow illustration above is kept in the repository as an SVG so it remains reviewable and usable in dark mode. Try the [runnable bug-fix exercise](examples/README.md), which includes an intentionally failing baseline and an explicit task. It is a fixture, not a recorded model success. A real demonstration should preserve the observed failures, changes and checks; use the [native smoke protocol](COMPATIBILITY.md#native-smoke-protocol) to assess the host workflow.
 
 ## Verify and contribute
 
@@ -95,4 +119,4 @@ npm test
 npm pack --dry-run
 ```
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) and [COMPATIBILITY.md](COMPATIBILITY.md). Licensed under [MIT](LICENSE).
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [COMPATIBILITY.md](COMPATIBILITY.md), and the [release checklist](docs/RELEASE-CHECKLIST.md). Licensed under [MIT](LICENSE).

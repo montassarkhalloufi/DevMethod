@@ -1,22 +1,29 @@
 # Roadmap
 
-DevMethod should earn adoption through dependable outcomes, not by accumulating personas or autonomous automation. This is a direction, not a delivery promise or a substitute for a project's policy and review.
+Aim: a compact engineering workflow for verifiable changes in existing repositories. Compete through demonstrated outcomes. See the [BMad comparison](BMAD-COMPARISON.md) for sources and limits. Priorities are ordered; later work is not automatically authorized by completing an earlier item.
 
-## Near term
+| Priority | Outcome | Acceptance evidence | State |
+|---|---|---|---|
+| P0 | Diagnose an adopted installation without losing customizations | Read-only doctor, malformed-path tests, full/subset host coverage, packed CLI checks | Implemented in this source change; release pending |
+| P0 | Make first use and small fixes understandable | Quick/standard/major guidance, runnable B1 fixture, three starter prompts | Instructions/examples added; native behavioral evaluation pending |
+| P0 | Distinguish claims from proof | Criterion-to-check verification record and release checklist | Templates/procedure added |
+| P1 | Validate actual host behavior | Authenticated Codex, Claude Code and Cursor runs at pinned versions; all fourteen stages | Full cross-host evidence pending |
+| P1 | Measure usefulness against alternatives | Matched no-method, DevMethod and BMad runs; publish success, failure, time and available usage | Protocol plus B1 fixture available; comparative runs pending |
+| P1 | Trace installed versions | New manifests record package version and distribution provenance; old manifests remain readable | Planned |
+| P2 | Preview safe upgrades | Classify unchanged, customized, added and removed files; produce reviewed diff without overwriting context | Planned |
+| P2 | Detect stale project context | Identify affected decisions/checkpoints from source changes; do not treat age alone as staleness | Planned after evaluation |
+| P2 | Validate structured state when needed | Versioned schema, actionable errors and transitions linked to evidence; coexist with existing trackers | Proposed, requires recurring need |
+| Later | Coordinate bounded workers | Explicit scope, dependencies, ownership, worktrees, budgets, stop/recovery rules; supported host contract | Proposed, no scheduler implemented |
 
-- Run the documented native smoke protocol in authenticated Claude Code and Cursor sessions; publish only the evidence that can be reproduced.
-- Add copy-paste starter examples for a small web feature, a backend change and an AI-assisted feature.
-- Add a release checklist that separates installer, host-discovery and workflow-behaviour checks.
+## What to add only after demand
 
-## Next
-
-- Offer a versioned configuration file for project profile values, with schema validation at the CLI boundary.
-- Provide an explicit migration assistant that produces a diff and never overwrites project instructions.
-- Add contract tests for the published npm package and pinned host versions.
+Additional stack packs, a workflow builder or orchestration should solve repeated problems shown by real projects. The six existing modules remain the core. Do not add persona counts, a dashboard, cloud services or a vector store as proxies for workflow quality.
 
 ## Principles
 
-- Keep the core workflow small, evidence-backed and host-neutral.
-- Preserve human approval for architecture, publication, deployment and external actions.
+- Preserve accepted project decisions, existing instructions and current authorization.
+- Keep the CLI offline and dependency-free at runtime.
+- Load relevant context progressively; measure savings before claiming them.
 - Prefer a failed or blocked verification over a false claim of completion.
-- Extend the method only when a real project exposes a recurring gap.
+- Separate source implementation, npm publication, OS installation and native model behavior.
+- Preserve required maintainer review for public releases; a recommended next step grants no new permission.

@@ -19,6 +19,7 @@ Scope is ready when objective, exclusions, contracts, dependencies, and success 
 - One writer per branch/surface by default. Subagents run only when session/environment authorize them and bounded work justifies it.
 - When parallel work is authorized: isolated worktrees/branches, a single owner for contracts/migrations/lockfiles, explicit dependencies and merge order. Reviews are read-only.
 - Use focused tests during implementation, then verify affected surfaces. Do not repeat an unchanged green check or write a test that merely compares implementation with itself.
+- For a substantial slice or handoff, use [the verification record](assets/VERIFICATION.md) to connect acceptance criteria to executed checks and the inspected revision. For small changes, keep this evidence inline.
 - Read [verification and cost](references/verification-and-cost.md) for review criteria and costs.
 - For a PR, keep it draft while code changes. Review an identified commit; a later change invalidates affected evidence. Group corrections, then conduct focused review.
 - Merges, deployments, messages, and external-document updates follow current authorization, never an old copied prompt. If the final action is not authorized, prepare a concrete verified result before asking.
