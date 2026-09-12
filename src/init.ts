@@ -2,28 +2,13 @@ import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { checkPath, stat } from './filesystem.js';
 
 export const tools = { codex: '.agents/skills', claude: '.claude/skills', cursor: '.cursor/skills' } as const;
 export type Tool = keyof typeof tools;
 export const modules = ['project-foundation', 'decision-architecture', 'design-to-code', 'react-feature-engineering', 'reliable-ai-integration', 'scoped-delivery'] as const;
-const templates = ['PROJECT_PROFILE.md', 'AGENTS.foundation.md', 'START_HERE.md', 'ENGINEERING_POLICY.template.md'];
+export const templates = ['PROJECT_PROFILE.md', 'AGENTS.foundation.md', 'START_HERE.md', 'ENGINEERING_POLICY.template.md'];
 const packageRoot = fileURLToPath(new URL('../', import.meta.url));
-
-function stat(file: string): fs.Stats | undefined {
-  try { return fs.lstatSync(file); } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return undefined;
-    throw error;
-  }
-}
-
-function checkPath(file: string): void {
-  for (let current = file; ; current = path.dirname(current)) {
-    const info = stat(current);
-    if (info?.isSymbolicLink()) throw new Error(`Symbolic links are not accepted: ${current}`);
-    if (current !== file && info && !info.isDirectory()) throw new Error(`Not a directory: ${current}`);
-    if (path.dirname(current) === current) break;
-  }
-}
 
 function walk(directory: string, prefix = ''): string[] {
   return fs.readdirSync(directory, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name)).flatMap(entry => {

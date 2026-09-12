@@ -8,4 +8,6 @@ Keep each change in one coherent commit after checks, without rewriting publishe
 
 Keep commands, documentation and tests consistent. Record architecture changes in an ADR. Public releases require maintainer review of the exact candidate. There is no deployment, paid service, telemetry, automatic update or migration in this repository.
 
+Follow [the release checklist](docs/RELEASE-CHECKLIST.md) for new candidates. The intentionally failing exercise under `examples/bugfix` is evaluation input, not part of the package test suite. Keep its starting implementation defective and label any generated solution or transcript separately. Comparative claims require the [evaluation protocol](docs/EVALUATION.md), not installer test counts.
+
 Platform installation checks run on Linux, macOS and Windows through .github/workflows/platform-tests.yml. They test the packaged CLI, not authenticated coding-agent behavior. Record the workflow run and job conclusions before claiming an operating system passed.

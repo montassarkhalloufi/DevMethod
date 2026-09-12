@@ -1,6 +1,6 @@
 ---
 name: project-foundation
-description: Bootstrap or resume a software project with a reusable decision, architecture, design and delivery foundation. Use for a project starter kit, initial engineering conventions, or recovery of project context across sessions; skip isolated edits that already have sufficient context.
+description: Start or resume the DevMethod workflow for a project or requested change, selecting the amount of planning and delivery guidance needed. Use for explicit DevMethod requests, project setup, or context recovery; skip implicit routing of isolated edits that already have sufficient context.
 ---
 
 # Project Foundation
@@ -23,6 +23,8 @@ Project-specific examples, history, and sources remain in that project. This kit
 ## Reusable working method
 
 This kit formalizes a complete method: exploration → framing → design → architecture → planning → implementation → testing → review → integration. A new constraint, failed validation, or open decision returns work to the appropriate command.
+
+For a new change, select the quick, standard, or major path using [work sizing](references/work-sizing.md). These paths select relevant stages; they do not add commands or require fourteen separate turns. A clear small fix can perform readiness, implementation, review, and verification together under existing authorization.
 
 Read [the operating commands](references/operating-commands.md) for any invocation with a stage, or to structure a new project, epic, or slice. In Codex, run `$project-foundation status`. In Claude Code or Cursor, run `/project-foundation status`. Replace `status` with the desired stage. The commands do not replace project commands.
 

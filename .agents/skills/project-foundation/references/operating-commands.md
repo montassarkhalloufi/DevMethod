@@ -10,6 +10,8 @@ An unknown stage displays available stages without starting work. With no stage,
 
 Every command starts by reading applicable instructions, accepted decisions, real status, and required sources. It produces a verifiable outcome without inventing missing data, business rules, or validation.
 
+Use [work sizing](work-sizing.md) to select relevant stages. A quick change may assess readiness and complete implementation, review, and verification in one run. The stage list does not require separate user turns or documents for each stage. Explicit `status`, `ready`, or `review` requests retain their assessment scope.
+
 | Command | Purpose | Suggested next step |
 |---|---|---|
 | `/explore` | Understand the problem, users, market, and constraints | `/frame` |
