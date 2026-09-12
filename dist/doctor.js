@@ -6,7 +6,7 @@ import { checkPath, stat } from './filesystem.js';
 function object(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
-function validateManifest(value) {
+export function validateManifest(value) {
     if (!object(value) || value.format !== 2 || value.kit !== 'devmethod' ||
         typeof value.tool !== 'string' || !Object.hasOwn(tools, value.tool) ||
         !Array.isArray(value.skills) || !value.skills.includes('project-foundation') ||
@@ -32,6 +32,13 @@ function validateManifest(value) {
             throw new Error(`Manifest contains an unsupported path: ${name}`);
         if (typeof hash !== 'string' || !/^[a-f0-9]{64}$/i.test(hash))
             throw new Error(`Invalid SHA-256 for: ${name}`);
+    }
+    if (value.provenance !== undefined) {
+        const p = value.provenance;
+        if (!object(p) || p.packageName !== 'devmethod-ai' || typeof p.packageVersion !== 'string' ||
+            !/^[0-9]+\.[0-9]+\.[0-9]+(?:[-+][a-zA-Z0-9.+-]+)?$/.test(p.packageVersion) ||
+            typeof p.payloadSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(p.payloadSha256))
+            throw new Error('Invalid installation provenance.');
     }
     return value;
 }
