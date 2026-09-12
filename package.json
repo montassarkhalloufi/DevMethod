@@ -1,0 +1,16 @@
+{
+  "name": "devmethod",
+  "version": "0.1.0-rc.1",
+  "description": "From idea to delivery with your AI coding agents",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "devmethod": "dist/cli.js" },
+  "engines": { "node": ">=22" },
+  "files": ["dist/", ".agents/skills/", "LICENSE", "COMPATIBILITY.md"],
+  "repository": { "type": "git", "url": "git+https://github.com/montassarkhalloufi/DevMethod.git" },
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node --test tests/*.test.mjs"
+  },
+  "devDependencies": { "@types/node": "^22.0.0", "typescript": "~5.9.3" }
+}

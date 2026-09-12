@@ -1,0 +1,5 @@
+.env
+.env.*
+evaluation-private/
+node_modules/
+*.tgz
