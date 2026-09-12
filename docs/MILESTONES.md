@@ -6,7 +6,7 @@ Baseline: `ce11461252f6a3b8e14f7af021c362e5d4742915`, matching main after merged
 |---|---|---|
 | M1 native fixtures/evidence | [PR #2](https://github.com/montassarkhalloufi/DevMethod/pull/2): pinned B1/B3/B4/B5, objective collection and protected checks | B2 pinned React source/approved screen; actual authenticated host runs covering all fourteen stages; no synthetic substitute |
 | M2 provenance/update preview | [PR #3](https://github.com/montassarkhalloufi/DevMethod/pull/3): compatible manifests, offline read-only candidate comparison | Maintainer review; exact-candidate platform checks before cross-platform claims |
-| M3 checkpoint resumption | `codex/checkpoint-public`: optional JSON evidence DAG and read-only resume CLI, manual Markdown retained | Maintainer review and actual native resumption evidence; depends on M2's shared CLI branch |
+| M3 checkpoint resumption | [PR #5](https://github.com/montassarkhalloufi/DevMethod/pull/5): optional JSON evidence DAG and read-only resume CLI, manual Markdown retained | Maintainer review and actual native resumption evidence; depends on M2's shared CLI branch |
 | M4 matched comparisons | [PR #4](https://github.com/montassarkhalloufi/DevMethod/pull/4): matched-condition/budget validator and per-arm denominators; depends on PR #2 | Explicit evaluation budget, pinned installed BMAD, authenticated host, actual runs and independent evidence review |
 | M5 bounded orchestration | Prerequisites and stop conditions recorded below | Blocked by native evidence and supported host dispatch/recovery contract; no scheduler or automatic dispatch implemented |
 
@@ -16,7 +16,7 @@ Implementation tests are evidence for these local utilities only. They do not es
 
 Implementation used separate worktrees with non-overlapping worker ownership. One owner controls manifest and CLI changes. Completed revisions received a separate read-only review. Review found an enum coercion bug in checkpoint validation; actual string checks and array regressions corrected it. Changes to a reviewed surface invalidate that surface's earlier review until rechecked.
 
-Required checks: `npm ci`, `npm test`, `npm pack --dry-run` and diff inspection. Packaging may use a disposable `--cache` path without changing the user's shared cache. Generated `dist/` remains committed. Each implementation PR records its exact checks and limits. Packed CLI checks are separate from authenticated model behavior. No claimed new platform matrix result is inferred from these checks.
+Required checks: `npm ci`, `npm test`, `npm pack --dry-run` and diff inspection. Packaging may use a disposable `--cache` path without changing the user's shared cache. Generated `dist/` remains committed. Each implementation PR records its exact checks and limits. Packed CLI checks are separate from authenticated model behavior. Native platform CI for PR #3 passed all three OS jobs in [run 34726451896](https://github.com/montassarkhalloufi/DevMethod/actions/runs/34726451896). Fixture CI initially failed on Windows because checkout converted pinned bytes to CRLF; commit `4e6be74` enforces LF for fixture paths without relaxing hashes. Check the latest PR jobs before claiming that correction passed on Windows.
 
 ## Native budget gate
 
