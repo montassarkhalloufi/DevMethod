@@ -1,0 +1,17 @@
+{
+  "expected": 5,
+  "detected": [
+    "LEAK",
+    "RACE",
+    "PARTIAL",
+    "CONTRACT"
+  ],
+  "missed": [
+    "TIMEOUT"
+  ],
+  "falsePositives": [],
+  "unresolved": [],
+  "unadjudicated": [],
+  "recall": 0.8,
+  "limitation": "Separate evidence-based adjudication required; fixture/score tests alone do not measure model detection."
+}

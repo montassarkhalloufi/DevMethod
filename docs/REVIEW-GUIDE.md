@@ -2,7 +2,11 @@
 
 DevMethod 0.3 adds a review workflow and an offline browser interface. Version 0.3.1 expands the documentation and the existing narrated film with this journey. The CLI presents recorded results; it does not inspect code or run tests on your behalf.
 
-After skills installation, invoke `$devmethod-review <target>` in Codex or `/devmethod-review <target>` in Claude Code/Cursor to perform the review without npx. The terminal commands below are optional presentation utilities for recorded results.
+## Review and open your real results
+
+Use `$devmethod-review the current changes, then open the report` in Codex, or `/devmethod-review` with the same request in Claude Code/Cursor. The agent inspects the work and executes relevant checks, records actual findings and limits, generates JSON/Markdown/HTML, and opens the report. The renderer ships with scoped-delivery: no user-run npx command or server is needed. Browser opening failures retain the files and are reported separately from review findings. See [the complete flow](REVIEWS.md).
+
+The following terminal example is only a manual tour of fictional data, not the main workflow.
 
 ## Try the packaged example
 

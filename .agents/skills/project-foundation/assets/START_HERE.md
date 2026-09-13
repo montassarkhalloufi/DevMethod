@@ -24,3 +24,5 @@ Examples:
 This kit reduces repetitive framing; it does not by itself prove application quality or production readiness.
 
 For a new product, `explore` researches existing solutions and discusses the findings before framing. `architecture` discusses structural options before dependent detail; `plan` discusses delivery scope and stays conditional on open decisions. Keep accepted choices, delegations and approved design. For substantial work without conventions, propose a mission PLAN with tickets and a dated REPRISE; keep existing single-file missions usable.
+
+To review and view results in one request, use `$devmethod-review the current changes, then open the report` (Codex) or `/devmethod-review` with the same request (Claude Code/Cursor). The agent performs the review and generates/opens the real report using the renderer installed with scoped-delivery. No user-run npx command is needed.

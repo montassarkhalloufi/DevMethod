@@ -26,3 +26,5 @@ Run separately in authenticated Codex, Claude Code and Cursor Agent sessions. Us
 6. For a complete host evaluation, additionally run `explore`, `frame`, `design`, `architecture`, `plan` and `correct-course` on a fresh fictional brief, preserving each output and its one qualified next command.
 
 Read the project's CONTRIBUTING and accepted decisions throughout. Evaluate all fourteen stages before marking full native workflow coverage. An absent discovery entry, broken relative link, unexecuted check reported as passed, forbidden write or unexplained permission expansion is a failure, not a cosmetic issue.
+
+Version 0.4.1 installs the offline report runtime with scoped-delivery. Tests execute it in all three exported layouts under CommonJS, ESM and package-less projects, intercepting only the OS-opening boundary. These tests validate report generation and dispatch, not native menu discovery or graphical browser rendering. See [release details](docs/RELEASE-0.4.1.md).

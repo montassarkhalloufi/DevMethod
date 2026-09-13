@@ -2,6 +2,10 @@
 
 From idea to delivery with your AI coding agents.
 
+A reusable method for human–AI collaboration, organized around missions and supported by verification evidence. Start from a need, discuss important decisions, implement a bounded scope, and preserve what was checked and what comes next.
+
+**[▶ Watch the review interface in action — 73 seconds, French voice and subtitles](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)** · [What the recorded example demonstrates](docs/media/review-r02/README.md)
+
 [![npm](https://img.shields.io/npm/v/devmethod-ai?label=npm)](https://www.npmjs.com/package/devmethod-ai) [![license](https://img.shields.io/npm/l/devmethod-ai)](LICENSE) [![platform tests](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml/badge.svg)](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml)
 
 ## Watch DevMethod build Lisière, then inspect a review — 4 min 03 s
@@ -32,29 +36,39 @@ DevMethod exposes fourteen `devmethod-*` workflow commands in the agent’s skil
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**DevMethod 0.4.0.** [Direct agent commands and migration](docs/RELEASE-0.4.0.md) · [0.3 workflow changes](docs/RELEASE-0.3.0.md). This release exposes the documented stages directly in the agent, including review without a terminal launcher. It retains the research, decision dialogue, mission templates and browser review viewer introduced in 0.3. Check the registry and GitHub release for publication evidence.
+**DevMethod 0.4.1.** [Complete review-to-report flow](docs/RELEASE-0.4.1.md) · [0.3 workflow changes](docs/RELEASE-0.3.0.md). This release completes review generation and opening inside the agent, with an installed offline renderer. Review guidance now follows sensitive-data outputs, failure recovery and affected contracts beyond the diff; [detection evaluation](evaluation/review-detection/README.md) separates reproducible defects from measured reviewer results. Check the registry and GitHub release for publication evidence.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
 Start with [missions and the tested source quick start](docs/MISSIONS.md), the [tested from-zero Pocket Tasks project](examples/pocket-tasks/README.md), then the [complete Next.js/NestJS example](examples/fullstack/README.md). Advanced references: [context and sizing](docs/MISSIONS.md), [safe updates](docs/UPDATES.md), [resumption](docs/RESUMPTION.md), [optional stack profiles](docs/STACK-PROFILES.md), [bounded manual planning](docs/ORCHESTRATION.md), [troubleshooting](docs/TROUBLESHOOTING.md), and [release status and evidence](docs/RELEASE-0.1.0.md).
+
+## Why this method?
+
+DevMethod grew from its creator’s own AI-assisted development practice: making the same way of working reusable across projects. The creator did not know BMAD when the idea began and discovered it afterwards. That origin explains the project; it is not evidence of uniqueness or superiority.
+
+The central unit is a **mission with an observable outcome**. Larger missions can use milestones and coherent tickets; small changes can stay inline. Discuss decisions before dependent work, keep uncertain plans conditional, connect acceptance criteria to executed checks, and leave a dated handoff. The method does not require sprints and can fit an existing team process.
+
+BMAD explicitly describes agile AI-driven development and includes specs, epics, stories, sprint planning and retrospectives. Its current planning guidance is also proportionate and supports small changes. DevMethod shares several of those principles; this positioning does not claim that BMAD lacks decisions, evidence or resumability. See [BMAD’s own planning documentation](https://docs.bmad-method.org/plan/choose-a-planning-path/).
+
+For visual work, DevMethod can guide comparable alternatives, an approved master image, derived screens and an interactive prototype when useful. Image generation requires a host tool. The review viewer separately exposes recorded findings, evidence, corrections, coverage and sources; it is not an annotation-and-approval tool for individual screens. Try one bounded task and assess clarity, evidence and ease of resumption. No comparative productivity or cost advantage is established.
 
 ## Install in a project
 
 Requires Node.js 22+ and npm. Install into a fresh staging directory first:
 
 ```bash
-npx --yes devmethod-ai@0.4.0 init --tool codex --dest ../foundation-staging
+npx --yes devmethod-ai@0.4.1 init --tool codex --dest ../foundation-staging
 ```
 
 Choose `codex`, `claude` or `cursor`. If you omit `--tool`, an interactive terminal asks. For example:
 
 ```bash
-npx --yes devmethod-ai@0.4.0 init --tool claude --dest ../foundation-staging --dry-run
+npx --yes devmethod-ai@0.4.1 init --tool claude --dest ../foundation-staging --dry-run
 ```
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.4.0 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.4.1 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -135,23 +149,29 @@ See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). S
 
 [Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example. The featured film retains the Lisière story and adds an explicitly separate fictional review example.
 
-## Inspect a review in your browser (optional)
+## Review your changes and open the report
 
-[![Watch R-02: from an authorization defect to evidence and a proposed correction](docs/media/review-r02/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)
+[![Watch R-02: from an authorization defect to evidence and a proposed correction](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/media/review-r02/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)
 
 **[▶ Watch a concrete review finding — 1 min 13 s, French narration](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)** · [Subtitles, chapters and provenance](docs/media/review-r02/README.md)
 
 Follow R-02 in Réservation Lab: an unauthorized cross-building booking, its recorded test evidence, the proposed correction and the checks to rerun. Real interface captures with an animated cursor and French subtitles. This controlled exercise contains intentional defects; the finding remains open, with no verified correction.
 
-Generate a local interactive report from the packaged fictional demo:
+In your coding agent, ask:
 
-```sh
-npx --yes devmethod-ai@0.4.0 review --demo --output review.html --open
+```text
+$devmethod-review the current changes, then open the report
 ```
 
-The command generates `review.html` and opens it in your browser without a local server. On a headless machine, omit `--open`; if opening fails, the file remains available. For your own results, use `--review relative/review.json`; add `--markdown REVIEW.md` for the derived report. Search and filter findings, inspect evidence and source provenance, and export the same results. Existing Markdown remains readable with `--legacy`. See [review commands, format and trust limits](docs/REVIEWS.md). The CLI presents recorded results; it does not perform an automatic code review.
+In Claude Code or Cursor, use `/devmethod-review` with the same request. The agent inspects the actual changes, runs relevant checks, records evidence-backed findings and justified impact, then generates the Markdown and interactive HTML reports from the real review JSON and opens the HTML. You do not need to launch npx, a terminal command or a server. The renderer is installed with scoped-delivery and runs locally with Node.js 22+.
 
-![Actual DevMethod review interface — fictional demonstration data](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/images/review-interface-desktop.jpg)
+For a small review without a requested report, the result can stay in the conversation. On a headless machine or if browser opening fails, the generated artifacts are preserved and linked with the opening limitation. Existing reports are never overwritten. See [review workflow and report delivery](docs/REVIEWS.md).
+
+The screenshots below use clearly fictional data to illustrate the interface; your review uses actual project results. The separate terminal viewer remains available for manual use and demos, as described in the [review guide](docs/REVIEW-GUIDE.md).
+
+[![Actual DevMethod review interface — fictional demonstration data](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/images/review-interface-desktop.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)
+
+*Static interface preview. Click the image or the video link above to watch the R-02 walkthrough, which uses a separate controlled example.*
 
 **[Follow the review walkthrough](https://github.com/montassarkhalloufi/DevMethod/blob/main/docs/REVIEW-GUIDE.md)** · [JSON, Markdown and HTML example](https://github.com/montassarkhalloufi/DevMethod/tree/main/examples/review) · [Review chapter provenance](https://github.com/montassarkhalloufi/DevMethod/blob/main/docs/media/review-extension/README.md)
 

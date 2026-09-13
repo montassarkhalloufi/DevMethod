@@ -13,6 +13,6 @@ Use [scoped-delivery](../scoped-delivery/SKILL.md) for this stage’s detailed p
 
 Follow [the review workflow](../scoped-delivery/references/review-workflow.md): inspect the actual diff and relevant interactions, execute applicable checks, and report findings with locations, impact, evidence and proposed corrections. Distinguish checked, failed and uninspected scope. Do not modify product code unless corrections were requested. Review artifacts may be written as part of the requested review.
 
-For a substantial review, use [the review record](../scoped-delivery/assets/REVIEW.md). A missing browser renderer or CLI does not block inspection or the findings report. The optional `devmethod review` shell utility presents existing results; invoking it or its fictional demo never performs this review.
+For a substantial review, use [the review record](../scoped-delivery/assets/REVIEW.md) and complete [the report delivery procedure](../scoped-delivery/references/review-report.md). Produce the real JSON, derived Markdown and interactive HTML as one flow; open the HTML when the user asks to view/open the report. A request such as “review these changes, then open the report” authorizes generation and local opening, with no extra confirmation. Keep a small review concise unless a report is requested. Never substitute fictional demo data for actual findings or ask the user to run a terminal command.
 
 Return the concrete outcome, verification limits and one next command from the stage contract.

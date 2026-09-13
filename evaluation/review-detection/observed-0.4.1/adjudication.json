@@ -1,0 +1,65 @@
+{
+  "expected": [
+    "LEAK",
+    "RACE",
+    "PARTIAL",
+    "TIMEOUT",
+    "CONTRACT"
+  ],
+  "findings": [
+    {
+      "id": "DET-A-001",
+      "confidence": "confirmed"
+    },
+    {
+      "id": "DET-B-001",
+      "confidence": "confirmed"
+    },
+    {
+      "id": "DET-B-002",
+      "confidence": "confirmed"
+    },
+    {
+      "id": "DET-C-001",
+      "confidence": "confirmed"
+    }
+  ],
+  "adjudications": [
+    {
+      "findingId": "DET-A-001",
+      "verdict": "matched",
+      "defectIds": [
+        "LEAK"
+      ],
+      "evidenceReviewed": true,
+      "impactJustified": true
+    },
+    {
+      "findingId": "DET-B-001",
+      "verdict": "matched",
+      "defectIds": [
+        "RACE"
+      ],
+      "evidenceReviewed": true,
+      "impactJustified": true
+    },
+    {
+      "findingId": "DET-B-002",
+      "verdict": "matched",
+      "defectIds": [
+        "PARTIAL"
+      ],
+      "evidenceReviewed": true,
+      "impactJustified": true
+    },
+    {
+      "findingId": "DET-C-001",
+      "verdict": "matched",
+      "defectIds": [
+        "CONTRACT"
+      ],
+      "evidenceReviewed": true,
+      "impactJustified": true
+    }
+  ]
+}

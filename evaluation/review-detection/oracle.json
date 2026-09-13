@@ -1,0 +1,9 @@
+{
+  "format": 1,
+  "cases": [
+    {"id":"SENSITIVE","files":["sensitive.mjs"],"defects":[{"id":"LEAK","expected":"Synthetic token and email reach log, telemetry and API response on provider failure; error text is forwarded too."}]},
+    {"id":"SUBMISSION","files":["submission.mjs"],"defects":[{"id":"RACE","expected":"Two concurrent calls with the same key can both charge before state is recorded."},{"id":"PARTIAL","expected":"Notification failure after a successful charge leaves no receipt in state; retry charges again."},{"id":"TIMEOUT","expected":"A charge that applies its effect then times out leaves no receipt; retry can duplicate the external effect."}]},
+    {"id":"COMPATIBILITY","files":["compatibility.mjs","consumer.mjs"],"defects":[{"id":"CONTRACT","expected":"Renamed field loses existing amountCents data and breaks the unchanged invoice consumer."}]},
+    {"id":"CONTROL","files":["control.mjs"],"defects":[]}
+  ]
+}
