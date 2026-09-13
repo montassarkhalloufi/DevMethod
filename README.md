@@ -21,7 +21,7 @@ From idea to delivery with your AI coding agents.
 | Review and verify | Corrected alert/focus behavior, 6 tests and real Chrome desktop/mobile journeys |
 | Integrate and handoff | Local prototype, references, evidence and resumption context |
 
-The video uses illustrative Codex commands with real generated images and recorded application interactions. DevMethod guides the coding agent; image generation requires an available host tool. The visual workflow is in the current GitHub source and is not included in npm 0.1.0. [Follow the visual workflow](docs/VISUAL-WORKFLOW.md).
+The video uses illustrative Codex commands with real generated images and recorded application interactions. DevMethod guides the coding agent; image generation requires an available host tool. The visual workflow is included in npm 0.2.0. [Follow the visual workflow](docs/VISUAL-WORKFLOW.md).
 
 ![DevMethod workflow](docs/images/devmethod-flow.svg)
 
@@ -29,7 +29,7 @@ DevMethod is the public name of the kit. Its entry-point skill remains `project-
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**npm stable: 0.1.0 (`latest`). Next release candidate: 0.2.0.** [0.2.0 changes and publication status](docs/RELEASE-0.2.0.md). The release includes mission/context inspection, Git-aware evidence resumption, explicit update conflicts, manual task planning and optional stack profiles. See the [release record](docs/RELEASE-0.1.0.md) for publication status and verification.
+**Published on npm: 0.2.0 (`latest`).** This release includes the complete visual workflow, architecture guidance, mission/context inspection, evidence resumption and staged updates. See the [release record](docs/RELEASE-0.2.0.md) for the exact archive and verification.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
@@ -40,18 +40,18 @@ Start with [missions and the tested source quick start](docs/MISSIONS.md), the [
 Requires Node.js 22+ and npm. Install into a fresh staging directory first:
 
 ```bash
-npx --yes devmethod-ai@0.1.0 init --tool codex --dest ../foundation-staging
+npx --yes devmethod-ai@0.2.0 init --tool codex --dest ../foundation-staging
 ```
 
 Choose `codex`, `claude` or `cursor`. If you omit `--tool`, an interactive terminal asks. For example:
 
 ```bash
-npx --yes devmethod-ai@0.1.0 init --tool claude --dest ../foundation-staging --dry-run
+npx --yes devmethod-ai@0.2.0 init --tool claude --dest ../foundation-staging --dry-run
 ```
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.1.0 init ...`. To use the visual workflow before 0.2.0 is published, use a reviewed repository commit: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.2.0 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -132,7 +132,7 @@ See the [full command contract](.agents/skills/project-foundation/references/ope
 
 ## Visual design and architecture
 
-DevMethod connects art-direction selection, an approved master screen, derived image mockups and browser fidelity checks with technology and architecture decisions. Follow the [visual workflow guide](docs/VISUAL-WORKFLOW.md) and [recorded Lisière pilot](examples/visual-pilot/README.md). These capabilities are included in the 0.2.0 candidate; npm 0.1.0 predates them. See the [0.2.0 release record](docs/RELEASE-0.2.0.md) for publication status.
+DevMethod connects art-direction selection, an approved master screen, derived image mockups and browser fidelity checks with technology and architecture decisions. Follow the [visual workflow guide](docs/VISUAL-WORKFLOW.md) and [recorded Lisière pilot](examples/visual-pilot/README.md). These capabilities are included in npm 0.2.0; npm 0.1.0 predates them. See the [0.2.0 release record](docs/RELEASE-0.2.0.md) for publication status.
 
 ## Included modules
 
