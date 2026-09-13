@@ -83,3 +83,13 @@ test('checked-in review report is derived exactly from its structured owner', ()
  const report=fs.readFileSync(new URL('../docs/missions/workflow-0.3-reviews/interface/REVIEW.md',import.meta.url),'utf8');
  assert.equal(report,reviewMarkdown(sanitizedReview(record)));
 });
+
+test('browser bundle is an executable classic script after CRLF compiler output', async t => {
+ const vm=await import('node:vm'),os=await import('node:os'),path=await import('node:path'),{spawnSync}=await import('node:child_process');
+ const root=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'devmethod-review-crlf-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ fs.mkdirSync(path.join(root,'dist'));fs.mkdirSync(path.join(root,'src'));
+ for(const name of ['review-model.js','review-app.js'])fs.writeFileSync(path.join(root,'dist',name),fs.readFileSync(new URL('../dist/'+name,import.meta.url),'utf8').replace(/\r?\n/g,'\r\n'));
+ fs.copyFileSync(new URL('../src/review-ui.css',import.meta.url),path.join(root,'src/review-ui.css'));
+ const build=spawnSync(process.execPath,[path.resolve('scripts/build-review.mjs')],{cwd:root,encoding:'utf8'});assert.equal(build.status,0,build.stderr);
+ const program=fs.readFileSync(path.join(root,'dist/review-browser.js'),'utf8');assert.doesNotMatch(program,/\r\n/);assert.doesNotThrow(()=>new vm.Script(program));
+});
