@@ -2,9 +2,13 @@
 
 The agent's `devmethod-review` command (also `project-foundation review`) performs project-aware inspection under [the review workflow](../.agents/skills/scoped-delivery/references/review-workflow.md). The CLI `devmethod review` only validates and presents recorded results. It never runs repository commands, discovers evidence on disk, or performs the review itself.
 
-After skills installation, invoke `$devmethod-review <target>` in Codex or `/devmethod-review <target>` in Claude Code/Cursor to perform the review without npx. The terminal commands below are optional presentation utilities for recorded results.
+## From review to open report
 
-## Use the installed package
+After installation, invoke `$devmethod-review the current changes, then open the report` in Codex, or `/devmethod-review` with that request in Claude Code/Cursor. The agent performs the inspection and checks, writes the real result JSON, then generates Markdown and HTML and opens the report. No terminal command is required from the user. The installed scoped-delivery renderer works offline with Node.js 22+ and does not require npm or a global CLI.
+
+The agent follows [report delivery](../.agents/skills/scoped-delivery/references/review-report.md). Generation preserves earlier snapshots; failed opening preserves the files and produces an explicit limitation. A report-only request omits browser opening. Small reviews can remain in the conversation unless a report is requested.
+
+## Manual viewer and fictional demo (optional)
 
 After 0.3.0 publication, from a temporary or project directory:
 

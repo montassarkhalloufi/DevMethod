@@ -17,6 +17,8 @@ Use project gates even when stricter. Do not invent an unavailable command; repo
 
 Connect every finding to a location, observable consequence, scenario, and correction. Distinguish bug, demonstrated risk, and preference. Do not request multiple identical opinions to create an appearance of certainty. If independent review is required but impossible, report it rather than simulating it.
 
+Use [the review workflow](review-workflow.md) as the owner of data-flow, failure-scenario, compatibility and finding-classification guidance. Choose relevant probes; do not turn every small change into an exhaustive audit.
+
 Evaluate complete diff, boundaries, behavior, security, and tests at the stated commit. Re-examine touched areas after corrections, and the whole only when impact warrants it.
 
 ## Operational cost

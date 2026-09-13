@@ -32,7 +32,7 @@ DevMethod exposes fourteen `devmethod-*` workflow commands in the agent’s skil
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**DevMethod 0.4.0.** [Direct agent commands and migration](docs/RELEASE-0.4.0.md) · [0.3 workflow changes](docs/RELEASE-0.3.0.md). This release exposes the documented stages directly in the agent, including review without a terminal launcher. It retains the research, decision dialogue, mission templates and browser review viewer introduced in 0.3. Check the registry and GitHub release for publication evidence.
+**DevMethod 0.4.1.** [Complete review-to-report flow](docs/RELEASE-0.4.1.md) · [0.3 workflow changes](docs/RELEASE-0.3.0.md). This release completes review generation and opening inside the agent, with an installed offline renderer. Review guidance now follows sensitive-data outputs, failure recovery and affected contracts beyond the diff; [detection evaluation](evaluation/review-detection/README.md) separates reproducible defects from measured reviewer results. Check the registry and GitHub release for publication evidence.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
@@ -43,18 +43,18 @@ Start with [missions and the tested source quick start](docs/MISSIONS.md), the [
 Requires Node.js 22+ and npm. Install into a fresh staging directory first:
 
 ```bash
-npx --yes devmethod-ai@0.4.0 init --tool codex --dest ../foundation-staging
+npx --yes devmethod-ai@0.4.1 init --tool codex --dest ../foundation-staging
 ```
 
 Choose `codex`, `claude` or `cursor`. If you omit `--tool`, an interactive terminal asks. For example:
 
 ```bash
-npx --yes devmethod-ai@0.4.0 init --tool claude --dest ../foundation-staging --dry-run
+npx --yes devmethod-ai@0.4.1 init --tool claude --dest ../foundation-staging --dry-run
 ```
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.4.0 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.4.1 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -135,15 +135,19 @@ See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). S
 
 [Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example. The featured film retains the Lisière story and adds an explicitly separate fictional review example.
 
-## Inspect a review in your browser (optional)
+## Review your changes and open the report
 
-Generate a local interactive report from the packaged fictional demo:
+In your coding agent, ask:
 
-```sh
-npx --yes devmethod-ai@0.4.0 review --demo --output review.html --open
+```text
+$devmethod-review the current changes, then open the report
 ```
 
-The command generates `review.html` and opens it in your browser without a local server. On a headless machine, omit `--open`; if opening fails, the file remains available. For your own results, use `--review relative/review.json`; add `--markdown REVIEW.md` for the derived report. Search and filter findings, inspect evidence and source provenance, and export the same results. Existing Markdown remains readable with `--legacy`. See [review commands, format and trust limits](docs/REVIEWS.md). The CLI presents recorded results; it does not perform an automatic code review.
+In Claude Code or Cursor, use `/devmethod-review` with the same request. The agent inspects the actual changes, runs relevant checks, records evidence-backed findings and justified impact, then generates the Markdown and interactive HTML reports from the real review JSON and opens the HTML. You do not need to launch npx, a terminal command or a server. The renderer is installed with scoped-delivery and runs locally with Node.js 22+.
+
+For a small review without a requested report, the result can stay in the conversation. On a headless machine or if browser opening fails, the generated artifacts are preserved and linked with the opening limitation. Existing reports are never overwritten. See [review workflow and report delivery](docs/REVIEWS.md).
+
+The screenshots below use clearly fictional data to illustrate the interface; your review uses actual project results. The separate terminal viewer remains available for manual use and demos, as described in the [review guide](docs/REVIEW-GUIDE.md).
 
 ![Actual DevMethod review interface — fictional demonstration data](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/images/review-interface-desktop.jpg)
 

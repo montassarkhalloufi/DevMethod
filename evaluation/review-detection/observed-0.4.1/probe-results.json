@@ -1,0 +1,58 @@
+{
+  "a": {
+    "log": {
+      "tokenExposed": true,
+      "emailExposed": true,
+      "providerMessageSecretExposed": true
+    },
+    "telemetry": {
+      "tokenExposed": true,
+      "emailExposed": true,
+      "providerMessageSecretExposed": true
+    },
+    "response": {
+      "tokenExposed": true,
+      "emailExposed": true,
+      "providerMessageSecretExposed": true
+    }
+  },
+  "bConcurrent": {
+    "charges": 2,
+    "notices": 2,
+    "receipts": [
+      {
+        "key": "same-key",
+        "sequence": 1
+      },
+      {
+        "key": "same-key",
+        "sequence": 2
+      }
+    ],
+    "stateSize": 1
+  },
+  "bRetry": {
+    "charges": 2,
+    "sizeAfterFailure": 0
+  },
+  "c": {
+    "existingStoredInput": {
+      "id": "order-fixture",
+      "amountCents": 1250
+    },
+    "oldResponse": {
+      "id": "order-fixture"
+    },
+    "newResponse": {
+      "id": "new-order",
+      "totalCents": 1250
+    },
+    "oldConsumerNaN": true,
+    "newConsumerNaN": true,
+    "baselineTotal": 12.5
+  },
+  "d": {
+    "stringExamplesPassed": 3,
+    "nonStringsRejected": 8
+  }
+}

@@ -3,6 +3,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { commandSkills } from './commands.js';
+import { reviewRuntimeFiles } from './review-runtime.js';
 import { parseJson, checkPath, stat } from './filesystem.js';
 
 export const tools = { codex: '.agents/skills', claude: '.claude/skills', cursor: '.cursor/skills' } as const;
@@ -95,6 +96,17 @@ export function bundledFiles(tool: Tool, selected: readonly string[]): Map<strin
     for (const relative of walk(source)) {
       if (!/^(SKILL\.md|assets\/.*\.md|references\/.*\.md)$/.test(relative)) throw new Error(`Unexpected payload file: ${name}/${relative}`);
       files.set(`${tools[tool]}/${name}/${relative}`, profile(fs.readFileSync(path.join(source, relative)), tool));
+    }
+  }
+  if (selected.includes('scoped-delivery')) {
+    for (const name of reviewRuntimeFiles) {
+      const compiled = name.endsWith('.mjs') ? name.replace(/\.mjs$/, '.js') : name;
+      const source = path.join(packageRoot, 'dist', compiled);
+      checkPath(source);
+      let data = fs.readFileSync(source);
+      // Explicit .mjs modules work inside CommonJS, ESM and package-less projects.
+      if (name.endsWith('.mjs')) data = Buffer.from(data.toString().replace(/(from ['"]\.\/[^'"]+)\.js(['"])/g, '$1.mjs$2'));
+      files.set(`${tools[tool]}/scoped-delivery/scripts/${name}`, data);
     }
   }
   for (const template of templates) files.set(template, profile(fs.readFileSync(path.join(packageRoot, '.agents/skills/project-foundation/assets', template)), tool));

@@ -15,7 +15,7 @@ try {
   run('tar', ['-xzf', '-'], root, 0, fs.readFileSync(path.resolve(archive)));
   const pkg = path.join(root, 'package'); const cli = path.join(pkg, 'dist/cli.js');
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
-  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.4.0');
+  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.4.1');
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
   assert.match(call(['--help']), /Markdown PLAN\/tickets and legacy missions/);
   for (const resource of ['project-foundation/references/exploration.md', 'project-foundation/references/delivery-planning.md', 'project-foundation/assets/EXISTANT.md', 'project-foundation/assets/OPPORTUNITES.md', 'project-foundation/assets/CADRAGE.md', 'project-foundation/assets/REGLES.md', 'scoped-delivery/assets/PLAN.md', 'scoped-delivery/assets/TICKET.md', 'scoped-delivery/assets/REPRISE.md', 'scoped-delivery/assets/MISSION.md', 'scoped-delivery/assets/REVIEW.md', 'scoped-delivery/references/review-workflow.md']) {
@@ -43,6 +43,11 @@ try {
     assert.ok(entries.includes('devmethod-review'));
     for (const name of entries) assert.ok(fs.statSync(path.join(project, skillRoot, name, 'SKILL.md')).size > 0);
     assert.ok(fs.statSync(path.join(project, skillRoot, 'scoped-delivery/references/review-format.md')).size > 0);
+    fs.copyFileSync(path.join(pkg, 'examples/review/review.json'), path.join(project, 'review-fixture.json'));
+    const reportRun = JSON.parse(run(process.execPath, [path.join(project, skillRoot, 'scoped-delivery/scripts/review-agent.mjs'), '--dest', project, '--review', 'review-fixture.json', '--output', 'actual-report.html', '--markdown', 'actual-report.md']));
+    assert.equal(reportRun.status, 'corrections');
+    assert.ok(fs.readFileSync(path.join(project, 'actual-report.html'), 'utf8').includes('Content-Security-Policy'));
+    assert.ok(fs.statSync(path.join(project, 'actual-report.md')).size > 0);
     const profile = path.join(project, 'PROJECT_PROFILE.md'); fs.appendFileSync(profile, '\nFictional local customization.\n');
     const before = fs.readFileSync(profile);
     const preview = JSON.parse(call(['update-preview', '--dest', project, '--json']));
@@ -81,5 +86,5 @@ try {
     assert.deepEqual([fs.readFileSync(customized), fs.readFileSync(profile)], before);
     console.log(`Actual legacy tarball: ${upstreamChanged ? 'local/upstream conflict' : 'unchanged upstream with local customization'} detected; filled profile/custom skill preserved.`);
   }
-  console.log('Packed 0.4.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
+  console.log('Packed 0.4.1: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
 } finally { fs.rmSync(root, { recursive: true, force: true }); }
