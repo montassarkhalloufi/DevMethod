@@ -1,6 +1,6 @@
 # Create a direction, then build it
 
-The 0.2.0 candidate and current GitHub source include a visual-creation procedure in the existing `design` stage. It preserves six modules and does not install an image service. The published npm `0.1.0` package predates this evolution; reinstalling that version does not obtain it. See the [0.2.0 release record](RELEASE-0.2.0.md) before choosing the installation command.
+DevMethod 0.2.0 and the current GitHub source include a visual-creation procedure in the existing `design` stage. It preserves six modules and does not install an image service. The published npm `0.1.0` package predates this evolution; reinstalling that version does not obtain it. See the [0.2.0 release record](RELEASE-0.2.0.md) before choosing the installation command.
 
 ## Start
 

@@ -1,6 +1,6 @@
 # DevMethod 0.2.0 — visual design through verified delivery
 
-Status: candidate prepared for maintainer review. Not published on npm. The registry still serves 0.1.0 under `latest`; npm authentication is required to publish this candidate. GitHub updates and package preparation are separate from publication.
+Status: published on npm as `devmethod-ai@0.2.0` under `latest`. The registry archive matches the reviewed candidate and passed package smoke after publication.
 
 ## Changes
 
@@ -14,13 +14,13 @@ Image generation requires an available host tool; it is not bundled. The film co
 
 ## Adopt without overwriting project work
 
-Until publication, use a reviewed GitHub revision:
+To pin a reviewed GitHub revision:
 
 ```sh
 npx --yes --package=github:montassarkhalloufi/DevMethod#<reviewed-commit> devmethod init --tool codex --dest ../devmethod-staging
 ```
 
-After the registry confirms publication, the versioned command will be:
+Install the published version:
 
 ```sh
 npx --yes devmethod-ai@0.2.0 init --tool codex --dest ../devmethod-staging
@@ -35,3 +35,14 @@ Local candidate checks passed: locked installation, 72 core tests, 24 greenfield
 Native workflow evidence is retained in the [Lisière execution record](media/visual-chain/execution.fr.md) and [visual pilot](../examples/visual-pilot/README.md). The release reuses that evidence for the unchanged skills; it does not claim fresh model runs.
 
 Publish only the reviewed archive with an explicit `latest` tag for an authorized final release. After publication, download the registry tarball, compare its integrity and run package smoke again. Keep 0.1.0 available as a rollback reference.
+
+## Exact published artifact — 2026-09-13
+
+- Release preparation and review: [PR #17](https://github.com/montassarkhalloufi/DevMethod/pull/17), merged as `f374c5a02f2e339c47e126a8f8e5c2f28d785f9d`.
+- [Platform CI](https://github.com/montassarkhalloufi/DevMethod/actions/runs/34767104314): Linux, macOS and Windows passed.
+- [Fullstack CI](https://github.com/montassarkhalloufi/DevMethod/actions/runs/34767104287): passed.
+- Archive: `devmethod-ai-0.2.0.tgz`, 230 files. SHA-256: `f8fa3ffe9c6d9cb0072dd3540a016dd8d36a582bde386a816eb5bd9bda0eca07`.
+- npm SHA-1: `5e40705ce120987e3e3c271d1d00bca1a5be39a3`.
+- npm integrity: `sha512-vV6DGt8v6xu6p42s7IaGKPPwcOMTBuUnH97E8W+FR809YFQtUw+n1hTZdoF3+5bq8tAvyslYMNGzAuBQ8bXVTg==`.
+
+After browser authentication, npm confirmed publication. The fresh registry download matched the reviewed archive byte for byte and passed installation smoke for all host layouts, subset installation, preservation of customizations and context/planning checks. The `latest` tag is 0.2.0; 0.1.0 remains available. This post-publication record is not inside the immutable published archive.
