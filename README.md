@@ -6,7 +6,7 @@ From idea to delivery with your AI coding agents.
 
 ## Watch DevMethod build Lisière, then inspect a review — 4 min 03 s
 
-[![Play the 4K demo: approved master and derived Lisière screens](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/media/visual-chain/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/devmethod-du-besoin-au-produit-4k.fr.mp4)
+[![Play the extended 4K demo: Lisière and the review interface](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/media/visual-chain/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/devmethod-du-besoin-au-produit-4k.fr.mp4)
 
 **[▶ Watch the video — 4K, French narration](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/devmethod-du-besoin-au-produit-4k.fr.mp4)** · [Subtitles and execution evidence](docs/media/visual-chain/README.md) · [Download the working prototype](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/lisiere-visual-source.zip)
 
@@ -131,7 +131,7 @@ See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). S
 
 ## More recorded examples
 
-[Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example; the featured video above follows Lisière throughout.
+[Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example. The featured film retains the Lisière story and adds an explicitly separate fictional review example.
 
 ## Inspect a review in your browser
 
