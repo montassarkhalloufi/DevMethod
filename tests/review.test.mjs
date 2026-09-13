@@ -93,3 +93,8 @@ test('browser bundle is an executable classic script after CRLF compiler output'
  const build=spawnSync(process.execPath,[path.resolve('scripts/build-review.mjs')],{cwd:root,encoding:'utf8'});assert.equal(build.status,0,build.stderr);
  const program=fs.readFileSync(path.join(root,'dist/review-browser.js'),'utf8');assert.doesNotMatch(program,/\r\n/);assert.doesNotThrow(()=>new vm.Script(program));
 });
+
+test('common authorization headers, environment keys and quoted credentials are completely redacted', () => {
+ const r=fixture();r.evidence[0].content='Authorization: Bearer SYNTHETIC_BEARER_VALUE\nNPM_TOKEN=SYNTHETIC_NPM_VALUE\npassword="synthetic password with spaces"';
+ const clean=sanitizedReview(r);assert.doesNotMatch(clean.evidence[0].content,/SYNTHETIC|synthetic|with spaces/);assert.equal(clean.evidence[0].content.split('[REDACTED CREDENTIAL]').length-1,3);
+});

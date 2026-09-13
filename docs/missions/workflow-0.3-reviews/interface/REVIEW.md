@@ -19,11 +19,11 @@ Policy: Corriger les défauts confirmés affectant le parcours et vérifier les 
 
 ## Counts (whole review)
 - Critique: 0
-- Majeur: 0
+- Majeur: 1
 - Modéré: 1
 - Mineur: 0
 - À vérifier: 0
-- Réussi: 2
+- Réussi: 3
 - En échec: 0
 - Non exécuté: 0
 - Bloqué: 1
@@ -33,6 +33,7 @@ Policy: Corriger les défauts confirmés affectant le parcours et vérifier les 
 - **UI-KEYBOARD — Clavier et retour mobile** (Interface, manual): Réussi. Focus après correction et conservation des filtres observés. Revision: 8d7cd3584c891c04d983f85279e14a2070ab621d + working changes. Evidence: E-FOCUS-AFTER
 - **UI-EXPORT — Contenu de l’export HTML** (Interface, manual): Réussi. Résultats, état de sélection et empreinte CSP vérifiés dans le dernier export Chrome. Revision: 8d7cd3584c891c04d983f85279e14a2070ab621d + working changes. Evidence: E-EXPORT
 - **UI-REOPEN — Réouverture file://** (Interface, manual): Bloqué. Non vérifiée dans le navigateur automatisé. Reason: La politique de l’outil interdit cette navigation ; aucun contournement effectué. Revision: 8d7cd3584c891c04d983f85279e14a2070ab621d + working changes. Evidence: none
+- **SEC-REDACTION — Masquage des formats courants** (Confidentialité, automated): Réussi. Régression Bearer, variable préfixée et valeur entre guillemets réussie. Revision: fa84208 + redaction working changes. Evidence: E-REDACTION
 
 ## Findings
 
@@ -55,6 +56,24 @@ Resolution evidence: E-FOCUS-AFTER
 Sources: WAI-TABS
 Tickets: PR-19
 
+### REDACT-01 — Certains formats courants d’identifiants étaient partiellement masqués
+Majeur / Confirmé / Résolu et vérifié
+Severity rationale: Un rapport distribué pouvait conserver une valeur sensible dans un header standard ou un champ entre guillemets. Aucun identifiant réel n’a été exposé dans ce test.
+Location: src/review-model.ts
+Impact: Risque de divulguer une valeur sensible dans une copie de rapport si la revue de confidentialité ne la détecte pas.
+Trigger: Importer une preuve contenant un header Bearer ou une valeur sensible avec espaces.
+Expected: Masquer la valeur complète des formats courants pris en charge.
+Observed: La première règle arrêtait le masquage au premier espace et ne reconnaissait pas certains préfixes de variables.
+Reproduction:
+- Utiliser exclusivement les cas synthétiques du test de régression du masquage.
+Evidence: E-REDACTION
+Correction: Reconnaître les schémas Bearer/Basic, les valeurs entre guillemets et les clés préfixées avant de produire la copie distribuée.
+Trade-offs: Le masquage reste heuristique ; la confidentialité des images et des formats inconnus exige une inspection avant partage.
+Resolution verification: Les valeurs synthétiques de ces trois formats sont absentes de sanitizedReview ; le document original reste inchangé.
+Resolution evidence: E-REDACTION
+Sources: none
+Tickets: PR-19
+
 ## Evidence
 
 ### E-FOCUS-BEFORE — Observation réelle avant correction
@@ -70,6 +89,11 @@ No external evidence destination.
 ### E-EXPORT — Export Chrome inspecté sur disque
 text
 Le dernier export Chrome possède review format 1, uiState.selected=R-01, filters.query=silencieux et section=correction. Les données ont été validées et l’empreinte SHA-256 du programme correspond à la CSP. Réouverture navigateur file:// non exécutée : politique de l’outil.
+No external evidence destination.
+
+### E-REDACTION — Régression automatisée du masquage des identifiants
+log
+Cas synthétiques : header Authorization avec Bearer, variable NPM\_TOKEN et mot de passe entre guillemets contenant des espaces. Avant correction, la règle masquait seulement une partie de certaines valeurs. Le test dédié vérifie maintenant que les trois valeurs synthétiques sont totalement absentes de la source distribuée. Exécuté dans npm test : réussite.
 No external evidence destination.
 
 ## Sources

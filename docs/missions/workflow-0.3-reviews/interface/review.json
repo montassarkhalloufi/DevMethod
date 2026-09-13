@@ -105,6 +105,22 @@
       "targets": [
         "export"
       ]
+    },
+    {
+      "id": "SEC-REDACTION",
+      "title": "Masquage des formats courants",
+      "domain": "Confidentialité",
+      "kind": "automated",
+      "status": "passed",
+      "result": "Régression Bearer, variable préfixée et valeur entre guillemets réussie.",
+      "reason": null,
+      "evidenceIds": [
+        "E-REDACTION"
+      ],
+      "revision": "fa84208 + redaction working changes",
+      "targets": [
+        "review-redaction"
+      ]
     }
   ],
   "findings": [
@@ -148,6 +164,43 @@
         "finding-selection",
         "tabs"
       ]
+    },
+    {
+      "id": "REDACT-01",
+      "title": "Certains formats courants d’identifiants étaient partiellement masqués",
+      "domain": "Confidentialité",
+      "severity": "major",
+      "severityReason": "Un rapport distribué pouvait conserver une valeur sensible dans un header standard ou un champ entre guillemets. Aucun identifiant réel n’a été exposé dans ce test.",
+      "confidence": "confirmed",
+      "resolution": "resolved",
+      "location": {
+        "path": "src/review-model.ts",
+        "line": null,
+        "component": "redactReviewText"
+      },
+      "trigger": "Importer une preuve contenant un header Bearer ou une valeur sensible avec espaces.",
+      "expected": "Masquer la valeur complète des formats courants pris en charge.",
+      "observed": "La première règle arrêtait le masquage au premier espace et ne reconnaissait pas certains préfixes de variables.",
+      "impact": "Risque de divulguer une valeur sensible dans une copie de rapport si la revue de confidentialité ne la détecte pas.",
+      "reproduction": [
+        "Utiliser exclusivement les cas synthétiques du test de régression du masquage."
+      ],
+      "evidenceIds": [
+        "E-REDACTION"
+      ],
+      "correction": "Reconnaître les schémas Bearer/Basic, les valeurs entre guillemets et les clés préfixées avant de produire la copie distribuée.",
+      "tradeoffs": "Le masquage reste heuristique ; la confidentialité des images et des formats inconnus exige une inspection avant partage.",
+      "sourceIds": [],
+      "ticketIds": [
+        "PR-19"
+      ],
+      "verification": "Les valeurs synthétiques de ces trois formats sont absentes de sanitizedReview ; le document original reste inchangé.",
+      "resolutionEvidenceIds": [
+        "E-REDACTION"
+      ],
+      "targets": [
+        "review-redaction"
+      ]
     }
   ],
   "evidence": [
@@ -172,6 +225,14 @@
       "title": "Export Chrome inspecté sur disque",
       "kind": "text",
       "content": "Le dernier export Chrome possède review format 1, uiState.selected=R-01, filters.query=silencieux et section=correction. Les données ont été validées et l’empreinte SHA-256 du programme correspond à la CSP. Réouverture navigateur file:// non exécutée : politique de l’outil.",
+      "url": null,
+      "image": null
+    },
+    {
+      "id": "E-REDACTION",
+      "title": "Régression automatisée du masquage des identifiants",
+      "kind": "log",
+      "content": "Cas synthétiques : header Authorization avec Bearer, variable NPM_TOKEN et mot de passe entre guillemets contenant des espaces. Avant correction, la règle masquait seulement une partie de certaines valeurs. Le test dédié vérifie maintenant que les trois valeurs synthétiques sont totalement absentes de la source distribuée. Exécuté dans npm test : réussite.",
       "url": null,
       "image": null
     }
