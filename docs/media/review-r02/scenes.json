@@ -1,0 +1,65 @@
+[
+  {
+    "title": "Lire le verdict",
+    "start": 0,
+    "duration": 10.833333333333334,
+    "narration": [
+      "Voici une review de Réservation Lab, un projet expérimental avec des défauts volontaires.",
+      "Le verdict demande des corrections : trois problèmes sont confirmés, dont deux majeurs."
+    ]
+  },
+  {
+    "title": "Choisir R-02",
+    "start": 10.833333333333334,
+    "duration": 10.583333333333334,
+    "narration": [
+      "Ouvrons R zéro deux : réservation dans un autre immeuble.",
+      "Le problème est majeur, confirmé, et toujours ouvert. Un utilisateur peut agir hors de son périmètre autorisé."
+    ]
+  },
+  {
+    "title": "Comprendre le scénario",
+    "start": 21.416666666666668,
+    "duration": 8.208333333333334,
+    "narration": [
+      "Alice appartient à l’immeuble A, mais demande une salle de l’immeuble B.",
+      "Le comportement attendu est un refus, sans enregistrer de réservation."
+    ]
+  },
+  {
+    "title": "Comparer avec le réel",
+    "start": 29.625,
+    "duration": 7.916666666666667,
+    "narration": [
+      "Or, le service confirme la réservation dans B au nom d’Alice.",
+      "Le rapport indique qu’aucune comparaison entre les immeubles n’est effectuée."
+    ]
+  },
+  {
+    "title": "Examiner la preuve",
+    "start": 37.541666666666664,
+    "duration": 9.625,
+    "narration": [
+      "La preuve affiche le résultat capturé pendant le test : la demande aboutit et cible la salle B.",
+      "Le compteur stored vaut un : une réservation a été enregistrée."
+    ]
+  },
+  {
+    "title": "Corriger à la source",
+    "start": 47.166666666666664,
+    "duration": 12.166666666666666,
+    "narration": [
+      "La correction proposée vérifie que la salle et l’acteur appartiennent au même immeuble, avant toute écriture.",
+      "L’identité de l’acteur doit venir de l’authentification de confiance, jamais du corps envoyé par le client."
+    ]
+  },
+  {
+    "title": "Vérifier la correction",
+    "start": 59.33333333333333,
+    "duration": 13.291666666666666,
+    "narration": [
+      "Il faut ensuite rejouer le contrôle C zéro quatre et préserver les quatre contrôles déjà réussis.",
+      "Le constat reste ouvert : aucune preuve de résolution n’est fournie. Cette évaluation contrôlée ne constitue pas un benchmark à l’aveugle."
+    ]
+  }
+]

@@ -2,6 +2,10 @@
 
 From idea to delivery with your AI coding agents.
 
+A reusable method for human–AI collaboration, organized around missions and supported by verification evidence. Start from a need, discuss important decisions, implement a bounded scope, and preserve what was checked and what comes next.
+
+**[▶ Watch the review interface in action — 73 seconds, French voice and subtitles](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)** · [What the recorded example demonstrates](docs/media/review-r02/README.md)
+
 [![npm](https://img.shields.io/npm/v/devmethod-ai?label=npm)](https://www.npmjs.com/package/devmethod-ai) [![license](https://img.shields.io/npm/l/devmethod-ai)](LICENSE) [![platform tests](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml/badge.svg)](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml)
 
 ## Watch DevMethod build Lisière, then inspect a review — 4 min 03 s
@@ -37,6 +41,16 @@ A reusable workflow for taking a software project from exploration to delivery: 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
 Start with [missions and the tested source quick start](docs/MISSIONS.md), the [tested from-zero Pocket Tasks project](examples/pocket-tasks/README.md), then the [complete Next.js/NestJS example](examples/fullstack/README.md). Advanced references: [context and sizing](docs/MISSIONS.md), [safe updates](docs/UPDATES.md), [resumption](docs/RESUMPTION.md), [optional stack profiles](docs/STACK-PROFILES.md), [bounded manual planning](docs/ORCHESTRATION.md), [troubleshooting](docs/TROUBLESHOOTING.md), and [release status and evidence](docs/RELEASE-0.1.0.md).
+
+## Why this method?
+
+DevMethod grew from its creator’s own AI-assisted development practice: making the same way of working reusable across projects. The creator did not know BMAD when the idea began and discovered it afterwards. That origin explains the project; it is not evidence of uniqueness or superiority.
+
+The central unit is a **mission with an observable outcome**. Larger missions can use milestones and coherent tickets; small changes can stay inline. Discuss decisions before dependent work, keep uncertain plans conditional, connect acceptance criteria to executed checks, and leave a dated handoff. The method does not require sprints and can fit an existing team process.
+
+BMAD explicitly describes agile AI-driven development and includes specs, epics, stories, sprint planning and retrospectives. Its current planning guidance is also proportionate and supports small changes. DevMethod shares several of those principles; this positioning does not claim that BMAD lacks decisions, evidence or resumability. See [BMAD’s own planning documentation](https://docs.bmad-method.org/plan/choose-a-planning-path/).
+
+For visual work, DevMethod can guide comparable alternatives, an approved master image, derived screens and an interactive prototype when useful. Image generation requires a host tool. The review viewer separately exposes recorded findings, evidence, corrections, coverage and sources; it is not an annotation-and-approval tool for individual screens. Try one bounded task and assess clarity, evidence and ease of resumption. No comparative productivity or cost advantage is established.
 
 ## Install in a project
 
@@ -137,6 +151,12 @@ See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). S
 
 ## Review your changes and open the report
 
+[![Watch R-02: from an authorization defect to evidence and a proposed correction](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/media/review-r02/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)
+
+**[▶ Watch a concrete review finding — 1 min 13 s, French narration](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)** · [Subtitles, chapters and provenance](docs/media/review-r02/README.md)
+
+Follow R-02 in Réservation Lab: an unauthorized cross-building booking, its recorded test evidence, the proposed correction and the checks to rerun. Real interface captures with an animated cursor and French subtitles. This controlled exercise contains intentional defects; the finding remains open, with no verified correction.
+
 In your coding agent, ask:
 
 ```text
@@ -149,7 +169,9 @@ For a small review without a requested report, the result can stay in the conver
 
 The screenshots below use clearly fictional data to illustrate the interface; your review uses actual project results. The separate terminal viewer remains available for manual use and demos, as described in the [review guide](docs/REVIEW-GUIDE.md).
 
-![Actual DevMethod review interface — fictional demonstration data](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/images/review-interface-desktop.jpg)
+[![Actual DevMethod review interface — fictional demonstration data](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/images/review-interface-desktop.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)
+
+*Static interface preview. Click the image or the video link above to watch the R-02 walkthrough, which uses a separate controlled example.*
 
 **[Follow the review walkthrough](https://github.com/montassarkhalloufi/DevMethod/blob/main/docs/REVIEW-GUIDE.md)** · [JSON, Markdown and HTML example](https://github.com/montassarkhalloufi/DevMethod/tree/main/examples/review) · [Review chapter provenance](https://github.com/montassarkhalloufi/DevMethod/blob/main/docs/media/review-extension/README.md)
 
