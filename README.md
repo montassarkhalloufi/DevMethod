@@ -28,11 +28,11 @@ The video uses illustrative Codex commands with real generated images and record
 
 ![DevMethod workflow](docs/images/devmethod-flow.svg)
 
-DevMethod is the public name of the kit. Its entry-point skill remains `project-foundation`, preserving existing invocations and the six-module structure.
+DevMethod exposes fourteen `devmethod-*` workflow commands in the agent’s skill menu. The six procedure modules and existing `project-foundation <stage>` invocations remain supported.
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**DevMethod 0.3.1.** [Documentation and film update](docs/RELEASE-0.3.1.md) · [0.3 workflow changes](docs/RELEASE-0.3.0.md). This release adds proportionate research, explicit architecture decisions, delivery-scope discussion, linked mission/ticket templates, and a functional browser review viewer. Check the registry and GitHub release for publication evidence.
+**DevMethod 0.4.0.** [Direct agent commands and migration](docs/RELEASE-0.4.0.md) · [0.3 workflow changes](docs/RELEASE-0.3.0.md). This release exposes the documented stages directly in the agent, including review without a terminal launcher. It retains the research, decision dialogue, mission templates and browser review viewer introduced in 0.3. Check the registry and GitHub release for publication evidence.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
@@ -43,18 +43,18 @@ Start with [missions and the tested source quick start](docs/MISSIONS.md), the [
 Requires Node.js 22+ and npm. Install into a fresh staging directory first:
 
 ```bash
-npx --yes devmethod-ai@0.3.1 init --tool codex --dest ../foundation-staging
+npx --yes devmethod-ai@0.4.0 init --tool codex --dest ../foundation-staging
 ```
 
 Choose `codex`, `claude` or `cursor`. If you omit `--tool`, an interactive terminal asks. For example:
 
 ```bash
-npx --yes devmethod-ai@0.3.1 init --tool claude --dest ../foundation-staging --dry-run
+npx --yes devmethod-ai@0.4.0 init --tool claude --dest ../foundation-staging --dry-run
 ```
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.3.1 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.4.0 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -102,28 +102,30 @@ Risk and repository policy override apparent size. Reuse accepted UI, architectu
 
 ## Run the workflow
 
-In Codex: `$project-foundation status`.
+In Codex: select `$devmethod-status` or `$devmethod-review TASK-1`.
 
-In Claude Code or Cursor: `/project-foundation status`.
+In Claude Code or Cursor: select `/devmethod-status` or `/devmethod-review TASK-1`.
 
-Replace `status` with an action below. These are prompts to the skill, not shell commands or standalone `/verify` commands. They do not create a background autonomous loop.
+After installation, these commands run the workflow in your agent without npx. For example, `$devmethod-review` inspects actual changes, runs relevant checks and reports findings; it does not merely open the viewer. Existing `project-foundation <stage>` syntax remains valid. Partial module installs expose only stages supported by the selected modules. See [command discovery and updates](docs/COMMANDS.md).
+
+Select an action below and add its target. These are prompts to the skill, not shell commands or standalone `/verify` commands. They do not create a background autonomous loop.
 
 | Action | Result |
 |---|---|
-| `explore` | Dated research on existing solutions, uncertainty and next direction |
-| `frame` | Product scope, exclusions and success measures |
-| `design` | Visual directions, selected mockups and UX criteria; image tooling depends on the host |
-| `architecture` | Conversation and explicit choice/delegation before dependent detail |
-| `plan` | Useful scope discussion, conditional milestones and near-term tickets |
-| `ready TASK-1` | Readiness assessment before implementation |
-| `implement TASK-1` | Scoped code, tests and corrections |
-| `review TASK-1` | Evidence-backed inspection, structured findings, checks, sources and report |
-| `verify TASK-1` | Executed checks and remaining gates |
-| `integrate TASK-1` | Delivery under existing permissions |
-| `correct-course` | Resolve changed scope or blocked decisions |
-| `next` | Select the next authorized slice |
-| `status` | Current evidenced implementation status |
-| `handoff` | Resumable checkpoint |
+| `devmethod-explore` | Dated research on existing solutions, uncertainty and next direction |
+| `devmethod-frame` | Product scope, exclusions and success measures |
+| `devmethod-design` | Visual directions, selected mockups and UX criteria; image tooling depends on the host |
+| `devmethod-architecture` | Conversation and explicit choice/delegation before dependent detail |
+| `devmethod-plan` | Useful scope discussion, conditional milestones and near-term tickets |
+| `devmethod-ready TASK-1` | Readiness assessment before implementation |
+| `devmethod-implement TASK-1` | Scoped code, tests and corrections |
+| `devmethod-review TASK-1` | Evidence-backed inspection, structured findings, checks, sources and report |
+| `devmethod-verify TASK-1` | Executed checks and remaining gates |
+| `devmethod-integrate TASK-1` | Delivery under existing permissions |
+| `devmethod-correct-course` | Resolve changed scope or blocked decisions |
+| `devmethod-next` | Select the next authorized slice |
+| `devmethod-status` | Current evidenced implementation status |
+| `devmethod-handoff` | Resumable checkpoint |
 
 See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). See the [full command contract](.agents/skills/project-foundation/references/operating-commands.md). A failed check returns to correction; a blocked gate leads to handoff or replanning. Tests, code review and native permissions remain necessary.
 
@@ -133,12 +135,12 @@ See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). S
 
 [Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example. The featured film retains the Lisière story and adds an explicitly separate fictional review example.
 
-## Inspect a review in your browser
+## Inspect a review in your browser (optional)
 
 Generate a local interactive report from the packaged fictional demo:
 
 ```sh
-npx --yes devmethod-ai@0.3.1 review --demo --output review.html --open
+npx --yes devmethod-ai@0.4.0 review --demo --output review.html --open
 ```
 
 The command generates `review.html` and opens it in your browser without a local server. On a headless machine, omit `--open`; if opening fails, the file remains available. For your own results, use `--review relative/review.json`; add `--markdown REVIEW.md` for the derived report. Search and filter findings, inspect evidence and source provenance, and export the same results. Existing Markdown remains readable with `--legacy`. See [review commands, format and trust limits](docs/REVIEWS.md). The CLI presents recorded results; it does not perform an automatic code review.

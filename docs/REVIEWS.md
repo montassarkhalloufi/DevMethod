@@ -1,6 +1,8 @@
 # Review results, reports and browser consultation
 
-The agent's `project-foundation review` stage performs project-aware inspection under [the review workflow](../.agents/skills/scoped-delivery/references/review-workflow.md). The CLI `devmethod review` only validates and presents recorded results. It never runs repository commands, discovers evidence on disk, or performs the review itself.
+The agent's `devmethod-review` command (also `project-foundation review`) performs project-aware inspection under [the review workflow](../.agents/skills/scoped-delivery/references/review-workflow.md). The CLI `devmethod review` only validates and presents recorded results. It never runs repository commands, discovers evidence on disk, or performs the review itself.
+
+After skills installation, invoke `$devmethod-review <target>` in Codex or `/devmethod-review <target>` in Claude Code/Cursor to perform the review without npx. The terminal commands below are optional presentation utilities for recorded results.
 
 ## Use the installed package
 
@@ -26,27 +28,7 @@ Existing outputs are never overwritten. Choose a fresh path for a newer snapshot
 
 ## One versioned source
 
-Use existing conventions, or `docs/missions/<mission-id>/reviews/<review-id>/review.json`, with generated `REVIEW.md` and deliberately included `preuves/`. Tickets link stable finding IDs; the report and UI derive results from the JSON. Do not maintain another independent score or status table.
-
-Format 1 is validated by the same pure model in the CLI and browser. See the [complete fictional example](../examples/review/review.json) and [compiled validator](../dist/review-model.js). Unknown formats, unknown/missing fields, duplicate IDs, invalid destinations and dangling references are rejected with errors that omit source contents. Arrays are bounded to 256 items, text fields to 16,384 characters, and input to 4 MiB. Image data has a separate limit of approximately 1 MiB per PNG/JPEG.
-
-| Object | Required fields and ownership |
-|---|---|
-| Review | format, id, title, project, mission, tickets, date, scope, exclusions, revision, technologies, sources, checks, findings, evidence, limits, policy, summary |
-| revision | commit (recorded revision label), dirty (explicit uncommitted changes); no automatic Git execution |
-| technologies | name, version, detectedFrom (actual manifest/lockfile/source evidence) |
-| ticket | id, title, url (HTTPS or null; local/unpublished destinations remain unavailable) |
-| source | id, title, kind (documentation/skill/project), publisher, technology, version, url, consultedAt, access (consulted/unavailable/unverified), usage, compatibility, provenance; consulted requires a date |
-| check | id, title, domain, kind (automated/manual), status (passed/failed/not-run/blocked/out-of-scope), result, reason, evidenceIds, revision, targets; unexecuted/excluded checks need a reason |
-| finding | id, title, domain, severity (critical/major/moderate/minor), severityReason, confidence (confirmed/suspected), resolution (open/in-progress/resolved/accepted-risk), location, trigger, expected, observed, impact, reproduction, evidenceIds, correction, tradeoffs, sourceIds, ticketIds, verification, resolutionEvidenceIds, targets |
-| location | path or component description, line (positive integer or null), component (text or null); display metadata, never arbitrary file access |
-| evidence | id, title, kind (text/log/screenshot/diagram), content (text alternative or excerpt), url (HTTPS or null), image (null or explicit PNG/JPEG object) |
-| image | mime=image/png or image/jpeg, base64, alt, origin=captured/explanatory, privacyReviewed=true; only deliberately included reviewed images, not filesystem paths or remote images |
-| policy | blockingSeverities, requireAllChecks, rationale; project-owned explicit policy, no numeric risk score |
-
-A confirmed finding still needs evidence or reproduction. A resolved finding requires resolution evidence IDs; schema validation checks the references, **not the truth of execution or whether the fix really works**. Authors must retain the original evidence and supply fresh verification. Closing a panel never changes resolution. Finding counts include all resolution states and stay independent from filtered results; uncertain unresolved findings have a separate count. Failed-check counts are separate from finding counts.
-
-A blocking confirmed open finding or a failed check requires corrections. Otherwise a blocked check yields blocked; no passed checks, an unresolved suspected finding, or required unrun checks yields incomplete. Otherwise the conclusion is ready **on the verified scope**, with exclusions and limits still visible. This conclusion does not authorize integration/deployment or replace repository policy.
+The [installed review format reference](../.agents/skills/scoped-delivery/references/review-format.md) owns fields, statuses and conclusion rules. It is shipped with scoped-delivery so authoring does not require a package download. The [complete fictional example](../examples/review/review.json) and [compiled validator](../dist/review-model.js) support optional browser export. Use one result owner and derive reports from it.
 
 ## Browser journey
 

@@ -4,13 +4,15 @@ Historical platform assessment date: 2026-09-12; those results apply only to the
 
 | Host | Export directory | Invocation | Evidence |
 |---|---|---|---|
-| Codex | `.agents/skills/<name>/SKILL.md` | `$project-foundation status` | Local payload/export tests; method exercised with Codex in this session |
-| Claude Code | `.claude/skills/<name>/SKILL.md` | `/project-foundation status` | Official format reviewed; export tests; authenticated native session pending |
-| Cursor Agent | `.cursor/skills/<name>/SKILL.md` | `/project-foundation status` | Official format reviewed; export tests; authenticated native session pending |
+| Codex | `.agents/skills/<name>/SKILL.md` | `$devmethod-status` (legacy `$project-foundation status`) | Local payload/export tests; method exercised with Codex in this session |
+| Claude Code | `.claude/skills/<name>/SKILL.md` | `/devmethod-status` (legacy `/project-foundation status`) | Official format reviewed; export tests; authenticated native session pending |
+| Cursor Agent | `.cursor/skills/<name>/SKILL.md` | `/devmethod-status` (legacy `/project-foundation status`) | Official format reviewed; export tests; authenticated native session pending |
 
 The earlier validation environment lacked native executables/credentials. On 2026-09-13, version probes found Codex CLI 0.147.0 and Claude Code 2.1.238; Cursor CLI was not found on PATH. The subsequent delegated pilot executed six authenticated Codex invocations; see [reviewed native results](docs/NATIVE-PILOT-RESULTS.md) for the narrow fixture coverage, budget stop and incomplete comparison. Passing installer tests does not prove host discovery, model behavior or UI command completion. No Claude Code or Cursor version is claimed as runtime-tested. Therefore these profiles are provisionally compatible, not certified end-to-end.
 
 Official references: [Claude Code skills](https://code.claude.com/docs/en/skills), [Claude Code memory](https://code.claude.com/docs/en/memory), [Cursor skills](https://cursor.com/docs/skills), [Codex skills](https://developers.openai.com/codex/skills). A host version or organization policy may change discovery or execution.
+
+Version 0.4.0 adds discoverable stage adapters; [current command validation](docs/COMMANDS-VALIDATION.md) distinguishes installation checks from unverified menu discovery and model execution. Historical native results above do not validate these new adapters.
 
 ## Native smoke protocol
 

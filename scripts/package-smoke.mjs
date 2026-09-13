@@ -15,7 +15,7 @@ try {
   run('tar', ['-xzf', '-'], root, 0, fs.readFileSync(path.resolve(archive)));
   const pkg = path.join(root, 'package'); const cli = path.join(pkg, 'dist/cli.js');
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
-  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.3.1');
+  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.4.0');
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
   assert.match(call(['--help']), /Markdown PLAN\/tickets and legacy missions/);
   for (const resource of ['project-foundation/references/exploration.md', 'project-foundation/references/delivery-planning.md', 'project-foundation/assets/EXISTANT.md', 'project-foundation/assets/OPPORTUNITES.md', 'project-foundation/assets/CADRAGE.md', 'project-foundation/assets/REGLES.md', 'scoped-delivery/assets/PLAN.md', 'scoped-delivery/assets/TICKET.md', 'scoped-delivery/assets/REPRISE.md', 'scoped-delivery/assets/MISSION.md', 'scoped-delivery/assets/REVIEW.md', 'scoped-delivery/references/review-workflow.md']) {
@@ -37,6 +37,12 @@ try {
     const project = path.join(root, host);
     call(['init', '--tool', host, '--dest', project]);
     assert.equal(JSON.parse(call(['doctor', '--dest', project, '--json'])).status, 'ok');
+    const skillRoot = { codex: '.agents/skills', claude: '.claude/skills', cursor: '.cursor/skills' }[host];
+    const entries = fs.readdirSync(path.join(project, skillRoot)).filter(name => name.startsWith('devmethod-'));
+    assert.equal(entries.length, 14);
+    assert.ok(entries.includes('devmethod-review'));
+    for (const name of entries) assert.ok(fs.statSync(path.join(project, skillRoot, name, 'SKILL.md')).size > 0);
+    assert.ok(fs.statSync(path.join(project, skillRoot, 'scoped-delivery/references/review-format.md')).size > 0);
     const profile = path.join(project, 'PROJECT_PROFILE.md'); fs.appendFileSync(profile, '\nFictional local customization.\n');
     const before = fs.readFileSync(profile);
     const preview = JSON.parse(call(['update-preview', '--dest', project, '--json']));
@@ -75,5 +81,5 @@ try {
     assert.deepEqual([fs.readFileSync(customized), fs.readFileSync(profile)], before);
     console.log(`Actual legacy tarball: ${upstreamChanged ? 'local/upstream conflict' : 'unchanged upstream with local customization'} detected; filled profile/custom skill preserved.`);
   }
-  console.log('Packed 0.3.1: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
+  console.log('Packed 0.4.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
 } finally { fs.rmSync(root, { recursive: true, force: true }); }

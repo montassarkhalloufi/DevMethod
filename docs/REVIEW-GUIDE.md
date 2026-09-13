@@ -2,6 +2,8 @@
 
 DevMethod 0.3 adds a review workflow and an offline browser interface. Version 0.3.1 expands the documentation and the existing narrated film with this journey. The CLI presents recorded results; it does not inspect code or run tests on your behalf.
 
+After skills installation, invoke `$devmethod-review <target>` in Codex or `/devmethod-review <target>` in Claude Code/Cursor to perform the review without npx. The terminal commands below are optional presentation utilities for recorded results.
+
 ## Try the packaged example
 
 Use Node.js 22+ from a normal project directory, with a fresh output filename:
