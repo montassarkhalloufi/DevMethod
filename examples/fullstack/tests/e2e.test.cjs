@@ -22,6 +22,8 @@ test('Next production HTML renders a task created through Nest and PostgreSQL', 
   app = await createApp(new PostgresTasks(pool));
   await app.listen(0, '127.0.0.1');
   const api = await app.getUrl();
+  const rejected = await fetch(`${api}/tasks`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ title: 'before\u0000after' }) });
+  assert.equal(rejected.status, 400);
   const created = await fetch(`${api}/tasks`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ title: 'Verify the full stack' }) });
   assert.equal(created.status, 201);
   task = await created.json();

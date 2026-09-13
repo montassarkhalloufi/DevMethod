@@ -8,7 +8,7 @@ test('Nest HTTP contract validates input and exposes created tasks', async (t) =
   t.after(() => app.close());
   const url = await app.getUrl();
   const post = (body) => fetch(`${url}/tasks`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
-  for (const body of [{ title: '' }, { title: 42 }, { title: 'x'.repeat(121) }, { title: 'ok', admin: true }, []]) {
+  for (const body of [{ title: '' }, { title: 42 }, { title: 'before\u0000after' }, { title: 'x'.repeat(121) }, { title: 'ok', admin: true }, []]) {
     assert.equal((await post(body)).status, 400);
   }
   assert.equal(rows.length, 0);
