@@ -15,8 +15,13 @@ try {
   run('tar', ['-xzf', '-'], root, 0, fs.readFileSync(path.resolve(archive)));
   const pkg = path.join(root, 'package'); const cli = path.join(pkg, 'dist/cli.js');
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
-  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.2.0');
+  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.3.0');
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
+  assert.match(call(['--help']), /Markdown PLAN\/tickets and legacy missions/);
+  for (const resource of ['project-foundation/references/exploration.md', 'project-foundation/references/delivery-planning.md', 'project-foundation/assets/EXISTANT.md', 'project-foundation/assets/OPPORTUNITES.md', 'project-foundation/assets/CADRAGE.md', 'project-foundation/assets/REGLES.md', 'scoped-delivery/assets/PLAN.md', 'scoped-delivery/assets/TICKET.md', 'scoped-delivery/assets/REPRISE.md', 'scoped-delivery/assets/MISSION.md']) {
+    assert.ok(fs.statSync(path.join(pkg, '.agents/skills', resource)).size > 0, resource);
+  }
+  assert.ok(fs.existsSync(path.join(pkg, 'examples/mission-dialogue/docs/missions/first-save/tickets/SAVE-1.md')));
   for (const testFile of [...fs.readdirSync(path.join(pkg, 'examples/pocket-tasks/tests')).filter(f => f.endsWith('.test.mjs')).map(f => `examples/pocket-tasks/tests/${f}`), 'evaluation/greenfield/acceptance.test.mjs', 'evaluation/greenfield/security.test.mjs']) {
     run(process.execPath, ['--test', testFile], pkg);
   }
@@ -55,10 +60,10 @@ try {
     const before = [fs.readFileSync(customized), fs.readFileSync(profile)];
     const preview = JSON.parse(call(['update-preview', '--dest', adopted, '--json']));
     assert.equal(preview.entries.find(e => e.path === '.agents/skills/project-foundation/SKILL.md').classification, 'conflict');
-    assert.equal(preview.provenance, 'unknown');
+    assert.equal(preview.provenance, JSON.parse(fs.readFileSync(path.join(adopted, 'kit-manifest.json'))).provenance ? 'recorded' : 'unknown');
     call(['init', '--tool', 'codex', '--dest', adopted], 2);
     assert.deepEqual([fs.readFileSync(customized), fs.readFileSync(profile)], before);
     console.log('Actual legacy tarball: local/upstream conflict detected and filled profile/custom skill preserved.');
   }
-  console.log('Packed 0.2.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
+  console.log('Packed 0.3.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
 } finally { fs.rmSync(root, { recursive: true, force: true }); }

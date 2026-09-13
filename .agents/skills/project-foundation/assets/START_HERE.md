@@ -22,3 +22,5 @@ Examples:
 - “Fix the view/hooks/business separation of this feature without a global rewrite.”
 
 This kit reduces repetitive framing; it does not by itself prove application quality or production readiness.
+
+For a new product, `explore` researches existing solutions and discusses the findings before framing. `architecture` discusses structural options before dependent detail; `plan` discusses delivery scope and stays conditional on open decisions. Keep accepted choices, delegations and approved design. For substantial work without conventions, propose a mission PLAN with tickets and a dated REPRISE; keep existing single-file missions usable.

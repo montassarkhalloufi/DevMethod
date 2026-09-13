@@ -13,7 +13,9 @@ Read `CONTRIBUTING.md`, accepted decisions, applicable instructions, the decisio
 
 Use [the mission record](assets/MISSION.md) for substantial work; keep Quick records inline. Scope is ready when objective, exclusions, contracts, dependencies, and success criteria are sufficiently defined. Use [the slice record](assets/SLICE.md) for a substantial ticket, without bureaucracy for a clear fix. A contradiction blocks only work depending on that trade-off.
 
-Reuse the existing tracker/plan before creating any record. Without project conventions, use one `docs/missions/<mission-id>.md` with plan, evidence and latest handoff sections. Extract a slice or verification record only when the existing record cannot hold useful detail. Keep mission state in its canonical owner, task state in the plan/ticket, and results in evidence; other records link to them. A checkpoint is a revision-labelled snapshot, not another current status source.
+Reuse the existing tracker/plan before creating any record. For substantial work without conventions, propose `docs/missions/<mission-id>/PLAN.md`, `tickets/<ticket-id>.md`, and a dated `REPRISE.md` when handing off. Use [PLAN](assets/PLAN.md), [TICKET](assets/TICKET.md) and [REPRISE](assets/REPRISE.md); create `preuves/` only for needed bulky artifacts. The plan owns mission outcomes, milestones and ticket order/links; tickets own scope, dependencies, status, criteria and revision-labelled evidence. Other records link to owners. Aggregated statuses must be derived from tickets, never independently maintained. A checkpoint is a historical snapshot, not another current status source. Existing `docs/missions/<mission-id>.md` records remain usable with [MISSION](assets/MISSION.md); never move or overwrite them automatically. Quick work stays inline.
+
+Before fixing tickets, discuss the first useful outcome, learning, scope trade-offs, effort uncertainty and milestone demonstrations. Respect the user’s scope changes and existing delegations. Keep plans conditional where decisions remain open; a proposed plan proves neither readiness nor implementation.
 
 ## Deliver
 

@@ -16,7 +16,7 @@ Read the affected code and applicable instructions. Perform `ready` inline: stat
 
 ## Standard and major paths
 
-Reuse an existing ticket or adapt the scoped-delivery slice when that module is available. Clarify only unresolved decisions that change implementation. Start at the relevant stage: an approved feature usually does not need `explore` again. A new UX direction goes through `design`; an API change resolves its contract before implementation. Major work ends in independently verifiable slices, not a single large specification followed by unbounded development.
+Reuse an existing ticket or adapt the scoped-delivery slice when that module is available. Clarify only unresolved decisions that change implementation. Start at the relevant stage: an approved feature usually does not need `explore` again. A new product or material value uncertainty starts with proportionate existing-solutions research and conversation in `explore`; unavailable sources stay explicit. Discuss unresolved structural choices in `architecture` before dependent detail, and useful delivery scope in `plan` before fixing tickets. A new UX direction goes through `design`; an API change resolves its contract before implementation. Major work ends in independently verifiable slices, not a single large specification followed by unbounded development.
 
 ## Existing repositories
 

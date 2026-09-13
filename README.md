@@ -29,7 +29,7 @@ DevMethod is the public name of the kit. Its entry-point skill remains `project-
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**Published on npm: 0.2.0 (`latest`).** This release includes the complete visual workflow, architecture guidance, mission/context inspection, evidence resumption and staged updates. See the [release record](docs/RELEASE-0.2.0.md) for the exact archive and verification.
+**DevMethod 0.3.0.** [Changes, migration and verification limits](docs/RELEASE-0.3.0.md). This release adds proportionate research, explicit architecture decisions, delivery-scope discussion and linked mission/ticket templates. Check the registry and GitHub release for publication evidence.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
@@ -40,18 +40,18 @@ Start with [missions and the tested source quick start](docs/MISSIONS.md), the [
 Requires Node.js 22+ and npm. Install into a fresh staging directory first:
 
 ```bash
-npx --yes devmethod-ai@0.2.0 init --tool codex --dest ../foundation-staging
+npx --yes devmethod-ai@0.3.0 init --tool codex --dest ../foundation-staging
 ```
 
 Choose `codex`, `claude` or `cursor`. If you omit `--tool`, an interactive terminal asks. For example:
 
 ```bash
-npx --yes devmethod-ai@0.2.0 init --tool claude --dest ../foundation-staging --dry-run
+npx --yes devmethod-ai@0.3.0 init --tool claude --dest ../foundation-staging --dry-run
 ```
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.2.0 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.3.0 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -107,11 +107,11 @@ Replace `status` with an action below. These are prompts to the skill, not shell
 
 | Action | Result |
 |---|---|
-| `explore` | Problem, users, alternatives and constraints |
+| `explore` | Dated research on existing solutions, uncertainty and next direction |
 | `frame` | Product scope, exclusions and success measures |
 | `design` | Visual directions, selected mockups and UX criteria; image tooling depends on the host |
-| `architecture` | Decisions, boundaries and contracts |
-| `plan` | Milestones and tickets with dependencies |
+| `architecture` | Conversation and explicit choice/delegation before dependent detail |
+| `plan` | Useful scope discussion, conditional milestones and near-term tickets |
 | `ready TASK-1` | Readiness assessment before implementation |
 | `implement TASK-1` | Scoped code, tests and corrections |
 | `review TASK-1` | Diff and architecture review |
@@ -122,7 +122,7 @@ Replace `status` with an action below. These are prompts to the skill, not shell
 | `status` | Current evidenced implementation status |
 | `handoff` | Resumable checkpoint |
 
-See the [full command contract](.agents/skills/project-foundation/references/operating-commands.md). A failed check returns to correction; a blocked gate leads to handoff or replanning. Tests, code review and native permissions remain necessary.
+See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). See the [full command contract](.agents/skills/project-foundation/references/operating-commands.md). A failed check returns to correction; a blocked gate leads to handoff or replanning. Tests, code review and native permissions remain necessary.
 
 ![DevMethod delivery loop: accepted references, implementation, verification and correction](docs/images/devmethod-delivery.svg)
 

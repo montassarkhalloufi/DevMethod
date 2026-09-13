@@ -1,6 +1,6 @@
 # Mission
 
-Reuse an existing mission/ticket record; otherwise use `docs/missions/<mission-id>.md` unless project conventions specify another location. Quick work stays inline. The sections below can contain the plan, evidence and latest handoff; separate files are optional. Link existing owners instead of duplicating their live fields.
+This template remains supported for existing single-file `docs/missions/<mission-id>.md` records and projects choosing that convention. For new substantial work without conventions, propose [PLAN](PLAN.md) with [tickets](TICKET.md) instead. Quick work stays inline. The sections below can contain the plan, evidence and latest handoff; separate files are optional. Link existing owners instead of duplicating their live fields.
 
 ID / owner / Quick, Standard or Major:
 User outcome:

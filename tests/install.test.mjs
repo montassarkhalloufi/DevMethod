@@ -75,3 +75,42 @@ test('CLI validates noninteractive input and executes a real installation', t =>
   assert.equal(result.status, 0, result.stderr);
   assert.ok(fs.existsSync(path.join(destination, '.cursor/skills/project-foundation/SKILL.md')));
 });
+
+for (const tool of Object.keys(tools)) test(`workflow resources on ${tool}: complete references and mission preservation`, t => {
+  const destination = fixture(t);
+  const legacy = 'docs/missions/legacy.md';
+  const ticket = 'docs/missions/current/tickets/T-1.md';
+  for (const file of [legacy, ticket]) {
+    fs.mkdirSync(path.dirname(path.join(destination, file)), { recursive: true });
+    fs.writeFileSync(path.join(destination, file), `User-owned ${file}\nStatus: blocked; evidence: not run\n`);
+  }
+  const before = [legacy, ticket].map(f => fs.readFileSync(path.join(destination, f)));
+  initialize({ destination, tool });
+  const manifest = JSON.parse(fs.readFileSync(path.join(destination, 'kit-manifest.json')));
+  const resources = {
+    'project-foundation': ['references/exploration.md', 'references/delivery-planning.md', 'assets/EXISTANT.md', 'assets/OPPORTUNITES.md', 'assets/CADRAGE.md', 'assets/REGLES.md'],
+    'scoped-delivery': ['assets/PLAN.md', 'assets/TICKET.md', 'assets/REPRISE.md', 'assets/MISSION.md'],
+  };
+  for (const [skill, files] of Object.entries(resources)) for (const file of files) {
+    assert.ok(manifest.files[`${tools[tool]}/${skill}/${file}`], file);
+  }
+  // Every installed resource link must resolve, including links below SKILL.md.
+  for (const file of Object.keys(manifest.files).filter(f => f.endsWith('.md'))) {
+    for (const [, target] of fs.readFileSync(path.join(destination, file), 'utf8').matchAll(/\]\(([^)\s]+)\)/g)) {
+      if (/^[a-z]+:|^#/.test(target)) continue;
+      assert.ok(fs.existsSync(path.resolve(destination, path.dirname(file), target.split('#')[0])), `${file}: ${target}`);
+    }
+  }
+  assert.deepEqual([legacy, ticket].map(f => fs.readFileSync(path.join(destination, f))), before);
+  assert.deepEqual(fs.readdirSync(path.join(destination, 'docs/missions')).sort(), ['current', 'legacy.md']);
+  // Divergence in a new resource must preserve every existing byte and add nothing.
+  const customized = path.join(destination, tools[tool], 'scoped-delivery/assets/TICKET.md');
+  fs.appendFileSync(customized, '\nLocal ticket policy.\n');
+  const bytes = fs.readFileSync(customized);
+  const missing = path.join(destination, tools[tool], 'project-foundation/assets/EXISTANT.md');
+  fs.unlinkSync(missing);
+  assert.throws(() => initialize({ destination, tool }), /Conflict/);
+  assert.ok(!fs.existsSync(missing));
+  assert.deepEqual(fs.readFileSync(customized), bytes);
+  assert.deepEqual([legacy, ticket].map(f => fs.readFileSync(path.join(destination, f))), before);
+});

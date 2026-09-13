@@ -12,4 +12,9 @@ Relevant tests and available command:
 Data / migration / security / cost if affected:
 UI reference if affected:
 Integration or external-action authorization:
+Verification executed / result / inspected revision / evidence links:
+Blockers and owner:
+Next action when unfinished:
 Final evidence and limitations:
+
+For a new substantial mission directory use [TICKET](TICKET.md); existing slices remain usable. Link exact business rule IDs, approved screens/states and contracts rather than copying them.

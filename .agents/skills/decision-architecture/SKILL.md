@@ -9,6 +9,16 @@ Start from real constraints and decisions. Preserve accepted project choices; th
 
 Read `CONTRIBUTING.md` and accepted decisions before editing. For TypeScript, preserve strictness, validate untrusted input, use explicit identifiers, and centralize meaningful business/configuration constants. Apply SOLID through small consumer-defined ports, without speculative factories or inheritance.
 
+## Discuss structural choices before detailing architecture
+
+For a structural choice that is neither accepted nor explicitly delegated, collect the relevant constraints: team skills, budget, operations, hosting, deadlines and preferences. Separate product requirements, accepted decisions, assumptions and recommendations. Present a concise comparison **in the conversation** before elaborating one option into the reference architecture. Explain credible alternatives, decisive trade-offs, your recommendation, its limits and conditions; do not invent weak alternatives.
+
+Invite the user to challenge, propose another option, choose or explicitly delegate. Evaluate user alternatives on the same criteria and revise the recommendation when warranted. If the recommendation is refused, explore the objection and remaining viable options; do not keep implementing it as the baseline. Record the explicit choice or scoped delegation, its source/date, rationale and revisit conditions in the decision owner, then detail dependent boundaries and contracts. A clear choice needs no ceremonial reconfirmation.
+
+A PROPOSED label in an ADR does not replace this exchange. Silence, an ambiguous “ok”, a generic continuation or invocation of `plan` does not imply adoption. Clarify only ambiguity that materially changes the next step. If planning is requested with choices open, provide an explicitly conditional plan and continue independent authorized work. An omitted exchange resumes directly in `project-foundation architecture`, without a mandatory `correct-course` detour.
+
+Preserve accepted choices and delegations within their scope; routine reversible details do not need individual validation. When replacing an accepted decision, link the replacement, affected contracts/tickets and evidence that needs rechecking. Resolve only dependent blockers.
+
 ## Proportionate trade-off
 
 - Restate the concrete decision, owner, blocking constraint, and decision date.

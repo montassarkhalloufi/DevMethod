@@ -28,6 +28,10 @@ Non-interactive init calls require --tool. Destination defaults to the current d
 All six modules are included by default; project-foundation is always included.
 Existing divergent files block installation; there is no overwrite option.
 The installer is offline. npx may download the package before it runs.
+Workflow stages are skill arguments: project-foundation explore|frame|design|architecture|plan.
+Use the host-native skill syntax; these are not executable CLI subcommands.
+The JSON plan inspector is read-only. Markdown PLAN/tickets and legacy missions
+are agent-readable guidance; init never creates or migrates mission records.
 Doctor is read-only. Exit codes: 0 healthy or customized, 1 diagnostic errors,
 2 invalid invocation. Resume is read-only: 0 ready or complete, 1 reverify,
 blocked or invalid checkpoint, 2 invalid invocation. File integrity does not prove native agent behavior.

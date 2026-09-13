@@ -5,9 +5,11 @@ Complete from source material during first startup; keep unknowns explicit. This
 - Project / alias:
 - User objective and success criterion:
 - Phase / authorized scope / exclusions:
-- Foundational constraints: operator time, fixed budget, variable cost, deadline.
-- Product source and accepted decisions (links + date/version):
+- Foundational constraints: skills, operator time, hosting, fixed budget, variable cost, deadline, preferences.
+- Exploration / product / design / accepted decisions (canonical links + date/version):
+- Explicit decision delegations (scope, source/date, rationale; no implied adoption):
 - Ticket source / readiness criteria:
+- Canonical mission / plan / evidence locations (reuse existing conventions; links only, no copied status):
 - Approved UI reference (screen, version, viewport, states):
 - Canonical code (repository, branch, inspected commit):
 - Effective stack (runtime, frameworks, package manager, lockfile versions):

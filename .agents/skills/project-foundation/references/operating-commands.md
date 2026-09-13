@@ -14,11 +14,11 @@ Use [work sizing](work-sizing.md) to select relevant stages. A quick change may 
 
 | Command | Purpose | Suggested next step |
 |---|---|---|
-| `/explore` | Understand the problem, users, market, and constraints | `/frame` |
+| `/explore` | Research existing solutions proportionately and discuss evidence and next direction | `/frame` |
 | `/frame` | Define value, scope, exclusions, and metrics | `/design` or `/architecture` |
 | `/design` | Create/select visual direction, master and derived screens, or apply approved UX; resolve design-to-code for visual work | `/design` for unfinished visual scope, then `/architecture` |
-| `/architecture` | Define boundaries, ADRs, contracts, risks, and open decisions | `/plan` |
-| `/plan` | Break work into milestones, epics, and ready tickets | `/ready` |
+| `/architecture` | Discuss structural alternatives and record choice/delegation before dependent detail | `/plan` |
+| `/plan` | Discuss useful delivery scope, then milestones and near-term tickets; stay conditional on open decisions | `/ready` |
 | `/ready <ticket>` | Verify scope, DoD, dependencies, contract, and tests | `/implement <ticket>` |
 | `/implement <ticket>` | Deliver a coherent slice with focused tests | `/review <ticket>` |
 | `/review <ticket>` | Review diff, architecture, contracts, tests, and risks | `/verify` or `/implement` |
@@ -41,6 +41,13 @@ Start from the canonical mission/plan locations in the existing profile; see [mi
 
 For prose-only changes, inspect accuracy, links and diff; do not invent `npm run quality` or trigger an application build by habit. Follow stricter repository gates when documented, and explain once why they apply. Report executed checks, never planned checks as success.
 
+## Discovery, decisions and delivery dialogue
+
+- `explore` follows [existing solutions research](exploration.md): dated evidence, uncertainty and a conversation about continuing, repositioning, reducing, deepening or abandoning. Skip irrelevant research for isolated fixes.
+- `frame` records need, scope, success criteria and business rules in the product owner, referring to research. `design` continues to follow the unchanged design-to-code workflow and approved directions.
+- `architecture` resolves decision-architecture and presents alternatives in conversation before dependent detail. Record a clear choice or scoped delegation; a PROPOSED document alone is insufficient. Silence, an ambiguous “ok” or invoking `plan` does not adopt it.
+- `plan` follows [delivery planning](delivery-planning.md), invites scope edits and records priorities/milestones under current delegation. Open architecture means a conditional plan. An omitted architecture exchange resumes directly in `architecture`.
+
 ## Response
 
 At the end of every command, provide:
@@ -52,7 +59,7 @@ At the end of every command, provide:
 
 ## Ready ticket
 
-A ready ticket contains its objective, scope and exclusions, acceptance criteria, Definition of Done, ADRs/contracts to respect, dependencies/blockers/milestone, and test strategy. An unresolved dependency leads to `/correct-course`, never to an invented rule.
+A ready ticket contains its objective, scope and exclusions, acceptance criteria, Definition of Done, ADRs/contracts to respect, dependencies/blockers/milestone, and test strategy. An unresolved dependency blocks dependent work and returns to the responsible stage (directly to `/architecture` for an open choice), never to an invented rule. Use `/correct-course` for an actual scope or accepted-decision change when useful.
 
 Run `/ready <ticket>` before the first implementation change in the slice. Read its real dependencies, not only its imported status. `/ready` and `/status` are assessments: they do not fix code or change an external tracker without a corresponding request. For a project already underway, assess the next slice and report earlier gates that were not observed.
 
