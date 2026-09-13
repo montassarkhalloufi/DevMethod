@@ -3,6 +3,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { tools, modules, templates } from './init.js';
 import { commandSkills } from './commands.js';
+import { isReviewRuntimePath } from './review-runtime.js';
 import { parseJson, checkPath, stat } from './filesystem.js';
 function object(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -29,7 +30,8 @@ export function validateManifest(value) {
         const rootFile = templates.includes(name) || name === 'DEVMETHOD-LICENSE';
         const skillFile = parts.slice(0, 2).join('/') === root && supportedSkills.includes(parts[2]) &&
             ((parts.length === 4 && parts[3] === 'SKILL.md') ||
-                (parts.length >= 5 && ['assets', 'references'].includes(parts[3] ?? '') && name.endsWith('.md')));
+                (parts.length >= 5 && ['assets', 'references'].includes(parts[3] ?? '') && name.endsWith('.md')) ||
+                isReviewRuntimePath(parts));
         if (!safe || (!rootFile && !skillFile))
             throw new Error(`Manifest contains an unsupported path: ${name}`);
         if (typeof hash !== 'string' || !/^[a-f0-9]{64}$/i.test(hash))
