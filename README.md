@@ -10,29 +10,29 @@ DevMethod is the public name of the kit. Its entry-point skill remains `project-
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**Release source: 0.1.0, awaiting maintainer review and publication.** The previously verified registry release is `0.1.0-rc.1`; source changes do not publish a new npm version. The new candidate adds mission/context inspection, Git-aware evidence resumption, explicit update conflicts, manual task planning and optional stack profiles. Source changes never update an already published tarball.
+**Release: 0.1.0.** The release includes mission/context inspection, Git-aware evidence resumption, explicit update conflicts, manual task planning and optional stack profiles. See the [release record](docs/RELEASE-0.1.0.md) for publication status and verification.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
-Start with [missions and the tested source quick start](docs/MISSIONS.md), then the [complete Next.js/NestJS example](examples/fullstack/README.md). Advanced references: [context and sizing](docs/MISSIONS.md), [safe updates](docs/UPDATES.md), [resumption](docs/RESUMPTION.md), [optional stack profiles](docs/STACK-PROFILES.md), [bounded manual planning](docs/ORCHESTRATION.md), [troubleshooting](docs/TROUBLESHOOTING.md), and [release status and evidence](docs/RELEASE-0.1.0.md).
+Start with [missions and the tested source quick start](docs/MISSIONS.md), the [tested from-zero Pocket Tasks project](examples/pocket-tasks/README.md), then the [complete Next.js/NestJS example](examples/fullstack/README.md). Advanced references: [context and sizing](docs/MISSIONS.md), [safe updates](docs/UPDATES.md), [resumption](docs/RESUMPTION.md), [optional stack profiles](docs/STACK-PROFILES.md), [bounded manual planning](docs/ORCHESTRATION.md), [troubleshooting](docs/TROUBLESHOOTING.md), and [release status and evidence](docs/RELEASE-0.1.0.md).
 
 ## Install in a project
 
 Requires Node.js 22+ and npm. Install into a fresh staging directory first:
 
 ```bash
-npx --yes devmethod-ai@0.1.0-rc.1 init --tool codex --dest ../foundation-staging
+npx --yes devmethod-ai@0.1.0 init --tool codex --dest ../foundation-staging
 ```
 
 Choose `codex`, `claude` or `cursor`. If you omit `--tool`, an interactive terminal asks. For example:
 
 ```bash
-npx --yes devmethod-ai@0.1.0-rc.1 init --tool claude --dest ../foundation-staging --dry-run
+npx --yes devmethod-ai@0.1.0 init --tool claude --dest ../foundation-staging --dry-run
 ```
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the published candidate, use `npx --yes devmethod-ai@0.1.0-rc.1 init ...`. To use a reviewed repository commit instead, use `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.1.0 init ...`. To use a reviewed repository commit instead, use `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -40,7 +40,7 @@ The installer includes `DEVMETHOD-LICENSE` so it preserves your application's LI
 
 Installation copies the reusable method and blank templates, not another project's context. Preserve filled profiles, decisions, tickets and instruction files separately. Manifest hashes describe the initial installation; local template customization is expected to change them. To install elsewhere, run the CLI again.
 
-## Use the unpublished candidate
+## Verify the source checkout
 
 From a reviewed source checkout:
 
@@ -54,7 +54,7 @@ node dist/cli.js doctor --dest ../candidate-staging --json
 node dist/cli.js update-preview --dest ../candidate-staging --json
 ```
 
-The package includes advanced docs and fictional examples. `init` copies only the skills and adoption templates, preserving the application. Read the package docs from its checkout or extracted tarball. Do not request `@0.1.0` from npm before the maintainer publishes it. The core CLI has no runtime dependencies; example applications install their own pinned dependencies separately.
+The package includes advanced docs and fictional examples. `init` copies only the skills and adoption templates, preserving the application. Read the package docs from its checkout or extracted tarball. The core CLI has no runtime dependencies; example applications install their own pinned dependencies separately.
 
 ## Inspect an adopted installation
 

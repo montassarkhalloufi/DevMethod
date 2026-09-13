@@ -33,7 +33,8 @@
     "test:fixtures": "node --test tests/evaluation.test.mjs",
     "check:docs": "node scripts/check-docs.mjs",
     "test:cli": "node --test tests/install.test.mjs tests/doctor.test.mjs tests/update.test.mjs tests/checkpoint.test.mjs tests/resume-cli.test.mjs tests/mission.test.mjs tests/planner.test.mjs",
-    "test:protocols": "node --test tests/comparison.test.mjs"
+    "test:protocols": "node --test tests/comparison.test.mjs",
+    "test:greenfield": "node --test examples/pocket-tasks/tests/*.test.mjs evaluation/greenfield/*.test.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

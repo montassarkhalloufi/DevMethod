@@ -21,3 +21,7 @@ Before retrying a paid call, determine whether outcome/billing is unknown, wheth
 Update public schemas, documentation, OpenAPI generation where present, tests, and compatibility strategy together. A drift-free generated schema does not prove every HTTP behavior matches: also verify statuses, headers, errors, and observable constraints.
 
 Consult [HTTP semantics](https://www.rfc-editor.org/rfc/rfc9110.html) and [Problem Details](https://www.rfc-editor.org/rfc/rfc9457.html) for the precise issue. Define thresholds, timeouts, and fields from the project contract, never from an example as a universal default.
+
+## Browser-facing local services
+
+Loopback binding is not a browser trust boundary. For a local HTTP tool that changes state, define the allowed Host and origin (including the expected port), reject unexpected hosts and cross-origin mutations, and enforce the intended request content type. Keep legitimate non-browser clients in the contract; do not treat a missing Origin alone as authentication. CORS response restrictions do not prevent every cross-origin write. Add a regression proving that an untrusted-origin or unexpected-Host request cannot change stored state. Use a raw HTTP client when testing Host: some higher-level clients normalize that header before transmission. See [MDN's CSRF guidance](https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/CSRF).

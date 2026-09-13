@@ -17,6 +17,9 @@ try {
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
   assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.1.0');
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
+  for (const testFile of [...fs.readdirSync(path.join(pkg, 'examples/pocket-tasks/tests')).filter(f => f.endsWith('.test.mjs')).map(f => `examples/pocket-tasks/tests/${f}`), 'evaluation/greenfield/acceptance.test.mjs', 'evaluation/greenfield/security.test.mjs']) {
+    run(process.execPath, ['--test', testFile], pkg);
+  }
   for (const host of ['codex', 'claude', 'cursor']) {
     const project = path.join(root, host);
     call(['init', '--tool', host, '--dest', project]);

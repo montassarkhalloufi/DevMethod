@@ -1,4 +1,4 @@
-# DevMethod 0.1.0 — prepared, not published
+# DevMethod 0.1.0
 
 DevMethod packages a reusable six-module workflow for starting projects and improving existing ones. The release includes safe staged installation, read-only diagnostics and upgrade comparison, structured mission/context inspection, Git-aware checkpoint resumption, bounded manual planning and optional stack profiles with a runnable fullstack example.
 
@@ -8,4 +8,4 @@ The CLI runs offline after acquisition and has no runtime dependencies. Node.js 
 
 Native agent evaluation remains separate. Codex fixture and child-process probes have recorded evidence, but repeated BMAD comparison is incomplete and general automatic dispatch is experimental. This release makes no superiority or universal native-host compatibility claim.
 
-No npm publication or main-branch merge has occurred. Maintainer review covers the exact archive and current CI before either action.
+PRs #6–#10 are merged. A from-zero local task manager now preserves its brief, implementation, independent acceptance tests and browser validation. Review exposed missing HTTP trust checks; the app was corrected and architecture guidance now explicitly covers browser-facing local services. See [the greenfield record](GREENFIELD-VALIDATION.md). Publication status and artifact verification are tracked in the release record.

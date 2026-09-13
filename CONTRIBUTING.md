@@ -4,7 +4,7 @@ Read this file and the accepted decisions in docs/ before changing the kit. Pres
 
 Use Node.js 22+, npm and strict TypeScript for the installer. Run `npm ci`, `npm test` and `npm pack --dry-run`. Commit generated dist/ alongside src/ so GitHub installation requires no build hooks or development dependencies. Review the full diff for private references, secrets, licensing and unintended files. Never describe document checks or simulated agent runs as native Claude Code/Cursor validation.
 
-Keep each change in one coherent commit after checks, without rewriting published history. npm publication requires an authenticated maintainer: run the checks, inspect `npm pack --dry-run`, then `npm publish --tag next --access public`. Do not publish unverified compatibility claims or use the stable tag for this candidate.
+Keep each change in one coherent commit after checks, without rewriting published history. npm publication requires an authenticated maintainer: run the checks, inspect `npm pack --dry-run`, then publish the exact verified archive with an explicit tag: `next` for release candidates, `latest` for an authorized final release. Do not publish unverified compatibility claims.
 
 Keep commands, documentation and tests consistent. Record architecture changes in an ADR. Public releases require maintainer review of the exact candidate. There is no deployment, paid service, telemetry, automatic update or migration in this repository.
 

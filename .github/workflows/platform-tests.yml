@@ -37,6 +37,8 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Build and run installer tests
         run: npm test
+      - name: Verify from-zero application
+        run: npm run test:greenfield
       - name: Check public documentation
         run: npm run check:docs
       - name: Check committed build

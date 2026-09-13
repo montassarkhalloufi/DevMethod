@@ -1,6 +1,6 @@
 # DevMethod 0.1.0
 
-Status: release source prepared for maintainer review; not merged or published. This page is the current release record. Earlier rc.2 and native-pilot documents describe their recorded revisions, not the current validation state.
+Status: PRs #6–#10 merged; integrated validation and authorized npm publication in progress. This page is the current release record. Earlier rc.2 and native-pilot documents describe their recorded revisions, not the current validation state.
 
 ## Supported release scope
 
@@ -14,7 +14,7 @@ The CLI has no runtime dependencies. Agent execution, framework examples and nat
 
 ## Adoption
 
-Before publication, build and inspect the reviewed source checkout:
+Build and inspect the source checkout:
 
 ```sh
 npm ci
@@ -34,12 +34,16 @@ After authorized publication, the version-pinned command will be `npx --yes devm
 
 ## Validation record
 
-Local release verification passed: clean locked dependency installation, 72 tests, Markdown links, package inspection and extracted-tarball smoke for all three host layouts, a subset, customization preservation and mission/context/planning. Independent review reproduced the JSON-error regression and found no remaining blocker in the inspected public CLI changes. The final commit, archive digest and exact platform jobs are recorded separately in the repository release evidence and the release PR to avoid a self-referential archive hash. Publication still requires those exact jobs to be green; earlier CI runs are not substitutes.
+Local release verification passed: clean locked dependency installation, 72 core tests plus 18 greenfield checks, Markdown links, package inspection and extracted-tarball smoke for all three host layouts, a subset, customization preservation and mission/context/planning. Independent review reproduced the JSON-error regression and found no remaining blocker in the inspected public CLI changes. The final commit, archive digest and exact platform jobs are recorded separately in the repository release evidence and the release PR to avoid a self-referential archive hash. Publication still requires those exact jobs to be green; earlier CI runs are not substitutes.
 
 Native evidence: [first bounded pilot](NATIVE-PILOT-RESULTS.md), [subagent adapter validation](CODEX-ADAPTER-VALIDATION.md). The follow-up campaign remains stopped with incomplete final usage; no model runs are necessary to package the supported CLI scope.
 
 ## Publication and rollback
 
-Maintainer review must cover the final commit and tarball. Merge the prerequisite PRs in order, deliberately retargeting dependent branches, then verify the integrated revision. No merge or publication is authorized by this document. ADR proposals remain proposals until maintainer acceptance.
+The maintainer authorized PR merges and final npm publication after successful integrated validation on 2026-09-13. PRs #6–#10 are merged. GitHub write mutations failed during the merge sequence; normal Git merges and non-force fast-forward pushes completed it, and GitHub confirmed every PR merged. ADR proposals remain proposals until maintainer acceptance.
 
 For a reviewed final version, publish the exact verified archive rather than repacking a changed checkout. Select the npm tag explicitly after maintainer approval. Verify the registry version, integrity and installation afterward. Retain the prior package as a rollback reference; users choose when to adopt and reconcile their own files.
+
+## From-zero application validation
+
+[Pocket Tasks validation](GREENFIELD-VALIDATION.md) records a new project built from a frozen brief, independent review and API acceptance, real browser interaction, and a method improvement derived from a discovered defect. This is separate from the incomplete BMAD campaign.
