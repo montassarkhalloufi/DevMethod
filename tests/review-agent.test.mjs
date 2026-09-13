@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { initialize, tools } from '../dist/init.js';
 import { validateManifest, diagnose } from '../dist/doctor.js';
@@ -22,7 +23,7 @@ for (const host of Object.keys(tools)) for (const type of ['commonjs', 'module',
     fs.writeFileSync(path.join(root, 'open-probe.mjs'), `import cp from 'node:child_process';
 import fs from 'node:fs'; import { syncBuiltinESMExports } from 'node:module';
 cp.spawnSync = (command, args, options) => { fs.writeFileSync('opened.json', JSON.stringify({command,args,options})); return {status:process.env.REVIEW_TEST_OPEN_FAILURE ? 1 : 0}; }; syncBuiltinESMExports();`);
-    const run = (args, failOpen = false) => spawnSync(process.execPath, ['--import', path.join(root, 'open-probe.mjs'), script, ...args], {
+    const run = (args, failOpen = false) => spawnSync(process.execPath, ['--import', pathToFileURL(path.join(root, 'open-probe.mjs')).href, script, ...args], {
       cwd: root, encoding: 'utf8', env: { ...process.env, PATH: '', REVIEW_TEST_OPEN_FAILURE: failOpen ? '1' : '' },
     });
     const args = ['--review', 'input.json', '--output', 'report.html', '--markdown', 'REVIEW.md', '--open'];
