@@ -1,6 +1,6 @@
 # DevMethod — French demonstration video
 
-[Watch/download the MP4](devmethod-demo.fr.mp4) · [French subtitles](devmethod-demo.fr.srt) · [Narration and scenes](scenes.json)
+[Watch/download the MP4](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/from-zero/devmethod-demo.fr.mp4) · [French subtitles](devmethod-demo.fr.srt) · [Narration and scenes](scenes.json)
 
 A short promotional/explanatory video: product promise, an actual from-zero Clair agent trial, real recorded browser interactions, the separate Lisière visual pilot, verification and a GitHub call to action. The explanatory cards summarize work; they are not a recording of every development step.
 
@@ -10,7 +10,7 @@ The French narration is synthetic system speech (Thomas). No music, testimonials
 
 Requires macOS `say` with Thomas, ffmpeg/ffprobe, Chrome and an installed Playwright module. Start Clair on localhost:8766 using the example README. From the repository root, run `node scripts/media/record-demo.cjs` (set PLAYWRIGHT_MODULE if needed), then `python3 scripts/media/encode-demo.py`. The narration text/timing lives in scenes.json. The recorder saves intermediate clips under /private/tmp/devmethod-video; the encoder writes MP4 and SRT here. Do not reuse old intermediate speech files after editing the narration.
 
-[Desktop capture](captures/clair-desktop.png) and [mobile capture](captures/clair-mobile.png) are browser evidence. Tests validate selected behavior, not all accessibility, platforms or deployment conditions. See the [example report](../../../examples/clair-from-zero/README.md).
+[Desktop capture](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/from-zero/captures/clair-desktop.png) and [mobile capture](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/from-zero/captures/clair-mobile.png) are browser evidence. Tests validate selected behavior, not all accessibility, platforms or deployment conditions. See the [example report](../../../examples/clair-from-zero/README.md).
 
 ## Verification record
 

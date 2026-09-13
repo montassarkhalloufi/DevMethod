@@ -1,0 +1,173 @@
+[
+  {
+    "kind": "title",
+    "title": "DevMethod, du projet vide au produit vérifié",
+    "voice": "Dans cette démonstration, nous allons suivre toute la chaîne de Dev Method. Vous verrez les commandes adressées à Codex, ses réponses réelles et la prochaine étape proposée. Nous prendrons aussi le temps de regarder la direction artistique, le master screen et l'application finale. Les transcriptions de Codex sont réelles. Leur mise en page est adaptée au film pour rester lisible en quatre K. Les temps d'attente sont retirés.",
+    "stage": null,
+    "image": null,
+    "speech": "Dans cette démonstration, nous allons suivre toute la chaîne de Dev Method. Vous verrez les commandes adressées à Codex, ses réponses réelles et la prochaine étape proposée. Nous prendrons aussi le temps de regarder la direction artistique, le master screen et l'application finale. Les transcriptions de Codex sont réelles. Leur mise en page est adaptée au film pour rester lisible en quatre K. Les temps d'attente sont retirés.",
+    "duration": 29.913469
+  },
+  {
+    "kind": "install",
+    "title": "Un dossier neuf, un kit installé",
+    "voice": "Nous commençons dans un dossier sans code d'application. L'installation y dépose les compétences de la méthode. Dev Method est le nom du produit, mais sa commande d'entrée actuelle s'appelle project foundation. Elle se saisit dans la conversation de l'agent, pas comme une commande du terminal. Pour ce film, nous utilisons Codex CLI. Un premier essai incompatible avec la version du modèle a été conservé dans les journaux, puis corrigé.",
+    "stage": null,
+    "image": null,
+    "speech": "Nous commençons dans un dossier sans code d'application. L'installation y dépose les compétences de la méthode. Dev Method est le nom du produit, mais sa commande d'entrée actuelle s'appelle project foundation. Elle se saisit dans la conversation de l'agent, pas comme une commande du terminal. Pour ce film, nous utilisons Codex CLI. Un premier essai incompatible avec la version du modèle a été conservé dans les journaux, puis corrigé.",
+    "duration": 31.643356
+  },
+  {
+    "kind": "terminal",
+    "title": "Explorer le besoin",
+    "voice": "La première commande est project foundation explore. Nous donnons le besoin : une bibliothèque personnelle pour suivre ses lectures. Codex examine le brief et les sources disponibles. À ce stade, il ne doit pas coder. Il distingue ce qui est décidé de ce qui reste à préciser. Regardez la fin de la réponse : elle indique la commande recommandée pour continuer. La méthode transmet ainsi le contexte d'une étape à la suivante.",
+    "stage": "01",
+    "image": null,
+    "speech": "La première commande est project foundation explore. Nous donnons le besoin : une bibliothèque personnelle pour suivre ses lectures. Codex examine le brief et les sources disponibles. À ce stade, il ne doit pas coder. Il distingue ce qui est décidé de ce qui reste à préciser. Regardez la fin de la réponse : elle indique la commande recommandée pour continuer. La méthode transmet ainsi le contexte d'une étape à la suivante.",
+    "duration": 31.411156
+  },
+  {
+    "kind": "terminal",
+    "title": "Cadrer une première livraison",
+    "voice": "Nous envoyons ensuite frame. Le cadrage transforme l'idée en un résultat limité et vérifiable. Ajouter un livre, filtrer la bibliothèque et changer son statut font partie du besoin. Un service de lecture de livres, des comptes ou un serveur ne sont pas inclus. Ces exclusions comptent : elles évitent que l'agent construise un produit plus vaste que celui demandé. Le cadrage prépare aussi les critères qui serviront aux tests.",
+    "stage": "02",
+    "image": null,
+    "speech": "Nous envoyons ensuite frame. Le cadrage transforme l'idée en un résultat limité et vérifiable. Ajouter un livre, filtrer la bibliothèque et changer son statut font partie du besoin. Un service de lecture de livres, des comptes ou un serveur ne sont pas inclus. Ces exclusions comptent : elles évitent que l'agent construise un produit plus vaste que celui demandé. Le cadrage prépare aussi les critères qui serviront aux tests.",
+    "duration": 30.935147
+  },
+  {
+    "kind": "directions",
+    "title": "Trois directions, un même produit",
+    "voice": "Avant de développer l'interface, nous comparons trois directions appliquées au même contenu. Éditorial privilégie la typographie et l'espace. Atelier mise sur une organisation compacte. Botanique apporte des illustrations et une ambiance plus douce. Cette planche a réellement été générée pendant la session préparatoire. Ce ne sont pas trois applications terminées, mais trois propositions visuelles. Les mettre côte à côte rend le choix concret, plutôt que de demander seulement une préférence abstraite.",
+    "stage": null,
+    "image": "directions-v1.png",
+    "speech": "Avant de développer l'interface, nous comparons trois directions appliquées au même contenu. Éditorial privilégie la typographie et l'espace. Atelier mise sur une organisation compacte. Botanique apporte des illustrations et une ambiance plus douce. Cette planche a réellement été générée pendant la session préparatoire. Ce ne sont pas trois applications terminées, mais trois propositions visuelles. Les mettre côte à côte rend le choix concret, plutôt que de demander seulement une préférence abstraite.",
+    "duration": 36.635646
+  },
+  {
+    "kind": "choice",
+    "title": "Le choix humain : A — Éditorial",
+    "voice": "L'utilisateur a répondu A. C'est le choix réel conservé de notre session précédente, pas une réponse inventée pour la vidéo. Nous retenons donc la direction éditoriale. Ce choix fixe une intention : fond ivoire, contraste encre, accents rouille et titres avec empattements. Il ne suffit pas encore à valider tous les détails d'un écran. L'étape suivante consiste à produire une référence plus précise, que l'on peut examiner avant de coder.",
+    "stage": null,
+    "image": "directions-v1.png",
+    "speech": "L'utilisateur a répondu A. C'est le choix réel conservé de notre session précédente, pas une réponse inventée pour la vidéo. Nous retenons donc la direction éditoriale. Ce choix fixe une intention : fond ivoire, contraste encre, accents rouille et titres avec empattements. Il ne suffit pas encore à valider tous les détails d'un écran. L'étape suivante consiste à produire une référence plus précise, que l'on peut examiner avant de coder.",
+    "duration": 32.339955
+  },
+  {
+    "kind": "master",
+    "title": "Le master screen devient la référence",
+    "voice": "Voici le master screen détaillé, sur ordinateur et sur mobile. Nous pouvons maintenant examiner la hiérarchie, les cartes, les espacements et les boutons. Le libellé Lire a été remplacé par Commencer ou Marquer terminé, car le produit suit la lecture sans fournir le texte des livres. L'utilisateur a ensuite validé cette maquette par un oui. Cette référence approuvée est réutilisée dans la nouvelle implémentation. Elle sera le point de comparaison à la fin, et non une simple image d'inspiration.",
+    "stage": null,
+    "image": "editorial-mockup-v1.png",
+    "speech": "Voici le master screen détaillé, sur ordinateur et sur mobile. Nous pouvons maintenant examiner la hiérarchie, les cartes, les espacements et les boutons. Le libellé Lire a été remplacé par Commencer ou Marquer terminé, car le produit suit la lecture sans fournir le texte des livres. L'utilisateur a ensuite validé cette maquette par un oui. Cette référence approuvée est réutilisée dans la nouvelle implémentation. Elle sera le point de comparaison à la fin, et non une simple image d'inspiration.",
+    "duration": 35.764898
+  },
+  {
+    "kind": "terminal",
+    "title": "Design : préciser ce que l’image ne dit pas",
+    "voice": "La commande design relie la référence aux comportements attendus. Une image ne décrit pas à elle seule la validation du formulaire, le clavier, un filtre vide ou un échec de sauvegarde. Codex doit préciser ces états, identifier la référence choisie et préserver les décisions existantes. La génération d'images dépend des outils disponibles dans l'environnement. Dev Method organise ce travail, mais son installation ne fournit pas un moteur d'image.",
+    "stage": "03",
+    "image": null,
+    "speech": "La commande design relie la référence aux comportements attendus. Une image ne décrit pas à elle seule la validation du formulaire, le clavier, un filtre vide ou un échec de sauvegarde. Codex doit préciser ces états, identifier la référence choisie et préserver les décisions existantes. La génération d'images dépend des outils disponibles dans l'environnement. Dev Method organise ce travail, mais son installation ne fournit pas un moteur d'image.",
+    "duration": 33.651882
+  },
+  {
+    "kind": "terminal",
+    "title": "Architecture : rester proportionné",
+    "voice": "L'architecture choisit le minimum nécessaire au besoin. Ici, une application statique et un stockage dans le navigateur suffisent. La logique peut être testée séparément des éléments visuels. Cette étape n'a pas pour objectif d'accumuler des technologies. Elle permet de clarifier les frontières et les limites avant l'implémentation. Une évolution ultérieure vers plusieurs utilisateurs demanderait d'autres décisions ; elle ne fait pas partie de ce film.",
+    "stage": "04",
+    "image": null,
+    "speech": "L'architecture choisit le minimum nécessaire au besoin. Ici, une application statique et un stockage dans le navigateur suffisent. La logique peut être testée séparément des éléments visuels. Cette étape n'a pas pour objectif d'accumuler des technologies. Elle permet de clarifier les frontières et les limites avant l'implémentation. Une évolution ultérieure vers plusieurs utilisateurs demanderait d'autres décisions ; elle ne fait pas partie de ce film.",
+    "duration": 32.084535
+  },
+  {
+    "kind": "terminal",
+    "title": "Plan : une tranche avec des critères",
+    "voice": "La commande plan découpe le périmètre en travail réalisable. Pour ce petit produit, une première tranche peut réunir le parcours utile de bout en bout. Le plan doit contenir un objectif, des critères d'acceptation, les dépendances et les vérifications prévues. Une ligne marquée prête n'est pas une preuve que le code existe. Les statuts doivent rester reliés aux faits et aux résultats réellement observés.",
+    "stage": "05",
+    "image": null,
+    "speech": "La commande plan découpe le périmètre en travail réalisable. Pour ce petit produit, une première tranche peut réunir le parcours utile de bout en bout. Le plan doit contenir un objectif, des critères d'acceptation, les dépendances et les vérifications prévues. Une ligne marquée prête n'est pas une preuve que le code existe. Les statuts doivent rester reliés aux faits et aux résultats réellement observés.",
+    "duration": 28.949841
+  },
+  {
+    "kind": "terminal",
+    "title": "Ready : vérifier avant de construire",
+    "voice": "Ready contrôle que la tranche est assez précise pour être implémentée. Les sources sont-elles disponibles ? Les comportements importants sont-ils décidés ? Les tests ont-ils un sens ? Dans le parcours filmé, nous montrons cette commande séparément pour l'expliquer. Pour une petite correction déjà claire, Dev Method permet aussi de regrouper cette préparation avec l'implémentation, sans imposer une conversation supplémentaire à chaque étape.",
+    "stage": "06",
+    "image": null,
+    "speech": "Ready contrôle que la tranche est assez précise pour être implémentée. Les sources sont-elles disponibles ? Les comportements importants sont-ils décidés ? Les tests ont-ils un sens ? Dans le parcours filmé, nous montrons cette commande séparément pour l'expliquer. Pour une petite correction déjà claire, Dev Method permet aussi de regrouper cette préparation avec l'implémentation, sans imposer une conversation supplémentaire à chaque étape.",
+    "duration": 31.562086
+  },
+  {
+    "kind": "terminal",
+    "title": "Implement : produire du code et des preuves",
+    "voice": "Nous autorisons maintenant implement. Codex réalise l'application à partir du brief et du master screen. Aucun code de la première démonstration ne lui a été fourni. Les attentes de calcul et d'écriture sont retirées du montage ; la réponse montrée provient de l'exécution réelle. Regardez ce que l'agent dit avoir vérifié, mais aussi ce qu'il laisse explicitement à vérifier. Un résultat local doit rester distinct d'un déploiement.",
+    "stage": "07",
+    "image": null,
+    "speech": "Nous autorisons maintenant implement. Codex réalise l'application à partir du brief et du master screen. Aucun code de la première démonstration ne lui a été fourni. Les attentes de calcul et d'écriture sont retirées du montage ; la réponse montrée provient de l'exécution réelle. Regardez ce que l'agent dit avoir vérifié, mais aussi ce qu'il laisse explicitement à vérifier. Un résultat local doit rester distinct d'un déploiement.",
+    "duration": 31.399546
+  },
+  {
+    "kind": "terminal",
+    "title": "Review : examiner la réalisation",
+    "voice": "La revue confronte les fichiers réalisés aux critères de la tranche. Elle cherche des défauts concrets, pas seulement une liste de bonnes pratiques. Nous conservons le résultat de cette revue, y compris ses limites. Si une correction est nécessaire, elle doit être effectuée puis revérifiée. Le fait que l'agent relise son travail ne permet pas de prétendre à une validation indépendante universelle.",
+    "stage": "08",
+    "image": null,
+    "speech": "La revue confronte les fichiers réalisés aux critères de la tranche. Elle cherche des défauts concrets, pas seulement une liste de bonnes pratiques. Nous conservons le résultat de cette revue, y compris ses limites. Si une correction est nécessaire, elle doit être effectuée puis revérifiée. Le fait que l'agent relise son travail ne permet pas de prétendre à une validation indépendante universelle.",
+    "duration": 28.299683
+  },
+  {
+    "kind": "terminal",
+    "title": "Corriger les défauts réellement trouvés",
+    "stage": "08b",
+    "image": null,
+    "voice": "La revue a trouvé des défauts concrets. Un ajout pouvait écraser des données qui n’avaient pas été chargées. Deux autres points concernaient la création des identifiants et les caractères Unicode. Nous envoyons donc une nouvelle commande implement avec ces constats. Nous demandons aussi de rétablir les couvertures de la référence approuvée. Cette boucle fait partie de la chaîne réelle : une première implémentation n’est pas automatiquement une livraison acceptée.",
+    "speech": "La revue a trouvé des défauts concrets. Un ajout pouvait écraser des données qui n’avaient pas été chargées. Deux autres points concernaient la création des identifiants et les caractères Unicode. Nous envoyons donc une nouvelle commande implement avec ces constats. Nous demandons aussi de rétablir les couvertures de la référence approuvée. Cette boucle fait partie de la chaîne réelle : une première implémentation n’est pas automatiquement une livraison acceptée.",
+    "duration": 30.842268
+  },
+  {
+    "kind": "browser",
+    "title": "Le prototype en action",
+    "voice": "Nous passons maintenant dans le vrai navigateur. L'application affiche la bibliothèque et ses contrôles. Le test parcourt les actions importantes : filtrer, ajouter un livre, commencer ou terminer une lecture, puis recharger la page. C'est cette interaction réelle qui distingue une interface utilisable d'une simple maquette. Les livres sont fictifs et les données restent locales. Aucun appel payant à un fournisseur d'intelligence artificielle n'est nécessaire pour utiliser ce prototype.",
+    "stage": null,
+    "image": null,
+    "speech": "Nous passons maintenant dans le vrai navigateur. L'application affiche la bibliothèque et ses contrôles. Le test parcourt les actions importantes : filtrer, ajouter un livre, commencer ou terminer une lecture, puis recharger la page. C'est cette interaction réelle qui distingue une interface utilisable d'une simple maquette. Les livres sont fictifs et les données restent locales. Aucun appel payant à un fournisseur d'intelligence artificielle n'est nécessaire pour utiliser ce prototype.",
+    "duration": 35.544308
+  },
+  {
+    "kind": "comparison",
+    "title": "Comparer au master screen",
+    "voice": "Nous revenons à la référence approuvée et la comparons à la capture réelle. La comparaison porte sur la composition, la hiérarchie, les couleurs, les couvertures et les actions. Les différences de police ou d'espacement doivent être nommées, pas cachées derrière un build réussi. Le comportement mobile est vérifié séparément. Une image séduisante n'est donc pas la fin du parcours : elle devient un contrat visuel que l'on confronte au produit.",
+    "stage": null,
+    "image": null,
+    "speech": "Nous revenons à la référence approuvée et la comparons à la capture réelle. La comparaison porte sur la composition, la hiérarchie, les couleurs, les couvertures et les actions. Les différences de police ou d'espacement doivent être nommées, pas cachées derrière un build réussi. Le comportement mobile est vérifié séparément. Une image séduisante n'est donc pas la fin du parcours : elle devient un contrat visuel que l'on confronte au produit.",
+    "duration": 31.527256
+  },
+  {
+    "kind": "terminal",
+    "title": "Verify : consolider les résultats",
+    "voice": "Verify rassemble les contrôles manquants et leurs résultats. Les tests de logique et les observations navigateur répondent à des questions différentes. Une commande réussie ne prouve que le périmètre qu'elle a réellement inspecté. Les sorties du film permettent de voir cette séparation. Nous ne prétendons ni à un audit complet d'accessibilité, ni à une compatibilité universelle, ni à une supériorité démontrée sur une autre méthode.",
+    "stage": "09b",
+    "image": null,
+    "speech": "Verify rassemble les contrôles manquants et leurs résultats. Les tests de logique et les observations navigateur répondent à des questions différentes. Une commande réussie ne prouve que le périmètre qu'elle a réellement inspecté. Les sorties du film permettent de voir cette séparation. Nous ne prétendons ni à un audit complet d'accessibilité, ni à une compatibilité universelle, ni à une supériorité démontrée sur une autre méthode.",
+    "duration": 31.237007
+  },
+  {
+    "kind": "terminal",
+    "title": "Terminer et préparer la reprise",
+    "voice": "Le dernier point de passage enregistre ce qui est livré, les limites et l'état de reprise. Pour cette démonstration, la livraison est locale. Une fusion sur le dépôt de la méthode et une publication du produit seraient des actions différentes. La commande suivante n'autorise pas automatiquement un nouveau périmètre. Cette discipline permet de retrouver le travail dans une autre session sans confondre une proposition, une réalisation et une preuve.",
+    "stage": "10",
+    "image": null,
+    "speech": "Le dernier point de passage enregistre ce qui est livré, les limites et l'état de reprise. Pour cette démonstration, la livraison est locale. Une fusion sur le dépôt de la méthode et une publication du produit seraient des actions différentes. La commande suivante n'autorise pas automatiquement un nouveau périmètre. Cette discipline permet de retrouver le travail dans une autre session sans confondre une proposition, une réalisation et une preuve.",
+    "duration": 32.049705
+  },
+  {
+    "kind": "end",
+    "title": "Essayez la chaîne sur votre projet",
+    "voice": "Vous avez vu le besoin, les commandes et leurs sorties, les directions artistiques, le master screen approuvé, le code et les vérifications. Dev Method sert à relier ces étapes en conservant les décisions utiles. Retrouvez le guide et les exemples sur GitHub. Pour cette évolution, utilisez la version source documentée : le paquet publié zéro point un n'inclut pas encore toutes ces nouveautés. Commencez par une petite livraison et jugez la méthode sur le résultat.",
+    "stage": null,
+    "image": null,
+    "speech": "Vous avez vu le besoin, les commandes et leurs sorties, les directions artistiques, le master screen approuvé, le code et les vérifications. Dev Method sert à relier ces étapes en conservant les décisions utiles. Retrouvez le guide et les exemples sur guit-hub. Pour cette évolution, utilisez la version source documentée : le paquet publié zéro point un n'inclut pas encore toutes ces nouveautés. Commencez par une petite livraison et jugez la méthode sur le résultat.",
+    "duration": 34.638729999999995
+  }
+]
