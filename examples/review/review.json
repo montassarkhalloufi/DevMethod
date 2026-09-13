@@ -1,0 +1,199 @@
+{
+  "format": 1,
+  "id": "DEMO-REVIEW",
+  "title": "Review de la bibliothèque",
+  "project": "Atelier de lecture",
+  "mission": "Première sauvegarde",
+  "tickets": [
+    {
+      "id": "DEMO-12",
+      "title": "PR de l’interface (lien de démonstration)",
+      "url": "https://github.com/montassarkhalloufi/DevMethod/pull/19"
+    }
+  ],
+  "date": "2026-09-13",
+  "scope": [
+    "Démonstration fictive de consultation, sans audit du projet illustré."
+  ],
+  "exclusions": [
+    "Aucun résultat réel de sécurité ou de performance."
+  ],
+  "revision": {
+    "commit": "demo-revision-1",
+    "dirty": []
+  },
+  "technologies": [
+    {
+      "name": "HTML / DOM",
+      "version": "Living Standard",
+      "detectedFrom": "Fixture authored for the viewer"
+    }
+  ],
+  "sources": [
+    {
+      "id": "WAI",
+      "title": "Messages de statut accessibles",
+      "kind": "documentation",
+      "publisher": "W3C WAI",
+      "technology": "Web accessibility",
+      "version": "WCAG 2.2",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "consultedAt": null,
+      "access": "unverified",
+      "usage": "Référence proposée pour cette démonstration, non consultée dans une review réelle.",
+      "compatibility": "À vérifier pour le parcours cible.",
+      "provenance": "Domaine w3.org ; cette fixture ne constitue pas une vérification de provenance."
+    }
+  ],
+  "checks": [
+    {
+      "id": "C-01",
+      "title": "Annonce après sauvegarde",
+      "domain": "Accessibilité",
+      "kind": "manual",
+      "status": "failed",
+      "result": "Exemple fictif : le changement de statut ne serait pas annoncé.",
+      "reason": null,
+      "evidenceIds": [
+        "E-01"
+      ],
+      "revision": "demo-revision-1",
+      "targets": [
+        "save-status"
+      ]
+    },
+    {
+      "id": "C-02",
+      "title": "Conservation du titre",
+      "domain": "Données",
+      "kind": "automated",
+      "status": "passed",
+      "result": "Exemple fictif : la valeur enregistrée correspond à la saisie.",
+      "reason": null,
+      "evidenceIds": [
+        "E-02"
+      ],
+      "revision": "demo-revision-1",
+      "targets": [
+        "save-title"
+      ]
+    },
+    {
+      "id": "C-03",
+      "title": "Temps de réponse sur liste longue",
+      "domain": "Performance",
+      "kind": "automated",
+      "status": "not-run",
+      "result": "Aucune mesure disponible dans cette fixture.",
+      "reason": "Jeu de données représentatif indisponible.",
+      "evidenceIds": [],
+      "revision": "demo-revision-1",
+      "targets": [
+        "list-view"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "R-01",
+      "title": "Le retour de sauvegarde reste silencieux",
+      "domain": "Accessibilité",
+      "severity": "moderate",
+      "severityReason": "Exemple fictif : le lecteur pourrait ignorer que son action a réussi.",
+      "confidence": "confirmed",
+      "resolution": "open",
+      "location": {
+        "path": "save-status (composant fictif)",
+        "line": null,
+        "component": "Confirmation de sauvegarde"
+      },
+      "trigger": "Sauvegarder un titre en utilisant un lecteur d’écran.",
+      "expected": "Le succès est annoncé sans déplacer le focus.",
+      "observed": "Dans ce scénario fictif, seul le texte visuel change.",
+      "impact": "Le lecteur ne sait pas si son titre a été conservé.",
+      "reproduction": [
+        "Scénario illustratif, non exécuté.",
+        "Saisir un titre, activer Sauvegarder et écouter le retour."
+      ],
+      "evidenceIds": [
+        "E-01"
+      ],
+      "correction": "Exposer le message de succès comme statut accessible, puis vérifier son annonce.",
+      "tradeoffs": "Éviter les annonces répétées ; conserver le focus dans le parcours.",
+      "sourceIds": [
+        "WAI"
+      ],
+      "ticketIds": [
+        "DEMO-12"
+      ],
+      "verification": "Inspecter avec un lecteur d’écran réel et vérifier le maintien du focus.",
+      "resolutionEvidenceIds": [],
+      "targets": [
+        "save-status"
+      ]
+    },
+    {
+      "id": "R-02",
+      "title": "Une grande liste pourrait ralentir la recherche",
+      "domain": "Performance",
+      "severity": "minor",
+      "severityReason": "Impact supposé limité aux collections volumineuses.",
+      "confidence": "suspected",
+      "resolution": "open",
+      "location": {
+        "path": "list-view (composant fictif)",
+        "line": null,
+        "component": "Liste de titres"
+      },
+      "trigger": "Rechercher dans une collection volumineuse.",
+      "expected": "La saisie reste réactive.",
+      "observed": "Aucune mesure ; risque hypothétique seulement.",
+      "impact": "Un délai pourrait gêner la saisie ; cela reste à vérifier.",
+      "reproduction": [
+        "Préparer un jeu représentatif puis mesurer ; non exécuté."
+      ],
+      "evidenceIds": [],
+      "correction": "Mesurer avant de décider d’une optimisation.",
+      "tradeoffs": "Éviter une complexité non justifiée par des mesures.",
+      "sourceIds": [],
+      "ticketIds": [],
+      "verification": "Mesurer latence et réactivité sur le matériel cible.",
+      "resolutionEvidenceIds": [],
+      "targets": [
+        "list-view"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E-01",
+      "title": "Flux du retour utilisateur — schéma explicatif",
+      "kind": "diagram",
+      "content": "Saisie du titre → Sauvegarder → Titre conservé → Message visuel\n                                      ↳ Annonce vocale manquante (hypothèse de fixture)\nSchéma explicatif fictif, pas une capture ni un journal d’exécution.",
+      "url": null,
+      "image": null
+    },
+    {
+      "id": "E-02",
+      "title": "Résultat illustratif de conservation",
+      "kind": "log",
+      "content": "DÉMONSTRATION — journal rédigé, test non exécuté.\nEntrée « Un titre » → valeur conservée « Un titre ».",
+      "url": null,
+      "image": null
+    }
+  ],
+  "limits": [
+    "DÉMONSTRATION : données fictives, sans validation d’un produit réel.",
+    "Le contrôle de performance n’a pas été exécuté."
+  ],
+  "policy": {
+    "blockingSeverities": [
+      "critical",
+      "major",
+      "moderate"
+    ],
+    "requireAllChecks": true,
+    "rationale": "Politique illustrative : corriger les problèmes confirmés modérés ou plus graves avant intégration."
+  },
+  "summary": "Démonstration de l’interface. Les constats et contrôles ci-dessous sont fictifs."
+}

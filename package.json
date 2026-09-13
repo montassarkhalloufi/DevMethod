@@ -1,6 +1,6 @@
 {
   "name": "devmethod-ai",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "From idea to delivery with your AI coding agents",
   "license": "MIT",
   "type": "module",
@@ -28,7 +28,7 @@
     "url": "git+https://github.com/montassarkhalloufi/DevMethod.git"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/build-review.mjs",
     "test": "npm run build && node --test tests/*.test.mjs",
     "test:fixtures": "node --test tests/evaluation.test.mjs",
     "check:docs": "node scripts/check-docs.mjs",

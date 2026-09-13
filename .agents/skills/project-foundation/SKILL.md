@@ -32,6 +32,8 @@ For a new change, select the quick, standard, or major path using [work sizing](
 
 Read [the operating commands](references/operating-commands.md) for any invocation with a stage, or to structure a new project, epic, or slice. In Codex, run `$project-foundation status`. In Claude Code or Cursor, run `/project-foundation status`. Replace `status` with the desired stage. The commands do not replace project commands.
 
+For `explore`, use [existing solutions research](references/exploration.md) when product uncertainty warrants it. For an open `architecture`, resolve `decision-architecture` and discuss credible options in the conversation before detailing the dependent architecture. Preserve accepted choices and explicit delegations; invoking `plan` does not adopt a proposal. For `plan`, use [delivery planning](references/delivery-planning.md) to discuss useful outcomes and scope before fixing tickets.
+
 At the end of every execution, state what is done, what remains uncertain or blocked, and one recommended next command.
 
 ## Kit modules

@@ -1,3 +1,9 @@
 # Evaluation hashes pin exact bytes across platform checkouts.
 examples/bugfix/** text eol=lf
 evaluation/fixtures/** text eol=lf
+
+# Generated review evidence and browser assets keep portable, reproducible bytes.
+docs/missions/**/REVIEW.md text eol=lf
+dist/review-browser.js text eol=lf
+src/review-ui.css text eol=lf
+dist/review-ui.css text eol=lf
