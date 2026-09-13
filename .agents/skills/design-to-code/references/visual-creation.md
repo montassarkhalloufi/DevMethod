@@ -8,6 +8,14 @@ Read the product outcome, audience, primary journey, constraints and any supplie
 
 When the direction is open, propose two or three distinct approaches to the same screen with the same content. Explain each through hierarchy, typography, palette, density, imagery and the user need it supports. Show comparable visual previews, not only style adjectives. Do not invent research or call a proposal approved. Request the user's choice on the visible alternatives; continue independent work while waiting. Unless selection was explicitly delegated, do not infer a choice from elapsed time, a default option or silence. An explicit existing direction skips this decision.
 
+## Master screen and page expansion
+
+When the user requests a master-to-pages workflow, keep three observable checkpoints within the existing `design` command: comparable directions, a selected detailed master screen, then the requested screen set derived from that master. These are natural-language scopes, not new CLI subcommands. Recommend `$project-foundation design` in Codex, or `/project-foundation design` in Claude Code/Cursor, with the next unfinished visual scope until the requested design work is complete; do not jump to architecture merely because a style direction was selected.
+
+Use the same representative screen and content for the alternatives. After selection, finalize that screen as the master and record its asset/version plus the user's approval. Derive the requested pages or states using the actual master image as tool input together with its shared tokens, components and copy. A prose style description alone is not evidence of reference-conditioned generation. Map every requested page/state to its output file and master version in the existing record. Do not invent routes to turn states of a small app into a larger product.
+
+Inspect cross-screen consistency and behavior before implementation. Reuse existing approvals for unchanged decisions; surface unexpected additions in the derived screens for approval. Preserve page-specific content while sharing the master hierarchy, type, palette and components. When documenting a demonstration, distinguish generated page images, implemented screens and captures; do not present images generated after the code as proof that those images guided that earlier code.
+
 ## Selected mockups
 
 After selection, record the chosen asset/version and any requested changes. Use an available image tool and its skill when raster mockups or generated illustrations are requested; check actual tool availability rather than promising that installation provides it. If unavailable, report that the image step is unfulfilled. A prompt for an external tool is a handoff, not a generated image. Offer an appropriate HTML/SVG preview if useful, without presenting it as fulfilment of an explicit image request. Paid tools and external mutations follow the session's permissions.

@@ -1,0 +1,28 @@
+import json,pathlib,subprocess
+r=pathlib.Path('/private/tmp/devmethod-shortfilm');(r/'audio').mkdir(exist_ok=True)
+S=[]
+def add(kind,title,voice,seconds,command='',request='',asset='',output=''):
+ S.append(dict(kind=kind,title=title,voice=voice,duration=seconds,command=command,request=request,asset=asset,output=output))
+add('intro','De l’idée à l’application','Une idée. Trois directions. Un master. Puis une application qui fonctionne.',6)
+add('text','Décrire le produit','D’abord, décrivez le produit et ce que son utilisateur doit pouvoir faire.',6,'$project-foundation explore','Une bibliothèque personnelle pour suivre mes lectures.',output='Ajouter un livre · Suivre sa lecture · Retrouver ses données')
+add('image','Demander trois directions','Avec design, demandez trois directions pour le même écran.',6,'$project-foundation design','Propose trois directions visuelles comparables.','directions')
+add('options','Comparer, puis choisir','Éditorial, Atelier ou Botanique. Même contenu, trois personnalités visuelles.',6,asset='directions')
+add('choice','Choisir A — Éditorial','Ici, le choix est A. Codex développe cette direction en master screen.',7,'$project-foundation design','Je choisis A. Finalise le master screen.','master')
+add('image','Le master fixe la référence','Le master précise la typographie, les couleurs, les cartes et les boutons. Il est approuvé avant la suite.',8,asset='master')
+add('derive','Décliner le master','La commande suivante reste design : génère les écrans à partir de ce master.',7,'$project-foundation design','Décline ce master : bibliothèque, ajout et lectures terminées.','master')
+add('image','Écran 02 — Ajouter un livre','Voici le formulaire d’ajout, généré avec le master comme référence visuelle.',6,asset='add')
+add('image','Écran 03 — Lectures terminées','Puis la vue des lectures terminées. La même direction accompagne un autre état du produit.',7,asset='completed')
+add('text','Préparer la réalisation','Le plan relie ces écrans aux actions à réaliser et aux vérifications attendues.',6,'$project-foundation plan','Prépare une première tranche à partir des écrans.',output='Bibliothèque + filtres → Formulaire → Statuts + sauvegarde')
+add('text','Transformer les images en code','Implement construit l’interface et ses vrais comportements à partir des références.',6,'$project-foundation implement VISUAL-1','Implémente les écrans et leurs interactions.',output='Nouvelle implémentation à partir du master et des images dérivées')
+add('app','L’application fonctionne','Passons au résultat. On filtre la bibliothèque. On ajoute un livre. On commence sa lecture, puis on le marque terminé. Après rechargement, les données sont toujours présentes.',20)
+add('image','Aussi sur mobile','Sur mobile, les mêmes actions restent accessibles dans une disposition adaptée.',6,asset='mobile')
+add('text','Vérifier le résultat','Verify contrôle les parcours utiles et les résultats des tests.',6,'$project-foundation verify VISUAL-1','Vérifie les parcours, les erreurs et le rendu.',output='Résultats réellement contrôlés après l’implémentation')
+add('compare','Comparer au design','On compare ensuite le navigateur aux références, puis on corrige les écarts importants.',7,asset='desktop')
+add('text','Livrer une tranche terminée','La livraison locale conserve le résultat et son état de reprise.',6,'$project-foundation integrate VISUAL-1','Consigne la livraison locale et la reprise.',output='Prototype local · Parcours vérifiés · Références conservées')
+add('end','Votre idée. Une chaîne visible.','Découvrez Dev Method sur GitHub et essayez cette chaîne sur votre projet.',6)
+for i,s in enumerate(S):
+ p=r/'audio'/f'{i}.txt';p.write_text(s['voice'].replace('GitHub','guit-hub'))
+ subprocess.run(['say','-v','Thomas','-r','165','-f',str(p),'-o',str(r/'audio'/f'{i}.aiff')],check=True)
+ d=float(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','csv=p=0',str(r/'audio'/f'{i}.aiff')]))
+ s['duration']=max(s['duration'],d+0.7)
+(r/'scenes.json').write_text(json.dumps(S,ensure_ascii=False,indent=2));print('duration',sum(s['duration'] for s in S))

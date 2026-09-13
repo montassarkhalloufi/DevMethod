@@ -1,0 +1,111 @@
+1
+00:00:00,000 --> 00:00:00,623
+Une idée.
+
+2
+00:00:00,623 --> 00:00:01,799
+Trois directions.
+
+3
+00:00:01,799 --> 00:00:02,490
+Un master.
+
+4
+00:00:02,490 --> 00:00:04,981
+Puis une application qui fonctionne.
+
+5
+00:00:06,008 --> 00:00:10,664
+D’abord, décrivez le produit et ce que son utilisateur doit pouvoir faire.
+
+6
+00:00:12,157 --> 00:00:15,814
+Avec design, demandez trois directions pour le même écran.
+
+7
+00:00:18,769 --> 00:00:21,081
+Éditorial, Atelier ou Botanique.
+
+8
+00:00:21,081 --> 00:00:24,261
+Même contenu, trois personnalités visuelles.
+
+9
+00:00:25,110 --> 00:00:26,332
+Ici, le choix est A.
+
+10
+00:00:26,332 --> 00:00:29,324
+Codex développe cette direction en master screen.
+
+11
+00:00:32,224 --> 00:00:36,831
+Le master précise la typographie, les couleurs, les cartes et les boutons.
+
+12
+00:00:36,831 --> 00:00:38,760
+Il est approuvé avant la suite.
+
+13
+00:00:40,644 --> 00:00:45,660
+La commande suivante reste design : génère les écrans à partir de ce master.
+
+14
+00:00:48,080 --> 00:00:52,887
+Voici le formulaire d’ajout, généré avec le master comme référence visuelle.
+
+15
+00:00:54,657 --> 00:00:56,565
+Puis la vue des lectures terminées.
+
+16
+00:00:56,565 --> 00:00:59,510
+La même direction accompagne un autre état du produit.
+
+17
+00:01:01,662 --> 00:01:05,876
+Le plan relie ces écrans aux actions à réaliser et aux vérifications attendues.
+
+18
+00:01:07,668 --> 00:01:12,300
+Implement construit l’interface et ses vrais comportements à partir des références.
+
+19
+00:01:13,726 --> 00:01:15,001
+Passons au résultat.
+
+20
+00:01:15,001 --> 00:01:16,659
+On filtre la bibliothèque.
+
+21
+00:01:16,659 --> 00:01:17,870
+On ajoute un livre.
+
+22
+00:01:17,870 --> 00:01:21,058
+On commence sa lecture, puis on le marque terminé.
+
+23
+00:01:21,058 --> 00:01:24,628
+Après rechargement, les données sont toujours présentes.
+
+24
+00:01:33,858 --> 00:01:38,583
+Sur mobile, les mêmes actions restent accessibles dans une disposition adaptée.
+
+25
+00:01:39,865 --> 00:01:43,348
+Verify contrôle les parcours utiles et les résultats des tests.
+
+26
+00:01:45,989 --> 00:01:50,946
+On compare ensuite le navigateur aux références, puis on corrige les écarts importants.
+
+27
+00:01:53,442 --> 00:01:57,192
+La livraison locale conserve le résultat et son état de reprise.
+
+28
+00:01:59,450 --> 00:02:03,223
+Découvrez Dev Method sur GitHub et essayez cette chaîne sur votre projet.

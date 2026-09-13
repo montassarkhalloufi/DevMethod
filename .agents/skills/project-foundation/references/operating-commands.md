@@ -16,7 +16,7 @@ Use [work sizing](work-sizing.md) to select relevant stages. A quick change may 
 |---|---|---|
 | `/explore` | Understand the problem, users, market, and constraints | `/frame` |
 | `/frame` | Define value, scope, exclusions, and metrics | `/design` or `/architecture` |
-| `/design` | Create/select visual direction and mockups, or apply approved UX; resolve design-to-code for visual work | `/architecture` |
+| `/design` | Create/select visual direction, master and derived screens, or apply approved UX; resolve design-to-code for visual work | `/design` for unfinished visual scope, then `/architecture` |
 | `/architecture` | Define boundaries, ADRs, contracts, risks, and open decisions | `/plan` |
 | `/plan` | Break work into milestones, epics, and ready tickets | `/ready` |
 | `/ready <ticket>` | Verify scope, DoD, dependencies, contract, and tests | `/implement <ticket>` |
