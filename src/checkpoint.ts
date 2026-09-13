@@ -2,15 +2,21 @@ import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { checkPath } from './filesystem.js';
+import { gitState, validGit, type GitState } from './records.js';
 
 export interface CheckpointSource { id: string; path: string; sha256: string }
 export interface CheckpointEvidence extends CheckpointSource {
   sourceIds: string[];
   dependsOn: string[];
-  outcome: 'passed' | 'failed' | 'not-run';
+  outcome: 'passed' | 'failed' | 'blocked' | 'not-run';
+  criterionIds?: string[];
+  kind?: 'automated' | 'manual' | 'design-review' | 'recommendation';
+  revision?: string;
 }
 export interface Checkpoint {
   format: 1;
+  git?: GitState;
+  blockers?: string[];
   scope: string;
   status: 'active' | 'blocked' | 'complete';
   nextAction: string | null;
@@ -26,7 +32,7 @@ export interface CheckpointReport {
   nextAction?: string | null;
   findings: CheckpointFinding[];
   sources: { id: string; state: 'unchanged' | 'changed' | 'unavailable' }[];
-  evidence: { id: string; state: 'valid' | 'invalidated' | 'failed' | 'not-run' }[];
+  evidence: { id: string; state: 'valid' | 'invalidated' | 'failed' | 'blocked' | 'not-run' }[];
 }
 
 const object = (value: unknown): value is Record<string, unknown> =>
@@ -58,8 +64,16 @@ function validate(input: unknown): Checkpoint {
     throw new Error('sources must contain pinned IDs, safe relative paths and lowercase SHA-256 hashes.');
   if (!Array.isArray(input.evidence) || !input.evidence.every(item => pinned(item) && object(item)
     && ids(item.sourceIds) && item.sourceIds.length > 0 && ids(item.dependsOn)
-    && typeof item.outcome === 'string' && ['passed', 'failed', 'not-run'].includes(item.outcome)))
+    && typeof item.outcome === 'string' && ['passed', 'failed', 'blocked', 'not-run'].includes(item.outcome)))
     throw new Error('evidence needs pinned artifacts, sourceIds, dependsOn and outcome passed, failed or not-run.');
+  if (input.sources.length > 256 || input.evidence.length > 256) throw new Error('Checkpoint supports at most 256 sources and evidence items.');
+  if (input.git !== undefined && !validGit(input.git)) throw new Error('Invalid Git checkpoint provenance.');
+  if (input.blockers !== undefined && (!Array.isArray(input.blockers) || !input.blockers.every(nonempty))) throw new Error('blockers must be nonempty strings.');
+  for (const item of input.evidence) {
+    if (item.criterionIds !== undefined && (!ids(item.criterionIds) || !item.criterionIds.length)) throw new Error('criterionIds must be nonempty unique IDs.');
+    if (item.kind !== undefined && (typeof item.kind !== 'string' || !['automated', 'manual', 'design-review', 'recommendation'].includes(item.kind))) throw new Error('Invalid verification kind.');
+    if (item.revision !== undefined && !nonempty(item.revision)) throw new Error('Invalid evidence revision.');
+  }
   const state = input as unknown as Checkpoint;
   const sources = new Set(state.sources.map(source => source.id));
   const evidence = new Map(state.evidence.map(item => [item.id, item]));
@@ -88,7 +102,7 @@ function readPinned(destination: string, relative: string): Buffer {
   if (!safePath(relative)) throw new Error('Expected a safe repository-relative path.');
   const file = path.join(destination, relative);
   checkPath(file);
-  if (!fs.lstatSync(file).isFile()) throw new Error('Expected a regular file.');
+  if (!fs.lstatSync(file).isFile() || fs.lstatSync(file).size > 1024 * 1024) throw new Error('Expected a regular file.');
   return fs.readFileSync(file);
 }
 function emptyReport(destination: string): CheckpointReport {
@@ -137,10 +151,19 @@ export function inspectCheckpoint(destination: string, input: unknown): Checkpoi
     }
   }
   report.evidence = state.evidence.map(item => ({ id: item.id, state: evidenceStates.get(item.id)! }));
-  const needsVerification = report.sources.some(source => source.state !== 'unchanged')
+  let gitChanged = false;
+  if (state.git) {
+    try {
+      const current = gitState(report.destination);
+      gitChanged = Object.entries(state.git).some(([key, value]) => current[key as keyof GitState] !== value);
+      if (gitChanged) report.findings.push({ code: 'git-changed', message: 'Branch, commit or worktree changed; reassess scope and omitted dependencies. Independent pins are retained.' });
+    } catch { gitChanged = true; report.findings.push({ code: 'git-unavailable', message: 'Cannot compare recorded Git provenance.' }); }
+  }
+  for (const blocker of state.blockers ?? []) report.findings.push({ code: 'dependency-blocked', message: blocker });
+  const needsVerification = gitChanged || report.sources.some(source => source.state !== 'unchanged')
     || report.evidence.some(item => item.state !== 'valid') || report.evidence.length === 0;
   if (!report.evidence.length) report.findings.push({ code: 'evidence-empty', message: 'No evidence was pinned; establish verification before relying on this checkpoint.' });
-  report.status = state.status === 'blocked' ? 'blocked' : needsVerification ? 'reverify' : state.status === 'complete' ? 'complete' : 'ready';
+  report.status = state.status === 'blocked' || (state.blockers?.length ?? 0) > 0 || state.evidence.some(item => item.outcome === 'blocked') ? 'blocked' : needsVerification ? 'reverify' : state.status === 'complete' ? 'complete' : 'ready';
   return report;
 }
 

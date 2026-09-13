@@ -20,6 +20,10 @@ Before adoption, define the stack, commands, scope, deployment permissions, and 
 
 Project-specific examples, history, and sources remain in that project. This kit never treats them as universal rules.
 
+## Mission context
+
+Use a mission as the unit of authorized work. Keep Quick records inline; substantial work may use [mission context](references/mission-context.md) and the scoped-delivery mission template. Select sources by subject authority and load details progressively. Optional offline CLI inspection never executes a mission.
+
 ## Reusable working method
 
 This kit formalizes a complete method: exploration → framing → design → architecture → planning → implementation → testing → review → integration. A new constraint, failed validation, or open decision returns work to the appropriate command.

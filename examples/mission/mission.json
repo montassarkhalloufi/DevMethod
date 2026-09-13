@@ -1,0 +1,18 @@
+{
+  "format": 1,
+  "id": "TASK-TITLE",
+  "path": "quick",
+  "outcome": "Reject empty task titles while preserving valid titles.",
+  "scope": ["Task title validation"],
+  "exclusions": ["API redesign", "Publication"],
+  "invariants": ["Preserve the existing task API"],
+  "uncertainties": [],
+  "owner": "mission-owner",
+  "status": "active",
+  "nextAction": "Inspect the title implementation and run its acceptance check.",
+  "stopConditions": ["Acceptance verified and diff reviewed", "A required contract is unresolved"],
+  "acceptance": [{"id": "AC1", "description": "Whitespace-only titles are rejected", "changes": ["examples/mission/CONTRACT.md"], "verification": "Inspect the fictional title contract; this template does not claim an executed application test.", "kind": "design-review"}],
+  "sources": [{"id": "title-contract", "path": "examples/mission/CONTRACT.md", "level": "domain", "reason": "Defines accepted title validation", "authority": "Authority for this fictional exercise's title semantics only", "kind": "accepted-decision", "revision": "working-tree; captured bytes are pinned by context"}],
+  "dependencies": [],
+  "contradictions": []
+}
