@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:01,698
+Une idée, c'est un début.
+
+2
+00:00:01,698 --> 00:00:04,278
+Un produit vérifié, c'est un parcours.
+
+3
+00:00:04,278 --> 00:00:08,963
+Dev Method guide votre agent de développement, du besoin aux preuves.
+
+4
+00:00:10,163 --> 00:00:14,324
+Pour cette démonstration, nous sommes partis d'un dossier vide.
+
+5
+00:00:14,324 --> 00:00:21,854
+Un agent a reçu Dev Method et un besoin simple : créer Clair, une application locale pour organiser ses priorités.
+
+6
+00:00:23,054 --> 00:00:25,862
+Voici le résultat réel dans le navigateur.
+
+7
+00:00:25,862 --> 00:00:29,873
+On ajoute une priorité, on la termine et on filtre la liste.
+
+8
+00:00:29,873 --> 00:00:33,283
+Les données restent disponibles après rechargement.
+
+9
+00:00:34,483 --> 00:00:38,815
+Dans le pilote visuel Lisière, trois directions ont été proposées.
+
+10
+00:00:38,815 --> 00:00:42,360
+Le choix humain a précédé la maquette et le prototype.
+
+11
+00:00:42,360 --> 00:00:46,627
+La génération d'images utilise les outils disponibles de l'agent.
+
+12
+00:00:47,827 --> 00:00:51,964
+Les tests et les vérifications navigateur accompagnent la livraison.
+
+13
+00:00:51,964 --> 00:00:59,448
+Ces pilotes sont de vrais essais encadrés, pas une garantie universelle ni une comparaison gagnée contre une autre méthode.
+
+14
+00:01:00,648 --> 00:01:02,877
+Découvrez Dev Method sur GitHub.
+
+15
+00:01:02,877 --> 00:01:09,216
+Installez le kit, décrivez votre objectif et commencez par une petite livraison vérifiable.

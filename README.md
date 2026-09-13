@@ -115,6 +115,14 @@ flowchart TD
   E --> F[Handoff]
 ```
 
+## Watch a real from-zero example
+
+[French demo video](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). A separate agent built a small app from a fresh kit installation; the parent verified real browser behavior. The video also shows the separate supervised Lisière visual pilot.
+
+## Visual creation in the source version
+
+The current source adds art-direction selection, image mockups through available host tools, and prototype fidelity checks. Follow the [visual workflow guide](docs/VISUAL-WORKFLOW.md) and [recorded Lisière pilot](examples/visual-pilot/README.md). This evolution is not included in the published npm 0.1.0 package.
+
 ## Included modules
 
 `project-foundation`, `decision-architecture`, `design-to-code`, `react-feature-engineering`, `reliable-ai-integration`, `scoped-delivery`.

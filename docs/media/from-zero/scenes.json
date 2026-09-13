@@ -1,0 +1,50 @@
+[
+  {
+    "kind": "title",
+    "title": "De l’idée au produit vérifié.",
+    "eyebrow": "DEVMETHOD",
+    "text": "Une méthode pour guider votre agent, du besoin aux preuves.",
+    "voice": "Une idée, c'est un début. Un produit vérifié, c'est un parcours. Dev Method guide votre agent de développement, du besoin aux preuves.",
+    "duration": 10.162901999999999
+  },
+  {
+    "kind": "start",
+    "title": "Un dossier vide. Un besoin concret.",
+    "eyebrow": "01 — PARTIR DE ZÉRO",
+    "text": "Clair · Organiser ses priorités personnelles.\nKit installé, périmètre limité, données locales.",
+    "voice": "Pour cette démonstration, nous sommes partis d'un dossier vide. Un agent a reçu Dev Method et un besoin simple : créer Clair, une application locale pour organiser ses priorités.",
+    "duration": 12.891247
+  },
+  {
+    "kind": "app",
+    "title": "Un résultat que l’on peut utiliser.",
+    "eyebrow": "02 — CONSTRUIRE",
+    "text": "Ajouter · Terminer · Filtrer · Retrouver ses données",
+    "voice": "Voici le résultat réel dans le navigateur. On ajoute une priorité, on la termine et on filtre la liste. Les données restent disponibles après rechargement.",
+    "duration": 11.428389999999998
+  },
+  {
+    "kind": "visual",
+    "title": "Choisir avant de construire.",
+    "eyebrow": "03 — DONNER UNE DIRECTION",
+    "text": "Pilote visuel Lisière : propositions → choix → maquette approuvée → prototype.",
+    "voice": "Dans le pilote visuel Lisière, trois directions ont été proposées. Le choix humain a précédé la maquette et le prototype. La génération d'images utilise les outils disponibles de l'agent.",
+    "duration": 13.344036
+  },
+  {
+    "kind": "proof",
+    "title": "Des preuves, pas seulement un statut.",
+    "eyebrow": "04 — VÉRIFIER",
+    "text": "Tests exécutés · Interactions vérifiées · Limites documentées",
+    "voice": "Les tests et les vérifications navigateur accompagnent la livraison. Ces pilotes sont de vrais essais encadrés, pas une garantie universelle ni une comparaison gagnée contre une autre méthode.",
+    "duration": 12.821587
+  },
+  {
+    "kind": "end",
+    "title": "Donnez une méthode à votre prochain projet.",
+    "eyebrow": "À VOUS DE CONSTRUIRE",
+    "text": "github.com/montassarkhalloufi/DevMethod\nDécouvrez le guide et les exemples reproductibles.",
+    "voice": "Découvrez Dev Method sur GitHub. Installez le kit, décrivez votre objectif et commencez par une petite livraison vérifiable.",
+    "duration": 9.768163
+  }
+]
