@@ -39,3 +39,7 @@ A build passing is not visual acceptance. Image generation is performed by the h
 - [Mission and evidence](missions/visual-workflow.md): scope, checks and known typography/spacing differences.
 
 Source adoption is separate from npm publication. No new npm version is announced by this guide.
+
+## Full filmed chain
+
+The [4K French walkthrough](media/full-chain-4k/README.md) shows actual Codex CLI commands and outputs, the prior approved visual choices, a fresh implementation, review findings, corrections, browser interaction and verification. CLI transcripts are reformatted for legibility; the provenance and limitations are explicit.

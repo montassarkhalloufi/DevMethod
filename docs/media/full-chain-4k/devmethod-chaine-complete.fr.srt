@@ -1,0 +1,435 @@
+1
+00:00:00,000 --> 00:00:04,584
+Dans cette démonstration, nous allons suivre toute la chaîne de Dev Method.
+
+2
+00:00:04,584 --> 00:00:10,512
+Vous verrez les commandes adressées à Codex, ses réponses réelles et la prochaine étape proposée.
+
+3
+00:00:10,512 --> 00:00:17,113
+Nous prendrons aussi le temps de regarder la direction artistique, le master screen et l'application finale.
+
+4
+00:00:17,113 --> 00:00:19,618
+Les transcriptions de Codex sont réelles.
+
+5
+00:00:19,618 --> 00:00:23,897
+Leur mise en page est adaptée au film pour rester lisible en quatre K.
+
+6
+00:00:23,897 --> 00:00:25,913
+Les temps d'attente sont retirés.
+
+7
+00:00:29,913 --> 00:00:33,489
+Nous commençons dans un dossier sans code d'application.
+
+8
+00:00:33,489 --> 00:00:36,936
+L'installation y dépose les compétences de la méthode.
+
+9
+00:00:36,936 --> 00:00:43,192
+Dev Method est le nom du produit, mais sa commande d'entrée actuelle s'appelle project foundation.
+
+10
+00:00:43,192 --> 00:00:48,491
+Elle se saisit dans la conversation de l'agent, pas comme une commande du terminal.
+
+11
+00:00:48,491 --> 00:00:50,981
+Pour ce film, nous utilisons Codex CLI.
+
+12
+00:00:50,981 --> 00:00:57,557
+Un premier essai incompatible avec la version du modèle a été conservé dans les journaux, puis corrigé.
+
+13
+00:01:01,557 --> 00:01:04,951
+La première commande est project foundation explore.
+
+14
+00:01:04,951 --> 00:01:10,106
+Nous donnons le besoin : une bibliothèque personnelle pour suivre ses lectures.
+
+15
+00:01:10,106 --> 00:01:13,370
+Codex examine le brief et les sources disponibles.
+
+16
+00:01:13,370 --> 00:01:15,523
+À ce stade, il ne doit pas coder.
+
+17
+00:01:15,523 --> 00:01:19,309
+Il distingue ce qui est décidé de ce qui reste à préciser.
+
+18
+00:01:19,309 --> 00:01:24,791
+Regardez la fin de la réponse : elle indique la commande recommandée pour continuer.
+
+19
+00:01:24,791 --> 00:01:28,968
+La méthode transmet ainsi le contexte d'une étape à la suivante.
+
+20
+00:01:32,968 --> 00:01:34,755
+Nous envoyons ensuite frame.
+
+21
+00:01:34,755 --> 00:01:38,904
+Le cadrage transforme l'idée en un résultat limité et vérifiable.
+
+22
+00:01:38,904 --> 00:01:44,393
+Ajouter un livre, filtrer la bibliothèque et changer son statut font partie du besoin.
+
+23
+00:01:44,393 --> 00:01:49,372
+Un service de lecture de livres, des comptes ou un serveur ne sont pas inclus.
+
+24
+00:01:49,372 --> 00:01:55,946
+Ces exclusions comptent : elles évitent que l'agent construise un produit plus vaste que celui demandé.
+
+25
+00:01:55,946 --> 00:01:59,903
+Le cadrage prépare aussi les critères qui serviront aux tests.
+
+26
+00:02:03,903 --> 00:02:09,908
+Avant de développer l'interface, nous comparons trois directions appliquées au même contenu.
+
+27
+00:02:09,908 --> 00:02:13,041
+Éditorial privilégie la typographie et l'espace.
+
+28
+00:02:13,041 --> 00:02:15,848
+Atelier mise sur une organisation compacte.
+
+29
+00:02:15,848 --> 00:02:19,960
+Botanique apporte des illustrations et une ambiance plus douce.
+
+30
+00:02:19,960 --> 00:02:24,594
+Cette planche a réellement été générée pendant la session préparatoire.
+
+31
+00:02:24,594 --> 00:02:29,751
+Ce ne sont pas trois applications terminées, mais trois propositions visuelles.
+
+32
+00:02:29,751 --> 00:02:36,539
+Les mettre côte à côte rend le choix concret, plutôt que de demander seulement une préférence abstraite.
+
+33
+00:02:40,539 --> 00:02:42,233
+L'utilisateur a répondu A.
+
+34
+00:02:42,233 --> 00:02:48,552
+C'est le choix réel conservé de notre session précédente, pas une réponse inventée pour la vidéo.
+
+35
+00:02:48,552 --> 00:02:51,354
+Nous retenons donc la direction éditoriale.
+
+36
+00:02:51,354 --> 00:02:58,129
+Ce choix fixe une intention : fond ivoire, contraste encre, accents rouille et titres avec empattements.
+
+37
+00:02:58,129 --> 00:03:02,168
+Il ne suffit pas encore à valider tous les détails d'un écran.
+
+38
+00:03:02,168 --> 00:03:08,879
+L'étape suivante consiste à produire une référence plus précise, que l'on peut examiner avant de coder.
+
+39
+00:03:12,879 --> 00:03:16,865
+Voici le master screen détaillé, sur ordinateur et sur mobile.
+
+40
+00:03:16,865 --> 00:03:22,717
+Nous pouvons maintenant examiner la hiérarchie, les cartes, les espacements et les boutons.
+
+41
+00:03:22,717 --> 00:03:31,012
+Le libellé Lire a été remplacé par Commencer ou Marquer terminé, car le produit suit la lecture sans fournir le texte des livres.
+
+42
+00:03:31,012 --> 00:03:34,677
+L'utilisateur a ensuite validé cette maquette par un oui.
+
+43
+00:03:34,677 --> 00:03:39,371
+Cette référence approuvée est réutilisée dans la nouvelle implémentation.
+
+44
+00:03:39,371 --> 00:03:44,644
+Elle sera le point de comparaison à la fin, et non une simple image d'inspiration.
+
+45
+00:03:48,644 --> 00:03:52,965
+La commande design relie la référence aux comportements attendus.
+
+46
+00:03:52,965 --> 00:04:00,877
+Une image ne décrit pas à elle seule la validation du formulaire, le clavier, un filtre vide ou un échec de sauvegarde.
+
+47
+00:04:00,877 --> 00:04:07,592
+Codex doit préciser ces états, identifier la référence choisie et préserver les décisions existantes.
+
+48
+00:04:07,592 --> 00:04:12,511
+La génération d'images dépend des outils disponibles dans l'environnement.
+
+49
+00:04:12,511 --> 00:04:18,296
+Dev Method organise ce travail, mais son installation ne fournit pas un moteur d'image.
+
+50
+00:04:22,296 --> 00:04:25,720
+L'architecture choisit le minimum nécessaire au besoin.
+
+51
+00:04:25,720 --> 00:04:30,329
+Ici, une application statique et un stockage dans le navigateur suffisent.
+
+52
+00:04:30,329 --> 00:04:34,065
+La logique peut être testée séparément des éléments visuels.
+
+53
+00:04:34,065 --> 00:04:37,988
+Cette étape n'a pas pour objectif d'accumuler des technologies.
+
+54
+00:04:37,988 --> 00:04:42,845
+Elle permet de clarifier les frontières et les limites avant l'implémentation.
+
+55
+00:04:42,845 --> 00:04:50,380
+Une évolution ultérieure vers plusieurs utilisateurs demanderait d'autres décisions ; elle ne fait pas partie de ce film.
+
+56
+00:04:54,380 --> 00:04:58,095
+La commande plan découpe le périmètre en travail réalisable.
+
+57
+00:04:58,095 --> 00:05:03,667
+Pour ce petit produit, une première tranche peut réunir le parcours utile de bout en bout.
+
+58
+00:05:03,667 --> 00:05:10,353
+Le plan doit contenir un objectif, des critères d'acceptation, les dépendances et les vérifications prévues.
+
+59
+00:05:10,353 --> 00:05:14,315
+Une ligne marquée prête n'est pas une preuve que le code existe.
+
+60
+00:05:14,315 --> 00:05:19,330
+Les statuts doivent rester reliés aux faits et aux résultats réellement observés.
+
+61
+00:05:23,330 --> 00:05:27,725
+Ready contrôle que la tranche est assez précise pour être implémentée.
+
+62
+00:05:27,725 --> 00:05:29,985
+Les sources sont-elles disponibles ?
+
+63
+00:05:29,985 --> 00:05:32,936
+Les comportements importants sont-ils décidés ?
+
+64
+00:05:32,936 --> 00:05:34,631
+Les tests ont-ils un sens ?
+
+65
+00:05:34,631 --> 00:05:39,716
+Dans le parcours filmé, nous montrons cette commande séparément pour l'expliquer.
+
+66
+00:05:39,716 --> 00:05:50,892
+Pour une petite correction déjà claire, Dev Method permet aussi de regrouper cette préparation avec l'implémentation, sans imposer une conversation supplémentaire à chaque étape.
+
+67
+00:05:54,892 --> 00:05:57,261
+Nous autorisons maintenant implement.
+
+68
+00:05:57,261 --> 00:06:01,486
+Codex réalise l'application à partir du brief et du master screen.
+
+69
+00:06:01,486 --> 00:06:05,327
+Aucun code de la première démonstration ne lui a été fourni.
+
+70
+00:06:05,327 --> 00:06:12,625
+Les attentes de calcul et d'écriture sont retirées du montage ; la réponse montrée provient de l'exécution réelle.
+
+71
+00:06:12,625 --> 00:06:18,707
+Regardez ce que l'agent dit avoir vérifié, mais aussi ce qu'il laisse explicitement à vérifier.
+
+72
+00:06:18,707 --> 00:06:22,292
+Un résultat local doit rester distinct d'un déploiement.
+
+73
+00:06:26,292 --> 00:06:30,464
+La revue confronte les fichiers réalisés aux critères de la tranche.
+
+74
+00:06:30,464 --> 00:06:35,312
+Elle cherche des défauts concrets, pas seulement une liste de bonnes pratiques.
+
+75
+00:06:35,312 --> 00:06:39,362
+Nous conservons le résultat de cette revue, y compris ses limites.
+
+76
+00:06:39,362 --> 00:06:43,964
+Si une correction est nécessaire, elle doit être effectuée puis revérifiée.
+
+77
+00:06:43,964 --> 00:06:50,591
+Le fait que l'agent relise son travail ne permet pas de prétendre à une validation indépendante universelle.
+
+78
+00:06:54,591 --> 00:06:56,857
+La revue a trouvé des défauts concrets.
+
+79
+00:06:56,857 --> 00:07:00,808
+Un ajout pouvait écraser des données qui n’avaient pas été chargées.
+
+80
+00:07:00,808 --> 00:07:05,863
+Deux autres points concernaient la création des identifiants et les caractères Unicode.
+
+81
+00:07:05,863 --> 00:07:09,872
+Nous envoyons donc une nouvelle commande implement avec ces constats.
+
+82
+00:07:09,872 --> 00:07:14,229
+Nous demandons aussi de rétablir les couvertures de la référence approuvée.
+
+83
+00:07:14,229 --> 00:07:21,433
+Cette boucle fait partie de la chaîne réelle : une première implémentation n’est pas automatiquement une livraison acceptée.
+
+84
+00:07:25,433 --> 00:07:28,549
+Nous passons maintenant dans le vrai navigateur.
+
+85
+00:07:28,549 --> 00:07:32,119
+L'application affiche la bibliothèque et ses contrôles.
+
+86
+00:07:32,119 --> 00:07:40,427
+Le test parcourt les actions importantes : filtrer, ajouter un livre, commencer ou terminer une lecture, puis recharger la page.
+
+87
+00:07:40,427 --> 00:07:46,398
+C'est cette interaction réelle qui distingue une interface utilisable d'une simple maquette.
+
+88
+00:07:46,398 --> 00:07:49,968
+Les livres sont fictifs et les données restent locales.
+
+89
+00:07:49,968 --> 00:07:56,978
+Aucun appel payant à un fournisseur d'intelligence artificielle n'est nécessaire pour utiliser ce prototype.
+
+90
+00:08:00,978 --> 00:08:05,659
+Nous revenons à la référence approuvée et la comparons à la capture réelle.
+
+91
+00:08:05,659 --> 00:08:11,964
+La comparaison porte sur la composition, la hiérarchie, les couleurs, les couvertures et les actions.
+
+92
+00:08:11,964 --> 00:08:18,268
+Les différences de police ou d'espacement doivent être nommées, pas cachées derrière un build réussi.
+
+93
+00:08:18,268 --> 00:08:21,139
+Le comportement mobile est vérifié séparément.
+
+94
+00:08:21,139 --> 00:08:28,505
+Une image séduisante n'est donc pas la fin du parcours : elle devient un contrat visuel que l'on confronte au produit.
+
+95
+00:08:32,505 --> 00:08:36,297
+Verify rassemble les contrôles manquants et leurs résultats.
+
+96
+00:08:36,297 --> 00:08:41,984
+Les tests de logique et les observations navigateur répondent à des questions différentes.
+
+97
+00:08:41,984 --> 00:08:46,913
+Une commande réussie ne prouve que le périmètre qu'elle a réellement inspecté.
+
+98
+00:08:46,913 --> 00:08:50,452
+Les sorties du film permettent de voir cette séparation.
+
+99
+00:08:50,452 --> 00:08:59,742
+Nous ne prétendons ni à un audit complet d'accessibilité, ni à une compatibilité universelle, ni à une supériorité démontrée sur une autre méthode.
+
+100
+00:09:03,742 --> 00:09:09,390
+Le dernier point de passage enregistre ce qui est livré, les limites et l'état de reprise.
+
+101
+00:09:09,390 --> 00:09:12,527
+Pour cette démonstration, la livraison est locale.
+
+102
+00:09:12,527 --> 00:09:18,865
+Une fusion sur le dépôt de la méthode et une publication du produit seraient des actions différentes.
+
+103
+00:09:18,865 --> 00:09:23,446
+La commande suivante n'autorise pas automatiquement un nouveau périmètre.
+
+104
+00:09:23,446 --> 00:09:31,792
+Cette discipline permet de retrouver le travail dans une autre session sans confondre une proposition, une réalisation et une preuve.
+
+105
+00:09:35,792 --> 00:09:45,056
+Vous avez vu le besoin, les commandes et leurs sorties, les directions artistiques, le master screen approuvé, le code et les vérifications.
+
+106
+00:09:45,056 --> 00:09:49,755
+Dev Method sert à relier ces étapes en conservant les décisions utiles.
+
+107
+00:09:49,755 --> 00:09:52,799
+Retrouvez le guide et les exemples sur GitHub.
+
+108
+00:09:52,799 --> 00:10:01,732
+Pour cette évolution, utilisez la version source documentée : le paquet publié zéro point un n'inclut pas encore toutes ces nouveautés.
+
+109
+00:10:01,732 --> 00:10:06,430
+Commencez par une petite livraison et jugez la méthode sur le résultat.
