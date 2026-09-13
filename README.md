@@ -137,6 +137,12 @@ See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). S
 
 ## Inspect a review in your browser (optional)
 
+[![Watch R-02: from an authorization defect to evidence and a proposed correction](docs/media/review-r02/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)
+
+**[▶ Watch a concrete review finding — 1 min 13 s, French narration](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)** · [Subtitles, chapters and provenance](docs/media/review-r02/README.md)
+
+Follow R-02 in Réservation Lab: an unauthorized cross-building booking, its recorded test evidence, the proposed correction and the checks to rerun. Real interface captures with an animated cursor and French subtitles. This controlled exercise contains intentional defects; the finding remains open, with no verified correction.
+
 Generate a local interactive report from the packaged fictional demo:
 
 ```sh

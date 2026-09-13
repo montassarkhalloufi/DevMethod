@@ -1,0 +1,55 @@
+1
+00:00:00,000 --> 00:00:05,236
+Voici une review de Réservation Lab, un projet expérimental avec des défauts volontaires.
+
+2
+00:00:05,236 --> 00:00:10,368
+Le verdict demande des corrections : trois problèmes sont confirmés, dont deux majeurs.
+
+3
+00:00:10,833 --> 00:00:14,119
+Ouvrons R zéro deux : réservation dans un autre immeuble.
+
+4
+00:00:14,119 --> 00:00:20,946
+Le problème est majeur, confirmé, et toujours ouvert. Un utilisateur peut agir hors de son périmètre autorisé.
+
+5
+00:00:21,417 --> 00:00:25,039
+Alice appartient à l’immeuble A, mais demande une salle de l’immeuble B.
+
+6
+00:00:25,039 --> 00:00:29,161
+Le comportement attendu est un refus, sans enregistrer de réservation.
+
+7
+00:00:29,625 --> 00:00:33,398
+Or, le service confirme la réservation dans B au nom d’Alice.
+
+8
+00:00:33,398 --> 00:00:37,067
+Le rapport indique qu’aucune comparaison entre les immeubles n’est effectuée.
+
+9
+00:00:37,542 --> 00:00:42,975
+La preuve affiche le résultat capturé pendant le test : la demande aboutit et cible la salle B.
+
+10
+00:00:42,975 --> 00:00:46,690
+Le compteur stored vaut un : une réservation a été enregistrée.
+
+11
+00:00:47,167 --> 00:00:52,798
+La correction proposée vérifie que la salle et l’acteur appartiennent au même immeuble, avant toute écriture.
+
+12
+00:00:52,798 --> 00:00:58,858
+L’identité de l’acteur doit venir de l’authentification de confiance, jamais du corps envoyé par le client.
+
+13
+00:00:59,333 --> 00:01:04,407
+Il faut ensuite rejouer le contrôle C zéro quatre et préserver les quatre contrôles déjà réussis.
+
+14
+00:01:04,407 --> 00:01:12,139
+Le constat reste ouvert : aucune preuve de résolution n’est fournie. Cette évaluation contrôlée ne constitue pas un benchmark à l’aveugle.
