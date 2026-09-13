@@ -1,6 +1,6 @@
 # DevMethod 0.1.0
 
-Status: PRs #6–#10 merged; integrated validation and authorized npm publication in progress. This page is the current release record. Earlier rc.2 and native-pilot documents describe their recorded revisions, not the current validation state.
+Status: PRs #6–#10 merged; all integrated checks passed. npm publication is awaiting maintainer authentication (EOTP), not yet confirmed published. This page is the current release record. Earlier rc.2 and native-pilot documents describe their recorded revisions, not the current validation state.
 
 ## Supported release scope
 
@@ -47,3 +47,14 @@ For a reviewed final version, publish the exact verified archive rather than rep
 ## From-zero application validation
 
 [Pocket Tasks validation](GREENFIELD-VALIDATION.md) records a new project built from a frozen brief, independent review and API acceptance, real browser interaction, and a method improvement derived from a discovered defect. This is separate from the incomplete BMAD campaign.
+
+## Exact final artifact (2026-09-13)
+
+- Source: `24a909b2e1293e46683960b7b127e17f29fbf74a`.
+- [Platform CI](https://github.com/montassarkhalloufi/DevMethod/actions/runs/34749164123): Linux, macOS and Windows succeeded on Node 22, including core tests, greenfield tests and packed installation checks.
+- [Fullstack CI](https://github.com/montassarkhalloufi/DevMethod/actions/runs/34749164119): Next.js/NestJS/PostgreSQL checks succeeded on the same revision.
+- `devmethod-ai-0.1.0.tgz`: 174 files; SHA-256 `2962fab73686f54ebbaa6b084cc6f1ef2f11db26a61feb85c633174247149d05`.
+- npm SHA-1: `810337a9da52d711ae2465c57480879aadbf2d0a`.
+- npm integrity: `sha512-bNyJ4to76YUZNvV0xrCIKzBqqh8QqcmtvMVCOx6CsCav0w3h0L/DUHdDpx2VLl/zePa2Eyg7ho8SOvlQOOz/Qg==`.
+
+The retained archive passed extracted-package smoke, including the new application and independent suites, all installation layouts, and preservation of a customized real rc.1 installation. No runtime data, private evaluations, environment files or dependency directories were packaged. Final independent review identified no remaining release blocker. The intended npm tag is `latest`. The first publish attempt returned EOTP; an interactive authentication flow is pending. Verify the registry artifact after authentication before declaring publication complete. This post-build status record is not inside the immutable candidate archive.
