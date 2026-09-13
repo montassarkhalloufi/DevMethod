@@ -1,5 +1,7 @@
 # Mission-driven release candidate
 
+Historical rc.2 record. For the current supported scope and validation, read [the 0.1.0 release record](RELEASE-0.1.0.md).
+
 Baseline inspected: `18d65c7e3b1c772eef69fb24a04eae9313a3f418`, clean checkout. GitHub API on 2026-09-13 confirms PRs #1–#5 merged. Do not reapply them. npm registry still serves `devmethod-ai@0.1.0-rc.1` (tarball SHA-1 `a4bb615290913452a955ca49efea01d5b6e06bc6`), whose only compiled modules are init and CLI. The source baseline's 44 tests passed locally. Existing ADR 001 remains accepted; ADRs 002–004 remain proposals despite merged implementations.
 
 | Capability | Observed state / evidence | Gap | Action |

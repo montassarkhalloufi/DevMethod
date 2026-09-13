@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { checkPath } from './filesystem.js';
+import { parseJson, checkPath } from './filesystem.js';
 export const object = (v) => typeof v === 'object' && v !== null && !Array.isArray(v);
 export const text = (v) => typeof v === 'string' && v.trim().length > 0 && v.length <= 8192;
 export const id = (v) => typeof v === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(v);
@@ -28,12 +28,7 @@ export function readRecord(root, file) {
     if (secretPath(file))
         throw new Error('Secret-like record paths are excluded.');
     const bytes = readLocal(root, file);
-    try {
-        return JSON.parse(bytes.toString('utf8'));
-    }
-    catch {
-        throw new Error('Invalid JSON record; source text omitted.');
-    }
+    return parseJson(bytes.toString('utf8'));
 }
 function git(root, args) {
     checkPath(path.resolve(root));

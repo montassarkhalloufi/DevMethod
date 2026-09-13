@@ -16,3 +16,8 @@ export function checkPath(file: string): void {
     if (path.dirname(current) === current) break;
   }
 }
+
+/** Parse errors must never echo input bytes into logs or JSON reports. */
+export function parseJson(text: string): unknown {
+  try { return JSON.parse(text); } catch { throw new Error('Invalid JSON record; source text omitted.'); }
+}

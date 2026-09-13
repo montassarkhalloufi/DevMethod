@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { checkPath, stat } from './filesystem.js';
+import { parseJson, checkPath, stat } from './filesystem.js';
 
 export const tools = { codex: '.agents/skills', claude: '.claude/skills', cursor: '.cursor/skills' } as const;
 export type Tool = keyof typeof tools;
@@ -49,8 +49,9 @@ export function initialize(options: { destination: string; tool: Tool; selected?
     if (info) {
       // Legacy manifests remain byte-for-byte intact on an otherwise identical init.
       if (relative === 'kit-manifest.json' && info.isFile()) {
-        const existing = JSON.parse(fs.readFileSync(target, 'utf8'));
-        if (existing.provenance === undefined && existing.format === 2 && existing.kit === manifest.kit && existing.tool === manifest.tool &&
+        const parsed = parseJson(fs.readFileSync(target, 'utf8'));
+        const existing = parsed as Partial<typeof manifest> | null;
+        if (existing && typeof existing === 'object' && existing.provenance === undefined && existing.format === 2 && existing.kit === manifest.kit && existing.tool === manifest.tool &&
             JSON.stringify(existing.skills) === JSON.stringify(selected) &&
             Object.keys(existing.files ?? {}).length === Object.keys(hashes).length &&
             Object.entries(hashes).every(([name, hash]) => existing.files?.[name] === hash)) continue;

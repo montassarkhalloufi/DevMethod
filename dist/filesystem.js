@@ -21,3 +21,12 @@ export function checkPath(file) {
             break;
     }
 }
+/** Parse errors must never echo input bytes into logs or JSON reports. */
+export function parseJson(text) {
+    try {
+        return JSON.parse(text);
+    }
+    catch {
+        throw new Error('Invalid JSON record; source text omitted.');
+    }
+}

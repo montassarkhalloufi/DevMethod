@@ -1,6 +1,6 @@
 # Start the kit
 
-This folder contains six independent skills. Copy `.agents/skills/` into the project while preserving its existing files. If a version already exists, compare changes before updating it. Keep `PROJECT_PROFILE.md` and complete the stack, commands, scope, deployment permissions, and data requirements from the project before adoption. `ENGINEERING_POLICY.template.md` retains the included policy; merge it with `CONTRIBUTING.md` and existing instructions.
+DevMethod offers six independent modules; this installation contains the modules you selected. If this is a staging directory, review and copy its installed skill folder into the project while preserving existing files. If you installed directly into the project, the selected skills are already in place. If a version already exists, compare changes before updating it. Keep `PROJECT_PROFILE.md` and complete the stack, commands, scope, deployment permissions, and data requirements from the project before adoption. `ENGINEERING_POLICY.template.md` retains the included policy; merge it with `CONTRIBUTING.md` and existing instructions.
 
 In Codex, start with `$project-foundation status`. In Claude Code or Cursor, start with `/project-foundation status`. For an open-ended request:
 

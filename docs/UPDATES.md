@@ -21,7 +21,7 @@ To review content differences, install the candidate CLI into a fresh staging di
 
 ## Verification checkpoint
 
-Implementation validation on macOS with Node.js: `npm ci` and `npm test` pass (23 tests, including all three layouts and subsets). `npm pack --dry-run --cache /private/tmp/devmethod-provenance-npm-cache` passes; a freshly extracted tarball successfully runs a Claude subset installation and JSON update preview with matching provenance. This is a packaged CLI smoke test, not Claude host evidence. The default npm cache was unwritable, so packaging used an isolated temporary cache; no cache ownership changes were made.
+Historical provenance-slice validation (before 0.1.0; current results are in [the release record](RELEASE-0.1.0.md)) on macOS with Node.js: `npm ci` and `npm test` pass (23 tests, including all three layouts and subsets). `npm pack --dry-run --cache /private/tmp/devmethod-provenance-npm-cache` passes; a freshly extracted tarball successfully runs a Claude subset installation and JSON update preview with matching provenance. This is a packaged CLI smoke test, not Claude host evidence. The default npm cache was unwritable, so packaging used an isolated temporary cache; no cache ownership changes were made.
 
 Resume by reviewing ADR 003 and the CLI/manifest diff, then run the platform matrix against the exact candidate before claiming cross-platform execution. Do not apply updates automatically or publish this candidate without the release process.
 
