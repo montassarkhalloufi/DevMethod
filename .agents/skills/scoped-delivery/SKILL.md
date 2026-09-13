@@ -17,6 +17,8 @@ Reuse the existing tracker/plan before creating any record. For substantial work
 
 Before fixing tickets, discuss the first useful outcome, learning, scope trade-offs, effort uncertainty and milestone demonstrations. Respect the user’s scope changes and existing delegations. Keep plans conditional where decisions remain open; a proposed plan proves neither readiness nor implementation.
 
+For `review`, use [evidence-backed review](references/review-workflow.md) to detect actual versions, verify official sources and distinguish checks, confirmed findings and risks. Structured results own review evidence; reports, UI, tickets and plans reference or derive it.
+
 ## Deliver
 
 - One coherent intent per slice; prefer a useful vertical slice to disconnected layers.

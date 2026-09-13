@@ -1,0 +1,194 @@
+{
+  "format": 1,
+  "id": "REVIEW-UI-1",
+  "title": "Review de l’interface DevMethod",
+  "project": "DevMethod",
+  "mission": "workflow-0.3",
+  "tickets": [
+    {
+      "id": "PR-19",
+      "title": "Livraison du workflow et de la review",
+      "url": "https://github.com/montassarkhalloufi/DevMethod/pull/19"
+    }
+  ],
+  "date": "2026-09-13",
+  "scope": [
+    "Format de review, rendu sécurisé, navigation clavier/mobile et exports du candidat en cours."
+  ],
+  "exclusions": [
+    "Audit exhaustif WCAG avec lecteur d’écran",
+    "Exécution native du workflow conversationnel sur les trois hôtes"
+  ],
+  "revision": {
+    "commit": "8d7cd3584c891c04d983f85279e14a2070ab621d + working changes",
+    "dirty": [
+      "src/review-app.ts",
+      "src/review-model.ts",
+      "src/review-cli.ts",
+      "src/review.ts",
+      "src/review-ui.css",
+      "src/cli.ts"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "TypeScript",
+      "version": "5.9.3",
+      "detectedFrom": "package-lock.json"
+    },
+    {
+      "name": "Node.js",
+      "version": "24.18.0 local / >=22 package",
+      "detectedFrom": "node --version / package.json"
+    }
+  ],
+  "sources": [
+    {
+      "id": "WAI-TABS",
+      "title": "Tabs Pattern",
+      "kind": "documentation",
+      "publisher": "W3C WAI",
+      "technology": "ARIA / DOM",
+      "version": "APG consulted 2026-09-13",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/",
+      "consultedAt": "2026-09-13",
+      "access": "consulted",
+      "usage": "Clavier, focus et association des onglets/panneaux.",
+      "compatibility": "Guide de conception ; ne certifie pas une conformité WCAG complète.",
+      "provenance": "Page du site officiel W3C consultée pendant cette session."
+    }
+  ],
+  "checks": [
+    {
+      "id": "UI-KEYBOARD",
+      "title": "Clavier et retour mobile",
+      "domain": "Interface",
+      "kind": "manual",
+      "status": "passed",
+      "result": "Focus après correction et conservation des filtres observés.",
+      "reason": null,
+      "evidenceIds": [
+        "E-FOCUS-AFTER"
+      ],
+      "revision": "8d7cd3584c891c04d983f85279e14a2070ab621d + working changes",
+      "targets": [
+        "finding-selection",
+        "tabs"
+      ]
+    },
+    {
+      "id": "UI-EXPORT",
+      "title": "Contenu de l’export HTML",
+      "domain": "Interface",
+      "kind": "manual",
+      "status": "passed",
+      "result": "Résultats, état de sélection et empreinte CSP vérifiés dans le dernier export Chrome.",
+      "reason": null,
+      "evidenceIds": [
+        "E-EXPORT"
+      ],
+      "revision": "8d7cd3584c891c04d983f85279e14a2070ab621d + working changes",
+      "targets": [
+        "export"
+      ]
+    },
+    {
+      "id": "UI-REOPEN",
+      "title": "Réouverture file://",
+      "domain": "Interface",
+      "kind": "manual",
+      "status": "blocked",
+      "result": "Non vérifiée dans le navigateur automatisé.",
+      "reason": "La politique de l’outil interdit cette navigation ; aucun contournement effectué.",
+      "evidenceIds": [],
+      "revision": "8d7cd3584c891c04d983f85279e14a2070ab621d + working changes",
+      "targets": [
+        "export"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "FOCUS-01",
+      "title": "La sélection d’un constat perdait le focus clavier",
+      "domain": "Accessibilité",
+      "severity": "moderate",
+      "severityReason": "La navigation clavier quittait le contenu attendu et rendait la poursuite du parcours difficile.",
+      "confidence": "confirmed",
+      "resolution": "resolved",
+      "location": {
+        "path": "src/review-app.ts",
+        "line": null,
+        "component": "Sélection du constat et gestion de hashchange"
+      },
+      "trigger": "Activer un constat avec Enter quand le fragment de lien doit changer.",
+      "expected": "Le focus arrive sur le titre du détail et permet de poursuivre au clavier.",
+      "observed": "Avant correction, le rendu immédiat était suivi d’un deuxième rendu lors de hashchange ; le titre focalisé était remplacé.",
+      "impact": "L’utilisateur au clavier perdait son point de navigation.",
+      "reproduction": [
+        "Activer R-01 avec Enter depuis la liste.",
+        "Inspecter le focus après le changement du fragment."
+      ],
+      "evidenceIds": [
+        "E-FOCUS-BEFORE"
+      ],
+      "correction": "Mettre à jour le fragment avec history.pushState, rendre une seule fois, puis focaliser le titre. Restaurer aussi le focus après un changement d’onglet.",
+      "tradeoffs": "Écouter popstate séparément pour les navigations historiques.",
+      "sourceIds": [
+        "WAI-TABS"
+      ],
+      "ticketIds": [
+        "PR-19"
+      ],
+      "verification": "Enter conserve le focus sur detail-title ; ArrowRight cible Correction ; le retour mobile restaure la liste filtrée.",
+      "resolutionEvidenceIds": [
+        "E-FOCUS-AFTER"
+      ],
+      "targets": [
+        "finding-selection",
+        "tabs"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E-FOCUS-BEFORE",
+      "title": "Observation réelle avant correction",
+      "kind": "log",
+      "content": "Navigateur intégré, 2026-09-13 : activation clavier du constat R-01 puis lecture du focus. Résultat observé : document.activeElement.id vide après le second rendu déclenché par hashchange. Le lien direct devenait #finding=R-01. Observation manuelle de cette session, pas un journal de test CI.",
+      "url": null,
+      "image": null
+    },
+    {
+      "id": "E-FOCUS-AFTER",
+      "title": "Vérification réelle après correction",
+      "kind": "log",
+      "content": "Navigateur intégré, 2026-09-13 : Enter sur le constat => focus detail-title. ArrowRight sur Preuve => focus detail-content-correction. En mobile 390x844, retour => focus sur le constat choisi ; query=silencieux et confidence=confirmed conservés ; aucun débordement horizontal.",
+      "url": null,
+      "image": null
+    },
+    {
+      "id": "E-EXPORT",
+      "title": "Export Chrome inspecté sur disque",
+      "kind": "text",
+      "content": "Le dernier export Chrome possède review format 1, uiState.selected=R-01, filters.query=silencieux et section=correction. Les données ont été validées et l’empreinte SHA-256 du programme correspond à la CSP. Réouverture navigateur file:// non exécutée : politique de l’outil.",
+      "url": null,
+      "image": null
+    }
+  ],
+  "limits": [
+    "La réouverture directe file:// est bloquée par la politique du navigateur de test ; elle n’est pas annoncée comme vérifiée.",
+    "Les tests de format ne prouvent ni la vérité des preuves fournies ni le comportement d’un agent de review.",
+    "Le mode d’ouverture final reste à choisir avant publication."
+  ],
+  "policy": {
+    "blockingSeverities": [
+      "critical",
+      "major",
+      "moderate"
+    ],
+    "requireAllChecks": true,
+    "rationale": "Corriger les défauts confirmés affectant le parcours et vérifier les contrôles de livraison avant publication."
+  },
+  "summary": "Le défaut de focus observé a été corrigé et revérifié. La validation de livraison reste incomplète, avec ses limites explicites."
+}

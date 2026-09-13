@@ -29,7 +29,7 @@ DevMethod is the public name of the kit. Its entry-point skill remains `project-
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**DevMethod 0.3.0.** [Changes, migration and verification limits](docs/RELEASE-0.3.0.md). This release adds proportionate research, explicit architecture decisions, delivery-scope discussion and linked mission/ticket templates. Check the registry and GitHub release for publication evidence.
+**DevMethod 0.3.0 candidate (not yet published).** [Changes, migration and verification limits](docs/RELEASE-0.3.0.md). This release adds proportionate research, explicit architecture decisions, delivery-scope discussion linked mission/ticket templates, and a functional browser review viewer. Check the registry and GitHub release for publication evidence.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
@@ -129,6 +129,16 @@ See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). S
 ## More recorded examples
 
 [Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example; the featured video above follows Lisière throughout.
+
+## Inspect a review in your browser
+
+Generate a local interactive report from the packaged fictional demo:
+
+```sh
+npx --yes devmethod-ai@0.3.0 review --demo --output review.html
+```
+
+Open `review.html` in your browser. For your own results, use `--review relative/review.json`; add `--markdown REVIEW.md` for the derived report. Search and filter findings, inspect evidence and source provenance, and export the same results. Existing Markdown remains readable with `--legacy`. See [review commands, format and trust limits](docs/REVIEWS.md). The CLI presents recorded results; it does not perform an automatic code review.
 
 ## Visual design and architecture
 

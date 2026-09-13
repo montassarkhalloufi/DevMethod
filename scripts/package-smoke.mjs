@@ -18,10 +18,18 @@ try {
   assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.3.0');
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
   assert.match(call(['--help']), /Markdown PLAN\/tickets and legacy missions/);
-  for (const resource of ['project-foundation/references/exploration.md', 'project-foundation/references/delivery-planning.md', 'project-foundation/assets/EXISTANT.md', 'project-foundation/assets/OPPORTUNITES.md', 'project-foundation/assets/CADRAGE.md', 'project-foundation/assets/REGLES.md', 'scoped-delivery/assets/PLAN.md', 'scoped-delivery/assets/TICKET.md', 'scoped-delivery/assets/REPRISE.md', 'scoped-delivery/assets/MISSION.md']) {
+  for (const resource of ['project-foundation/references/exploration.md', 'project-foundation/references/delivery-planning.md', 'project-foundation/assets/EXISTANT.md', 'project-foundation/assets/OPPORTUNITES.md', 'project-foundation/assets/CADRAGE.md', 'project-foundation/assets/REGLES.md', 'scoped-delivery/assets/PLAN.md', 'scoped-delivery/assets/TICKET.md', 'scoped-delivery/assets/REPRISE.md', 'scoped-delivery/assets/MISSION.md', 'scoped-delivery/assets/REVIEW.md', 'scoped-delivery/references/review-workflow.md']) {
     assert.ok(fs.statSync(path.join(pkg, '.agents/skills', resource)).size > 0, resource);
   }
   assert.ok(fs.existsSync(path.join(pkg, 'examples/mission-dialogue/docs/missions/first-save/tickets/SAVE-1.md')));
+  for (const file of ['review.js', 'review-cli.js', 'review-model.js', 'review-browser.js', 'review-ui.css']) assert.ok(fs.statSync(path.join(pkg, 'dist', file)).size > 0, file);
+  const reviewRoot = path.join(root, 'review-output');
+  const reviewResult = JSON.parse(call(['review', '--demo', '--dest', reviewRoot, '--output', 'review.html', '--markdown', 'REVIEW.md', '--json']));
+  assert.equal(reviewResult.status, 'corrections');
+  assert.ok(fs.readFileSync(path.join(reviewRoot, 'review.html'), 'utf8').includes('Content-Security-Policy'));
+  assert.ok(fs.readFileSync(path.join(reviewRoot, 'REVIEW.md'), 'utf8').includes('R-01'));
+  call(['review', '--demo', '--dest', reviewRoot, '--output', 'review.html'], 2);
+
   for (const testFile of [...fs.readdirSync(path.join(pkg, 'examples/pocket-tasks/tests')).filter(f => f.endsWith('.test.mjs')).map(f => `examples/pocket-tasks/tests/${f}`), 'evaluation/greenfield/acceptance.test.mjs', 'evaluation/greenfield/security.test.mjs']) {
     run(process.execPath, ['--test', testFile], pkg);
   }

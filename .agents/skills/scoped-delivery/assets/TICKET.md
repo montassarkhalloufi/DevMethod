@@ -14,7 +14,7 @@ Verification strategy / available commands:
 | Criterion ID | Executed check or procedure / kind | Result (passed, failed, blocked, not run) | Inspected revision and relevant dirty changes | Artifact or concise observation / review reference |
 |---|---|---|---|---|
 
-Review: self or independent, inspected revision/diff, findings and resolution.
+Review: link the canonical review.json and stable finding IDs; record self or independent and inspected revision/diff there. Do not copy live finding resolution here.
 Integration evidence: PR / merge commit / deployment reference and actual result when applicable.
 Next action if unfinished:
 

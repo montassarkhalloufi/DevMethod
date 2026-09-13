@@ -89,7 +89,7 @@ for (const tool of Object.keys(tools)) test(`workflow resources on ${tool}: comp
   const manifest = JSON.parse(fs.readFileSync(path.join(destination, 'kit-manifest.json')));
   const resources = {
     'project-foundation': ['references/exploration.md', 'references/delivery-planning.md', 'assets/EXISTANT.md', 'assets/OPPORTUNITES.md', 'assets/CADRAGE.md', 'assets/REGLES.md'],
-    'scoped-delivery': ['assets/PLAN.md', 'assets/TICKET.md', 'assets/REPRISE.md', 'assets/MISSION.md'],
+    'scoped-delivery': ['assets/PLAN.md', 'assets/TICKET.md', 'assets/REPRISE.md', 'assets/MISSION.md', 'assets/REVIEW.md', 'references/review-workflow.md'],
   };
   for (const [skill, files] of Object.entries(resources)) for (const file of files) {
     assert.ok(manifest.files[`${tools[tool]}/${skill}/${file}`], file);

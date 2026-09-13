@@ -1,12 +1,15 @@
 # DevMethod 0.3.0 — research and decisions before commitment
 
+Status: draft candidate; not published. The review opening mode and remaining verification are tracked in [ADR 008](ADR-008-review-presentation.md).
+
 This minor release extends the workflow and its distributed resources while retaining the public CLI contracts, six skills, fourteen stages, JSON schemas and existing mission compatibility. The exact publication and CI evidence is recorded in the release PR and GitHub release; package metadata alone is not proof of publication.
 
 - explore researches existing solutions proportionately, traces dated sources, distinguishes claims and hypotheses, and discusses what to do next.
 - architecture presents credible options and recommendations in conversation before dependent detail; explicit choice or scoped delegation is recorded. Open decisions keep plans conditional.
 - plan discusses useful delivery scope, learning, trade-offs and uncertain effort before tickets; milestones carry demonstrations, exit criteria and authorized continuation.
 - New optional research/product and PLAN/TICKET/REPRISE templates provide one owner per fact, progressive reading and ticket-owned verification. Existing single-file missions and trackers remain supported.
-- The design module and approved visual workflow remain unchanged. Installer resource discovery and integrity manifest formats stay compatible; help distinguishes skill stages from JSON inspectors.
+- Review adds official-source/version-aware inspection guidance, validated format-1 results, derived Markdown and a functional local browser viewer. Findings and checks remain distinct; the viewer covers search/filters, evidence, coverage, source provenance, exports, responsive keyboard navigation and historical/invalid states.
+- The design module and approved visual workflow remain unchanged. Installer resource discovery and integrity manifest formats stay compatible; the new review CLI presents results without executing repository checks. See [review usage and limits](REVIEWS.md).
 
 ## Adoption and migration
 
