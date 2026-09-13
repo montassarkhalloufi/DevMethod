@@ -1,0 +1,18 @@
+{
+  "format": 1,
+  "date": "2026-09-13",
+  "mode": "bmad-build-auto versus DevMethod",
+  "bmadInitializationPassed": true,
+  "taskLocalTemporaryDirectory": true,
+  "methodArtifactsAllowed": true,
+  "gitMetadataWritable": true,
+  "synchronousSubagentsAvailable": true,
+  "descendantUsageMeasured": false,
+  "descendantCancellationVerified": true,
+  "equalHostPermissions": false,
+  "frozenMethodRevisions": true,
+  "independentAcceptanceChecks": true,
+  "observation": "Native Git, BMAD renderer, child execution and cancellation probes passed. Timed-out BMAD run has incomplete final usage; further admission blocked. Three root invocations; two probes each spawned one child. See comparison-v2-results.json.",
+  "rootInvocations": 3,
+  "discoveredChildThreads": 3
+}
