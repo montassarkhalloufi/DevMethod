@@ -15,7 +15,7 @@ try {
   run('tar', ['-xzf', '-'], root, 0, fs.readFileSync(path.resolve(archive)));
   const pkg = path.join(root, 'package'); const cli = path.join(pkg, 'dist/cli.js');
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
-  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.3.0');
+  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.3.1');
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
   assert.match(call(['--help']), /Markdown PLAN\/tickets and legacy missions/);
   for (const resource of ['project-foundation/references/exploration.md', 'project-foundation/references/delivery-planning.md', 'project-foundation/assets/EXISTANT.md', 'project-foundation/assets/OPPORTUNITES.md', 'project-foundation/assets/CADRAGE.md', 'project-foundation/assets/REGLES.md', 'scoped-delivery/assets/PLAN.md', 'scoped-delivery/assets/TICKET.md', 'scoped-delivery/assets/REPRISE.md', 'scoped-delivery/assets/MISSION.md', 'scoped-delivery/assets/REVIEW.md', 'scoped-delivery/references/review-workflow.md']) {
@@ -67,11 +67,13 @@ try {
     fs.appendFileSync(customized, '\nLocal workflow policy.\n'); fs.appendFileSync(profile, '\nFilled project context.\n');
     const before = [fs.readFileSync(customized), fs.readFileSync(profile)];
     const preview = JSON.parse(call(['update-preview', '--dest', adopted, '--json']));
-    assert.equal(preview.entries.find(e => e.path === '.agents/skills/project-foundation/SKILL.md').classification, 'conflict');
+    const skillPath = '.agents/skills/project-foundation/SKILL.md';
+    const upstreamChanged = !fs.readFileSync(path.join(legacy, skillPath)).equals(fs.readFileSync(path.join(pkg, skillPath)));
+    assert.equal(preview.entries.find(e => e.path === skillPath).classification, upstreamChanged ? 'conflict' : 'customized');
     assert.equal(preview.provenance, JSON.parse(fs.readFileSync(path.join(adopted, 'kit-manifest.json'))).provenance ? 'recorded' : 'unknown');
     call(['init', '--tool', 'codex', '--dest', adopted], 2);
     assert.deepEqual([fs.readFileSync(customized), fs.readFileSync(profile)], before);
-    console.log('Actual legacy tarball: local/upstream conflict detected and filled profile/custom skill preserved.');
+    console.log(`Actual legacy tarball: ${upstreamChanged ? 'local/upstream conflict' : 'unchanged upstream with local customization'} detected; filled profile/custom skill preserved.`);
   }
-  console.log('Packed 0.3.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
+  console.log('Packed 0.3.1: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
 } finally { fs.rmSync(root, { recursive: true, force: true }); }

@@ -143,5 +143,69 @@ Handoff conserve les décisions, les preuves et les limites.
 Next retrouve ensuite la suite pertinente, ou constate que le périmètre est terminé.
 
 37
-00:02:51,507 --> 00:02:55,280
+00:02:51,520 --> 00:02:54,787
+Dev Method ajoute maintenant une interface de review.
+
+38
+00:02:54,787 --> 00:02:59,719
+Voici sa démonstration fictive, distincte des résultats réels du pilote Lisière.
+
+39
+00:02:59,719 --> 00:03:02,062
+Cette commande ouvre un rapport local.
+
+40
+00:03:02,880 --> 00:03:04,840
+La recherche isole un constat.
+
+41
+00:03:04,840 --> 00:03:09,152
+Les filtres distinguent domaine, gravité, confiance et résolution.
+
+42
+00:03:09,152 --> 00:03:13,399
+Un risque à vérifier reste une hypothèse, pas un défaut confirmé.
+
+43
+00:03:14,200 --> 00:03:17,849
+Chaque constat relie scénario, preuve, impact et correction.
+
+44
+00:03:17,849 --> 00:03:21,376
+La vérification attendue et le ticket restent accessibles.
+
+45
+00:03:21,376 --> 00:03:24,417
+Masquer un résultat ne le marque pas comme résolu.
+
+46
+00:03:25,240 --> 00:03:29,460
+La couverture sépare les contrôles réussis, en échec et non exécutés.
+
+47
+00:03:29,460 --> 00:03:33,007
+L’absence de constat ne prouve pas que tout a été vérifié.
+
+48
+00:03:33,840 --> 00:03:37,956
+Les sources indiquent technologie, version, provenance et usage.
+
+49
+00:03:37,956 --> 00:03:44,452
+Ici, la référence est clairement non vérifiée : cette démonstration ne prétend pas l’avoir consultée.
+
+50
+00:03:45,280 --> 00:03:48,564
+Exportez la même review en HTML, Markdown ou JSON.
+
+51
+00:03:48,564 --> 00:03:51,388
+Les résultats partagent une source commune.
+
+52
+00:03:51,388 --> 00:03:56,379
+Le rapport conserve la révision, les preuves et les limites pour la reprise.
+
+53
+00:03:57,187 --> 00:04:00,960
 Découvrez Dev Method sur GitHub et essayez cette chaîne sur votre projet.

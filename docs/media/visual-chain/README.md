@@ -2,7 +2,9 @@
 
 [Voir le film 4K](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/devmethod-du-besoin-au-produit-4k.fr.mp4) · [Sous-titres](devmethod-du-besoin-au-produit.fr.srt) · [Prototype source](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/lisiere-visual-source.zip)
 
-**2 min 58 s · 3840 × 2160 · 23 séquences · voix française.**
+**4 min 03 s · 3840 × 2160 · 23 séquences originales + 6 séquences review · voix française.**
+
+La version 0.3.1 enrichit le film existant : les séquences et la voix de Lisière restent présentes. Un chapitre sur l’interface de review est inséré à **2 min 51 s**, avant la conclusion originale. [Détails, captures et provenance du complément](../review-extension/README.md).
 
 Le film remplace le long documentaire comme démonstration principale : un seul projet, Lisière, une commande et son résultat visuel, puis l'étape suivante. Narration française courte, commandes tapées, apparitions successives, mouvements doux et interaction réelle. Le cadrage, les choix techniques, les responsabilités du code, la préparation, la revue et la reprise complètent le parcours des maquettes. GitHub garde la prononciation « guit-hub » demandée.
 
@@ -41,4 +43,8 @@ Les scripts sont dans [scripts/media/visual-short](../../../scripts/media/visual
 
 Le montage est en 4K ; les images source générées sont en 1536×1024. Le texte et les transitions sont rendus dans Chrome à 3840×2160.
 
-Vérifications du média : MP4 H.264, AAC, sous-titres français mov_text ; 177.509 secondes. Plans explicatifs de 6 à 10 secondes environ, transitions et apparitions animées ; séquence navigateur de 20 secondes avec plusieurs actions. Images du master, des déclinaisons, de la comparaison et de la persistance encodée inspectées. Les sous-titres ont un timing proportionnel par phrase. Pas de revendication d’écoute humaine complète.
+Vérifications du média original : MP4 H.264, AAC, sous-titres français mov_text ; 177.509 secondes. Le montage enrichi mesure environ 243 secondes ; sa durée exacte et ses points de montage sont consignés dans [le manifeste du complément](../review-extension/scenes.json). Plans explicatifs de 6 à 10 secondes environ, transitions et apparitions animées ; séquence navigateur de 20 secondes avec plusieurs actions. Images du master, des déclinaisons, de la comparaison et de la persistance encodée inspectées. Les sous-titres ont un timing proportionnel par phrase. Pas de revendication d’écoute humaine complète.
+
+## Chapitre review ajouté
+
+Le [guide de review](../../REVIEW-GUIDE.md) accompagne les six nouveaux plans : ouvrir, filtrer, comprendre/corriger, couverture, sources, exporter/reprendre. Il utilise **Atelier de lecture**, une fixture fictive distincte de Lisière. Les captures sont réelles ; les constats ne sont pas des résultats de test du pilote. La nouvelle vignette montre cette interface et le lien du film demeure identique pour les lecteurs de GitHub et npm.

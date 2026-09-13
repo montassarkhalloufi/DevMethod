@@ -7,3 +7,5 @@ docs/missions/**/REVIEW.md text eol=lf
 dist/review-browser.js text eol=lf
 src/review-ui.css text eol=lf
 dist/review-ui.css text eol=lf
+examples/review/REVIEW.md text eol=lf
+examples/review/review-demo.html text eol=lf
