@@ -15,7 +15,7 @@ test at app/filter.test.mjs:5:1
 ✖ all retains order and every book (2.514916ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
-  
+
   + []
   - [
   -   {
@@ -27,7 +27,7 @@ test at app/filter.test.mjs:5:1
   -     title: 'B'
   -   }
   - ]
-  
+
       at TestContext.<anonymous> (file:///DISPOSABLE_FIXTURE/app/filter.test.mjs:5:55)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1325:25)
