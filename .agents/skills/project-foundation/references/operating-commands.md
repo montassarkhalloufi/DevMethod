@@ -16,7 +16,7 @@ Use [work sizing](work-sizing.md) to select relevant stages. A quick change may 
 |---|---|---|
 | `/explore` | Understand the problem, users, market, and constraints | `/frame` |
 | `/frame` | Define value, scope, exclusions, and metrics | `/design` or `/architecture` |
-| `/design` | Define or apply an approved UX/UI direction | `/architecture` |
+| `/design` | Create/select visual direction and mockups, or apply approved UX; resolve design-to-code for visual work | `/architecture` |
 | `/architecture` | Define boundaries, ADRs, contracts, risks, and open decisions | `/plan` |
 | `/plan` | Break work into milestones, epics, and ready tickets | `/ready` |
 | `/ready <ticket>` | Verify scope, DoD, dependencies, contract, and tests | `/implement <ticket>` |
@@ -29,7 +29,19 @@ Use [work sizing](work-sizing.md) to select relevant stages. A quick change may 
 | `/status` | Distinguish planned, in progress, PR, merged, and deployed | `/next` or `/correct-course` |
 | `/handoff` | Create a concise checkpoint for another session or agent | `/next` |
 
-## Output rules
+## Responsibility and minimal context
+
+Start from the canonical mission/plan locations in the existing profile; see [mission context](mission-context.md). Read applicable rules and the current task first, then only the decisions, sources and evidence needed for this command. Do not regenerate the profile or read every previous stage document on each invocation.
+
+- `status` reports actual state, evidence gaps and blockers without changing records or executing checks. `next` reconciles the canonical record with real state and selects the next authorized slice; it does not start implementation merely because a candidate exists.
+- `explore`, `frame`, `design` and `architecture` add only missing decisions to their existing owner. `plan` owns task decomposition, dependencies and executable criteria, reusing the current plan. Neither creates a new status ledger or proves delivery.
+- `ready` assesses the selected task's scope, dependencies and checks without executing them or starting implementation. Under an implementation request, this assessment can happen inline and continue without another user turn when ready.
+- `implement` maintains the affected task and evidence through its implementation loop. `review` inspects the identified diff and evidence, recording findings without silently fixing code unless fixes were requested. `verify` runs missing or invalidated checks and updates criterion evidence. Reuse unchanged evidence whose inputs and environment still apply; do not rerun solely because a new stage was invoked.
+- `handoff` records a compact snapshot with links to canonical state. `correct-course` updates only affected decisions, scope and dependent evidence. `integrate` records the actual authorized delivery result with its reference.
+
+For prose-only changes, inspect accuracy, links and diff; do not invent `npm run quality` or trigger an application build by habit. Follow stricter repository gates when documented, and explain once why they apply. Report executed checks, never planned checks as success.
+
+## Response
 
 At the end of every command, provide:
 

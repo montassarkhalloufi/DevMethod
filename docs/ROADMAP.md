@@ -17,6 +17,8 @@ Aim: a compact engineering workflow for verifiable changes in existing repositor
 
 ## What to add only after demand
 
+The [visual creation proposal](VISUAL-CREATION-PROPOSAL.md) scopes a possible direction-selection, mockup and prototype flow into the existing design stage. The procedure is now available through the design stage; see the [pilot record](missions/visual-workflow.md) for validation status. Image generation still requires a host tool.
+
 Additional stack packs, a workflow builder or orchestration should solve repeated problems shown by real projects. The six existing modules remain the core. Do not add persona counts, a dashboard, cloud services or a vector store as proxies for workflow quality.
 
 ## Principles

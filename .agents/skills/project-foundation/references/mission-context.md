@@ -2,6 +2,16 @@
 
 One mission owns a user outcome, observable acceptance, scope/exclusions, invariants, sources, uncertainties, dependencies, responsibilities, checks, stop conditions and exact resume action. Keep Quick records inline; use the scoped-delivery mission template for substantial work. No mandatory stack migration or fourteen-document process.
 
+## Location and ownership
+
+Reuse the project's ticket, plan and evidence conventions first. Record their canonical paths or URLs once in the existing project profile. Without a convention, keep one `docs/missions/<mission-id>.md` record using the mission template; keep the plan, criterion evidence and latest handoff as sections in that file until their size justifies extraction. Do not create a mission directory during a read-only assessment or for Quick work. Do not move existing records just to match this fallback.
+
+Each value has one current owner: mission outcome/status/next action in the mission record (or existing tracker); task status/dependencies in the existing plan or ticket; check results and inspected revision in its evidence rows. Link to the owner instead of copying live status into the profile, roadmap, slice and checkpoint. A mission's outcome status and a task's execution status describe different scopes. Snapshot reports/checkpoints must identify their captured revision and canonical record; they are historical evidence, never a second live tracker. Reconcile them against current code on resume.
+
+Use stable criterion IDs in the plan and evidence. Keep one row per criterion/check with the affected change, actual result, artifact or concise observation, inspected revision, and review reference. Review identifies self-review or independent review, inspected diff/revision, findings and resolution. A ready plan proves no implementation; a passed check proves only what it inspected. Update affected rows after changes, retaining failures and invalidating dependent reviews. Separate local verification from integration/deployment.
+
+Create a separate slice only when the plan lacks executable scope; a separate verification file only when evidence no longer fits; a checkpoint only for interruption or handoff, preferably as the latest handoff section. Optional JSON mission/plan/checkpoint records serve the existing inspectors: adopt them when machine inspection is useful, never require Markdown plus JSON copies of live state. Their schemas remain unchanged; do not invent cross-record fields and claim the CLI validates these links.
+
 Select useful project, domain, mission and execution sources. Record why each is relevant, inspected revision, subject-specific authority, and fact/assumption/proposal/accepted-decision status. New proposals do not supersede accepted contracts. Declare contradictions and resolve affected work; continue independent authorized scope. Load file contents progressively.
 
 Optional offline candidate CLI commands:

@@ -1,11 +1,17 @@
 ---
 name: design-to-code
-description: Translate an approved mockup or design direction into coherent product UI and verify visual and interaction fidelity. Use for reference-driven screens, design-system adoption and UX audits; distinguish design creation from implementation of an already locked direction.
+description: Create or apply visual directions and mockups, implement product UI, and verify visual and interaction fidelity. Use for new art direction, image mockups, prototypes, reference-driven screens and UX audits; preserve an already approved direction.
 ---
 
 # Design to Code
 
 An approved mockup is a visual contract. Do not “improve” its direction without a request. Product, accessibility, and security constraints still apply; make a conflict visible rather than hiding it.
+
+## Select the design mode
+
+For a new direction or requested image mockups, read [visual creation](references/visual-creation.md): brief → visible alternatives → user selection → selected mockups → prototype → implementation and comparison. Image generation depends on an available host tool; DevMethod does not bundle one. Keep choices and evidence in the existing mission/design record.
+
+For an approved reference, continue directly below without reopening the direction.
 
 ## Execution
 

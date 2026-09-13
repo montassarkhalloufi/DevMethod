@@ -13,6 +13,8 @@ Read `CONTRIBUTING.md`, accepted decisions, applicable instructions, the decisio
 
 Use [the mission record](assets/MISSION.md) for substantial work; keep Quick records inline. Scope is ready when objective, exclusions, contracts, dependencies, and success criteria are sufficiently defined. Use [the slice record](assets/SLICE.md) for a substantial ticket, without bureaucracy for a clear fix. A contradiction blocks only work depending on that trade-off.
 
+Reuse the existing tracker/plan before creating any record. Without project conventions, use one `docs/missions/<mission-id>.md` with plan, evidence and latest handoff sections. Extract a slice or verification record only when the existing record cannot hold useful detail. Keep mission state in its canonical owner, task state in the plan/ticket, and results in evidence; other records link to them. A checkpoint is a revision-labelled snapshot, not another current status source.
+
 ## Deliver
 
 - One coherent intent per slice; prefer a useful vertical slice to disconnected layers.

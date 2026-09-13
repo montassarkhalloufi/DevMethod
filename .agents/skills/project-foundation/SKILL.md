@@ -39,7 +39,7 @@ At the end of every execution, state what is done, what remains uncertain or blo
 | Need | Skill to resolve by name |
 |---|---|
 | Decide product/stack trade-offs, ADRs, DDD, or backend boundaries | `decision-architecture` |
-| Translate an approved reference into UI and verify fidelity | `design-to-code` |
+| Create/select a visual direction and mockups, or implement an approved reference and verify fidelity | `design-to-code` |
 | Build/refactor React, hooks, state, and server/client boundaries | `react-feature-engineering` |
 | Design product agents, evidence, AI providers, and jobs | `reliable-ai-integration` |
 | Turn scope into verifiable delivery, review, and resumption | `scoped-delivery` |
