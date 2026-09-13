@@ -4,7 +4,7 @@ From idea to delivery with your AI coding agents.
 
 A reusable method for human–AI collaboration, organized around missions and supported by verification evidence. Start from a need, discuss important decisions, implement a bounded scope, and preserve what was checked and what comes next.
 
-**[▶ Watch the review interface in action — 73 seconds, French voice and subtitles](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)** · [What the recorded example demonstrates](docs/media/review-r02/README.md)
+**[▶ Watch the review interface in action — 73 seconds, French voice and subtitles](#review-your-changes-and-open-the-report)** · [What the recorded example demonstrates](docs/media/review-r02/README.md)
 
 [![npm](https://img.shields.io/npm/v/devmethod-ai?label=npm)](https://www.npmjs.com/package/devmethod-ai) [![license](https://img.shields.io/npm/l/devmethod-ai)](LICENSE) [![platform tests](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml/badge.svg)](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml)
 
@@ -151,9 +151,9 @@ See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). S
 
 ## Review your changes and open the report
 
-[![Watch R-02: from an authorization defect to evidence and a proposed correction](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/media/review-r02/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)
+https://github.com/user-attachments/assets/0dc7db4d-4789-47b7-a20b-1348049429c4
 
-**[▶ Watch a concrete review finding — 1 min 13 s, French narration](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)** · [Subtitles, chapters and provenance](docs/media/review-r02/README.md)
+**[Download the MP4 — 1 min 13 s, French narration](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)** · [Subtitles, chapters and provenance](docs/media/review-r02/README.md)
 
 Follow R-02 in Réservation Lab: an unauthorized cross-building booking, its recorded test evidence, the proposed correction and the checks to rerun. Real interface captures with an animated cursor and French subtitles. This controlled exercise contains intentional defects; the finding remains open, with no verified correction.
 
@@ -171,7 +171,7 @@ The screenshots below use clearly fictional data to illustrate the interface; yo
 
 [![Actual DevMethod review interface — fictional demonstration data](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/images/review-interface-desktop.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/review-r02/review-r02.fr.mp4)
 
-*Static interface preview. Click the image or the video link above to watch the R-02 walkthrough, which uses a separate controlled example.*
+*Static interface preview. Use the video player above to watch the R-02 walkthrough, which uses a separate controlled example. The linked MP4 remains available for download.*
 
 **[Follow the review walkthrough](https://github.com/montassarkhalloufi/DevMethod/blob/main/docs/REVIEW-GUIDE.md)** · [JSON, Markdown and HTML example](https://github.com/montassarkhalloufi/DevMethod/tree/main/examples/review) · [Review chapter provenance](https://github.com/montassarkhalloufi/DevMethod/blob/main/docs/media/review-extension/README.md)
 
