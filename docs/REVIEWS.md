@@ -65,3 +65,11 @@ The viewer does not read image paths or local ticket files; authors must explici
 A self-contained report is a snapshot, not live monitoring. Pass the current revision/changed targets when regenerating; the browser does not inspect Git or the filesystem. Keep source JSON and old revisions for auditability. Markdown cannot include embedded image pixels; the HTML/JSON retain them and Markdown includes the alternative text and evidence metadata.
 
 [Source consultation record](REVIEW-SOURCES.md) · [Verification and known limits](REVIEW-VALIDATION.md).
+
+## Open the offline interface
+
+```sh
+npx devmethod-ai@0.3.0 review --demo --output review-demo.html --open
+```
+
+For a real review, replace `--demo` with `--review docs/missions/your-mission/reviews/your-review/review.json`. The output path is relative to `--dest` (the current directory by default). Choose a fresh path; existing reports are never overwritten. `--open` requires `--output` and asks the OS browser handler to open the generated standalone file. No local server runs. On headless systems, omit `--open` and copy/open the HTML on a desktop. Opening failure returns an error while preserving the report. The browser interface works offline after generation; npx may need network access to obtain the package.

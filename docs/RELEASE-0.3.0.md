@@ -1,6 +1,8 @@
 # DevMethod 0.3.0 — research and decisions before commitment
 
-Status: draft candidate; not published. The review opening mode and remaining verification are tracked in [ADR 008](ADR-008-review-presentation.md).
+Release scope: 0.3.0. Offline HTML was selected under explicit user delegation in [ADR 008](ADR-008-review-presentation.md). GitHub and npm provide publication status.
+
+Open the packaged demo: `npx devmethod-ai@0.3.0 review --demo --output review-demo.html --open`.
 
 This minor release extends the workflow and its distributed resources while retaining the public CLI contracts, six skills, fourteen stages, JSON schemas and existing mission compatibility. The exact publication and CI evidence is recorded in the release PR and GitHub release; package metadata alone is not proof of publication.
 

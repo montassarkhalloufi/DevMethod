@@ -14,6 +14,4 @@ Exclusions: whole-project dashboard, remote hosting, automatic discovery/install
 
 Current architecture question: static self-contained HTML versus loopback server; recommended static report under the dependency-free offline contract, presented to the user before dependent implementation. Preserve their forthcoming choice/delegation in the relevant ADR.
 
-Next action: obtain the explicit opening-mode choice/delegation; complete that integration and its verification, then recheck the final candidate, merge and publish under current authorization. Shared model, report/export, CLI presentation and browser UI are implemented and locally verified; file:// browser reopening remains blocked by tool policy.
-
-Latest handoff — 2026-09-13: the candidate remains unmerged/unpublished in draft PR #19. The user’s async opening-mode question is pending. Read this mission, ADR 008 and the canonical review before resuming; preserve accepted design and the completed independent checks.
+Next action: verify the final delegated offline-opening integration, merge and publish under current authorization. The user explicitly delegated the opening-mode choice on 2026-09-13; ADR 008 records the selected standalone HTML and optional OS opening command. Shared model, report/export, CLI presentation and browser UI are implemented. The file:// browser reopening limitation remains documented; do not bypass the browser tool policy or claim that check passed.

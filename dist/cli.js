@@ -9,6 +9,7 @@ import { previewUpdate } from './update.js';
 import { readRecord, discover } from './records.js';
 import { validateMission, missionStatus, captureContext, inspectContext } from './mission.js';
 import { inspectPlan } from './planner.js';
+import { openReview } from './review-open.js';
 import { prepareReview } from './review-cli.js';
 const help = `DevMethod — install and inspect reusable AI skills
 
@@ -23,7 +24,7 @@ devmethod discover [--dest PATH] [--json]
 devmethod plan --plan RELATIVE_JSON [--dest PATH] [--json]
 devmethod resume --checkpoint RELATIVE_JSON [--dest PATH] [--json]
 devmethod review [--review RELATIVE_JSON | --legacy RELATIVE_MD | --demo]
-                 [--output RELATIVE_HTML] [--markdown RELATIVE_MD] [--dest PATH]
+                 [--output RELATIVE_HTML] [--open] [--markdown RELATIVE_MD] [--dest PATH]
                  [--current-revision REV] [--changed-targets name,name] [--json]
 
 For init, an interactive terminal asks for the host when --tool is omitted.
@@ -36,7 +37,7 @@ Use the host-native skill syntax; these are not executable CLI subcommands.
 The JSON plan inspector is read-only. Markdown PLAN/tickets and legacy missions
 are agent-readable guidance; init never creates or migrates mission records.
 Review validates a selected record; it never runs checks. --output writes a self-contained
-HTML viewer; --markdown derives a report. Existing outputs are preserved. --demo uses
+HTML viewer; --open asks the OS browser to open it (requires --output). --markdown derives a report. Existing outputs are preserved. --demo uses
 explicitly fictional packaged data. Without a source, --output creates an empty viewer.
 Doctor is read-only. Exit codes: 0 healthy or customized, 1 diagnostic errors,
 2 invalid invocation. Resume is read-only: 0 ready or complete, 1 reverify,
@@ -47,7 +48,7 @@ try {
             tool: { type: 'string' }, dest: { type: 'string' }, modules: { type: 'string' },
             'dry-run': { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
             json: { type: 'boolean' }, checkpoint: { type: 'string' },
-            review: { type: 'string' }, legacy: { type: 'string' }, demo: { type: 'boolean' }, output: { type: 'string' }, markdown: { type: 'string' },
+            open: { type: 'boolean' }, review: { type: 'string' }, legacy: { type: 'string' }, demo: { type: 'boolean' }, output: { type: 'string' }, markdown: { type: 'string' },
             'current-revision': { type: 'string' }, 'changed-targets': { type: 'string' },
             mission: { type: 'string' }, context: { type: 'string' }, plan: { type: 'string' },
         }, allowPositionals: true, strict: true });
@@ -57,13 +58,17 @@ try {
         if (positionals.length !== 1 || !['init', 'doctor', 'update-preview', 'resume', 'mission', 'context', 'context-check', 'discover', 'plan', 'review'].includes(positionals[0] ?? ''))
             throw new Error(help);
         const command = positionals[0];
-        const reviewFlags = ['review', 'legacy', 'demo', 'output', 'markdown', 'current-revision', 'changed-targets'];
+        const reviewFlags = ['open', 'review', 'legacy', 'demo', 'output', 'markdown', 'current-revision', 'changed-targets'];
         if (command === 'review') {
             for (const flag of ['tool', 'modules', 'dry-run', 'checkpoint', 'mission', 'context', 'plan'])
                 if (values[flag] !== undefined)
                     throw new Error(`--${flag} is not valid for review.`);
+            if (values.open && !values.output)
+                throw new Error('--open requires --output; choose a fresh HTML path.');
             const result = prepareReview({ destination: values.dest ?? process.cwd(), review: values.review, legacy: values.legacy, demo: values.demo, output: values.output, markdown: values.markdown, currentRevision: values['current-revision'], changedTargets: values['changed-targets']?.split(',').filter(Boolean) });
             console.log(values.json ? JSON.stringify(result, null, 2) : `${result.reviewId ?? 'Review'}: ${result.status}\n${result.outputs.join('\n')}\n${result.limitations}`);
+            if (values.open)
+                openReview(result.outputs[0]);
             process.exitCode = 0;
         }
         else {
