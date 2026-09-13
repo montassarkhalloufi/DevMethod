@@ -1,0 +1,17 @@
+{
+  "format": 1,
+  "date": "2026-09-13",
+  "mode": "bmad-build-auto versus DevMethod",
+  "bmadInitializationPassed": true,
+  "taskLocalTemporaryDirectory": true,
+  "methodArtifactsAllowed": false,
+  "gitMetadataWritable": false,
+  "synchronousSubagentsAvailable": false,
+  "descendantUsageMeasured": false,
+  "descendantCancellationVerified": false,
+  "equalHostPermissions": false,
+  "frozenMethodRevisions": true,
+  "independentAcceptanceChecks": true,
+  "observation": "BMAD 6.12.0 bmad-build renderer succeeded with task-local TMPDIR, UV_OFFLINE=1 and UV_PYTHON_DOWNLOADS=never. This was a local setup preflight, not native model or nested-sandbox validation. Autonomous workflow additionally requires subagents and writable Git metadata. Existing pilot disables subagents and cannot establish descendant usage coverage.",
+  "modelInvocations": 0
+}
