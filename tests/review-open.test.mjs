@@ -4,11 +4,11 @@ import { execFileSync } from 'node:child_process';
 import { reviewOpenCommand } from '../dist/review-open.js';
 
 test('browser opening preserves hostile filenames as a single encoded URL without a shell', () => {
-  const file = '/tmp/review $(touch unwanted); # & quote.html';
+  const file = process.platform === 'win32' ? 'C:\\tmp\\review $(touch unwanted); # & quote.html' : '/tmp/review $(touch unwanted); # & quote.html';
   for (const platform of ['darwin', 'linux', 'win32']) {
     const [command, args] = reviewOpenCommand(file, platform);
     assert.ok(command);
-    assert.equal(args.at(-1), 'file:///tmp/review%20$(touch%20unwanted);%20%23%20&%20quote.html');
+    assert.equal(args.at(-1), `file:///${process.platform === 'win32' ? 'C:/' : ''}tmp/review%20$(touch%20unwanted);%20%23%20&%20quote.html`);
     assert.equal(args.length, platform === 'win32' ? 2 : 1);
   }
   assert.throws(() => reviewOpenCommand(file, 'unsupported'), /unavailable/);
