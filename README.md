@@ -90,7 +90,7 @@ Replace `status` with an action below. These are prompts to the skill, not shell
 |---|---|
 | `explore` | Problem, users, alternatives and constraints |
 | `frame` | Product scope, exclusions and success measures |
-| `design` | UX direction and acceptance criteria |
+| `design` | Visual directions, selected mockups and UX criteria; image tooling depends on the host |
 | `architecture` | Decisions, boundaries and contracts |
 | `plan` | Milestones and tickets with dependencies |
 | `ready TASK-1` | Readiness assessment before implementation |

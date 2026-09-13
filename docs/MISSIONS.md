@@ -2,6 +2,8 @@
 
 A mission is one authorized user outcome with observable acceptance, scope/exclusions, invariants, selected sources, uncertainties, dependencies, ownership, verification, stop conditions and an exact next action. Quick work can keep this inline. Standard work benefits from a reusable record. Major work splits dependent missions after resolving structural decisions. JSON is optional; it does not replace your tracker or project policy.
 
+For storage, status ownership and criterion-to-review links, follow [mission context](../.agents/skills/project-foundation/references/mission-context.md). Prefer existing conventions; the fallback is one `docs/missions/<mission-id>.md` with plan, evidence and latest handoff sections. This is guidance for the agent, not a new CLI tracker, auto-discovery path or schema validation feature.
+
 Move Quick to Standard when a second component, uncertain dependency or changed contract needs an explicit record. Move to Major for structural decisions or migrations. Failed verification returns to implementation or design at the affected boundary; preserve the failure. Evaluation/status reads do not imply implementation, review does not imply integration, and integration does not imply publication.
 
 ## Source-checkout quick start

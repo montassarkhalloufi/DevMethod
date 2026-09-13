@@ -8,6 +8,7 @@ Complete from source material during first startup; keep unknowns explicit. This
 - Foundational constraints: operator time, fixed budget, variable cost, deadline.
 - Product source and accepted decisions (links + date/version):
 - Ticket source / readiness criteria:
+- Canonical mission / plan / evidence locations (reuse existing conventions; links only, no copied status):
 - Approved UI reference (screen, version, viewport, states):
 - Canonical code (repository, branch, inspected commit):
 - Effective stack (runtime, frameworks, package manager, lockfile versions):
