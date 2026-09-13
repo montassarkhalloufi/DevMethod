@@ -15,7 +15,7 @@ try {
   run('tar', ['-xzf', '-'], root, 0, fs.readFileSync(path.resolve(archive)));
   const pkg = path.join(root, 'package'); const cli = path.join(pkg, 'dist/cli.js');
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
-  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.1.0');
+  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.2.0');
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
   for (const testFile of [...fs.readdirSync(path.join(pkg, 'examples/pocket-tasks/tests')).filter(f => f.endsWith('.test.mjs')).map(f => `examples/pocket-tasks/tests/${f}`), 'evaluation/greenfield/acceptance.test.mjs', 'evaluation/greenfield/security.test.mjs']) {
     run(process.execPath, ['--test', testFile], pkg);
@@ -60,5 +60,5 @@ try {
     assert.deepEqual([fs.readFileSync(customized), fs.readFileSync(profile)], before);
     console.log('Actual legacy tarball: local/upstream conflict detected and filled profile/custom skill preserved.');
   }
-  console.log('Packed 0.1.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
+  console.log('Packed 0.2.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.');
 } finally { fs.rmSync(root, { recursive: true, force: true }); }

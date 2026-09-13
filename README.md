@@ -29,7 +29,7 @@ DevMethod is the public name of the kit. Its entry-point skill remains `project-
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**Published on npm: 0.1.0 (`latest`).** The release includes mission/context inspection, Git-aware evidence resumption, explicit update conflicts, manual task planning and optional stack profiles. See the [release record](docs/RELEASE-0.1.0.md) for publication status and verification.
+**npm stable: 0.1.0 (`latest`). Next release candidate: 0.2.0.** [0.2.0 changes and publication status](docs/RELEASE-0.2.0.md). The release includes mission/context inspection, Git-aware evidence resumption, explicit update conflicts, manual task planning and optional stack profiles. See the [release record](docs/RELEASE-0.1.0.md) for publication status and verification.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
@@ -51,7 +51,7 @@ npx --yes devmethod-ai@0.1.0 init --tool claude --dest ../foundation-staging --d
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.1.0 init ...`. To use a reviewed repository commit instead, use `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.1.0 init ...`. To use the visual workflow before 0.2.0 is published, use a reviewed repository commit: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -124,23 +124,15 @@ Replace `status` with an action below. These are prompts to the skill, not shell
 
 See the [full command contract](.agents/skills/project-foundation/references/operating-commands.md). A failed check returns to correction; a blocked gate leads to handoff or replanning. Tests, code review and native permissions remain necessary.
 
-```mermaid
-flowchart TD
-  A[Understand] --> B[Decide]
-  B --> C[Build]
-  C --> D[Verify]
-  D -->|evidence passes| E[Integrate]
-  D -->|failure or uncertainty| B
-  E --> F[Handoff]
-```
+![DevMethod delivery loop: accepted references, implementation, verification and correction](docs/images/devmethod-delivery.svg)
 
 ## More recorded examples
 
 [Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example; the featured video above follows Lisière throughout.
 
-## Visual creation in the source version
+## Visual design and architecture
 
-The current source adds art-direction selection, image mockups through available host tools, and prototype fidelity checks. Follow the [visual workflow guide](docs/VISUAL-WORKFLOW.md) and [recorded Lisière pilot](examples/visual-pilot/README.md). This evolution is not included in the published npm 0.1.0 package.
+DevMethod connects art-direction selection, an approved master screen, derived image mockups and browser fidelity checks with technology and architecture decisions. Follow the [visual workflow guide](docs/VISUAL-WORKFLOW.md) and [recorded Lisière pilot](examples/visual-pilot/README.md). These capabilities are included in the 0.2.0 candidate; npm 0.1.0 predates them. See the [0.2.0 release record](docs/RELEASE-0.2.0.md) for publication status.
 
 ## Included modules
 
