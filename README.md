@@ -117,7 +117,7 @@ flowchart TD
 
 ## Watch a real from-zero example
 
-[Short visual walkthrough in 4K](docs/media/visual-chain/README.md) · [Detailed recorded chain](docs/media/full-chain-4k/README.md) · [Short French demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). The short visual film follows Lisière: three directions, an approved master, derived screen images, a fresh implementation and real browser interaction. Clair remains a separate from-zero example.
+[Complete workflow in 4K — 2 min 58 s](docs/media/visual-chain/README.md) · [Detailed recorded chain](docs/media/full-chain-4k/README.md) · [Short French demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). The film follows Lisière from product framing through three visual directions, an approved master and derived screen images, then technology and architecture choices, planning, implementation, review, verification, local delivery and handoff. Commands are illustrative; visual results and browser interactions are real. Clair remains a separate from-zero example.
 
 ## Visual creation in the source version
 

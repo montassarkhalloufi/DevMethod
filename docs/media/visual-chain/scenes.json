@@ -2,8 +2,8 @@
   {
     "kind": "intro",
     "title": "De l’idée à l’application",
-    "voice": "Une idée. Trois directions. Un master. Puis une application qui fonctionne.",
-    "duration": 6,
+    "voice": "Du besoin au design, des choix techniques au produit vérifié. Voici Dev Method sur un projet concret.",
+    "duration": 6.911338,
     "command": "",
     "request": "",
     "asset": "",
@@ -18,6 +18,16 @@
     "request": "Une bibliothèque personnelle pour suivre mes lectures.",
     "asset": "",
     "output": "Ajouter un livre · Suivre sa lecture · Retrouver ses données"
+  },
+  {
+    "kind": "text",
+    "title": "Cadrer une première version",
+    "voice": "Frame fixe le périmètre : une bibliothèque personnelle, trois statuts, et une sauvegarde sur cet appareil.",
+    "duration": 7.5150570000000005,
+    "command": "$project-foundation frame",
+    "request": "Définis une première version utile et ses limites.",
+    "asset": "",
+    "output": "Ajouter · Filtrer · Changer de statut · Conserver les livres localement"
   },
   {
     "kind": "image",
@@ -91,6 +101,26 @@
   },
   {
     "kind": "text",
+    "title": "Choisir les technologies",
+    "voice": "Architecture compare les options selon les besoins, le coût et la maintenance. Pour ce petit prototype local, HTML, CSS et JavaScript suffisent.",
+    "duration": 10.707799999999999,
+    "command": "$project-foundation architecture",
+    "request": "Compare les options techniques adaptées à ce périmètre.",
+    "asset": "",
+    "output": "Prototype retenu : HTML + CSS + JavaScript · Stockage local au navigateur"
+  },
+  {
+    "kind": "text",
+    "title": "Organiser le code",
+    "voice": "Les règles des livres restent séparées de l’interface. Les données sauvegardées sont validées. Une synchronisation entre appareils demanderait une nouvelle décision.",
+    "duration": 9.453923,
+    "command": "$project-foundation architecture",
+    "request": "Définis les responsabilités, les risques et les compromis.",
+    "asset": "",
+    "output": "Interface ↔ Règles métier ↔ Sauvegarde locale · Limite : un appareil"
+  },
+  {
+    "kind": "text",
     "title": "Préparer la réalisation",
     "voice": "Le plan relie ces écrans aux actions à réaliser et aux vérifications attendues.",
     "duration": 6,
@@ -98,6 +128,16 @@
     "request": "Prépare une première tranche à partir des écrans.",
     "asset": "",
     "output": "Bibliothèque + filtres → Formulaire → Statuts + sauvegarde"
+  },
+  {
+    "kind": "text",
+    "title": "Vérifier que la tranche est prête",
+    "voice": "Ready vérifie le périmètre, les dépendances et les critères de réussite avant de coder.",
+    "duration": 6,
+    "command": "$project-foundation ready VISUAL-1",
+    "request": "Vérifie que cette tranche est prête.",
+    "asset": "",
+    "output": "Références disponibles · Interactions définies · Tests attendus"
   },
   {
     "kind": "text",
@@ -131,13 +171,23 @@
   },
   {
     "kind": "text",
+    "title": "Relire et corriger",
+    "voice": "Review examine le code et les risques. Ici, la revue a conduit à corriger une alerte masquée et le maintien du focus.",
+    "duration": 8,
+    "command": "$project-foundation review VISUAL-1",
+    "request": "Relis la tranche et signale les défauts à corriger.",
+    "asset": "",
+    "output": "Corrections réelles : affichage de l’alerte · Focus après changement de statut"
+  },
+  {
+    "kind": "text",
     "title": "Vérifier le résultat",
     "voice": "Verify contrôle les parcours utiles et les résultats des tests.",
     "duration": 6,
     "command": "$project-foundation verify VISUAL-1",
     "request": "Vérifie les parcours, les erreurs et le rendu.",
     "asset": "",
-    "output": "Résultats réellement contrôlés après l’implémentation"
+    "output": "6 tests Node réussis · Parcours Chrome · Sauvegarde · Mobile"
   },
   {
     "kind": "compare",
@@ -158,6 +208,16 @@
     "request": "Consigne la livraison locale et la reprise.",
     "asset": "",
     "output": "Prototype local · Parcours vérifiés · Références conservées"
+  },
+  {
+    "kind": "text",
+    "title": "Reprendre sans repartir de zéro",
+    "voice": "Handoff conserve les décisions, les preuves et les limites. Next retrouve ensuite la suite pertinente, ou constate que le périmètre est terminé.",
+    "duration": 9.105623999999999,
+    "command": "$project-foundation handoff",
+    "request": "Prépare un point de reprise fidèle à la livraison.",
+    "asset": "",
+    "output": "Décisions + résultat + limites → $project-foundation next"
   },
   {
     "kind": "end",

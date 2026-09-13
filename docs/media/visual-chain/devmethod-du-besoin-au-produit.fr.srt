@@ -1,0 +1,147 @@
+1
+00:00:00,000 --> 00:00:03,789
+Du besoin au design, des choix techniques au produit vérifié.
+
+2
+00:00:03,789 --> 00:00:06,211
+Voici Dev Method sur un projet concret.
+
+3
+00:00:06,917 --> 00:00:11,573
+D’abord, décrivez le produit et ce que son utilisateur doit pouvoir faire.
+
+4
+00:00:12,924 --> 00:00:19,739
+Frame fixe le périmètre : une bibliothèque personnelle, trois statuts, et une sauvegarde sur cet appareil.
+
+5
+00:00:20,596 --> 00:00:24,253
+Avec design, demandez trois directions pour le même écran.
+
+6
+00:00:26,712 --> 00:00:29,024
+Éditorial, Atelier ou Botanique.
+
+7
+00:00:29,024 --> 00:00:32,204
+Même contenu, trois personnalités visuelles.
+
+8
+00:00:33,056 --> 00:00:34,278
+Ici, le choix est A.
+
+9
+00:00:34,278 --> 00:00:37,270
+Codex développe cette direction en master screen.
+
+10
+00:00:40,166 --> 00:00:44,773
+Le master précise la typographie, les couleurs, les cartes et les boutons.
+
+11
+00:00:44,773 --> 00:00:46,702
+Il est approuvé avant la suite.
+
+12
+00:00:48,594 --> 00:00:53,610
+La commande suivante reste design : génère les écrans à partir de ce master.
+
+13
+00:00:56,045 --> 00:01:00,852
+Voici le formulaire d’ajout, généré avec le master comme référence visuelle.
+
+14
+00:01:02,182 --> 00:01:04,090
+Puis la vue des lectures terminées.
+
+15
+00:01:04,090 --> 00:01:07,035
+La même direction accompagne un autre état du produit.
+
+16
+00:01:09,191 --> 00:01:14,650
+Architecture compare les options selon les besoins, le coût et la maintenance.
+
+17
+00:01:14,650 --> 00:01:19,199
+Pour ce petit prototype local, HTML, CSS et JavaScript suffisent.
+
+18
+00:01:20,165 --> 00:01:23,065
+Les règles des livres restent séparées de l’interface.
+
+19
+00:01:23,065 --> 00:01:25,160
+Les données sauvegardées sont validées.
+
+20
+00:01:25,160 --> 00:01:28,919
+Une synchronisation entre appareils demanderait une nouvelle décision.
+
+21
+00:01:30,028 --> 00:01:34,242
+Le plan relie ces écrans aux actions à réaliser et aux vérifications attendues.
+
+22
+00:01:36,041 --> 00:01:40,848
+Ready vérifie le périmètre, les dépendances et les critères de réussite avant de coder.
+
+23
+00:01:42,046 --> 00:01:46,678
+Implement construit l’interface et ses vrais comportements à partir des références.
+
+24
+00:01:48,086 --> 00:01:49,361
+Passons au résultat.
+
+25
+00:01:49,361 --> 00:01:51,019
+On filtre la bibliothèque.
+
+26
+00:01:51,019 --> 00:01:52,230
+On ajoute un livre.
+
+27
+00:01:52,230 --> 00:01:55,418
+On commence sa lecture, puis on le marque terminé.
+
+28
+00:01:55,418 --> 00:01:58,988
+Après rechargement, les données sont toujours présentes.
+
+29
+00:02:08,202 --> 00:02:12,927
+Sur mobile, les mêmes actions restent accessibles dans une disposition adaptée.
+
+30
+00:02:14,208 --> 00:02:16,536
+Review examine le code et les risques.
+
+31
+00:02:16,536 --> 00:02:21,313
+Ici, la revue a conduit à corriger une alerte masquée et le maintien du focus.
+
+32
+00:02:22,443 --> 00:02:25,926
+Verify contrôle les parcours utiles et les résultats des tests.
+
+33
+00:02:28,639 --> 00:02:33,596
+On compare ensuite le navigateur aux références, puis on corrige les écarts importants.
+
+34
+00:02:36,378 --> 00:02:40,128
+La livraison locale conserve le résultat et son état de reprise.
+
+35
+00:02:42,393 --> 00:02:45,861
+Handoff conserve les décisions, les preuves et les limites.
+
+36
+00:02:45,861 --> 00:02:50,799
+Next retrouve ensuite la suite pertinente, ou constate que le périmètre est terminé.
+
+37
+00:02:51,507 --> 00:02:55,280
+Découvrez Dev Method sur GitHub et essayez cette chaîne sur votre projet.
