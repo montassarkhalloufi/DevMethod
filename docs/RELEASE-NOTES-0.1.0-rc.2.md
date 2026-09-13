@@ -1,5 +1,7 @@
 # DevMethod 0.1.0-rc.2 — candidate, not published
 
+Historical rc.2 record. For the current supported scope and validation, read [the 0.1.0 release record](RELEASE-0.1.0.md).
+
 A mission now connects authorized scope, selected source context, acceptance checks and resumable evidence. The six existing skills and their invocations remain intact.
 
 - Offline read-only mission, discover, context and context-check commands capture explicit source authority, revisions and byte pins. Git provenance detects branch/index/raw content changes without executing Git content hooks.

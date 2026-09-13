@@ -10,11 +10,11 @@ DevMethod is the public name of the kit. Its entry-point skill remains `project-
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**Candidate source: 0.1.0-rc.2, not published.** npm still serves `0.1.0-rc.1`. The new candidate adds mission/context inspection, Git-aware evidence resumption, explicit update conflicts, manual task planning and optional stack profiles. Source changes never update an already published tarball.
+**Release source: 0.1.0, awaiting maintainer review and publication.** The previously verified registry release is `0.1.0-rc.1`; source changes do not publish a new npm version. The new candidate adds mission/context inspection, Git-aware evidence resumption, explicit update conflicts, manual task planning and optional stack profiles. Source changes never update an already published tarball.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
-Start with [missions and the tested source quick start](docs/MISSIONS.md), then the [complete Next.js/NestJS example](examples/fullstack/README.md). Advanced references: [context and sizing](docs/MISSIONS.md), [safe updates](docs/UPDATES.md), [resumption](docs/RESUMPTION.md), [optional stack profiles](docs/STACK-PROFILES.md), [bounded manual planning](docs/ORCHESTRATION.md), [troubleshooting](docs/TROUBLESHOOTING.md), and [candidate evidence](docs/RC2-VALIDATION.md).
+Start with [missions and the tested source quick start](docs/MISSIONS.md), then the [complete Next.js/NestJS example](examples/fullstack/README.md). Advanced references: [context and sizing](docs/MISSIONS.md), [safe updates](docs/UPDATES.md), [resumption](docs/RESUMPTION.md), [optional stack profiles](docs/STACK-PROFILES.md), [bounded manual planning](docs/ORCHESTRATION.md), [troubleshooting](docs/TROUBLESHOOTING.md), and [release status and evidence](docs/RELEASE-0.1.0.md).
 
 ## Install in a project
 
@@ -54,7 +54,7 @@ node dist/cli.js doctor --dest ../candidate-staging --json
 node dist/cli.js update-preview --dest ../candidate-staging --json
 ```
 
-The package includes advanced docs and fictional examples. `init` copies only the skills and adoption templates, preserving the application. Read the package docs from its checkout or extracted tarball. Do not request `@0.1.0-rc.2` from npm before the maintainer publishes it. The core CLI has no runtime dependencies; example applications install their own pinned dependencies separately.
+The package includes advanced docs and fictional examples. `init` copies only the skills and adoption templates, preserving the application. Read the package docs from its checkout or extracted tarball. Do not request `@0.1.0` from npm before the maintainer publishes it. The core CLI has no runtime dependencies; example applications install their own pinned dependencies separately.
 
 ## Inspect an adopted installation
 

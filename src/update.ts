@@ -3,7 +3,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { bundledFiles, bundledProvenance, type Provenance } from './init.js';
 import { diagnose, validateManifest } from './doctor.js';
-import { checkPath, stat } from './filesystem.js';
+import { parseJson, checkPath, stat } from './filesystem.js';
 
 type Entry = {
   path: string; classification: 'unchanged' | 'updated' | 'customized' | 'conflict' | 'added' | 'removed';
@@ -30,7 +30,7 @@ export function previewUpdate(destination: string): UpdateReport {
     checkPath(manifestPath);
     const info = stat(manifestPath);
     if (!info?.isFile() || info.size > 1024 * 1024) throw new Error('Invalid manifest file.');
-    const manifest = validateManifest(JSON.parse(fs.readFileSync(manifestPath, 'utf8')));
+    const manifest = validateManifest(parseJson(fs.readFileSync(manifestPath, 'utf8')));
     report.installed = manifest.provenance;
     report.provenance = manifest.provenance ? 'recorded' : 'unknown';
     if (!manifest.provenance) {

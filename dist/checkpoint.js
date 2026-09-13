@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { checkPath } from './filesystem.js';
+import { parseJson, checkPath } from './filesystem.js';
 import { gitState, validGit } from './records.js';
 const object = (value) => typeof value === 'object' && value !== null && !Array.isArray(value);
 const identifier = (value) => typeof value === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(value);
@@ -161,7 +161,7 @@ export function inspectCheckpoint(destination, input) {
 /** Load a JSON checkpoint within the project; never follows symbolic paths or changes files. */
 export function readCheckpoint(destination, checkpointPath) {
     try {
-        return inspectCheckpoint(destination, JSON.parse(readPinned(path.resolve(destination), checkpointPath).toString('utf8')));
+        return inspectCheckpoint(destination, parseJson(readPinned(path.resolve(destination), checkpointPath).toString('utf8')));
     }
     catch (error) {
         const report = emptyReport(destination);

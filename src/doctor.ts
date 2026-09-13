@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { tools, modules, templates, type Tool, type Provenance } from './init.js';
-import { checkPath, stat } from './filesystem.js';
+import { parseJson, checkPath, stat } from './filesystem.js';
 
 type Finding = { severity: 'warning' | 'error'; code: string; path?: string; message: string };
 export type Manifest = { format: 2; kit: 'devmethod'; tool: Tool; skills: string[]; files: Record<string, string>; provenance?: Provenance };
@@ -64,7 +64,7 @@ export function diagnose(destination: string): DoctorReport {
       return report;
     }
     if (!info.isFile() || info.size > 1024 * 1024) throw new Error('Manifest must be a regular file no larger than 1 MiB.');
-    manifest = validateManifest(JSON.parse(fs.readFileSync(file, 'utf8')));
+    manifest = validateManifest(parseJson(fs.readFileSync(file, 'utf8')));
   } catch (error) {
     add('error', 'manifest-invalid', error instanceof Error ? error.message : String(error), 'kit-manifest.json');
     return report;

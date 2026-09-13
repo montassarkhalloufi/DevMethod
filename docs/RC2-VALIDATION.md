@@ -1,5 +1,7 @@
 # rc.2 validation and remaining gates
 
+Historical rc.2 record. For the current supported scope and validation, read [the 0.1.0 release record](RELEASE-0.1.0.md).
+
 Candidate source, not npm publication. Baseline and acceptance scope: [EVOLUTION.md](EVOLUTION.md). Core commit `e3971fe`; fullstack commit `80bdf58` with title-contract correction `de25702` and dependency correction `170f16d`. Resolve the final packaging revision with `git log -1 -- package.json`; later modifications invalidate affected evidence.
 
 | Capability / acceptance | Verification actually executed | Result and revision | Practical limit |
