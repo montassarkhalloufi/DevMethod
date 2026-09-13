@@ -11,6 +11,9 @@ test('Nest HTTP contract validates input and exposes created tasks', async (t) =
   for (const body of [{ title: '' }, { title: 42 }, { title: 'before\u0000after' }, { title: 'x'.repeat(121) }, { title: 'ok', admin: true }, []]) {
     assert.equal((await post(body)).status, 400);
   }
+  const multipart = new FormData();
+  multipart.set('title', 'Do not accept uploads');
+  assert.equal((await fetch(`${url}/tasks`, { method: 'POST', body: multipart })).status, 400);
   assert.equal(rows.length, 0);
   const response = await post({ title: '  Publish evidence  ' });
   assert.equal(response.status, 201);
