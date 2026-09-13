@@ -84,7 +84,7 @@ export function reviewFreshness(r, currentRevision, changedTargets) {
     const affected = (targets) => targets.some(t => changedTargets.includes(t));
     return { state: different || changedTargets.length ? 'different' : currentRevision === null ? 'unknown' : 'same', affectedChecks: r.checks.filter(c => affected(c.targets)).map(c => c.id), affectedFindings: r.findings.filter(f => affected(f.targets)).map(f => f.id) };
 }
-const md = (s) => s.replace(/[\\`*_{}\[\]<>|#]/g, c => `\\${c}`).replace(/\n/g, '  \n');
+const md = (s) => s.replace(/[\\`*_{}\[\]<>|#]/g, c => `\\${c}`).replace(/\n/g, '\\' + '\n');
 export function reviewMarkdown(r) {
     const s = summarizeReview(r);
     const lines = [`# ${md(r.title)}`, '', `${md(r.project)} · ${md(r.mission)} · ${md(r.date)}`, `Revision: ${md(r.revision.commit)}; uncommitted changes: ${r.revision.dirty.map(md).join(', ') || 'none recorded'}`, '', `Conclusion: **${conclusionLabels[s.conclusion]}**`, md(r.summary), `Policy: ${md(r.policy.rationale)}`, '', '## Scope', ...r.scope.map(v => `- ${md(v)}`), '', '## Exclusions and limits', ...[...r.exclusions, ...r.limits].map(v => `- ${md(v)}`), '', '## Counts (whole review)', ...Object.entries(s.severities).map(([severity, count]) => `- ${severityLabels[severity]}: ${count}`), `- À vérifier: ${s.suspected}`, ...Object.entries(s.checks).map(([status, count]) => `- ${checkLabels[status]}: ${count}`), '', '## Coverage', ...r.checks.map(c => `- **${md(c.id)} — ${md(c.title)}** (${md(c.domain)}, ${c.kind}): ${checkLabels[c.status]}. ${md(c.result)}${c.reason ? ` Reason: ${md(c.reason)}` : ''} Revision: ${md(c.revision)}. Evidence: ${c.evidenceIds.map(md).join(', ') || 'none'}`), '', '## Findings'];

@@ -4,11 +4,13 @@ From idea to delivery with your AI coding agents.
 
 [![npm](https://img.shields.io/npm/v/devmethod-ai?label=npm)](https://www.npmjs.com/package/devmethod-ai) [![license](https://img.shields.io/npm/l/devmethod-ai)](LICENSE) [![platform tests](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml/badge.svg)](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml)
 
-## Watch DevMethod build Lisière — 2 min 58 s
+## Watch DevMethod build Lisière, then inspect a review — 4 min 03 s
 
-[![Play the 4K demo: approved master and derived Lisière screens](docs/media/visual-chain/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/devmethod-du-besoin-au-produit-4k.fr.mp4)
+[![Play the extended 4K demo: Lisière and the review interface](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/media/visual-chain/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/devmethod-du-besoin-au-produit-4k.fr.mp4)
 
 **[▶ Watch the video — 4K, French narration](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/devmethod-du-besoin-au-produit-4k.fr.mp4)** · [Subtitles and execution evidence](docs/media/visual-chain/README.md) · [Download the working prototype](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/lisiere-visual-source.zip)
+
+**Existing Lisière film, extended with the new review interface.** The original footage is retained, with an added narrated chapter showing real interface captures and a clearly fictional review example.
 
 **Concrete example: Lisière, a personal reading library.** Start with an idea, compare three visual directions, approve a master screen, derive the other screen images, choose a suitable architecture, then build and verify the application.
 
@@ -19,6 +21,7 @@ From idea to delivery with your AI coding agents.
 | Architecture | HTML/CSS/JavaScript, testable book rules and browser-local storage |
 | Plan, ready and implement | Working form, filters, status changes and saved books |
 | Review and verify | Corrected alert/focus behavior, 6 tests and real Chrome desktop/mobile journeys |
+| New review chapter | Find and filter findings, inspect evidence/corrections, distinguish coverage, inspect sources and export |
 | Integrate and handoff | Local prototype, references, evidence and resumption context |
 
 The video uses illustrative Codex commands with real generated images and recorded application interactions. DevMethod guides the coding agent; image generation requires an available host tool. The visual workflow is included in npm 0.2.0. [Follow the visual workflow](docs/VISUAL-WORKFLOW.md).
@@ -29,7 +32,7 @@ DevMethod is the public name of the kit. Its entry-point skill remains `project-
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**DevMethod 0.3.0.** [Changes, migration and verification limits](docs/RELEASE-0.3.0.md). This release adds proportionate research, explicit architecture decisions, delivery-scope discussion linked mission/ticket templates, and a functional browser review viewer. Check the registry and GitHub release for publication evidence.
+**DevMethod 0.3.1.** [Documentation and film update](docs/RELEASE-0.3.1.md) · [0.3 workflow changes](docs/RELEASE-0.3.0.md). This release adds proportionate research, explicit architecture decisions, delivery-scope discussion, linked mission/ticket templates, and a functional browser review viewer. Check the registry and GitHub release for publication evidence.
 
 For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
@@ -40,18 +43,18 @@ Start with [missions and the tested source quick start](docs/MISSIONS.md), the [
 Requires Node.js 22+ and npm. Install into a fresh staging directory first:
 
 ```bash
-npx --yes devmethod-ai@0.3.0 init --tool codex --dest ../foundation-staging
+npx --yes devmethod-ai@0.3.1 init --tool codex --dest ../foundation-staging
 ```
 
 Choose `codex`, `claude` or `cursor`. If you omit `--tool`, an interactive terminal asks. For example:
 
 ```bash
-npx --yes devmethod-ai@0.3.0 init --tool claude --dest ../foundation-staging --dry-run
+npx --yes devmethod-ai@0.3.1 init --tool claude --dest ../foundation-staging --dry-run
 ```
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.3.0 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.3.1 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -114,7 +117,7 @@ Replace `status` with an action below. These are prompts to the skill, not shell
 | `plan` | Useful scope discussion, conditional milestones and near-term tickets |
 | `ready TASK-1` | Readiness assessment before implementation |
 | `implement TASK-1` | Scoped code, tests and corrections |
-| `review TASK-1` | Diff and architecture review |
+| `review TASK-1` | Evidence-backed inspection, structured findings, checks, sources and report |
 | `verify TASK-1` | Executed checks and remaining gates |
 | `integrate TASK-1` | Delivery under existing permissions |
 | `correct-course` | Resolve changed scope or blocked decisions |
@@ -128,17 +131,25 @@ See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). S
 
 ## More recorded examples
 
-[Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example; the featured video above follows Lisière throughout.
+[Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example. The featured film retains the Lisière story and adds an explicitly separate fictional review example.
 
 ## Inspect a review in your browser
 
 Generate a local interactive report from the packaged fictional demo:
 
 ```sh
-npx --yes devmethod-ai@0.3.0 review --demo --output review.html
+npx --yes devmethod-ai@0.3.1 review --demo --output review.html --open
 ```
 
-Open `review.html` in your browser. For your own results, use `--review relative/review.json`; add `--markdown REVIEW.md` for the derived report. Search and filter findings, inspect evidence and source provenance, and export the same results. Existing Markdown remains readable with `--legacy`. See [review commands, format and trust limits](docs/REVIEWS.md). The CLI presents recorded results; it does not perform an automatic code review.
+The command generates `review.html` and opens it in your browser without a local server. On a headless machine, omit `--open`; if opening fails, the file remains available. For your own results, use `--review relative/review.json`; add `--markdown REVIEW.md` for the derived report. Search and filter findings, inspect evidence and source provenance, and export the same results. Existing Markdown remains readable with `--legacy`. See [review commands, format and trust limits](docs/REVIEWS.md). The CLI presents recorded results; it does not perform an automatic code review.
+
+![Actual DevMethod review interface — fictional demonstration data](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/images/review-interface-desktop.jpg)
+
+**[Follow the review walkthrough](https://github.com/montassarkhalloufi/DevMethod/blob/main/docs/REVIEW-GUIDE.md)** · [JSON, Markdown and HTML example](https://github.com/montassarkhalloufi/DevMethod/tree/main/examples/review) · [Review chapter provenance](https://github.com/montassarkhalloufi/DevMethod/blob/main/docs/media/review-extension/README.md)
+
+The example contains two fictional findings and three separate checks. Severity, confidence and resolution remain distinct. Sources show whether they were actually consulted. The same structured record produces the UI and reports; tickets reference stable finding IDs.
+
+![Coverage distinguishes passed, failed and unexecuted checks](https://raw.githubusercontent.com/montassarkhalloufi/DevMethod/main/docs/images/review-coverage.jpg)
 
 ## Visual design and architecture
 

@@ -1,0 +1,70 @@
+{
+  "baseTag": "v0.3.0",
+  "baseSHA256": "6d803f75ec4a0fcef70f188216977ac878846d7ffb84000fb281d8001dc092c0",
+  "insertionSeconds": 171.52,
+  "baseDuration": 177.509,
+  "duration": 243.216,
+  "method": "Original footage and narration retained; review screenshot chapter inserted before original ending. Re-encoded splice tracks; no original scene regenerated.",
+  "scenes": [
+    {
+      "title": "La review devient consultable",
+      "capture": "findings.jpg",
+      "command": "npx devmethod-ai@0.3.1 \\\n  review --demo \\\n  --output review.html --open",
+      "explanation": "Une interface locale pour relier constats, preuves et corrections.",
+      "note": "HTML autonome hors ligne. La commande présente des résultats enregistrés ; elle ne réalise pas la review.",
+      "voice": "Dev Method ajoute maintenant une interface de review. Voici sa démonstration fictive, distincte des résultats réels du pilote Lisière. Cette commande ouvre un rapport local.",
+      "duration": 11.36,
+      "start": 171.52
+    },
+    {
+      "title": "Retrouver le constat utile",
+      "capture": "filtered.jpg",
+      "command": "Constats → Rechercher\n« silencieux »",
+      "explanation": "Rechercher, filtrer et sélectionner sans confondre gravité et confiance.",
+      "note": "Un constat confirmé et un risque à vérifier restent distincts. Les compteurs décrivent toute la review.",
+      "voice": "La recherche isole un constat. Les filtres distinguent domaine, gravité, confiance et résolution. Un risque à vérifier reste une hypothèse, pas un défaut confirmé.",
+      "duration": 11.32,
+      "start": 182.88
+    },
+    {
+      "title": "Comprendre, puis corriger",
+      "capture": "correction.jpg",
+      "command": "Preuve → Correction\n→ Vérification attendue",
+      "explanation": "Du scénario observé à la correction et à sa nouvelle vérification.",
+      "note": "Le ticket complète le constat. Fermer le panneau ne résout jamais le problème.",
+      "voice": "Chaque constat relie scénario, preuve, impact et correction. La vérification attendue et le ticket restent accessibles. Masquer un résultat ne le marque pas comme résolu.",
+      "duration": 11.04,
+      "start": 194.2
+    },
+    {
+      "title": "Voir la couverture réelle",
+      "capture": "coverage.jpg",
+      "command": "Couverture\nRéussi · Échec · Non exécuté",
+      "explanation": "Les contrôles ont leur propre statut, indépendant du nombre de constats.",
+      "note": "Une zone non inspectée ne devient pas verte. La révision et les limites restent visibles.",
+      "voice": "La couverture sépare les contrôles réussis, en échec et non exécutés. L’absence de constat ne prouve pas que tout a été vérifié.",
+      "duration": 8.6,
+      "start": 205.23999999999998
+    },
+    {
+      "title": "Vérifier les références",
+      "capture": "sources.jpg",
+      "command": "Sources\nVersion → Provenance → Usage",
+      "explanation": "Une référence connue n’est pas automatiquement une source consultée.",
+      "note": "La démonstration signale sa référence non vérifiée. Une vraie review consigne sa consultation et ses limites.",
+      "voice": "Les sources indiquent technologie, version, provenance et usage. Ici, la référence est clairement non vérifiée : cette démonstration ne prétend pas l’avoir consultée.",
+      "duration": 11.44,
+      "start": 213.83999999999997
+    },
+    {
+      "title": "Exporter et reprendre",
+      "capture": "export.jpg",
+      "command": "Exporter le rapport\nHTML · Markdown · JSON",
+      "explanation": "Une source structurée commune pour l’interface et les rapports.",
+      "note": "Conserver la révision, les preuves et les limites. Le HTML exporté conserve aussi l’état de consultation.",
+      "voice": "Exportez la même review en HTML, Markdown ou JSON. Les résultats partagent une source commune. Le rapport conserve la révision, les preuves et les limites pour la reprise.",
+      "duration": 11.92,
+      "start": 225.27999999999997
+    }
+  ]
+}

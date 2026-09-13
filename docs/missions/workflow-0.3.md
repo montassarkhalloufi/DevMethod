@@ -14,4 +14,6 @@ Exclusions: whole-project dashboard, remote hosting, automatic discovery/install
 
 Current architecture question: static self-contained HTML versus loopback server; recommended static report under the dependency-free offline contract, presented to the user before dependent implementation. Preserve their forthcoming choice/delegation in the relevant ADR.
 
-Next action: verify the final delegated offline-opening integration, merge and publish under current authorization. The user explicitly delegated the opening-mode choice on 2026-09-13; ADR 008 records the selected standalone HTML and optional OS opening command. Shared model, report/export, CLI presentation and browser UI are implemented. The file:// browser reopening limitation remains documented; do not bypass the browser tool policy or claim that check passed.
+Delivered as v0.3.0: PR #19 merged at `2bea8ec47cbb1d085819ba05e64f9d3816e91af8`; GitHub release and npm `latest` publication verified. Registry tarball bytes matched the inspected archive and package smoke passed. The installed published package generated its review HTML and Markdown from a canonical temporary directory without this checkout. Direct file:// reopening remains unverified under browser tool policy.
+
+The user subsequently requested expanded documentation, images and an extension of the existing film. That follow-up is owned by [review-media-0.3.1](review-media-0.3.1.md); the 0.3.0 tag and npm artifact remain immutable.
