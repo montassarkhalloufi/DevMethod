@@ -4,6 +4,25 @@ From idea to delivery with your AI coding agents.
 
 [![npm](https://img.shields.io/npm/v/devmethod-ai?label=npm)](https://www.npmjs.com/package/devmethod-ai) [![license](https://img.shields.io/npm/l/devmethod-ai)](LICENSE) [![platform tests](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml/badge.svg)](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml)
 
+## Watch DevMethod build Lisière — 2 min 58 s
+
+[![Play the 4K demo: approved master and derived Lisière screens](docs/media/visual-chain/video-preview.jpg)](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/devmethod-du-besoin-au-produit-4k.fr.mp4)
+
+**[▶ Watch the video — 4K, French narration](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/devmethod-du-besoin-au-produit-4k.fr.mp4)** · [Subtitles and execution evidence](docs/media/visual-chain/README.md) · [Download the working prototype](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/visual-chain/lisiere-visual-source.zip)
+
+**Concrete example: Lisière, a personal reading library.** Start with an idea, compare three visual directions, approve a master screen, derive the other screen images, choose a suitable architecture, then build and verify the application.
+
+| Step shown | Concrete result |
+| --- | --- |
+| Explore and frame | Add books, filter readings and track three statuses |
+| Design | Three alternatives → selected editorial master → add-book and completed-reading images |
+| Architecture | HTML/CSS/JavaScript, testable book rules and browser-local storage |
+| Plan, ready and implement | Working form, filters, status changes and saved books |
+| Review and verify | Corrected alert/focus behavior, 6 tests and real Chrome desktop/mobile journeys |
+| Integrate and handoff | Local prototype, references, evidence and resumption context |
+
+The video uses illustrative Codex commands with real generated images and recorded application interactions. DevMethod guides the coding agent; image generation requires an available host tool. The visual workflow is in the current GitHub source and is not included in npm 0.1.0. [Follow the visual workflow](docs/VISUAL-WORKFLOW.md).
+
 ![DevMethod workflow](docs/images/devmethod-flow.svg)
 
 DevMethod is the public name of the kit. Its entry-point skill remains `project-foundation`, preserving existing invocations and the six-module structure.
@@ -115,9 +134,9 @@ flowchart TD
   E --> F[Handoff]
 ```
 
-## Watch a real from-zero example
+## More recorded examples
 
-[Complete workflow in 4K — 2 min 58 s](docs/media/visual-chain/README.md) · [Detailed recorded chain](docs/media/full-chain-4k/README.md) · [Short French demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). The film follows Lisière from product framing through three visual directions, an approved master and derived screen images, then technology and architecture choices, planning, implementation, review, verification, local delivery and handoff. Commands are illustrative; visual results and browser interactions are real. Clair remains a separate from-zero example.
+[Detailed recorded Lisière chain](docs/media/full-chain-4k/README.md) · [Short Clair demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). Clair is a separate from-zero example; the featured video above follows Lisière throughout.
 
 ## Visual creation in the source version
 
