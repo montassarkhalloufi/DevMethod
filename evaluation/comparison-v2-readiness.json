@@ -4,14 +4,15 @@
   "mode": "bmad-build-auto versus DevMethod",
   "bmadInitializationPassed": true,
   "taskLocalTemporaryDirectory": true,
-  "methodArtifactsAllowed": false,
-  "gitMetadataWritable": false,
-  "synchronousSubagentsAvailable": false,
+  "methodArtifactsAllowed": true,
+  "gitMetadataWritable": true,
+  "synchronousSubagentsAvailable": true,
   "descendantUsageMeasured": false,
-  "descendantCancellationVerified": false,
+  "descendantCancellationVerified": true,
   "equalHostPermissions": false,
   "frozenMethodRevisions": true,
   "independentAcceptanceChecks": true,
-  "observation": "BMAD 6.12.0 bmad-build renderer succeeded with task-local TMPDIR, UV_OFFLINE=1 and UV_PYTHON_DOWNLOADS=never. This was a local setup preflight, not native model or nested-sandbox validation. Autonomous workflow additionally requires subagents and writable Git metadata. Existing pilot disables subagents and cannot establish descendant usage coverage.",
-  "modelInvocations": 0
+  "observation": "Native Git, BMAD renderer, child execution and cancellation probes passed. Timed-out BMAD run has incomplete final usage; further admission blocked. Three root invocations; two probes each spawned one child. See comparison-v2-results.json.",
+  "rootInvocations": 3,
+  "discoveredChildThreads": 3
 }

@@ -19,3 +19,7 @@ The [readiness evidence](../evaluation/comparison-v2-readiness.json) records cur
 Next implementation scope: task-local runtime/artifact directories for both arms, writable isolated Git metadata, synchronous child execution with measured aggregate usage and verified cancellation. Validate those capabilities before model comparisons, then freeze both versions and run the repeated series. No new model invocation has been made in this preparation slice.
 
 The prior campaign's temporary raw-evidence directory is no longer present in this session. Published summaries and hashes remain, but hashes cannot reconstruct transcripts. Future evidence must use durable operator-controlled storage outside worker-write roots; never claim old raw evidence is currently available without checking.
+
+## Adapter follow-up
+
+The next slice executed native Git and parent/child probes, then a BMAD task that passed initialization but timed out during planning. Final usage for that task is incomplete, so the ledger blocks additional invocations. See [the adapter validation](CODEX-ADAPTER-VALIDATION.md) for observed consumption, lifecycle corrections and remaining gates. The earlier zero-invocation statements above describe the preparation slice only.

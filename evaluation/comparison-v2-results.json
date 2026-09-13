@@ -1,0 +1,58 @@
+{
+  "format": 1,
+  "date": "2026-09-13",
+  "kind": "adapter-validation-and-incomplete-comparison",
+  "runs": [
+    {
+      "id": "children-preflight",
+      "status": "exited",
+      "usage": {
+        "inputTokens": 49119,
+        "outputTokens": 231,
+        "costUSD": null
+      },
+      "observedTokens": 49350,
+      "observedIsFinal": true,
+      "transcriptSha256": "713864b552dbd26cf2d87510cb2683088d7e7203985a9e66a850c4098eb01102",
+      "objectiveAcceptance": null
+    },
+    {
+      "id": "children-cancel-preflight",
+      "status": "exited",
+      "usage": {
+        "inputTokens": 39160,
+        "outputTokens": 305,
+        "costUSD": null
+      },
+      "observedTokens": 39465,
+      "observedIsFinal": true,
+      "transcriptSha256": "8092242eb144b14a01d8d452f3925ac9fbfa757e2896eaf6f99986310aa8e0b4",
+      "objectiveAcceptance": null
+    },
+    {
+      "id": "b1-1-bmad",
+      "status": "timeout",
+      "usage": null,
+      "observedTokens": 277674,
+      "observedIsFinal": false,
+      "transcriptSha256": "d43a1a544cb3ffd078ade72a35b998e72d932f9f8668b04ab64dfa36c1b6f313",
+      "objectiveAcceptance": false
+    }
+  ],
+  "observedTokensLowerBound": 366489,
+  "finalTotalTokens": null,
+  "costUSD": null,
+  "stopReason": "Timed-out run has incomplete final accounting. No further model run admitted.",
+  "nativeFindings": [
+    "Explicit per-repository .git writable root permits git add while default sandbox denies it.",
+    "Parent/child execution and per-thread usage observed.",
+    "Parent/child interruption events observed in cancellation probe.",
+    "BMAD renderer and Git sanity checks succeed in native task."
+  ],
+  "limitations": [
+    "BMAD full workflow did not finish within deadline. No repeated comparison completed.",
+    "Task launcher was hardened after timeout; interrupted run is not evidence for final driver.",
+    "Inherited app-server configuration is not yet fully inventoried; no clean-config claim.",
+    "Native code-quality superiority is not established."
+  ]
+}
