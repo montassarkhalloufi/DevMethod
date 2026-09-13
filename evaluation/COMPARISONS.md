@@ -27,3 +27,7 @@ The report gives pass/fail/blocked/timeout counts with denominators for each cas
 ## Current checkpoint
 
 Tooling implemented; no matched model batch executed. Budget approval is pending. Each host requires a locally verified authenticated environment. BMAD is not pinned/installed for this batch. B2 has no pinned React project/approved screen. Resolve these prerequisites before native dispatch. No orchestrator should treat this tooling's unit tests as a passed comparison gate.
+
+## rc.2 setup observation
+
+On 2026-09-13, BMAD npm 6.12.0 was installed with lifecycle scripts disabled in an isolated temporary directory, then its core/BMM Codex export was actually generated with English configuration and the fictional user Evaluator. Package integrity, export digest and host version probes are in [candidate-setup.json](candidate-setup.json). This proves local setup only, not native workflow behavior. Regenerate clean per-arm exports and snapshot all bytes/configuration before a future budgeted batch; the temporary setup is not a reusable evaluation session. The earlier “not installed” checkpoint above is historical. Model and budget remain unset; no runs have been fabricated to fill a comparison table.

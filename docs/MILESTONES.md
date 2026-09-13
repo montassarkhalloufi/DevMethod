@@ -1,4 +1,6 @@
-# Authorized milestone checkpoint
+# Historical milestone checkpoint
+
+This record describes the previous campaign, now merged as PRs #2–#5. Its merge authorization does not apply to the new mission. Current scope and evidence: [EVOLUTION.md](EVOLUTION.md) and [RC2-VALIDATION.md](RC2-VALIDATION.md).
 
 Baseline: `ce11461252f6a3b8e14f7af021c362e5d4742915`, matching main after merged PR #1. The starting checkout was clean. PR #1 introduced diagnostics and workflow guidance; ADR 001 is accepted and ADR 002 remains labeled proposed. New ADRs are proposals, not inferred maintainer acceptance. The initial boundary excluded main merges; the maintainer subsequently authorized merging these PRs after repeat testing and review. npm publication remains excluded.
 

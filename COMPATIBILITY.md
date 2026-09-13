@@ -1,6 +1,6 @@
 # Compatibility evidence
 
-Assessment date: 2026-09-12. Target: local project skills, not every cloud or chat product carrying the same brand. Packaged installation passed on native Linux x64, macOS ARM64 and Windows Server 2025 x64 runners with Node.js 22.23.2; see [the operating-system results](VALIDATION.md#native-operating-system-results). These results do not establish authenticated coding-agent behavior.
+Historical platform assessment date: 2026-09-12; those results apply only to their recorded revision. Current candidate results: [rc.2 validation](docs/RC2-VALIDATION.md). Target: local project skills, not every cloud or chat product carrying the same brand. Packaged installation passed on native Linux x64, macOS ARM64 and Windows Server 2025 x64 runners with Node.js 22.23.2; see [the operating-system results](VALIDATION.md#native-operating-system-results). These results do not establish authenticated coding-agent behavior.
 
 | Host | Export directory | Invocation | Evidence |
 |---|---|---|---|
@@ -8,13 +8,13 @@ Assessment date: 2026-09-12. Target: local project skills, not every cloud or ch
 | Claude Code | `.claude/skills/<name>/SKILL.md` | `/project-foundation status` | Official format reviewed; export tests; authenticated native session pending |
 | Cursor Agent | `.cursor/skills/<name>/SKILL.md` | `/project-foundation status` | Official format reviewed; export tests; authenticated native session pending |
 
-The native executables and credentials were unavailable in the validation environment. Passing installer tests does not prove host discovery, model behavior or UI command completion. No Claude Code or Cursor version is claimed as runtime-tested. Therefore these profiles are provisionally compatible, not certified end-to-end.
+The earlier validation environment lacked native executables/credentials. On 2026-09-13, version probes found Codex CLI 0.147.0 and Claude Code 2.1.238; Cursor CLI was not found on PATH. No authenticated model campaign was executed in this mission; budget/model limits remain pending. Passing installer tests does not prove host discovery, model behavior or UI command completion. No Claude Code or Cursor version is claimed as runtime-tested. Therefore these profiles are provisionally compatible, not certified end-to-end.
 
 Official references: [Claude Code skills](https://code.claude.com/docs/en/skills), [Claude Code memory](https://code.claude.com/docs/en/memory), [Cursor skills](https://cursor.com/docs/skills), [Codex skills](https://developers.openai.com/codex/skills). A host version or organization policy may change discovery or execution.
 
 ## Native smoke protocol
 
-Run separately in an authenticated Claude Code session and an authenticated Cursor Agent session. Use a disposable local repo with only the chosen profile. Record date, exact host version, model, discovery result, commands, artifacts read, actual check output and observed next commands. Redact credentials and personal data. Keep the evaluation transcript local until reviewed for publication.
+Run separately in authenticated Codex, Claude Code and Cursor Agent sessions. Use a disposable local repo with only the chosen profile. Record date, exact host version, model, discovery result, commands, artifacts read, actual check output and observed next commands. Redact credentials and personal data. Keep the evaluation transcript local until reviewed for publication.
 
 1. Create a fictional ticket DEMO-1 with an explicit unmet dependency, a local-only delivery scope and a documented test command. Invoke `ready DEMO-1` through the qualified skill command. Verify the dependency is read and blocks implementation without edits.
 2. Invoke `status`, then an unknown stage. Verify status reflects the files and the unknown stage lists available stages without starting implementation.

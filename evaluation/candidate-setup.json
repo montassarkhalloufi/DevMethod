@@ -1,0 +1,33 @@
+{
+  "format": 1,
+  "observedDate": "2026-09-13",
+  "status": "prepared-no-model-runs",
+  "bmad": {
+    "package": "bmad-method",
+    "version": "6.12.0",
+    "npmIntegrity": "sha512-gbbHo32TxCPwo4Yy70kqykFRwN5UdYqfnDKTsKAsF9m5qtLeoiCgEawj/LuzLBHLrYA0WTOyL/XWtXpgyDonMQ==",
+    "modules": [
+      "core",
+      "bmm"
+    ],
+    "hostExport": "codex",
+    "exportFiles": 235,
+    "payloadSha256": "d682b83ae715758c307f202cd981e99c08364a3e9212794127d7f55e1db3cf02",
+    "setup": "npm install --ignore-scripts bmad-method@6.12.0; bmad-method install --directory DISPOSABLE_ARM --modules bmm --tools codex --user-name Evaluator --communication-language English --document-output-language English --yes"
+  },
+  "hosts": {
+    "codex": "0.147.0",
+    "claude": "2.1.238",
+    "cursor": null
+  },
+  "model": null,
+  "budget": null,
+  "runs": [],
+  "pending": [
+    "Explicit model and run/token/USD limits",
+    "Authenticated isolated runs and enforceable caps",
+    "Fresh arm exports and pinned fixtures for each host",
+    "Independent review of actual transcripts"
+  ],
+  "measurement": "No token/cost measurements; none inferred from file sizes."
+}

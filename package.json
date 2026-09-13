@@ -1,16 +1,42 @@
 {
   "name": "devmethod-ai",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.0-rc.2",
   "description": "From idea to delivery with your AI coding agents",
   "license": "MIT",
   "type": "module",
-  "bin": { "devmethod": "dist/cli.js" },
-  "engines": { "node": ">=22" },
-  "files": ["dist/", ".agents/skills/", "LICENSE", "COMPATIBILITY.md"],
-  "repository": { "type": "git", "url": "git+https://github.com/montassarkhalloufi/DevMethod.git" },
+  "bin": {
+    "devmethod": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "dist/",
+    ".agents/skills/",
+    "docs/",
+    "examples/",
+    "evaluation/",
+    "scripts/",
+    "LICENSE",
+    "COMPATIBILITY.md",
+    "CONTRIBUTING.md",
+    "VALIDATION.md",
+    "START_HERE.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/montassarkhalloufi/DevMethod.git"
+  },
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && node --test tests/*.test.mjs"
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "test:fixtures": "node --test tests/evaluation.test.mjs",
+    "check:docs": "node scripts/check-docs.mjs",
+    "test:cli": "node --test tests/install.test.mjs tests/doctor.test.mjs tests/update.test.mjs tests/checkpoint.test.mjs tests/resume-cli.test.mjs tests/mission.test.mjs tests/planner.test.mjs",
+    "test:protocols": "node --test tests/comparison.test.mjs"
   },
-  "devDependencies": { "@types/node": "^22.0.0", "typescript": "~5.9.3" }
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "~5.9.3"
+  }
 }

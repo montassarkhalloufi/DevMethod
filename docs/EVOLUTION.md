@@ -21,3 +21,12 @@ Baseline inspected: `18d65c7e3b1c772eef69fb24a04eae9313a3f418`, clean checkout. 
 4. **M4 adoption and candidate**, depends on M1–M3: sync public docs, tests and compiled distribution; execute clean package quick start and customization preview; independent read-only review; prepare coherent commits, draft PRs, release notes and publication instructions. No main merge, npm publish or deployment.
 
 Observed defects are recorded above. Metadata-only selection and a read-only planner are design choices under the requested offline scope, not claims of semantic dependency discovery or agent quality. Host version availability is not behavioral validation. Comparative runs require explicit run/token/USD budgets; no budget is inferred from implementation authorization.
+
+## Delivered milestone checkpoint
+
+- M1: mission/context and Git-aware compatible checkpoint inspection implemented, 56 root regressions passed, independent core review corrected and verified.
+- M2: eight optional profiles and real Next/Nest/PostgreSQL fixture implemented; domain/HTTP/model, real persistence and production HTML checks passed. Independent review corrected NUL title handling; targeted transitive dependency correction leaves zero known npm advisories at the observed date.
+- M3: bounded generic manual planner implemented and tested. Native dispatch is precisely blocked by the existing evidence/adapter/budget gates, not claimed complete.
+- M4: clean tarball/adoption/update smoke, documentation checks, mission evidence walkthrough, release notes and stacked draft PRs prepared. BMAD 6.12.0 Codex export was actually staged without model calls. Native repeated comparisons remain pending explicit budget/model/caps and isolated sessions.
+
+See [rc.2 validation](RC2-VALIDATION.md) for the evidence matrix, CI and resumable handoff. No main merge, npm publication or deployment was performed. ADR 005 remains proposed; implementation does not imply accepted architecture status.

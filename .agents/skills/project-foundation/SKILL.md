@@ -22,7 +22,7 @@ Project-specific examples, history, and sources remain in that project. This kit
 
 ## Mission context
 
-Use a mission as the unit of authorized work. Keep Quick records inline; substantial work may use [mission context](references/mission-context.md) and the scoped-delivery mission template. Select sources by subject authority and load details progressively. Optional offline CLI inspection never executes a mission.
+Use a mission as the unit of authorized work. Keep Quick records inline; substantial work may use [mission context](references/mission-context.md) and the scoped-delivery mission template. Select sources by subject authority and load details progressively. Optional offline CLI inspection never executes a mission. For a stack-specific mission, select only the relevant [optional profiles](references/profiles/README.md); inspect installed versions and preserve project conventions.
 
 ## Reusable working method
 

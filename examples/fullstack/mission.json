@@ -1,0 +1,34 @@
+{
+  "format": 1,
+  "id": "TASK-LIST",
+  "path": "standard",
+  "outcome": "Create validated tasks through Nest and render them in Next using PostgreSQL persistence.",
+  "scope": ["Task title validation", "Nest HTTP boundary", "Drizzle persistence", "Next read and filter boundaries"],
+  "exclusions": ["Authentication", "Deployment", "Creation form", "Broker integration"],
+  "invariants": ["Web cannot access database credentials", "Business validation precedes persistence", "Preserve the pinned framework versions"],
+  "uncertainties": ["Browser hydration requires a separate manual or browser check"],
+  "owner": "fixture-maintainer",
+  "status": "active",
+  "nextAction": "Review recorded unit evidence and run database/e2e checks under the documented local fixture contract.",
+  "stopConditions": ["Acceptance checks are recorded with current evidence", "A required dependency is unavailable"],
+  "acceptance": [
+    {"id": "AC-TITLE", "description": "Invalid titles fail before persistence", "changes": ["api/domain/task.ts", "api/http.ts"], "verification": "npm test", "kind": "automated"},
+    {"id": "AC-STORE", "description": "Tasks persist across PostgreSQL connections", "changes": ["api/infrastructure/postgres.ts", "migrations/0000_tasks.sql"], "verification": "npm run test:db", "kind": "automated"},
+    {"id": "AC-WEB", "description": "Next renders a task created through the real API and reports unavailability", "changes": ["web/app/page.tsx", "web/features/tasks/server/list-tasks.ts"], "verification": "npm run test:e2e", "kind": "automated"}
+  ],
+  "sources": [
+    {"id": "runtime", "path": "package.json", "level": "project", "reason": "Pins versions and commands", "authority": "Executable fixture configuration", "kind": "fact", "revision": "working-tree"},
+    {"id": "lock", "path": "package-lock.json", "level": "project", "reason": "Pins resolved dependencies", "authority": "Dependency resolution for this fixture", "kind": "fact", "revision": "working-tree"},
+    {"id": "contract", "path": "CONTRACT.md", "level": "domain", "reason": "Defines title and HTTP semantics", "authority": "Accepted fictional fixture contract", "kind": "accepted-decision", "revision": "working-tree"},
+    {"id": "domain", "path": "api/domain/task.ts", "level": "domain", "reason": "Implements title validation", "authority": "Observed implementation, subordinate to accepted contract", "kind": "fact", "revision": "working-tree"},
+    {"id": "application", "path": "api/application/tasks.ts", "level": "domain", "reason": "Enforces use-case boundaries", "authority": "Observed implementation", "kind": "fact", "revision": "working-tree"},
+    {"id": "http", "path": "api/http.ts", "level": "mission", "reason": "Implements the HTTP acceptance boundary", "authority": "Observed HTTP implementation", "kind": "fact", "revision": "working-tree"},
+    {"id": "api-types", "path": "api/tsconfig.json", "level": "project", "reason": "Controls compiled runtime semantics", "authority": "Compiler configuration", "kind": "fact", "revision": "working-tree"},
+    {"id": "web-model", "path": "web/features/tasks/model/tasks.ts", "level": "mission", "reason": "Validates and filters task data", "authority": "Observed pure model", "kind": "fact", "revision": "working-tree"},
+    {"id": "unit-tests", "path": "tests/unit.test.cjs", "level": "execution", "reason": "Defines title acceptance checks", "authority": "Executable check, not a recorded outcome", "kind": "fact", "revision": "working-tree"},
+    {"id": "http-tests", "path": "tests/http.test.cjs", "level": "execution", "reason": "Defines HTTP acceptance checks", "authority": "Executable check, not a recorded outcome", "kind": "fact", "revision": "working-tree"},
+    {"id": "web-tests", "path": "tests/web-model.test.cjs", "level": "execution", "reason": "Defines pure model checks", "authority": "Executable check, not a recorded outcome", "kind": "fact", "revision": "working-tree"}
+  ],
+  "dependencies": [],
+  "contradictions": []
+}
