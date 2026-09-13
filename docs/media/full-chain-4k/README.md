@@ -1,6 +1,6 @@
 # DevMethod — chaîne complète en 4K
 
-[Voir ou télécharger le film](devmethod-chaine-complete-4k.fr.mp4) · [Sous-titres français](devmethod-chaine-complete.fr.srt) · [Code du prototype](lisiere-source.zip)
+[Voir ou télécharger le film](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/full-chain-4k/devmethod-chaine-complete-4k.fr.mp4) · [Sous-titres français](devmethod-chaine-complete.fr.srt) · [Code du prototype](https://github.com/montassarkhalloufi/DevMethod/raw/refs/heads/main/docs/media/full-chain-4k/lisiere-source.zip)
 
 **10 min 10 s · 3840 × 2160 · 19 chapitres · voix française.**
 
