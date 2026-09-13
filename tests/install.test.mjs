@@ -5,6 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { commandSkills } from '../dist/commands.js';
 import { initialize, tools, modules } from '../dist/init.js';
 
 function fixture(t) {
@@ -40,7 +41,7 @@ test('dry-run does not write and subsets retain foundation', t => {
   assert.deepEqual(result.skills, ['project-foundation', 'scoped-delivery']);
   assert.ok(!fs.existsSync(destination));
   initialize({ destination, tool: 'claude', selected: ['scoped-delivery'] });
-  assert.deepEqual(fs.readdirSync(path.join(destination, tools.claude)).sort(), ['project-foundation', 'scoped-delivery']);
+  assert.deepEqual(fs.readdirSync(path.join(destination, tools.claude)).sort(), ['project-foundation', 'scoped-delivery', ...commandSkills(['project-foundation', 'scoped-delivery'])].sort());
 });
 
 test('conflicts fail before writing and project instructions stay intact', t => {

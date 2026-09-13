@@ -30,7 +30,7 @@ This kit formalizes a complete method: exploration → framing → design → ar
 
 For a new change, select the quick, standard, or major path using [work sizing](references/work-sizing.md). These paths select relevant stages; they do not add commands or require fourteen separate turns. A clear small fix can perform readiness, implementation, review, and verification together under existing authorization.
 
-Read [the operating commands](references/operating-commands.md) for any invocation with a stage, or to structure a new project, epic, or slice. In Codex, run `$project-foundation status`. In Claude Code or Cursor, run `/project-foundation status`. Replace `status` with the desired stage. The commands do not replace project commands.
+Read [the operating commands](references/operating-commands.md) for any invocation with a stage, or to structure a new project, epic, or slice. In Codex, select `$devmethod-status`; in Claude Code or Cursor, select `/devmethod-status`. Each installed stage has a `devmethod-<stage>` entry, including `devmethod-review`. Existing `project-foundation <stage>` invocations remain supported. Execute the selected stage in the agent without asking the user to run npx. The commands do not replace project commands.
 
 For `explore`, use [existing solutions research](references/exploration.md) when product uncertainty warrants it. For an open `architecture`, resolve `decision-architecture` and discuss credible options in the conversation before detailing the dependent architecture. Preserve accepted choices and explicit delegations; invoking `plan` does not adopt a proposal. For `plan`, use [delivery planning](references/delivery-planning.md) to discuss useful outcomes and scope before fixing tickets.
 

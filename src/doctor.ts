@@ -2,6 +2,7 @@ import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { tools, modules, templates, type Tool, type Provenance } from './init.js';
+import { commandSkills } from './commands.js';
 import { parseJson, checkPath, stat } from './filesystem.js';
 
 type Finding = { severity: 'warning' | 'error'; code: string; path?: string; message: string };
@@ -23,6 +24,7 @@ export function validateManifest(value: unknown): Manifest {
       !value.skills.every(name => typeof name === 'string' && modules.includes(name as typeof modules[number])) ||
       !object(value.files)) throw new Error('Expected a DevMethod format 2 manifest with a supported host and unique modules including project-foundation.');
   const root = tools[value.tool as Tool];
+  const supportedSkills = [...value.skills, ...commandSkills(value.skills)];
   const required = [...templates, 'DEVMETHOD-LICENSE', ...value.skills.map(name => `${root}/${name}/SKILL.md`)];
   for (const name of required) {
     if (!Object.hasOwn(value.files, name)) throw new Error(`Manifest is missing required entry: ${name}`);
@@ -32,7 +34,7 @@ export function validateManifest(value: unknown): Manifest {
     const parts = name.split('/');
     const safe = parts.every(part => /^[a-zA-Z0-9._-]+$/.test(part) && part !== '.' && part !== '..');
     const rootFile = templates.includes(name) || name === 'DEVMETHOD-LICENSE';
-    const skillFile = parts.slice(0, 2).join('/') === root && value.skills.includes(parts[2]) &&
+    const skillFile = parts.slice(0, 2).join('/') === root && supportedSkills.includes(parts[2]) &&
       ((parts.length === 4 && parts[3] === 'SKILL.md') ||
        (parts.length >= 5 && ['assets', 'references'].includes(parts[3] ?? '') && name.endsWith('.md')));
     if (!safe || (!rootFile && !skillFile)) throw new Error(`Manifest contains an unsupported path: ${name}`);
@@ -86,7 +88,7 @@ export function diagnose(destination: string): DoctorReport {
       add('error', 'file-unreadable', error instanceof Error ? error.message : String(error), relative);
     }
   }
-  for (const name of manifest.skills) {
+  for (const name of [...manifest.skills, ...commandSkills(manifest.skills)]) {
     for (const root of Object.values(tools)) {
       if (root === tools[manifest.tool]) continue;
       const relative = `${root}/${name}`;

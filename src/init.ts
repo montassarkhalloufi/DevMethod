@@ -2,6 +2,7 @@ import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { commandSkills } from './commands.js';
 import { parseJson, checkPath, stat } from './filesystem.js';
 
 export const tools = { codex: '.agents/skills', claude: '.claude/skills', cursor: '.cursor/skills' } as const;
@@ -32,7 +33,7 @@ export function initialize(options: { destination: string; tool: Tool; selected?
   checkPath(destination);
   if (destination === packageRoot || destination.startsWith(packageRoot + path.sep)) throw new Error('Install outside the distribution directory');
   if (stat(destination) && !stat(destination)?.isDirectory()) throw new Error('Destination must be a directory');
-  for (const name of selected) {
+  for (const name of [...selected, ...commandSkills(selected)]) {
     for (const otherRoot of Object.values(tools)) {
       if (otherRoot !== tools[options.tool] && stat(path.join(destination, otherRoot, name))) throw new Error(`Duplicate skill in another host directory: ${otherRoot}/${name}`);
     }
@@ -88,7 +89,7 @@ export function initialize(options: { destination: string; tool: Tool; selected?
 /** The exact host-profiled payload shipped with this CLI. */
 export function bundledFiles(tool: Tool, selected: readonly string[]): Map<string, Buffer> {
   const files = new Map<string, Buffer>();
-  for (const name of selected) {
+  for (const name of [...selected, ...commandSkills(selected)]) {
     const source = path.join(packageRoot, '.agents/skills', name);
     checkPath(source);
     for (const relative of walk(source)) {

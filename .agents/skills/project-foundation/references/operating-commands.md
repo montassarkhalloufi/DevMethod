@@ -4,7 +4,11 @@ These commands describe a reusable work path. They are not shell commands and do
 
 ## Native invocation
 
-The table's short names are internal stages, not standalone native commands. Invoke `$project-foundation verify TASK-1` in Codex, or `/project-foundation verify TASK-1` in Claude Code and Cursor. Apply the same syntax to all fourteen stages, with their optional argument. Do not register `/verify`, `/review`, or other short names as global commands: they can conflict with the tool's commands. Every recommended next command must be qualified in the same way. If the host is unknown, write `project-foundation: verify TASK-1` in natural language.
+Each documented stage has a discoverable `devmethod-<stage>` skill. In Codex invoke `$devmethod-review TASK-1`; in Claude Code or Cursor invoke `/devmethod-review TASK-1`. Select it in the host's skill menu and supply the target. No npx, terminal launcher or CLI installation is required to run the agent workflow after the skills are installed.
+
+The equivalent `$project-foundation review TASK-1` (Codex) and `/project-foundation review TASK-1` (Claude Code/Cursor) remain supported. Table entries omit the host prefix: recommend the qualified `devmethod-<stage>` invocation when installed, otherwise the compatible `project-foundation <stage>` form. Never register bare `/review` or `/verify`, which may conflict with host commands. If the host is unknown, use `DevMethod review TASK-1` in natural language.
+
+The default installation exposes all fourteen stages. Module subsets expose only commands whose procedure is installed; foundation commands remain available. Do not claim a missing module was loaded. These skills instruct the connected agent to do the work; they do not turn the installer into an autonomous executor.
 
 An unknown stage displays available stages without starting work. With no stage, read the current state and apply `status`. Routing is an instruction to the model, not a deterministic parser or execution guarantee.
 
@@ -14,20 +18,20 @@ Use [work sizing](work-sizing.md) to select relevant stages. A quick change may 
 
 | Command | Purpose | Suggested next step |
 |---|---|---|
-| `/explore` | Research existing solutions proportionately and discuss evidence and next direction | `/frame` |
-| `/frame` | Define value, scope, exclusions, and metrics | `/design` or `/architecture` |
-| `/design` | Create/select visual direction, master and derived screens, or apply approved UX; resolve design-to-code for visual work | `/design` for unfinished visual scope, then `/architecture` |
-| `/architecture` | Discuss structural alternatives and record choice/delegation before dependent detail | `/plan` |
-| `/plan` | Discuss useful delivery scope, then milestones and near-term tickets; stay conditional on open decisions | `/ready` |
-| `/ready <ticket>` | Verify scope, DoD, dependencies, contract, and tests | `/implement <ticket>` |
-| `/implement <ticket>` | Deliver a coherent slice with focused tests | `/review <ticket>` |
-| `/review <ticket>` | Review diff, architecture, contracts, tests, and risks | `/verify` or `/implement` |
-| `/verify <ticket>` | Run documented checks and assess evidence | `/integrate <ticket>` |
-| `/integrate <ticket>` | Prepare a PR/merge under repository policy | `/next` |
-| `/correct-course` | Address a scope change or invalidated decision | `/architecture` or `/plan` |
-| `/next` | Resume from real status and select the next slice | appropriate command |
-| `/status` | Distinguish planned, in progress, PR, merged, and deployed | `/next` or `/correct-course` |
-| `/handoff` | Create a concise checkpoint for another session or agent | `/next` |
+| `devmethod-explore` | Research existing solutions proportionately and discuss evidence and next direction | `devmethod-frame` |
+| `devmethod-frame` | Define value, scope, exclusions, and metrics | `devmethod-design` or `devmethod-architecture` |
+| `devmethod-design` | Create/select visual direction, master and derived screens, or apply approved UX; resolve design-to-code for visual work | `devmethod-design` for unfinished visual scope, then `devmethod-architecture` |
+| `devmethod-architecture` | Discuss structural alternatives and record choice/delegation before dependent detail | `devmethod-plan` |
+| `devmethod-plan` | Discuss useful delivery scope, then milestones and near-term tickets; stay conditional on open decisions | `devmethod-ready` |
+| `devmethod-ready <ticket>` | Verify scope, DoD, dependencies, contract, and tests | `devmethod-implement <ticket>` |
+| `devmethod-implement <ticket>` | Deliver a coherent slice with focused tests | `devmethod-review <ticket>` |
+| `devmethod-review <ticket>` | Review diff, architecture, contracts, tests, and risks | `devmethod-verify` or `devmethod-implement` |
+| `devmethod-verify <ticket>` | Run documented checks and assess evidence | `devmethod-integrate <ticket>` |
+| `devmethod-integrate <ticket>` | Prepare a PR/merge under repository policy | `devmethod-next` |
+| `devmethod-correct-course` | Address a scope change or invalidated decision | `devmethod-architecture` or `devmethod-plan` |
+| `devmethod-next` | Resume from real status and select the next slice | appropriate command |
+| `devmethod-status` | Distinguish planned, in progress, PR, merged, and deployed | `devmethod-next` or `devmethod-correct-course` |
+| `devmethod-handoff` | Create a concise checkpoint for another session or agent | `devmethod-next` |
 
 ## Responsibility and minimal context
 
