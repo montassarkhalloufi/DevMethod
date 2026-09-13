@@ -6,7 +6,7 @@ import { diagnose, validateManifest } from './doctor.js';
 import { checkPath, stat } from './filesystem.js';
 
 type Entry = {
-  path: string; classification: 'unchanged' | 'updated' | 'customized' | 'added' | 'removed';
+  path: string; classification: 'unchanged' | 'updated' | 'customized' | 'conflict' | 'added' | 'removed';
   installedSha256?: string; baselineSha256?: string; candidateSha256?: string;
   candidateChanged: boolean; missing?: boolean; collision?: boolean;
 };
@@ -49,7 +49,7 @@ export function previewUpdate(destination: string): UpdateReport {
       if (current && !current.isFile()) throw new Error(`Expected a regular file: ${name}`);
       const actual = current ? hash(fs.readFileSync(file)) : undefined;
       const customized = baseline !== undefined && actual !== baseline;
-      const classification = baseline === undefined ? 'added' : customized ? 'customized' : next === undefined ? 'removed' : baseline === next ? 'unchanged' : 'updated';
+      const classification = baseline === undefined ? 'added' : customized && baseline !== next && actual !== next ? 'conflict' : customized ? 'customized' : next === undefined ? 'removed' : baseline === next ? 'unchanged' : 'updated';
       const collision = baseline === undefined && actual !== undefined;
       report.entries.push({ path: name, classification, installedSha256: actual, baselineSha256: baseline, candidateSha256: next,
         candidateChanged: baseline !== next, ...(actual === undefined ? { missing: true } : {}), ...(collision ? { collision: true } : {}) });

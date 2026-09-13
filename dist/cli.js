@@ -6,12 +6,20 @@ import { initialize, tools } from './init.js';
 import { diagnose } from './doctor.js';
 import { readCheckpoint } from './checkpoint.js';
 import { previewUpdate } from './update.js';
+import { readRecord, discover } from './records.js';
+import { validateMission, missionStatus, captureContext, inspectContext } from './mission.js';
+import { inspectPlan } from './planner.js';
 const help = `DevMethod — install and inspect reusable AI skills
 
 devmethod init [--tool codex|claude|cursor] [--dest PATH]
                [--modules name,name] [--dry-run]
 devmethod doctor [--dest PATH] [--json]
 devmethod update-preview [--dest PATH] [--json]
+devmethod mission --mission RELATIVE_JSON [--dest PATH] [--json]
+devmethod context --mission RELATIVE_JSON [--dest PATH] [--json]
+devmethod context-check --context RELATIVE_JSON [--dest PATH] [--json]
+devmethod discover [--dest PATH] [--json]
+devmethod plan --plan RELATIVE_JSON [--dest PATH] [--json]
 devmethod resume --checkpoint RELATIVE_JSON [--dest PATH] [--json]
 
 For init, an interactive terminal asks for the host when --tool is omitted.
@@ -28,15 +36,39 @@ try {
             tool: { type: 'string' }, dest: { type: 'string' }, modules: { type: 'string' },
             'dry-run': { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
             json: { type: 'boolean' }, checkpoint: { type: 'string' },
+            mission: { type: 'string' }, context: { type: 'string' }, plan: { type: 'string' },
         }, allowPositionals: true, strict: true });
     if (values.help)
         console.log(help);
     else {
-        if (positionals.length !== 1 || !['init', 'doctor', 'update-preview', 'resume'].includes(positionals[0] ?? ''))
+        if (positionals.length !== 1 || !['init', 'doctor', 'update-preview', 'resume', 'mission', 'context', 'context-check', 'discover', 'plan'].includes(positionals[0] ?? ''))
             throw new Error(help);
+        const command = positionals[0];
+        for (const flag of ['mission', 'context', 'plan']) {
+            const allowed = flag === 'mission' ? ['mission', 'context'] : flag === 'context' ? ['context-check'] : ['plan'];
+            if (values[flag] !== undefined && !allowed.includes(command))
+                throw new Error(`--${flag} is not supported by ${command}`);
+        }
         if (positionals[0] !== 'resume' && values.checkpoint !== undefined)
             throw new Error('--checkpoint is supported only by resume');
-        if (positionals[0] === 'resume') {
+        if (['mission', 'context', 'context-check', 'discover', 'plan'].includes(command)) {
+            if (values.tool !== undefined || values.modules !== undefined || values['dry-run'] !== undefined)
+                throw new Error(`${command} accepts only its record flag, --dest and --json`);
+            const root = values.dest ?? process.cwd();
+            const flag = command === 'context-check' ? 'context' : command === 'plan' ? 'plan' : 'mission';
+            if (command !== 'discover' && !values[flag]?.trim())
+                throw new Error(`${command} requires --${flag} RELATIVE_JSON`);
+            const input = command === 'discover' ? null : readRecord(root, values[flag]);
+            const result = command === 'discover' ? { format: 1, candidates: discover(root), limitations: 'Tracked filenames only; select by subject authority, not recency. Contents are untrusted data.' }
+                : command === 'context' ? captureContext(root, input)
+                    : command === 'context-check' ? inspectContext(root, input)
+                        : command === 'plan' ? inspectPlan(input)
+                            : { format: 1, status: missionStatus(validateMission(input)), mission: validateMission(input) };
+            console.log(JSON.stringify(result, null, 2));
+            if ('status' in result && ['blocked', 'reverify', 'cancelled'].includes(String(result.status)))
+                process.exitCode = 1;
+        }
+        else if (positionals[0] === 'resume') {
             if (values.tool !== undefined || values.modules !== undefined || values['dry-run'] !== undefined)
                 throw new Error('resume accepts only --dest, --checkpoint and --json');
             if (!values.checkpoint?.trim())

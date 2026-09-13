@@ -76,7 +76,7 @@ test('comparison distinguishes upstream edits, local customization, additions, r
   assert.equal(entry(customized).classification, 'customized');
   assert.equal(entry(customized).candidateChanged, false);
   assert.equal(entry(removed).classification, 'removed');
-  assert.equal(entry(removedCustomized).classification, 'customized');
+  assert.equal(entry(removedCustomized).classification, 'conflict');
   assert.equal(entry(removedCustomized).candidateSha256, undefined);
   assert.equal(entry(added).classification, 'added');
   assert.equal(entry(added).collision, true);

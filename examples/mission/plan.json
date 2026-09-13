@@ -1,0 +1,11 @@
+{
+  "format": 1,
+  "status": "active",
+  "concurrency": 1,
+  "contractOwner": "supervisor",
+  "sharedContracts": ["contracts"],
+  "tasks": [
+    {"id": "api", "owner": "api-worker", "worktree": "worktrees/api", "owns": ["src/api"], "dependsOn": [], "status": "pending", "attempts": 0, "maxAttempts": 2, "checkpoint": "checkpoint.json", "evidence": "missing", "acceptance": ["API tests pass"]},
+    {"id": "web", "owner": "web-worker", "worktree": "worktrees/web", "owns": ["src/web"], "dependsOn": ["api"], "status": "pending", "attempts": 0, "maxAttempts": 2, "checkpoint": "checkpoint.json", "evidence": "missing", "acceptance": ["Web contract matches API"]}
+  ]
+}

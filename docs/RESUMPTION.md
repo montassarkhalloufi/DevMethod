@@ -62,7 +62,7 @@ This illustrative record uses placeholders; replace each hash with 64 lowercase 
 }
 ```
 
-`status` is `active`, `blocked` or `complete`. Active and blocked records require a nonempty `nextAction`; complete requires `null`. Evidence outcomes are `passed`, `failed` or `not-run`. Each evidence entry requires at least one source and may depend on other evidence IDs. Unknown IDs, duplicate IDs/paths, cycles and malformed hashes are invalid. Additional fields may carry human context but do not affect inspection.
+`status` is `active`, `blocked` or `complete`. Active and blocked records require a nonempty `nextAction`; complete requires `null`. Evidence outcomes are `passed`, `failed`, `blocked` or `not-run` (JSON spelling for “not run”). Each evidence entry requires at least one source and may depend on other evidence IDs. Unknown IDs, duplicate IDs/paths, cycles and malformed hashes are invalid. Optional fields below are inspected; other additional fields may carry human context but do not affect inspection.
 
 A content change or unavailable source invalidates its evidence. A changed or unavailable artifact invalidates that evidence. Invalidated, failed and unrun prerequisites invalidate dependent evidence recursively; independent evidence remains usable. Timestamp age alone has no effect. If bytes change back to the pinned content, the content comparison is unchanged; this is not an audit history.
 
@@ -75,3 +75,13 @@ Hashes are a local baseline, not signed evidence or proof that a check was execu
 The inspector rejects absolute/traversal paths, Windows drive/stream/device aliases, symbolic paths and non-regular artifacts. Inspect a directory that is not being modified concurrently: preflight checks do not provide an operating-system sandbox against path replacement races. No network, subprocess, credentials, telemetry or host evaluation is involved.
 
 Automated tests exercise content changes, timestamp independence, selective and transitive invalidation, missing files, failed/unrun evidence, invalid schemas, unsafe paths, symlinks, completed/blocked state and byte preservation. These establish local validator behavior; native host resumption remains an evaluation requirement.
+
+## Optional candidate extensions
+
+Format 1 remains readable without these fields. New records may include `git` from `gitState(root)` in `dist/records.js`: branch, commit, statusSha256 and diffSha256. Resume reports git-changed or git-unavailable and requires reassessment while retaining independent valid pins. Git requires a committed repository, uses bounded offline index reads with fsmonitor disabled, never status/diff or content filters. Save evidence in an ignored directory to avoid self-induced status changes. Pin untracked content explicitly.
+
+`blockers` is an optional array of unresolved dependency descriptions; a nonempty array keeps the report blocked. Evidence may include criterionIds (nonempty unique IDs), kind (automated, manual, design-review, recommendation), and revision. These record the acceptance → change/source → verification → outcome → revision chain; referenced criteria remain the mission author's responsibility. A blocked evidence outcome cannot support downstream success. Record automated logs only after executing the command; self-review is not independent review.
+
+Sources and evidence are limited to 256 entries each; each JSON or pinned artifact is limited to 1 MiB. Keep larger logs separately and pin a reviewed compact result with provenance. Hashes of branch/status/diff are not full worktree backups; retain ordinary Git commits and backups for recovery.
+
+Git provenance hashes raw tracked files (up to 10000 files, 8 MiB each, 64 MiB total) without running Git content filters. Secret-like paths are excluded from content hashing; submodule contents, ignored/untracked contents and external state require explicit safe pins or manual verification. Index changes include staged content; raw working bytes detect dirty-to-dirty edits. Hash fields retain the names statusSha256/diffSha256 but are local metadata fingerprints, not Git diff output.

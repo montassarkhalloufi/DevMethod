@@ -11,7 +11,7 @@ Complete authorized scope without reinventing the project, multiplying reviews, 
 
 Read `CONTRIBUTING.md`, accepted decisions, applicable instructions, the decision/ticket, and the real code/PR state. Identify owned files and existing user changes. Preserve project policy on branches, worktrees, CI, and required skills.
 
-Scope is ready when objective, exclusions, contracts, dependencies, and success criteria are sufficiently defined. Use [the slice record](assets/SLICE.md) for a substantial ticket, without bureaucracy for a clear fix. A contradiction blocks only work depending on that trade-off.
+Use [the mission record](assets/MISSION.md) for substantial work; keep Quick records inline. Scope is ready when objective, exclusions, contracts, dependencies, and success criteria are sufficiently defined. Use [the slice record](assets/SLICE.md) for a substantial ticket, without bureaucracy for a clear fix. A contradiction blocks only work depending on that trade-off.
 
 ## Deliver
 
