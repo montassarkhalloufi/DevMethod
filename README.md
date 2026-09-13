@@ -10,22 +10,24 @@ DevMethod is the public name of the kit. Its entry-point skill remains `project-
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
-**0.1 release candidate, published on npm.** Installation profiles are provided for Codex, Claude Code and Cursor. Native authenticated Claude Code and Cursor sessions have not been validated yet. See [compatibility and smoke tests](COMPATIBILITY.md). Repository skills, templates and documentation are in English; agents can respond in the user's requested language. Repository changes do not update an already published npm tarball.
+**Candidate source: 0.1.0-rc.2, not published.** npm still serves `0.1.0-rc.1`. The new candidate adds mission/context inspection, Git-aware evidence resumption, explicit update conflicts, manual task planning and optional stack profiles. Source changes never update an already published tarball.
 
-**Source additions awaiting a new release:** read-only `doctor`, explicit quick/standard/major paths and a verification record template. These additions are not available in the published `0.1.0-rc.1` package. See [diagnostics](docs/DOCTOR.md) for reviewed-checkout usage.
+For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
+
+Start with [missions and the tested source quick start](docs/MISSIONS.md), then the [complete Next.js/NestJS example](examples/fullstack/README.md). Advanced references: [context and sizing](docs/MISSIONS.md), [safe updates](docs/UPDATES.md), [resumption](docs/RESUMPTION.md), [optional stack profiles](docs/STACK-PROFILES.md), [bounded manual planning](docs/ORCHESTRATION.md), [troubleshooting](docs/TROUBLESHOOTING.md), and [candidate evidence](docs/RC2-VALIDATION.md).
 
 ## Install in a project
 
 Requires Node.js 22+ and npm. Install into a fresh staging directory first:
 
 ```bash
-npx --yes devmethod-ai init --tool codex --dest ../foundation-staging
+npx --yes devmethod-ai@0.1.0-rc.1 init --tool codex --dest ../foundation-staging
 ```
 
 Choose `codex`, `claude` or `cursor`. If you omit `--tool`, an interactive terminal asks. For example:
 
 ```bash
-npx --yes devmethod-ai init --tool claude --dest ../foundation-staging --dry-run
+npx --yes devmethod-ai@0.1.0-rc.1 init --tool claude --dest ../foundation-staging --dry-run
 ```
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
@@ -37,6 +39,22 @@ Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment pe
 The installer includes `DEVMETHOD-LICENSE` so it preserves your application's LICENSE. Retain that MIT notice with redistributed copies. Repository-level release documents and the CLI are not copied into your application.
 
 Installation copies the reusable method and blank templates, not another project's context. Preserve filled profiles, decisions, tickets and instruction files separately. Manifest hashes describe the initial installation; local template customization is expected to change them. To install elsewhere, run the CLI again.
+
+## Use the unpublished candidate
+
+From a reviewed source checkout:
+
+```sh
+npm ci
+npm test
+npm run check:docs
+npm pack --dry-run
+node dist/cli.js init --tool codex --dest ../candidate-staging
+node dist/cli.js doctor --dest ../candidate-staging --json
+node dist/cli.js update-preview --dest ../candidate-staging --json
+```
+
+The package includes advanced docs and fictional examples. `init` copies only the skills and adoption templates, preserving the application. Read the package docs from its checkout or extracted tarball. Do not request `@0.1.0-rc.2` from npm before the maintainer publishes it. The core CLI has no runtime dependencies; example applications install their own pinned dependencies separately.
 
 ## Inspect an adopted installation
 

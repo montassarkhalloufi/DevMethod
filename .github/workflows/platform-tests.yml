@@ -37,6 +37,8 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Build and run installer tests
         run: npm test
+      - name: Check public documentation
+        run: npm run check:docs
       - name: Check committed build
         run: git diff --exit-code -- dist/
       - name: Package
@@ -51,3 +53,8 @@ jobs:
             node --input-type=module -e 'import fs from "node:fs"; import assert from "node:assert/strict"; const report=JSON.parse(fs.readFileSync("doctor-result.json")); assert.equal(report.status,"ok"); assert.equal(report.checked,report.unchanged);'
             node --input-type=module -e 'import fs from "node:fs"; import path from "node:path"; import assert from "node:assert/strict"; import {createHash} from "node:crypto"; const root=fs.realpathSync(process.env.CASE_DIR); const manifest=JSON.parse(fs.readFileSync(path.join(root,"kit-manifest.json"))); assert.equal(manifest.skills.length,6); for (const [file,hash] of Object.entries(manifest.files)) assert.equal(createHash("sha256").update(fs.readFileSync(path.join(root,file))).digest("hex"),hash); console.log("Verified installed payload:", manifest.tool);'
           done
+
+      - name: Verify packed candidate behavior
+        run: |
+          PACKAGE_FILE="$(node -p 'require("./package-result.json")[0].filename')"
+          node scripts/package-smoke.mjs "$PACKAGE_FILE"

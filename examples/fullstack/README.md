@@ -83,3 +83,18 @@ For a revision-specific evaluation, record the exact commit, command, environmen
 - Missing package dependencies: run `npm ci --ignore-scripts` here, not at the DevMethod root. `npm run build` emits ignored runtime files; neither installation nor tests deploy anything.
 
 Official technical provenance is recorded in the [optional stack profiles](../../docs/STACK-PROFILES.md), consulted 2026-09-13. A linked third-party skill is not installed or validated by this example.
+
+## Mission, context, evidence and resumption
+
+After installing this fixture's dependencies, run from the DevMethod repository root:
+
+```sh
+node dist/cli.js mission --dest examples/fullstack --mission mission.json --json
+node scripts/fullstack-mission.mjs
+node dist/cli.js context-check --dest examples/fullstack --context evidence/context.json --json
+node dist/cli.js resume --dest examples/fullstack --checkpoint evidence/checkpoint.json --json
+```
+
+The walkthrough actually runs `npm test`, records its output and pins its inputs, and saves ignored metadata/evidence. A successful unchanged run reports ready. It records AC-TITLE only; database/e2e checks remain separate evidence in the table above. Tests are deterministic fixture checks, not a native agent transcript. The script never deploys, runs models or modifies a contract.
+
+To exercise stale resumption in a disposable checkout, edit CONTRACT.md after the walkthrough and inspect resume again: source-changed and reverify must appear. Restore the exact bytes to return to the pinned content, or inspect the new contract and rerun affected verification. A branch change also requires reassessment; an unresolved dependency should remain in blockers until explicitly resolved. Completed scope sets nextAction to null and supplies no new task. Root mission/checkpoint tests reproduce these cases without mutating this example. If saving evidence itself changes Git status, restore the fixture's evidence/ ignore entry before recapturing context.

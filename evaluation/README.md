@@ -27,3 +27,9 @@ Evaluate every stage in COMPATIBILITY.md's native smoke protocol to claim full w
 No repeated native model runs are authorized by these scripts. Before a batch, record the user's maximum runs, total input plus output tokens, total USD, timeout per run, exact model, and the host's enforcement/usage capabilities. Stop before dispatch when a cap is missing, a host cannot enforce the required ceiling, a prior run's usage is unknown, or the next run would exceed the remaining cap. Authentication/setup probes consume no model runs. Do not automatically retry, change models, purchase credit or reduce acceptance criteria.
 
 Fixture paths have Git `eol=lf` attributes so pinned bytes survive Windows checkout. Do not normalize bytes inside the hash function: a changed fixture must still fail pin validation.
+
+## rc.2 deterministic fixtures
+
+The new [fullstack example](../examples/fullstack/README.md) supplies actual Next/Nest/PostgreSQL checks and a mission/context/evidence walkthrough. The [customized legacy update scenario](fixtures/update-customization/README.md) uses the real published rc.1 tarball. Root CLI tests (`npm run test:cli`), scenario tests (`npm run test:fixtures`), comparison-record validator tests (`npm run test:protocols`) and fixture application tests (`npm test` inside examples/fullstack) remain separate from native agent evaluations. `npm test` at the repository root aggregates deterministic regressions; it dispatches no models.
+
+The original approved-screen B2 native case remains pending; the fictional fullstack reference is a new executable slice, not retroactive validation of an unrun UI task.
