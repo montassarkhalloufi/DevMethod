@@ -1,6 +1,6 @@
 # DevMethod 0.1.0
 
-Status: PRs #6–#10 merged; all integrated checks passed. `devmethod-ai@0.1.0` is published on npm under `latest`; the downloaded registry archive passed verification. This page is the current release record. Earlier rc.2 and native-pilot documents describe their recorded revisions, not the current validation state.
+Status: PRs #6–#10 merged; all integrated checks passed. `devmethod-ai@0.1.0` is published on npm under `latest`; the downloaded registry archive passed verification. This page records the published 0.1.0 release; see [0.2.0](RELEASE-0.2.0.md) for the next candidate. Earlier rc.2 and native-pilot documents describe their recorded revisions, not the current validation state.
 
 ## Supported release scope
 
