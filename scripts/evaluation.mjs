@@ -36,7 +36,7 @@ export function prepare(caseId, destination) {
   return { format: 1, caseId, destination, baseline: snapshot(destination), prompt: fixture.prompt };
 }
 /** Objective local checks only. This function never invokes or certifies a model. */
-export function collect(caseId, destination, baseline) {
+export function collect(caseId, destination, baseline, verifier) {
   const fixture = fixtures.find(item => item.id === caseId);
   if (!fixture) throw new Error('Unknown case');
   const current = snapshot(destination);
@@ -49,7 +49,7 @@ export function collect(caseId, destination, baseline) {
   // Do not run replaced tests. A native evaluation must separately review model claims.
   const environment = { ...process.env };
   delete environment.NODE_TEST_CONTEXT;
-  const check = testsIntact ? spawnSync(process.execPath, fixture.check.slice(1), { cwd: destination, env: environment, encoding: 'utf8', timeout: 30000, maxBuffer: 1024 * 1024 }) : undefined;
+  const check = testsIntact ? verifier ? verifier(destination, fixture.check.slice(1)) : spawnSync(process.execPath, fixture.check.slice(1), { cwd: destination, env: environment, encoding: 'utf8', timeout: 30000, maxBuffer: 1024 * 1024 }) : undefined;
   return { format: 1, caseId, current, changed, unauthorizedChanges, testsIntact,
     check: check ? { exit: check.status, signal: check.signal, stdout: check.stdout, stderr: check.stderr, error: check.error?.message } : { skipped: 'Acceptance tests changed' },
     behavioralReview: 'pending', nativeHostEvidence: 'not established by this collector' };

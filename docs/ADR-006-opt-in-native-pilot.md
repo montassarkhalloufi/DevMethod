@@ -1,0 +1,15 @@
+# ADR 006: Opt-in native fixture dispatch
+
+Status: proposed for maintainer review, 2026-09-13; bounded pilot parameters selected under the user's explicit delegation.
+
+The user asked the agent to resolve the pending campaign settings and adapter validation. Keep native execution separate from the offline installer. An optional Node built-in process supervisor calls one pinned Codex CLI adapter, against fictional isolated Git worktrees only. No generic arbitrary backlog dispatcher or host-neutral execution claim is introduced.
+
+Use immutable run slots, exclusive admission, at most 12 invocations, 120-second termination deadline plus 1.5-second grace, bounded output and sequential dispatch. Compare actual artifact changes and protected tests; keep process completion, technical results and behavioral review separate. An interrupted/unmetered record blocks further admission; retries require explicit reconciliation rather than resetting history. POSIX process-group shutdown is tested. Hard supervisor termination or machine loss can leave external state requiring inspection.
+
+Codex exec does not expose a hard per-run token cap in the inspected interface. Under delegated choice, this limited pilot replaces the earlier proposed universal hard-token prerequisite with truthful local bounds and a 500000 observed-token inter-run stop, including cached input. It never claims that this is a per-request or dollar cap. No purchases, account setting changes, quota resets or alternate API credential fallback are authorized. Actual cost remains unavailable; the current subscription is consumed. Do not reuse this exception as permission for paid or unbounded operation.
+
+Native CLI tools retain workspace-write sandboxing with temporary-root exemptions disabled. Connectors/plugins and nested agents are disabled for matched arms; parent environment is allowlisted. Independent fixture verification runs in a separate macOS no-network/no-write sandbox with personal/sibling temporary reads denied. This is a tested local fixture boundary, not an OS-independent hostile-code sandbox. Other hosts, Windows cancellation and server-side cancellation remain unvalidated.
+
+The first calibration used different connector/verification configuration and is excluded from comparisons. Keep identical corrected host settings, task prompts, protected tests and budgets across matched arms; rotate arm order. Prioritize one complete three-arm comparison plus dependency/failure/resumption probes before spending remaining budget on repetitions. Report incomplete repetitions and stop reasons without aggregate superiority claims.
+
+Acceptance: real bounded invocation and scoped edit, explicit dependency blocking, real failure reporting, fresh-session stale-checkpoint resumption, retained usage/evidence and independent review; deterministic supervisor tests cover failure, timeout, output limit, cancellation, concurrency and replay prevention. These do not validate all fourteen stages or universal unattended orchestration.

@@ -1,0 +1,155 @@
+{
+  "format": 1,
+  "kind": "bounded-native-pilot",
+  "runs": [
+    {
+      "id": "b1-1-none",
+      "status": "exited",
+      "objectiveChecksPassed": true,
+      "usage": {
+        "inputTokens": 79088,
+        "outputTokens": 953,
+        "cachedInputTokens": 69888,
+        "costUSD": null
+      },
+      "elapsedSeconds": 43.715,
+      "review": "Calibration only; excluded from comparison due to changed isolation settings. Independently rechecked.",
+      "evidenceSha256": {
+        "-setup.json": "8877dd507461b0f08a872da89bf4bc969625bcd1fc5ba8d75d8e9e8ce054fa48",
+        ".jsonl": "8f359c452ca399d82a10bd2d67df5eb930851c2104f5782c294f7d1035b636a2",
+        ".stderr": "a7886594c2ac648cf3565b765315daac7bda8ded4489c3d1d7cd92c75c941699"
+      }
+    },
+    {
+      "id": "matched-b1-1-bmad",
+      "status": "exited",
+      "objectiveChecksPassed": false,
+      "usage": {
+        "inputTokens": 36722,
+        "outputTokens": 435,
+        "cachedInputTokens": 23936,
+        "costUSD": null
+      },
+      "elapsedSeconds": 28.574,
+      "review": "Incomplete: no changes or handoff; tests fail. Worker reports UV/temp blocker, but no UV invocation is present in retained transcript; cause unconfirmed.",
+      "evidenceSha256": {
+        "-setup.json": "0be207640ca9e8d5277deb4e4d7f89726c50239defbc1d3bf7ba5df148495e7d",
+        ".jsonl": "37fb256063e991fb0b388e94474c181ba8524fd98ed1660388b87317cc6ecb40",
+        ".stderr": "45f6aa7228724ae1d9c42884f37b2b5cecc0429986b35c49550b410af857926c"
+      }
+    },
+    {
+      "id": "matched-b1-1-devmethod",
+      "status": "exited",
+      "objectiveChecksPassed": true,
+      "usage": {
+        "inputTokens": 134616,
+        "outputTokens": 1853,
+        "cachedInputTokens": 120192,
+        "costUSD": null
+      },
+      "elapsedSeconds": 57.01,
+      "review": "Independent review passed: relevant skills consulted, bounded change, preserved tests, 2/2 passed.",
+      "evidenceSha256": {
+        "-setup.json": "2bfa306ace9aebfa6a3534540962e9cfc5ec25b1c211a941078526fe03f0fa39",
+        ".jsonl": "6bceff4a9916e2fdd5413e2ead7630097785cc13425a989386655600a92ef80f",
+        ".stderr": "aa0a6e878075b2f4554c9e181ff7daadd2e8fc099a9313d34d84a14fca076690"
+      }
+    },
+    {
+      "id": "matched-b1-1-none",
+      "status": "exited",
+      "objectiveChecksPassed": true,
+      "usage": {
+        "inputTokens": 49207,
+        "outputTokens": 1041,
+        "cachedInputTokens": 35968,
+        "costUSD": null
+      },
+      "elapsedSeconds": 30.329,
+      "review": "Objective checks passed; no method arm.",
+      "evidenceSha256": {
+        "-setup.json": "131be54e9b8468155bcf2ab40a7ce7a98357f29708728f3c9c13a7cf3595bfdf",
+        ".jsonl": "ad384bb14637b3612910891205ba0e338af1999eaa78eb56b9d9a4c092c549b0",
+        ".stderr": "c95bb25b3d249e4e71dc19a5d6db0a8a08d7bbbd9e855c936496e699c04fdb25"
+      }
+    },
+    {
+      "id": "smoke-b3",
+      "status": "exited",
+      "objectiveChecksPassed": true,
+      "usage": {
+        "inputTokens": 105298,
+        "outputTokens": 1530,
+        "cachedInputTokens": 77952,
+        "costUSD": null
+      },
+      "elapsedSeconds": 44.517,
+      "review": "Independent review passed: unresolved ADR dependency recognized, no invented contract, explicit handoff, 1/1 passed.",
+      "evidenceSha256": {
+        "-setup.json": "63d899f33747045485bb1bedbf8b781806eeaf8fc2d2c2d32b0ed1f5a7f8b7ed",
+        ".jsonl": "2fc8aadd2ee1a8ad1728454dd24528bdb23e040ca4dde91fc2ca4e02578a6999",
+        ".stderr": "3f0820fbf17e94a4b1e5aebc46bd95a75ff89fc5aa60d82bf392bf66b009ba1b"
+      }
+    },
+    {
+      "id": "smoke-b4",
+      "status": "exited",
+      "objectiveChecksPassed": true,
+      "usage": {
+        "inputTokens": 136447,
+        "outputTokens": 2137,
+        "cachedInputTokens": 106880,
+        "costUSD": null
+      },
+      "elapsedSeconds": 57.67,
+      "review": "Independent review passed: initial failed test evidenced, stale checkpoint corrected against current contract, 1/1 passed. Initial test requested explicitly; supplied checkpoint, not a two-session chain.",
+      "evidenceSha256": {
+        "-setup.json": "ab2ae33e7882d08fae2c04a00ff687cebf6c4cd3a2fdfcb14574cba74559a8ce",
+        ".jsonl": "a102c8e1d0a3f29ffa1060db3c154803df1c45531bb5b670949d89349399a9d7",
+        ".stderr": "09c25279076b0b51db41952e7c4d4c622f531173ef5493f470f07e3cf6f414ae"
+      }
+    }
+  ],
+  "cells": [
+    {
+      "arm": "none",
+      "planned": 3,
+      "executed": 1,
+      "notRun": 2,
+      "objectivePassed": 1,
+      "objectiveFailed": 0
+    },
+    {
+      "arm": "devmethod",
+      "planned": 3,
+      "executed": 1,
+      "notRun": 2,
+      "objectivePassed": 1,
+      "objectiveFailed": 0
+    },
+    {
+      "arm": "bmad",
+      "planned": 3,
+      "executed": 1,
+      "notRun": 2,
+      "objectivePassed": 0,
+      "objectiveFailed": 1
+    }
+  ],
+  "totalTokens": 549327,
+  "costUSD": null,
+  "limits": {
+    "maxRuns": 12,
+    "timeoutSeconds": 120,
+    "observedTokenStop": 500000
+  },
+  "limitation": "Calibration excluded from matched cells. Objective success is not behavioral review or proof of superiority. Unknown cost remains unavailable.",
+  "date": "2026-09-13",
+  "host": "Codex CLI 0.147.0 / macOS",
+  "model": "gpt-5.6-sol",
+  "effort": "low",
+  "sourceRevision": "385c56f55691c2904d96a3360ed0d38ce3ecb535",
+  "stopReason": "Observed threshold crossed within sixth invocation; six remaining invocations not dispatched.",
+  "rawEvidence": "Retained locally, not included in package; hashes permit later verification."
+}
