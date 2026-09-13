@@ -1,0 +1,172 @@
+[
+  {
+    "kind": "intro",
+    "title": "De l’idée à l’application",
+    "voice": "Une idée. Trois directions. Un master. Puis une application qui fonctionne.",
+    "duration": 6,
+    "command": "",
+    "request": "",
+    "asset": "",
+    "output": ""
+  },
+  {
+    "kind": "text",
+    "title": "Décrire le produit",
+    "voice": "D’abord, décrivez le produit et ce que son utilisateur doit pouvoir faire.",
+    "duration": 6,
+    "command": "$project-foundation explore",
+    "request": "Une bibliothèque personnelle pour suivre mes lectures.",
+    "asset": "",
+    "output": "Ajouter un livre · Suivre sa lecture · Retrouver ses données"
+  },
+  {
+    "kind": "image",
+    "title": "Demander trois directions",
+    "voice": "Avec design, demandez trois directions pour le même écran.",
+    "duration": 6,
+    "command": "$project-foundation design",
+    "request": "Propose trois directions visuelles comparables.",
+    "asset": "directions",
+    "output": ""
+  },
+  {
+    "kind": "options",
+    "title": "Comparer, puis choisir",
+    "voice": "Éditorial, Atelier ou Botanique. Même contenu, trois personnalités visuelles.",
+    "duration": 6.191519,
+    "command": "",
+    "request": "",
+    "asset": "directions",
+    "output": ""
+  },
+  {
+    "kind": "choice",
+    "title": "Choisir A — Éditorial",
+    "voice": "Ici, le choix est A. Codex développe cette direction en master screen.",
+    "duration": 7,
+    "command": "$project-foundation design",
+    "request": "Je choisis A. Finalise le master screen.",
+    "asset": "master",
+    "output": ""
+  },
+  {
+    "kind": "image",
+    "title": "Le master fixe la référence",
+    "voice": "Le master précise la typographie, les couleurs, les cartes et les boutons. Il est approuvé avant la suite.",
+    "duration": 8,
+    "command": "",
+    "request": "",
+    "asset": "master",
+    "output": ""
+  },
+  {
+    "kind": "derive",
+    "title": "Décliner le master",
+    "voice": "La commande suivante reste design : génère les écrans à partir de ce master.",
+    "duration": 7,
+    "command": "$project-foundation design",
+    "request": "Décline ce master : bibliothèque, ajout et lectures terminées.",
+    "asset": "master",
+    "output": ""
+  },
+  {
+    "kind": "image",
+    "title": "Écran 02 — Ajouter un livre",
+    "voice": "Voici le formulaire d’ajout, généré avec le master comme référence visuelle.",
+    "duration": 6,
+    "command": "",
+    "request": "",
+    "asset": "add",
+    "output": ""
+  },
+  {
+    "kind": "image",
+    "title": "Écran 03 — Lectures terminées",
+    "voice": "Puis la vue des lectures terminées. La même direction accompagne un autre état du produit.",
+    "duration": 7,
+    "command": "",
+    "request": "",
+    "asset": "completed",
+    "output": ""
+  },
+  {
+    "kind": "text",
+    "title": "Préparer la réalisation",
+    "voice": "Le plan relie ces écrans aux actions à réaliser et aux vérifications attendues.",
+    "duration": 6,
+    "command": "$project-foundation plan",
+    "request": "Prépare une première tranche à partir des écrans.",
+    "asset": "",
+    "output": "Bibliothèque + filtres → Formulaire → Statuts + sauvegarde"
+  },
+  {
+    "kind": "text",
+    "title": "Transformer les images en code",
+    "voice": "Implement construit l’interface et ses vrais comportements à partir des références.",
+    "duration": 6,
+    "command": "$project-foundation implement VISUAL-1",
+    "request": "Implémente les écrans et leurs interactions.",
+    "asset": "",
+    "output": "Nouvelle implémentation à partir du master et des images dérivées"
+  },
+  {
+    "kind": "app",
+    "title": "L’application fonctionne",
+    "voice": "Passons au résultat. On filtre la bibliothèque. On ajoute un livre. On commence sa lecture, puis on le marque terminé. Après rechargement, les données sont toujours présentes.",
+    "duration": 20,
+    "command": "",
+    "request": "",
+    "asset": "",
+    "output": ""
+  },
+  {
+    "kind": "image",
+    "title": "Aussi sur mobile",
+    "voice": "Sur mobile, les mêmes actions restent accessibles dans une disposition adaptée.",
+    "duration": 6,
+    "command": "",
+    "request": "",
+    "asset": "mobile",
+    "output": ""
+  },
+  {
+    "kind": "text",
+    "title": "Vérifier le résultat",
+    "voice": "Verify contrôle les parcours utiles et les résultats des tests.",
+    "duration": 6,
+    "command": "$project-foundation verify VISUAL-1",
+    "request": "Vérifie les parcours, les erreurs et le rendu.",
+    "asset": "",
+    "output": "Résultats réellement contrôlés après l’implémentation"
+  },
+  {
+    "kind": "compare",
+    "title": "Comparer au design",
+    "voice": "On compare ensuite le navigateur aux références, puis on corrige les écarts importants.",
+    "duration": 7,
+    "command": "",
+    "request": "",
+    "asset": "desktop",
+    "output": ""
+  },
+  {
+    "kind": "text",
+    "title": "Livrer une tranche terminée",
+    "voice": "La livraison locale conserve le résultat et son état de reprise.",
+    "duration": 6,
+    "command": "$project-foundation integrate VISUAL-1",
+    "request": "Consigne la livraison locale et la reprise.",
+    "asset": "",
+    "output": "Prototype local · Parcours vérifiés · Références conservées"
+  },
+  {
+    "kind": "end",
+    "title": "Votre idée. Une chaîne visible.",
+    "voice": "Découvrez Dev Method sur GitHub et essayez cette chaîne sur votre projet.",
+    "duration": 6,
+    "command": "",
+    "request": "",
+    "asset": "",
+    "output": ""
+  }
+]

@@ -117,7 +117,7 @@ flowchart TD
 
 ## Watch a real from-zero example
 
-[Full 4K French walkthrough](docs/media/full-chain-4k/README.md) · [Short French demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). A separate agent built a small app from a fresh kit installation; the parent verified real browser behavior. The video also shows the separate supervised Lisière visual pilot.
+[Short visual walkthrough in 4K](docs/media/visual-chain/README.md) · [Detailed recorded chain](docs/media/full-chain-4k/README.md) · [Short French demo](docs/media/from-zero/README.md) · [Run Clair](examples/clair-from-zero/README.md). A separate agent built a small app from a fresh kit installation; the parent verified real browser behavior. The video also shows the separate supervised Lisière visual pilot.
 
 ## Visual creation in the source version
 

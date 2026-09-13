@@ -43,3 +43,33 @@ Source adoption is separate from npm publication. No new npm version is announce
 ## Full filmed chain
 
 The [4K French walkthrough](media/full-chain-4k/README.md) shows actual Codex CLI commands and outputs, the prior approved visual choices, a fresh implementation, review findings, corrections, browser interaction and verification. CLI transcripts are reformatted for legibility; the provenance and limitations are explicit.
+
+## Master screen → images des écrans → application
+
+Le parcours visuel reste dans `design` jusqu'à ce que les visuels demandés soient prêts. « Master » et « pages » désignent le contenu du travail, pas de nouvelles sous-commandes du CLI.
+
+Dans la conversation Codex, on peut envoyer successivement :
+
+```text
+$project-foundation design
+Propose trois directions comparables sur le même écran principal.
+```
+
+```text
+$project-foundation design
+Je choisis A. Finalise le master screen de cette direction.
+```
+
+Après examen et approbation du master :
+
+```text
+$project-foundation design
+Décline ce master approuvé en images des écrans demandés.
+Utilise le fichier du master comme référence visuelle.
+```
+
+Les écrans gardent la typographie, la palette et les composants du master. L'agent examine les résultats, identifie leur référence/version et soumet les ajouts inattendus à validation. Il n'invente pas de routes : bibliothèque, ajout et filtre peuvent être des états d'une seule application.
+
+La suite est `architecture` si des décisions restent nécessaires, puis `plan`, préparation `ready`, `implement`, `review`/`verify` et `integrate`. Les petites tranches peuvent regrouper préparation et réalisation. Les images précèdent l'implémentation qu'elles sont censées guider ; les captures navigateur servent ensuite à la comparaison.
+
+Le [film visuel court](media/visual-chain/README.md) montre ce passage avec des images réellement générées à partir du master, puis une nouvelle implémentation. La génération exige un outil d'image disponible dans l'agent ; DevMethod fournit les instructions du parcours, pas un moteur d'image intégré au paquet npm.
