@@ -1,6 +1,6 @@
 # DevMethod 0.1.0
 
-Status: PRs #6–#10 merged; all integrated checks passed. npm publication is awaiting maintainer authentication (EOTP), not yet confirmed published. This page is the current release record. Earlier rc.2 and native-pilot documents describe their recorded revisions, not the current validation state.
+Status: PRs #6–#10 merged; all integrated checks passed. `devmethod-ai@0.1.0` is published on npm under `latest`; the downloaded registry archive passed verification. This page is the current release record. Earlier rc.2 and native-pilot documents describe their recorded revisions, not the current validation state.
 
 ## Supported release scope
 
@@ -30,11 +30,11 @@ For an existing project, stage the installation, complete the project profile fr
 
 For a new project, fill the profile with the product scope, stack, verification commands and deployment permissions, then invoke `project-foundation` with the intended goal. An installed skill is guidance, not proof that a host used it correctly.
 
-After authorized publication, the version-pinned command will be `npx --yes devmethod-ai@0.1.0 init --tool codex --dest ../devmethod-staging`. Until registry verification, use the reviewed checkout or its local tarball.
+Install the verified published version with `npx --yes devmethod-ai@0.1.0 init --tool codex --dest ../devmethod-staging`.
 
 ## Validation record
 
-Local release verification passed: clean locked dependency installation, 72 core tests plus 18 greenfield checks, Markdown links, package inspection and extracted-tarball smoke for all three host layouts, a subset, customization preservation and mission/context/planning. Independent review reproduced the JSON-error regression and found no remaining blocker in the inspected public CLI changes. The final commit, archive digest and exact platform jobs are recorded separately in the repository release evidence and the release PR to avoid a self-referential archive hash. Publication still requires those exact jobs to be green; earlier CI runs are not substitutes.
+Local release verification passed: clean locked dependency installation, 72 core tests plus 18 greenfield checks, Markdown links, package inspection and extracted-tarball smoke for all three host layouts, a subset, customization preservation and mission/context/planning. Independent review reproduced the JSON-error regression and found no remaining blocker in the inspected public CLI changes. The final commit, archive digest and exact platform jobs are recorded separately in the repository release evidence and the release PR to avoid a self-referential archive hash. Those exact jobs passed before publication; earlier CI runs were not used as substitutes.
 
 Native evidence: [first bounded pilot](NATIVE-PILOT-RESULTS.md), [subagent adapter validation](CODEX-ADAPTER-VALIDATION.md). The follow-up campaign remains stopped with incomplete final usage; no model runs are necessary to package the supported CLI scope.
 
@@ -57,4 +57,4 @@ For a reviewed final version, publish the exact verified archive rather than rep
 - npm SHA-1: `810337a9da52d711ae2465c57480879aadbf2d0a`.
 - npm integrity: `sha512-bNyJ4to76YUZNvV0xrCIKzBqqh8QqcmtvMVCOx6CsCav0w3h0L/DUHdDpx2VLl/zePa2Eyg7ho8SOvlQOOz/Qg==`.
 
-The retained archive passed extracted-package smoke, including the new application and independent suites, all installation layouts, and preservation of a customized real rc.1 installation. No runtime data, private evaluations, environment files or dependency directories were packaged. Final independent review identified no remaining release blocker. The intended npm tag is `latest`. The first publish attempt returned EOTP; an interactive authentication flow is pending. Verify the registry artifact after authentication before declaring publication complete. This post-build status record is not inside the immutable candidate archive.
+The retained archive passed extracted-package smoke, including the new application and independent suites, all installation layouts, and preservation of a customized real rc.1 installation. No runtime data, private evaluations, environment files or dependency directories were packaged. Final independent review identified no remaining release blocker. The published npm tag is `latest`; `next` remains `0.1.0-rc.2`. After maintainer authentication, npm confirmed publication. The registry initially returned the previous metadata during propagation, then exposed 0.1.0. A fresh registry download matched the SHA-256 and npm integrity above and passed package smoke, including application/independent tests and legacy customization preservation. This post-publication status record is not inside the immutable published archive.
