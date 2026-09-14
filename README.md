@@ -52,6 +52,20 @@ BMAD explicitly describes agile AI-driven development and includes specs, epics,
 
 For visual work, DevMethod can guide comparable alternatives, an approved master image, derived screens and an interactive prototype when useful. Image generation requires a host tool. The review viewer separately exposes recorded findings, evidence, corrections, coverage and sources; it is not an annotation-and-approval tool for individual screens. Try one bounded task and assess clarity, evidence and ease of resumption. No comparative productivity or cost advantage is established.
 
+## Use DevMethod in its own repository
+
+In a Codex session opened on this source checkout, the skills already live in `.agents/skills/`. Invoke `$devmethod-status` to inspect the repository, or `$devmethod-review` with the changes you want reviewed. No `init` or npm installation is needed to use these skills. The root `PROJECT_PROFILE.md` is a distributable template; keep task-specific context in the conversation for a small task, or in an existing mission record.
+
+To test the installer itself, use the committed CLI with a fresh destination outside the source checkout:
+
+```sh
+node dist/cli.js init --tool codex --dest ../foundation-staging --dry-run
+```
+
+Inspect the preview, then remove `--dry-run` to create the staging installation. Use a different fresh destination if it already contains divergent files. Keep the repository's existing skills and instructions; installing into `.` is unnecessary for this workflow. For development checks, see [Verify the source checkout](#verify-the-source-checkout).
+
+If `npx --yes devmethod-ai@0.4.1 ...` reports `sh: devmethod: command not found` inside this repository, use `node dist/cli.js ...` instead. With npm 11.16.0, the matching root package satisfies that version request, but its executable link is absent; this failure was reproduced without a registry download. It does not establish whether the published package works. To test the published package, run the installation command below from a separate project directory.
+
 ## Install in a project
 
 Requires Node.js 22+ and npm. Install into a fresh staging directory first:
