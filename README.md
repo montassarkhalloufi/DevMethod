@@ -38,7 +38,7 @@ A reusable workflow for taking a software project from exploration to delivery: 
 
 **DevMethod 0.4.1.** [Complete review-to-report flow](docs/RELEASE-0.4.1.md) · [0.3 workflow changes](docs/RELEASE-0.3.0.md). This release completes review generation and opening inside the agent, with an installed offline renderer. Review guidance now follows sensitive-data outputs, failure recovery and affected contracts beyond the diff; [detection evaluation](evaluation/review-detection/README.md) separates reproducible defects from measured reviewer results. Check the registry and GitHub release for publication evidence.
 
-For developers and small teams using coding agents in new or existing repositories. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
+For solo developers and small teams using coding agents, from a new prototype to changes in an existing repository. Requires Node.js 22+ and npm; Git is required for context provenance. Application examples have separate framework/database prerequisites. DevMethod records scope, decisions and verification; it does not certify agent output, infer all dependencies, deploy applications or run an autonomous backlog. Installation and deterministic fixture results are separate from native host validation. See [compatibility](COMPATIBILITY.md).
 
 Start with [missions and the tested source quick start](docs/MISSIONS.md), the [tested from-zero Pocket Tasks project](examples/pocket-tasks/README.md), then the [complete Next.js/NestJS example](examples/fullstack/README.md). Advanced references: [context and sizing](docs/MISSIONS.md), [safe updates](docs/UPDATES.md), [resumption](docs/RESUMPTION.md), [optional stack profiles](docs/STACK-PROFILES.md), [bounded manual planning](docs/ORCHESTRATION.md), [troubleshooting](docs/TROUBLESHOOTING.md), and [release status and evidence](docs/RELEASE-0.1.0.md).
 
@@ -51,6 +51,12 @@ The central unit is a **mission with an observable outcome**. Larger missions ca
 BMAD explicitly describes agile AI-driven development and includes specs, epics, stories, sprint planning and retrospectives. Its current planning guidance is also proportionate and supports small changes. DevMethod shares several of those principles; this positioning does not claim that BMAD lacks decisions, evidence or resumability. See [BMAD’s own planning documentation](https://docs.bmad-method.org/plan/choose-a-planning-path/).
 
 For visual work, DevMethod can guide comparable alternatives, an approved master image, derived screens and an interactive prototype when useful. Image generation requires a host tool. The review viewer separately exposes recorded findings, evidence, corrections, coverage and sources; it is not an annotation-and-approval tool for individual screens. Try one bounded task and assess clarity, evidence and ease of resumption. No comparative productivity or cost advantage is established.
+
+### A design observation from practice
+
+In the creator’s own trials, exploring generated images before requesting HTML led to visual directions they found more varied and creative than starting directly with HTML. This is a personal observation, not a measured advantage or a claim that image-first design is always better.
+
+The workflow uses comparable alternatives for the same screen, an explicitly selected master, derived screens and a working prototype when interactions need validation. The image is a visual reference; actual content, responsive behavior, accessibility and implementation fidelity still need browser checks. For a product with an approved identity and established components, start from those references instead of reopening the visual direction. See [the visual workflow](docs/VISUAL-WORKFLOW.md).
 
 ## Use DevMethod in its own repository
 
