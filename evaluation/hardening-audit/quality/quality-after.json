@@ -1141,6 +1141,11 @@
       "score": 1
     },
     {
+      "file": "examples/fullstack/tests/postgres.test.cjs",
+      "line": 45,
+      "score": 1
+    },
+    {
       "file": "examples/fullstack/tests/unit.test.cjs",
       "line": 5,
       "score": 1
