@@ -23,6 +23,20 @@ The entry points load the existing [stage contract](../.agents/skills/project-fo
 
 A full installation exposes all fourteen commands. Foundation-only installs expose explore, frame, correct-course and status. Design requires design-to-code; architecture requires decision-architecture; plan, ready, implement, review, verify, integrate, next and handoff require scoped-delivery. Module selection and the manifest's six module names are unchanged. Other technical modules remain available when selected.
 
+## Compare architecture before committing
+
+Use `$devmethod-architecture` with the product or change to decide, or let `$project-foundation` route there. For a new service or a material capacity/availability change, the agent establishes the workload and operating constraints that could change the choice, including when technical decisions are delegated. Existing answers are reused; unknowns become focused questions or explicit provisional assumptions.
+
+The [architecture procedure](../.agents/skills/decision-architecture/references/capacity-and-operations.md) compares credible options with diagrams, workload-linked trade-offs and estimated fixed/variable costs plus operating effort. Estimates identify units, source dates and uncertainty. It recommends an option and evolution triggers, then links capacity/recovery claims to milestone and ticket verification. A diagram, cost calculation or chosen component does not establish production capacity; unavailable measurements remain unverified. Accepted architectures and routine fixes do not reopen this comparison automatically.
+
+## Choose working mode and carry a study forward
+
+For a new project, `$project-foundation` offers guided or autonomous work when no preference/delegation is already known. The mode changes how decisions are discussed, not the quality requirements or authorized scope. Reuse it on resumption and change it when requested.
+
+Ask `$project-foundation` or `$devmethod-handoff` to generate a complete project study in PDF or DOCX and an editable portable package. The agent first checks the actual agreed study: research, features/rules, architecture and costs, selected design assets where applicable, milestones and tickets. Missing required elements are addressed before producing a report labeled complete. Export requires document/rendering capabilities supplied by the host, not by the installer.
+
+Supply that dossier to `$project-foundation` in a new project to reuse its decisions and assets, reconcile current constraints and resume the next useful work. The [portable-study procedure](../.agents/skills/project-foundation/references/portable-study.md) distinguishes a presentation document, editable sources and actual implementation evidence. External workspace import or team transmission remains a separately authorized action.
+
 ## Review actual work
 
 For example, select `$devmethod-review` and add `the current uncommitted diff against HEAD`. The agent reads actual changes and relevant contracts, executes applicable checks and reports located findings, evidence and limits. A clear ticket, PR, revision or path selection can replace that target. An ambiguous scope is clarified only when it affects the review.

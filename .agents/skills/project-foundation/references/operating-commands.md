@@ -44,9 +44,13 @@ Start from the canonical mission/plan locations in the existing profile; see [mi
 - `review` resolves scoped-delivery and its review-workflow reference for technology-aware, source-backed inspection, structured results and derived reports. Preserve read-only assessment scope unless corrections were requested. UI reviews include real render/interaction checks; findings and checks remain distinct.
 - `handoff` records a compact snapshot with links to canonical state. `correct-course` updates only affected decisions, scope and dependent evidence. `integrate` records the actual authorized delivery result with its reference.
 
+For an explicitly requested complete study or portable dossier, `plan`/`handoff` applies [portable project study](portable-study.md): check scoped completeness before generating PDF/DOCX, include selected visuals, and preserve editable sources and provenance for resumption. Ordinary handoff remains compact. A supplied study is reconciled with current sources before choosing missing work, not treated as a reason to repeat every stage.
+
 For prose-only changes, inspect accuracy, links and diff; do not invent `npm run quality` or trigger an application build by habit. Follow stricter repository gates when documented, and explain once why they apply. Report executed checks, never planned checks as success.
 
 ## Discovery, decisions and delivery dialogue
+
+For an open product idea or material change of ambition, apply [product maturity](product-maturity.md). Assess each stage's actual decisions and evidence; a file, selected palette or successful build does not by itself complete discovery, design or verification. Adapt the explanation to the user's expertise while preserving the same substantive requirements.
 
 - `explore` follows [existing solutions research](exploration.md): dated evidence, uncertainty and a conversation about continuing, repositioning, reducing, deepening or abandoning. Skip irrelevant research for isolated fixes.
 - `frame` records need, scope, success criteria and business rules in the product owner, referring to research. Before handing it off, check that the first slice still serves the requested outcome and distinguish deferred capabilities from discarded ones. For a stateful core journey, walk a normal transition and a relevant changed-input or retry case: identify what happens to already saved or confirmed state, or mark that behavior unresolved before dependent implementation. Keep this check in the existing framing record, not a new approval stage. `design` continues to follow the unchanged design-to-code workflow and approved directions.
