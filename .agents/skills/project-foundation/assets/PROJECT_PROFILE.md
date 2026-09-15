@@ -8,6 +8,7 @@ Complete from source material during first startup; keep unknowns explicit. This
 - Foundational constraints: skills, operator time, hosting, fixed budget, variable cost, deadline, preferences.
 - Exploration / product / design / accepted decisions (canonical links + date/version):
 - Explicit decision delegations (scope, source/date, rationale; no implied adoption):
+- Working mode (guided/autonomous, user choice/source; reuse and change on request):
 - Ticket source / readiness criteria:
 - Canonical mission / plan / evidence locations (reuse existing conventions; links only, no copied status):
 - Approved UI reference (screen, version, viewport, states):

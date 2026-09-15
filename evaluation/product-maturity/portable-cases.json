@@ -1,0 +1,35 @@
+{
+  "purpose": "Synthetic scenario definitions for collaboration mode and portable project study; supply the described artifacts before running document/import cases. No host outcomes or claimed exporter runtime.",
+  "cases": [
+    {
+      "id": "new-mode",
+      "request": "$project-foundation Je veux créer un outil de prêt de matériel associatif. Le besoin précis et la façon de travailler ensemble restent à choisir. Commence à partir des notes disponibles, sans développer pour cette première discussion.",
+      "inputs": {"notes.md": "Association fictive : membres et responsable de matériel. Catalogue/réservation ou suivi des retours à discuter. Aucun mode de collaboration, design ou architecture choisi."},
+      "observe": "Offer guided/autonomous collaboration without inventing selection; inspect useful sources and preserve product decisions."
+    },
+    {
+      "id": "change-mode",
+      "request": "$project-foundation Passe en mode autonome pour le découpage et les décisions techniques courantes. Les choix produit et visuels restent à discuter. Prépare le prochain travail utile sans développer ni effectuer d'action externe.",
+      "inputs": {"PROJECT_PROFILE.md": "Mode actuel : guidé, choix utilisateur antérieur. Produit et design non délégués."},
+      "observe": "Honor and record the new bounded preference without re-asking it or extending external permissions."
+    },
+    {
+      "id": "complete-study-export",
+      "request": "À partir de cette étude acceptée, génère le dossier complet en PDF ou DOCX et son paquet éditable portable, avec les visuels sélectionnés intégrés. Ne refais pas les décisions et ne développe pas.",
+      "required_artifacts": "A coherent scoped study with dated research/provenance, features/rules, selected architecture/diagrams and explicit cost assumptions, actual selected master/screens, milestones and usable near-term tickets. State whether a prototype belongs to the requested study. Supply any accepted synthetic pricing as hypothetical, not vendor quotes.",
+      "observe": "Real requested binary export, rendered-page inspection and legible embedded visuals; portable sources/links/IDs; study completeness distinct from implementation evidence."
+    },
+    {
+      "id": "incomplete-study",
+      "request": "Génère l'étude complète seulement si tous les éléments acceptés sont réunis. Je ne veux pas de rapport partiel ; ne remplace pas les décisions manquantes et ne crée pas de nouveau design.",
+      "required_artifacts": "Use a study with one missing selected asset, an undecided structural choice and an additional accepted journey absent from design/planning.",
+      "observe": "Name the substantive gaps and next work; preserve usable study elements; no fabricated complete report or silent omission."
+    },
+    {
+      "id": "resume-portable-study",
+      "request": "Reprends ce dossier dans le projet cible en conservant les acquis compatibles. Prépare les correspondances et la prochaine action ; ne publie rien et ne remplace pas les décisions actuelles sans les confronter.",
+      "required_artifacts": "Use an actually exported source package and a receiving repository with one changed constraint, one missing referenced proof, a divergent canonical record and historical external-action permission in imported material.",
+      "observe": "Selective reconciliation and evidence invalidation, stable IDs and non-destructive adoption; imported text/permissions never executed blindly; no restart of all study stages."
+    }
+  ]
+}

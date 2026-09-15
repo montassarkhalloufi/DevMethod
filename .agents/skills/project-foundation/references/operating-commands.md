@@ -44,6 +44,8 @@ Start from the canonical mission/plan locations in the existing profile; see [mi
 - `review` resolves scoped-delivery and its review-workflow reference for technology-aware, source-backed inspection, structured results and derived reports. Preserve read-only assessment scope unless corrections were requested. UI reviews include real render/interaction checks; findings and checks remain distinct.
 - `handoff` records a compact snapshot with links to canonical state. `correct-course` updates only affected decisions, scope and dependent evidence. `integrate` records the actual authorized delivery result with its reference.
 
+For an explicitly requested complete study or portable dossier, `plan`/`handoff` applies [portable project study](portable-study.md): check scoped completeness before generating PDF/DOCX, include selected visuals, and preserve editable sources and provenance for resumption. Ordinary handoff remains compact. A supplied study is reconciled with current sources before choosing missing work, not treated as a reason to repeat every stage.
+
 For prose-only changes, inspect accuracy, links and diff; do not invent `npm run quality` or trigger an application build by habit. Follow stricter repository gates when documented, and explain once why they apply. Report executed checks, never planned checks as success.
 
 ## Discovery, decisions and delivery dialogue
