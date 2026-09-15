@@ -6,11 +6,18 @@ Use this procedure during `project-foundation design` when the user needs a new 
 
 Read the product outcome, audience, primary journey, constraints and any supplied references. View referenced images before describing them. Reuse brand tokens and assets where established. Record only missing decisions in the canonical mission/design record. If no product is specified for a demonstration, identify the fictional assumption before producing assets; never apply it to a real product without a request.
 
-For an open direction, first inspect relevant usability/accessibility evidence and current primary design examples for this audience and journey. Record consulted sources and dates, separate established guidance from aesthetic trends and your own hypotheses, and explain which decisions they inform. Do not claim scientific validation, user testing or a universal trend from attractive examples; missing research access limits those claims.
+For an open direction, read [design evidence](design-evidence.md) before generating previews. Turn the brief into a few decision-relevant questions about the audience, task and context (for example finding the primary action or understanding a status), rather than searching only for fashionable UI. Reuse relevant exploration findings and supplied evidence; research only the gaps.
+
+Gather applicable visual references and dated trend observations, primary ergonomic/perception research and official standards, and available target-user observations. Inspect actual sources using available browsing tools. Follow the source appraisal and stopping rules in design evidence. If research is unavailable, say what is missing and proceed with clearly labelled creative hypotheses; do not invent support or block independent work.
+
+Before rendering, summarize in the existing design record: familiar conventions to retain, trends worth exploring, supported constraints shared by every direction, hypotheses to test, and unresolved questions. Link sources instead of copying the exploration report. A new identity merits broader research; an added screen usually reuses the established system, and a small correction does not restart exploration. Do not reopen approved directions to follow a trend.
+
 
 The default new-direction workflow produces exactly three creative alternatives as generated images of the same representative screen with the same content, unless the user explicitly requests a different count or format. Make the alternatives differ meaningfully in composition, information hierarchy or interaction emphasis as well as visual language; palette swaps on the same layout are insufficient. Explain hierarchy, typography, density, imagery and the user need each approach supports. Resolve the requested count and format once and preserve them through the master and derivatives. When generated images are in scope, check image-tool availability before claiming this stage can be delivered. If unavailable, leave image generation unfulfilled; an HTML/SVG preview may support discussion but is not a silent substitute for the required images. An approved identity or a bounded change skips new-direction exploration.
 
 Request the user's choice on the visible alternatives; continue independent work while waiting. Unless selection was explicitly delegated, do not infer a choice from elapsed time, a default option or silence. Do not invent research or call a proposal approved.
+
+Before presenting alternatives, link each material choice to a source or explicitly creative hypothesis, its expected effect, trade-offs and planned verification. Keep shared usability/accessibility constraints across all directions; visual inspiration does not establish effectiveness. Use [the comparison fields](../assets/DIRECTION_COMPARISON.md) inline in the existing record, omitting fields irrelevant to the scope.
 
 ## Master screen and page expansion
 

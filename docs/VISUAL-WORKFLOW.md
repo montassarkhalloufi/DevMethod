@@ -33,6 +33,14 @@ Use `/project-foundation design` in Claude Code or Cursor. An already approved d
 
 A build passing is not visual acceptance. Image generation is performed by the host's tool, not by the installer. The workflow does not promise identical output across models, hosts or runs.
 
+## Research before visual proposals
+
+For an open direction, the design skill first asks decision-relevant questions about the audience and journey, reuses exploration evidence, then fills material gaps with dated visual examples, applicable standards/research and available user observations. Sources and their transfer limits are kept in the existing design record; no separate research dossier is required.
+
+Before rendering, summarize conventions to retain, trends to explore, shared constraints, hypotheses and unknowns. Each material design choice links to evidence or an explicitly creative interpretation, an expected effect and a way to check it. Trend examples do not prove usability, and agent inspection does not substitute for a target-user study. Missing browsing or user evidence remains visible without stopping independent work.
+
+Research is proportional: preserve an approved identity, reuse its system for added screens, and do not restart exploration for a small fix. Visual selection, rendered/accessibility checks and user-study observations are separate outcomes. The prototype carries forward important hypotheses with observable tasks and criteria; untested claims stay untested.
+
 ## Recorded examples
 
 - [Lisière](../examples/visual-pilot/README.md): supervised visual pilot, generated directions, user-selected and approved mockup, implementation and browser checks. This is not an independent end-to-end agent evaluation.
