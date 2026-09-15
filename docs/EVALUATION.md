@@ -2,6 +2,8 @@
 
 For short natural-language requests, delegated delivery, and independent state/claim checks, use the [short-intent evaluation corpus](../evaluation/short-intent/README.md). It defines observable outcomes and evidence limits; it is not an agent dispatcher or a cross-host result.
 
+For open ideas, architecture/data decisions, creative design, real persistence and evidence review, use the [product-maturity corpus](../evaluation/product-maturity/README.md). It separates quality by dimension, blocked capabilities and unsupported expert-superiority claims.
+
 Status: protocol and four executable fixtures provided; no comparative model results yet. Unit tests establish CLI behavior, not instruction adherence.
 
 ## Comparison conditions

@@ -48,6 +48,8 @@ For prose-only changes, inspect accuracy, links and diff; do not invent `npm run
 
 ## Discovery, decisions and delivery dialogue
 
+For an open product idea or material change of ambition, apply [product maturity](product-maturity.md). Assess each stage's actual decisions and evidence; a file, selected palette or successful build does not by itself complete discovery, design or verification. Adapt the explanation to the user's expertise while preserving the same substantive requirements.
+
 - `explore` follows [existing solutions research](exploration.md): dated evidence, uncertainty and a conversation about continuing, repositioning, reducing, deepening or abandoning. Skip irrelevant research for isolated fixes.
 - `frame` records need, scope, success criteria and business rules in the product owner, referring to research. Before handing it off, check that the first slice still serves the requested outcome and distinguish deferred capabilities from discarded ones. For a stateful core journey, walk a normal transition and a relevant changed-input or retry case: identify what happens to already saved or confirmed state, or mark that behavior unresolved before dependent implementation. Keep this check in the existing framing record, not a new approval stage. `design` continues to follow the unchanged design-to-code workflow and approved directions.
 - `architecture` resolves decision-architecture and presents alternatives in conversation before dependent detail. Record a clear choice or scoped delegation; a PROPOSED document alone is insufficient. Silence, an ambiguous “ok” or invoking `plan` does not adopt it.

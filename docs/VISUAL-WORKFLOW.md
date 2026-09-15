@@ -25,10 +25,10 @@ Use `/project-foundation design` in Claude Code or Cursor. An already approved d
 ## What the procedure delivers
 
 1. A brief grounded in the product, audience and supplied references.
-2. Two or three comparable visible directions when the choice is open.
+2. Research-informed exploration with exactly three creative directions as generated images when the choice is open, unless the user explicitly requests a different count or format. The alternatives share representative content and differ in composition, hierarchy or interaction emphasis, not just palette. Established usability guidance, current aesthetic examples and untested hypotheses remain distinct.
 3. A recorded user choice, or an explicitly delegated selection.
-4. Key-screen image mockups when an image tool is available, with prompts and versioned assets. Missing tooling is reported; an external-tool prompt is not an image.
-5. An interactive prototype for the behavior that needs checking. The prototype may become the implementation.
+4. A detailed selected master and key-screen mockups derived from that actual reference, with prompts and versioned assets. These follow the initial alternatives in the resolved count and format. Generated-image pages use the actual master image as tool input; an explicitly requested HTML/SVG workflow reuses its selected artifact and tokens instead. Missing image tooling leaves requested image generation unfulfilled; an external-tool prompt or an HTML/SVG substitute is not a generated image.
+5. An interactive prototype of the primary journey for a new interactive product, unless the requested deliverable is limited to images/design. Fixture data and simulated integrations are labelled. The prototype may become the implementation.
 6. Browser captures and interaction evidence compared with the approved reference, with mismatches and limitations recorded.
 
 A build passing is not visual acceptance. Image generation is performed by the host's tool, not by the installer. The workflow does not promise identical output across models, hosts or runs.
