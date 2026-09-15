@@ -9,7 +9,7 @@ An approved mockup is a visual contract. Do not “improve” its direction with
 
 ## Select the design mode
 
-For a new direction or requested image mockups, read [visual creation](references/visual-creation.md): brief → visible alternatives → user selection → selected mockups → prototype → implementation and comparison. Image generation depends on an available host tool; DevMethod does not bundle one. Keep choices and evidence in the existing mission/design record.
+For a new direction or requested image mockups, read [visual creation](references/visual-creation.md): brief → targeted research and synthesis → visible alternatives → user selection → selected mockups → prototype → implementation and comparison. Image generation depends on an available host tool; DevMethod does not bundle one. Keep choices and evidence in the existing mission/design record.
 
 For an approved reference, continue directly below without reopening the direction.
 
