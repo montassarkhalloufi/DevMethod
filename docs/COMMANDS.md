@@ -23,6 +23,12 @@ The entry points load the existing [stage contract](../.agents/skills/project-fo
 
 A full installation exposes all fourteen commands. Foundation-only installs expose explore, frame, correct-course and status. Design requires design-to-code; architecture requires decision-architecture; plan, ready, implement, review, verify, integrate, next and handoff require scoped-delivery. Module selection and the manifest's six module names are unchanged. Other technical modules remain available when selected.
 
+## Compare architecture before committing
+
+Use `$devmethod-architecture` with the product or change to decide, or let `$project-foundation` route there. For a new service or a material capacity/availability change, the agent establishes the workload and operating constraints that could change the choice, including when technical decisions are delegated. Existing answers are reused; unknowns become focused questions or explicit provisional assumptions.
+
+The [architecture procedure](../.agents/skills/decision-architecture/references/capacity-and-operations.md) compares credible options with diagrams, workload-linked trade-offs and estimated fixed/variable costs plus operating effort. Estimates identify units, source dates and uncertainty. It recommends an option and evolution triggers, then links capacity/recovery claims to milestone and ticket verification. A diagram, cost calculation or chosen component does not establish production capacity; unavailable measurements remain unverified. Accepted architectures and routine fixes do not reopen this comparison automatically.
+
 ## Review actual work
 
 For example, select `$devmethod-review` and add `the current uncommitted diff against HEAD`. The agent reads actual changes and relevant contracts, executes applicable checks and reports located findings, evidence and limits. A clear ticket, PR, revision or path selection can replace that target. An ambiguous scope is clarified only when it affects the review.

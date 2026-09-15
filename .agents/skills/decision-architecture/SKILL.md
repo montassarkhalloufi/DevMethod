@@ -19,6 +19,8 @@ A PROPOSED label in an ADR does not replace this exchange. Silence, an ambiguous
 
 Preserve accepted choices and delegations within their scope; routine reversible details do not need individual validation. When replacing an accepted decision, link the replacement, affected contracts/tickets and evidence that needs rechecking. Resolve only dependent blockers.
 
+For a new service or a material capacity, performance or availability decision, apply [capacity and operations](references/capacity-and-operations.md), including under technical delegation. Establish the decision-changing workload and service constraints, compare viable options visually with estimated costs, and link claims to verification. Preserve the lightweight path for changes without this impact.
+
 ## Proportionate trade-off
 
 - Restate the concrete decision, owner, blocking constraint, and decision date.

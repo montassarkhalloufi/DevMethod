@@ -2,6 +2,8 @@
 
 Use this corpus to examine decision quality and technical evidence beyond a bounded implementation exercise. [cases.json](cases.json) contains reusable requests and synthetic input files. It neither executes agents nor establishes comparative results. The review fixture is intentionally defective; its handoff includes claims to evaluate, not trusted validation.
 
+The additional [architecture cases](architecture-cases.json) distinguish unknown workload from fully supplied targets, compare visual alternatives and estimated costs, and exercise scope coverage plus a tiny UI change. Evaluate spontaneous elicitation separately from using numbers already supplied. Architecture-only requests do not authorize benchmarks or establish runtime capacity; operating targets may conflict with staffing even when both are stated in the brief.
+
 ## Run conditions
 
 Pin the method revision, actual installed skill files, task and input files before each attempt. Use real `init` resources rather than an incomplete skill copy. Start each attempt in a fresh conversation and exclusive directory; a shared filesystem is not a security sandbox. Allow the same tools, source access, permissions and side effects in every comparison arm. Keep the review oracle and prior outcomes outside worker inputs. Preserve requests, returned questions and any supplied answers.

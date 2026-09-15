@@ -10,6 +10,8 @@ Map the relevant actors, responsibilities, current journeys, handoffs, data and 
 
 Recommend a first learning or delivery slice and explain what it will test, what it cannot establish, which roles and invariants it preserves, and what is deferred. Link it to the wider product trajectory without specifying every future feature. Selection of a journey does not also approve dropping accounts, changing the audience or abandoning other requested capabilities. Keep substantive product reductions separate from technical choices in the decision exchange.
 
+For a product scope with several actors or journeys, keep a compact coverage map in the existing framing or plan: each accepted journey and material rule points to its roles, screens/states or non-UI contract, and its milestone/ticket or explicit deferral/unresolved decision. Include exceptions and cross-cutting obligations such as access withdrawal, imports and failure recovery when in scope. Check for omissions before calling the scoped product or design complete; not every capability needs a separate screen or a fully detailed future ticket.
+
 ## Adapt the conversation, preserve the reasoning
 
 For a novice, explain consequences through concrete journeys and recommend options in familiar language. For an expert, expose assumptions, constraints, evidence and trade-offs at the relevant technical depth; assess their alternatives on the same criteria. Neither expertise nor delegation is a reason to simplify away the requested ambition. Avoid teaching fundamentals already demonstrated by the user. Use explicit delegated choices without repeated confirmation, and keep undecided commitments provisional.
