@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { scoreBehavior, suite, oracle, MAX_ARTIFACT_BYTES, MAX_REPORT_BYTES } from '../scripts/evaluate-behavior.mjs';
@@ -124,7 +125,7 @@ test('suite and oracle inconsistencies fail closed', () => {
 test('CLI emits a pending report and fails malformed data without execution', t => {
   const f = fixture(t); const file = path.join(f.options.artifactRoot, 'empty.json');
   fs.writeFileSync(file, JSON.stringify({format:1,runs:[]}));
-  const command = new URL('../scripts/evaluate-behavior.mjs', import.meta.url).pathname;
+  const command = fileURLToPath(new URL('../scripts/evaluate-behavior.mjs', import.meta.url));
   const result = spawnSync(process.execPath, [command, file], {encoding:'utf8'});
   assert.equal(result.status, 0); assert.equal(JSON.parse(result.stdout).outcomes['not-run'], 36);
   fs.writeFileSync(file, '{');
@@ -166,7 +167,7 @@ test('oversized evidence and CLI reports are rejected before reading payload byt
   fs.truncateSync(artifact,MAX_ARTIFACT_BYTES+1);
   assert.throws(() => scoreBehavior(f.report,f.options), /size limit/);
   const reportFile = path.join(f.options.artifactRoot,'huge.json'); fs.writeFileSync(reportFile,''); fs.truncateSync(reportFile,MAX_REPORT_BYTES+1);
-  const command = new URL('../scripts/evaluate-behavior.mjs', import.meta.url).pathname;
+  const command = fileURLToPath(new URL('../scripts/evaluate-behavior.mjs', import.meta.url));
   const result = spawnSync(process.execPath,[command,reportFile],{encoding:'utf8'});
   assert.equal(result.status,2); assert.match(result.stderr,/report size limit/);
 });

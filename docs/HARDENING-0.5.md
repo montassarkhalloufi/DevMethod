@@ -18,7 +18,7 @@ These sources do not require a new autonomous runtime, rigid tool sequence, comp
 
 ## Complete workstream ledger
 
-Local integrated validation on 2026-09-15 passed 167 tests. Authored cases and deterministic fixture results are not native-agent evidence. Archive identity and external CI belong to the exact candidate PR record.
+Local integrated validation on 2026-09-15 passed 168 tests. Authored cases and deterministic fixture results are not native-agent evidence. Archive identity and external CI belong to the exact candidate PR record.
 
 | # | Workstream / source | Observed gap or risk | Existing mechanism or bounded hardening | Evidence status / remaining gate |
 |---|---|---|---|---|
@@ -41,7 +41,7 @@ Local integrated validation on 2026-09-15 passed 167 tests. Authored cases and d
 | 17 | Observability — D, E | Final status hides attempts and causal evidence | Preserve versions, outputs, diagnostics, stop reasons; offline report assessment | Report validation tests pass; no general automatic trace collector |
 | 18 | Multi-agent coordination — B, U | Declared worktrees mistaken for isolation | Existing ownership graph; inspect actual isolation and integrate sequentially | Deterministic planner exists; arbitrary graph dispatch remains unavailable |
 | 19 | Skill evaluation — C | Only happy-path invocation is tested | Explicit/implicit trigger, negative controls, useful result, instruction compliance | 18 pinned cases and offline scorer delivered; native skill campaign pending |
-| 20 | Behavioral evaluation — D | Written scenario confused with observed behavior | Record meaningful observable checks without requiring one exact tool sequence | 47 preparation/scorer tests pass; authenticated native traces still required |
+| 20 | Behavioral evaluation — D | Written scenario confused with observed behavior | Record meaningful observable checks without requiring one exact tool sequence | 48 preparation/scorer tests pass; authenticated native traces still required |
 | 21 | Reproducible comparison — C, D | Small/incomplete pilot presented as superiority | Retain matched tasks/settings, repetitions, failure evidence and confounders | Historical comparison incomplete; no general superiority claim |
 | 22 | Harness maintenance — D, E | Rules accumulate without measured benefit | Tie each rule to failure case; reevaluate after model changes; remove unsupported complexity | Procedure guidance; repeated ablation results pending |
 | 23 | Technical depth — F, U | Generic guidance mistaken for proven stack expertise | Existing React/Node/data/AI profiles; risk-relevant concurrency, migration and error cases | Existing guidance; representative native technical campaign pending |
@@ -57,8 +57,8 @@ The integrator must replace pending values only with actual execution results an
 | Evidence layer | Current candidate status | Required record |
 |---|---|---|
 | Source and generated output | TypeScript build passed; generated output included | Exact revision is the candidate PR head; version 0.5.0 |
-| Deterministic tests | `npm test`: exit 0, 167 passed, 0 failed | Linux, Node v24.19.0, npm 11.9.0; includes 14 closure/loop checks |
-| Offline behavioral fixtures/report scorer | 47 preparation/scorer tests pass within full suite | 18 cases; 36 native slots not run; pass rate among native completions null |
+| Deterministic tests | `npm test`: exit 0, 168 passed, 0 failed | Linux, Node v24.19.0, npm 11.9.0; includes 14 closure/loop checks |
+| Offline behavioral fixtures/report scorer | 48 preparation/scorer tests pass within full suite | 18 cases; 36 native slots not run; pass rate among native completions null |
 | Documentation consistency | `npm run check:docs` and `git diff --check` pass | Local file links checked; external URLs/anchors not certified |
 | Packed archive | `npm pack --dry-run` and actual pack passed | Final 0.5.0 archive SHA-256/SHA-512 retained in candidate PR record |
 | Extracted archive smoke | `node scripts/package-smoke.mjs ARCHIVE`: exit 0 | All three layouts, subset/customization preservation, doctor, closure, loop, scorer and preparer |
@@ -69,6 +69,8 @@ The integrator must replace pending values only with actual execution results an
 | Registry publication | Pending, not implied by work | Authorized tag, downloaded registry integrity and archive verification |
 
 ## Review evidence and corrections
+
+The first current-candidate platform CI passed Linux/macOS and the fullstack workflow but exposed Windows path handling in the new evaluator tools. Native Windows destination validation and URL-to-path conversion were corrected, a cross-platform lexical regression added, and pinned behavioral/probe files forced to LF. Current rerun conclusions are recorded in the PR; old green checks are not transferred.
 
 Independent CLI review found that a later successful attempt could erase an earlier stagnation limit. Prefix checks now retain historical limit crossings; the reviewer reproduced the fix. Independent scorer review found pooled fixture revisions and uninvoked blocked records included in attempted metrics; both were corrected, and bounded report/artifact reads added. Final independent preparation/scorer review passed 47 tests with no blocking finding in that scope.
 

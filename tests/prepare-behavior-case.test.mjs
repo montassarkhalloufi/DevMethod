@@ -6,7 +6,7 @@ import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { prepareBehaviorCase } from '../scripts/prepare-behavior-case.mjs';
+import { prepareBehaviorCase, resolveFreshDestination } from '../scripts/prepare-behavior-case.mjs';
 import { suite } from '../scripts/evaluate-behavior.mjs';
 function childEnv() { const env = {...process.env}; delete env.NODE_TEST_CONTEXT; return env; }
 function temp(t) { const dir=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'behavior-prepare-')); t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return dir; }
@@ -83,4 +83,16 @@ test('preparer CLI emits provenance only after successful copy and refuses reuse
   assert.equal(record.status,'prepared-not-run');assert.equal(record.caseId,'CLOSURE');assert.match(record.fixtureManifestSha256,/^[a-f0-9]{64}$/);
   const repeated=spawnSync(process.execPath,[command,'CLOSURE',destination],{encoding:'utf8',env:childEnv()});
   assert.equal(repeated.status,2);assert.equal(repeated.stdout,'');
+});
+
+test('destination lexical validation accepts native Windows paths without hiding traversal', () => {
+  const win = path.win32;
+  assert.equal(resolveFreshDestination('C:\\work\\fresh case',win), 'C:\\work\\fresh case');
+  assert.equal(resolveFreshDestination('C:/work/fresh case',win), 'C:\\work\\fresh case');
+  assert.equal(resolveFreshDestination('\\\\server\\share\\fresh',win), '\\\\server\\share\\fresh');
+  for (const unsafe of ['C:\\work\\..\\case','C:/work/../case','C:\\work/../case','C:relative','\\root-relative','\\\\?\\C:\\work\\case','\\\\.\\C:\\work\\case','C:\\work\\case:stream']) {
+    assert.throws(() => resolveFreshDestination(unsafe,win), undefined, unsafe);
+  }
+  assert.equal(resolveFreshDestination('/tmp/fresh case',path.posix),'/tmp/fresh case');
+  for (const unsafe of ['relative','/tmp/../case','/tmp/a\\case']) assert.throws(() => resolveFreshDestination(unsafe,path.posix));
 });

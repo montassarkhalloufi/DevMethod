@@ -129,7 +129,7 @@ export function scoreBehavior(report, { spec = suite, expectations = oracle, art
     syntheticRuns: rows.filter(r => r.kind === 'synthetic').length, metrics, rows,
     limitation: 'Hashes establish artifact integrity, not authenticity or judge correctness. Synthetic calibration is not model performance. Independent adjudication and repeated native runs are required.' };
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && path.relative(fileURLToPath(import.meta.url), path.resolve(process.argv[1])) === '') {
   try {
     const [file, artifactRoot, ...extra] = process.argv.slice(2);
     if (!file || extra.length) fail('Usage: node scripts/evaluate-behavior.mjs REPORT.json [ARTIFACT_ROOT]');

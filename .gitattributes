@@ -9,3 +9,7 @@ src/review-ui.css text eol=lf
 dist/review-ui.css text eol=lf
 examples/review/REVIEW.md text eol=lf
 examples/review/review-demo.html text eol=lf
+
+# Behavioral fixtures and recorded probes pin exact bytes on every OS.
+evaluation/behavioral/** text eol=lf
+evaluation/work-mode-review/** text eol=lf

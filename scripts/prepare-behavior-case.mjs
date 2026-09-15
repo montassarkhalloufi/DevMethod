@@ -17,15 +17,33 @@ function noLinks(absolute, allowMissing = false) {
     if (stat.isSymbolicLink()) throw new Error('Symbolic path is not allowed');
   }
 }
+/** Validate native absolute destinations before normalization can erase traversal segments.
+ * pathApi is injectable only to exercise POSIX/Windows lexical rules on either CI host.
+ */
+export function resolveFreshDestination(destination, pathApi = path) {
+  if (typeof destination !== 'string' || !destination || destination.includes('\0') || !pathApi.isAbsolute(destination)) throw new Error('Destination must be a safe absolute fresh path');
+  const windows = pathApi.sep === '\\';
+  const segments = destination.split(windows ? /[\\/]/ : '/');
+  if (segments.includes('..') || (!windows && destination.includes('\\'))) throw new Error('Destination must be a safe absolute fresh path');
+  if (windows) {
+    const native = destination.replaceAll('/', '\\');
+    // Root-relative paths depend on the process drive; device namespaces bypass ordinary path rules.
+    if ((!/^[a-z]:\\/i.test(native) && !/^\\\\[^\\]+\\[^\\]+/.test(native)) || /^\\\\[?.]\\/.test(native)) throw new Error('Destination must use a fully qualified native path');
+    const root = pathApi.parse(native).root;
+    if (native.slice(root.length).includes(':')) throw new Error('Alternate stream paths are not allowed');
+  }
+  return pathApi.resolve(destination);
+}
+
 /** Prepare only pinned fixture inputs; never dispatch a host or copy an oracle. */
 export function prepareBehaviorCase(caseId, destination, { fixtureDirectory = path.join(root, 'fixtures'), caseFile = path.join(root, 'cases.json') } = {}) {
-  if (typeof destination !== 'string' || !path.isAbsolute(destination) || destination.includes('\\') || destination.split(path.sep).includes('..')) throw new Error('Destination must be a safe absolute fresh path');
-  destination = path.resolve(destination);
+  destination = resolveFreshDestination(destination);
   noLinks(destination, true);
   if (fs.existsSync(destination)) throw new Error('Destination already exists; use a fresh directory');
   fixtureDirectory = path.resolve(fixtureDirectory);
   noLinks(fixtureDirectory); noLinks(caseFile);
-  if (destination.startsWith(fixtureDirectory + path.sep)) throw new Error('Destination cannot alter fixture sources');
+  const relativeDestination = path.relative(fixtureDirectory, destination);
+  if (!relativeDestination || (!path.isAbsolute(relativeDestination) && relativeDestination !== '..' && !relativeDestination.startsWith('..' + path.sep))) throw new Error('Destination cannot alter fixture sources');
   const manifestPath = path.join(fixtureDirectory, 'manifest.json'); noLinks(manifestPath);
   const manifestBytes = fs.readFileSync(manifestPath);
   const casesBytes = fs.readFileSync(caseFile);
@@ -63,7 +81,7 @@ export function prepareBehaviorCase(caseId, destination, { fixtureDirectory = pa
     prerequisites: fixture.prerequisites, operatorSteps: fixture.operatorSteps,
     status: 'prepared-not-run', limitation: 'Preparation establishes pinned input bytes only. Operator setup, actual host execution and independent adjudication remain required. Do not give this complete evaluator record to the agent; send prompt and fixture workspace only.' };
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && path.relative(fileURLToPath(import.meta.url), path.resolve(process.argv[1])) === '') {
   try {
     const [caseId, destination, ...extra] = process.argv.slice(2);
     if (!caseId || !destination || extra.length) throw new Error('Usage: node scripts/prepare-behavior-case.mjs CASE_ID /absolute/fresh/destination');
