@@ -55,3 +55,12 @@ Two read-only reviewers inspected commit `64c1093629e0751567028beb08eda6319158d3
 The draft PR binds the final correction review and gates to its exact tree. These reviews did not execute native agents, validate browser layout, or claim hostile-code isolation.
 
 The initial limit correction exposed another history-bound violation under a new revision; [its red regressions](review-runtime-delta-red.log) are retained. Final preflight uses prospective limits without rewriting metadata for completed attempts and records revision adoption only with an actual pending attempt. The trace worker's [red excerpt](review-traces-red-excerpt.log) is labelled as a transcription of its executed tool output, not a raw redirected process log. Both reviewers accepted their correction deltas; the PR identifies the final commit/tree.
+
+## Platform CI corrections
+
+The first platform workflow on PR head `6cc3f4ce38ac27e99dccc0e8dbdc965925a14e78` passed Linux and the separate fullstack workflow. It exposed two portability faults:
+
+- [Windows formatting failure](ci-windows-format-failure.log): new application/evaluator files lacked the maintained LF checkout attributes. [Git checkout reproduction](checkout-line-endings.json) confirms CRLF before and LF after the attributes fix, which also preserves frozen experiment bytes. Native Windows CI remains the platform gate.
+- [macOS packed-demo failure](ci-macos-package-failure.log): the OS temporary directory uses a symbolic prefix. Demonstration workspaces must start from the canonical OS temp directory, while the runtime continues to reject unreviewed symbolic paths. The [retained red regression](temp-alias-red.log) reproduces the problem on POSIX; the corrected test runs the real journey through an aliased temporary base. Windows skips this actual POSIX execution test, while its eight protocol-trace tests still run.
+
+Final platform outcomes and exact candidate are recorded in the draft PR. No native-agent evaluation is implied by these Node/OS checks.

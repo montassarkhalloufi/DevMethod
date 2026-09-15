@@ -25,7 +25,9 @@ for (const line of manifest.trim().split('\n')) {
   );
 }
 
-const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'devmethod-evidence-holdout-'));
+const workspace = fs.mkdtempSync(
+  path.join(fs.realpathSync(os.tmpdir()), 'devmethod-evidence-holdout-'),
+);
 const evaluatorRoot = path.join(workspace, 'evaluator');
 fs.mkdirSync(evaluatorRoot);
 for (const file of [

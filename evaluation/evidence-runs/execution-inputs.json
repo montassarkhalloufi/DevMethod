@@ -1,6 +1,6 @@
 {
   "format": 1,
-  "purpose": "Exact source/evaluator/test bytes for the final corrected local executions. The final reviewed Git tree and package gates are bound in the draft PR. Earlier observations remain in commit64c1093; failed review regressions are retained alongside these files.",
+  "purpose": "Exact source/evaluator/test bytes for the final portability-corrected local executions. Final Git tree/package/CI gates are bound in PR33. Earlier runs and all failed regressions remain in Git history and adjacent reports.",
   "node": "v24.19.0",
   "platform": "linux",
   "sha256": {
@@ -66,8 +66,8 @@
     "scripts/comparison.mjs": "2274021f3a2ebd75a26587addff5de4dcac6a2a9df850961e3b50dd28c28e1ab",
     "scripts/evaluate-behavior.mjs": "000d7ba80776fd5cf3913d7c1f08b32d8edaaf197e79f00ec13459bc8f10f460",
     "scripts/evaluation.mjs": "07e5f9e2b88f1b40fe2a608b72f4a47c418137a4a757560042c4214187baed17",
-    "scripts/evidence-demo.mjs": "ffa60ce274688f82445dd8da5f809e68917719db783fba5d89e5142281b37b09",
-    "scripts/evidence-holdout.mjs": "d502e1111e505561322df6806de2aeb07cfd15808bc9c2628b0b5ca9c7eaed56",
+    "scripts/evidence-demo.mjs": "f82903943b7096c493debaf7a13dbe86cbbb961315e953ff38159a765f56812f",
+    "scripts/evidence-holdout.mjs": "354c4c29f2ce9a8bd46e5bb560efb121e8f7aea7a18e8247005ae90d521b292d",
     "scripts/fullstack-mission.mjs": "05d0864b74a7f1f47aadc736123e2cd2f6671f7c6dbb64d7b72d6923107c9e76",
     "scripts/hosts/checks.mjs": "d520dc5e5c51530c7038723eef023f0a114d85c8d0a8910098e3ac28b95f5758",
     "scripts/hosts/codex-meter.mjs": "bbe507937067daf2c9e74c043f51d5e5cd4e9c72b74272890228261bc75ee3dc",
@@ -134,7 +134,7 @@
     "tests/evaluation.test.mjs": "6351a678629397ef600980595cba27b0dd0a50d2d6947d04dcfd516737fde8a0",
     "tests/evidence-application.test.mjs": "43355ecb7bde436aa5e04eddd692c41e93b7975c8d91650a717ed39317d18526",
     "tests/evidence-runtime.test.mjs": "47df9488d14875ab348554fdfdea31d9e0a65cc9b0097b36b6d098b6122ea6d9",
-    "tests/evidence-traces.test.mjs": "6018e04e6df6b72c449df74b72ee6f989f952b803e1cacc1e4353161997acf4b",
+    "tests/evidence-traces.test.mjs": "d33286cf08d417342b8521d9ac865076538c06bd395c2b9d260dec19b7e09994",
     "tests/guard-revision.test.mjs": "e19a6f413a221fb51e3364c59efa92a21565432778fa0470b72f995fb9f4bb3c",
     "tests/guard-store.test.mjs": "531d36ff68495738e850d8d22706eccf2aaa32d3932f35d174864445cd8557ba",
     "tests/guard.test.mjs": "3db93107c9b7d3436174d8a8f1ae215b4343c7ee166c9f5aac78f128198946e2",

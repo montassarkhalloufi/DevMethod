@@ -1,7 +1,7 @@
 {
   "summary": {
     "format": 1,
-    "workspace": "/tmp/devmethod-evidence-demo-OJ88ek",
+    "workspace": "/tmp/devmethod-evidence-demo-tz6ebJ",
     "node": "v24.19.0",
     "platform": "linux",
     "observed": [
@@ -17,11 +17,11 @@
     "observations": 19,
     "serve": [
       "node",
-      "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app/server.mjs",
+      "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app/server.mjs",
       "--port",
       "4177",
       "--data",
-      "/tmp/devmethod-evidence-demo-OJ88ek/new-event.json"
+      "/tmp/devmethod-evidence-demo-tz6ebJ/new-event.json"
     ],
     "limitations": "Local deterministic application journey. No native model comparison, visual assessment or external adoption result. Separate stop probe retained; no halted session reset."
   },
@@ -43,7 +43,7 @@
       ],
       "reservations": [
         {
-          "id": "901d4a3a-fdba-41f0-8f9e-5cdbc1915d57",
+          "id": "91656025-70df-4ec3-abc7-5f1c308133c4",
           "slotId": "garden",
           "requestId": "demo-preserved-booking",
           "seats": 1,
@@ -68,7 +68,7 @@
       ],
       "reservations": [
         {
-          "id": "901d4a3a-fdba-41f0-8f9e-5cdbc1915d57",
+          "id": "91656025-70df-4ec3-abc7-5f1c308133c4",
           "slotId": "garden",
           "requestId": "demo-preserved-booking",
           "seats": 1,
@@ -102,11 +102,11 @@
         "evidence",
         "plan",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json"
       ],
       "exit": 0,
       "invocation": {
@@ -116,25 +116,25 @@
           "evidence",
           "plan",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"137e532c7172c0cb4cdb79d5b649be4f0161fc3cfcdc4027ff3d257a528a9fdf\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-vacuous-domain\",\n    \"intent\": \"Negative control: all-green output must not qualify as adequate domain evidence.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Reject overbooking.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"Preserve request identity.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Apply cancellation.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Preserve state after reopening.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"weak-check.mjs\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"weak-check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 5,\n      \"maxNoProgress\": 3,\n      \"childTimeoutMs\": 10000,\n      \"attemptTimeoutMs\": 60000,\n      \"maxOutputBytes\": 65536\n    }\n  },\n  \"contractSha256\": \"3dae8f571e44a7f5b7ec04c3b0c9b8dbabd644a1faa44d2bc2dac0c1462e1c8b\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"fe330de7410a7d51550483f2d08d72cb7972b4606f7d9bd61ebef046313fcd16\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"238e9f6bd420684af6177bef5a2bd039a5a8aae963fae1de8f1eb4ef4eb725fc\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-vacuous-domain\",\n    \"intent\": \"Negative control: all-green output must not qualify as adequate domain evidence.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Reject overbooking.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"Preserve request identity.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Apply cancellation.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Preserve state after reopening.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"weak-check.mjs\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"weak-check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 5,\n      \"maxNoProgress\": 3,\n      \"childTimeoutMs\": 10000,\n      \"attemptTimeoutMs\": 60000,\n      \"maxOutputBytes\": 65536\n    }\n  },\n  \"contractSha256\": \"3dae8f571e44a7f5b7ec04c3b0c9b8dbabd644a1faa44d2bc2dac0c1462e1c8b\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"fe330de7410a7d51550483f2d08d72cb7972b4606f7d9bd61ebef046313fcd16\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
         "format": 1,
-        "permit": "137e532c7172c0cb4cdb79d5b649be4f0161fc3cfcdc4027ff3d257a528a9fdf",
+        "permit": "238e9f6bd420684af6177bef5a2bd039a5a8aae963fae1de8f1eb4ef4eb725fc",
         "options": {
-          "root": "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
-          "evaluatorRoot": "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
-          "contractPath": "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json"
+          "root": "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
+          "evaluatorRoot": "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
+          "contractPath": "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json"
         },
         "contract": {
           "format": 1,
@@ -253,15 +253,15 @@
         "evidence",
         "run",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session",
         "--permit",
-        "137e532c7172c0cb4cdb79d5b649be4f0161fc3cfcdc4027ff3d257a528a9fdf"
+        "238e9f6bd420684af6177bef5a2bd039a5a8aae963fae1de8f1eb4ef4eb725fc"
       ],
       "exit": 1,
       "invocation": {
@@ -271,20 +271,20 @@
           "evidence",
           "run",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session",
           "--permit",
-          "137e532c7172c0cb4cdb79d5b649be4f0161fc3cfcdc4027ff3d257a528a9fdf"
+          "238e9f6bd420684af6177bef5a2bd039a5a8aae963fae1de8f1eb4ef4eb725fc"
         ],
         "status": 1,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"failed\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 1,\n  \"permit\": \"137e532c7172c0cb4cdb79d5b649be4f0161fc3cfcdc4027ff3d257a528a9fdf\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:15:25.536Z\",\n  \"durationMs\": 334.63402299999996,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"failed\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 1,\n  \"permit\": \"238e9f6bd420684af6177bef5a2bd039a5a8aae963fae1de8f1eb4ef4eb725fc\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:24:25.899Z\",\n  \"durationMs\": 372.157099,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -293,7 +293,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 1,
-        "permit": "137e532c7172c0cb4cdb79d5b649be4f0161fc3cfcdc4027ff3d257a528a9fdf",
+        "permit": "238e9f6bd420684af6177bef5a2bd039a5a8aae963fae1de8f1eb4ef4eb725fc",
         "failureSignature": "2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9",
         "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
         "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
@@ -379,8 +379,8 @@
           }
         ],
         "revisions": 1,
-        "startedAt": "2026-09-15T22:15:25.536Z",
-        "durationMs": 334.63402299999996,
+        "startedAt": "2026-09-15T22:24:25.899Z",
+        "durationMs": 372.157099,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -393,11 +393,11 @@
         "evidence",
         "plan",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json"
       ],
       "exit": 0,
       "invocation": {
@@ -407,25 +407,25 @@
           "evidence",
           "plan",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-domain\",\n    \"intent\": \"Reserve volunteer places durably without overbooking, duplicate requests or resurrected cancellations.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Seed welcome with 2 places and garden with 3; accept only positive safe integer seats; reject overbooking without durable change.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"The same requestId and parameters returns the same reservation, including after reopen; conflicts reject without change.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Cancellation restores capacity once; replay remains cancelled, including after reopen.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Active and cancelled reservation states survive repeated store reopening in one process.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"check.mjs\",\n      \"reference.mjs\",\n      \"expected-seeds.json\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 3,\n      \"maxNoProgress\": 2,\n      \"childTimeoutMs\": 3000,\n      \"attemptTimeoutMs\": 20000,\n      \"maxOutputBytes\": 32000\n    }\n  },\n  \"contractSha256\": \"d2c9e2bc73bf4d076d2f78c7d33f7fc22fe258ce04220f9b9823b11bda36ceef\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"ae3b4c230e5b81d23dafc3628cd10db5eab460a5203f2a107fbda4401d77dca8\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-domain\",\n    \"intent\": \"Reserve volunteer places durably without overbooking, duplicate requests or resurrected cancellations.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Seed welcome with 2 places and garden with 3; accept only positive safe integer seats; reject overbooking without durable change.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"The same requestId and parameters returns the same reservation, including after reopen; conflicts reject without change.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Cancellation restores capacity once; replay remains cancelled, including after reopen.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Active and cancelled reservation states survive repeated store reopening in one process.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"check.mjs\",\n      \"reference.mjs\",\n      \"expected-seeds.json\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 3,\n      \"maxNoProgress\": 2,\n      \"childTimeoutMs\": 3000,\n      \"attemptTimeoutMs\": 20000,\n      \"maxOutputBytes\": 32000\n    }\n  },\n  \"contractSha256\": \"d2c9e2bc73bf4d076d2f78c7d33f7fc22fe258ce04220f9b9823b11bda36ceef\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"ae3b4c230e5b81d23dafc3628cd10db5eab460a5203f2a107fbda4401d77dca8\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
         "format": 1,
-        "permit": "22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e",
+        "permit": "6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30",
         "options": {
-          "root": "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
-          "evaluatorRoot": "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
-          "contractPath": "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json"
+          "root": "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
+          "evaluatorRoot": "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
+          "contractPath": "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json"
         },
         "contract": {
           "format": 1,
@@ -546,15 +546,15 @@
         "evidence",
         "run",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session",
         "--permit",
-        "22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e",
+        "6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30",
         "--diagnosis",
         "The vacuous check misses known faults.",
         "--adjustment",
@@ -568,15 +568,15 @@
           "evidence",
           "run",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session",
           "--permit",
-          "22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e",
+          "6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30",
           "--diagnosis",
           "The vacuous check misses known faults.",
           "--adjustment",
@@ -585,7 +585,7 @@
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"supported\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 2,\n  \"permit\": \"22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"supported\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 2,\n  \"startedAt\": \"2026-09-15T22:15:26.189Z\",\n  \"durationMs\": 522.188539,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"supported\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 2,\n  \"permit\": \"6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"supported\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 2,\n  \"startedAt\": \"2026-09-15T22:24:26.628Z\",\n  \"durationMs\": 398.25625,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -594,7 +594,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 2,
-        "permit": "22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e",
+        "permit": "6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30",
         "failureSignature": null,
         "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
         "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
@@ -685,8 +685,8 @@
           }
         ],
         "revisions": 2,
-        "startedAt": "2026-09-15T22:15:26.189Z",
-        "durationMs": 522.188539,
+        "startedAt": "2026-09-15T22:24:26.628Z",
+        "durationMs": 398.25625,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -699,13 +699,13 @@
         "evidence",
         "status",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session"
       ],
       "exit": 0,
       "invocation": {
@@ -715,18 +715,18 @@
           "evidence",
           "status",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"supported\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 2,\n  \"permit\": \"22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"supported\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 2,\n  \"startedAt\": \"2026-09-15T22:15:26.189Z\",\n  \"durationMs\": 522.188539,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"supported\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 2,\n  \"permit\": \"6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"supported\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 2,\n  \"startedAt\": \"2026-09-15T22:24:26.628Z\",\n  \"durationMs\": 398.25625,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -735,7 +735,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 2,
-        "permit": "22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e",
+        "permit": "6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30",
         "failureSignature": null,
         "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
         "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
@@ -826,8 +826,8 @@
           }
         ],
         "revisions": 2,
-        "startedAt": "2026-09-15T22:15:26.189Z",
-        "durationMs": 522.188539,
+        "startedAt": "2026-09-15T22:24:26.628Z",
+        "durationMs": 398.25625,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -839,8 +839,8 @@
         "--input-type=module",
         "-e",
         "import {pathToFileURL} from 'node:url';\n    const {createStore} = await import(pathToFileURL(process.argv[1]));\n    const store = createStore(process.argv[2]);\n    if (process.argv[3] === 'seed') store.reserve({slotId:'garden',requestId:'demo-preserved-booking',seats:1});\n    process.stdout.write(JSON.stringify({slots:store.listSlots(),reservations:store.listReservations()}));",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app/store.mjs",
-        "/tmp/devmethod-evidence-demo-OJ88ek/retained-event.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app/store.mjs",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/retained-event.json",
         "seed"
       ],
       "exit": 0,
@@ -850,14 +850,14 @@
           "--input-type=module",
           "-e",
           "import {pathToFileURL} from 'node:url';\n    const {createStore} = await import(pathToFileURL(process.argv[1]));\n    const store = createStore(process.argv[2]);\n    if (process.argv[3] === 'seed') store.reserve({slotId:'garden',requestId:'demo-preserved-booking',seats:1});\n    process.stdout.write(JSON.stringify({slots:store.listSlots(),reservations:store.listReservations()}));",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app/store.mjs",
-          "/tmp/devmethod-evidence-demo-OJ88ek/retained-event.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app/store.mjs",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/retained-event.json",
           "seed"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\"slots\":[{\"id\":\"welcome\",\"title\":\"Welcome desk\",\"capacity\":2,\"remaining\":2},{\"id\":\"garden\",\"title\":\"Community garden\",\"capacity\":3,\"remaining\":2}],\"reservations\":[{\"id\":\"901d4a3a-fdba-41f0-8f9e-5cdbc1915d57\",\"slotId\":\"garden\",\"requestId\":\"demo-preserved-booking\",\"seats\":1,\"status\":\"active\"}]}",
+        "stdout": "{\"slots\":[{\"id\":\"welcome\",\"title\":\"Welcome desk\",\"capacity\":2,\"remaining\":2},{\"id\":\"garden\",\"title\":\"Community garden\",\"capacity\":3,\"remaining\":2}],\"reservations\":[{\"id\":\"91656025-70df-4ec3-abc7-5f1c308133c4\",\"slotId\":\"garden\",\"requestId\":\"demo-preserved-booking\",\"seats\":1,\"status\":\"active\"}]}",
         "stderr": ""
       },
       "report": {
@@ -877,7 +877,7 @@
         ],
         "reservations": [
           {
-            "id": "901d4a3a-fdba-41f0-8f9e-5cdbc1915d57",
+            "id": "91656025-70df-4ec3-abc7-5f1c308133c4",
             "slotId": "garden",
             "requestId": "demo-preserved-booking",
             "seats": 1,
@@ -893,13 +893,13 @@
         "evidence",
         "status",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session"
       ],
       "exit": 1,
       "invocation": {
@@ -909,18 +909,18 @@
           "evidence",
           "status",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session"
         ],
         "status": 1,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"stale\",\n  \"fresh\": false,\n  \"reason\": null,\n  \"attempts\": 2,\n  \"permit\": \"22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"stale\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"stale\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"stale\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"stale\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 2,\n  \"startedAt\": \"2026-09-15T22:15:26.189Z\",\n  \"durationMs\": 522.188539,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"stale\",\n  \"fresh\": false,\n  \"reason\": null,\n  \"attempts\": 2,\n  \"permit\": \"6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"stale\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"stale\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"stale\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"stale\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 2,\n  \"startedAt\": \"2026-09-15T22:24:26.628Z\",\n  \"durationMs\": 398.25625,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -929,7 +929,7 @@
         "fresh": false,
         "reason": null,
         "attempts": 2,
-        "permit": "22215172580edf508e18f4cd1f164bbf79485edc3228656a31181fe751a4bb0e",
+        "permit": "6d95f7744b9c68d1c3620efd59fc670fc5cbb8c4ff0856b5cd7dd90e72270f30",
         "failureSignature": null,
         "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
         "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
@@ -1020,8 +1020,8 @@
           }
         ],
         "revisions": 2,
-        "startedAt": "2026-09-15T22:15:26.189Z",
-        "durationMs": 522.188539,
+        "startedAt": "2026-09-15T22:24:26.628Z",
+        "durationMs": 398.25625,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -1034,11 +1034,11 @@
         "evidence",
         "plan",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json"
       ],
       "exit": 0,
       "invocation": {
@@ -1048,25 +1048,25 @@
           "evidence",
           "plan",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"57fda1701dc32e00fe4ed487bebc593ddf71bad28d90591ab6f74f41712498bd\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-domain\",\n    \"intent\": \"Reserve volunteer places durably without overbooking, duplicate requests or resurrected cancellations. New events have four garden seats; previously saved events retain their original capacity and reservations.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Seed welcome with 2 places and garden with 4; accept only positive safe integer seats; reject overbooking without durable change.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"The same requestId and parameters returns the same reservation, including after reopen; conflicts reject without change.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Cancellation restores capacity once; replay remains cancelled, including after reopen.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Active and cancelled reservation states survive repeated store reopening in one process.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"check.mjs\",\n      \"reference.mjs\",\n      \"expected-seeds.json\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 3,\n      \"maxNoProgress\": 2,\n      \"childTimeoutMs\": 3000,\n      \"attemptTimeoutMs\": 20000,\n      \"maxOutputBytes\": 32000\n    }\n  },\n  \"contractSha256\": \"f5c6a2b5dadb2f5e635b61d08d566de758f1bce28742fdf470c4531d08ee1c43\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"39caa94742312f6c51d8951c129839853da262d192068b3ffca51a9bb394b211\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"9e90acada62521b41c002067408f38dcf24a71b56945ce2a30770d80754d63e0\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-domain\",\n    \"intent\": \"Reserve volunteer places durably without overbooking, duplicate requests or resurrected cancellations. New events have four garden seats; previously saved events retain their original capacity and reservations.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Seed welcome with 2 places and garden with 4; accept only positive safe integer seats; reject overbooking without durable change.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"The same requestId and parameters returns the same reservation, including after reopen; conflicts reject without change.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Cancellation restores capacity once; replay remains cancelled, including after reopen.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Active and cancelled reservation states survive repeated store reopening in one process.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"check.mjs\",\n      \"reference.mjs\",\n      \"expected-seeds.json\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 3,\n      \"maxNoProgress\": 2,\n      \"childTimeoutMs\": 3000,\n      \"attemptTimeoutMs\": 20000,\n      \"maxOutputBytes\": 32000\n    }\n  },\n  \"contractSha256\": \"f5c6a2b5dadb2f5e635b61d08d566de758f1bce28742fdf470c4531d08ee1c43\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"39caa94742312f6c51d8951c129839853da262d192068b3ffca51a9bb394b211\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
         "format": 1,
-        "permit": "57fda1701dc32e00fe4ed487bebc593ddf71bad28d90591ab6f74f41712498bd",
+        "permit": "9e90acada62521b41c002067408f38dcf24a71b56945ce2a30770d80754d63e0",
         "options": {
-          "root": "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
-          "evaluatorRoot": "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
-          "contractPath": "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json"
+          "root": "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
+          "evaluatorRoot": "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
+          "contractPath": "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json"
         },
         "contract": {
           "format": 1,
@@ -1187,15 +1187,15 @@
         "evidence",
         "run",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session",
         "--permit",
-        "57fda1701dc32e00fe4ed487bebc593ddf71bad28d90591ab6f74f41712498bd"
+        "9e90acada62521b41c002067408f38dcf24a71b56945ce2a30770d80754d63e0"
       ],
       "exit": 0,
       "invocation": {
@@ -1205,20 +1205,20 @@
           "evidence",
           "run",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session",
           "--permit",
-          "57fda1701dc32e00fe4ed487bebc593ddf71bad28d90591ab6f74f41712498bd"
+          "9e90acada62521b41c002067408f38dcf24a71b56945ce2a30770d80754d63e0"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"supported\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 3,\n  \"permit\": \"57fda1701dc32e00fe4ed487bebc593ddf71bad28d90591ab6f74f41712498bd\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336\",\n  \"candidateAfter\": \"25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"supported\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 3,\n  \"startedAt\": \"2026-09-15T22:15:27.447Z\",\n  \"durationMs\": 411.78174700000005,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"supported\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 3,\n  \"permit\": \"9e90acada62521b41c002067408f38dcf24a71b56945ce2a30770d80754d63e0\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336\",\n  \"candidateAfter\": \"25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"supported\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 3,\n  \"startedAt\": \"2026-09-15T22:24:27.738Z\",\n  \"durationMs\": 434.327206,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -1227,7 +1227,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 3,
-        "permit": "57fda1701dc32e00fe4ed487bebc593ddf71bad28d90591ab6f74f41712498bd",
+        "permit": "9e90acada62521b41c002067408f38dcf24a71b56945ce2a30770d80754d63e0",
         "failureSignature": null,
         "candidateBefore": "25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336",
         "candidateAfter": "25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336",
@@ -1318,8 +1318,8 @@
           }
         ],
         "revisions": 3,
-        "startedAt": "2026-09-15T22:15:27.447Z",
-        "durationMs": 411.78174700000005,
+        "startedAt": "2026-09-15T22:24:27.738Z",
+        "durationMs": 434.327206,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -1332,13 +1332,13 @@
         "evidence",
         "status",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session"
       ],
       "exit": 0,
       "invocation": {
@@ -1348,18 +1348,18 @@
           "evidence",
           "status",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/session"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/session"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"supported\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 3,\n  \"permit\": \"57fda1701dc32e00fe4ed487bebc593ddf71bad28d90591ab6f74f41712498bd\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336\",\n  \"candidateAfter\": \"25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"supported\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 3,\n  \"startedAt\": \"2026-09-15T22:15:27.447Z\",\n  \"durationMs\": 411.78174700000005,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"supported\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 3,\n  \"permit\": \"9e90acada62521b41c002067408f38dcf24a71b56945ce2a30770d80754d63e0\",\n  \"failureSignature\": null,\n  \"candidateBefore\": \"25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336\",\n  \"candidateAfter\": \"25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"supported\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"supported\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"failed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"failed\",\n        \"cancellation\": \"failed\",\n        \"durability\": \"failed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    }\n  ],\n  \"revisions\": 3,\n  \"startedAt\": \"2026-09-15T22:24:27.738Z\",\n  \"durationMs\": 434.327206,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -1368,7 +1368,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 3,
-        "permit": "57fda1701dc32e00fe4ed487bebc593ddf71bad28d90591ab6f74f41712498bd",
+        "permit": "9e90acada62521b41c002067408f38dcf24a71b56945ce2a30770d80754d63e0",
         "failureSignature": null,
         "candidateBefore": "25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336",
         "candidateAfter": "25a7532fda7eef9381b98424016961c76128a418a98d6d6ccb806e0b6bda5336",
@@ -1459,8 +1459,8 @@
           }
         ],
         "revisions": 3,
-        "startedAt": "2026-09-15T22:15:27.447Z",
-        "durationMs": 411.78174700000005,
+        "startedAt": "2026-09-15T22:24:27.738Z",
+        "durationMs": 434.327206,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -1472,8 +1472,8 @@
         "--input-type=module",
         "-e",
         "import {pathToFileURL} from 'node:url';\n    const {createStore} = await import(pathToFileURL(process.argv[1]));\n    const store = createStore(process.argv[2]);\n    if (process.argv[3] === 'seed') store.reserve({slotId:'garden',requestId:'demo-preserved-booking',seats:1});\n    process.stdout.write(JSON.stringify({slots:store.listSlots(),reservations:store.listReservations()}));",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app/store.mjs",
-        "/tmp/devmethod-evidence-demo-OJ88ek/retained-event.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app/store.mjs",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/retained-event.json",
         "read"
       ],
       "exit": 0,
@@ -1483,14 +1483,14 @@
           "--input-type=module",
           "-e",
           "import {pathToFileURL} from 'node:url';\n    const {createStore} = await import(pathToFileURL(process.argv[1]));\n    const store = createStore(process.argv[2]);\n    if (process.argv[3] === 'seed') store.reserve({slotId:'garden',requestId:'demo-preserved-booking',seats:1});\n    process.stdout.write(JSON.stringify({slots:store.listSlots(),reservations:store.listReservations()}));",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app/store.mjs",
-          "/tmp/devmethod-evidence-demo-OJ88ek/retained-event.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app/store.mjs",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/retained-event.json",
           "read"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\"slots\":[{\"id\":\"welcome\",\"title\":\"Welcome desk\",\"capacity\":2,\"remaining\":2},{\"id\":\"garden\",\"title\":\"Community garden\",\"capacity\":3,\"remaining\":2}],\"reservations\":[{\"id\":\"901d4a3a-fdba-41f0-8f9e-5cdbc1915d57\",\"slotId\":\"garden\",\"requestId\":\"demo-preserved-booking\",\"seats\":1,\"status\":\"active\"}]}",
+        "stdout": "{\"slots\":[{\"id\":\"welcome\",\"title\":\"Welcome desk\",\"capacity\":2,\"remaining\":2},{\"id\":\"garden\",\"title\":\"Community garden\",\"capacity\":3,\"remaining\":2}],\"reservations\":[{\"id\":\"91656025-70df-4ec3-abc7-5f1c308133c4\",\"slotId\":\"garden\",\"requestId\":\"demo-preserved-booking\",\"seats\":1,\"status\":\"active\"}]}",
         "stderr": ""
       },
       "report": {
@@ -1510,7 +1510,7 @@
         ],
         "reservations": [
           {
-            "id": "901d4a3a-fdba-41f0-8f9e-5cdbc1915d57",
+            "id": "91656025-70df-4ec3-abc7-5f1c308133c4",
             "slotId": "garden",
             "requestId": "demo-preserved-booking",
             "seats": 1,
@@ -1525,8 +1525,8 @@
         "--input-type=module",
         "-e",
         "import {pathToFileURL} from 'node:url';\n    const {createStore} = await import(pathToFileURL(process.argv[1]));\n    const store = createStore(process.argv[2]);\n    if (process.argv[3] === 'seed') store.reserve({slotId:'garden',requestId:'demo-preserved-booking',seats:1});\n    process.stdout.write(JSON.stringify({slots:store.listSlots(),reservations:store.listReservations()}));",
-        "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app/store.mjs",
-        "/tmp/devmethod-evidence-demo-OJ88ek/new-event.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app/store.mjs",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/new-event.json",
         "read"
       ],
       "exit": 0,
@@ -1536,8 +1536,8 @@
           "--input-type=module",
           "-e",
           "import {pathToFileURL} from 'node:url';\n    const {createStore} = await import(pathToFileURL(process.argv[1]));\n    const store = createStore(process.argv[2]);\n    if (process.argv[3] === 'seed') store.reserve({slotId:'garden',requestId:'demo-preserved-booking',seats:1});\n    process.stdout.write(JSON.stringify({slots:store.listSlots(),reservations:store.listReservations()}));",
-          "/tmp/devmethod-evidence-demo-OJ88ek/lifecycle/app/store.mjs",
-          "/tmp/devmethod-evidence-demo-OJ88ek/new-event.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/lifecycle/app/store.mjs",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/new-event.json",
           "read"
         ],
         "status": 0,
@@ -1571,11 +1571,11 @@
         "evidence",
         "plan",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json"
       ],
       "exit": 0,
       "invocation": {
@@ -1585,25 +1585,25 @@
           "evidence",
           "plan",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-vacuous-domain\",\n    \"intent\": \"Negative control: all-green output must not qualify as adequate domain evidence.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Reject overbooking.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"Preserve request identity.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Apply cancellation.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Preserve state after reopening.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"weak-check.mjs\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"weak-check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 5,\n      \"maxNoProgress\": 3,\n      \"childTimeoutMs\": 10000,\n      \"attemptTimeoutMs\": 60000,\n      \"maxOutputBytes\": 65536\n    }\n  },\n  \"contractSha256\": \"3dae8f571e44a7f5b7ec04c3b0c9b8dbabd644a1faa44d2bc2dac0c1462e1c8b\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"fe330de7410a7d51550483f2d08d72cb7972b4606f7d9bd61ebef046313fcd16\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-vacuous-domain\",\n    \"intent\": \"Negative control: all-green output must not qualify as adequate domain evidence.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Reject overbooking.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"Preserve request identity.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Apply cancellation.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Preserve state after reopening.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"weak-check.mjs\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"weak-check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 5,\n      \"maxNoProgress\": 3,\n      \"childTimeoutMs\": 10000,\n      \"attemptTimeoutMs\": 60000,\n      \"maxOutputBytes\": 65536\n    }\n  },\n  \"contractSha256\": \"3dae8f571e44a7f5b7ec04c3b0c9b8dbabd644a1faa44d2bc2dac0c1462e1c8b\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"fe330de7410a7d51550483f2d08d72cb7972b4606f7d9bd61ebef046313fcd16\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
         "format": 1,
-        "permit": "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6",
+        "permit": "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94",
         "options": {
-          "root": "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
-          "evaluatorRoot": "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
-          "contractPath": "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json"
+          "root": "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
+          "evaluatorRoot": "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
+          "contractPath": "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json"
         },
         "contract": {
           "format": 1,
@@ -1722,15 +1722,15 @@
         "evidence",
         "run",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/session",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/session",
         "--permit",
-        "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6"
+        "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94"
       ],
       "exit": 1,
       "invocation": {
@@ -1740,20 +1740,20 @@
           "evidence",
           "run",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/session",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/session",
           "--permit",
-          "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6"
+          "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94"
         ],
         "status": 1,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"failed\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 1,\n  \"permit\": \"7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:15:28.447Z\",\n  \"durationMs\": 334.126197,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"failed\",\n  \"fresh\": true,\n  \"reason\": null,\n  \"attempts\": 1,\n  \"permit\": \"b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:24:28.783Z\",\n  \"durationMs\": 331.37967599999996,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -1762,7 +1762,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 1,
-        "permit": "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6",
+        "permit": "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94",
         "failureSignature": "2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9",
         "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
         "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
@@ -1848,8 +1848,8 @@
           }
         ],
         "revisions": 1,
-        "startedAt": "2026-09-15T22:15:28.447Z",
-        "durationMs": 334.126197,
+        "startedAt": "2026-09-15T22:24:28.783Z",
+        "durationMs": 331.37967599999996,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -1862,11 +1862,11 @@
         "evidence",
         "plan",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json"
       ],
       "exit": 0,
       "invocation": {
@@ -1876,25 +1876,25 @@
           "evidence",
           "plan",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-vacuous-domain\",\n    \"intent\": \"Negative control: all-green output must not qualify as adequate domain evidence.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Reject overbooking.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"Preserve request identity.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Apply cancellation.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Preserve state after reopening.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"weak-check.mjs\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"weak-check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 5,\n      \"maxNoProgress\": 3,\n      \"childTimeoutMs\": 10000,\n      \"attemptTimeoutMs\": 60000,\n      \"maxOutputBytes\": 65536\n    }\n  },\n  \"contractSha256\": \"3dae8f571e44a7f5b7ec04c3b0c9b8dbabd644a1faa44d2bc2dac0c1462e1c8b\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"fe330de7410a7d51550483f2d08d72cb7972b4606f7d9bd61ebef046313fcd16\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-vacuous-domain\",\n    \"intent\": \"Negative control: all-green output must not qualify as adequate domain evidence.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Reject overbooking.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"Preserve request identity.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Apply cancellation.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Preserve state after reopening.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"weak-check.mjs\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"weak-check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 5,\n      \"maxNoProgress\": 3,\n      \"childTimeoutMs\": 10000,\n      \"attemptTimeoutMs\": 60000,\n      \"maxOutputBytes\": 65536\n    }\n  },\n  \"contractSha256\": \"3dae8f571e44a7f5b7ec04c3b0c9b8dbabd644a1faa44d2bc2dac0c1462e1c8b\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"fe330de7410a7d51550483f2d08d72cb7972b4606f7d9bd61ebef046313fcd16\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"weak-check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
         "format": 1,
-        "permit": "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6",
+        "permit": "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94",
         "options": {
-          "root": "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
-          "evaluatorRoot": "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
-          "contractPath": "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json"
+          "root": "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
+          "evaluatorRoot": "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
+          "contractPath": "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json"
         },
         "contract": {
           "format": 1,
@@ -2013,15 +2013,15 @@
         "evidence",
         "run",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/session",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/session",
         "--permit",
-        "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6",
+        "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94",
         "--diagnosis",
         "The same fault still escapes.",
         "--adjustment",
@@ -2035,15 +2035,15 @@
           "evidence",
           "run",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/session",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/session",
           "--permit",
-          "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6",
+          "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94",
           "--diagnosis",
           "The same fault still escapes.",
           "--adjustment",
@@ -2052,7 +2052,7 @@
         "status": 1,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"halted\",\n  \"fresh\": false,\n  \"reason\": \"repeated-criterion-failure\",\n  \"attempts\": 2,\n  \"permit\": \"7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:15:29.100Z\",\n  \"durationMs\": 313.845287,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"halted\",\n  \"fresh\": false,\n  \"reason\": \"repeated-criterion-failure\",\n  \"attempts\": 2,\n  \"permit\": \"b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:24:29.429Z\",\n  \"durationMs\": 353.716006,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -2061,7 +2061,7 @@
         "fresh": false,
         "reason": "repeated-criterion-failure",
         "attempts": 2,
-        "permit": "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6",
+        "permit": "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94",
         "failureSignature": "2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9",
         "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
         "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
@@ -2147,8 +2147,8 @@
           }
         ],
         "revisions": 1,
-        "startedAt": "2026-09-15T22:15:29.100Z",
-        "durationMs": 313.845287,
+        "startedAt": "2026-09-15T22:24:29.429Z",
+        "durationMs": 353.716006,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -2161,11 +2161,11 @@
         "evidence",
         "plan",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json"
       ],
       "exit": 0,
       "invocation": {
@@ -2175,25 +2175,25 @@
           "evidence",
           "plan",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json"
         ],
         "status": 0,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"c1319b09b122a34a90e45911a2b98c8b92e17ef2d31d2ffc991b2eca27ddc47f\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-domain\",\n    \"intent\": \"Reserve volunteer places durably without overbooking, duplicate requests or resurrected cancellations.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Seed welcome with 2 places and garden with 3; accept only positive safe integer seats; reject overbooking without durable change.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"The same requestId and parameters returns the same reservation, including after reopen; conflicts reject without change.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Cancellation restores capacity once; replay remains cancelled, including after reopen.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Active and cancelled reservation states survive repeated store reopening in one process.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"check.mjs\",\n      \"reference.mjs\",\n      \"expected-seeds.json\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 3,\n      \"maxNoProgress\": 2,\n      \"childTimeoutMs\": 3000,\n      \"attemptTimeoutMs\": 20000,\n      \"maxOutputBytes\": 32000\n    }\n  },\n  \"contractSha256\": \"d2c9e2bc73bf4d076d2f78c7d33f7fc22fe258ce04220f9b9823b11bda36ceef\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"ae3b4c230e5b81d23dafc3628cd10db5eab460a5203f2a107fbda4401d77dca8\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"permit\": \"10a2c769a5be81090bb6ed7d5bd32c5af1f129256ecd6c7bc6b01df21cf834eb\",\n  \"options\": {\n    \"root\": \"/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app\",\n    \"evaluatorRoot\": \"/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator\",\n    \"contractPath\": \"/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json\"\n  },\n  \"contract\": {\n    \"format\": 1,\n    \"id\": \"evidence-lab-domain\",\n    \"intent\": \"Reserve volunteer places durably without overbooking, duplicate requests or resurrected cancellations.\",\n    \"criteria\": [\n      {\n        \"id\": \"capacity\",\n        \"description\": \"Seed welcome with 2 places and garden with 3; accept only positive safe integer seats; reject overbooking without durable change.\"\n      },\n      {\n        \"id\": \"idempotency\",\n        \"description\": \"The same requestId and parameters returns the same reservation, including after reopen; conflicts reject without change.\"\n      },\n      {\n        \"id\": \"cancellation\",\n        \"description\": \"Cancellation restores capacity once; replay remains cancelled, including after reopen.\"\n      },\n      {\n        \"id\": \"durability\",\n        \"description\": \"Active and cancelled reservation states survive repeated store reopening in one process.\"\n      }\n    ],\n    \"candidateInputs\": [\n      \"store.mjs\",\n      \"server.mjs\",\n      \"public/index.html\",\n      \"public/app.js\",\n      \"public/style.css\"\n    ],\n    \"evaluatorFiles\": [\n      \"check.mjs\",\n      \"reference.mjs\",\n      \"expected-seeds.json\"\n    ],\n    \"checks\": [\n      {\n        \"id\": \"domain\",\n        \"runner\": \"check.mjs\",\n        \"criteria\": [\n          \"capacity\",\n          \"idempotency\",\n          \"cancellation\",\n          \"durability\"\n        ],\n        \"healthy\": \"healthy\",\n        \"faults\": [\n          {\n            \"id\": \"capacity-fault\",\n            \"target\": \"capacity\"\n          },\n          {\n            \"id\": \"idempotency-fault\",\n            \"target\": \"idempotency\"\n          },\n          {\n            \"id\": \"cancellation-fault\",\n            \"target\": \"cancellation\"\n          },\n          {\n            \"id\": \"durability-fault\",\n            \"target\": \"durability\"\n          }\n        ]\n      }\n    ],\n    \"limits\": {\n      \"maxAttempts\": 3,\n      \"maxNoProgress\": 2,\n      \"childTimeoutMs\": 3000,\n      \"attemptTimeoutMs\": 20000,\n      \"maxOutputBytes\": 32000\n    }\n  },\n  \"contractSha256\": \"d2c9e2bc73bf4d076d2f78c7d33f7fc22fe258ce04220f9b9823b11bda36ceef\",\n  \"engine\": \"8a4c34b4410f5f8907b70717eab106a841cbd5b51cc1ae67978761b188bd04a9\",\n  \"evaluatorSignature\": \"ae3b4c230e5b81d23dafc3628cd10db5eab460a5203f2a107fbda4401d77dca8\",\n  \"invocations\": [\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"healthy\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"capacity-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"idempotency-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"cancellation-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"durability-fault\"\n    },\n    {\n      \"check\": \"domain\",\n      \"runner\": \"check.mjs\",\n      \"mode\": \"candidate\"\n    }\n  ],\n  \"executionSupported\": true,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
         "format": 1,
-        "permit": "c1319b09b122a34a90e45911a2b98c8b92e17ef2d31d2ffc991b2eca27ddc47f",
+        "permit": "10a2c769a5be81090bb6ed7d5bd32c5af1f129256ecd6c7bc6b01df21cf834eb",
         "options": {
-          "root": "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
-          "evaluatorRoot": "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
-          "contractPath": "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json"
+          "root": "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
+          "evaluatorRoot": "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
+          "contractPath": "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json"
         },
         "contract": {
           "format": 1,
@@ -2314,15 +2314,15 @@
         "evidence",
         "run",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/session",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/session",
         "--permit",
-        "c1319b09b122a34a90e45911a2b98c8b92e17ef2d31d2ffc991b2eca27ddc47f"
+        "10a2c769a5be81090bb6ed7d5bd32c5af1f129256ecd6c7bc6b01df21cf834eb"
       ],
       "exit": 1,
       "invocation": {
@@ -2332,20 +2332,20 @@
           "evidence",
           "run",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/session",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/session",
           "--permit",
-          "c1319b09b122a34a90e45911a2b98c8b92e17ef2d31d2ffc991b2eca27ddc47f"
+          "10a2c769a5be81090bb6ed7d5bd32c5af1f129256ecd6c7bc6b01df21cf834eb"
         ],
         "status": 1,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"halted\",\n  \"fresh\": false,\n  \"reason\": \"repeated-criterion-failure\",\n  \"attempts\": 2,\n  \"permit\": \"7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:15:29.100Z\",\n  \"durationMs\": 313.845287,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"halted\",\n  \"fresh\": false,\n  \"reason\": \"repeated-criterion-failure\",\n  \"attempts\": 2,\n  \"permit\": \"b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:24:29.429Z\",\n  \"durationMs\": 353.716006,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -2354,7 +2354,7 @@
         "fresh": false,
         "reason": "repeated-criterion-failure",
         "attempts": 2,
-        "permit": "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6",
+        "permit": "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94",
         "failureSignature": "2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9",
         "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
         "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
@@ -2440,8 +2440,8 @@
           }
         ],
         "revisions": 1,
-        "startedAt": "2026-09-15T22:15:29.100Z",
-        "durationMs": 313.845287,
+        "startedAt": "2026-09-15T22:24:29.429Z",
+        "durationMs": 353.716006,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -2454,13 +2454,13 @@
         "evidence",
         "status",
         "--dest",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
         "--evaluator",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
         "--contract",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json",
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json",
         "--session",
-        "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/session"
+        "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/session"
       ],
       "exit": 1,
       "invocation": {
@@ -2470,18 +2470,18 @@
           "evidence",
           "status",
           "--dest",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/app",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/app",
           "--evaluator",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator",
           "--contract",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/evaluator/contract.json",
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/evaluator/contract.json",
           "--session",
-          "/tmp/devmethod-evidence-demo-OJ88ek/independent-stop-probe/session"
+          "/tmp/devmethod-evidence-demo-tz6ebJ/independent-stop-probe/session"
         ],
         "status": 1,
         "signal": null,
         "error": null,
-        "stdout": "{\n  \"format\": 1,\n  \"status\": \"halted\",\n  \"fresh\": false,\n  \"reason\": \"repeated-criterion-failure\",\n  \"attempts\": 2,\n  \"permit\": \"7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:15:29.100Z\",\n  \"durationMs\": 313.845287,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
+        "stdout": "{\n  \"format\": 1,\n  \"status\": \"halted\",\n  \"fresh\": false,\n  \"reason\": \"repeated-criterion-failure\",\n  \"attempts\": 2,\n  \"permit\": \"b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94\",\n  \"failureSignature\": \"2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9\",\n  \"candidateBefore\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"candidateAfter\": \"b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a\",\n  \"criteria\": [\n    {\n      \"id\": \"capacity\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"idempotency\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"cancellation\",\n      \"status\": \"calibration-failed\"\n    },\n    {\n      \"id\": \"durability\",\n      \"status\": \"calibration-failed\"\n    }\n  ],\n  \"results\": [\n    {\n      \"check\": \"domain\",\n      \"mode\": \"healthy\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"capacity-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"idempotency-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"cancellation-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"durability-fault\",\n      \"status\": \"completed\",\n      \"verdicts\": {\n        \"capacity\": \"passed\",\n        \"idempotency\": \"passed\",\n        \"cancellation\": \"passed\",\n        \"durability\": \"passed\"\n      }\n    },\n    {\n      \"check\": \"domain\",\n      \"mode\": \"candidate\",\n      \"status\": \"not-run\",\n      \"reason\": \"calibration-failed\"\n    }\n  ],\n  \"revisions\": 1,\n  \"startedAt\": \"2026-09-15T22:24:29.429Z\",\n  \"durationMs\": 353.716006,\n  \"modelTokens\": null,\n  \"modelCost\": null,\n  \"limitations\": \"Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness.\"\n}\n",
         "stderr": ""
       },
       "report": {
@@ -2490,7 +2490,7 @@
         "fresh": false,
         "reason": "repeated-criterion-failure",
         "attempts": 2,
-        "permit": "7517008a7834d6b36cf7dd79a2d0326f3dae512574ff4a330155cac5d67a56e6",
+        "permit": "b6321b4001077b9f9298910bdea8e57131ce5cf9482c81bd2d23adc6a9f8ce94",
         "failureSignature": "2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9",
         "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
         "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
@@ -2576,8 +2576,8 @@
           }
         ],
         "revisions": 1,
-        "startedAt": "2026-09-15T22:15:29.100Z",
-        "durationMs": 313.845287,
+        "startedAt": "2026-09-15T22:24:29.429Z",
+        "durationMs": 353.716006,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."

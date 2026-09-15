@@ -1,8 +1,8 @@
 {
   "format": 1,
   "protocolVersion": "v2",
-  "workspace": "/tmp/devmethod-evidence-holdout-6R4k4a",
-  "createdAt": "2026-09-15T22:15:32.487Z",
+  "workspace": "/tmp/devmethod-evidence-holdout-Jdp1Sr",
+  "createdAt": "2026-09-15T22:24:32.804Z",
   "node": "v24.19.0",
   "platform": "linux",
   "frozenManifestSha256": "c5d0835279461f6106fdb6de0b1336daa7d1f066936dd908301968874dae6123",
@@ -17,7 +17,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 1,
-        "permit": "2b88ae8dd5dccd6f75762f65c4a8a584201cd0d81e6d01bdeee013dcd4367e3b",
+        "permit": "1f9b6169d64ba720af901533ecb5a0a9748c4aa314a2a46eeb1373929225a57d",
         "failureSignature": null,
         "candidateBefore": "a839093afb184c268a3110e3a6df4af5d6cb456dac3f746532265ab924488a8f",
         "candidateAfter": "a839093afb184c268a3110e3a6df4af5d6cb456dac3f746532265ab924488a8f",
@@ -70,8 +70,8 @@
           }
         ],
         "revisions": 1,
-        "startedAt": "2026-09-15T22:15:29.984Z",
-        "durationMs": 418.566544,
+        "startedAt": "2026-09-15T22:24:30.327Z",
+        "durationMs": 312.58556,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -80,7 +80,7 @@
         "argv": [
           "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
           "/workspace/scratch/d1e53b298710/DevMethod/evaluation/evidence-holdout/adjudicate.mjs",
-          "/tmp/devmethod-evidence-holdout-6R4k4a/healthy"
+          "/tmp/devmethod-evidence-holdout-Jdp1Sr/healthy"
         ],
         "status": 0,
         "signal": null,
@@ -112,7 +112,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 1,
-        "permit": "58dacbe96445a7c85493ee761dfffc886a587427fb732f0c542579ed4cd674c1",
+        "permit": "d884ba8f212fbf007a66027c6fa73a8c54d25fc76b201e91185077669fd711c7",
         "failureSignature": "37ef25ad44002a452bd0ca855ced24fcc3c5a6b074638fc3df1f8e97e5e8bdf5",
         "candidateBefore": "547dcc062890358a002574fdd3930872fb211eb22685b1c5e5c790ae0474bd63",
         "candidateAfter": "547dcc062890358a002574fdd3930872fb211eb22685b1c5e5c790ae0474bd63",
@@ -165,8 +165,8 @@
           }
         ],
         "revisions": 1,
-        "startedAt": "2026-09-15T22:15:30.747Z",
-        "durationMs": 295.397018,
+        "startedAt": "2026-09-15T22:24:30.975Z",
+        "durationMs": 296.00375899999995,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -175,7 +175,7 @@
         "argv": [
           "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
           "/workspace/scratch/d1e53b298710/DevMethod/evaluation/evidence-holdout/adjudicate.mjs",
-          "/tmp/devmethod-evidence-holdout-6R4k4a/duplicate"
+          "/tmp/devmethod-evidence-holdout-Jdp1Sr/duplicate"
         ],
         "status": 0,
         "signal": null,
@@ -207,7 +207,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 1,
-        "permit": "c48d0896014267feebcb83ca16ead5d1b45f4b4a13d995623aa568de1214ecce",
+        "permit": "e60d72f27757d4bbbc544a8318cbc78ec13467be6c74e77a258f833f253c6f9c",
         "failureSignature": "0980da6219f2fbca16134cbce991eba22c9a443a5239902b9731a863671b1eb1",
         "candidateBefore": "63401f8b5505d68b51d0dc5d7069f1899149584cb22f8d64e21d3434bdb9ca75",
         "candidateAfter": "63401f8b5505d68b51d0dc5d7069f1899149584cb22f8d64e21d3434bdb9ca75",
@@ -260,8 +260,8 @@
           }
         ],
         "revisions": 1,
-        "startedAt": "2026-09-15T22:15:31.378Z",
-        "durationMs": 290.2221870000001,
+        "startedAt": "2026-09-15T22:24:31.607Z",
+        "durationMs": 303.1327960000001,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -270,7 +270,7 @@
         "argv": [
           "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
           "/workspace/scratch/d1e53b298710/DevMethod/evaluation/evidence-holdout/adjudicate.mjs",
-          "/tmp/devmethod-evidence-holdout-6R4k4a/resurrect"
+          "/tmp/devmethod-evidence-holdout-Jdp1Sr/resurrect"
         ],
         "status": 1,
         "signal": null,
@@ -303,7 +303,7 @@
         "fresh": true,
         "reason": null,
         "attempts": 1,
-        "permit": "59a90c58405371a7b547762fb11c3ca5c74df54da1b3d42b4e86c4559b0f81ba",
+        "permit": "05ca5d671d46954f0d0ca23cbec78e42f605c8eab41ce1ba311326f40448c8ee",
         "failureSignature": null,
         "candidateBefore": "1e21bde20d8ab76461002f592cdf851e97dfba5a4e8c5a134fe8c079907cd877",
         "candidateAfter": "1e21bde20d8ab76461002f592cdf851e97dfba5a4e8c5a134fe8c079907cd877",
@@ -356,8 +356,8 @@
           }
         ],
         "revisions": 1,
-        "startedAt": "2026-09-15T22:15:32.006Z",
-        "durationMs": 306.085004,
+        "startedAt": "2026-09-15T22:24:32.325Z",
+        "durationMs": 298.774414,
         "modelTokens": null,
         "modelCost": null,
         "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
@@ -366,7 +366,7 @@
         "argv": [
           "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
           "/workspace/scratch/d1e53b298710/DevMethod/evaluation/evidence-holdout/adjudicate.mjs",
-          "/tmp/devmethod-evidence-holdout-6R4k4a/lost-restart"
+          "/tmp/devmethod-evidence-holdout-Jdp1Sr/lost-restart"
         ],
         "status": 1,
         "signal": null,

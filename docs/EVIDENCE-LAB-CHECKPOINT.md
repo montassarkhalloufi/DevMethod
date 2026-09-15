@@ -41,7 +41,7 @@ Each demonstration invocation creates a distinct disposable experiment workspace
 
 ## Local verification at delivery
 
-275 root tests, 26 existing greenfield tests and 11 volunteer application tests passed on Node 24.19.0/Linux, with no skipped tests. The root suite includes 50 runtime regressions and two DOM-to-HTTP product journeys and eight failure-trace regressions. Lint and formatting passed; cognitive complexity maximum is 15 across 134 maintained files. The [retained integrated reports](../evaluation/evidence-runs/README.md) include the complete 19-observation demo (16 CLI calls and three store-process probes) and the post-design false support. Final package and review status are bound to the exact candidate in the draft PR.
+276 root tests, 26 existing greenfield tests and 11 volunteer application tests passed on Node 24.19.0/Linux, with no skipped tests. The root suite includes 50 runtime regressions and two DOM-to-HTTP product journeys and eight failure-trace regressions plus a real journey through an aliased temporary directory. Lint and formatting passed; cognitive complexity maximum is 15 across 134 maintained files. The [retained integrated reports](../evaluation/evidence-runs/README.md) include the complete 19-observation demo (16 CLI calls and three store-process probes) and the post-design false support. Final package and review status are bound to the exact candidate in the draft PR.
 
 ## Resume decisions
 

@@ -102,6 +102,47 @@ const outcomes = {
   },
 };
 
+test(
+  'real evidence demo completes from a symbolic temporary directory',
+  {
+    skip:
+      process.platform === 'win32' ? 'Application execution requires POSIX process groups.' : false,
+  },
+  (t) => {
+    const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'evidence-temp-alias-'));
+    t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+    const actual = path.join(root, 'actual');
+    const alias = path.join(root, 'alias');
+    fs.mkdirSync(actual);
+    fs.symlinkSync(actual, alias, 'dir');
+    assert.ok(fs.lstatSync(alias).isSymbolicLink());
+    const result = spawnSync(
+      process.execPath,
+      [path.join(repository, 'scripts/evidence-demo.mjs')],
+      {
+        encoding: 'utf8',
+        timeout: 120000,
+        maxBuffer: 1024 * 1024,
+        env: { ...process.env, TMPDIR: alias, TMP: alias, TEMP: alias },
+      },
+    );
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const entries = fs.readdirSync(actual);
+    assert.equal(entries.length, 1, 'One complete run uses one canonical temporary workspace.');
+    const workspace = path.join(actual, entries[0]);
+    const summary = JSON.parse(fs.readFileSync(path.join(workspace, 'summary.json'), 'utf8'));
+    assert.equal(summary.workspace, fs.realpathSync(workspace));
+    assert.equal(summary.observations, 19);
+    const files = fs.readdirSync(workspace).filter((name) => /^observation-\d+\.json$/.test(name));
+    assert.equal(files.length, 19);
+    for (const file of files) {
+      const observation = JSON.parse(fs.readFileSync(path.join(workspace, file), 'utf8'));
+      assert.ok(Object.hasOwn(observation, 'report'), `${file} retains its parsed observation.`);
+      assert.ok(observation.invocation.argv.every((argument) => !argument.startsWith(alias)));
+    }
+  },
+);
+
 for (const script of ['evidence-demo', 'evidence-holdout']) {
   for (const [kind, outcome] of Object.entries(outcomes)) {
     test(`${script} preserves ${kind} invocation before decoding its report`, (t) => {

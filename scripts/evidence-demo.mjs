@@ -7,7 +7,9 @@ import { spawnSync } from 'node:child_process';
 
 const repository = fileURLToPath(new URL('../', import.meta.url));
 const cli = path.join(repository, 'dist/cli.js');
-const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'devmethod-evidence-demo-'));
+const workspace = fs.mkdtempSync(
+  path.join(fs.realpathSync(os.tmpdir()), 'devmethod-evidence-demo-'),
+);
 const observations = [];
 const inputFiles = [
   'store.mjs',
