@@ -10,9 +10,14 @@ const criteria = ['capacity', 'idempotency', 'cancellation', 'durability'];
 const modes = ['healthy', ...criteria.map((name) => `${name}-fault`)];
 const results = [];
 function run(runner, mode) {
-  const result = spawnSync(process.execPath, [runner, '/unused-independent-candidate', mode, 'domain'], {
-    encoding: 'utf8', timeout: 5000,
-  });
+  const result = spawnSync(
+    process.execPath,
+    [runner, '/unused-independent-candidate', mode, 'domain'],
+    {
+      encoding: 'utf8',
+      timeout: 5000,
+    },
+  );
   if (result.error) throw result.error;
   assert.equal(result.signal, null, 'Checker terminated without a normal exit');
   return result;
@@ -52,11 +57,27 @@ try {
   const report = JSON.parse(result.stdout);
   assert.equal(result.status, 0);
   assert(Object.values(report.verdicts).every((value) => value === 'passed'));
-  results.push({ probe: 'independent-reference-garden-capacity-4', exitCode: result.status, stdout: report });
-} finally { rmSync(temporary, { recursive: true, force: true }); }
-writeFileSync(join(root, 'control-results.json'), `${JSON.stringify({
-  format: 1, recordedAt: new Date().toISOString(), node: process.version,
-  command: 'node examples/evidence-lab/evaluator/run-controls.mjs',
-  scope: 'Independent controls only; producer and runtime were not read or executed.', results,
-}, null, 2)}\n`);
+  results.push({
+    probe: 'independent-reference-garden-capacity-4',
+    exitCode: result.status,
+    stdout: report,
+  });
+} finally {
+  rmSync(temporary, { recursive: true, force: true });
+}
+writeFileSync(
+  join(root, 'control-results.json'),
+  `${JSON.stringify(
+    {
+      format: 1,
+      recordedAt: new Date().toISOString(),
+      node: process.version,
+      command: 'node examples/evidence-lab/evaluator/run-controls.mjs',
+      scope: 'Independent controls only; producer and runtime were not read or executed.',
+      results,
+    },
+    null,
+    2,
+  )}\n`,
+);
 process.stdout.write(`Validated ${results.length} independent control probes.\n`);

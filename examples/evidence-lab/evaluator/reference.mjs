@@ -3,25 +3,36 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
 export function referenceFactory(expected, fault = 'healthy') {
   return (filePath) => {
-    let state = existsSync(filePath) && fault !== 'durability-fault'
-      ? JSON.parse(readFileSync(filePath, 'utf8')) : { reservations: [], nextId: 1 };
+    let state =
+      existsSync(filePath) && fault !== 'durability-fault'
+        ? JSON.parse(readFileSync(filePath, 'utf8'))
+        : { reservations: [], nextId: 1 };
     const save = () => writeFileSync(filePath, JSON.stringify(state));
     if (!existsSync(filePath)) save();
     const copy = (value) => structuredClone(value);
     const slotFor = (id) => {
       const slot = expected.slots.find((entry) => entry.id === id);
-      if (!slot || !Number.isSafeInteger(slot.capacity) || slot.capacity <= 0) throw new Error('Invalid slot');
+      if (!slot || !Number.isSafeInteger(slot.capacity) || slot.capacity <= 0)
+        throw new Error('Invalid slot');
       return slot;
     };
-    const remaining = (slot) => slot.capacity - state.reservations
-      .filter((entry) => entry.slotId === slot.id && entry.status === 'active')
-      .reduce((sum, entry) => sum + entry.seats, 0);
+    const remaining = (slot) =>
+      slot.capacity -
+      state.reservations
+        .filter((entry) => entry.slotId === slot.id && entry.status === 'active')
+        .reduce((sum, entry) => sum + entry.seats, 0);
     return {
-      listSlots: () => expected.slots.map((slot) => ({ ...slot, title: slot.id, remaining: remaining(slot) })),
+      listSlots: () =>
+        expected.slots.map((slot) => ({ ...slot, title: slot.id, remaining: remaining(slot) })),
       listReservations: () => copy(state.reservations),
       reserve: ({ slotId, requestId, seats }) => {
         const slot = slotFor(slotId);
-        if (!Number.isSafeInteger(seats) || seats <= 0 || typeof requestId !== 'string' || !requestId) {
+        if (
+          !Number.isSafeInteger(seats) ||
+          seats <= 0 ||
+          typeof requestId !== 'string' ||
+          !requestId
+        ) {
           throw new Error('Invalid request');
         }
         const old = state.reservations.find((entry) => entry.requestId === requestId);

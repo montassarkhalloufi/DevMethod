@@ -16,6 +16,7 @@ const results = await analyzer.lintFiles([
   'examples/pocket-tasks',
   'examples/clair-from-zero',
   'examples/fullstack',
+  'examples/evidence-lab',
   '*.config.mjs',
 ]);
 const functions = results.flatMap((result) =>
@@ -34,7 +35,7 @@ const versions = JSON.parse(fs.readFileSync('package.json', 'utf8')).devDependen
 const report = {
   format: 1,
   scope:
-    'Maintained CLI, review UI, tooling, tests and three maintained applications; other fixtures and generated code excluded.',
+    'Maintained CLI, review UI, tooling, tests, four maintained applications and the independent example evaluator; other fixtures and generated code excluded.',
   analyzer: { eslint: versions.eslint, sonarjs: versions['eslint-plugin-sonarjs'] },
   files: results.length,
   threshold: 15,

@@ -43,6 +43,11 @@ jobs:
         run: npm test
       - name: Verify from-zero application
         run: npm run test:greenfield
+      - name: Verify application evidence demonstration and retained holdout miss
+        if: runner.os == 'Linux'
+        run: |
+          npm run test:evidence-demo
+          node scripts/evidence-holdout.mjs
       - name: Check public documentation
         run: npm run check:docs
       - name: Check committed build
