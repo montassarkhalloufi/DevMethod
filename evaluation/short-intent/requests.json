@@ -1,0 +1,61 @@
+{
+  "common_harness": "Exclusive workspace; read project and installed skills, not sibling projects; do not modify skills; preserve final output and executed commands in RESULT.md; local delivery only, no purchases/messages/publications/deployments. Review runs preserve application sources. No expected answers or prior findings supplied.",
+  "requests": {
+    "frame-kitchen": {
+      "entry": "devmethod-frame",
+      "request": "Je veux un outil qui prépare mes menus puis construit automatiquement ma liste de courses à partir de mon stock. Je veux commencer simplement, en local, pour moi seul. Cadre une première version utile."
+    },
+    "frame-browser": {
+      "entry": "devmethod-frame",
+      "request": "Je veux un atelier local qui ouvre mes sites de test dans un aperçu, permet de demander des modifications à l’IA et montre le code ainsi que les contrôles. Je tiens à garder la maîtrise de mes données. Propose une première version simple."
+    },
+    "build-cli": {
+      "entry": "project-foundation",
+      "request": "Crée de A à Z un petit outil en ligne de commande pour enregistrer mes livres, les lister et les marquer comme lus, avec sauvegarde locale. Prends les décisions techniques simples et livre un outil utilisable et vérifié ; pas besoin de me faire valider chaque étape."
+    },
+    "build-web": {
+      "entry": "project-foundation",
+      "request": "Crée de A à Z un petit tableau de tâches personnel dans le navigateur : ajouter, terminer, filtrer et retrouver mes tâches après rechargement. Je veux une interface sobre, claire et utilisable au clavier. Choisis les détails techniques et visuels et livre un prototype local fonctionnel et vérifié."
+    },
+    "review": {
+      "entry": "devmethod-review",
+      "request": "Fais une revue du code dans src, avec les problèmes concrets, leurs preuves et leurs conséquences."
+    },
+    "resume": {
+      "entry": "project-foundation",
+      "request": "Reprends le travail du CHECKPOINT.md et termine la livraison locale du calcul des frais d’expédition."
+    },
+    "design": {
+      "entry": "devmethod-design",
+      "request": "Pour un outil local de fiches de révision, propose des directions puis choisis toi-même la plus adaptée. Je te délègue le choix visuel et celui de l'écran maître. Livre des maquettes HTML de l'écran maître et de l'écran d'ajout dérivé, avec une apparence cohérente, sans images générées. Je ne demande pas le développement de l'application."
+    },
+    "inventory-cli": {
+      "entry": "project-foundation",
+      "request": "Crée de A à Z un petit outil local en ligne de commande qui lit mon CSV de stock (sku,nom,stock,seuil) et sort les articles à réapprovisionner avec la quantité manquante pour atteindre le seuil. Le fichier stock.csv est un exemple. Choisis les détails techniques, livre un outil utilisable et vérifié sans modifier le fichier d'entrée."
+    },
+    "verify-only": {
+      "entry": "devmethod-verify",
+      "request": "Vérifie si le formateur de noms dans name.mjs peut être livré. Je demande uniquement la vérification, aucune correction."
+    },
+    "booking-api": {
+      "entry": "project-foundation",
+      "request": "Crée de A à Z une petite API locale pour réserver une salle unique : créer une réservation sur un créneau UTC, lister et annuler. Refuse les créneaux qui se chevauchent et retrouve les réservations après redémarrage. Une interface JSON suffit ; je te délègue les décisions techniques et je veux un résultat fonctionnel et vérifié."
+    },
+    "installed-review": {
+      "entry": "devmethod-review",
+      "request": "Fais une revue du code dans src, avec les problèmes concrets, leurs preuves et leurs conséquences, puis génère le rapport HTML local."
+    },
+    "frame-packing": {
+      "entry": "devmethod-frame",
+      "request": "Je veux une petite application locale qui prépare automatiquement ma liste de valise selon la durée du voyage et me laisse cocher ce qui est prêt. Je voyage seul et veux quelque chose de simple. Cadre une première version utile."
+    },
+    "booking-repair": {
+      "entry": "devmethod-review",
+      "request": "Fais une revue de cette API locale de réservation, corrige les défauts démontrés puis vérifie la livraison. Préserve le contrat métier et les données."
+    },
+    "notes-api": {
+      "entry": "project-foundation",
+      "request": "Crée de A à Z une petite API locale de notes : ajouter un titre et un texte, lister, consulter et supprimer une note. Retrouver les notes après redémarrage. Une interface JSON suffit. Choisis les détails techniques et livre un résultat fonctionnel et vérifié."
+    }
+  }
+}
