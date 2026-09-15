@@ -1,0 +1,195 @@
+{
+  "format": 1,
+  "recordedAt": "2026-09-15T21:42:42.195Z",
+  "node": "v24.19.0",
+  "command": "node examples/evidence-lab/evaluator/run-controls.mjs",
+  "scope": "Independent controls only; producer and runtime were not read or executed.",
+  "results": [
+    {
+      "runner": "check.mjs",
+      "mode": "healthy",
+      "exitCode": 0,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "passed",
+          "cancellation": "passed",
+          "durability": "passed"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "runner": "check.mjs",
+      "mode": "capacity-fault",
+      "exitCode": 1,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "failed",
+          "idempotency": "passed",
+          "cancellation": "passed",
+          "durability": "passed"
+        }
+      },
+      "stderr": "capacity: Overbooking accepted\n"
+    },
+    {
+      "runner": "check.mjs",
+      "mode": "idempotency-fault",
+      "exitCode": 1,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "failed",
+          "cancellation": "failed",
+          "durability": "passed"
+        }
+      },
+      "stderr": "idempotency: Replay created another reservation\ncancellation: Replay resurrected cancelled reservation\n"
+    },
+    {
+      "runner": "check.mjs",
+      "mode": "cancellation-fault",
+      "exitCode": 1,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "passed",
+          "cancellation": "failed",
+          "durability": "passed"
+        }
+      },
+      "stderr": "cancellation: Cancellation not applied\n"
+    },
+    {
+      "runner": "check.mjs",
+      "mode": "durability-fault",
+      "exitCode": 1,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "failed",
+          "cancellation": "failed",
+          "durability": "failed"
+        }
+      },
+      "stderr": "idempotency: Rejected conflict changed durable state\ncancellation: Replay after reopen resurrected reservation\ndurability: State was not preserved after reopen\n"
+    },
+    {
+      "runner": "weak-check.mjs",
+      "mode": "healthy",
+      "exitCode": 0,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "passed",
+          "cancellation": "passed",
+          "durability": "passed"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "runner": "weak-check.mjs",
+      "mode": "capacity-fault",
+      "exitCode": 0,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "passed",
+          "cancellation": "passed",
+          "durability": "passed"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "runner": "weak-check.mjs",
+      "mode": "idempotency-fault",
+      "exitCode": 0,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "passed",
+          "cancellation": "passed",
+          "durability": "passed"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "runner": "weak-check.mjs",
+      "mode": "cancellation-fault",
+      "exitCode": 0,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "passed",
+          "cancellation": "passed",
+          "durability": "passed"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "runner": "weak-check.mjs",
+      "mode": "durability-fault",
+      "exitCode": 0,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "passed",
+          "cancellation": "passed",
+          "durability": "passed"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "runner": "check.mjs",
+      "mode": "unknown-mode",
+      "exitCode": 1,
+      "validSemanticVerdict": false
+    },
+    {
+      "runner": "check.mjs",
+      "mode": "candidate",
+      "exitCode": 1,
+      "validSemanticVerdict": false
+    },
+    {
+      "probe": "independent-reference-garden-capacity-4",
+      "exitCode": 0,
+      "stdout": {
+        "format": 1,
+        "check": "domain",
+        "verdicts": {
+          "capacity": "passed",
+          "idempotency": "passed",
+          "cancellation": "passed",
+          "durability": "passed"
+        }
+      }
+    }
+  ]
+}
