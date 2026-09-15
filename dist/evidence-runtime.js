@@ -62,8 +62,8 @@ function calibrationFailed(check, runs) {
     if (check.healthy &&
         check.criteria.some((id) => runs.find((run) => run.mode === check.healthy)?.verdicts?.[id] !== 'passed'))
         return true;
-    return check.faults.some((fault) => check.criteria.some((id) => runs.find((run) => run.mode === fault.id)?.verdicts?.[id] !==
-        (fault.target === id ? 'failed' : 'passed')));
+    // A fault can affect correlated behaviors; only its declared target must fail.
+    return check.faults.some((fault) => runs.find((run) => run.mode === fault.id)?.verdicts?.[fault.target] !== 'failed');
 }
 function criterionResult(id, checks, results) {
     const covering = checks.filter((check) => check.criteria.includes(id));

@@ -313,25 +313,51 @@ test('every control is scheduled before every candidate check', (t) => {
   );
 });
 
-posixTest(
-  'a declared fault must fail only its target and preserve the other criteria',
-  async (t) => {
-    const f = fixture(t);
-    f.contract.criteria.push({ id: 'identity', description: 'Keep the booking identity.' });
-    f.contract.checks[0].criteria.push('identity');
-    f.contract.checks[0].faults.push({ id: 'identity-loss', target: 'identity' });
-    f.writeContract();
-    f.runner(
-      `const [,mode,check]=process.argv.slice(2); const verdict=mode==='candidate'||mode==='healthy'?'passed':'failed'; console.log(JSON.stringify({format:1,check,verdicts:{capacity:verdict,identity:verdict}})); process.exitCode=verdict==='failed'?1:0;`,
-    );
-    const report = await f.run();
-    assert.equal(report.status, 'failed');
-    assert.deepEqual(
-      report.criteria.map(({ status }) => status),
-      ['calibration-failed', 'calibration-failed'],
-    );
-  },
-);
+posixTest('a valid correlated fault may fail its target and additional criteria', async (t) => {
+  const f = fixture(t);
+  f.contract.criteria.push({ id: 'identity', description: 'Keep the booking identity.' });
+  f.contract.checks[0].criteria.push('identity');
+  f.contract.checks[0].faults.push({ id: 'identity-loss', target: 'identity' });
+  f.writeContract();
+  f.runner(
+    `const [,mode,check]=process.argv.slice(2); const verdict=mode==='candidate'||mode==='healthy'?'passed':'failed'; console.log(JSON.stringify({format:1,check,verdicts:{capacity:verdict,identity:verdict}})); process.exitCode=verdict==='failed'?1:0;`,
+  );
+  const report = await f.run();
+  assert.equal(report.status, 'supported');
+  assert.deepEqual(
+    report.criteria.map(({ status }) => status),
+    ['supported', 'supported'],
+  );
+});
+
+posixTest('a fault passing its target cannot calibrate by failing another criterion', async (t) => {
+  const f = fixture(t);
+  f.contract.criteria.push({ id: 'identity', description: 'Keep the booking identity.' });
+  f.contract.checks[0].criteria.push('identity');
+  f.contract.checks[0].faults.push({ id: 'identity-loss', target: 'identity' });
+  f.writeContract();
+  f.runner(
+    `const [,mode,check]=process.argv.slice(2); const capacity=mode==='identity-loss'?'failed':'passed'; const identity=mode==='overbook'?'failed':'passed'; console.log(JSON.stringify({format:1,check,verdicts:{capacity,identity}})); process.exitCode=capacity==='failed'||identity==='failed'?1:0;`,
+  );
+  const report = await f.run();
+  assert.equal(report.status, 'failed');
+  assert.deepEqual(
+    report.criteria.map(({ status }) => status),
+    ['calibration-failed', 'calibration-failed'],
+  );
+  assert.equal(report.results.at(-1).status, 'not-run');
+});
+
+posixTest('a healthy control failure prevents support even when fault targets fail', async (t) => {
+  const f = fixture(t);
+  f.runner(
+    `const [,mode,check]=process.argv.slice(2); const failed=mode!=='candidate'; console.log(JSON.stringify({format:1,check,verdicts:{capacity:failed?'failed':'passed'}})); process.exitCode=failed?1:0;`,
+  );
+  const report = await f.run();
+  assert.equal(report.status, 'failed');
+  assert.equal(report.criteria[0].status, 'calibration-failed');
+  assert.equal(report.results.at(-1).status, 'not-run');
+});
 
 posixTest(
   'changing failure signatures without measurable progress still exhausts the session',

@@ -88,12 +88,9 @@ function calibrationFailed(check: EvidenceCheck, runs: EvidenceResult[]): boolea
     )
   )
     return true;
-  return check.faults.some((fault) =>
-    check.criteria.some(
-      (id) =>
-        runs.find((run) => run.mode === fault.id)?.verdicts?.[id] !==
-        (fault.target === id ? 'failed' : 'passed'),
-    ),
+  // A fault can affect correlated behaviors; only its declared target must fail.
+  return check.faults.some(
+    (fault) => runs.find((run) => run.mode === fault.id)?.verdicts?.[fault.target] !== 'failed',
   );
 }
 
