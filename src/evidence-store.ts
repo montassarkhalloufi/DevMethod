@@ -71,7 +71,8 @@ function entries(value: unknown, minimum = 0, maximum = 64): unknown[] {
 const date = (value: unknown) =>
   text(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString() === value;
 const note = (value: unknown) => value === null || text(value);
-const member = (value: unknown, choices: string) => choices.split(' ').includes(String(value));
+const member = (value: unknown, choices: string) =>
+  typeof value === 'string' && choices.split(' ').includes(value);
 
 export function evidenceFailureSignature(criteria: CriterionEvidence[]): string {
   return digest(

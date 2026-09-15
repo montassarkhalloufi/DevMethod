@@ -60,20 +60,35 @@ for (const candidate of ['healthy', 'duplicate', 'resurrect', 'lost-restart']) {
   });
   runnerProcesses += report.results.filter((result) => result.status !== 'not-run').length;
   assert.ok(adjudicatorChildren + 2 <= 8, 'Preregistered restart budget');
-  const actual = spawnSync(process.execPath, [path.join(fixture, 'adjudicate.mjs'), root], {
+  const adjudicatorArgs = [path.join(fixture, 'adjudicate.mjs'), root];
+  const actual = spawnSync(process.execPath, adjudicatorArgs, {
     encoding: 'utf8',
     timeout: 7000,
     maxBuffer: 32768,
   });
   adjudicatorChildren += 2;
+  const observation = {
+    candidate,
+    report,
+    adjudicatorInvocation: {
+      argv: [process.execPath, ...adjudicatorArgs],
+      status: actual.status ?? null,
+      signal: actual.signal ?? null,
+      error: actual.error
+        ? { ...actual.error, name: actual.error.name, message: actual.error.message }
+        : null,
+      stdout: actual.stdout ?? null,
+      stderr: actual.stderr ?? null,
+    },
+  };
+  cases.push(observation);
+  const observationPath = path.join(workspace, `${candidate}.json`);
+  fs.writeFileSync(observationPath, JSON.stringify(observation, null, 2) + '\n');
   const adjudication = [0, 1].includes(actual.status)
     ? JSON.parse(actual.stdout)
     : { status: 'interrupted', exit: actual.status };
-  cases.push({ candidate, report, adjudication });
-  fs.writeFileSync(
-    path.join(workspace, `${candidate}.json`),
-    JSON.stringify(cases.at(-1), null, 2) + '\n',
-  );
+  observation.adjudication = adjudication;
+  fs.writeFileSync(observationPath, JSON.stringify(observation, null, 2) + '\n');
   console.log(
     `${candidate}: lab=${report.status}, restart=${adjudication.durability ?? 'unavailable'}, finality=${adjudication.finality ?? 'unavailable'}`,
   );

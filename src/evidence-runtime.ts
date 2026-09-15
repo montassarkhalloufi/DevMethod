@@ -316,6 +316,17 @@ function verifyAfter(plan: Plan, attempt: EvidenceAttempt, state: EvidenceState)
   }
 }
 
+function adoptPlan(plan: Plan, state: EvidenceState) {
+  if (state.revisions.at(-1)?.permit !== plan.permit)
+    state.revisions.push({
+      permit: plan.permit,
+      contractSha256: plan.contractSha256,
+      adoptedAt: new Date().toISOString(),
+    });
+  state.maxAttempts = Math.min(state.maxAttempts, plan.contract.limits.maxAttempts);
+  state.maxNoProgress = Math.min(state.maxNoProgress, plan.contract.limits.maxNoProgress);
+}
+
 async function attemptRun(
   plan: Plan,
   state: EvidenceState,
@@ -337,14 +348,7 @@ async function attemptRun(
     throw new Error('Combined declared bytes exceed 32 MiB.');
   if (inspectEvidence(plan.options).permit !== plan.permit)
     throw new Error('Permit changed before execution.');
-  if (state.revisions.at(-1)?.permit !== plan.permit)
-    state.revisions.push({
-      permit: plan.permit,
-      contractSha256: plan.contractSha256,
-      adoptedAt: new Date().toISOString(),
-    });
-  state.maxAttempts = Math.min(state.maxAttempts, plan.contract.limits.maxAttempts);
-  state.maxNoProgress = Math.min(state.maxNoProgress, plan.contract.limits.maxNoProgress);
+  adoptPlan(plan, state);
   state.pending = true;
   store.save(state);
   store.freeze(state.attempts.length + 1, {
@@ -419,8 +423,17 @@ export async function runEvidence(
       throw new Error('Execution requires the POSIX process-group profile.');
     const state = existing ?? initialState(plan);
     validateCurrentAttempt(state.attempts.at(-1), plan);
-    if (state.attempts.length >= Math.min(state.maxAttempts, plan.contract.limits.maxAttempts)) {
-      halt(state, 'attempt-limit');
+    // A refused revision must not rewrite the limits/revisions of completed work.
+    const prospective = {
+      ...state,
+      maxAttempts: Math.min(state.maxAttempts, plan.contract.limits.maxAttempts),
+      maxNoProgress: Math.min(state.maxNoProgress, plan.contract.limits.maxNoProgress),
+    };
+    const reason =
+      stopReason(prospective) ??
+      (state.attempts.length >= prospective.maxAttempts ? 'attempt-limit' : null);
+    if (reason) {
+      halt(state, reason);
       store.save(state);
       return resultReport(state, plan.contract, 'halted', false);
     }

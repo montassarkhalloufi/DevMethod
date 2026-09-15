@@ -43,6 +43,12 @@ posixTest(
         },
       ],
       [
+        'array outcome masquerading as a scalar enum',
+        (state) => {
+          state.attempts[0].outcome = ['supported'];
+        },
+      ],
+      [
         'malformed revision',
         (state) => {
           state.revisions[0].permit = 'invalid';
@@ -516,6 +522,63 @@ posixTest(
     assert.equal(f.state().attempts.length, 1);
   },
 );
+
+posixTest(
+  'tightened no-progress limit halts before another runner or pending attempt',
+  async (t) => {
+    const f = fixture(t);
+    f.contract.criteria.push({ id: 'identity', description: 'Keep the booking identity.' });
+    f.contract.checks[0].criteria.push('identity');
+    f.contract.checks[0].faults.push({ id: 'identity-loss', target: 'identity' });
+    f.contract.limits = { maxNoProgress: 3 };
+    f.writeContract();
+    const calls = path.join(f.evaluatorRoot, 'calls.log');
+    f.runner(
+      `import fs from 'node:fs'; import path from 'node:path'; const [root,mode,check]=process.argv.slice(2); fs.appendFileSync(${JSON.stringify(calls)},mode+'\\n'); const selected=JSON.parse(fs.readFileSync(path.join(root,'candidate.json'))).verdict; const failed=mode==='candidate'?selected:mode==='overbook'?'capacity':mode==='identity-loss'?'identity':null; const verdicts={capacity:failed==='capacity'?'failed':'passed',identity:failed==='identity'?'failed':'passed'}; console.log(JSON.stringify({format:1,check,verdicts})); process.exitCode=Object.values(verdicts).includes('failed')?1:0;`,
+    );
+    const notes = {
+      diagnosis: 'Different boundary failure.',
+      adjustment: 'Correct selected rule.',
+    };
+    f.candidate('capacity');
+    assert.equal((await f.run()).status, 'failed');
+    f.candidate('identity');
+    f.contract.intent = 'Correct identity while preserving capacity.';
+    f.writeContract();
+    assert.equal((await f.run(notes)).status, 'failed');
+    const before = fs.readFileSync(calls, 'utf8');
+    assert.equal(before.trim().split('\n').length, 8);
+    f.contract.limits.maxNoProgress = 1;
+    f.writeContract();
+    f.candidate();
+    const report = await f.run(notes);
+    assert.equal(report.reason, 'no-progress-limit');
+    assert.equal(report.attempts, 2);
+    assert.equal(fs.readFileSync(calls, 'utf8'), before);
+    assert.equal(f.state().pending, false);
+    assert.equal(f.state().maxNoProgress, 3, 'Prior executed-budget metadata is preserved.');
+    assert.equal(f.state().revisions.length, 2);
+    assert.equal(f.status().status, 'halted');
+  },
+);
+
+posixTest('tightened attempt budget preserves a valid halt below completed history', async (t) => {
+  const f = fixture(t);
+  f.contract.limits = { maxAttempts: 5 };
+  f.writeContract();
+  assert.equal((await f.run()).status, 'supported');
+  f.contract.intent = 'Recheck under an explicitly revised requirement.';
+  f.writeContract();
+  assert.equal((await f.run()).status, 'supported');
+  f.contract.limits.maxAttempts = 1;
+  f.writeContract();
+  assert.equal((await f.run()).reason, 'attempt-limit');
+  assert.equal(f.state().attempts.length, 2);
+  assert.equal(f.state().revisions.length, 2);
+  assert.equal(f.state().maxAttempts, 5);
+  assert.equal(f.state().pending, false);
+  assert.equal(f.status().status, 'halted');
+});
 
 posixTest('hanging evaluator times out and never qualifies as a fault control', async (t) => {
   const f = fixture(t);

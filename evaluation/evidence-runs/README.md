@@ -38,8 +38,20 @@ No new Codex, Claude Code, Cursor, BMAD, Lovable or managed-agent trial was run.
 
 ## Retained final execution files
 
-- [Application journey](application-journey.json): all 16 CLI observations and old/new event maintenance values.
+- [Application journey](application-journey.json): 19 observations (16 CLI calls and three store-process probes) and old/new event maintenance values.
 - [Queue V2 outcomes](holdout-v2-results.json): four results and independent restart adjudication, including the false support.
 - [Execution inputs](execution-inputs.json): exact local source, evaluator and test hashes; final reviewed Git tree and package gates are recorded in the draft PR.
 
 Absolute temporary paths, timestamps, random reservation IDs and measured durations describe the original machine execution. Reproduction should match semantic outcomes, not these incidental values. Model usage/cost and real-browser/user scores remain unmeasured.
+
+## Independent pre-PR review corrections
+
+Two read-only reviewers inspected commit `64c1093629e0751567028beb08eda6319158d3e0` (tree `1130f7da73a9bc1a04ae2f18a2210a22d9d09362`). Their bounded review found three P2 defects, not evidence of general product superiority:
+
+1. Tightening the no-progress limit could start another complete attempt before stopping. The [retained red regression](review-runtime-red.log) reproduced the extra attempt. Effective limits and history are now checked before pending intent or subprocess launch; the regression checks unchanged invocation and attempt counts.
+2. Journal enum validation coerced arrays into strings. A singleton outcome array could escape scalar validation. The same red log records the accepted corrupt state; strict string membership now rejects it without rewriting the record.
+3. Demonstration and holdout scripts parsed some child output before retaining raw exit/signal/error/stdout/stderr. Malformed output could erase useful failure evidence. The correction saves the raw invocation before parsing or assertions, with injected malformed/empty/timeout regressions.
+
+The draft PR binds the final correction review and gates to its exact tree. These reviews did not execute native agents, validate browser layout, or claim hostile-code isolation.
+
+The initial limit correction exposed another history-bound violation under a new revision; [its red regressions](review-runtime-delta-red.log) are retained. Final preflight uses prospective limits without rewriting metadata for completed attempts and records revision adoption only with an actual pending attempt. The trace worker's [red excerpt](review-traces-red-excerpt.log) is labelled as a transcription of its executed tool output, not a raw redirected process log. Both reviewers accepted their correction deltas; the PR identifies the final commit/tree.

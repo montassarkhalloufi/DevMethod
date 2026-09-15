@@ -20,7 +20,7 @@ function entries(value, minimum = 0, maximum = 64) {
 }
 const date = (value) => text(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString() === value;
 const note = (value) => value === null || text(value);
-const member = (value, choices) => choices.split(' ').includes(String(value));
+const member = (value, choices) => typeof value === 'string' && choices.split(' ').includes(value);
 export function evidenceFailureSignature(criteria) {
     return digest(JSON.stringify(criteria
         .filter(({ status }) => status === 'failed' || status === 'calibration-failed')

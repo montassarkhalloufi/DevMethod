@@ -21,6 +21,30 @@ function save(file, value) {
   fs.writeFileSync(file, JSON.stringify(value, null, 2) + '\n');
 }
 
+function observeInvocation(argv, result) {
+  const observation = {
+    command: ['node', ...argv.slice(1)],
+    exit: result.status,
+    invocation: {
+      argv,
+      status: result.status ?? null,
+      signal: result.signal ?? null,
+      error: result.error
+        ? { ...result.error, name: result.error.name, message: result.error.message }
+        : null,
+      stdout: result.stdout ?? null,
+      stderr: result.stderr ?? null,
+    },
+  };
+  observations.push(observation);
+  const file = path.join(workspace, `observation-${observations.length}.json`);
+  save(file, observation);
+  const report = JSON.parse(result.stdout);
+  observation.report = report;
+  save(file, observation);
+  return report;
+}
+
 function setup(name) {
   const directory = path.join(workspace, name);
   fs.mkdirSync(directory);
@@ -57,9 +81,7 @@ function command(context, action, extra = [], expectedExit = 0) {
     timeout: 130000,
     maxBuffer: 8 * 1024 * 1024,
   });
-  const report = JSON.parse(result.stdout);
-  observations.push({ command: ['node', cli, ...args], exit: result.status, report });
-  save(path.join(workspace, `observation-${observations.length}.json`), observations.at(-1));
+  const report = observeInvocation([process.execPath, cli, ...args], result);
   assert.equal(result.status, expectedExit, `${action}: ${result.stdout || result.stderr}`);
   console.log(
     `${path.basename(path.dirname(context.root))}: evidence ${action} → ${report.status ?? 'planned'}`,
@@ -85,24 +107,22 @@ function freshProcessStore(context, file, seed = false) {
     const store = createStore(process.argv[2]);
     if (process.argv[3] === 'seed') store.reserve({slotId:'garden',requestId:'demo-preserved-booking',seats:1});
     process.stdout.write(JSON.stringify({slots:store.listSlots(),reservations:store.listReservations()}));`;
-  const result = spawnSync(
-    process.execPath,
-    [
-      '--input-type=module',
-      '-e',
-      program,
-      path.join(context.root, 'store.mjs'),
-      file,
-      seed ? 'seed' : 'read',
-    ],
-    {
-      encoding: 'utf8',
-      timeout: 5000,
-      maxBuffer: 1024 * 1024,
-    },
-  );
+  const args = [
+    '--input-type=module',
+    '-e',
+    program,
+    path.join(context.root, 'store.mjs'),
+    file,
+    seed ? 'seed' : 'read',
+  ];
+  const result = spawnSync(process.execPath, args, {
+    encoding: 'utf8',
+    timeout: 5000,
+    maxBuffer: 1024 * 1024,
+  });
+  const report = observeInvocation([process.execPath, ...args], result);
   assert.equal(result.status, 0, result.stderr);
-  return JSON.parse(result.stdout);
+  return report;
 }
 
 function changeRequirement(context) {
