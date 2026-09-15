@@ -43,6 +43,8 @@ Keep substantial executable scope in tickets under the proposed directory conven
 
 Select useful project, domain, mission and execution sources. Record why each is relevant, inspected revision, subject-specific authority, and fact/assumption/proposal/accepted-decision status. New proposals do not supersede accepted contracts. Declare contradictions and resolve affected work; continue independent authorized scope. Load file contents progressively.
 
+Check relevance as well as freshness: a pinned source may be unchanged yet omit a required contract, describe another version or answer a different question. For each material decision or criterion, identify the source that supports it and disclose missing support; do not treat a successful pin check as complete context. If a repository instruction appears obsolete against current code or an accepted decision, record the concrete conflict and reconcile affected work under the instruction hierarchy. Do not silently discard a rule or rewrite it merely because it obstructs progress. Keep unrelated authorized work moving.
+
 Optional offline candidate CLI commands:
 
 - `devmethod mission --mission relative/mission.json --json` validates the record.

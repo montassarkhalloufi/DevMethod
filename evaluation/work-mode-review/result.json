@@ -1,0 +1,34 @@
+{
+  "format": 1,
+  "date": "2026-09-15",
+  "kind": "work-mode-worker-exploratory",
+  "method": "current candidate skills, not a frozen release",
+  "task": "Read-only integration-readiness review against CONTRACT.md",
+  "workerVerdict": "corrections-required",
+  "finding": "Two concurrent confirmations and overwrite of already confirmed reservation",
+  "sequentialTests": {
+    "passed": 1
+  },
+  "independentlyReexecutedProbe": {
+    "exitCode": 1,
+    "failedAssertions": 2
+  },
+  "nativeCliEvidence": false,
+  "tokens": null,
+  "costUsd": null,
+  "limitations": [
+    "One seeded case, no clean control or comparison arm",
+    "Worker had parent-generated task and raw fixture; intended defect not supplied",
+    "No production database or framework tested",
+    "No full raw host transcript available; retain attributed worker conclusion and reproducible probe",
+    "No claim of universal reviewer accuracy or fresh CLI session validation"
+  ],
+  "artifacts": {
+    "CONTRACT.md": "44183ce9c908d04793f438f8627ec68cfb9523f490ea055f5a2b87d024fcd89b",
+    "reservations.mjs": "914bcc893a38565fd33b2a589969ebec38ff9a2c0f52eea48dee62486d58dddf",
+    "reservations.test.mjs": "e43dadaaca6a7bd47a32b3850c5b9ba3fc6b072963118360514ea4f2ad4a7d4c",
+    "probe.mjs": "2c17726e0d6ee355efdb8984075181c8478e81b253b5f294435a2b71321b46c4",
+    "probe-output.txt": "ada5ebdd3b8197fdacfb1f838782d7224225f4bbd602634d783b21b4bffab7ed"
+  },
+  "outputNormalization": "Trailing whitespace removed from captured probe output; assertion content unchanged."
+}

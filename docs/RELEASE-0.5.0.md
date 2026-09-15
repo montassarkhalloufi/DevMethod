@@ -1,6 +1,6 @@
 # DevMethod 0.5.0
 
-This release packages the workflow guidance merged through PR #29. It extends how agents develop open ideas, manage visual design, explain architecture and prepare portable project studies while preserving the six modules, existing stage entry points and CLI contracts.
+This candidate includes workflow guidance merged through PR #31 and the evidence hardening described in the [workstream ledger](HARDENING-0.5.md). It extends how agents develop open ideas, manage visual design, explain architecture and prepare portable project studies while preserving six modules, existing stage entry points and legacy CLI contracts. Registry publication is a separate operation.
 
 ## Changes
 
@@ -10,6 +10,10 @@ This release packages the workflow guidance merged through PR #29. It extends ho
 - Reuse guided/autonomous working preferences and existing decision authority. A mode choice does not waive evidence requirements or authorize external actions.
 - Assemble a complete PDF/DOCX project study only when its required source elements exist. Preserve decisions and provenance in a portable handoff and reuse supplied studies when resuming.
 - Extend generic evaluation scenarios for product maturity, architecture and portable studies. Scenario definitions and package tests do not establish general expert superiority or cross-host reliability.
+- Add optional read-only `closure` and `loop` inspectors for declared criterion coverage, pinned evidence, diagnostic histories and stop motives. They do not execute work or certify semantic correctness.
+- Add behavioral scenario preparation and offline scoring with separate evaluator criteria, explicit missing runs, measured/unknown consumption and reproducible artifacts. Current native campaign slots remain unexecuted until actual host evidence exists.
+- Strengthen diagnosis before retry, stale instruction assessment, context restraint and concise decision handoff. [Host capabilities](HOST-CAPABILITIES.md) distinguish those instructions from enforced controls.
+- Preserve [one exploratory Work Mode review](../evaluation/work-mode-review/README.md) that detected a concurrency defect despite green sequential tests, with an independently reproduced failing probe. It is not native CLI or comparative validation.
 
 ## Adoption and validation boundaries
 

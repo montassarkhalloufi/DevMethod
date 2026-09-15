@@ -3,6 +3,8 @@
 Captured at (date/time) / author / inspected revision and dirty changes:
 Canonical mission PLAN or legacy mission link / active ticket link:
 Last completed action and evidence link:
+Stop reason (objective verified / blocked / limit reached / interrupted / user-ended):
+If retrying: observed failure, diagnosis or uncertainty, and what the next attempt changes:
 Changed sources / decisions / evidence requiring reassessment (links):
 Unresolved input and responsible owner (canonical links):
 Exact next action within current authorization:

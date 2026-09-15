@@ -11,6 +11,8 @@ import { validateMission, missionStatus, captureContext, inspectContext } from '
 import { inspectPlan } from './planner.js';
 import { openReview } from './review-open.js';
 import { prepareReview } from './review-cli.js';
+import { inspectClosure } from './closure.js';
+import { inspectLoop } from './loop.js';
 
 const help = `DevMethod — install and inspect reusable AI skills
 
@@ -24,6 +26,8 @@ devmethod context-check --context RELATIVE_JSON [--dest PATH] [--json]
 devmethod discover [--dest PATH] [--json]
 devmethod plan --plan RELATIVE_JSON [--dest PATH] [--json]
 devmethod resume --checkpoint RELATIVE_JSON [--dest PATH] [--json]
+devmethod closure --mission RELATIVE_JSON --checkpoint RELATIVE_JSON [--dest PATH] [--json]
+devmethod loop --loop RELATIVE_JSON [--dest PATH] [--json]
 devmethod review [--review RELATIVE_JSON | --legacy RELATIVE_MD | --demo]
                  [--output RELATIVE_HTML] [--open] [--markdown RELATIVE_MD] [--dest PATH]
                  [--current-revision REV] [--changed-targets name,name] [--json]
@@ -45,6 +49,9 @@ explicitly fictional packaged data. Without a source, --output creates an empty 
 Doctor is read-only. Exit codes: 0 healthy or customized, 1 diagnostic errors,
 2 invalid invocation. Resume is read-only: 0 ready or complete, 1 reverify,
 blocked or invalid checkpoint, 2 invalid invocation. File integrity does not prove native agent behavior.
+Closure checks declared criterion coverage, not semantic truth: 0 supported, 1 unmet/reverify/blocked,
+2 invalid invocation/record. Loop inspects a bounded history: 0 eligible, 1 stopped or requiring
+assessment, 2 invalid invocation/record. Neither dispatches agents or enforces runtime limits.
 `;
 
 try {
@@ -54,14 +61,24 @@ try {
     json: { type: 'boolean' }, checkpoint: { type: 'string' },
     open: { type: 'boolean' }, review: { type: 'string' }, legacy: { type: 'string' }, demo: { type: 'boolean' }, output: { type: 'string' }, markdown: { type: 'string' },
     'current-revision': { type: 'string' }, 'changed-targets': { type: 'string' },
-    mission: { type: 'string' }, context: { type: 'string' }, plan: { type: 'string' },
+    mission: { type: 'string' }, context: { type: 'string' }, plan: { type: 'string' }, loop: { type: 'string' },
   }, allowPositionals: true, strict: true });
   if (values.help) console.log(help);
   else {
-    if (positionals.length !== 1 || !['init', 'doctor', 'update-preview', 'resume', 'mission', 'context', 'context-check', 'discover', 'plan', 'review'].includes(positionals[0] ?? '')) throw new Error(help);
+    if (positionals.length !== 1 || !['init', 'doctor', 'update-preview', 'resume', 'mission', 'context', 'context-check', 'discover', 'plan', 'review', 'closure', 'loop'].includes(positionals[0] ?? '')) throw new Error(help);
     const command = positionals[0]!;
     const reviewFlags = ['open', 'review', 'legacy', 'demo', 'output', 'markdown', 'current-revision', 'changed-targets'] as const;
-    if (command === 'review') {
+    if (command === 'closure' || command === 'loop') {
+      const allowed = new Set(command === 'closure' ? ['dest', 'json', 'mission', 'checkpoint'] : ['dest', 'json', 'loop']);
+      for (const key of Object.keys(values)) if (!allowed.has(key)) throw new Error(`--${key} is not valid for ${command}.`);
+      const root = values.dest ?? process.cwd();
+      if (command === 'closure' && (!values.mission?.trim() || !values.checkpoint?.trim())) throw new Error('closure requires --mission and --checkpoint RELATIVE_JSON.');
+      if (command === 'loop' && !values.loop?.trim()) throw new Error('loop requires --loop RELATIVE_JSON.');
+      const result = command === 'closure' ? inspectClosure(root, values.mission!, values.checkpoint!) : inspectLoop(readRecord(root, values.loop!));
+      console.log(JSON.stringify(result, null, 2));
+      process.exitCode = result.status === 'invalid' ? 2 : ['supported', 'eligible'].includes(result.status) ? 0 : 1;
+    } else if (values.loop !== undefined) throw new Error('--loop is supported only by loop.');
+    else if (command === 'review') {
       for (const flag of ['tool', 'modules', 'dry-run', 'checkpoint', 'mission', 'context', 'plan'] as const) if (values[flag] !== undefined) throw new Error(`--${flag} is not valid for review.`);
       if (values.open && !values.output) throw new Error('--open requires --output; choose a fresh HTML path.');
       const result = prepareReview({ destination: values.dest ?? process.cwd(), review: values.review, legacy: values.legacy, demo: values.demo, output: values.output, markdown: values.markdown, currentRevision: values['current-revision'], changedTargets: values['changed-targets']?.split(',').filter(Boolean) });

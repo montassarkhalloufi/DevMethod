@@ -3,6 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 const archive = process.argv[2];
 if (!archive) throw new Error('Usage: node scripts/package-smoke.mjs PACKAGE_TGZ');
 const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'devmethod-package-'));
@@ -18,6 +19,46 @@ try {
   assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.5.0');
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
   assert.match(call(['--help']), /Markdown PLAN\/tickets and legacy missions/);
+  assert.ok(fs.existsSync(path.join(pkg, 'dist/closure.js')));
+  assert.ok(fs.existsSync(path.join(pkg, 'dist/loop.js')));
+  const loopFixture = { format: 1, missionId: 'PACK', state: 'active', nextAction: 'Inspect fixture', stopReason: null,
+    limits: { maxAttempts: 2, maxConsecutiveNoProgress: 1, maxDurationMs: null, maxObservedTokens: null }, attempts: [] };
+  fs.writeFileSync(path.join(root, 'loop.json'), JSON.stringify(loopFixture));
+  assert.equal(JSON.parse(call(['loop', '--loop', 'loop.json', '--json'])).status, 'eligible');
+  loopFixture.state = 'abandoned'; loopFixture.nextAction = null; loopFixture.stopReason = 'Fixture scope ended';
+  fs.writeFileSync(path.join(root, 'loop.json'), JSON.stringify(loopFixture));
+  assert.equal(JSON.parse(call(['loop', '--loop', 'loop.json', '--json'], 1)).status, 'abandoned');
+  call(['closure'], 2);
+  const { digest, gitState } = await import(pathToFileURL(path.join(pkg, 'dist/records.js')).href);
+  const closureRoot = path.join(root, 'closure'); fs.mkdirSync(closureRoot);
+  const writeClosure = (name, value) => fs.writeFileSync(path.join(closureRoot, name), value);
+  writeClosure('.gitignore', 'checkpoint.json\n'); writeClosure('contract.md', 'Verify the fictional criterion.');
+  writeClosure('check.log', 'Fictional executed check: passed'); writeClosure('code.txt', 'fixture');
+  writeClosure('mission.json', JSON.stringify({ format: 1, id: 'PACK', path: 'standard', owner: 'fixture', outcome: 'Verify coverage',
+    scope: ['Fixture'], exclusions: ['Publish'], invariants: ['Preserve fixture'], uncertainties: [], status: 'active',
+    nextAction: 'Review', stopConditions: ['Verified'], dependencies: [], contradictions: [],
+    acceptance: [{ id: 'AC1', description: 'Fixture criterion', changes: ['code.txt'], verification: 'Never execute', kind: 'automated' }],
+    sources: [{ id: 'contract', path: 'contract.md', level: 'domain', reason: 'Fixture', authority: 'Fixture', kind: 'accepted-decision', revision: 'fixture' }] }));
+  run('git', ['init'], closureRoot); run('git', ['add', '.'], closureRoot);
+  run('git', ['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-m', 'fixture'], closureRoot);
+  const pin = (id, file) => ({ id, path: file, sha256: digest(fs.readFileSync(path.join(closureRoot, file))) });
+  const snapshot = gitState(closureRoot);
+  writeClosure('checkpoint.json', JSON.stringify({ format: 1, scope: 'Fixture', status: 'active', nextAction: 'Review', git: snapshot,
+    sources: [pin('mission', 'mission.json'), pin('contract', 'contract.md'), pin('code', 'code.txt')],
+    evidence: [{ ...pin('check', 'check.log'), sourceIds: ['mission', 'contract', 'code'], dependsOn: [], outcome: 'passed', criterionIds: ['AC1'], kind: 'automated', revision: snapshot.commit }] }));
+  const closureArgs = ['closure', '--dest', closureRoot, '--mission', 'mission.json', '--checkpoint', 'checkpoint.json', '--json'];
+  assert.equal(JSON.parse(call(closureArgs)).status, 'supported');
+  writeClosure('code.txt', 'changed fixture');
+  assert.equal(JSON.parse(call(closureArgs, 1)).status, 'reverify');
+  const behavioral = JSON.parse(run(process.execPath, ['scripts/evaluate-behavior.mjs', 'evaluation/behavioral/pending.json'], pkg));
+  assert.equal(behavioral.plannedRuns, 36);
+  assert.equal(behavioral.nativeCompletedRuns, 0);
+  assert.equal(behavioral.nativePassRateAmongCompleted, null);
+  const preparedRoot = path.join(root, 'prepared-review');
+  const prepared = JSON.parse(run(process.execPath, ['scripts/prepare-behavior-case.mjs', 'REVIEW', preparedRoot], pkg));
+  assert.equal(prepared.status, 'prepared-not-run');
+  assert.ok(Object.keys(prepared.files).length > 0);
+  assert.ok(!fs.existsSync(path.join(preparedRoot, 'oracle.json')));
   for (const resource of ['project-foundation/references/exploration.md', 'project-foundation/references/delivery-planning.md', 'project-foundation/assets/EXISTANT.md', 'project-foundation/assets/OPPORTUNITES.md', 'project-foundation/assets/CADRAGE.md', 'project-foundation/assets/REGLES.md', 'scoped-delivery/assets/PLAN.md', 'scoped-delivery/assets/TICKET.md', 'scoped-delivery/assets/REPRISE.md', 'scoped-delivery/assets/MISSION.md', 'scoped-delivery/assets/REVIEW.md', 'scoped-delivery/references/review-workflow.md']) {
     assert.ok(fs.statSync(path.join(pkg, '.agents/skills', resource)).size > 0, resource);
   }

@@ -1,0 +1,54 @@
+first returned: {"status":"confirmed"} stored: {"capacity":1,"confirmed":["Fictional One"]}
+{"results":[{"status":"confirmed"},{"status":"confirmed"}],"snapshots":[{"capacity":1,"confirmed":["Fictional One"]},{"capacity":1,"confirmed":["Fictional Two"]}],"finalState":{"capacity":1,"confirmed":["Fictional Two"]}}
+✖ capacity: concurrent requests confirm at most one reservation (1.648993ms)
+✖ retention: later stale save preserves already confirmed reservation (4.650371ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 165.065057
+
+✖ failing tests:
+
+test at probe.mjs:32:1
+✖ capacity: concurrent requests confirm at most one reservation (1.648993ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  2 !== 1
+
+      at TestContext.<anonymous> (file:///workspace/scratch/37b8cbd8154a/devmethod-hardening/evaluation/work-mode-review/probe.mjs:33:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at probe.mjs:35:1
+✖ retention: later stale save preserves already confirmed reservation (4.650371ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(value.confirmed.includes('Fictional One'))
+
+      at TestContext.<anonymous> (file:///workspace/scratch/37b8cbd8154a/devmethod-hardening/evaluation/work-mode-review/probe.mjs:36:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
