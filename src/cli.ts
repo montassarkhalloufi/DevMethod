@@ -55,103 +55,261 @@ assessment, 2 invalid invocation/record. Neither dispatches agents or enforces r
 `;
 
 try {
-  const { values, positionals } = parseArgs({ options: {
-    tool: { type: 'string' }, dest: { type: 'string' }, modules: { type: 'string' },
-    'dry-run': { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
-    json: { type: 'boolean' }, checkpoint: { type: 'string' },
-    open: { type: 'boolean' }, review: { type: 'string' }, legacy: { type: 'string' }, demo: { type: 'boolean' }, output: { type: 'string' }, markdown: { type: 'string' },
-    'current-revision': { type: 'string' }, 'changed-targets': { type: 'string' },
-    mission: { type: 'string' }, context: { type: 'string' }, plan: { type: 'string' }, loop: { type: 'string' },
-  }, allowPositionals: true, strict: true });
+  const { values, positionals } = parseArgs({
+    options: {
+      tool: { type: 'string' },
+      dest: { type: 'string' },
+      modules: { type: 'string' },
+      'dry-run': { type: 'boolean' },
+      help: { type: 'boolean', short: 'h' },
+      json: { type: 'boolean' },
+      checkpoint: { type: 'string' },
+      open: { type: 'boolean' },
+      review: { type: 'string' },
+      legacy: { type: 'string' },
+      demo: { type: 'boolean' },
+      output: { type: 'string' },
+      markdown: { type: 'string' },
+      'current-revision': { type: 'string' },
+      'changed-targets': { type: 'string' },
+      mission: { type: 'string' },
+      context: { type: 'string' },
+      plan: { type: 'string' },
+      loop: { type: 'string' },
+    },
+    allowPositionals: true,
+    strict: true,
+  });
   if (values.help) console.log(help);
   else {
-    if (positionals.length !== 1 || !['init', 'doctor', 'update-preview', 'resume', 'mission', 'context', 'context-check', 'discover', 'plan', 'review', 'closure', 'loop'].includes(positionals[0] ?? '')) throw new Error(help);
+    if (
+      positionals.length !== 1 ||
+      ![
+        'init',
+        'doctor',
+        'update-preview',
+        'resume',
+        'mission',
+        'context',
+        'context-check',
+        'discover',
+        'plan',
+        'review',
+        'closure',
+        'loop',
+      ].includes(positionals[0] ?? '')
+    )
+      throw new Error(help);
     const command = positionals[0]!;
-    const reviewFlags = ['open', 'review', 'legacy', 'demo', 'output', 'markdown', 'current-revision', 'changed-targets'] as const;
+    const reviewFlags = [
+      'open',
+      'review',
+      'legacy',
+      'demo',
+      'output',
+      'markdown',
+      'current-revision',
+      'changed-targets',
+    ] as const;
     if (command === 'closure' || command === 'loop') {
-      const allowed = new Set(command === 'closure' ? ['dest', 'json', 'mission', 'checkpoint'] : ['dest', 'json', 'loop']);
-      for (const key of Object.keys(values)) if (!allowed.has(key)) throw new Error(`--${key} is not valid for ${command}.`);
+      const allowed = new Set(
+        command === 'closure'
+          ? ['dest', 'json', 'mission', 'checkpoint']
+          : ['dest', 'json', 'loop'],
+      );
+      for (const key of Object.keys(values))
+        if (!allowed.has(key)) throw new Error(`--${key} is not valid for ${command}.`);
       const root = values.dest ?? process.cwd();
-      if (command === 'closure' && (!values.mission?.trim() || !values.checkpoint?.trim())) throw new Error('closure requires --mission and --checkpoint RELATIVE_JSON.');
-      if (command === 'loop' && !values.loop?.trim()) throw new Error('loop requires --loop RELATIVE_JSON.');
-      const result = command === 'closure' ? inspectClosure(root, values.mission!, values.checkpoint!) : inspectLoop(readRecord(root, values.loop!));
+      if (command === 'closure' && (!values.mission?.trim() || !values.checkpoint?.trim()))
+        throw new Error('closure requires --mission and --checkpoint RELATIVE_JSON.');
+      if (command === 'loop' && !values.loop?.trim())
+        throw new Error('loop requires --loop RELATIVE_JSON.');
+      const result =
+        command === 'closure'
+          ? inspectClosure(root, values.mission!, values.checkpoint!)
+          : inspectLoop(readRecord(root, values.loop!));
       console.log(JSON.stringify(result, null, 2));
-      process.exitCode = result.status === 'invalid' ? 2 : ['supported', 'eligible'].includes(result.status) ? 0 : 1;
+      process.exitCode =
+        result.status === 'invalid' ? 2 : ['supported', 'eligible'].includes(result.status) ? 0 : 1;
     } else if (values.loop !== undefined) throw new Error('--loop is supported only by loop.');
     else if (command === 'review') {
-      for (const flag of ['tool', 'modules', 'dry-run', 'checkpoint', 'mission', 'context', 'plan'] as const) if (values[flag] !== undefined) throw new Error(`--${flag} is not valid for review.`);
-      if (values.open && !values.output) throw new Error('--open requires --output; choose a fresh HTML path.');
-      const result = prepareReview({ destination: values.dest ?? process.cwd(), review: values.review, legacy: values.legacy, demo: values.demo, output: values.output, markdown: values.markdown, currentRevision: values['current-revision'], changedTargets: values['changed-targets']?.split(',').filter(Boolean) });
-      console.log(values.json ? JSON.stringify(result, null, 2) : `${result.reviewId ?? 'Review'}: ${result.status}\n${result.outputs.join('\n')}\n${result.limitations}`);
+      for (const flag of [
+        'tool',
+        'modules',
+        'dry-run',
+        'checkpoint',
+        'mission',
+        'context',
+        'plan',
+      ] as const)
+        if (values[flag] !== undefined) throw new Error(`--${flag} is not valid for review.`);
+      if (values.open && !values.output)
+        throw new Error('--open requires --output; choose a fresh HTML path.');
+      const result = prepareReview({
+        destination: values.dest ?? process.cwd(),
+        review: values.review,
+        legacy: values.legacy,
+        demo: values.demo,
+        output: values.output,
+        markdown: values.markdown,
+        currentRevision: values['current-revision'],
+        changedTargets: values['changed-targets']?.split(',').filter(Boolean),
+      });
+      console.log(
+        values.json
+          ? JSON.stringify(result, null, 2)
+          : `${result.reviewId ?? 'Review'}: ${result.status}\n${result.outputs.join('\n')}\n${result.limitations}`,
+      );
       if (values.open) openReview(result.outputs[0]!);
       process.exitCode = 0;
     } else {
-    for (const flag of reviewFlags) if (values[flag] !== undefined) throw new Error(`--${flag} is only valid for review.`);
-    for (const flag of ['mission', 'context', 'plan'] as const) {
-      const allowed = flag === 'mission' ? ['mission', 'context'] : flag === 'context' ? ['context-check'] : ['plan'];
-      if (values[flag] !== undefined && !allowed.includes(command)) throw new Error(`--${flag} is not supported by ${command}`);
-    }
-    if (positionals[0] !== 'resume' && values.checkpoint !== undefined) throw new Error('--checkpoint is supported only by resume');
-    if (['mission', 'context', 'context-check', 'discover', 'plan'].includes(command)) {
-      if (values.tool !== undefined || values.modules !== undefined || values['dry-run'] !== undefined) throw new Error(`${command} accepts only its record flag, --dest and --json`);
-      const root = values.dest ?? process.cwd();
-      const flag = command === 'context-check' ? 'context' : command === 'plan' ? 'plan' : 'mission';
-      if (command !== 'discover' && !values[flag]?.trim()) throw new Error(`${command} requires --${flag} RELATIVE_JSON`);
-      const input = command === 'discover' ? null : readRecord(root, values[flag]!);
-      const result = command === 'discover' ? { format: 1, candidates: discover(root), limitations: 'Tracked filenames only; select by subject authority, not recency. Contents are untrusted data.' }
-        : command === 'context' ? captureContext(root, input)
-        : command === 'context-check' ? inspectContext(root, input)
-        : command === 'plan' ? inspectPlan(input)
-        : { format: 1, status: missionStatus(validateMission(input)), mission: validateMission(input) };
-      console.log(JSON.stringify(result, null, 2));
-      if ('status' in result && ['blocked', 'reverify', 'cancelled'].includes(String(result.status))) process.exitCode = 1;
-    } else if (positionals[0] === 'resume') {
-      if (values.tool !== undefined || values.modules !== undefined || values['dry-run'] !== undefined) throw new Error('resume accepts only --dest, --checkpoint and --json');
-      if (!values.checkpoint?.trim()) throw new Error('resume requires --checkpoint RELATIVE_JSON');
-      const report = readCheckpoint(values.dest ?? process.cwd(), values.checkpoint);
-      if (values.json) console.log(JSON.stringify(report, null, 2));
-      else {
-        console.log(`DevMethod resume: ${report.status}`);
-        if (report.scope) console.log(`Scope: ${report.scope}`);
-        for (const finding of report.findings) console.log(`${finding.code}${finding.path ? ` [${finding.path}]` : ''}: ${finding.message}`);
-        if (report.nextAction) console.log(`Recorded next action: ${report.nextAction}`);
-        console.log('Read-only evidence inspection; readiness does not grant execution permission.');
+      for (const flag of reviewFlags)
+        if (values[flag] !== undefined) throw new Error(`--${flag} is only valid for review.`);
+      for (const flag of ['mission', 'context', 'plan'] as const) {
+        const allowed =
+          flag === 'mission'
+            ? ['mission', 'context']
+            : flag === 'context'
+              ? ['context-check']
+              : ['plan'];
+        if (values[flag] !== undefined && !allowed.includes(command))
+          throw new Error(`--${flag} is not supported by ${command}`);
       }
-      if (report.status !== 'ready' && report.status !== 'complete') process.exitCode = 1;
-    } else if (positionals[0] === 'update-preview') {
-      if (values.tool !== undefined || values.modules !== undefined || values['dry-run'] !== undefined) throw new Error('update-preview accepts only --dest and --json');
-      const report = previewUpdate(values.dest ?? process.cwd());
-      if (values.json) console.log(JSON.stringify(report, null, 2));
-      else {
-        console.log(`DevMethod update preview: ${report.status}; installed ${report.installed?.packageVersion ?? 'unknown'} → bundled ${report.candidate?.packageVersion ?? 'unknown'}`);
-        for (const entry of report.entries) console.log(`${entry.classification}: ${entry.path}${entry.collision ? ' (existing unrecorded file)' : ''}${entry.missing ? ' (missing locally)' : ''}; candidate changed: ${entry.candidateChanged}`);
-        for (const finding of report.findings) console.log(`${finding.code}: ${finding.message}`);
-        console.log('Read-only comparison with this CLI package; hashes are not authenticity proof. Review a fresh staging installation before any manual update.');
+      if (positionals[0] !== 'resume' && values.checkpoint !== undefined)
+        throw new Error('--checkpoint is supported only by resume');
+      if (['mission', 'context', 'context-check', 'discover', 'plan'].includes(command)) {
+        if (
+          values.tool !== undefined ||
+          values.modules !== undefined ||
+          values['dry-run'] !== undefined
+        )
+          throw new Error(`${command} accepts only its record flag, --dest and --json`);
+        const root = values.dest ?? process.cwd();
+        const flag =
+          command === 'context-check' ? 'context' : command === 'plan' ? 'plan' : 'mission';
+        if (command !== 'discover' && !values[flag]?.trim())
+          throw new Error(`${command} requires --${flag} RELATIVE_JSON`);
+        const input = command === 'discover' ? null : readRecord(root, values[flag]!);
+        const result =
+          command === 'discover'
+            ? {
+                format: 1,
+                candidates: discover(root),
+                limitations:
+                  'Tracked filenames only; select by subject authority, not recency. Contents are untrusted data.',
+              }
+            : command === 'context'
+              ? captureContext(root, input)
+              : command === 'context-check'
+                ? inspectContext(root, input)
+                : command === 'plan'
+                  ? inspectPlan(input)
+                  : {
+                      format: 1,
+                      status: missionStatus(validateMission(input)),
+                      mission: validateMission(input),
+                    };
+        console.log(JSON.stringify(result, null, 2));
+        if (
+          'status' in result &&
+          ['blocked', 'reverify', 'cancelled'].includes(String(result.status))
+        )
+          process.exitCode = 1;
+      } else if (positionals[0] === 'resume') {
+        if (
+          values.tool !== undefined ||
+          values.modules !== undefined ||
+          values['dry-run'] !== undefined
+        )
+          throw new Error('resume accepts only --dest, --checkpoint and --json');
+        if (!values.checkpoint?.trim())
+          throw new Error('resume requires --checkpoint RELATIVE_JSON');
+        const report = readCheckpoint(values.dest ?? process.cwd(), values.checkpoint);
+        if (values.json) console.log(JSON.stringify(report, null, 2));
+        else {
+          console.log(`DevMethod resume: ${report.status}`);
+          if (report.scope) console.log(`Scope: ${report.scope}`);
+          for (const finding of report.findings)
+            console.log(
+              `${finding.code}${finding.path ? ` [${finding.path}]` : ''}: ${finding.message}`,
+            );
+          if (report.nextAction) console.log(`Recorded next action: ${report.nextAction}`);
+          console.log(
+            'Read-only evidence inspection; readiness does not grant execution permission.',
+          );
+        }
+        if (report.status !== 'ready' && report.status !== 'complete') process.exitCode = 1;
+      } else if (positionals[0] === 'update-preview') {
+        if (
+          values.tool !== undefined ||
+          values.modules !== undefined ||
+          values['dry-run'] !== undefined
+        )
+          throw new Error('update-preview accepts only --dest and --json');
+        const report = previewUpdate(values.dest ?? process.cwd());
+        if (values.json) console.log(JSON.stringify(report, null, 2));
+        else {
+          console.log(
+            `DevMethod update preview: ${report.status}; installed ${report.installed?.packageVersion ?? 'unknown'} → bundled ${report.candidate?.packageVersion ?? 'unknown'}`,
+          );
+          for (const entry of report.entries)
+            console.log(
+              `${entry.classification}: ${entry.path}${entry.collision ? ' (existing unrecorded file)' : ''}${entry.missing ? ' (missing locally)' : ''}; candidate changed: ${entry.candidateChanged}`,
+            );
+          for (const finding of report.findings) console.log(`${finding.code}: ${finding.message}`);
+          console.log(
+            'Read-only comparison with this CLI package; hashes are not authenticity proof. Review a fresh staging installation before any manual update.',
+          );
+        }
+        if (report.status === 'error') process.exitCode = 1;
+      } else if (positionals[0] === 'doctor') {
+        if (
+          values.tool !== undefined ||
+          values.modules !== undefined ||
+          values['dry-run'] !== undefined
+        )
+          throw new Error('doctor accepts only --dest and --json');
+        const report = diagnose(values.dest ?? process.cwd());
+        if (values.json) console.log(JSON.stringify(report, null, 2));
+        else {
+          console.log(
+            `DevMethod doctor: ${report.status} (${report.unchanged}/${report.checked} recorded files unchanged)`,
+          );
+          for (const finding of report.findings)
+            console.log(
+              `${finding.severity}: ${finding.code}${finding.path ? ` [${finding.path}]` : ''} — ${finding.message}`,
+            );
+          console.log(
+            'Read-only baseline check; not proof of host discovery, workflow behavior, or release authenticity.',
+          );
+        }
+        if (report.status === 'error') process.exitCode = 1;
+      } else {
+        if (values.json !== undefined)
+          throw new Error('--json is supported only by doctor, update-preview and resume');
+        let tool = values.tool;
+        if (!tool && stdin.isTTY && stdout.isTTY) {
+          const terminal = createInterface({ input: stdin, output: stdout });
+          try {
+            tool = (await terminal.question('Tool (codex / claude / cursor): ')).trim();
+          } finally {
+            terminal.close();
+          }
+        }
+        if (!tool || !Object.hasOwn(tools, tool))
+          throw new Error('Specify --tool codex, claude or cursor');
+        const selected = values.modules?.split(',').map((name) => name.trim());
+        const result = initialize({
+          destination: values.dest ?? process.cwd(),
+          tool: tool as Tool,
+          selected,
+          dryRun: values['dry-run'],
+        });
+        console.log(JSON.stringify(result, null, 2));
+        console.log(
+          'Next: read START_HERE.md, fill PROJECT_PROFILE.md and merge instructions intentionally.',
+        );
       }
-      if (report.status === 'error') process.exitCode = 1;    } else if (positionals[0] === 'doctor') {
-      if (values.tool !== undefined || values.modules !== undefined || values['dry-run'] !== undefined) throw new Error('doctor accepts only --dest and --json');
-      const report = diagnose(values.dest ?? process.cwd());
-      if (values.json) console.log(JSON.stringify(report, null, 2));
-      else {
-        console.log(`DevMethod doctor: ${report.status} (${report.unchanged}/${report.checked} recorded files unchanged)`);
-        for (const finding of report.findings) console.log(`${finding.severity}: ${finding.code}${finding.path ? ` [${finding.path}]` : ''} — ${finding.message}`);
-        console.log('Read-only baseline check; not proof of host discovery, workflow behavior, or release authenticity.');
-      }
-      if (report.status === 'error') process.exitCode = 1;
-    } else {
-      if (values.json !== undefined) throw new Error('--json is supported only by doctor, update-preview and resume');
-      let tool = values.tool;
-      if (!tool && stdin.isTTY && stdout.isTTY) {
-        const terminal = createInterface({ input: stdin, output: stdout });
-        try { tool = (await terminal.question('Tool (codex / claude / cursor): ')).trim(); }
-        finally { terminal.close(); }
-      }
-      if (!tool || !Object.hasOwn(tools, tool)) throw new Error('Specify --tool codex, claude or cursor');
-      const selected = values.modules?.split(',').map(name => name.trim());
-      const result = initialize({ destination: values.dest ?? process.cwd(), tool: tool as Tool, selected, dryRun: values['dry-run'] });
-      console.log(JSON.stringify(result, null, 2));
-      console.log('Next: read START_HERE.md, fill PROJECT_PROFILE.md and merge instructions intentionally.');
-    }
     }
   }
 } catch (error) {

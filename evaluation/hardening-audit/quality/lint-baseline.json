@@ -1,0 +1,1109 @@
+[
+  {
+    "filePath": "eslint.config.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "prettier.config.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/build-review.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/check-codex-git.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/check-docs.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/check-native-sandbox.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/comparison-readiness.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/comparison.mjs",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 37 to the 15 allowed.",
+        "line": 8,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 8,
+        "endColumn": 26
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import fs from 'node:fs';\nimport path from 'node:path';\nimport { fileURLToPath } from 'node:url';\nconst arms = ['none', 'devmethod', 'bmad'];\nconst nonempty = value => typeof value === 'string' && value.trim().length > 0;\nconst finite = value => typeof value === 'number' && Number.isFinite(value) && value >= 0;\n/** Validate a complete matched batch, including blocked/failed runs. Never dispatch models. */\nexport function summarize(batch) {\n  if (!batch || batch.format !== 1 || !Array.isArray(batch.runs) || !batch.runs.length) throw new Error('Expected format 1 nonempty batch');\n  const { budget } = batch;\n  if (!budget || !Number.isSafeInteger(budget.runs) || budget.runs < 1 || !Number.isSafeInteger(budget.tokens) || budget.tokens < 1 || !finite(budget.costUSD) || !nonempty(budget.authorization)) throw new Error('Explicit run/token/cost budget and authorization required');\n  if (batch.runs.length > budget.runs) throw new Error('Run budget exceeded');\n  const groups = new Map();\n  const matchedKeys = ['fixtureDigest', 'promptDigest', 'hostVersion', 'model', 'toolsDigest', 'permissionsDigest', 'perRunTokens', 'perRunCostUSD', 'timeoutSeconds'];\n  const digests = ['fixtureDigest', 'promptDigest', 'toolsDigest', 'permissionsDigest'];\n  for (const run of batch.runs) {\n    if (!run || !nonempty(run.caseId) || !Number.isSafeInteger(run.repetition) || run.repetition < 1 || !arms.includes(run.arm) || !['passed', 'failed', 'blocked', 'timeout'].includes(run.status)) throw new Error('Invalid run identity or status');\n    if (!matchedKeys.every(key => ['perRunTokens', 'perRunCostUSD', 'timeoutSeconds'].includes(key) ? finite(run[key]) && (key === 'perRunCostUSD' || run[key] > 0) : nonempty(run[key])) || !digests.every(key => /^[a-f0-9]{64}$/.test(run[key]))) throw new Error('Missing pinned matched conditions');\n    if (!nonempty(run.methodRevision) || !nonempty(run.wrapper) || (run.arm === 'none' && run.methodRevision !== 'none')) throw new Error('Pin method revision and invocation wrapper');\n    if (!nonempty(run.evidence) || !nonempty(run.review)) throw new Error('Evidence reference and review or blocked reason required');\n    for (const metric of ['tokens', 'costUSD', 'elapsedSeconds']) if (run[metric] !== null && !finite(run[metric])) throw new Error('Usage must be measured nonnegative values or null (unavailable)');\n    if ((run.tokens !== null && run.tokens > run.perRunTokens) || (run.costUSD !== null && run.costUSD > run.perRunCostUSD)) throw new Error('Per-run budget exceeded');\n    const key = `${run.caseId}:${run.repetition}`;\n    const group = groups.get(key) ?? [];\n    if (group.some(other => other.arm === run.arm)) throw new Error('Duplicate arm');\n    if (group.length && matchedKeys.some(key => run[key] !== group[0][key])) throw new Error('Unmatched conditions');\n    group.push(run); groups.set(key, group);\n  }\n  for (const group of groups.values()) if (group.length !== 3) throw new Error('Each case/repetition requires all three arms, including blocked records');\n  for (const metric of ['tokens', 'costUSD']) if (batch.runs.reduce((sum, run) => sum + (run[metric] ?? 0), 0) > budget[metric]) throw new Error('Total budget exceeded');\n  const cells = [];\n  for (const caseId of new Set(batch.runs.map(run => run.caseId))) for (const arm of arms) {\n    const runs = batch.runs.filter(run => run.caseId === caseId && run.arm === arm);\n    cells.push({ caseId, arm, denominator: runs.length, ...Object.fromEntries(['passed', 'failed', 'blocked', 'timeout'].map(status => [status, runs.filter(run => run.status === status).length])) });\n  }\n  return { format: 1, cells, usageComplete: batch.runs.every(run => run.tokens !== null && run.costUSD !== null),\n    limitation: 'Validates record consistency only. Evidence authenticity and behavioral claims require independent inspection; no aggregate superiority score.' };\n}\nif (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {\n  try { if (process.argv.length !== 3) throw new Error('Usage: node scripts/comparison.mjs BATCH_JSON'); console.log(JSON.stringify(summarize(JSON.parse(fs.readFileSync(process.argv[2]))), null, 2)); }\n  catch (error) { console.error(error.message); process.exitCode = 2; }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/evaluate-behavior.mjs",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 87 to the 15 allowed.",
+        "line": 62,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 62,
+        "endColumn": 30
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import fs from 'node:fs';\nimport path from 'node:path';\nimport { createHash } from 'node:crypto';\nimport { fileURLToPath } from 'node:url';\nexport const MAX_REPORT_BYTES = 2 * 1024 * 1024;\nexport const MAX_ARTIFACT_BYTES = 8 * 1024 * 1024;\nconst MAX_CAMPAIGN_ARTIFACT_BYTES = 64 * 1024 * 1024;\nconst directory = fileURLToPath(new URL('../evaluation/behavioral/', import.meta.url));\nexport const suite = JSON.parse(fs.readFileSync(path.join(directory, 'cases.json')));\nexport const oracle = JSON.parse(fs.readFileSync(path.join(directory, 'oracle.json')));\nconst fail = message => { throw new Error(message); };\nconst object = x => x !== null && typeof x === 'object' && !Array.isArray(x);\nconst string = x => typeof x === 'string' && x.trim().length > 0;\nfunction shape(value, keys, label) {\n  if (!object(value) || Object.keys(value).some(k => !keys.includes(k))) fail(`Malformed ${label}`);\n}\nfunction unique(values, label) { if (new Set(values).size !== values.length) fail(`Duplicate ${label}`); }\nfunction array(value, label) { if (!Array.isArray(value)) fail(`Expected array: ${label}`); return value; }\nfunction identifier(value) { if (!string(value) || !/^[A-Za-z0-9._-]+$/.test(value)) fail('Invalid identifier'); }\nfunction timestamp(value) {\n  // Require an explicit timezone and reject calendar rollover accepted by Date.parse.\n  if (typeof value !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}T(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d{1,3})?(?:Z|[+-](?:[01]\\d|2[0-3]):[0-5]\\d)$/.test(value)) fail('Invalid timestamps');\n  const date = new Date(`${value.slice(0, 10)}T00:00:00Z`);\n  const parsed = Date.parse(value);\n  if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== value.slice(0, 10) || !Number.isFinite(parsed)) fail('Invalid timestamps');\n  return parsed;\n}\nfunction validateSuite(spec, expectations) {\n  if (spec?.format !== 1 || expectations?.format !== 1 || !Number.isInteger(spec.repetitions) || spec.repetitions < 1) fail('Invalid suite');\n  array(spec.cases, 'cases'); array(expectations.cases, 'oracle');\n  if (!spec.cases.length) fail('Empty suite');\n  unique(spec.cases.map(c => c.id), 'case'); unique(expectations.cases.map(c => c.caseId), 'oracle case');\n  if (spec.cases.length !== expectations.cases.length) fail('Oracle coverage mismatch');\n  for (const c of spec.cases) {\n    identifier(c.id);\n    if (!string(c.prompt) || !string(c.setup) || !Number.isInteger(c.minimumSessions) || c.minimumSessions < 1) fail('Malformed case');\n    const expected = expectations.cases.find(e => e.caseId === c.id);\n    if (!expected || !Array.isArray(expected.criteria) || !expected.criteria.length) fail('Missing oracle criteria');\n    unique(expected.criteria.map(e => e.id), 'criterion');\n    expected.criteria.forEach(e => { identifier(e.id); if (!string(e.description)) fail('Malformed criterion'); });\n  }\n}\nfunction artifactCheck(artifact, artifactRoot, budget) {\n  shape(artifact, ['id', 'path', 'sha256', 'kind'], 'artifact'); identifier(artifact.id);\n  if (!['transcript', 'snapshot', 'check', 'adjudication'].includes(artifact.kind) || !/^[a-f0-9]{64}$/.test(artifact.sha256)) fail('Invalid artifact digest/kind');\n  if (!string(artifact.path) || path.isAbsolute(artifact.path) || artifact.path.includes('\\\\') || artifact.path.split('/').some(p => !p || p === '..' || p === '.')) fail('Unsafe artifact path');\n  if (!artifactRoot) fail('Evidence requires an artifact root');\n  const root = fs.realpathSync(artifactRoot);\n  let current = root;\n  for (const part of artifact.path.split('/')) {\n    current = path.join(current, part);\n    if (fs.lstatSync(current).isSymbolicLink()) fail('Symbolic artifact path');\n  }\n  const stat = fs.statSync(current);\n  if (!stat.isFile()) fail('Artifact is not a regular file');\n  if (stat.size > MAX_ARTIFACT_BYTES || budget.bytes + stat.size > MAX_CAMPAIGN_ARTIFACT_BYTES) fail('Artifact size limit exceeded');\n  budget.bytes += stat.size;\n  const bytes = fs.readFileSync(current);\n  if (!bytes.length || createHash('sha256').update(bytes).digest('hex') !== artifact.sha256) fail('Artifact hash mismatch or empty artifact');\n}\n/** Scores explicit, separately adjudicated observations. Never executes report text or dispatches agents. */\nexport function scoreBehavior(report, { spec = suite, expectations = oracle, artifactRoot } = {}) {\n  validateSuite(spec, expectations);\n  shape(report, ['format', 'runs'], 'report');\n  if (report.format !== 1) fail('Unsupported report format');\n  array(report.runs, 'runs');\n  const slots = new Map(); const ids = new Set();\n  let nativeConfiguration;\n  const fixtureRevisions = new Map();\n  const nativeTranscriptPaths = new Set(), nativeTranscriptHashes = new Set();\n  const artifactBudget = { bytes: 0 };\n  for (const run of report.runs) {\n    shape(run, ['id', 'caseId', 'repetition', 'status', 'kind', 'reason', 'provenance', 'artifacts', 'judgments', 'metrics'], 'run');\n    identifier(run.id);\n    if (ids.has(run.id)) fail('Duplicate run id'); ids.add(run.id);\n    const c = spec.cases.find(c => c.id === run.caseId);\n    if (!c || !Number.isInteger(run.repetition) || run.repetition < 1 || run.repetition > spec.repetitions) fail('Unknown case or repetition');\n    const key = `${run.caseId}:${run.repetition}`;\n    if (slots.has(key)) fail('Duplicate run slot');\n    if (!['completed', 'blocked', 'interrupted', 'not-run'].includes(run.status) || !['native', 'synthetic'].includes(run.kind)) fail('Invalid run status/kind');\n    if (run.status !== 'completed' && !string(run.reason)) fail('Unfinished run requires reason');\n    array(run.artifacts, 'artifacts'); unique(run.artifacts.map(a => a.id), 'artifact');\n    run.artifacts.forEach(a => artifactCheck(a, artifactRoot, artifactBudget));\n    const artifacts = new Map(run.artifacts.map(a => [a.id, a]));\n    if (run.kind === 'native' && !['not-run', 'blocked'].includes(run.status)) {\n      shape(run.provenance, ['host', 'hostVersion', 'model', 'methodRevision', 'fixtureRevision', 'permissions', 'startedAt', 'endedAt', 'sessions', 'adjudicator'], 'provenance');\n      for (const field of ['host', 'hostVersion', 'model', 'methodRevision', 'fixtureRevision', 'permissions', 'adjudicator']) if (!string(run.provenance[field])) fail(`Missing provenance ${field}`);\n      const p = run.provenance;\n      const configuration = JSON.stringify(['host', 'hostVersion', 'model', 'methodRevision', 'permissions'].map(k => p[k]));\n      if (nativeConfiguration && nativeConfiguration !== configuration) fail('Mixed native configurations require separate reports');\n      nativeConfiguration = configuration;\n      if (fixtureRevisions.has(run.caseId) && fixtureRevisions.get(run.caseId) !== p.fixtureRevision) fail('Mixed fixture revisions for the same case');\n      fixtureRevisions.set(run.caseId, p.fixtureRevision);\n      if (timestamp(p.endedAt) < timestamp(p.startedAt)) fail('Invalid timestamps');\n      array(p.sessions, 'sessions'); unique(p.sessions.map(s => s.id), 'session'); unique(p.sessions.map(s => s.transcriptId), 'session transcript');\n      if (!p.sessions.length || (run.status === 'completed' && p.sessions.length < c.minimumSessions)) fail('Insufficient actual sessions');\n      for (const s of p.sessions) { shape(s, ['id', 'transcriptId'], 'session'); identifier(s.id); if (artifacts.get(s.transcriptId)?.kind !== 'transcript') fail('Missing session transcript'); }\n      unique(p.sessions.map(s => artifacts.get(s.transcriptId).path), 'session transcript path');\n      unique(p.sessions.map(s => artifacts.get(s.transcriptId).sha256), 'session transcript bytes');\n      for (const s of p.sessions) {\n        const transcript = artifacts.get(s.transcriptId);\n        if (nativeTranscriptPaths.has(transcript.path) || nativeTranscriptHashes.has(transcript.sha256)) fail('Reused native session transcript across runs');\n        nativeTranscriptPaths.add(transcript.path); nativeTranscriptHashes.add(transcript.sha256);\n      }\n    }\n    const expected = expectations.cases.find(e => e.caseId === c.id).criteria;\n    array(run.judgments, 'judgments'); unique(run.judgments.map(j => j.criterionId), 'judgment');\n    for (const j of run.judgments) {\n      shape(j, ['criterionId', 'verdict', 'justification', 'evidenceIds'], 'judgment');\n      if (!expected.some(e => e.id === j.criterionId) || !['pass', 'fail', 'unresolved'].includes(j.verdict) || !string(j.justification)) fail('Invalid judgment');\n      array(j.evidenceIds, 'evidence references'); unique(j.evidenceIds, 'evidence reference');\n      if (j.evidenceIds.some(id => !artifacts.has(id)) || (j.verdict !== 'unresolved' && !j.evidenceIds.length)) fail('Missing or unknown judgment evidence');\n    }\n    shape(run.metrics, ['humanInterventions', 'tokens', 'elapsedMs', 'costUsd'], 'metrics');\n    for (const field of ['humanInterventions', 'tokens', 'elapsedMs', 'costUsd']) {\n      const value = run.metrics[field];\n      if (value !== null && (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || (['humanInterventions', 'tokens'].includes(field) && !Number.isSafeInteger(value)))) fail(`Invalid metric ${field}; counts must be safe integers and unknown must be null`);\n    }\n    slots.set(key, run);\n  }\n  const rows = [];\n  for (const c of spec.cases) for (let repetition = 1; repetition <= spec.repetitions; repetition++) {\n    const run = slots.get(`${c.id}:${repetition}`);\n    const criteria = expectations.cases.find(e => e.caseId === c.id).criteria;\n    const missing = criteria.filter(e => !run?.judgments.some(j => j.criterionId === e.id)).map(e => e.id);\n    let outcome = run?.status ?? 'not-run';\n    if (run?.status === 'completed') outcome = run.judgments.some(j => j.verdict === 'fail') ? 'failed' : missing.length || run.judgments.some(j => j.verdict === 'unresolved') ? 'unresolved' : 'passed';\n    rows.push({ caseId: c.id, repetition, kind: run?.kind ?? null, outcome, missingCriteria: missing });\n  }\n  const native = rows.filter(r => r.kind === 'native');\n  const completed = native.filter(r => ['passed', 'failed', 'unresolved'].includes(r.outcome));\n  const passed = native.filter(r => r.outcome === 'passed').length;\n  const metrics = {};\n  for (const field of ['humanInterventions', 'tokens', 'elapsedMs', 'costUsd']) {\n    const attempted = [...slots.values()].filter(r => r.kind === 'native' && !['not-run', 'blocked'].includes(r.status));\n    const known = attempted.map(r => r.metrics[field]).filter(v => v !== null);\n    const observedTotal = known.length ? known.reduce((total, value) => {\n      const next = total + value;\n      if (!Number.isFinite(next) || (['humanInterventions', 'tokens'].includes(field) && !Number.isSafeInteger(next))) fail(`Metric total exceeds numeric range: ${field}`);\n      return next;\n    }, 0) : null;\n    metrics[field] = { knownRuns: known.length, unknownRuns: attempted.length - known.length, observedTotal };\n  }\n  return { format: 1, plannedRuns: rows.length, submittedRuns: report.runs.length, nativeCompletedRuns: completed.length,\n    nativePassedRuns: passed, nativePassFractionOfPlan: passed / rows.length,\n    nativePassRateAmongCompleted: completed.length ? passed / completed.length : null,\n    outcomes: Object.fromEntries(['passed', 'failed', 'unresolved', 'not-run', 'blocked', 'interrupted'].map(k => [k, rows.filter(r => r.outcome === k).length])),\n    syntheticRuns: rows.filter(r => r.kind === 'synthetic').length, metrics, rows,\n    limitation: 'Hashes establish artifact integrity, not authenticity or judge correctness. Synthetic calibration is not model performance. Independent adjudication and repeated native runs are required.' };\n}\nif (process.argv[1] && path.relative(fileURLToPath(import.meta.url), path.resolve(process.argv[1])) === '') {\n  try {\n    const [file, artifactRoot, ...extra] = process.argv.slice(2);\n    if (!file || extra.length) fail('Usage: node scripts/evaluate-behavior.mjs REPORT.json [ARTIFACT_ROOT]');\n    const stat = fs.statSync(file);\n    if (!stat.isFile() || stat.size > MAX_REPORT_BYTES) fail('Report must be a regular file within the report size limit');\n    console.log(JSON.stringify(scoreBehavior(JSON.parse(fs.readFileSync(file, 'utf8')), { artifactRoot }), null, 2));\n  } catch (error) { console.error(error.message); process.exitCode = 2; }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/evaluation.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/fullstack-mission.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/hosts/checks.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/hosts/codex-meter.mjs",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.",
+        "line": 2,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 2,
+        "endColumn": 31
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "/** Reconcile a complete private app-server stream; cumulative totals are not deltas. */\nexport function meterCodexTree(events, root) {\n  const ids=new Set([root]), totals=new Map(), active=new Map(), ended=new Set();\n  for(const e of events) {\n    const p=e.params ?? {}, item=p.item;\n    if(item?.type==='subAgentActivity' && ids.has(p.threadId)) ids.add(item.agentThreadId);\n    if(e.method==='thread/started' && ids.has(p.thread?.parentThreadId))ids.add(p.thread.id);\n    if(e.method==='thread/tokenUsage/updated')totals.set(p.threadId,p.tokenUsage?.total);\n    if(e.method==='turn/started'){active.set(p.threadId,p.turn.id);ended.delete(p.threadId);}\n    if(e.method==='turn/completed'){active.delete(p.threadId);ended.add(p.threadId);}\n  }\n  const missing=[...ids].filter(id=>!id || !ended.has(id) || active.has(id) || !['inputTokens','outputTokens'].every(k=>Number.isSafeInteger(totals.get(id)?.[k]) && totals.get(id)[k]>=0));\n  // Usage for an undiscovered thread means attribution is incomplete.\n  for(const id of totals.keys())if(!ids.has(id))missing.push(id);\n  const usage=missing.length?null:{inputTokens:[...ids].reduce((n,id)=>n+totals.get(id).inputTokens,0),outputTokens:[...ids].reduce((n,id)=>n+totals.get(id).outputTokens,0),costUSD:null};\n  return {threads:[...ids],missing,usage};\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/hosts/codex-rpc.mjs",
+    "messages": [
+      {
+        "ruleId": "no-empty",
+        "severity": 2,
+        "message": "Empty block statement.",
+        "line": 10,
+        "column": 130,
+        "messageId": "unexpected",
+        "endLine": 10,
+        "endColumn": 132,
+        "suggestions": [
+          {
+            "messageId": "suggestComment",
+            "data": {
+              "type": "block"
+            },
+            "fix": {
+              "range": [
+                866,
+                866
+              ],
+              "text": " /* empty */ "
+            },
+            "desc": "Add comment inside empty block statement."
+          }
+        ]
+      },
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.",
+        "line": 19,
+        "column": 33,
+        "messageId": "refactorFunction",
+        "endLine": 19,
+        "endColumn": 35
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { spawn } from 'node:child_process';\nimport { codexEnvironment } from './codex.mjs';\n\n/** Private stdio server, bounded lifetime. Never attaches to the desktop daemon. */\nexport function startCodexRpc({ cwd, timeoutMs = 120000, onEvent = () => {}, command = 'codex', args = ['app-server', '--stdio', '--disable', 'apps', '--disable', 'plugins', '--disable', 'remote_plugin'] }) {\n  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 120000) throw new Error('Invalid RPC lifetime');\n  const child = spawn(command, args,\n    { cwd, env: codexEnvironment(), detached: process.platform !== 'win32', stdio: ['pipe', 'pipe', 'pipe'] });\n  const pending = new Map(); let next = 0, buffer = '', bytes = 0, stopped = false;\n  const kill = () => { try { process.platform === 'win32' ? child.kill('SIGKILL') : process.kill(-child.pid, 'SIGKILL'); } catch {} };\n  function close(error = new Error('RPC server closed')) {\n    if (stopped) return; stopped = true; clearTimeout(timer); process.removeListener('exit',kill); kill();\n    for (const { reject } of pending.values()) reject(error); pending.clear();\n  }\n  process.once('exit',kill);\n  const timer = setTimeout(() => close(new Error('RPC lifetime exceeded')), timeoutMs);\n  function send(message) { if (stopped) throw new Error('RPC closed'); child.stdin.write(JSON.stringify(message)+'\\n'); }\n  child.stdout.setEncoding('utf8');\n  child.stdout.on('data', chunk => {\n    bytes += Buffer.byteLength(chunk); if (bytes > 2*1024*1024) return close(new Error('RPC output limit'));\n    buffer += chunk;\n    let end;\n    while ((end = buffer.indexOf('\\n')) >= 0) {\n      const line = buffer.slice(0,end); buffer = buffer.slice(end+1); if (!line.trim()) continue;\n      try {\n        const message = JSON.parse(line);\n        if ('id' in message && !message.method) {\n          const call = pending.get(message.id); if (!call) continue; pending.delete(message.id);\n          message.error ? call.reject(new Error(JSON.stringify(message.error))) : call.resolve(message.result);\n        } else if ('id' in message) {\n          // Unattended probes never approve tool execution or fulfill external requests.\n          send({ id: message.id, error: { code: -32601, message: 'Client requests disabled in probe' } });\n        } else onEvent(message);\n      } catch (error) { close(error); }\n    }\n  });\n  child.stderr.on('data', chunk => { bytes += chunk.length; if (bytes > 2*1024*1024) close(new Error('RPC output limit')); });\n  child.on('error', close); child.on('close', () => close()); child.stdin.on('error', close);\n  return { close, notify: send, call(method, params = {}) {\n    if (stopped) return Promise.reject(new Error('RPC closed'));\n    const id = ++next;\n    return new Promise((resolve,reject) => { pending.set(id,{resolve,reject}); send({ id, method, params }); });\n  } };\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/hosts/codex-task.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/hosts/codex.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/native-host.mjs",
+    "messages": [
+      {
+        "ruleId": "no-empty",
+        "severity": 2,
+        "message": "Empty block statement.",
+        "line": 23,
+        "column": 131,
+        "messageId": "unexpected",
+        "endLine": 23,
+        "endColumn": 133,
+        "suggestions": [
+          {
+            "messageId": "suggestComment",
+            "data": {
+              "type": "block"
+            },
+            "fix": {
+              "range": [
+                1532,
+                1532
+              ],
+              "text": " /* empty */ "
+            },
+            "desc": "Add comment inside empty block statement."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import fs from 'node:fs';\nimport path from 'node:path';\nimport { spawn } from 'node:child_process';\nimport { checkPath } from '../dist/filesystem.js';\n\nconst recordObject = value => typeof value === 'object' && value !== null && !Array.isArray(value);\nfunction observedTokens(usage) {\n  if (!recordObject(usage) || !['inputTokens', 'outputTokens'].every(key => Number.isSafeInteger(usage[key]) && usage[key] >= 0))\n    throw new Error('Malformed or unknown usage requires reconciliation.');\n  const total = usage.inputTokens + usage.outputTokens;\n  if (!Number.isSafeInteger(total)) throw new Error('Usage total exceeds safe integer range; reconciliation required.');\n  return total;\n}\n\n/** Bounded process supervision. Success means process exit, not task acceptance. */\nexport async function supervise({ command, args, cwd, prompt, timeoutMs, signal, env, maxBytes = 2 * 1024 * 1024 }) {\n  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 120000) throw new Error('Timeout must be 1\u2013120000 ms.');\n  if (signal?.aborted) return { status: 'cancelled', exit: null, stdout: '', stderr: '', elapsedSeconds: 0 };\n  const start = Date.now();\n  return await new Promise(resolve => {\n    const child = spawn(command, args, { cwd, env, detached: process.platform !== 'win32', stdio: ['pipe', 'pipe', 'pipe'] });\n    let stdout = '', stderr = '', bytes = 0, stopped, killTimer, settled = false;\n    const kill = name => { try { if (process.platform !== 'win32') process.kill(-child.pid, name); else child.kill(name); } catch {} };\n    const stop = reason => { if (stopped) return; stopped = reason; kill('SIGTERM'); killTimer = setTimeout(() => kill('SIGKILL'), 1500); };\n    const timer = setTimeout(() => stop('timeout'), timeoutMs);\n    const cancel = () => stop('cancelled'); signal?.addEventListener('abort', cancel, { once: true });\n    const finish = (exit, error) => {\n      if (settled) return; settled = true; clearTimeout(timer); clearTimeout(killTimer); signal?.removeEventListener('abort', cancel);\n      // Terminate remaining descendants even if the direct child already exited.\n      if (process.platform !== 'win32') kill('SIGKILL');\n      resolve({ status: stopped ?? (error ? 'unavailable' : exit === 0 ? 'exited' : 'failed'), exit, error: error?.message,\n        stdout, stderr, elapsedSeconds: (Date.now()-start)/1000 });\n    };\n    const read = (chunk, kind) => { bytes += Buffer.byteLength(chunk); if (bytes > maxBytes) { stop('output-limit'); return; }\n      if (kind === 'out') stdout += chunk.toString(); else stderr += chunk.toString(); };\n    child.stdout.setEncoding('utf8'); child.stderr.setEncoding('utf8');\n    child.stdout.on('data', c => read(c,'out')); child.stderr.on('data', c => read(c,'err'));\n    child.once('error', e => finish(null,e)); child.once('close', code => finish(code));\n    child.stdin.on('error', () => {}); child.stdin.end(prompt);\n  });\n}\n/** Immutable per-run slots avoid blind retries. Ledger lives outside worker writable roots. */\nexport function reserveRun(ledgerRoot, id, { maxRuns = 12, observedTokenStop = 500000 } = {}) {\n  if (!Number.isInteger(maxRuns) || maxRuns < 1 || maxRuns > 12 || !Number.isSafeInteger(observedTokenStop) || observedTokenStop < 1 || observedTokenStop > 500000) throw new Error('Invalid bounded pilot limits.');\n  if (!/^[a-zA-Z0-9-]{1,64}$/.test(id)) throw new Error('Invalid run ID.');\n  checkPath(path.resolve(ledgerRoot)); fs.mkdirSync(ledgerRoot, { recursive: true });\n  const lock = path.join(ledgerRoot, '.lock'); const fd = fs.openSync(lock, 'wx');\n  try {\n    const records = fs.readdirSync(ledgerRoot).filter(n=>n.endsWith('.json')).map(n=>JSON.parse(fs.readFileSync(path.join(ledgerRoot,n),'utf8')));\n    if (records.length >= maxRuns) throw new Error('Run limit reached.');\n    if (records.some(r=>!recordObject(r) || !['exited','failed'].includes(r.status) || r.usage === null)) throw new Error('Interrupted, cancelled, unavailable or unmetered run requires reconciliation; no automatic retry.');\n    const used = records.reduce((n,r)=> {\n      const total = n + observedTokens(r.usage);\n      if (!Number.isSafeInteger(total)) throw new Error('Usage total exceeds safe integer range; reconciliation required.');\n      return total;\n    },0);\n    if (used >= observedTokenStop) throw new Error('Observed token stop reached. This is an inter-run stop, not a per-request cap.');\n    const file = path.join(ledgerRoot, `${id}.json`);\n    fs.writeFileSync(file, JSON.stringify({ id, status: 'running', usage: null }), { flag: 'wx' }); return file;\n  } finally { fs.closeSync(fd); fs.unlinkSync(lock); }\n}\nexport function recordRun(file, result) {\n  checkPath(path.resolve(file));\n  const previous = JSON.parse(fs.readFileSync(file));\n  if (previous.status !== 'running') throw new Error('Run already finalized.');\n  if (!recordObject(result) || !['exited','failed','unavailable','cancelled','interrupted','incomplete','timeout','output-limit'].includes(result.status))\n    throw new Error('Expected a terminal run status; reconciliation required.');\n  if (result.usage !== null) observedTokens(result.usage);\n  const temporary = `${file}.tmp`;\n  fs.writeFileSync(temporary, JSON.stringify({ ...result, id: previous.id }, null, 2), { flag: 'wx' }); fs.renameSync(temporary,file);\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/package-smoke.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/prepare-behavior-case.mjs",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.",
+        "line": 39,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 39,
+        "endColumn": 36
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import fs from 'node:fs';\nimport path from 'node:path';\nimport { createHash } from 'node:crypto';\nimport { fileURLToPath } from 'node:url';\nconst root = fileURLToPath(new URL('../evaluation/behavioral/', import.meta.url));\nconst digest = bytes => createHash('sha256').update(bytes).digest('hex');\nfunction safeRelative(value) {\n  if (typeof value !== 'string' || !value || path.isAbsolute(value) || value.includes('\\\\') || value.split('/').some(p => !p || p === '.' || p === '..')) throw new Error('Unsafe relative path');\n  return value;\n}\nfunction noLinks(absolute, allowMissing = false) {\n  const parsed = path.parse(absolute); let current = parsed.root;\n  for (const part of absolute.slice(parsed.root.length).split(path.sep).filter(Boolean)) {\n    current = path.join(current, part);\n    let stat;\n    try { stat = fs.lstatSync(current); } catch (error) { if (error.code === 'ENOENT' && allowMissing) return; throw error; }\n    if (stat.isSymbolicLink()) throw new Error('Symbolic path is not allowed');\n  }\n}\n/** Validate native absolute destinations before normalization can erase traversal segments.\n * pathApi is injectable only to exercise POSIX/Windows lexical rules on either CI host.\n */\nexport function resolveFreshDestination(destination, pathApi = path) {\n  if (typeof destination !== 'string' || !destination || destination.includes('\\0') || !pathApi.isAbsolute(destination)) throw new Error('Destination must be a safe absolute fresh path');\n  const windows = pathApi.sep === '\\\\';\n  const segments = destination.split(windows ? /[\\\\/]/ : '/');\n  if (segments.includes('..') || (!windows && destination.includes('\\\\'))) throw new Error('Destination must be a safe absolute fresh path');\n  if (windows) {\n    const native = destination.replaceAll('/', '\\\\');\n    // Root-relative paths depend on the process drive; device namespaces bypass ordinary path rules.\n    if ((!/^[a-z]:\\\\/i.test(native) && !/^\\\\\\\\[^\\\\]+\\\\[^\\\\]+/.test(native)) || /^\\\\\\\\[?.]\\\\/.test(native)) throw new Error('Destination must use a fully qualified native path');\n    const root = pathApi.parse(native).root;\n    if (native.slice(root.length).includes(':')) throw new Error('Alternate stream paths are not allowed');\n  }\n  return pathApi.resolve(destination);\n}\n\n/** Prepare only pinned fixture inputs; never dispatch a host or copy an oracle. */\nexport function prepareBehaviorCase(caseId, destination, { fixtureDirectory = path.join(root, 'fixtures'), caseFile = path.join(root, 'cases.json') } = {}) {\n  destination = resolveFreshDestination(destination);\n  noLinks(destination, true);\n  if (fs.existsSync(destination)) throw new Error('Destination already exists; use a fresh directory');\n  fixtureDirectory = path.resolve(fixtureDirectory);\n  noLinks(fixtureDirectory); noLinks(caseFile);\n  const relativeDestination = path.relative(fixtureDirectory, destination);\n  if (!relativeDestination || (!path.isAbsolute(relativeDestination) && relativeDestination !== '..' && !relativeDestination.startsWith('..' + path.sep))) throw new Error('Destination cannot alter fixture sources');\n  const manifestPath = path.join(fixtureDirectory, 'manifest.json'); noLinks(manifestPath);\n  const manifestBytes = fs.readFileSync(manifestPath);\n  const casesBytes = fs.readFileSync(caseFile);\n  const manifest = JSON.parse(manifestBytes); const suite = JSON.parse(casesBytes);\n  if (manifest.format !== 1 || suite.format !== 1 || !Array.isArray(manifest.cases) || !Array.isArray(suite.cases)) throw new Error('Invalid fixture manifest');\n  const selected = manifest.cases.filter(c => c.id === caseId); const specs = suite.cases.filter(c => c.id === caseId);\n  if (selected.length !== 1 || specs.length !== 1) throw new Error('Unknown or duplicate case');\n  const fixture = selected[0]; const spec = specs[0];\n  if (!fixture.files || typeof fixture.files !== 'object' || Array.isArray(fixture.files) || !Object.keys(fixture.files).length) throw new Error('Missing fixture files');\n  const prepared = [];\n  for (const [name, source] of Object.entries(fixture.files)) {\n    safeRelative(name); safeRelative(source.source);\n    if (/(^|\\/)(oracle[^/]*|expected[^/]*|manifest\\.json)$/i.test(name)) throw new Error('Evaluator-only artifact must not enter handoff');\n    if (!/^[a-f0-9]{64}$/.test(source.sha256)) throw new Error('Invalid pinned digest');\n    const sourcePath = path.join(fixtureDirectory, source.source); noLinks(sourcePath);\n    const stat = fs.statSync(sourcePath);\n    if (!stat.isFile() || stat.size > 1024 * 1024) throw new Error('Fixture source must be a regular file <= 1 MiB');\n    const bytes = fs.readFileSync(sourcePath);\n    if (digest(bytes) !== source.sha256) throw new Error(`Fixture hash mismatch: ${name}`);\n    prepared.push({ name, bytes, sha256: source.sha256 });\n  }\n  // Parent directories must already exist so preparation cannot accidentally build an unexpected hierarchy.\n  if (!fs.statSync(path.dirname(destination)).isDirectory()) throw new Error('Destination parent must exist');\n  fs.mkdirSync(destination, { recursive: false });\n  try {\n    for (const file of prepared) {\n      const target = path.join(destination, file.name);\n      fs.mkdirSync(path.dirname(target), { recursive: true });\n      fs.writeFileSync(target, file.bytes, { flag: 'wx' });\n    }\n  } catch (error) { fs.rmSync(destination, { recursive: true, force: true }); throw error; }\n  return { format: 1, caseId, destination, prompt: spec.prompt, promptSha256: digest(spec.prompt),\n    suiteSha256: digest(casesBytes), fixtureManifestSha256: digest(manifestBytes),\n    files: Object.fromEntries(prepared.map(f => [f.name, f.sha256])),\n    prerequisites: fixture.prerequisites, operatorSteps: fixture.operatorSteps,\n    status: 'prepared-not-run', limitation: 'Preparation establishes pinned input bytes only. Operator setup, actual host execution and independent adjudication remain required. Do not give this complete evaluator record to the agent; send prompt and fixture workspace only.' };\n}\nif (process.argv[1] && path.relative(fileURLToPath(import.meta.url), path.resolve(process.argv[1])) === '') {\n  try {\n    const [caseId, destination, ...extra] = process.argv.slice(2);\n    if (!caseId || !destination || extra.length) throw new Error('Usage: node scripts/prepare-behavior-case.mjs CASE_ID /absolute/fresh/destination');\n    console.log(JSON.stringify(prepareBehaviorCase(caseId, destination), null, 2));\n  } catch (error) { console.error(error.message); process.exitCode = 2; }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/probe-codex-children.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/run-comparison-v2.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/run-native-pilot.mjs",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'prepared' is assigned a value but never used.",
+        "line": 49,
+        "column": 11,
+        "messageId": "unusedVar",
+        "endLine": 49,
+        "endColumn": 19,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": {
+              "varName": "prepared"
+            },
+            "fix": {
+              "range": [
+                3932,
+                3977
+              ],
+              "text": ""
+            },
+            "desc": "Remove unused variable 'prepared'."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "// Explicit opt-in fixture campaign. Usage: node scripts/run-native-pilot.mjs ABSOLUTE_ROOT COUNT\nimport fs from 'node:fs';\nimport path from 'node:path';\nimport { execFileSync } from 'node:child_process';\nimport { fileURLToPath } from 'node:url';\nimport { createHash } from 'node:crypto';\nimport { fixtures, prepare, snapshot, collect } from './evaluation.mjs';\nimport { verifyFixture } from './hosts/checks.mjs';\nimport { initialize } from '../dist/init.js';\nimport { supervise, reserveRun, recordRun } from './native-host.mjs';\nimport { codexArguments, codexEnvironment, codexVersion, codexUsage } from './hosts/codex.mjs';\nconst source=fileURLToPath(new URL('../',import.meta.url));\nconst root=process.argv[2]; const count=Number(process.argv[3]);\nif (!root || !path.isAbsolute(root) || !Number.isInteger(count) || count<1 || count>12) throw new Error('Supply absolute disposable campaign root and 1\u201312 slots.');\nif (process.platform !== 'darwin') throw new Error('This native fixture pilot is validated on macOS only.');\nconst env=codexEnvironment();\nconst probe=args=>execFileSync('codex',args,{encoding:'utf8',env,timeout:10000,stdio:['ignore','pipe','pipe']}).trim();\nif (probe(['--version'])!==codexVersion) throw new Error('Installed Codex version differs from pinned pilot.');\n// login status may write its human-readable result to stderr.\nconst {spawnSync}=await import('node:child_process');\nconst auth=spawnSync('codex',['login','status'],{encoding:'utf8',env,timeout:10000});\nif(auth.status!==0 || !`${auth.stdout}${auth.stderr}`.includes('Logged in using ChatGPT')) throw new Error('ChatGPT CLI authentication required; no API fallback.');\nfs.mkdirSync(root,{recursive:true});\nconst ledger=path.join(root,'ledger'), evidence=path.join(root,'evidence'), worktrees=path.join(root,'worktrees'), base=path.join(root,'base');\nfor(const dir of [evidence,worktrees]) fs.mkdirSync(dir,{recursive:true});\nconst git=(dir,args)=>execFileSync('git',['-c','core.fsmonitor=false','-C',dir,...args],{encoding:'utf8',timeout:10000,stdio:['ignore','pipe','pipe']}).trim();\nif(!fs.existsSync(base)) {fs.mkdirSync(base);git(base,['init']);fs.writeFileSync(path.join(base,'WORKSPACE.md'),'Fictional evaluation workspace. Local task scope only. No external actions.\\n');git(base,['add','.']);git(base,['-c','user.name=Evaluator','-c','user.email=evaluator@example.invalid','commit','-m','Fictional baseline']);}\nconst hash=value=>createHash('sha256').update(value).digest('hex');\nconst revision=git(source,['rev-parse','HEAD']);\nconst schedule=[{id:'b1-1-none',caseId:'B1',arm:'none',repetition:1,purpose:'calibration-only'}];\nfor(let rep=1;rep<=3;rep++) for(const arm of [['none','devmethod','bmad'],['devmethod','bmad','none'],['bmad','none','devmethod']][rep-1]) schedule.push({id:`matched-b1-${rep}-${arm}`,caseId:'B1',arm,repetition:rep});\nfor(const caseId of ['B3','B4'])schedule.push({id:`smoke-${caseId.toLowerCase()}`,caseId,arm:'devmethod',repetition:1});\n// Prioritize complete three-arm coverage and failure/resumption before repetitions.\nconst probes=schedule.splice(10,2);schedule.splice(4,0,...probes);\nconst controller=new AbortController(); const stop=()=>controller.abort();process.on('SIGINT',stop);process.on('SIGTERM',stop);\ntry {\n  for(const entry of schedule.slice(0,count)) {\n    const prior=path.join(ledger,entry.id+'.json');\n    if(fs.existsSync(prior)) {\n      const record=JSON.parse(fs.readFileSync(prior));\n      if(record.status==='exited' && record.usage)continue;\n      throw new Error('Existing unsuccessful/interrupted slot requires explicit reconciliation; no automatic retry.');\n    }\n    if(controller.signal.aborted)break;\n    // Reserve before setup; a setup failure leaves a slot requiring reconciliation.\n    const slot=reserveRun(ledger,entry.id);\n    const dir=path.join(worktrees,entry.id), staging=path.join(root,'staging-'+entry.id);\n    git(base,['worktree','add','-b',entry.id,dir]);\n    const prepared=prepare(entry.caseId,staging);fs.cpSync(staging,dir,{recursive:true});fs.rmSync(staging,{recursive:true});\n    let wrapper='';\n    if(entry.arm==='devmethod') {initialize({destination:dir,tool:'codex'});wrapper='Use the installed project-foundation skill and only its relevant references. ';}\n    if(entry.arm==='bmad') {\n      const bmad=path.join(root,'bmad-export');\n      if(!fs.existsSync(path.join(bmad,'.agents/skills')))throw new Error('Place the reviewed pinned BMAD 6.12.0 export in campaign-root/bmad-export before admission.');\n      fs.cpSync(bmad,dir,{recursive:true});wrapper='Use the installed BMAD method and the relevant skill for this bounded task. ';\n    }\n    const baseline=snapshot(dir); git(dir,['add','.']);git(dir,['-c','user.name=Evaluator','-c','user.email=evaluator@example.invalid','commit','-m','Pinned arm setup']);\n    const fixture=fixtures.find(f=>f.id===entry.caseId);\n    const prompt=wrapper+(entry.caseId==='B4'?'Run the initial tests and explicitly report their real failure before correcting and resuming. ':'')+fixture.prompt+'\\nRespond in English. Stay in this worktree. No network, purchases, external writes, nested agents, commits or publication. Record a concise HANDOFF.md. Stop at the stated task scope.';\n    const args=codexArguments({directory:dir,model:'gpt-5.6-sol'});\n    const meta={...entry,driverPins:Object.fromEntries(['scripts/run-native-pilot.mjs','scripts/native-host.mjs','scripts/hosts/codex.mjs','scripts/hosts/checks.mjs'].map(p=>[p,hash(fs.readFileSync(path.join(source,p)))])),methodRevision:entry.arm==='none'?'none':entry.arm==='bmad'?'bmad-method@6.12.0':revision,hostVersion:codexVersion,model:'gpt-5.6-sol',effort:'low',prompt,fixtureDigest:hash(JSON.stringify(fixture)),promptDigest:hash(fixture.prompt),baseline,args,timeoutSeconds:120};\n    fs.writeFileSync(path.join(evidence,entry.id+'-setup.json'),JSON.stringify(meta,null,2));\n    console.log(JSON.stringify({event:'started',id:entry.id}));\n    const result=await supervise({command:'codex',args,cwd:dir,prompt,timeoutMs:120000,signal:controller.signal,env});\n    fs.writeFileSync(path.join(evidence,entry.id+'.jsonl'),result.stdout);fs.writeFileSync(path.join(evidence,entry.id+'.stderr'),result.stderr);\n    let events;try {events=result.stdout.trim().split('\\n').filter(Boolean).map(line=>JSON.parse(line));}catch{events=[];}\n    const usage=codexUsage(events);let checks;\n    try { checks=collect(entry.caseId,dir,baseline,verifyFixture); } catch(error) { checks={error:error.message,testsIntact:false}; }\n    const acceptance=Boolean(checks.testsIntact && checks.unauthorizedChanges.length===0 && checks.check.exit===(entry.caseId==='B5'?1:0));\n    const record={...entry,status:result.status,exit:result.exit,error:result.error,usage,elapsedSeconds:result.elapsedSeconds,acceptance,checks,\n      transcriptSha256:hash(result.stdout),review:'pending; process exit and objective checks do not certify instruction adherence'};\n    recordRun(slot,record);\n    console.log(JSON.stringify({event:'finished',id:entry.id,status:result.status,acceptance,usage,elapsedSeconds:result.elapsedSeconds}));\n    if(result.status!=='exited'||!usage)break;\n  }\n}finally{process.removeListener('SIGINT',stop);process.removeListener('SIGTERM',stop);}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "scripts/summarize-native-pilot.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/checkpoint.ts",
+    "messages": [
+      {
+        "ruleId": "no-control-regex",
+        "severity": 2,
+        "message": "Unexpected control character(s) in regular expression: \\x00, \\x1f.",
+        "line": 45,
+        "column": 60,
+        "messageId": "unexpected",
+        "endLine": 45,
+        "endColumn": 80
+      },
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 39 to the 15 allowed.",
+        "line": 56,
+        "column": 10,
+        "messageId": "refactorFunction",
+        "endLine": 56,
+        "endColumn": 18
+      },
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 31 to the 15 allowed.",
+        "line": 113,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 113,
+        "endColumn": 34
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 2,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import * as fs from 'node:fs';\nimport path from 'node:path';\nimport { createHash } from 'node:crypto';\nimport { parseJson, checkPath } from './filesystem.js';\nimport { gitState, validGit, type GitState } from './records.js';\n\nexport interface CheckpointSource { id: string; path: string; sha256: string }\nexport interface CheckpointEvidence extends CheckpointSource {\n  sourceIds: string[];\n  dependsOn: string[];\n  outcome: 'passed' | 'failed' | 'blocked' | 'not-run';\n  criterionIds?: string[];\n  kind?: 'automated' | 'manual' | 'design-review' | 'recommendation';\n  revision?: string;\n}\nexport interface Checkpoint {\n  format: 1;\n  git?: GitState;\n  blockers?: string[];\n  scope: string;\n  status: 'active' | 'blocked' | 'complete';\n  nextAction: string | null;\n  sources: CheckpointSource[];\n  evidence: CheckpointEvidence[];\n}\nexport interface CheckpointFinding { code: string; message: string; id?: string; path?: string }\nexport interface CheckpointReport {\n  format: 1;\n  destination: string;\n  status: 'ready' | 'reverify' | 'blocked' | 'complete' | 'invalid';\n  scope?: string;\n  nextAction?: string | null;\n  findings: CheckpointFinding[];\n  sources: { id: string; state: 'unchanged' | 'changed' | 'unavailable' }[];\n  evidence: { id: string; state: 'valid' | 'invalidated' | 'failed' | 'blocked' | 'not-run' }[];\n}\n\nconst object = (value: unknown): value is Record<string, unknown> =>\n  typeof value === 'object' && value !== null && !Array.isArray(value);\nconst identifier = (value: unknown): value is string =>\n  typeof value === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(value);\nconst nonempty = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;\n// Portable repository-relative paths only: no Windows aliases, drives or streams.\nfunction safePath(value: unknown): value is string {\n  return typeof value === 'string' && value.length > 0 && !/[\\\\:\\x00-\\x1f\\x7f]/.test(value)\n    && value.split('/').every(part => part.length > 0 && part !== '.' && part !== '..'\n      && !/[. ]$/.test(part) && !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\\.|$)/i.test(part));\n}\nfunction pinned(value: unknown): value is CheckpointSource {\n  return object(value) && identifier(value.id) && safePath(value.path)\n    && typeof value.sha256 === 'string' && /^[a-f0-9]{64}$/.test(value.sha256);\n}\nfunction ids(value: unknown): value is string[] {\n  return Array.isArray(value) && value.every(identifier) && new Set(value).size === value.length;\n}\nfunction validate(input: unknown): Checkpoint {\n  if (!object(input) || input.format !== 1) throw new Error('Expected checkpoint format 1. Markdown checkpoints remain a manual workflow.');\n  if (!nonempty(input.scope) || typeof input.status !== 'string' || !['active', 'blocked', 'complete'].includes(input.status))\n    throw new Error('Checkpoint needs a nonempty scope and status active, blocked or complete.');\n  if (input.nextAction !== null && !nonempty(input.nextAction)) throw new Error('nextAction must be a nonempty string or null.');\n  if (input.status === 'complete' && input.nextAction !== null) throw new Error('Completed scope must have nextAction null; completion authorizes no new work.');\n  if (input.status !== 'complete' && !nonempty(input.nextAction)) throw new Error('Active or blocked scope needs an explicit nextAction.');\n  if (!Array.isArray(input.sources) || !input.sources.every(pinned) || input.sources.length === 0)\n    throw new Error('sources must contain pinned IDs, safe relative paths and lowercase SHA-256 hashes.');\n  if (!Array.isArray(input.evidence) || !input.evidence.every(item => pinned(item) && object(item)\n    && ids(item.sourceIds) && item.sourceIds.length > 0 && ids(item.dependsOn)\n    && typeof item.outcome === 'string' && ['passed', 'failed', 'blocked', 'not-run'].includes(item.outcome)))\n    throw new Error('evidence needs pinned artifacts, sourceIds, dependsOn and outcome passed, failed or not-run.');\n  if (input.sources.length > 256 || input.evidence.length > 256) throw new Error('Checkpoint supports at most 256 sources and evidence items.');\n  if (input.git !== undefined && !validGit(input.git)) throw new Error('Invalid Git checkpoint provenance.');\n  if (input.blockers !== undefined && (!Array.isArray(input.blockers) || !input.blockers.every(nonempty))) throw new Error('blockers must be nonempty strings.');\n  for (const item of input.evidence) {\n    if (item.criterionIds !== undefined && (!ids(item.criterionIds) || !item.criterionIds.length)) throw new Error('criterionIds must be nonempty unique IDs.');\n    if (item.kind !== undefined && (typeof item.kind !== 'string' || !['automated', 'manual', 'design-review', 'recommendation'].includes(item.kind))) throw new Error('Invalid verification kind.');\n    if (item.revision !== undefined && !nonempty(item.revision)) throw new Error('Invalid evidence revision.');\n  }\n  const state = input as unknown as Checkpoint;\n  const sources = new Set(state.sources.map(source => source.id));\n  const evidence = new Map(state.evidence.map(item => [item.id, item]));\n  if (sources.size !== state.sources.length || evidence.size !== state.evidence.length)\n    throw new Error('Source IDs and evidence IDs must each be unique.');\n  if (new Set(state.sources.map(source => source.path)).size !== state.sources.length\n    || new Set(state.evidence.map(item => item.path)).size !== state.evidence.length)\n    throw new Error('Source paths and evidence paths must each be unique.');\n  for (const item of state.evidence) {\n    if (item.sourceIds.some(id => !sources.has(id)) || item.dependsOn.some(id => !evidence.has(id)))\n      throw new Error(`Evidence ${item.id} references an unknown source or evidence ID.`);\n  }\n  // Iterative topological traversal avoids stack exhaustion on an untrusted graph.\n  const done = new Set<string>();\n  while (done.size < evidence.size) {\n    let progress = false;\n    for (const item of state.evidence) if (!done.has(item.id) && item.dependsOn.every(id => done.has(id))) {\n      done.add(item.id); progress = true;\n    }\n    if (!progress) throw new Error('Evidence dependencies contain a cycle.');\n  }\n  return state;\n}\n\nfunction readPinned(destination: string, relative: string): Buffer {\n  if (!safePath(relative)) throw new Error('Expected a safe repository-relative path.');\n  const file = path.join(destination, relative);\n  checkPath(file);\n  if (!fs.lstatSync(file).isFile() || fs.lstatSync(file).size > 1024 * 1024) throw new Error('Expected a regular file.');\n  return fs.readFileSync(file);\n}\nfunction emptyReport(destination: string): CheckpointReport {\n  return { format: 1, destination: path.resolve(destination), status: 'invalid', findings: [], sources: [], evidence: [] };\n}\n\n/** Read-only inspection; report readiness never grants execution or integration permission. */\nexport function inspectCheckpoint(destination: string, input: unknown): CheckpointReport {\n  const report = emptyReport(destination);\n  let state: Checkpoint;\n  try {\n    state = validate(input);\n    checkPath(report.destination);\n    if (!fs.statSync(report.destination).isDirectory()) throw new Error('Destination must be a directory.');\n  } catch (error) {\n    report.findings.push({ code: 'invalid-checkpoint', message: (error as Error).message });\n    return report;\n  }\n  report.scope = state.scope;\n  report.nextAction = state.nextAction;\n  const compare = (item: CheckpointSource, kind: 'source' | 'evidence'): 'unchanged' | 'changed' | 'unavailable' => {\n    try {\n      const digest = createHash('sha256').update(readPinned(report.destination, item.path)).digest('hex');\n      if (digest === item.sha256) return 'unchanged';\n      report.findings.push({ code: `${kind}-changed`, id: item.id, path: item.path, message: `Pinned ${kind} content changed; inspect the difference and repeat affected verification.` });\n      return 'changed';\n    } catch (error) {\n      report.findings.push({ code: `${kind}-unavailable`, id: item.id, path: item.path, message: `Cannot inspect pinned ${kind}: ${(error as Error).message}` });\n      return 'unavailable';\n    }\n  };\n  report.sources = state.sources.map(source => ({ id: source.id, state: compare(source, 'source') }));\n  const sourceStates = new Map(report.sources.map(source => [source.id, source.state]));\n  const artifactStates = new Map(state.evidence.map(item => [item.id, compare(item, 'evidence')]));\n  const evidenceStates = new Map<string, CheckpointReport['evidence'][number]['state']>();\n  while (evidenceStates.size < state.evidence.length) {\n    for (const item of state.evidence) {\n      if (evidenceStates.has(item.id) || !item.dependsOn.every(id => evidenceStates.has(id))) continue;\n      const invalidated = artifactStates.get(item.id) !== 'unchanged'\n        || item.sourceIds.some(id => sourceStates.get(id) !== 'unchanged')\n        || item.dependsOn.some(id => evidenceStates.get(id) !== 'valid');\n      const result = invalidated ? 'invalidated' : item.outcome === 'passed' ? 'valid' : item.outcome;\n      evidenceStates.set(item.id, result);\n      if (result !== 'valid') report.findings.push({ code: `evidence-${result}`, id: item.id, path: item.path,\n        message: `Evidence ${item.id} is ${result}; it cannot support resumption until affected verification is recorded again.` });\n    }\n  }\n  report.evidence = state.evidence.map(item => ({ id: item.id, state: evidenceStates.get(item.id)! }));\n  let gitChanged = false;\n  if (state.git) {\n    try {\n      const current = gitState(report.destination);\n      gitChanged = Object.entries(state.git).some(([key, value]) => current[key as keyof GitState] !== value);\n      if (gitChanged) report.findings.push({ code: 'git-changed', message: 'Branch, commit or worktree changed; reassess scope and omitted dependencies. Independent pins are retained.' });\n    } catch { gitChanged = true; report.findings.push({ code: 'git-unavailable', message: 'Cannot compare recorded Git provenance.' }); }\n  }\n  for (const blocker of state.blockers ?? []) report.findings.push({ code: 'dependency-blocked', message: blocker });\n  const needsVerification = gitChanged || report.sources.some(source => source.state !== 'unchanged')\n    || report.evidence.some(item => item.state !== 'valid') || report.evidence.length === 0;\n  if (!report.evidence.length) report.findings.push({ code: 'evidence-empty', message: 'No evidence was pinned; establish verification before relying on this checkpoint.' });\n  report.status = state.status === 'blocked' || (state.blockers?.length ?? 0) > 0 || state.evidence.some(item => item.outcome === 'blocked') ? 'blocked' : needsVerification ? 'reverify' : state.status === 'complete' ? 'complete' : 'ready';\n  return report;\n}\n\n/** Load a JSON checkpoint within the project; never follows symbolic paths or changes files. */\nexport function readCheckpoint(destination: string, checkpointPath: string): CheckpointReport {\n  try {\n    return inspectCheckpoint(destination, parseJson(readPinned(path.resolve(destination), checkpointPath).toString('utf8')));\n  } catch (error) {\n    const report = emptyReport(destination);\n    report.findings.push({ code: 'invalid-checkpoint', path: checkpointPath, message: (error as Error).message });\n    return report;\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/cli.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/closure.ts",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 23 to the 15 allowed.",
+        "line": 6,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 6,
+        "endColumn": 31
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { validateMission, missionStatus } from './mission.js';\nimport { inspectCheckpoint, type Checkpoint } from './checkpoint.js';\nimport { readRecord, readLocal, digest, secretPath, object } from './records.js';\n\n/** Coverage of operator-recorded evidence, not an execution receipt or a semantic verdict. */\nexport function inspectClosure(root: string, missionPath: string, checkpointPath: string) {\n  const mission = validateMission(readRecord(root, missionPath));\n  const input = readRecord(root, checkpointPath);\n  // Preflight before the checkpoint inspector reads any pinned files.\n  if (object(input)) for (const key of ['sources', 'evidence']) {\n    const entries = input[key];\n    if (Array.isArray(entries) && entries.some(e => object(e) && typeof e.path === 'string' && secretPath(e.path)))\n      throw new Error('Secret-like checkpoint pins cannot support closure.');\n  }\n  if (mission.acceptance.some(c => c.changes.some(secretPath))) throw new Error('Secret-like change paths cannot support closure.');\n  const checkpoint = inspectCheckpoint(root, input);\n  const limitations = 'Read-only coverage of declared criteria and recorded evidence. No commands executed, truth certification, external-state validation, status mutation or execution authorization. A supported report still requires assessment of criterion completeness and evidence relevance.';\n  if (checkpoint.status === 'invalid') return { format: 1, missionId: mission.id, status: 'invalid', findings: checkpoint.findings, criteria: [], limitations };\n  const state = input as Checkpoint;\n  const findings: { code: string; message: string }[] = [];\n  const sourceByPath = new Map(state.sources.map(s => [s.path, s]));\n  const pinnedMission = sourceByPath.get(missionPath);\n  if (!pinnedMission || pinnedMission.sha256 !== digest(readLocal(root, missionPath)))\n    findings.push({ code: 'mission-not-pinned', message: 'Pin this exact mission before relying on criterion coverage.' });\n  for (const source of mission.sources) {\n    const pin = sourceByPath.get(source.path);\n    if (!pin || pin.id !== source.id) findings.push({ code: 'context-not-pinned', message: `Mission source ${source.id} must use the same ID and path in checkpoint sources.` });\n  }\n  if (!state.git) findings.push({ code: 'revision-missing', message: 'Closure requires a Git-aware checkpoint; legacy resume remains supported.' });\n  const knownCriteria = new Set(mission.acceptance.map(c => c.id));\n  for (const e of state.evidence) if (e.criterionIds?.some(id => !knownCriteria.has(id)))\n    findings.push({ code: 'unknown-criterion', message: `Evidence ${e.id} names a criterion outside this mission.` });\n  const evidenceStates = new Map(checkpoint.evidence.map(e => [e.id, e.state]));\n  const criteria = mission.acceptance.map(criterion => {\n    const changes = criterion.changes.map(p => sourceByPath.get(p));\n    const candidates = state.evidence.filter(e => e.criterionIds?.includes(criterion.id));\n    const supporting = candidates.filter(e => evidenceStates.get(e.id) === 'valid'\n      && e.kind === criterion.kind && !!state.git && e.revision === state.git.commit\n      && !!pinnedMission && e.sourceIds.includes(pinnedMission.id)\n      && changes.every(pin => pin && e.sourceIds.includes(pin.id)));\n    const reasons = [];\n    if (changes.some(pin => !pin)) reasons.push('changed-path-not-pinned');\n    if (!candidates.length) reasons.push('evidence-missing');\n    else if (!supporting.length) reasons.push('no-current-matching-evidence');\n    return { id: criterion.id, status: supporting.length ? 'supported' : 'unmet', evidenceIds: supporting.map(e => e.id), reasons };\n  });\n  const blocked = missionStatus(mission) === 'blocked' || checkpoint.status === 'blocked';\n  const status = blocked ? 'blocked' : checkpoint.status === 'reverify' ? 'reverify'\n    : findings.length || criteria.some(c => c.status !== 'supported') ? 'unmet' : 'supported';\n  return { format: 1, missionId: mission.id, status, checkpointStatus: checkpoint.status,\n    findings: [...checkpoint.findings, ...findings], criteria, limitations };\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/commands.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/doctor.ts",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 34 to the 15 allowed.",
+        "line": 55,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 55,
+        "endColumn": 25
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import * as fs from 'node:fs';\nimport path from 'node:path';\nimport { createHash } from 'node:crypto';\nimport { tools, modules, templates, type Tool, type Provenance } from './init.js';\nimport { commandSkills } from './commands.js';\nimport { isReviewRuntimePath } from './review-runtime.js';\nimport { parseJson, checkPath, stat } from './filesystem.js';\n\ntype Finding = { severity: 'warning' | 'error'; code: string; path?: string; message: string };\nexport type Manifest = { format: 2; kit: 'devmethod'; tool: Tool; skills: string[]; files: Record<string, string>; provenance?: Provenance };\nexport type DoctorReport = {\n  format: 1; destination: string; status: 'ok' | 'warning' | 'error';\n  tool?: Tool; skills?: string[]; checked: number; unchanged: number; findings: Finding[];\n};\n\nfunction object(value: unknown): value is Record<string, unknown> {\n  return value !== null && typeof value === 'object' && !Array.isArray(value);\n}\n\nexport function validateManifest(value: unknown): Manifest {\n  if (!object(value) || value.format !== 2 || value.kit !== 'devmethod' ||\n      typeof value.tool !== 'string' || !Object.hasOwn(tools, value.tool) ||\n      !Array.isArray(value.skills) || !value.skills.includes('project-foundation') ||\n      new Set(value.skills).size !== value.skills.length ||\n      !value.skills.every(name => typeof name === 'string' && modules.includes(name as typeof modules[number])) ||\n      !object(value.files)) throw new Error('Expected a DevMethod format 2 manifest with a supported host and unique modules including project-foundation.');\n  const root = tools[value.tool as Tool];\n  const supportedSkills = [...value.skills, ...commandSkills(value.skills)];\n  const required = [...templates, 'DEVMETHOD-LICENSE', ...value.skills.map(name => `${root}/${name}/SKILL.md`)];\n  for (const name of required) {\n    if (!Object.hasOwn(value.files, name)) throw new Error(`Manifest is missing required entry: ${name}`);\n  }\n  // Validate every entry before any payload reads. A manifest never grants filesystem access.\n  for (const [name, hash] of Object.entries(value.files)) {\n    const parts = name.split('/');\n    const safe = parts.every(part => /^[a-zA-Z0-9._-]+$/.test(part) && part !== '.' && part !== '..');\n    const rootFile = templates.includes(name) || name === 'DEVMETHOD-LICENSE';\n    const skillFile = parts.slice(0, 2).join('/') === root && supportedSkills.includes(parts[2]) &&\n      ((parts.length === 4 && parts[3] === 'SKILL.md') ||\n       (parts.length >= 5 && ['assets', 'references'].includes(parts[3] ?? '') && name.endsWith('.md')) ||\n       isReviewRuntimePath(parts));\n    if (!safe || (!rootFile && !skillFile)) throw new Error(`Manifest contains an unsupported path: ${name}`);\n    if (typeof hash !== 'string' || !/^[a-f0-9]{64}$/i.test(hash)) throw new Error(`Invalid SHA-256 for: ${name}`);\n  }\n  if (value.provenance !== undefined) {\n    const p = value.provenance;\n    if (!object(p) || p.packageName !== 'devmethod-ai' || typeof p.packageVersion !== 'string' ||\n        !/^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][a-zA-Z0-9.+-]+)?$/.test(p.packageVersion) ||\n        typeof p.payloadSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(p.payloadSha256)) throw new Error('Invalid installation provenance.');\n  }\n  return value as Manifest;\n}\n\n/** Inspect the recorded installation baseline without writes, commands or network calls. */\nexport function diagnose(destination: string): DoctorReport {\n  const report: DoctorReport = { format: 1, destination: path.resolve(destination), status: 'ok', checked: 0, unchanged: 0, findings: [] };\n  const add = (severity: Finding['severity'], code: string, message: string, file?: string) => {\n    report.findings.push({ severity, code, ...(file === undefined ? {} : { path: file }), message });\n    if (severity === 'error' || report.status === 'ok') report.status = severity;\n  };\n  let manifest: Manifest;\n  try {\n    const file = path.join(report.destination, 'kit-manifest.json');\n    checkPath(file);\n    const info = stat(file);\n    if (!info) {\n      add('error', 'manifest-missing', 'No installation manifest. Check --dest or install into a fresh staging directory.', 'kit-manifest.json');\n      return report;\n    }\n    if (!info.isFile() || info.size > 1024 * 1024) throw new Error('Manifest must be a regular file no larger than 1 MiB.');\n    manifest = validateManifest(parseJson(fs.readFileSync(file, 'utf8')));\n  } catch (error) {\n    add('error', 'manifest-invalid', error instanceof Error ? error.message : String(error), 'kit-manifest.json');\n    return report;\n  }\n  report.tool = manifest.tool;\n  report.skills = manifest.skills;\n  for (const [relative, expected] of Object.entries(manifest.files)) {\n    report.checked++;\n    try {\n      const file = path.join(report.destination, relative);\n      checkPath(file);\n      const info = stat(file);\n      if (!info) { add('error', 'file-missing', 'Restore from a reviewed staging installation.', relative); continue; }\n      if (!info.isFile()) { add('error', 'file-type', 'Expected a regular file.', relative); continue; }\n      const actual = createHash('sha256').update(fs.readFileSync(file)).digest('hex');\n      if (actual === expected.toLowerCase()) report.unchanged++;\n      else add('warning', 'file-modified', 'Differs from the initial installation. Review intentional customization; nothing was overwritten.', relative);\n    } catch (error) {\n      add('error', 'file-unreadable', error instanceof Error ? error.message : String(error), relative);\n    }\n  }\n  for (const name of [...manifest.skills, ...commandSkills(manifest.skills)]) {\n    for (const root of Object.values(tools)) {\n      if (root === tools[manifest.tool]) continue;\n      const relative = `${root}/${name}`;\n      try {\n        const file = path.join(report.destination, relative);\n        checkPath(file);\n        if (stat(file)) add('error', 'duplicate-host', 'Another host contains this module. Keep one reviewed copy per project.', relative);\n      } catch (error) {\n        add('error', 'host-unreadable', error instanceof Error ? error.message : String(error), relative);\n      }\n    }\n  }\n  return report;\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/filesystem.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/init.ts",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 41 to the 15 allowed.",
+        "line": 29,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 29,
+        "endColumn": 27
+      },
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.",
+        "line": 91,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 91,
+        "endColumn": 29
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 2,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import * as fs from 'node:fs';\nimport path from 'node:path';\nimport { createHash } from 'node:crypto';\nimport { fileURLToPath } from 'node:url';\nimport { commandSkills } from './commands.js';\nimport { reviewRuntimeFiles } from './review-runtime.js';\nimport { parseJson, checkPath, stat } from './filesystem.js';\n\nexport const tools = { codex: '.agents/skills', claude: '.claude/skills', cursor: '.cursor/skills' } as const;\nexport type Tool = keyof typeof tools;\nexport const modules = ['project-foundation', 'decision-architecture', 'design-to-code', 'react-feature-engineering', 'reliable-ai-integration', 'scoped-delivery'] as const;\nexport const templates = ['PROJECT_PROFILE.md', 'AGENTS.foundation.md', 'START_HERE.md', 'ENGINEERING_POLICY.template.md'];\nconst packageRoot = fileURLToPath(new URL('../', import.meta.url));\n\nfunction walk(directory: string, prefix = ''): string[] {\n  return fs.readdirSync(directory, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name)).flatMap(entry => {\n    const relative = prefix + entry.name;\n    if (entry.isSymbolicLink()) throw new Error(`Symbolic source: ${relative}`);\n    if (entry.isDirectory()) return walk(path.join(directory, entry.name), relative + '/');\n    if (!entry.isFile()) throw new Error(`Unsupported source: ${relative}`);\n    return [relative];\n  });\n}\n\nfunction profile(data: Buffer, tool: Tool): Buffer {\n  return Buffer.from(data.toString().replace(/\\.(?:agents|claude|cursor)\\/skills/g, tools[tool]));\n}\n\nexport function initialize(options: { destination: string; tool: Tool; selected?: string[]; dryRun?: boolean }) {\n  if (!Object.hasOwn(tools, options.tool)) throw new Error('Unknown tool');\n  const selected = [...new Set(['project-foundation', ...(options.selected ?? modules)])];\n  for (const name of selected) if (!modules.includes(name as typeof modules[number])) throw new Error(`Unknown module: ${name}`);\n  const destination = path.resolve(options.destination);\n  checkPath(destination);\n  if (destination === packageRoot || destination.startsWith(packageRoot + path.sep)) throw new Error('Install outside the distribution directory');\n  if (stat(destination) && !stat(destination)?.isDirectory()) throw new Error('Destination must be a directory');\n  for (const name of [...selected, ...commandSkills(selected)]) {\n    for (const otherRoot of Object.values(tools)) {\n      if (otherRoot !== tools[options.tool] && stat(path.join(destination, otherRoot, name))) throw new Error(`Duplicate skill in another host directory: ${otherRoot}/${name}`);\n    }\n  }\n  const files = bundledFiles(options.tool, selected);\n  const hashes = Object.fromEntries([...files].map(([name, data]) => [name, createHash('sha256').update(data).digest('hex')]));\n  const manifest = { format: 2, kit: 'devmethod', tool: options.tool, skills: selected, files: hashes, provenance: bundledProvenance(hashes) };\n  files.set('kit-manifest.json', Buffer.from(JSON.stringify(manifest, null, 2) + '\\n'));\n  const pending: [string, Buffer][] = [];\n  for (const [relative, data] of files) {\n    const target = path.join(destination, relative);\n    checkPath(target);\n    const info = stat(target);\n    if (info) {\n      // Legacy manifests remain byte-for-byte intact on an otherwise identical init.\n      if (relative === 'kit-manifest.json' && info.isFile()) {\n        const parsed = parseJson(fs.readFileSync(target, 'utf8'));\n        const existing = parsed as Partial<typeof manifest> | null;\n        if (existing && typeof existing === 'object' && existing.provenance === undefined && existing.format === 2 && existing.kit === manifest.kit && existing.tool === manifest.tool &&\n            JSON.stringify(existing.skills) === JSON.stringify(selected) &&\n            Object.keys(existing.files ?? {}).length === Object.keys(hashes).length &&\n            Object.entries(hashes).every(([name, hash]) => existing.files?.[name] === hash)) continue;\n      }\n      if (!info.isFile() || !fs.readFileSync(target).equals(data)) throw new Error(`Conflict; no files written: ${relative}`);\n    } else pending.push([target, data]);\n  }\n  const created: string[] = [];\n  const directories: string[] = [];\n  function mkdir(directory: string): void {\n    if (stat(directory)) return;\n    mkdir(path.dirname(directory));\n    fs.mkdirSync(directory);\n    directories.push(directory);\n  }\n  if (!options.dryRun) {\n    try {\n      for (const [target, data] of pending) {\n        mkdir(path.dirname(target));\n        checkPath(target);\n        const descriptor = fs.openSync(target, 'wx');\n        created.push(target);\n        try { fs.writeFileSync(descriptor, data); } finally { fs.closeSync(descriptor); }\n      }\n    } catch (error) {\n      for (const file of created.reverse()) fs.unlinkSync(file);\n      for (const directory of directories.reverse()) fs.rmdirSync(directory);\n      throw error;\n    }\n  }\n  return { destination, tool: options.tool, skills: selected, files: files.size, new: pending.length, identical: files.size - pending.length, dryRun: Boolean(options.dryRun) };\n}\n\n/** The exact host-profiled payload shipped with this CLI. */\nexport function bundledFiles(tool: Tool, selected: readonly string[]): Map<string, Buffer> {\n  const files = new Map<string, Buffer>();\n  for (const name of [...selected, ...commandSkills(selected)]) {\n    const source = path.join(packageRoot, '.agents/skills', name);\n    checkPath(source);\n    for (const relative of walk(source)) {\n      if (!/^(SKILL\\.md|assets\\/.*\\.md|references\\/.*\\.md)$/.test(relative)) throw new Error(`Unexpected payload file: ${name}/${relative}`);\n      files.set(`${tools[tool]}/${name}/${relative}`, profile(fs.readFileSync(path.join(source, relative)), tool));\n    }\n  }\n  if (selected.includes('scoped-delivery')) {\n    for (const name of reviewRuntimeFiles) {\n      const compiled = name.endsWith('.mjs') ? name.replace(/\\.mjs$/, '.js') : name;\n      const source = path.join(packageRoot, 'dist', compiled);\n      checkPath(source);\n      let data = fs.readFileSync(source);\n      // Explicit .mjs modules work inside CommonJS, ESM and package-less projects.\n      if (name.endsWith('.mjs')) data = Buffer.from(data.toString().replace(/(from ['\"]\\.\\/[^'\"]+)\\.js(['\"])/g, '$1.mjs$2'));\n      files.set(`${tools[tool]}/scoped-delivery/scripts/${name}`, data);\n    }\n  }\n  for (const template of templates) files.set(template, profile(fs.readFileSync(path.join(packageRoot, '.agents/skills/project-foundation/assets', template)), tool));\n  files.set('DEVMETHOD-LICENSE', fs.readFileSync(path.join(packageRoot, 'LICENSE')));\n  return files;\n}\n\nexport type Provenance = { packageName: string; packageVersion: string; payloadSha256: string };\nexport function bundledProvenance(hashes: Record<string, string>): Provenance {\n  const metadata = JSON.parse(fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'));\n  const canonical = Object.keys(hashes).sort().map(name => [name, hashes[name]]);\n  return { packageName: metadata.name, packageVersion: metadata.version,\n    payloadSha256: createHash('sha256').update(JSON.stringify(canonical)).digest('hex') };\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/loop.ts",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 74 to the 15 allowed.",
+        "line": 23,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 23,
+        "endColumn": 28
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { object, text, id } from './records.js';\n\ninterface Attempt {\n  number: number; outcome: 'passed' | 'failed' | 'blocked' | 'interrupted';\n  observation: string; diagnosis: string | null; adjustment: string | null;\n  evidenceIds: string[]; progress: boolean; durationMs: number | null; tokens: number | null;\n}\ninterface Loop {\n  format: 1; missionId: string;\n  state: 'active' | 'complete' | 'blocked' | 'interrupted' | 'limit-reached' | 'abandoned';\n  nextAction: string | null; stopReason: string | null;\n  limits: { maxAttempts: number; maxConsecutiveNoProgress: number; maxDurationMs: number | null; maxObservedTokens: number | null };\n  attempts: Attempt[];\n}\nconst count = (n: unknown): n is number => Number.isSafeInteger(n) && (n as number) >= 0;\nconst positive = (n: unknown): n is number => count(n) && n > 0;\nconst optionalText = (v: unknown) => v === null || text(v);\nconst optionalCount = (v: unknown) => v === null || count(v);\nconst optionalLimit = (v: unknown) => v === null || positive(v);\nconst enumValue = (v: unknown, values: string[]) => typeof v === 'string' && values.includes(v);\n\n/** Stateless inspection only. Limits do not constrain a host process or a rewritten history. */\nexport function inspectLoop(input: unknown) {\n  if (!object(input) || input.format !== 1 || !id(input.missionId)\n    || !enumValue(input.state, ['active', 'complete', 'blocked', 'interrupted', 'limit-reached', 'abandoned'])\n    || !optionalText(input.nextAction) || !optionalText(input.stopReason) || !object(input.limits)\n    || !positive(input.limits.maxAttempts) || input.limits.maxAttempts > 100\n    || !positive(input.limits.maxConsecutiveNoProgress) || input.limits.maxConsecutiveNoProgress > input.limits.maxAttempts\n    || !optionalLimit(input.limits.maxDurationMs) || !optionalLimit(input.limits.maxObservedTokens)\n    || !Array.isArray(input.attempts) || input.attempts.length > 100) throw new Error('Expected bounded loop format 1 with explicit state, limits and at most 100 attempts.');\n  if (input.state === 'active' ? !text(input.nextAction) || input.stopReason !== null\n    : !text(input.stopReason) || (['complete', 'abandoned'].includes(input.state as string) && input.nextAction !== null))\n    throw new Error('Active loop needs nextAction and null stopReason; stopped loop needs a reason; complete/abandoned have no next action.');\n  for (const [index, a] of input.attempts.entries()) if (!object(a) || a.number !== index + 1\n    || !enumValue(a.outcome, ['passed', 'failed', 'blocked', 'interrupted']) || !text(a.observation)\n    || !optionalText(a.diagnosis) || !optionalText(a.adjustment) || typeof a.progress !== 'boolean'\n    || !optionalCount(a.durationMs) || !optionalCount(a.tokens) || !Array.isArray(a.evidenceIds)\n    || a.evidenceIds.length > 128 || !a.evidenceIds.every(id) || new Set(a.evidenceIds).size !== a.evidenceIds.length\n    || (a.outcome === 'passed' && !a.evidenceIds.length)) throw new Error('Attempts require contiguous numbers, observations, explicit usage (null when unknown), progress and evidence IDs for passing claims.');\n  const loop = input as unknown as Loop;\n  const findings: string[] = [];\n  let streak = 0, elapsed: number | null = 0, used: number | null = 0, knownElapsed = 0, knownUsed = 0;\n  for (const [index, current] of loop.attempts.entries()) {\n    if (index > 0 && (index >= loop.limits.maxAttempts || streak >= loop.limits.maxConsecutiveNoProgress\n      || (loop.limits.maxDurationMs !== null && knownElapsed >= loop.limits.maxDurationMs)\n      || (loop.limits.maxObservedTokens !== null && knownUsed >= loop.limits.maxObservedTokens)))\n      findings.push(`attempt-${current.number}-after-limit`);\n    if (index > 0 && ((loop.limits.maxDurationMs !== null && elapsed === null)\n      || (loop.limits.maxObservedTokens !== null && used === null)) && (!current.diagnosis || !current.adjustment))\n      findings.push(`attempt-${current.number}-unknown-usage-not-reconciled`);\n    streak = current.progress ? 0 : streak + 1;\n    // Nonnegative known observations are lower bounds even when the full total is unknown.\n    knownElapsed += current.durationMs ?? 0;\n    knownUsed += current.tokens ?? 0;\n    if (!Number.isSafeInteger(knownElapsed) || !Number.isSafeInteger(knownUsed)) throw new Error('Usage total exceeds safe integer range.');\n    elapsed = elapsed === null || current.durationMs === null ? null : knownElapsed;\n    used = used === null || current.tokens === null ? null : knownUsed;\n  }\n  for (let i = 1; i < loop.attempts.length; i++) {\n    const previous = loop.attempts[i - 1]!;\n    const current = loop.attempts[i]!;\n    if (previous.outcome === 'failed' && (!current.diagnosis || !current.adjustment)) findings.push(`attempt-${current.number}-retry-without-diagnosis`);\n    if (['blocked', 'interrupted'].includes(previous.outcome) && (!current.diagnosis || !current.adjustment)) findings.push(`attempt-${current.number}-reconciliation-missing`);\n  }\n  const tokens = used, durationMs = elapsed;\n  const last = loop.attempts.at(-1);\n  let noProgress = 0;\n  for (const a of [...loop.attempts].reverse()) { if (a.progress) break; noProgress++; }\n  const limitReasons: string[] = [];\n  if (loop.attempts.length >= loop.limits.maxAttempts) limitReasons.push('attempt-limit');\n  if (noProgress >= loop.limits.maxConsecutiveNoProgress) limitReasons.push('stagnation');\n  if (loop.limits.maxDurationMs !== null && knownElapsed >= loop.limits.maxDurationMs) limitReasons.push('duration-limit');\n  if (loop.limits.maxObservedTokens !== null && knownUsed >= loop.limits.maxObservedTokens) limitReasons.push('observed-token-limit');\n  const unknownUsage = (loop.limits.maxDurationMs !== null && durationMs === null) || (loop.limits.maxObservedTokens !== null && tokens === null);\n  // A successful last attempt can be assessed for closure at its attempt limit; it authorizes no further run.\n  const successfulStop = loop.state === 'complete' && last?.outcome === 'passed';\n  const status = loop.state === 'abandoned' ? 'abandoned'\n    : loop.state === 'interrupted' || last?.outcome === 'interrupted' || unknownUsage ? 'needs-reconciliation'\n    : loop.state === 'blocked' || last?.outcome === 'blocked' ? 'blocked'\n    : findings.length ? 'correct-course'\n    : successfulStop ? 'closure-required'\n    : loop.state === 'limit-reached' || limitReasons.length ? 'limit-reached'\n    : loop.state === 'complete' || last?.outcome === 'failed' ? 'correct-course' : 'eligible';\n  return { format: 1, missionId: loop.missionId, status, eligibleToConsider: status === 'eligible',\n    attempts: loop.attempts.length, consecutiveNoProgress: noProgress, observed: { tokens, durationMs },\n    findings, limitReasons, nextAction: status === 'eligible' ? loop.nextAction : null,\n    recordedNextAction: loop.nextAction, stopReason: loop.stopReason,\n    limitations: 'Read-only operator-supplied history; no dispatch, retry, runtime budget enforcement, authorization or evidence certification. Usage is observed, not a hard cap. A rewritten/omitted history and semantic diagnosis require review. Complete claims require separate criterion coverage and relevance assessment.' };\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/mission.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/planner.ts",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 70 to the 15 allowed.",
+        "line": 10,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 10,
+        "endColumn": 28
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { object, text, id, safePath } from './records.js';\n\ninterface Task { id: string; owner: string; worktree: string; owns: string[]; dependsOn: string[];\n  status: 'pending' | 'running' | 'passed' | 'failed' | 'blocked' | 'cancelled'; attempts: number;\n  maxAttempts: number; checkpoint: string; evidence: 'current' | 'stale' | 'missing'; acceptance: string[] }\nexport interface Plan { format: 1; status: 'active' | 'complete' | 'cancelled'; concurrency: 1 | 2;\n  contractOwner: string; sharedContracts: string[]; tasks: Task[] }\nconst strings = (v: unknown): v is string[] => Array.isArray(v) && v.length <= 128 && v.every(text) && new Set(v).size === v.length;\nconst overlaps = (a: string, b: string) => a.toLowerCase() === b.toLowerCase() || a.toLowerCase().startsWith(b.toLowerCase() + '/') || b.toLowerCase().startsWith(a.toLowerCase() + '/');\nexport function inspectPlan(input: unknown) {\n  if (!object(input) || input.format !== 1 || typeof input.status !== 'string' || !['active', 'complete', 'cancelled'].includes(input.status)\n    || ![1, 2].includes(input.concurrency as number) || !text(input.contractOwner) || !strings(input.sharedContracts) || !input.sharedContracts.every(safePath)\n    || !Array.isArray(input.tasks) || !input.tasks.length || input.tasks.length > 128) throw new Error('Expected bounded plan format 1, concurrency 1 or 2, contractOwner, sharedContracts and 1\u2013128 tasks.');\n  for (const t of input.tasks) if (!object(t) || !id(t.id) || !text(t.owner) || !safePath(t.worktree)\n    || !strings(t.owns) || !t.owns.length || !t.owns.every(safePath) || !strings(t.dependsOn) || !t.dependsOn.every(id)\n    || !strings(t.acceptance) || !t.acceptance.length || !safePath(t.checkpoint)\n    || typeof t.status !== 'string' || !['pending', 'running', 'passed', 'failed', 'blocked', 'cancelled'].includes(t.status)\n    || !Number.isInteger(t.attempts) || (t.attempts as number) < 0 || !Number.isInteger(t.maxAttempts) || (t.maxAttempts as number) < 1 || (t.maxAttempts as number) > 10 || (t.attempts as number) > (t.maxAttempts as number)\n    || typeof t.evidence !== 'string' || !['current', 'stale', 'missing'].includes(t.evidence)) throw new Error('Invalid task: require ownership, isolated worktree, dependencies, acceptance, bounded attempts, checkpoint and evidence state.');\n  const plan = input as unknown as Plan;\n  const byId = new Map(plan.tasks.map(t => [t.id, t]));\n  if (byId.size !== plan.tasks.length) throw new Error('Duplicate task ID.');\n  for (const t of plan.tasks) {\n    if (t.dependsOn.some(d => !byId.has(d))) throw new Error('Unknown dependency.');\n    if (t.owns.some(p => plan.sharedContracts.some(c => overlaps(p, c))) && t.owner !== plan.contractOwner) throw new Error('Shared contracts require the single contract owner.');\n    if (['running', 'passed', 'failed'].includes(t.status) && t.attempts === 0) throw new Error('Running, passed or failed tasks require a recorded attempt.');\n  }\n  for (let i = 0; i < plan.tasks.length; i++) for (const b of plan.tasks.slice(i + 1)) {\n    const a = plan.tasks[i]!;\n    if (overlaps(a.worktree, b.worktree)) throw new Error('Worktrees must be distinct and non-nested.');\n    if (a.owns.some(p => b.owns.some(q => overlaps(p, q)))) throw new Error('Task ownership must not overlap, even across dependent tasks.');\n  }\n  const done = new Set<string>();\n  while (done.size < plan.tasks.length) {\n    let progress = false;\n    for (const t of plan.tasks) if (!done.has(t.id) && t.dependsOn.every(d => done.has(d))) { done.add(t.id); progress = true; }\n    if (!progress) throw new Error('Task dependency cycle.');\n  }\n  const results = new Map<string, string>();\n  for (const key of done) {\n    const t = byId.get(key)!;\n    results.set(key, t.status === 'running' ? 'needs-reconciliation' : t.status === 'passed' ?\n      t.evidence === 'current' && t.dependsOn.every(d => results.get(d) === 'passed') ? 'passed' : 'blocked' :\n      t.status !== 'pending' ? t.status : t.attempts >= t.maxAttempts ? 'exhausted' : t.evidence === 'stale' ? 'blocked' :\n      t.dependsOn.every(d => results.get(d) === 'passed') ? 'eligible' : 'blocked');\n  }\n  const running = plan.tasks.filter(t => t.status === 'running').length;\n  if (running > plan.concurrency) throw new Error('Running tasks exceed concurrency.');\n  if (plan.status === 'complete' && [...results.values()].some(s => s !== 'passed')) throw new Error('Completed plan requires current passing evidence for every task.');\n  const candidates = plan.status === 'active' && running === 0 ? plan.tasks.filter(t => results.get(t.id) === 'eligible').slice(0, plan.concurrency).map(t => t.id) : [];\n  return { format: 1, status: plan.status, tasks: plan.tasks.map(t => ({ id: t.id, state: results.get(t.id) })), candidates,\n    adapter: 'manual-planning-only', dispatch: 'not-implemented',\n    limitations: 'Claims are supplied by the operator; validate checkpoint evidence and actual isolated worktrees before use. Running tasks require reconciliation. No retries, host dispatch or new authorization.' };\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/records.ts",
+    "messages": [
+      {
+        "ruleId": "no-control-regex",
+        "severity": 2,
+        "message": "Unexpected control character(s) in regular expression: \\x00, \\x1f.",
+        "line": 13,
+        "column": 72,
+        "messageId": "unexpected",
+        "endLine": 13,
+        "endColumn": 92
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import * as fs from 'node:fs';\nimport path from 'node:path';\nimport { createHash } from 'node:crypto';\nimport { execFileSync } from 'node:child_process';\nimport { parseJson, checkPath } from './filesystem.js';\n\nexport const object = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);\nexport const text = (v: unknown): v is string => typeof v === 'string' && v.trim().length > 0 && v.length <= 8192;\nexport const id = (v: unknown): v is string => typeof v === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(v);\nexport const digest = (v: string | Buffer): string => createHash('sha256').update(v).digest('hex');\nexport const hash = (v: unknown): v is string => typeof v === 'string' && /^[a-f0-9]{64}$/.test(v);\nexport function safePath(v: unknown): v is string {\n  return typeof v === 'string' && v.length > 0 && v.length <= 1024 && !/[\\\\:\\x00-\\x1f\\x7f]/.test(v)\n    && v.split('/').every(p => p.length > 0 && p !== '.' && p !== '..' && !/[. ]$/.test(p)\n      && !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\\.|$)/i.test(p));\n}\nexport const secretPath = (v: string): boolean => /(^|\\/)(\\.env(?:\\..*)?|\\.git|\\.ssh|\\.npmrc|credentials(?:\\..*)?|secrets?(?:\\..*)?)(\\/|$)|\\.(pem|key|p12|pfx)$/i.test(v);\nexport function readLocal(root: string, file: string, limit = 1024 * 1024): Buffer {\n  if (!safePath(file)) throw new Error('Expected a safe repository-relative path.');\n  const target = path.resolve(root, file); checkPath(target);\n  const info = fs.lstatSync(target);\n  if (!info.isFile() || info.size > limit) throw new Error(`Expected regular file within ${limit} bytes: ${file}`);\n  return fs.readFileSync(target);\n}\nexport function readRecord(root: string, file: string): unknown {\n  if (secretPath(file)) throw new Error('Secret-like record paths are excluded.');\n  const bytes = readLocal(root, file);\n  return parseJson(bytes.toString('utf8'));\n}\nexport interface GitState { branch: string; commit: string; statusSha256: string; diffSha256: string }\nfunction git(root: string, args: string[]): string {\n  checkPath(path.resolve(root));\n  return execFileSync('git', ['--no-optional-locks', '-c', 'core.fsmonitor=false', '-C', path.resolve(root), ...args], {\n    encoding: 'utf8', timeout: 10000, maxBuffer: 8 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'],\n    env: { ...process.env, GIT_PAGER: 'cat', GIT_TERMINAL_PROMPT: '0' }\n  });\n}\nexport function gitState(root: string): GitState {\n  // Avoid status/diff: repository-configured clean filters can execute even during reads.\n  // ls-files reads index metadata; hash raw tracked bytes ourselves, without conversion.\n  const index = git(root, ['ls-files', '--stage', '-z']);\n  const tracked = git(root, ['ls-files', '-z']).split('\\0').filter(Boolean);\n  if (tracked.length > 10000) throw new Error('Git provenance exceeds 10000 tracked files.');\n  let bytesRead = 0;\n  const working = tracked.map(file => {\n    if (!safePath(file) || secretPath(file)) return [file, 'excluded'];\n    const target = path.resolve(root, file); checkPath(target);\n    if (!fs.existsSync(target)) return [file, 'missing'];\n    const info = fs.lstatSync(target);\n    if (info.isDirectory()) return [file, 'directory-or-submodule'];\n    bytesRead += info.size;\n    if (bytesRead > 64 * 1024 * 1024) throw new Error('Git provenance exceeds 64 MiB of tracked content; use selected checkpoint pins instead.');\n    return [file, digest(readLocal(root, file, 8 * 1024 * 1024)), info.mode & 0o111];\n  });\n  const untracked = git(root, ['ls-files', '--others', '--exclude-standard', '-z']);\n  return { branch: git(root, ['rev-parse', '--abbrev-ref', 'HEAD']).trim(), commit: git(root, ['rev-parse', 'HEAD']).trim(),\n    statusSha256: digest(index + '\\0' + untracked), diffSha256: digest(JSON.stringify(working)) };\n}\nexport function validGit(v: unknown): v is GitState {\n  return object(v) && text(v.branch) && typeof v.commit === 'string' && /^[a-f0-9]{40,64}$/.test(v.commit)\n    && hash(v.statusSha256) && hash(v.diffSha256);\n}\nexport function discover(root: string): string[] {\n  const files = git(root, ['ls-files', '-z']).split('\\0').filter(v => safePath(v) && !secretPath(v));\n  if (files.length > 10000) throw new Error('Discovery exceeds 10000 tracked paths; select sources explicitly.');\n  return files;\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/review-agent.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/review-app.ts",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 24 to the 15 allowed.",
+        "line": 77,
+        "column": 10,
+        "messageId": "refactorFunction",
+        "endLine": 77,
+        "endColumn": 16
+      },
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 23 to the 15 allowed.",
+        "line": 124,
+        "column": 10,
+        "messageId": "refactorFunction",
+        "endLine": 124,
+        "endColumn": 24
+      },
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.",
+        "line": 159,
+        "column": 10,
+        "messageId": "refactorFunction",
+        "endLine": 159,
+        "endColumn": 24
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 3,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { sanitizedReview, summarizeReview, severityLabels, confidenceLabels, resolutionLabels, checkLabels, conclusionLabels, filterFindings, reviewFreshness, reviewMarkdown, reviewUrl, redactReviewText, type Review, type ReviewFinding, type ReviewFilters, type ReviewSource } from './review-model.js';\n\ninterface ViewerState { view: 'findings' | 'coverage' | 'sources'; selected: string; section: 'evidence' | 'correction' | 'references'; filters: ReviewFilters; mobileDetail: boolean }\ninterface ViewerPayload { review: unknown; legacy: string | null; currentRevision: string | null; changedTargets: string[]; uiState?: ViewerState }\nconst app = document.getElementById('app')!;\nconst data = document.getElementById('review-data')!;\nlet review: Review | null = null;\nlet legacy: string | null = null;\nlet currentRevision: string | null = null;\nlet changedTargets: string[] = [];\nlet state: ViewerState = { view: 'findings', selected: '', section: 'evidence', filters: { query: '', domain: '', severity: '', confidence: '', resolution: '' }, mobileDetail: false };\nconst el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls = '', text?: string): HTMLElementTagNameMap[K] => {\n  const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n;\n};\nfunction button(label: string, cls: string, action: () => void): HTMLButtonElement { const b = el('button', cls, label); b.type = 'button'; b.addEventListener('click', action); return b; }\nfunction textBlock(title: string, value: string, parent: HTMLElement): void { const box = el('section', 'text-block'); box.append(el('h3', '', title), el('p', '', value)); parent.append(box); }\nfunction badge(label: string, kind: string, icon: string): HTMLElement { return el('span', `badge ${kind}`, `${icon} ${label}`); }\nfunction link(label: string, url: string | null, parent: HTMLElement, cls = 'link'): void {\n  if (!reviewUrl(url)) { parent.append(el('p', 'muted unavailable', 'Destination indisponible : aucun lien HTTPS valide renseign\u00e9.')); return; }\n  const a = el('a', cls, `${label} \u2197`); a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; parent.append(a);\n}\nfunction download(name: string, body: string, type: string): void {\n  const url = URL.createObjectURL(new Blob([body], { type })); const a = el('a'); a.href = url; a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);\n}\nconst safeJSON = (value: unknown): string => JSON.stringify(value).replace(/</g, '\\\\u003c').replace(/>/g, '\\\\u003e').replace(/&/g, '\\\\u0026');\nfunction exportHtml(): void {\n  const copy = document.documentElement.cloneNode(true) as HTMLElement;\n  copy.querySelector('#review-data')!.textContent = safeJSON({ review, legacy, currentRevision, changedTargets, uiState: state });\n  // Rebuild the presentation on reopening from the same validated result source.\n  copy.querySelector('#app')!.replaceChildren();\n  download(`${review?.id || 'review'}.html`, '<!doctype html>\\n' + copy.outerHTML, 'text/html;charset=utf-8');\n}\nfunction exports(parent: HTMLElement): void {\n  const box = el('details', 'export'); const summary = el('summary', 'button secondary', '\u2193  Exporter le rapport'); box.append(summary);\n  const menu = el('div', 'export-menu');\n  menu.append(button('HTML interactif \u00b7 rouvrir hors ligne', '', () => { box.open = false; exportHtml(); }));\n  if (review) { menu.append(button('Rapport Markdown', '', () => { box.open = false; download(`${review!.id}.md`, reviewMarkdown(review!), 'text/markdown;charset=utf-8'); }), button('Source JSON', '', () => { box.open = false; download(`${review!.id}.json`, JSON.stringify(review, null, 2) + '\\n', 'application/json'); })); }\n  else if (legacy !== null) menu.append(button('Rapport Markdown original', '', () => download('review-legacy.md', legacy!, 'text/markdown;charset=utf-8')));\n  box.append(menu); parent.append(box);\n}\nfunction importer(parent: HTMLElement): void {\n  const label = el('label', 'button import', '\uff0b Ouvrir une review'); const input = el('input'); input.type = 'file'; input.accept = '.json,.md'; input.setAttribute('aria-label', 'Ouvrir une review JSON ou Markdown'); label.append(input); parent.append(label);\n  input.addEventListener('change', async () => {\n    const file = input.files?.[0]; if (!file) return;\n    if (file.size > 4 * 1024 * 1024) { showError('Le fichier d\u00e9passe la limite de 4 Mio.'); return; }\n    app.replaceChildren(el('p', 'loading', 'Chargement de la review\u2026')); app.setAttribute('aria-busy', 'true');\n    try {\n      const content = await file.text();\n      if (file.name.toLowerCase().endsWith('.md')) { legacy = redactReviewText(content); review = null; }\n      else { review = sanitizedReview(JSON.parse(content)); legacy = null; }\n      currentRevision = null; changedTargets = []; state = { view: 'findings', selected: '', section: 'evidence', filters: { query: '', domain: '', severity: '', confidence: '', resolution: '' }, mobileDetail: false }; location.hash = ''; render();\n    } catch { review = null; legacy = null; showError('R\u00e9sultats invalides ou version non support\u00e9e. Utilisez un document review format 1 ; aucune donn\u00e9e du fichier n\u2019a \u00e9t\u00e9 ex\u00e9cut\u00e9e.'); }\n    finally { app.removeAttribute('aria-busy'); }\n  });\n}\nfunction shell(): HTMLElement {\n  app.replaceChildren(); const layout = el('div', 'layout');\n  const aside = el('aside', 'sidebar'); aside.append(el('div', 'brand', '\u2b21  DevMethod'), el('p', 'eyebrow', 'PROJET'), el('strong', 'project', review?.project || 'Consultation locale'));\n  const nav = el('nav', 'side-nav'); nav.setAttribute('aria-label', 'Navigation de review');\n  nav.append(el('div', 'side-active', '\u25a4  Review'));\n  aside.append(nav); importer(aside);\n  const note = el('div', 'side-note'); note.append(el('strong', '', 'Vos donn\u00e9es restent locales'), el('p', '', 'Aucune commande ex\u00e9cut\u00e9e. Aucune ressource distante charg\u00e9e \u00e0 l\u2019ouverture.')); aside.append(note);\n  const main = el('main', 'main'); const header = el('header', 'page-header'); const title = el('div');\n  title.append(el('h1', '', review?.title || (legacy !== null ? 'Rapport historique' : 'Espace de review')));\n  if (review) { title.append(el('p', 'subtitle', `${review.project}  /  ${review.mission}  \u00b7  ${review.tickets.map(t => t.id).join(', ') || 'Sans ticket'}`), el('p', 'revision', `R\u00e9vision ${review.revision.commit} \u00b7 ${review.date}${review.revision.dirty.length ? ` \u00b7 Modifications non commit\u00e9es : ${review.revision.dirty.join(', ')}` : ''}`)); }\n  header.append(title); if (review || legacy !== null) exports(header); main.append(header); layout.append(aside, main); app.append(layout); return main;\n}\nfunction showError(message: string): void { const main = shell(); const box = el('section', 'empty error'); box.setAttribute('role', 'alert'); box.append(el('h2', '', 'Review indisponible'), el('p', '', message)); main.append(box); }\nfunction tabs(items: [string, string][], active: string, change: (id: string) => void, label: string, panelId: string): HTMLElement {\n  const group = el('div', 'tabs'); group.setAttribute('role', 'tablist'); group.setAttribute('aria-label', label);\n  for (const [id, title] of items) {\n    const b = button(title, active === id ? 'tab active' : 'tab', () => { change(id); document.getElementById(`${panelId}-${id}`)?.focus(); }); b.id = `${panelId}-${id}`; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(active === id)); b.setAttribute('aria-controls', panelId); b.tabIndex = active === id ? 0 : -1;\n    b.addEventListener('keydown', e => { const index = items.findIndex(i => i[0] === id); let next: number | null = null; if (e.key === 'ArrowRight') next = (index + 1) % items.length; if (e.key === 'ArrowLeft') next = (index + items.length - 1) % items.length; if (e.key === 'Home') next = 0; if (e.key === 'End') next = items.length - 1; if (next !== null) { e.preventDefault(); change(items[next]![0]); document.getElementById(`${panelId}-${items[next]![0]}`)?.focus(); } });\n    group.append(b);\n  } return group;\n}\nfunction render(): void {\n  const main = shell();\n  if (!review) {\n    if (legacy !== null) { main.append(el('div', 'banner incomplete', '\u24d8 Rapport Markdown historique \u2014 champs structur\u00e9s et couverture inconnus. Aucune conversion implicite.'), el('pre', 'legacy', legacy)); }\n    else { const box = el('section', 'empty'); box.append(el('span', 'empty-icon', '\u25a4'), el('h2', '', 'Aucune review disponible'), el('p', '', 'Ouvrez un fichier review.json valid\u00e9 ou un ancien rapport Markdown pour commencer.')); importer(box); main.append(box); }\n    return;\n  }\n  const r = review, sum = summarizeReview(r), fresh = reviewFreshness(r, currentRevision, changedTargets);\n  const banner = el('section', `banner ${sum.conclusion}`); banner.append(el('span', 'banner-icon', sum.conclusion === 'ready' ? '\u2713' : sum.conclusion === 'corrections' ? '\u26a0' : '\u24d8'));\n  const message = el('div'); message.append(el('h2', '', conclusionLabels[sum.conclusion]), el('p', '', r.summary), el('p', 'policy', r.policy.rationale)); banner.append(message); main.append(banner);\n  if (fresh.state === 'different') main.append(el('p', 'notice', `\u21bb R\u00e9vision diff\u00e9rente ou cibles modifi\u00e9es : r\u00e9\u00e9valuer les \u00e9l\u00e9ments concern\u00e9s. Contr\u00f4les cibl\u00e9s : ${fresh.affectedChecks.join(', ') || '\u00e0 d\u00e9terminer'}. Constats cibl\u00e9s : ${fresh.affectedFindings.join(', ') || '\u00e0 d\u00e9terminer'}. Les preuves historiques et r\u00e9sultats ind\u00e9pendants sont conserv\u00e9s.`));\n  else if (fresh.state === 'unknown') main.append(el('p', 'revision-hint', 'Historique : la r\u00e9vision courante n\u2019est pas fournie. Cette review atteste uniquement de sa r\u00e9vision inspect\u00e9e.'));\n  const stats = el('section', 'stats'); stats.setAttribute('aria-label', 'Compteurs de toute la review, ind\u00e9pendants des filtres');\n  for (const severity of ['critical', 'major', 'moderate', 'minor'] as const) { const card = el('div', `stat ${severity}`); card.append(el('span', 'stat-icon', severity === 'critical' || severity === 'major' ? '!' : '\u25b3'), el('strong', '', String(sum.severities[severity])), el('span', '', severityLabels[severity])); stats.append(card); }\n  const uncertain = el('div', 'stat suspected'); uncertain.append(el('span', 'stat-icon', '?'), el('strong', '', String(sum.suspected)), el('span', '', '\u00c0 v\u00e9rifier')); stats.append(uncertain);\n  const coverage = el('div', 'stat coverage-stat'); coverage.append(el('strong', '', `${sum.checks.passed} r\u00e9ussis \u00b7 ${sum.checks.failed} en \u00e9chec`), el('span', '', `${sum.checks['not-run']} non ex\u00e9cut\u00e9s \u00b7 ${sum.checks.blocked} bloqu\u00e9s \u00b7 ${sum.checks['out-of-scope']} hors p\u00e9rim\u00e8tre`));\n  const bars = el('div', 'coverage-bars'); bars.setAttribute('aria-hidden', 'true'); const total = r.checks.length || 1;\n  for (const [status, count] of Object.entries(sum.checks)) { const bar = el('span', status); bar.style.flexGrow = String(count / total); if (count) bars.append(bar); } coverage.append(bars); stats.append(coverage); main.append(stats, el('p', 'count-caption', 'Compteurs : toute la review, y compris les constats r\u00e9solus. Les risques \u00e0 v\u00e9rifier sont indiqu\u00e9s s\u00e9par\u00e9ment.'));\n  if (r.limits.length || r.exclusions.length) { const limits = el('details', 'limits'); limits.append(el('summary', '', `Limites & p\u00e9rim\u00e8tre \u00b7 ${r.limits.length} limite(s) signal\u00e9e(s)`)); const ul = el('ul'); for (const t of [...r.scope.map(t => `Inclus : ${t}`), ...r.exclusions.map(t => `Exclu : ${t}`), ...r.limits]) ul.append(el('li', '', t)); limits.append(ul); main.append(limits); if (r.limits.length) main.append(el('p', 'important-limit', r.limits[0])); }\n  const workspace = el('section', `workspace ${state.mobileDetail ? 'show-detail' : ''}`); const left = el('div', 'list-panel');\n  left.append(tabs([['findings', `Constats ${r.findings.length}`], ['coverage', 'Couverture'], ['sources', 'Sources']], state.view, id => { state.view = id as ViewerState['view']; state.mobileDetail = false; render(); }, 'Vues de review', 'view-panel'));\n  const panel = el('div', 'view-panel'); panel.id = 'view-panel'; panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', `view-panel-${state.view}`);\n  if (state.view === 'findings') renderFindingList(panel);\n  if (state.view === 'coverage') renderCoverage(panel);\n  if (state.view === 'sources') renderSources(panel);\n  left.append(panel); const detail = el('article', 'detail-panel'); detail.id = 'finding-detail';\n  renderDetail(detail); workspace.append(left, detail); main.append(workspace);\n}\nfunction renderFindingList(parent: HTMLElement): void {\n  const filters = el('div', 'filters'); const searchLabel = el('label', 'search-label', 'Rechercher un constat'); const search = el('input', 'search'); search.type = 'search'; search.placeholder = 'Titre, identifiant, fichier\u2026'; search.value = state.filters.query; search.id = 'finding-search'; searchLabel.append(search); filters.append(searchLabel);\n  const select = (key: keyof ReviewFilters, label: string, values: [string, string][]) => { const l = el('label', '', label); const node = el('select'); node.setAttribute('aria-label', label); for (const [value, name] of [['', 'Tous'], ...values]) { const option = el('option', '', name); option.value = value!; node.append(option); } node.value = state.filters[key]; node.addEventListener('change', () => { state.filters[key] = node.value; renderListOnly(); }); l.append(node); filters.append(l); };\n  select('domain', 'Domaine', [...new Set(review!.findings.map(f => f.domain))].sort().map(v => [v, v])); select('severity', 'Gravit\u00e9', Object.entries(severityLabels)); select('confidence', 'Confiance', Object.entries(confidenceLabels)); select('resolution', 'R\u00e9solution', Object.entries(resolutionLabels));\n  search.addEventListener('input', () => { state.filters.query = search.value; renderListOnly(); }); parent.append(filters);\n  const results = el('div', 'finding-results'); results.id = 'finding-results'; parent.append(results); renderListOnly();\n  // The parent is not yet attached during a complete render.\n  fillFindingResults(results);\n}\nfunction renderListOnly(): void { const list = document.getElementById('finding-results'); if (list) fillFindingResults(list); const note = document.getElementById('detail-filter-note'); if (note && review) note.hidden = filterFindings(review, state.filters).some(f => f.id === state.selected); }\nfunction fillFindingResults(parent: HTMLElement): void {\n  parent.replaceChildren(); const findings = filterFindings(review!, state.filters); const count = el('p', 'result-count', `${findings.length} constat(s) affich\u00e9(s) sur ${review!.findings.length}`); count.setAttribute('role', 'status'); parent.append(count);\n  if (!findings.length) { parent.append(el('div', 'empty small', review!.findings.length ? 'Aucun r\u00e9sultat ne correspond aux filtres.' : 'Aucun probl\u00e8me d\u00e9tect\u00e9. Consultez la couverture et les limites avant de conclure.')); return; }\n  for (const f of findings) {\n    const b = button('', `finding ${state.selected === f.id ? 'selected' : ''}`, () => { state.selected = f.id; state.mobileDetail = true; state.section = 'evidence'; history.pushState(null, '', `#finding=${encodeURIComponent(f.id)}`); render(); document.getElementById('detail-title')?.focus(); }); b.setAttribute('aria-label', `${f.id} ${f.title}, ${severityLabels[f.severity]}, ${confidenceLabels[f.confidence]}, ${resolutionLabels[f.resolution]}`); b.setAttribute('aria-current', String(state.selected === f.id));\n    const top = el('div', 'finding-top'); top.append(el('strong', 'finding-id', f.id), badge(confidenceLabels[f.confidence], f.confidence, f.confidence === 'confirmed' ? '\u2713' : '?'));\n    b.append(top, el('h3', '', f.title)); const meta = el('div', 'finding-meta'); meta.append(badge(severityLabels[f.severity], f.severity, '!'), el('span', '', f.domain), el('span', 'resolution', resolutionLabels[f.resolution])); b.append(meta); parent.append(b);\n  }\n}\nfunction renderCoverage(parent: HTMLElement): void {\n  parent.append(el('h2', 'panel-title', 'Couverture par domaine'), el('p', 'muted', 'Contr\u00f4les ex\u00e9cut\u00e9s, non ex\u00e9cut\u00e9s et hors p\u00e9rim\u00e8tre. Aucun score de risque.'));\n  if (!review!.checks.length) parent.append(el('p', 'empty small', 'Aucun contr\u00f4le enregistr\u00e9 : couverture inconnue.'));\n  for (const domain of [...new Set(review!.checks.map(c => c.domain))]) { parent.append(el('h3', 'domain-title', domain)); for (const c of review!.checks.filter(c => c.domain === domain)) { const card = el('section', 'check-card'); card.append(badge(checkLabels[c.status], c.status, c.status === 'passed' ? '\u2713' : c.status === 'failed' ? '\u2715' : '\u2014'), el('h4', '', `${c.id} \u00b7 ${c.title}`), el('p', '', c.result), el('p', 'muted', `${c.kind === 'manual' ? 'Inspection manuelle' : 'Contr\u00f4le automatis\u00e9'} \u00b7 R\u00e9vision ${c.revision}`)); if (c.reason) card.append(el('p', '', `Raison : ${c.reason}`)); for (const id of c.evidenceIds) { const e = review!.evidence.find(e => e.id === id)!; const d = el('details'); d.append(el('summary', '', `Preuve ${id} \u00b7 ${e.title}`), el('pre', '', e.content)); card.append(d); } if (!c.evidenceIds.length) card.append(el('p', 'muted', 'Aucune preuve jointe.')); parent.append(card); } }\n}\nfunction sourceCard(source: ReviewSource): HTMLElement {\n  const card = el('section', 'source-card'); card.append(el('h3', '', source.title), el('p', 'source-meta', `${source.publisher} \u00b7 ${source.technology} ${source.version}`), badge(source.access === 'consulted' ? 'Consult\u00e9e' : source.access === 'unavailable' ? 'Inaccessible' : 'Non v\u00e9rifi\u00e9e', source.access === 'consulted' ? 'confirmed' : 'suspected', source.access === 'consulted' ? '\u2713' : '?'), el('p', 'muted', `Consultation : ${source.consultedAt || 'non enregistr\u00e9e'} \u00b7 ${source.kind}`)); textBlock('Usage', source.usage, card); textBlock('Compatibilit\u00e9 & limites', source.compatibility, card); textBlock('Provenance', source.provenance, card); link('Ouvrir la r\u00e9f\u00e9rence', source.url, card); return card;\n}\nfunction renderSources(parent: HTMLElement): void {\n  parent.append(el('h2', 'panel-title', 'Sources & technologies'));\n  for (const t of review!.technologies) parent.append(el('p', 'technology', `${t.name} ${t.version} \u2014 ${t.detectedFrom}`));\n  if (!review!.sources.length) parent.append(el('p', 'empty small', 'Aucune source consult\u00e9e enregistr\u00e9e.'));\n  for (const source of review!.sources) parent.append(sourceCard(source));\n}\nfunction renderDetail(parent: HTMLElement): void {\n  const back = button('\u2190 Retour aux r\u00e9sultats', 'back-button', () => { state.mobileDetail = false; render(); (document.querySelector<HTMLButtonElement>('.finding.selected') || document.getElementById('view-panel-findings'))?.focus(); }); parent.append(back);\n  const f = review!.findings.find(f => f.id === state.selected);\n  if (!f) { parent.append(el('div', 'empty detail-empty', state.selected ? 'Ce constat est introuvable dans cette review. Revenez \u00e0 la liste pour en s\u00e9lectionner un autre.' : 'S\u00e9lectionnez un constat pour consulter ses preuves, sa correction et ses r\u00e9f\u00e9rences.')); return; }\n  const filterNote = el('p', 'notice', 'Ce constat est hors de la s\u00e9lection filtr\u00e9e. Son d\u00e9tail reste disponible.'); filterNote.id = 'detail-filter-note'; filterNote.hidden = filterFindings(review!, state.filters).some(item => item.id === f.id); parent.append(filterNote);\n  const title = el('h2', 'detail-title', `${f.id} \u00b7 ${f.title}`); title.id = 'detail-title'; title.tabIndex = -1; parent.append(title);\n  const badges = el('div', 'detail-badges'); badges.append(badge(severityLabels[f.severity], f.severity, '!'), badge(confidenceLabels[f.confidence], f.confidence, f.confidence === 'confirmed' ? '\u2713' : '?'), badge(resolutionLabels[f.resolution], 'neutral', '\u25cc')); parent.append(badges, el('p', 'impact', f.impact), el('p', 'location', `${f.location.path}${f.location.line ? `:${f.location.line}` : ''}${f.location.component ? ` \u00b7 ${f.location.component}` : ''}`));\n  parent.append(tabs([['evidence', 'Preuve'], ['correction', 'Correction'], ['references', 'R\u00e9f\u00e9rences']], state.section, id => { state.section = id as ViewerState['section']; render(); }, 'D\u00e9tail du constat', 'detail-content'));\n  const content = el('div', 'detail-content'); content.id = 'detail-content'; content.setAttribute('role', 'tabpanel'); content.setAttribute('aria-labelledby', `detail-content-${state.section}`);\n  if (state.section === 'evidence') evidenceDetail(f, content);\n  if (state.section === 'correction') { textBlock('Correction recommand\u00e9e', f.correction, content); textBlock('Cons\u00e9quences & compromis', f.tradeoffs, content); textBlock('V\u00e9rification apr\u00e8s correction', f.verification, content); textBlock('\u00c9tat de r\u00e9solution', `${resolutionLabels[f.resolution]} \u00b7 Preuves de r\u00e9solution : ${f.resolutionEvidenceIds.join(', ') || 'aucune'}`, content); ticketLinks(f, content); }\n  if (state.section === 'references') { textBlock('Justification de la gravit\u00e9', f.severityReason, content); if (!f.sourceIds.length) content.append(el('p', 'empty small', 'Aucune r\u00e9f\u00e9rence pertinente renseign\u00e9e.')); for (const id of f.sourceIds) content.append(sourceCard(review!.sources.find(s => s.id === id)!)); }\n  parent.append(content); const actions = el('footer', 'detail-actions');\n  actions.append(button('\u2197 Lien vers ce constat', 'button secondary', () => { const url = new URL(location.href); url.hash = `finding=${encodeURIComponent(f.id)}`; location.hash = url.hash; const destination = el('input'); destination.readOnly = true; destination.value = url.href; destination.setAttribute('aria-label', 'Lien local vers le constat'); actions.querySelector('input')?.remove(); actions.append(destination); destination.focus(); destination.select(); }));\n  if (f.evidenceIds.length) actions.append(button('\u25a4 Voir la preuve', 'button primary', () => { state.section = 'evidence'; render(); document.getElementById('evidence-full')?.scrollIntoView({ block: 'nearest' }); document.getElementById('evidence-full')?.focus(); }));\n  parent.append(actions);\n}\nfunction ticketLinks(f: ReviewFinding, parent: HTMLElement): void {\n  if (!f.ticketIds.length) parent.append(el('p', 'muted', 'Aucun ticket associ\u00e9.'));\n  for (const id of f.ticketIds) { const t = review!.tickets.find(t => t.id === id)!; parent.append(el('p', '', `${t.id} \u00b7 ${t.title}`)); link('Ouvrir le ticket', t.url, parent, 'button primary'); }\n}\nfunction evidenceDetail(f: ReviewFinding, parent: HTMLElement): void {\n  textBlock('Sc\u00e9nario d\u00e9clencheur', f.trigger, parent); const compare = el('div', 'compare'); textBlock('Attendu', f.expected, compare); textBlock('Observ\u00e9', f.observed, compare); parent.append(compare);\n  const steps = el('ol', 'reproduction'); for (const step of f.reproduction) steps.append(el('li', '', step)); parent.append(steps);\n  if (!f.evidenceIds.length) parent.append(el('p', 'notice', 'Preuve non disponible : ce constat repose sur les \u00e9tapes et limites d\u00e9crites ci-dessus.'));\n  for (const [index, id] of f.evidenceIds.entries()) {\n    const e = review!.evidence.find(e => e.id === id)!; const card = el('section', 'evidence-card'); if (index === 0) { card.id = 'evidence-full'; card.tabIndex = -1; }\n    card.append(el('h3', '', e.title));\n    if (e.kind === 'diagram') card.append(el('span', 'eyebrow', 'SCH\u00c9MA EXPLICATIF \u00b7 PAS UNE CAPTURE D\u2019EX\u00c9CUTION'));\n    if (e.image) { const img = el('img', 'evidence-image'); img.src = `data:${e.image.mime};base64,${e.image.base64}`; img.alt = e.image.alt; card.append(el('p', 'muted', e.image.origin === 'captured' ? 'Capture d\u00e9clar\u00e9e r\u00e9elle par l\u2019auteur \u00b7 confidentialit\u00e9 relue' : 'Illustration explicative \u00b7 pas une preuve d\u2019ex\u00e9cution'), img); img.addEventListener('error', () => { img.replaceWith(el('p', 'notice', `Image indisponible. Alternative : ${e.image!.alt}`)); }); }\n    card.append(el('pre', e.kind === 'diagram' ? 'diagram' : '', e.content)); if (e.url) link('Ouvrir la preuve compl\u00e8te', e.url, card); else card.append(el('p', 'muted', 'Preuve incluse dans ce rapport ; aucun lien externe renseign\u00e9.')); parent.append(card);\n  }\n  const correction = el('div', 'correction-preview'); correction.append(el('strong', '', '\u2301 Correction propos\u00e9e'), el('p', '', f.correction)); parent.append(correction);\n}\nfunction hashSelection(): void {\n  const id = new URLSearchParams(location.hash.slice(1)).get('finding');\n  if (id) { state.selected = id; state.view = 'findings'; state.mobileDetail = true; }\n}\nwindow.addEventListener('hashchange', () => { hashSelection(); render(); });\nwindow.addEventListener('popstate', () => { hashSelection(); render(); });\ntry {\n  const payload = JSON.parse(data.textContent || '{}') as ViewerPayload;\n  if (payload.review != null) review = sanitizedReview(payload.review);\n  if (typeof payload.legacy === 'string') legacy = redactReviewText(payload.legacy);\n  currentRevision = typeof payload.currentRevision === 'string' ? payload.currentRevision : null;\n  changedTargets = Array.isArray(payload.changedTargets) && payload.changedTargets.every(v => typeof v === 'string') ? payload.changedTargets : [];\n  // Saved UI state is only a convenience; validate before using it in selectors/rendering.\n  const saved = payload.uiState;\n  if (saved && ['findings', 'coverage', 'sources'].includes(saved.view) && ['evidence', 'correction', 'references'].includes(saved.section) && typeof saved.selected === 'string' && saved.filters && ['query', 'domain', 'severity', 'confidence', 'resolution'].every(k => typeof saved.filters[k as keyof ReviewFilters] === 'string')) state = saved;\n  if (!state.selected && review?.findings[0]) state.selected = review.findings[0].id;\n  hashSelection(); render();\n} catch { review = null; legacy = null; showError('R\u00e9sultats invalides ou version non support\u00e9e. Ouvrez une review format 1 ou un rapport Markdown historique.'); }\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/review-cli.ts",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 39 to the 15 allowed.",
+        "line": 11,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 11,
+        "endColumn": 30
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import fs from 'node:fs';\nimport path from 'node:path';\nimport { fileURLToPath } from 'node:url';\nimport { checkPath, parseJson, stat } from './filesystem.js';\nimport { safePath, secretPath, readLocal } from './records.js';\nimport { sanitizedReview, summarizeReview, reviewMarkdown, reviewFreshness, redactReviewText } from './review-model.js';\nimport { renderReviewHTML } from './review.js';\n\nexport interface ReviewOptions { destination: string; review?: string; legacy?: string; demo?: boolean; output?: string; markdown?: string; currentRevision?: string; changedTargets?: string[] }\n/** Read only explicitly selected sources. No repository commands, file traversal or server. */\nexport function prepareReview(options: ReviewOptions) {\n  const root = path.resolve(options.destination);\n  checkPath(root);\n  for (const value of [options.review, options.legacy, options.output, options.markdown, options.currentRevision]) if (value !== undefined && !value.trim()) throw new Error('Review options must not be empty.');\n  if (options.currentRevision && options.currentRevision.length > 8192) throw new Error('Revision label exceeds the allowed length.');\n  if (options.changedTargets && (options.changedTargets.length > 256 || options.changedTargets.some(t => !t.trim() || t.length > 8192))) throw new Error('Changed targets exceed the allowed bounds.');\n  if ([options.review, options.legacy, options.demo].filter(Boolean).length > 1) throw new Error('Choose one of --review, --legacy or --demo.');\n  if (options.markdown && !options.review && !options.legacy && !options.demo) throw new Error('Markdown export requires a selected review.');\n  const read = (file: string): string => { if (secretPath(file)) throw new Error('Secret-like review paths are excluded.'); return readLocal(root, file, 4 * 1024 * 1024).toString('utf8'); };\n  const source = options.demo ? fs.readFileSync(fileURLToPath(new URL('../examples/review/review.json', import.meta.url)), 'utf8') : options.review ? read(options.review) : null;\n  const review = source === null ? null : sanitizedReview(parseJson(source));\n  const legacy = options.legacy ? redactReviewText(read(options.legacy)) : null;\n  const outputs: [string, string][] = [];\n  if (options.output) outputs.push([options.output, renderReviewHTML({ review, legacy, currentRevision: options.currentRevision, changedTargets: options.changedTargets })]);\n  if (options.markdown) outputs.push([options.markdown, review ? reviewMarkdown(review) : legacy!]);\n  for (const [file] of outputs) {\n    if (!safePath(file) || secretPath(file) || (file === options.output ? !file.endsWith('.html') : !file.endsWith('.md'))) throw new Error('Review outputs require safe relative .html / .md paths.');\n    checkPath(path.resolve(root, file));\n    if (stat(path.resolve(root, file))) throw new Error('Review output already exists; choose a fresh path. No files written.');\n  }\n  if (new Set(outputs.map(([f]) => f)).size !== outputs.length) throw new Error('Review output paths must be distinct.');\n  const created: string[] = [], directories: string[] = [];\n  const mkdir = (dir: string): void => { if (stat(dir)) return; mkdir(path.dirname(dir)); fs.mkdirSync(dir); directories.push(dir); };\n  try {\n    for (const [file, content] of outputs) {\n      const target = path.resolve(root, file); mkdir(path.dirname(target)); checkPath(target);\n      const fd = fs.openSync(target, 'wx'); created.push(target); try { fs.writeFileSync(fd, content); } finally { fs.closeSync(fd); }\n    }\n  } catch (error) { for (const f of created.reverse()) fs.unlinkSync(f); for (const d of directories.reverse()) fs.rmdirSync(d); throw error; }\n  return { format: 1, reviewId: review?.id ?? null, status: review ? summarizeReview(review).conclusion : legacy !== null ? 'legacy' : 'empty', summary: review ? summarizeReview(review) : null, freshness: review ? reviewFreshness(review, options.currentRevision ?? null, options.changedTargets ?? []) : null, outputs: outputs.map(([file]) => path.resolve(root, file)), limitations: 'Explicit record only; no review execution or filesystem evidence discovery. Legacy Markdown has no inferred fields. Inspect privacy before sharing; automatic redaction is heuristic.' };\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/review-model.ts",
+    "messages": [
+      {
+        "ruleId": "no-control-regex",
+        "severity": 2,
+        "message": "Unexpected control character(s) in regular expression: \\x00, \\x1f.",
+        "line": 24,
+        "column": 59,
+        "messageId": "unexpected",
+        "endLine": 24,
+        "endColumn": 88
+      },
+      {
+        "ruleId": "no-useless-escape",
+        "severity": 2,
+        "message": "Unnecessary escape character: \\[.",
+        "line": 24,
+        "column": 82,
+        "messageId": "unnecessaryEscape",
+        "endLine": 24,
+        "endColumn": 83,
+        "suggestions": [
+          {
+            "messageId": "removeEscape",
+            "fix": {
+              "range": [
+                4035,
+                4036
+              ],
+              "text": ""
+            },
+            "desc": "Remove the `\\`. This maintains the current functionality."
+          },
+          {
+            "messageId": "escapeBackslash",
+            "fix": {
+              "range": [
+                4035,
+                4035
+              ],
+              "text": "\\"
+            },
+            "desc": "Replace the `\\` with `\\\\` to include the actual backslash character."
+          }
+        ]
+      },
+      {
+        "ruleId": "no-useless-escape",
+        "severity": 2,
+        "message": "Unnecessary escape character: \\[.",
+        "line": 86,
+        "column": 54,
+        "messageId": "unnecessaryEscape",
+        "endLine": 86,
+        "endColumn": 55,
+        "suggestions": [
+          {
+            "messageId": "removeEscape",
+            "fix": {
+              "range": [
+                13777,
+                13778
+              ],
+              "text": ""
+            },
+            "desc": "Remove the `\\`. This maintains the current functionality."
+          },
+          {
+            "messageId": "escapeBackslash",
+            "fix": {
+              "range": [
+                13777,
+                13777
+              ],
+              "text": "\\"
+            },
+            "desc": "Replace the `\\` with `\\\\` to include the actual backslash character."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 3,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "/** Pure format-1 contract shared by the CLI and browser. No filesystem or evaluation. */\nexport type Severity = 'critical' | 'major' | 'moderate' | 'minor';\nexport type Confidence = 'confirmed' | 'suspected';\nexport type Resolution = 'open' | 'in-progress' | 'resolved' | 'accepted-risk';\nexport type CheckStatus = 'passed' | 'failed' | 'not-run' | 'blocked' | 'out-of-scope';\nexport interface ReviewSource { id: string; title: string; kind: 'documentation' | 'skill' | 'project'; publisher: string; technology: string; version: string; url: string | null; consultedAt: string | null; access: 'consulted' | 'unavailable' | 'unverified'; usage: string; compatibility: string; provenance: string }\nexport interface ReviewEvidence { id: string; title: string; kind: 'text' | 'log' | 'screenshot' | 'diagram'; content: string; url: string | null; image: { mime: 'image/png' | 'image/jpeg'; base64: string; alt: string; origin: 'captured' | 'explanatory'; privacyReviewed: true } | null }\nexport interface ReviewCheck { id: string; title: string; domain: string; kind: 'automated' | 'manual'; status: CheckStatus; result: string; reason: string | null; evidenceIds: string[]; revision: string; targets: string[] }\nexport interface ReviewFinding { id: string; title: string; domain: string; severity: Severity; severityReason: string; confidence: Confidence; resolution: Resolution; location: { path: string; line: number | null; component: string | null }; trigger: string; expected: string; observed: string; impact: string; reproduction: string[]; evidenceIds: string[]; correction: string; tradeoffs: string; sourceIds: string[]; ticketIds: string[]; verification: string; resolutionEvidenceIds: string[]; targets: string[] }\nexport interface Review { format: 1; id: string; title: string; project: string; mission: string; tickets: { id: string; title: string; url: string | null }[]; date: string; scope: string[]; exclusions: string[]; revision: { commit: string; dirty: string[] }; technologies: { name: string; version: string; detectedFrom: string }[]; sources: ReviewSource[]; checks: ReviewCheck[]; findings: ReviewFinding[]; evidence: ReviewEvidence[]; limits: string[]; policy: { blockingSeverities: Severity[]; requireAllChecks: boolean; rationale: string }; summary: string }\nexport const severityLabels: Record<Severity, string> = { critical: 'Critique', major: 'Majeur', moderate: 'Mod\u00e9r\u00e9', minor: 'Mineur' };\nexport const confidenceLabels: Record<Confidence, string> = { confirmed: 'Confirm\u00e9', suspected: '\u00c0 v\u00e9rifier' };\nexport const resolutionLabels: Record<Resolution, string> = { open: 'Ouvert', 'in-progress': 'En correction', resolved: 'R\u00e9solu et v\u00e9rifi\u00e9', 'accepted-risk': 'Risque accept\u00e9' };\nexport const checkLabels: Record<CheckStatus, string> = { passed: 'R\u00e9ussi', failed: 'En \u00e9chec', 'not-run': 'Non ex\u00e9cut\u00e9', blocked: 'Bloqu\u00e9', 'out-of-scope': 'Hors p\u00e9rim\u00e8tre' };\nconst rec = (v: unknown): v is Record<string, unknown> => v !== null && typeof v === 'object' && !Array.isArray(v);\nconst str = (v: unknown): v is string => typeof v === 'string' && v.trim().length > 0 && v.length <= 16384;\nconst identifier = (v: unknown): v is string => typeof v === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(v);\nconst arr = (v: unknown, test: (v: unknown) => boolean, max = 256): boolean => Array.isArray(v) && v.length <= max && v.every(test);\nconst nullable = (v: unknown, test: (v: unknown) => boolean): boolean => v === null || test(v);\nconst has = (v: unknown, choices: string[]): boolean => typeof v === 'string' && choices.includes(v);\nconst shape = (v: unknown, keys: string[]): v is Record<string, unknown> => rec(v) && Object.keys(v).length === keys.length && keys.every(k => Object.hasOwn(v, k));\nconst date = (v: unknown): boolean => typeof v === 'string' && /^\\d{4}-\\d{2}-\\d{2}(?:T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z)?$/.test(v) && Number.isFinite(Date.parse(v));\nexport function reviewUrl(value: unknown): value is string {\n  if (typeof value !== 'string' || value.length > 2048 || /[\\s\\x00-\\x1f\\x7f\\\\<>`\"\\[\\]]/.test(value)) return false;\n  try { const u = new URL(value); return u.protocol === 'https:' && Boolean(u.hostname) && !u.username && !u.password; } catch { return false; }\n}\nfunction assertReview(ok: boolean, message: string): asserts ok { if (!ok) throw new Error(message); }\n/** Errors identify schema sections, never echo untrusted input. */\nexport function validateReview(input: unknown): Review {\n  assertReview(rec(input) && input.format === 1, 'Unsupported review format; expected format 1.');\n  assertReview(shape(input, ['format', 'id', 'title', 'project', 'mission', 'tickets', 'date', 'scope', 'exclusions', 'revision', 'technologies', 'sources', 'checks', 'findings', 'evidence', 'limits', 'policy', 'summary']), 'Invalid review fields.');\n  assertReview(identifier(input.id) && ['title', 'project', 'mission', 'summary'].every(k => str(input[k])) && date(input.date), 'Invalid review identity or date.');\n  assertReview(arr(input.scope, str) && (input.scope as unknown[]).length > 0 && arr(input.exclusions, str) && arr(input.limits, str), 'Invalid review scope or limits.');\n  assertReview(shape(input.revision, ['commit', 'dirty']) && str(input.revision.commit) && arr(input.revision.dirty, str), 'Invalid inspected revision.');\n  assertReview(arr(input.tickets, v => shape(v, ['id', 'title', 'url']) && identifier(v.id) && str(v.title) && nullable(v.url, reviewUrl)), 'Invalid review ticket.');\n  assertReview(arr(input.technologies, v => shape(v, ['name', 'version', 'detectedFrom']) && Object.values(v).every(str)), 'Invalid detected technologies.');\n  assertReview(arr(input.sources, v => shape(v, ['id', 'title', 'kind', 'publisher', 'technology', 'version', 'url', 'consultedAt', 'access', 'usage', 'compatibility', 'provenance']) && identifier(v.id) && ['title', 'publisher', 'technology', 'version', 'usage', 'compatibility', 'provenance'].every(k => str(v[k])) && has(v.kind, ['documentation', 'skill', 'project']) && nullable(v.url, reviewUrl) && nullable(v.consultedAt, date) && has(v.access, ['consulted', 'unavailable', 'unverified']) && (v.access !== 'consulted' || v.consultedAt !== null)), 'Invalid review source or consultation provenance.');\n  assertReview(arr(input.evidence, v => shape(v, ['id', 'title', 'kind', 'content', 'url', 'image']) && identifier(v.id) && str(v.title) && has(v.kind, ['text', 'log', 'screenshot', 'diagram']) && str(v.content) && nullable(v.url, reviewUrl) && nullable(v.image, i => shape(i, ['mime', 'base64', 'alt', 'origin', 'privacyReviewed']) && has(i.mime, ['image/png', 'image/jpeg']) && typeof i.base64 === 'string' && i.base64.length <= 1400000 && /^[A-Za-z0-9+/]+={0,2}$/.test(i.base64) && (i.mime === 'image/png' ? i.base64.startsWith('iVBORw0KGgo') : i.base64.startsWith('/9j/')) && str(i.alt) && has(i.origin, ['captured', 'explanatory']) && i.privacyReviewed === true)), 'Invalid evidence; images require bounded PNG/JPEG data, text alternative and privacy review.');\n  assertReview(arr(input.checks, v => shape(v, ['id', 'title', 'domain', 'kind', 'status', 'result', 'reason', 'evidenceIds', 'revision', 'targets']) && identifier(v.id) && ['title', 'domain', 'result', 'revision'].every(k => str(v[k])) && has(v.kind, ['automated', 'manual']) && has(v.status, Object.keys(checkLabels)) && nullable(v.reason, str) && (!['not-run', 'blocked', 'out-of-scope'].includes(v.status as string) || str(v.reason)) && arr(v.evidenceIds, identifier) && arr(v.targets, str)), 'Invalid review check; unexecuted checks need a reason.');\n  assertReview(arr(input.findings, v => shape(v, ['id', 'title', 'domain', 'severity', 'severityReason', 'confidence', 'resolution', 'location', 'trigger', 'expected', 'observed', 'impact', 'reproduction', 'evidenceIds', 'correction', 'tradeoffs', 'sourceIds', 'ticketIds', 'verification', 'resolutionEvidenceIds', 'targets']) && identifier(v.id) && ['title', 'domain', 'severityReason', 'trigger', 'expected', 'observed', 'impact', 'correction', 'tradeoffs', 'verification'].every(k => str(v[k])) && has(v.severity, Object.keys(severityLabels)) && has(v.confidence, Object.keys(confidenceLabels)) && has(v.resolution, Object.keys(resolutionLabels)) && shape(v.location, ['path', 'line', 'component']) && str(v.location.path) && nullable(v.location.line, n => Number.isSafeInteger(n) && (n as number) > 0) && nullable(v.location.component, str) && ['reproduction', 'targets'].every(k => arr(v[k], str)) && ['evidenceIds', 'sourceIds', 'ticketIds', 'resolutionEvidenceIds'].every(k => arr(v[k], identifier)) && ((v.reproduction as unknown[]).length > 0 || (v.evidenceIds as unknown[]).length > 0) && (v.resolution !== 'resolved' || (v.resolutionEvidenceIds as unknown[]).length > 0)), 'Invalid finding; reproduction/evidence and verified resolution references are required.');\n  assertReview(shape(input.policy, ['blockingSeverities', 'requireAllChecks', 'rationale']) && arr(input.policy.blockingSeverities, v => has(v, Object.keys(severityLabels)), 4) && typeof input.policy.requireAllChecks === 'boolean' && str(input.policy.rationale), 'Invalid review conclusion policy.');\n  const r = input as unknown as Review;\n  for (const items of [r.tickets, r.sources, r.evidence, r.checks, r.findings]) assertReview(new Set(items.map(i => i.id)).size === items.length, 'Duplicate review identifiers.');\n  const ids = (items: { id: string }[]) => new Set(items.map(i => i.id));\n  const evidence = ids(r.evidence), sources = ids(r.sources), tickets = ids(r.tickets);\n  assertReview(r.checks.every(c => c.evidenceIds.every(id => evidence.has(id))) && r.findings.every(f => [...f.evidenceIds, ...f.resolutionEvidenceIds].every(id => evidence.has(id)) && f.sourceIds.every(id => sources.has(id)) && f.ticketIds.every(id => tickets.has(id))), 'Unresolved review references.');\n  assertReview(JSON.stringify(input).length <= 4 * 1024 * 1024, 'Review exceeds 4 MiB.');\n  return JSON.parse(JSON.stringify(r)) as Review;\n}\n/** Conservative convenience redaction, not a privacy classifier or authorization. */\nexport function redactReviewText(s: string): string {\n  return s.replace(/-----BEGIN [A-Z ]*PRIVATE KEY-----[\\s\\S]*?-----END [A-Z ]*PRIVATE KEY-----/g, '[REDACTED PRIVATE KEY]')\n    .replace(/\\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{16,})\\b/g, '[REDACTED TOKEN]')\n    .replace(/\\b(?:[a-z][a-z0-9_-]*[_-])?(?:token|api[_-]?key|password|secret|authorization)\\s*[:=]\\s*(?:\"[^\"\\r\\n]*\"|'[^'\\r\\n]*'|(?:Bearer|Basic)\\s+[^\\s,;]+|[^\\s,;]+)/gi, '[REDACTED CREDENTIAL]')\n    .replace(/\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b/gi, '[REDACTED EMAIL]');\n}\nexport function sanitizedReview(input: unknown): Review {\n  const r = validateReview(input);\n  const walk = (v: unknown, key = ''): unknown => typeof v === 'string' ? key === 'base64' ? v : redactReviewText(v) : Array.isArray(v) ? v.map(x => walk(x)) : rec(v) ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, walk(x, k)])) : v;\n  // Redaction of a link can make it invalid. Remove it rather than navigating a changed URL.\n  const clean = walk(r) as Review;\n  for (const item of [...clean.sources, ...clean.tickets, ...clean.evidence]) if (item.url !== null && !reviewUrl(item.url)) item.url = null;\n  return validateReview(clean);\n}\nexport interface ReviewSummary { severities: Record<Severity, number>; suspected: number; checks: Record<CheckStatus, number>; conclusion: 'corrections' | 'ready' | 'incomplete' | 'blocked' }\nexport function summarizeReview(r: Review): ReviewSummary {\n  const severities = { critical: 0, major: 0, moderate: 0, minor: 0 }, checks = { passed: 0, failed: 0, 'not-run': 0, blocked: 0, 'out-of-scope': 0 };\n  for (const f of r.findings) severities[f.severity]++;\n  for (const c of r.checks) checks[c.status]++;\n  const suspected = r.findings.filter(f => f.confidence === 'suspected' && f.resolution !== 'resolved').length;\n  const blocking = r.findings.some(f => f.confidence === 'confirmed' && ['open', 'in-progress'].includes(f.resolution) && r.policy.blockingSeverities.includes(f.severity));\n  const conclusion = blocking || checks.failed > 0 ? 'corrections' : checks.blocked > 0 ? 'blocked' : checks.passed === 0 || suspected > 0 || (r.policy.requireAllChecks && checks['not-run'] > 0) ? 'incomplete' : 'ready';\n  return { severities, suspected, checks, conclusion };\n}\nexport const conclusionLabels = { corrections: 'Corrections n\u00e9cessaires', ready: 'Pr\u00eat sur le p\u00e9rim\u00e8tre v\u00e9rifi\u00e9', incomplete: 'Review incompl\u00e8te', blocked: 'V\u00e9rification bloqu\u00e9e' };\nexport interface ReviewFilters { query: string; domain: string; severity: string; confidence: string; resolution: string }\nexport function filterFindings(r: Review, f: ReviewFilters): ReviewFinding[] {\n  const q = f.query.trim().toLocaleLowerCase();\n  return r.findings.filter(i => (!q || [i.id, i.title, i.impact, i.location.path].join(' ').toLocaleLowerCase().includes(q)) && (f.domain === '' || i.domain === f.domain) && (f.severity === '' || i.severity === f.severity) && (f.confidence === '' || i.confidence === f.confidence) && (f.resolution === '' || i.resolution === f.resolution));\n}\nexport function reviewFreshness(r: Review, currentRevision: string | null, changedTargets: string[]): { state: 'unknown' | 'same' | 'different'; affectedChecks: string[]; affectedFindings: string[] } {\n  const different = currentRevision !== null && currentRevision !== r.revision.commit;\n  const affected = (targets: string[]) => targets.some(t => changedTargets.includes(t));\n  return { state: different || changedTargets.length ? 'different' : currentRevision === null ? 'unknown' : 'same', affectedChecks: r.checks.filter(c => affected(c.targets)).map(c => c.id), affectedFindings: r.findings.filter(f => affected(f.targets)).map(f => f.id) };\n}\nconst md = (s: string): string => s.replace(/[\\\\`*_{}\\[\\]<>|#]/g, c => `\\\\${c}`).replace(/\\n/g, '\\\\' + '\\n');\nexport function reviewMarkdown(r: Review): string {\n  const s = summarizeReview(r);\n  const lines = [`# ${md(r.title)}`, '', `${md(r.project)} \u00b7 ${md(r.mission)} \u00b7 ${md(r.date)}`, `Revision: ${md(r.revision.commit)}; uncommitted changes: ${r.revision.dirty.map(md).join(', ') || 'none recorded'}`, '', `Conclusion: **${conclusionLabels[s.conclusion]}**`, md(r.summary), `Policy: ${md(r.policy.rationale)}`, '', '## Scope', ...r.scope.map(v => `- ${md(v)}`), '', '## Exclusions and limits', ...[...r.exclusions, ...r.limits].map(v => `- ${md(v)}`), '', '## Counts (whole review)', ...Object.entries(s.severities).map(([severity, count]) => `- ${severityLabels[severity as Severity]}: ${count}`), `- \u00c0 v\u00e9rifier: ${s.suspected}`, ...Object.entries(s.checks).map(([status, count]) => `- ${checkLabels[status as CheckStatus]}: ${count}`), '', '## Coverage', ...r.checks.map(c => `- **${md(c.id)} \u2014 ${md(c.title)}** (${md(c.domain)}, ${c.kind}): ${checkLabels[c.status]}. ${md(c.result)}${c.reason ? ` Reason: ${md(c.reason)}` : ''} Revision: ${md(c.revision)}. Evidence: ${c.evidenceIds.map(md).join(', ') || 'none'}`), '', '## Findings'];\n  for (const f of r.findings) lines.push('', `### ${md(f.id)} \u2014 ${md(f.title)}`, `${severityLabels[f.severity]} / ${confidenceLabels[f.confidence]} / ${resolutionLabels[f.resolution]}`, `Severity rationale: ${md(f.severityReason)}`, `Location: ${md(f.location.path)}${f.location.line ? `:${f.location.line}` : ''}`, `Impact: ${md(f.impact)}`, `Trigger: ${md(f.trigger)}`, `Expected: ${md(f.expected)}`, `Observed: ${md(f.observed)}`, 'Reproduction:', ...f.reproduction.map(v => `- ${md(v)}`), `Evidence: ${f.evidenceIds.map(md).join(', ') || 'none'}`, `Correction: ${md(f.correction)}`, `Trade-offs: ${md(f.tradeoffs)}`, `Resolution verification: ${md(f.verification)}`, `Resolution evidence: ${f.resolutionEvidenceIds.map(md).join(', ') || 'none'}`, `Sources: ${f.sourceIds.map(md).join(', ') || 'none'}`, `Tickets: ${f.ticketIds.map(md).join(', ') || 'none'}`);\n  lines.push('', '## Evidence');\n  for (const e of r.evidence) lines.push('', `### ${md(e.id)} \u2014 ${md(e.title)}`, `${e.kind}${e.image ? ` (${e.image.origin}; image is embedded in HTML/JSON, text alternative: ${md(e.image.alt)})` : ''}`, md(e.content), e.url ? `Full evidence: ${e.url}` : 'No external evidence destination.');\n  lines.push('', '## Sources');\n  for (const source of r.sources) lines.push(`- ${md(source.id)}: ${md(source.title)} \u2014 ${md(source.publisher)}; ${md(source.technology)} ${md(source.version)}; ${source.access}; ${source.consultedAt || 'not consulted'}; ${source.url || 'no destination'}. ${md(source.usage)} Compatibility: ${md(source.compatibility)} Provenance: ${md(source.provenance)}`);\n  lines.push('', '## Technologies', ...r.technologies.map(t => `- ${md(t.name)} ${md(t.version)} (${md(t.detectedFrom)})`), '', '## Tickets', ...r.tickets.map(t => `- ${md(t.id)} \u2014 ${md(t.title)}: ${t.url || 'no published destination'}`), '', 'Generated from review format 1. Counts describe the whole review. Historical evidence does not certify a later revision.', '');\n  return lines.join('\\n');\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/review-open.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/review-runtime.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/review.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "src/update.ts",
+    "messages": [
+      {
+        "ruleId": "sonarjs/cognitive-complexity",
+        "severity": 1,
+        "message": "Refactor this function to reduce its Cognitive Complexity from 45 to the 15 allowed.",
+        "line": 21,
+        "column": 17,
+        "messageId": "refactorFunction",
+        "endLine": 21,
+        "endColumn": 30
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import * as fs from 'node:fs';\nimport path from 'node:path';\nimport { createHash } from 'node:crypto';\nimport { bundledFiles, bundledProvenance, type Provenance } from './init.js';\nimport { diagnose, validateManifest } from './doctor.js';\nimport { parseJson, checkPath, stat } from './filesystem.js';\n\ntype Entry = {\n  path: string; classification: 'unchanged' | 'updated' | 'customized' | 'conflict' | 'added' | 'removed';\n  installedSha256?: string; baselineSha256?: string; candidateSha256?: string;\n  candidateChanged: boolean; missing?: boolean; collision?: boolean;\n};\nexport type UpdateReport = {\n  format: 1; destination: string; status: 'ok' | 'warning' | 'error';\n  installed?: Provenance; candidate?: Provenance; provenance: 'recorded' | 'unknown';\n  entries: Entry[]; findings: { code: string; path?: string; message: string }[];\n};\nconst hash = (data: Buffer) => createHash('sha256').update(data).digest('hex');\n\n/** Preview only. No staging writes, migrations, subprocesses, or network calls. */\nexport function previewUpdate(destination: string): UpdateReport {\n  const report: UpdateReport = { format: 1, destination: path.resolve(destination), status: 'ok', provenance: 'unknown', entries: [], findings: [] };\n  try {\n    const diagnostics = diagnose(report.destination);\n    report.findings.push(...diagnostics.findings);\n    report.status = diagnostics.status;\n    // Missing files are represented in the comparison, but remain diagnostic errors.\n    if (diagnostics.findings.some(f => f.severity === 'error' && f.code !== 'file-missing')) return report;\n    const manifestPath = path.join(report.destination, 'kit-manifest.json');\n    checkPath(manifestPath);\n    const info = stat(manifestPath);\n    if (!info?.isFile() || info.size > 1024 * 1024) throw new Error('Invalid manifest file.');\n    const manifest = validateManifest(parseJson(fs.readFileSync(manifestPath, 'utf8')));\n    report.installed = manifest.provenance;\n    report.provenance = manifest.provenance ? 'recorded' : 'unknown';\n    if (!manifest.provenance) {\n      if (report.status === 'ok') report.status = 'warning';\n      report.findings.push({ code: 'provenance-unknown', message: 'Legacy installation: package version is unknown; recorded file hashes remain the comparison baseline.' });\n    }\n    const candidate = bundledFiles(manifest.tool, manifest.skills);\n    const hashes = Object.fromEntries([...candidate].map(([name, data]) => [name, hash(data)]));\n    report.candidate = bundledProvenance(hashes);\n    for (const name of [...new Set([...Object.keys(manifest.files), ...candidate.keys()])].sort()) {\n      const baseline = manifest.files[name]?.toLowerCase();\n      const next = hashes[name];\n      const file = path.join(report.destination, name);\n      checkPath(file);\n      const current = stat(file);\n      if (current && !current.isFile()) throw new Error(`Expected a regular file: ${name}`);\n      const actual = current ? hash(fs.readFileSync(file)) : undefined;\n      const customized = baseline !== undefined && actual !== baseline;\n      const classification = baseline === undefined ? 'added' : customized && baseline !== next && actual !== next ? 'conflict' : customized ? 'customized' : next === undefined ? 'removed' : baseline === next ? 'unchanged' : 'updated';\n      const collision = baseline === undefined && actual !== undefined;\n      report.entries.push({ path: name, classification, installedSha256: actual, baselineSha256: baseline, candidateSha256: next,\n        candidateChanged: baseline !== next, ...(actual === undefined ? { missing: true } : {}), ...(collision ? { collision: true } : {}) });\n      if ((customized || collision) && report.status === 'ok') report.status = 'warning';\n    }\n  } catch (error) {\n    report.status = 'error';\n    report.findings.push({ code: 'preview-failed', message: error instanceof Error ? error.message : String(error) });\n  }\n  return report;\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/behavioral-evaluation.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/checkpoint.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/closure-loop.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/codex-meter.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/codex-rpc.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/codex-task.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/commands.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/comparison-readiness.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/comparison.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/doctor.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/evaluation.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/install.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/json-errors.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/mission.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/native-host.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/planner.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/prepare-behavior-case.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/resume-cli.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/review-agent.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/review-detection.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/review-open.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/review.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "tests/update.test.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  }
+]

@@ -10,6 +10,8 @@ Closure requires the exact mission, its selected context sources and each criter
 
 Loop histories preserve failed attempts, diagnostics, adjustments, explicit unknown consumption and stop motives. They identify missing reconciliation and exhausted/stagnating histories. A completed loop requires separate closure assessment. A passing final attempt at its attempt limit can be assessed without authorizing another run. Observed token/duration totals are not hard runtime caps.
 
+Follow-up audit, 2026-09-15: an unknown measurement keeps the exact total unknown, but known nonnegative measurements still prove a lower bound. Threshold and historical-prefix diagnostics use that bound without changing the input/output schema or granting eligibility. Unsafe known sums are rejected. A fixed finite-trace comparison and the simpler separate-known-sum implementation are documented in the [scientific audit](HARDENING-0.5-SCIENCE.md); this is not a proof of general agent convergence.
+
 ## Alternatives and boundaries
 
 Changing legacy schemas or silently strengthening `resume` would break existing workflows. An automatic dispatcher would introduce host, budget and authorization contracts that are not validated here. Relying on prose alone remains appropriate for small tasks but cannot give reusable deterministic coverage diagnostics.

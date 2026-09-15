@@ -35,10 +35,21 @@
     "test:cli": "node --test tests/install.test.mjs tests/doctor.test.mjs tests/update.test.mjs tests/checkpoint.test.mjs tests/resume-cli.test.mjs tests/mission.test.mjs tests/planner.test.mjs tests/closure-loop.test.mjs",
     "test:behavior": "node --test tests/behavioral-evaluation.test.mjs tests/prepare-behavior-case.test.mjs",
     "test:protocols": "node --test tests/comparison.test.mjs",
-    "test:greenfield": "node --test examples/pocket-tasks/tests/*.test.mjs evaluation/greenfield/*.test.mjs examples/clair-from-zero/tests/*.test.mjs"
+    "test:greenfield": "node --test examples/pocket-tasks/tests/*.test.mjs evaluation/greenfield/*.test.mjs examples/clair-from-zero/tests/*.test.mjs",
+    "lint": "eslint src scripts tests examples/pocket-tasks examples/clair-from-zero examples/fullstack *.config.mjs --max-warnings 0",
+    "format:check": "prettier --check \"src/**/*.{ts,css}\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack}/**/*.{js,mjs,cjs,ts,tsx,css,html}\"",
+    "format": "prettier --write \"src/**/*.{ts,css}\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack}/**/*.{js,mjs,cjs,ts,tsx,css,html}\"",
+    "quality:report": "node scripts/quality-report.mjs"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@types/node": "^22.0.0",
-    "typescript": "~5.9.3"
+    "eslint": "10.10.0",
+    "eslint-plugin-sonarjs": "4.2.1",
+    "globals": "17.12.0",
+    "jsdom": "27.4.0",
+    "prettier": "3.9.6",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "8.70.0"
   }
 }

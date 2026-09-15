@@ -1,5 +1,8 @@
 export class TaskError extends Error {
-  constructor(message, status = 400) { super(message); this.status = status; }
+  constructor(message, status = 400) {
+    super(message);
+    this.status = status;
+  }
 }
 export function title(value) {
   if (typeof value !== 'string' || !value.trim() || value.trim().length > 120) {
@@ -8,7 +11,8 @@ export function title(value) {
   return value.trim();
 }
 export function validateBody(body, patch = false) {
-  if (!body || typeof body !== 'object' || Array.isArray(body)) throw new TaskError('Expected a JSON object.');
+  if (!body || typeof body !== 'object' || Array.isArray(body))
+    throw new TaskError('Expected a JSON object.');
   const result = {};
   if (Object.hasOwn(body, 'title')) result.title = title(body.title);
   if (patch && Object.hasOwn(body, 'done')) {
@@ -23,8 +27,18 @@ export function validateStoredTasks(tasks) {
   if (!Array.isArray(tasks)) throw new Error('Invalid stored task list');
   const ids = new Set();
   for (const task of tasks) {
-    if (!task || typeof task.id !== 'string' || !task.id || ids.has(task.id) ||
-      typeof task.done !== 'boolean' || typeof task.title !== 'string' || !task.title || task.title.length > 120 || task.title.trim() !== task.title) throw new Error('Invalid stored task');
+    if (
+      !task ||
+      typeof task.id !== 'string' ||
+      !task.id ||
+      ids.has(task.id) ||
+      typeof task.done !== 'boolean' ||
+      typeof task.title !== 'string' ||
+      !task.title ||
+      task.title.length > 120 ||
+      task.title.trim() !== task.title
+    )
+      throw new Error('Invalid stored task');
     ids.add(task.id);
   }
   return tasks;

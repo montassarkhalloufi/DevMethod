@@ -16,5 +16,7 @@ export const stageOwners = {
     'devmethod-handoff': 'scoped-delivery',
 };
 export function commandSkills(selected) {
-    return Object.entries(stageOwners).filter(([, owner]) => selected.includes('project-foundation') && selected.includes(owner)).map(([name]) => name);
+    return Object.entries(stageOwners)
+        .filter(([, owner]) => selected.includes('project-foundation') && selected.includes(owner))
+        .map(([name]) => name);
 }

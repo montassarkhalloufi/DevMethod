@@ -16,6 +16,8 @@ Use appropriate HTTP semantics: 200 for returned synchronous success; 201 for cr
 
 Errors may follow Problem Details where adopted. Prototype-local headers are not authentication. Limit and order collections when present without adding needless pagination.
 
+For deep or long-lived traversal, define a unique deterministic order and compare bounded offset with cursor/keyset access against the selected query plan and required navigation. Scope cursors to the relevant identity and filters, and define visibility under inserts, updates and deletes; a cursor provides neither authorization nor a snapshot by itself. Check a deep page and changing data against that contract. Bound expensive query/export work beyond response size, including fan-out, duration and cancellation cleanup. PostgreSQL's [LIMIT/OFFSET documentation](https://www.postgresql.org/docs/17/queries-limit.html) explains unique ordering and skipped-row work; use the selected datastore's versioned facilities rather than prescribing one pagination strategy everywhere.
+
 Before retrying a paid call, determine whether outcome/billing is unknown, whether the provider deduplicates, and whether state reconciliation is possible. A key alone guarantees neither exactly-once execution nor a free retry. If calculation succeeded but persistence failed, recovery may reuse its result only within documented limits.
 
 Update public schemas, documentation, OpenAPI generation where present, tests, and compatibility strategy together. A drift-free generated schema does not prove every HTTP behavior matches: also verify statuses, headers, errors, and observable constraints.

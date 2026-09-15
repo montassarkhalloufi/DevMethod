@@ -65,7 +65,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "FOUNDATION-NEG.1",
-        "FOUNDATION-NEG.2"
+        "FOUNDATION-NEG.2",
+        "FOUNDATION-NEG.3"
       ]
     },
     {
@@ -75,7 +76,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "FOUNDATION-NEG.1",
-        "FOUNDATION-NEG.2"
+        "FOUNDATION-NEG.2",
+        "FOUNDATION-NEG.3"
       ]
     },
     {
@@ -105,7 +107,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "ARCH-NEG.1",
-        "ARCH-NEG.2"
+        "ARCH-NEG.2",
+        "ARCH-NEG.3"
       ]
     },
     {
@@ -115,7 +118,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "ARCH-NEG.1",
-        "ARCH-NEG.2"
+        "ARCH-NEG.2",
+        "ARCH-NEG.3"
       ]
     },
     {
@@ -145,7 +149,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "DESIGN-NEG.1",
-        "DESIGN-NEG.2"
+        "DESIGN-NEG.2",
+        "DESIGN-NEG.3"
       ]
     },
     {
@@ -155,7 +160,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "DESIGN-NEG.1",
-        "DESIGN-NEG.2"
+        "DESIGN-NEG.2",
+        "DESIGN-NEG.3"
       ]
     },
     {
@@ -185,7 +191,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "REACT-NEG.1",
-        "REACT-NEG.2"
+        "REACT-NEG.2",
+        "REACT-NEG.3"
       ]
     },
     {
@@ -195,7 +202,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "REACT-NEG.1",
-        "REACT-NEG.2"
+        "REACT-NEG.2",
+        "REACT-NEG.3"
       ]
     },
     {
@@ -225,7 +233,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "AI-NEG.1",
-        "AI-NEG.2"
+        "AI-NEG.2",
+        "AI-NEG.3"
       ]
     },
     {
@@ -235,7 +244,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "AI-NEG.1",
-        "AI-NEG.2"
+        "AI-NEG.2",
+        "AI-NEG.3"
       ]
     },
     {
@@ -265,7 +275,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "DELIVERY-NEG.1",
-        "DELIVERY-NEG.2"
+        "DELIVERY-NEG.2",
+        "DELIVERY-NEG.3"
       ]
     },
     {
@@ -275,7 +286,8 @@
       "outcome": "not-run",
       "missingCriteria": [
         "DELIVERY-NEG.1",
-        "DELIVERY-NEG.2"
+        "DELIVERY-NEG.2",
+        "DELIVERY-NEG.3"
       ]
     },
     {

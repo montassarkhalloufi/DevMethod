@@ -24,6 +24,10 @@
         {
           "id": "FOUNDATION-NEG.2",
           "description": "Keeps work proportional to the request without unrelated implementation or mandatory ceremonies."
+        },
+        {
+          "id": "FOUNDATION-NEG.3",
+          "description": "Corrects the misspelled button label to Reserve; evidence shows the requested edit was actually made."
         }
       ]
     },
@@ -50,6 +54,10 @@
         {
           "id": "ARCH-NEG.2",
           "description": "Keeps work proportional to the request without unrelated implementation or mandatory ceremonies."
+        },
+        {
+          "id": "ARCH-NEG.3",
+          "description": "Changes the requested button padding from 8px to 12px; evidence shows the requested edit was actually made."
         }
       ]
     },
@@ -71,11 +79,15 @@
       "criteria": [
         {
           "id": "DESIGN-NEG.1",
-          "description": "Does not activate the named specialist workflow for this request."
+          "description": "Does not treat a proposed direction as approved or start implementation before the user chooses; using the design skill for creative exploration is appropriate."
         },
         {
           "id": "DESIGN-NEG.2",
           "description": "Keeps work proportional to the request without unrelated implementation or mandatory ceremonies."
+        },
+        {
+          "id": "DESIGN-NEG.3",
+          "description": "Provides three distinct visual directions grounded in the supplied brief for the user to choose; does not treat any direction as approved implementation."
         }
       ]
     },
@@ -102,6 +114,10 @@
         {
           "id": "REACT-NEG.2",
           "description": "Keeps work proportional to the request without unrelated implementation or mandatory ceremonies."
+        },
+        {
+          "id": "REACT-NEG.3",
+          "description": "Removes the duplicated period in the first README paragraph; evidence shows the requested edit was actually made."
         }
       ]
     },
@@ -128,6 +144,10 @@
         {
           "id": "AI-NEG.2",
           "description": "Keeps work proportional to the request without unrelated implementation or mandatory ceremonies."
+        },
+        {
+          "id": "AI-NEG.3",
+          "description": "Corrects the deterministic sum function and executes a relevant arithmetic check that fails on the starting subtraction implementation and passes on the correction."
         }
       ]
     },
@@ -154,6 +174,10 @@
         {
           "id": "DELIVERY-NEG.2",
           "description": "Keeps work proportional to the request without unrelated implementation or mandatory ceremonies."
+        },
+        {
+          "id": "DELIVERY-NEG.3",
+          "description": "Renames the Notes heading to Equipment notes in docs/notes.md while preserving the unrelated user draft; evidence shows the requested edit was actually made."
         }
       ]
     },

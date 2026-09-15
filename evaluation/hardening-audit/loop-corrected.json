@@ -1,0 +1,8 @@
+{
+  "traces": 155,
+  "unknownTraces": 71,
+  "thresholdDiagnosticsMissed": 0,
+  "afterLimitDiagnosticsMissed": 0,
+  "unsafeEligible": 0,
+  "examples": []
+}

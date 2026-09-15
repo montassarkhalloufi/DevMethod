@@ -2,6 +2,8 @@
 
 This candidate includes workflow guidance merged through PR #31 and the evidence hardening described in the [workstream ledger](HARDENING-0.5.md). It extends how agents develop open ideas, manage visual design, explain architecture and prepare portable project studies while preserving six modules, existing stage entry points and legacy CLI contracts. Registry publication is a separate operation.
 
+The [follow-up audit](HARDENING-0.5-AUDIT.md) corrects partial-usage loop diagnostics, malformed native-ledger admission, negative-case completion criteria, duplicated behavioral transcripts, unsafe metric totals and timestamp coercion. It also corrects source attribution and native-menu wording, and retains bounded scientific/semantic probes. Existing negative-case reports require adjudication of the new outcome criteria; their absence is unresolved. No native 0.5 campaign or publication is implied.
+
 ## Changes
 
 - Preserve the wider product ambition when selecting a prototype slice; connect actor journeys, rules, screens and delivery scope, and distinguish research evidence from assumptions.

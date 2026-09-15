@@ -1,5 +1,8 @@
 export const MAX_TITLE_LENGTH = 120;
-export interface Task { id: string; title: string }
+export interface Task {
+  id: string;
+  title: string;
+}
 export class InvalidTitle extends Error {}
 export function taskTitle(value: unknown): string {
   if (typeof value !== 'string') throw new InvalidTitle('Title must be a string.');

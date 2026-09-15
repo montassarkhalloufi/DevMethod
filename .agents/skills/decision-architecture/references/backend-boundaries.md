@@ -20,6 +20,10 @@ Domain Entity, Persistence Row, DTO, and Integration Event are distinct contract
 
 State an intent, inputs/outputs, preconditions, effects, stable errors, and owner. Identify the invariant and where it is guaranteed under concurrency. A client-side check protects neither rights nor quotas.
 
+For a material state-changing flow or architecture audit, keep a compact chain in the existing contract or review: failure scenario → invariant → authoritative enforcement and commit point → guarantee scope → check and observed result. Identify the responsible code/data boundary and whether the guarantee holds within one process, across concurrent instances, after restart, or after retry/expiry. Reuse criterion IDs and evidence links; do not create another status ledger. A small change can keep this inline.
+
+Verify that guarantee at its actual boundary with a representative interleaving or injected failure. A sequential test or an in-memory port does not establish a multi-instance database guarantee. State the tested topology, data/workload and revision; keep untested guarantees explicit with the missing check. Select architecture and decomposition for these requirements, without making microservices, extra layers or a particular pattern mandatory.
+
 For data, specify owner, transaction, uniqueness, useful indexes, concurrency, migration, and restore/forward-fix. Do not rewrite an applied migration. Prefer expand/migrate/contract when versions coexist.
 
 For messages, specify producer, consumer, contract/version, acknowledgement, redelivery, idempotency, backoff, poison message, and recovery. Do not promise “exactly once” through a broker alone. Use outbox/inbox only when atomicity and recovery need it.

@@ -1,0 +1,44 @@
+{
+  "traces": 155,
+  "unknownTraces": 71,
+  "thresholdDiagnosticsMissed": 49,
+  "afterLimitDiagnosticsMissed": 20,
+  "unsafeEligible": 0,
+  "examples": [
+    {
+      "tokens": [
+        null,
+        200
+      ],
+      "missThreshold": true,
+      "missAfter": false,
+      "status": "needs-reconciliation",
+      "findings": [],
+      "limitReasons": []
+    },
+    {
+      "tokens": [
+        null,
+        201
+      ],
+      "missThreshold": true,
+      "missAfter": false,
+      "status": "needs-reconciliation",
+      "findings": [],
+      "limitReasons": []
+    },
+    {
+      "tokens": [
+        200,
+        null
+      ],
+      "missThreshold": true,
+      "missAfter": false,
+      "status": "needs-reconciliation",
+      "findings": [
+        "attempt-2-after-limit"
+      ],
+      "limitReasons": []
+    }
+  ]
+}

@@ -7,15 +7,23 @@ import { fileURLToPath } from 'node:url';
  */
 export function comparisonReadiness(evidence) {
   const required = [
-    'bmadInitializationPassed', 'taskLocalTemporaryDirectory',
-    'methodArtifactsAllowed', 'gitMetadataWritable',
-    'synchronousSubagentsAvailable', 'descendantUsageMeasured',
-    'descendantCancellationVerified', 'equalHostPermissions',
-    'frozenMethodRevisions', 'independentAcceptanceChecks',
+    'bmadInitializationPassed',
+    'taskLocalTemporaryDirectory',
+    'methodArtifactsAllowed',
+    'gitMetadataWritable',
+    'synchronousSubagentsAvailable',
+    'descendantUsageMeasured',
+    'descendantCancellationVerified',
+    'equalHostPermissions',
+    'frozenMethodRevisions',
+    'independentAcceptanceChecks',
   ];
-  const missing = required.filter(key => evidence[key] !== true);
-  return { ready: missing.length === 0, missing,
-    limitation: 'Requires reviewed native evidence. A true label alone proves no capability.' };
+  const missing = required.filter((key) => evidence[key] !== true);
+  return {
+    ready: missing.length === 0,
+    missing,
+    limitation: 'Requires reviewed native evidence. A true label alone proves no capability.',
+  };
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const file = process.argv[2];

@@ -8,11 +8,22 @@ export const text = (v) => typeof v === 'string' && v.trim().length > 0 && v.len
 export const id = (v) => typeof v === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(v);
 export const digest = (v) => createHash('sha256').update(v).digest('hex');
 export const hash = (v) => typeof v === 'string' && /^[a-f0-9]{64}$/.test(v);
+// Control-character denial is intentional input validation, not an accidental regex literal.
+/* eslint-disable no-control-regex */
 export function safePath(v) {
-    return typeof v === 'string' && v.length > 0 && v.length <= 1024 && !/[\\:\x00-\x1f\x7f]/.test(v)
-        && v.split('/').every(p => p.length > 0 && p !== '.' && p !== '..' && !/[. ]$/.test(p)
-            && !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(p));
+    return (typeof v === 'string' &&
+        v.length > 0 &&
+        v.length <= 1024 &&
+        !/[\\:\x00-\x1f\x7f]/.test(v) &&
+        v
+            .split('/')
+            .every((p) => p.length > 0 &&
+            p !== '.' &&
+            p !== '..' &&
+            !/[. ]$/.test(p) &&
+            !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(p)));
 }
+/* eslint-enable no-control-regex */
 export const secretPath = (v) => /(^|\/)(\.env(?:\..*)?|\.git|\.ssh|\.npmrc|credentials(?:\..*)?|secrets?(?:\..*)?)(\/|$)|\.(pem|key|p12|pfx)$/i.test(v);
 export function readLocal(root, file, limit = 1024 * 1024) {
     if (!safePath(file))
@@ -33,8 +44,11 @@ export function readRecord(root, file) {
 function git(root, args) {
     checkPath(path.resolve(root));
     return execFileSync('git', ['--no-optional-locks', '-c', 'core.fsmonitor=false', '-C', path.resolve(root), ...args], {
-        encoding: 'utf8', timeout: 10000, maxBuffer: 8 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'],
-        env: { ...process.env, GIT_PAGER: 'cat', GIT_TERMINAL_PROMPT: '0' }
+        encoding: 'utf8',
+        timeout: 10000,
+        maxBuffer: 8 * 1024 * 1024,
+        stdio: ['ignore', 'pipe', 'pipe'],
+        env: { ...process.env, GIT_PAGER: 'cat', GIT_TERMINAL_PROMPT: '0' },
     });
 }
 export function gitState(root) {
@@ -45,7 +59,7 @@ export function gitState(root) {
     if (tracked.length > 10000)
         throw new Error('Git provenance exceeds 10000 tracked files.');
     let bytesRead = 0;
-    const working = tracked.map(file => {
+    const working = tracked.map((file) => {
         if (!safePath(file) || secretPath(file))
             return [file, 'excluded'];
         const target = path.resolve(root, file);
@@ -61,15 +75,25 @@ export function gitState(root) {
         return [file, digest(readLocal(root, file, 8 * 1024 * 1024)), info.mode & 0o111];
     });
     const untracked = git(root, ['ls-files', '--others', '--exclude-standard', '-z']);
-    return { branch: git(root, ['rev-parse', '--abbrev-ref', 'HEAD']).trim(), commit: git(root, ['rev-parse', 'HEAD']).trim(),
-        statusSha256: digest(index + '\0' + untracked), diffSha256: digest(JSON.stringify(working)) };
+    return {
+        branch: git(root, ['rev-parse', '--abbrev-ref', 'HEAD']).trim(),
+        commit: git(root, ['rev-parse', 'HEAD']).trim(),
+        statusSha256: digest(index + '\0' + untracked),
+        diffSha256: digest(JSON.stringify(working)),
+    };
 }
 export function validGit(v) {
-    return object(v) && text(v.branch) && typeof v.commit === 'string' && /^[a-f0-9]{40,64}$/.test(v.commit)
-        && hash(v.statusSha256) && hash(v.diffSha256);
+    return (object(v) &&
+        text(v.branch) &&
+        typeof v.commit === 'string' &&
+        /^[a-f0-9]{40,64}$/.test(v.commit) &&
+        hash(v.statusSha256) &&
+        hash(v.diffSha256));
 }
 export function discover(root) {
-    const files = git(root, ['ls-files', '-z']).split('\0').filter(v => safePath(v) && !secretPath(v));
+    const files = git(root, ['ls-files', '-z'])
+        .split('\0')
+        .filter((v) => safePath(v) && !secretPath(v));
     if (files.length > 10000)
         throw new Error('Discovery exceeds 10000 tracked paths; select sources explicitly.');
     return files;

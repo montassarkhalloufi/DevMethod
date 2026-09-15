@@ -11,7 +11,7 @@ Sources read on 2026-09-15:
 | [Philipp Schmid, Practical Guide to Evaluating and Testing Agent Skills](https://www.philschmid.de/testing-skills) | Six positive/negative skill pairs; distinguish useful outcomes, instruction adherence and efficiency; isolate trials. |
 | [Taylor Mullen and Christian Gunderman, Google Developers](https://developers.googleblog.com/the-anatomy-of-harness-engineering-how-to-evaluate-iterate-and-guard-ai-coding-agents/) | Judge observable behavior without prescribing one exact sequence of tools; retain repeated observations. |
 | [Anthropic, Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) | Separate generation from adjudication; evaluate the reviewer instead of trusting an additional agent automatically. |
-| [Addy Osmani discussion](https://www.linkedin.com/posts/addyosmani_the-engineer-of-the-future-is-the-person-activity-7483407592921370624-st0l), as discussed in the project audit | Track human interventions and stale instructions. Comment-based observations motivate scenarios; they are not measured causal evidence. Comment text has not been independently revalidated by this change. |
+| [Addy Osmani discussion](https://www.linkedin.com/posts/addyosmani_the-engineer-of-the-future-is-the-person-activity-7483407592921370624-st0l), as discussed in the project audit | Track human interventions and stale instructions. Comment-based observations motivate scenarios; they are not measured causal evidence. The follow-up [source audit](../../docs/HARDENING-0.5-SOURCES.md) revalidated the relevant Neelam Borse and Nicolas Morandi comments; other prior named attributions remain unverified in accessible subsets. |
 
 The suite's two repetitions are an initial exploratory allocation, not statistical confidence or an implemented budget. Schmid recommends multiple trials; a broader comparative claim needs more repetitions and predeclared equal arms. Change and pin the suite before running additional repetitions. Each report represents one fixed host/model/method/fixture configuration; do not pool configurations into one comparison result.
 
@@ -21,7 +21,7 @@ The suite's two repetitions are an initial exploratory allocation, not statistic
 
 | Cases | Observation |
 |---|---|
-| FOUNDATION, ARCH, DESIGN, REACT, AI, DELIVERY, each POS and NEG | Useful specialist application and non-activation on out-of-scope tasks; proportional work. |
+| FOUNDATION, ARCH, DESIGN, REACT, AI, DELIVERY, each POS and NEG | Useful specialist application and non-activation on out-of-scope tasks; proportional work. DESIGN-NEG checks against premature approved implementation, while allowing creative skill use. |
 | CONTEXT | Current relevant sources, contradictory obsolete rules and stale checkpoint handling. |
 | CLOSURE | Green unit tests with an unmet Node concurrency invariant and stale React availability display. |
 | RETRY | Environmental diagnosis, changed approach, stagnation and bounded attempts. |
@@ -30,6 +30,8 @@ The suite's two repetitions are an initial exploratory allocation, not statistic
 | AUTHORITY | Current local-only authority versus an old handoff and malicious tool content. |
 
 These cases are bounded probes, not complete coverage of any skill or framework. `DESIGN-NEG` intentionally tests not treating an unapproved direction as approved implementation; design exploration can still be appropriate. Positive cases allow equivalent observable workflow behavior: naming a skill is not sufficient evidence of success. Preserve unexpected valid approaches.
+
+Every negative case also requires the requested useful outcome: corrected label, padding, punctuation, arithmetic or heading, or three visual directions for DESIGN-NEG. Non-activation (or avoiding premature implementation in DESIGN-NEG) and proportional work alone cannot establish success. A no-op remains incomplete even when it avoids every unnecessary workflow.
 
 ## Run the offline checks
 
@@ -64,10 +66,16 @@ Top-level JSON: `{"format":1,"runs":[]}`. Each submitted run has:
 - `kind`: `native` or `synthetic`. Synthetic rows never contribute to native performance, even when all their constructed judgments pass.
 - `artifacts`: objects with unique `id`, relative `path`, lowercase SHA-256 `sha256`, and `kind` (`transcript`, `snapshot`, `check`, `adjudication`). All referenced files must exist under the supplied artifact root, be nonempty regular files with matching hashes, and use no symbolic links or traversal. Paths are data and are never executed.
 - `judgments`: objects with unique `criterionId` from the case oracle, `verdict` (`pass`, `fail`, `unresolved`), nonempty `justification` and `evidenceIds`. Pass/fail requires at least one known artifact reference. Unresolved can have none. Omitted criteria remain missing; no implicit pass.
-- `metrics`: all four keys `humanInterventions`, `tokens`, `elapsedMs`, `costUsd`; unknown values must be JSON `null`. Known values must be finite and nonnegative, and counts must be integers. Zero means a measured zero.
-- `provenance`: for native completed/interrupted runs, nonempty `host`, `hostVersion`, `model`, `methodRevision`, `fixtureRevision`, `permissions`, `adjudicator`, chronological ISO timestamps `startedAt`/`endedAt`, and `sessions` containing `{ "id": "session-1", "transcriptId": "trace-1" }`. Completed RESUME requires at least two distinct sessions and distinct transcript paths/content. Other native completed runs require at least one. Blocked/not-run may omit provenance because no host was invoked.
+- `metrics`: all four keys `humanInterventions`, `tokens`, `elapsedMs`, `costUsd`; unknown values must be JSON `null`. Known values must be finite and nonnegative; counts and their aggregate totals must be safe integers (at most 9,007,199,254,740,991). Overflowing totals are rejected rather than serialized as null. Decimal duration and cost observations remain supported. Zero means a measured zero.
+- `provenance`: for native completed/interrupted runs, nonempty `host`, `hostVersion`, `model`, `methodRevision`, `fixtureRevision`, `permissions`, `adjudicator`, chronological ISO timestamps `startedAt`/`endedAt`, and `sessions` containing `{ "id": "session-1", "transcriptId": "trace-1" }`. Timestamps use valid calendar dates and `YYYY-MM-DDTHH:mm:ss[.SSS]Z` or an explicit `±HH:mm` offset; fractional seconds can have one to three digits. Completed RESUME requires at least two distinct sessions and distinct transcript paths/content. Other native completed runs require at least one. Native completed/interrupted runs cannot reuse a session transcript path or identical transcript bytes from any other run in the report. Session IDs remain run-local labels; two different trials may both label their first session `session-1`. Blocked/not-run may omit provenance because no host was invoked.
 
 Artifact integrity cannot establish authenticity, judge independence or relevance. The validator checks declared provenance and references; an operator could still forge a transcript or an adjudication. Accordingly a `passed` score means the submitted, independently reviewable judgments satisfy the oracle, not that this program independently understood the application.
+
+### Oracle and validation update, 2026-09-15
+
+Format 1 and the 36 planned slots are unchanged. The six negative cases now each include criterion `.3` for the requested outcome. DESIGN-NEG `.1` now allows creative exploration through the design skill and prohibits only premature approval/implementation, consistent with that skill's actual scope; re-adjudicate an earlier failure based solely on creative skill activation from the retained trace. Older reports containing only `.1` and `.2` become unresolved under the updated oracle; retain their original pinned oracle and score, then adjudicate the added criterion from retained evidence or leave it unresolved. Never infer the missing outcome from an earlier pass. No native runs were submitted before this update.
+
+Before any future campaign, pin the exact `cases.json`, `oracle.json`, fixture manifest and scorer source by SHA-256 outside the agent workspace, alongside the invocation configuration. Compare only runs using the same predeclared evaluation contract; the JSON report does not itself enforce oracle revision identity. Retain these pins with the score. Historical records with reused transcripts, non-ISO timestamps or unsafe metrics now fail validation; recover distinct original evidence or correct provenance from original records rather than fabricate values. Transcript deduplication catches obvious reuse only; different bytes do not prove different sessions or an independent judge.
 
 ## Denominators and limitations
 

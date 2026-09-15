@@ -4,6 +4,8 @@ Apply only to an authorized container/infrastructure change. Inspect Dockerfile 
 
 For Cloud Run, verify the ingress container's port and interface contract, startup/shutdown, concurrency, ephemeral filesystem and request lifetime. Do not deploy the localhost-only fullstack fixture directly: its network, auth and operational contracts are intentionally incomplete. Review least-privilege service identity and secret delivery without copying credentials into context.
 
+When scaling or rollout changes capacity, budget maximum instances × per-instance pools/in-flight work, plus deployment surge and other clients, against shared dependencies. Inspect the actual scaling limits and reconnect behavior; a configured autoscaling ceiling alone does not prove dependency protection. Verify readiness and shutdown/drain under the selected topology. Link any claimed failover or restore guarantee to its observed procedure and result; proposed managed-service settings remain unverified until exercised.
+
 Pin container provenance; use a small runtime stage and preserve required assets. For Terraform, review planned replacements/destruction, unknown values, state locking and drift. A successful plan is neither approval nor an applied deployment. Plans/state can contain secrets; do not add them to generated context or Git.
 
 Conditional project checks: `docker build` for the existing Dockerfile; `terraform fmt -check`, `terraform init -backend=false`, and `terraform validate` with approved locked providers; a reviewed `terraform plan` only in the correct state/identity context. Initialization can download providers and plans can call remote APIs. Never imply these checks are universally offline.

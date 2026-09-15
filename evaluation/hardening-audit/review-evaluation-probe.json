@@ -1,0 +1,49 @@
+{
+  "copiedTranscript": {
+    "before": {
+      "accepted": true,
+      "completed": 2,
+      "tokenTotal": null,
+      "costTotal": null
+    },
+    "after": {
+      "accepted": false,
+      "error": "Reused native session transcript across runs"
+    }
+  },
+  "numericDate": {
+    "before": {
+      "accepted": true,
+      "completed": 1,
+      "tokenTotal": null,
+      "costTotal": null
+    },
+    "after": {
+      "accepted": false,
+      "error": "Invalid timestamps"
+    }
+  },
+  "overflow": {
+    "before": {
+      "accepted": true,
+      "completed": 2,
+      "tokenTotal": null,
+      "costTotal": "Infinity (serializes as null)"
+    },
+    "after": {
+      "accepted": false,
+      "error": "Metric total exceeds numeric range: costUsd"
+    }
+  },
+  "localLabelsAndOffset": {
+    "accepted": true,
+    "completed": 2,
+    "tokenTotal": null,
+    "costTotal": null
+  },
+  "pending": {
+    "exactMatch": true,
+    "planned": 36,
+    "notRun": 36
+  }
+}

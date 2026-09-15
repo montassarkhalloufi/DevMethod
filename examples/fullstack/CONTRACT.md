@@ -6,6 +6,7 @@ Status: implemented fixture contract, owned by the fullstack slice. This fiction
 |---|---|
 | `POST /tasks` | JSON object with only `title`; normalize with JavaScript `trim`; require 1–120 UTF-16 code units and reject U+0000 anywhere in the title; generate UUID; return `201` and `{ id, title }` after insertion |
 | Invalid creation | `400` for missing/non-string/empty/too-long title or U+0000, array body or unknown fields; no persistence call |
+| Unsupported creation media | `415` unless Content-Type is `application/json` (optional charset allowed); form, text and multipart bodies never reach persistence |
 | `GET /tasks` | `200` with at most 100 `{ id, title }` rows sorted by title then ID using PostgreSQL ordering; no cursor/pagination |
 | Infrastructure failure | `500` with generic Nest response; driver connection details are not exposed to callers |
 | Next initial read | Server-only HTTP request with no cache and 3-second timeout; validate shape and omit unknown fields before sending props to the client |

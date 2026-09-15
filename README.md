@@ -4,6 +4,8 @@ From idea to delivery with your AI coding agents.
 
 A reusable method for human–AI collaboration, organized around missions and supported by verification evidence. Start from a need, discuss important decisions, implement a bounded scope, and preserve what was checked and what comes next.
 
+**The human sets the direction, agents execute, and evidence informs the decision.** Humans define goals and constraints, arbitrate consequential trade-offs and retain responsibility for authorizations. Agents carry out the authorized work, surface uncertainty and prepare reviewable outcomes. Reuse valid authorization instead of repeatedly interrupting routine work; ask at a meaningful decision boundary with concrete evidence. Automated checks and bounded loops support this collaboration without proving that the goal, tests or architecture are sufficient.
+
 **[▶ Watch the review interface in action — 73 seconds, French voice and subtitles](#review-your-changes-and-open-the-report)** · [What the recorded example demonstrates](docs/media/review-r02/README.md)
 
 [![npm](https://img.shields.io/npm/v/devmethod-ai?label=npm)](https://www.npmjs.com/package/devmethod-ai) [![license](https://img.shields.io/npm/l/devmethod-ai)](LICENSE) [![platform tests](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml/badge.svg)](https://github.com/montassarkhalloufi/DevMethod/actions/workflows/platform-tests.yml)
@@ -32,7 +34,7 @@ The video uses illustrative Codex commands with real generated images and record
 
 ![DevMethod workflow](docs/images/devmethod-flow.svg)
 
-DevMethod exposes fourteen `devmethod-*` workflow commands in the agent’s skill menu. The six procedure modules and existing `project-foundation <stage>` invocations remain supported.
+DevMethod provides fourteen installable `devmethod-*` stage adapters. Native discovery and skill-menu visibility depend on the host and remain separately evaluated in [compatibility evidence](COMPATIBILITY.md). The six procedure modules and existing `project-foundation <stage>` invocations remain supported.
 
 A reusable workflow for taking a software project from exploration to delivery: decisions, UX, architecture, tickets, development, tests, review and handoff. Six focused skills support fourteen workflow stages, each ending with evidence, limitations and one suggested next command.
 
@@ -102,6 +104,8 @@ From a reviewed source checkout:
 
 ```sh
 npm ci
+npm run lint
+npm run format:check
 npm test
 npm run check:docs
 npm pack --dry-run
@@ -221,6 +225,8 @@ The workflow illustration above is kept in the repository as an SVG so it remain
 
 ```bash
 npm ci
+npm run lint
+npm run format:check
 npm test
 npm pack --dry-run
 ```

@@ -2,6 +2,8 @@
 
 `devmethod update-preview [--dest PATH] [--json]` compares an installation with the payload bundled in the CLI you invoke. It infers the installed host and module subset, includes foundation, and performs no writes, downloads, migrations or model calls. It does not check a registry for a newer version.
 
+The comparison reuses the manifest and file hashes from one diagnostic inspection; recorded payloads are not read twice. Existing unrecorded files at candidate paths are checked separately. Hashing uses 64 KiB read buffers and preserves large customizations; read time remains proportional to the selected file sizes. The inspection assumes no concurrent changes.
+
 New format 2 manifests include optional `provenance`: `packageName`, `packageVersion` and `payloadSha256`. The digest hashes JSON-encoded sorted `[path, sha256]` pairs for the host-profiled selected payload, excluding the manifest itself. This distinguishes payload changes even when package versions match. These are local records, not signatures or proof of release authenticity. Legacy manifests continue to work: an identical `init` preserves their original bytes and previews explicitly report unknown installed version. Never infer a legacy version from the CLI currently running.
 
 The format 1 JSON report contains installed/candidate provenance, findings and entries:

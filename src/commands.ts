@@ -17,5 +17,7 @@ export const stageOwners: Record<string, string> = {
 };
 
 export function commandSkills(selected: readonly string[]): string[] {
-  return Object.entries(stageOwners).filter(([, owner]) => selected.includes('project-foundation') && selected.includes(owner)).map(([name]) => name);
+  return Object.entries(stageOwners)
+    .filter(([, owner]) => selected.includes('project-foundation') && selected.includes(owner))
+    .map(([name]) => name);
 }
