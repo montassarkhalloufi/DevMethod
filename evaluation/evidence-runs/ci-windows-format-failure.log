@@ -1,0 +1,18 @@
+Excerpt from GitHub job 104587142073, workflow35030346613, PR33 head6cc3f4ce38ac27e99dccc0e8dbdc965925a14e78.
+Full log: https://github.com/montassarkhalloufi/DevMethod/actions/runs/35030346613/job/104587142073
+
+2026-09-15T22:19:46.8923089Z Checking formatting...
+2026-09-15T22:19:49.3029878Z [warn] examples/evidence-lab/app/public/app.js
+2026-09-15T22:19:49.3176407Z [warn] examples/evidence-lab/app/public/index.html
+2026-09-15T22:19:49.3487657Z [warn] examples/evidence-lab/app/public/style.css
+2026-09-15T22:19:49.3568394Z [warn] examples/evidence-lab/app/server.mjs
+2026-09-15T22:19:49.3696349Z [warn] examples/evidence-lab/app/server.test.mjs
+2026-09-15T22:19:49.3844699Z [warn] examples/evidence-lab/app/store.mjs
+2026-09-15T22:19:49.4004097Z [warn] examples/evidence-lab/app/store.test.mjs
+2026-09-15T22:19:49.4143967Z [warn] examples/evidence-lab/evaluator/check.mjs
+2026-09-15T22:19:49.4242756Z [warn] examples/evidence-lab/evaluator/reference.mjs
+2026-09-15T22:19:49.4305476Z [warn] examples/evidence-lab/evaluator/run-controls.mjs
+2026-09-15T22:19:49.4332424Z [warn] examples/evidence-lab/evaluator/weak-check.mjs
+2026-09-15T22:19:49.6886034Z [warn] Code style issues found in 11 files. Run Prettier with --write to fix.
+2026-09-15T22:19:49.7557306Z ##[error]Process completed with exit code 1.
+

@@ -1,0 +1,30 @@
+Observed command: node --test tests/evidence-traces.test.mjs
+Captured excerpt copied from the tool result after execution; this is not a new run.
+Execution exit: 1
+
+✖ evidence-demo preserves malformed invocation before decoding its report (69.796641ms)
+✖ evidence-demo preserves empty invocation before decoding its report (71.259887ms)
+✖ evidence-demo preserves timeout invocation before decoding its report (71.926388ms)
+✖ evidence-demo preserves valid invocation before decoding its report (64.536623ms)
+✖ evidence-holdout preserves malformed invocation before decoding its report (65.005718ms)
+✖ evidence-holdout preserves empty invocation before decoding its report (74.25237ms)
+✖ evidence-holdout preserves timeout invocation before decoding its report (68.436305ms)
+✖ evidence-holdout preserves valid invocation before decoding its report (63.894902ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 0
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 643.387469
+
+Observed assertion messages included:
+- The raw trace must exist before parsing or asserting.
+- Raw invocation metadata is retained alongside existing observations.
+Malformed/empty demo and holdout outputs caused SyntaxError before observation files existed.
+Demo timeout partial output caused SyntaxError before its observation file existed.
+Valid output and holdout timeout observation files lacked raw invocation metadata.
+
+Scope: deterministic injected child-process outcomes in temporary script fixtures.
+No frozen holdout population or real demonstration run was modified or rerun.

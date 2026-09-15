@@ -35,7 +35,9 @@ export default defineConfig(
     extends: [tseslint.configs.recommended],
   },
   {
-    files: ['examples/{pocket-tasks,clair-from-zero,fullstack}/**/*.{js,mjs,cjs,ts,tsx}'],
+    files: [
+      'examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab}/**/*.{js,mjs,cjs,ts,tsx}',
+    ],
     extends: [js.configs.recommended],
     plugins: { sonarjs },
     rules: { 'sonarjs/cognitive-complexity': ['error', 15] },
@@ -50,6 +52,8 @@ export default defineConfig(
       'examples/fullstack/tests/**/*.cjs',
       'examples/fullstack/web/*.config.mjs',
       'examples/fullstack/web/features/**/server/**/*.ts',
+      'examples/evidence-lab/app/*.mjs',
+      'examples/evidence-lab/evaluator/*.mjs',
     ],
     languageOptions: { globals: globals.node },
   },
@@ -58,6 +62,7 @@ export default defineConfig(
       'examples/pocket-tasks/public/**/*.js',
       'examples/clair-from-zero/app/**/*.mjs',
       'examples/fullstack/web/**/*.{ts,tsx}',
+      'examples/evidence-lab/app/public/*.js',
     ],
     languageOptions: { globals: globals.browser },
   },

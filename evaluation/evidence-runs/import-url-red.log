@@ -1,0 +1,352 @@
+✖ evidence-demo preserves malformed invocation before decoding its report (61.796298ms)
+✖ evidence-demo preserves empty invocation before decoding its report (52.73143ms)
+✖ evidence-demo preserves timeout invocation before decoding its report (51.731263ms)
+✖ evidence-demo preserves valid invocation before decoding its report (51.965598ms)
+✖ evidence-holdout preserves malformed invocation before decoding its report (52.0174ms)
+✖ evidence-holdout preserves empty invocation before decoding its report (61.505549ms)
+✖ evidence-holdout preserves timeout invocation before decoding its report (58.895716ms)
+✖ evidence-holdout preserves valid invocation before decoding its report (51.853075ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 0
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 526.939703
+
+✖ failing tests:
+
+test at tests/evidence-traces.test.mjs:148:5
+✖ evidence-demo preserves malformed invocation before decoding its report (61.796298ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/esm/resolve:271
+      throw new ERR_MODULE_NOT_FOUND(
+            ^
+  
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/evidence-trace-' imported from /workspace/scratch/d1e53b298710/DevMethod/
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///tmp/evidence-trace-#-test-zeW142/inject.mjs'
+  }
+  
+  Node.js v24.19.0
+  
+  
+  0 !== 1
+  
+      at fixture (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:74:10)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:149:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/evidence-traces.test.mjs:148:5
+✖ evidence-demo preserves empty invocation before decoding its report (52.73143ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/esm/resolve:271
+      throw new ERR_MODULE_NOT_FOUND(
+            ^
+  
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/evidence-trace-' imported from /workspace/scratch/d1e53b298710/DevMethod/
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///tmp/evidence-trace-#-test-k1cbIk/inject.mjs'
+  }
+  
+  Node.js v24.19.0
+  
+  
+  0 !== 1
+  
+      at fixture (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:74:10)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:149:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/evidence-traces.test.mjs:148:5
+✖ evidence-demo preserves timeout invocation before decoding its report (51.731263ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/esm/resolve:271
+      throw new ERR_MODULE_NOT_FOUND(
+            ^
+  
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/evidence-trace-' imported from /workspace/scratch/d1e53b298710/DevMethod/
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///tmp/evidence-trace-#-test-tMNkgU/inject.mjs'
+  }
+  
+  Node.js v24.19.0
+  
+  
+  0 !== 1
+  
+      at fixture (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:74:10)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:149:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/evidence-traces.test.mjs:148:5
+✖ evidence-demo preserves valid invocation before decoding its report (51.965598ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/esm/resolve:271
+      throw new ERR_MODULE_NOT_FOUND(
+            ^
+  
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/evidence-trace-' imported from /workspace/scratch/d1e53b298710/DevMethod/
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///tmp/evidence-trace-#-test-LOZA4u/inject.mjs'
+  }
+  
+  Node.js v24.19.0
+  
+  
+  0 !== 1
+  
+      at fixture (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:74:10)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:149:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/evidence-traces.test.mjs:148:5
+✖ evidence-holdout preserves malformed invocation before decoding its report (52.0174ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/esm/resolve:271
+      throw new ERR_MODULE_NOT_FOUND(
+            ^
+  
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/evidence-trace-' imported from /workspace/scratch/d1e53b298710/DevMethod/
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///tmp/evidence-trace-#-test-504J55/inject.mjs'
+  }
+  
+  Node.js v24.19.0
+  
+  
+  0 !== 1
+  
+      at fixture (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:74:10)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:149:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/evidence-traces.test.mjs:148:5
+✖ evidence-holdout preserves empty invocation before decoding its report (61.505549ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/esm/resolve:271
+      throw new ERR_MODULE_NOT_FOUND(
+            ^
+  
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/evidence-trace-' imported from /workspace/scratch/d1e53b298710/DevMethod/
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///tmp/evidence-trace-#-test-T4Or0w/inject.mjs'
+  }
+  
+  Node.js v24.19.0
+  
+  
+  0 !== 1
+  
+      at fixture (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:74:10)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:149:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/evidence-traces.test.mjs:148:5
+✖ evidence-holdout preserves timeout invocation before decoding its report (58.895716ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/esm/resolve:271
+      throw new ERR_MODULE_NOT_FOUND(
+            ^
+  
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/evidence-trace-' imported from /workspace/scratch/d1e53b298710/DevMethod/
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///tmp/evidence-trace-#-test-vr90mS/inject.mjs'
+  }
+  
+  Node.js v24.19.0
+  
+  
+  0 !== 1
+  
+      at fixture (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:74:10)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:149:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/evidence-traces.test.mjs:148:5
+✖ evidence-holdout preserves valid invocation before decoding its report (51.853075ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/esm/resolve:271
+      throw new ERR_MODULE_NOT_FOUND(
+            ^
+  
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/evidence-trace-' imported from /workspace/scratch/d1e53b298710/DevMethod/
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///tmp/evidence-trace-#-test-kpZ1JG/inject.mjs'
+  }
+  
+  Node.js v24.19.0
+  
+  
+  0 !== 1
+  
+      at fixture (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:74:10)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:149:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

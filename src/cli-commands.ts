@@ -30,6 +30,11 @@ devmethod loop --loop RELATIVE_JSON [--dest PATH] [--json]
 devmethod guard --command /implement|/verify|/integrate --mission RELATIVE_JSON --session EXTERNAL_DIR
                 [--dest PATH] [--report RELATIVE_JSON --artifacts RELATIVE_DIR]
                 [--checkpoint RELATIVE_JSON] [--diagnosis TEXT --adjustment TEXT]
+devmethod evidence plan --contract JSON_PATH --evaluator EXTERNAL_DIR [--dest PATH]
+devmethod evidence run --contract JSON_PATH --evaluator EXTERNAL_DIR --session EXTERNAL_DIR
+                   --permit PLAN_HASH [--dest PATH] [--diagnosis TEXT --adjustment TEXT]
+devmethod evidence status --contract JSON_PATH --evaluator EXTERNAL_DIR --session EXTERNAL_DIR
+                      [--dest PATH]
 devmethod review [--review RELATIVE_JSON | --legacy RELATIVE_MD | --demo]
                  [--output RELATIVE_HTML] [--open] [--markdown RELATIVE_MD] [--dest PATH]
                  [--current-revision REV] [--changed-targets name,name] [--json]
@@ -58,6 +63,10 @@ Guard is an optional local controller: it gates implementation, invokes the bund
 scorer, and records local acceptance only with verified evidence. It freezes declared input bytes
 and stops its session after two consecutive identical failure signatures. It does not merge,
 deploy or intercept host tools. See docs/ADR-012-local-execution-guard.md for the strict profile.
+Evidence is an experimental opt-in application check runner. Plan inspects trusted Node adapters;
+run requires the current plan hash and executes bounded checks against healthy/fault controls.
+Status rechecks declared input freshness. Supported means these checks discriminate these controls,
+not semantic correctness or delivery approval. See docs/EVIDENCE-LAB.md for scope and limitations.
 `;
 
 try {

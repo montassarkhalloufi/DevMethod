@@ -35,3 +35,9 @@ examples/fullstack/**/*.mjs text eol=lf
 examples/fullstack/**/*.cjs text eol=lf
 examples/fullstack/**/*.css text eol=lf
 examples/fullstack/**/*.html text eol=lf
+
+# Evidence checks, maintained application and frozen observations preserve their bytes.
+examples/evidence-lab/** text eol=lf
+evaluation/evidence-lab/** text eol=lf
+evaluation/evidence-holdout/** text eol=lf
+evaluation/evidence-runs/** text eol=lf

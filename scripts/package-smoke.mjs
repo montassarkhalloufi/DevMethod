@@ -18,6 +18,12 @@ try {
   run('tar', ['-xzf', '-'], root, 0, fs.readFileSync(path.resolve(archive)));
   const pkg = path.join(root, 'package');
   const cli = path.join(pkg, 'dist/cli.js');
+  if (process.platform !== 'win32') {
+    run(process.execPath, ['scripts/evidence-demo.mjs'], pkg);
+    console.log(
+      'Packed application evidence journey: correction, restart, maintenance and sticky stop passed.',
+    );
+  }
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
   assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.5.0');
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);

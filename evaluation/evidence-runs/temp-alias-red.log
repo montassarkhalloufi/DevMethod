@@ -1,0 +1,35 @@
+✖ real evidence demo completes from a symbolic temporary directory (128.64282ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 211.95118
+
+✖ failing tests:
+
+test at tests/evidence-traces.test.mjs:105:1
+✖ real evidence demo completes from a symbolic temporary directory (128.64282ms)
+  AssertionError [ERR_ASSERTION]: Demo failed; all partial observations retained in /tmp/evidence-temp-alias-NKqhLT/alias/devmethod-evidence-demo-z9gGuE. AssertionError [ERR_ASSERTION]: plan: {"format":1,"status":"invalid","reason":"invalid-evidence-invocation-or-input","nextAction":null}
+  
+  
+  2 !== 0
+  
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-traces.test.mjs:120:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
