@@ -35,6 +35,10 @@ jobs:
           node -p 'process.platform + " " + process.arch'
       - name: Install development dependencies
         run: npm ci --ignore-scripts
+      - name: Check lint and formatting
+        run: |
+          npm run lint
+          npm run format:check
       - name: Build and run installer tests
         run: npm test
       - name: Verify from-zero application

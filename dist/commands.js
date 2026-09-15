@@ -16,5 +16,25 @@ export const stageOwners = {
     'devmethod-handoff': 'scoped-delivery',
 };
 export function commandSkills(selected) {
-    return Object.entries(stageOwners).filter(([, owner]) => selected.includes('project-foundation') && selected.includes(owner)).map(([name]) => name);
+    return Object.entries(stageOwners)
+        .filter(([, owner]) => selected.includes('project-foundation') && selected.includes(owner))
+        .map(([name]) => name);
+}
+/** Gates are shared by the local guard; host slash-command routing remains advisory. */
+export function commandGate(command, conditions) {
+    if (!['/implement', '/verify', '/integrate'].includes(command))
+        return 'unknown-command';
+    if (conditions.halted)
+        return 'human-intervention';
+    if (!conditions.ready)
+        return 'mission-not-ready';
+    if (command === '/implement')
+        return null;
+    if (!conditions.initialized)
+        return 'implementation-gate-required';
+    if (command === '/integrate')
+        return conditions.hasBehavioralReceipt ? null : 'behavioral-evidence-required';
+    if (conditions.retryNeedsDiagnosis && !conditions.hasDiagnosis)
+        return 'diagnosis-required';
+    return null;
 }

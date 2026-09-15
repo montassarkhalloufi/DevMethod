@@ -1,7 +1,70 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { summarize } from '../scripts/comparison.mjs';
-function batch() { return { format: 1, budget: {runs:3,tokens:300,costUSD:3,authorization:'unit test only; not native evidence'}, runs:['none','devmethod','bmad'].map(arm => ({caseId:'B1',repetition:1,arm,status:arm==='bmad'?'blocked':'failed',fixtureDigest:'a'.repeat(64),promptDigest:'b'.repeat(64),hostVersion:'test-host',model:'test-model',toolsDigest:'c'.repeat(64),permissionsDigest:'d'.repeat(64),perRunTokens:100,perRunCostUSD:1,timeoutSeconds:30,methodRevision:arm==='none'?'none':'pinned-test-revision',wrapper:'test wrapper',evidence:'test evidence',review:'synthetic validator input only',tokens:null,costUSD:null,elapsedSeconds:null})) }; }
-test('matched summary preserves failures, blocked denominator, and unavailable usage', () => { const result=summarize(batch()); assert.equal(result.cells[2].blocked,1); assert.equal(result.cells[0].failed,1); assert.equal(result.usageComplete,false); });
-test('rejects missing/duplicate arms and mismatched conditions', () => { for (const mutate of [b=>b.runs.pop(),b=>b.runs[1].arm='none',b=>b.runs[1].model='different',b=>b.runs[1].promptDigest='e'.repeat(64)]) { const b=batch(); mutate(b); assert.throws(()=>summarize(b)); } });
-test('budget and measurement failures cannot produce a summary', () => { for (const mutate of [b=>delete b.budget,b=>b.budget.runs=2,b=>b.runs[0].tokens=101,b=>b.runs[0].costUSD=-1,b=>b.runs[0].tokens='unavailable',b=>b.runs[0].evidence='']) {const b=batch();mutate(b);assert.throws(()=>summarize(b));} });
+
+function batch() {
+  return {
+    format: 1,
+    budget: {
+      runs: 3,
+      tokens: 300,
+      costUSD: 3,
+      authorization: 'unit test only; not native evidence',
+    },
+    runs: ['none', 'devmethod', 'bmad'].map((arm) => ({
+      caseId: 'B1',
+      repetition: 1,
+      arm,
+      status: arm === 'bmad' ? 'blocked' : 'failed',
+      fixtureDigest: 'a'.repeat(64),
+      promptDigest: 'b'.repeat(64),
+      hostVersion: 'test-host',
+      model: 'test-model',
+      toolsDigest: 'c'.repeat(64),
+      permissionsDigest: 'd'.repeat(64),
+      perRunTokens: 100,
+      perRunCostUSD: 1,
+      timeoutSeconds: 30,
+      methodRevision: arm === 'none' ? 'none' : 'pinned-test-revision',
+      wrapper: 'test wrapper',
+      evidence: 'test evidence',
+      review: 'synthetic validator input only',
+      tokens: null,
+      costUSD: null,
+      elapsedSeconds: null,
+    })),
+  };
+}
+
+test('matched summary preserves failures, blocked denominator, and unavailable usage', () => {
+  const result = summarize(batch());
+  assert.equal(result.cells[2].blocked, 1);
+  assert.equal(result.cells[0].failed, 1);
+  assert.equal(result.usageComplete, false);
+});
+test('rejects missing/duplicate arms and mismatched conditions', () => {
+  for (const mutate of [
+    (b) => b.runs.pop(),
+    (b) => (b.runs[1].arm = 'none'),
+    (b) => (b.runs[1].model = 'different'),
+    (b) => (b.runs[1].promptDigest = 'e'.repeat(64)),
+  ]) {
+    const b = batch();
+    mutate(b);
+    assert.throws(() => summarize(b));
+  }
+});
+test('budget and measurement failures cannot produce a summary', () => {
+  for (const mutate of [
+    (b) => delete b.budget,
+    (b) => (b.budget.runs = 2),
+    (b) => (b.runs[0].tokens = 101),
+    (b) => (b.runs[0].costUSD = -1),
+    (b) => (b.runs[0].tokens = 'unavailable'),
+    (b) => (b.runs[0].evidence = ''),
+  ]) {
+    const b = batch();
+    mutate(b);
+    assert.throws(() => summarize(b));
+  }
+});

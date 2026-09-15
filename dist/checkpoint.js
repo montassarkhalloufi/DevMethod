@@ -6,156 +6,281 @@ import { gitState, validGit } from './records.js';
 const object = (value) => typeof value === 'object' && value !== null && !Array.isArray(value);
 const identifier = (value) => typeof value === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(value);
 const nonempty = (value) => typeof value === 'string' && value.trim().length > 0;
+function oneOf(value, values) {
+    return typeof value === 'string' && values.includes(value);
+}
+function safePathComponent(part) {
+    return (part.length > 0 &&
+        part !== '.' &&
+        part !== '..' &&
+        !/[. ]$/.test(part) &&
+        !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(part));
+}
 // Portable repository-relative paths only: no Windows aliases, drives or streams.
 function safePath(value) {
-    return typeof value === 'string' && value.length > 0 && !/[\\:\x00-\x1f\x7f]/.test(value)
-        && value.split('/').every(part => part.length > 0 && part !== '.' && part !== '..'
-            && !/[. ]$/.test(part) && !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(part));
+    if (typeof value !== 'string' || value.length === 0)
+        return false;
+    // Control characters are deliberately rejected at this file-read boundary.
+    // eslint-disable-next-line no-control-regex
+    if (/[\\:\x00-\x1f\x7f]/.test(value))
+        return false;
+    return value.split('/').every(safePathComponent);
 }
 function pinned(value) {
-    return object(value) && identifier(value.id) && safePath(value.path)
-        && typeof value.sha256 === 'string' && /^[a-f0-9]{64}$/.test(value.sha256);
+    return (object(value) &&
+        identifier(value.id) &&
+        safePath(value.path) &&
+        typeof value.sha256 === 'string' &&
+        /^[a-f0-9]{64}$/.test(value.sha256));
 }
 function ids(value) {
     return Array.isArray(value) && value.every(identifier) && new Set(value).size === value.length;
 }
-function validate(input) {
-    if (!object(input) || input.format !== 1)
-        throw new Error('Expected checkpoint format 1. Markdown checkpoints remain a manual workflow.');
-    if (!nonempty(input.scope) || typeof input.status !== 'string' || !['active', 'blocked', 'complete'].includes(input.status))
+function pinnedEvidence(value) {
+    return (pinned(value) &&
+        object(value) &&
+        ids(value.sourceIds) &&
+        value.sourceIds.length > 0 &&
+        ids(value.dependsOn) &&
+        oneOf(value.outcome, ['passed', 'failed', 'blocked', 'not-run']));
+}
+function validateScope(input) {
+    if (!nonempty(input.scope) || !oneOf(input.status, ['active', 'blocked', 'complete'])) {
         throw new Error('Checkpoint needs a nonempty scope and status active, blocked or complete.');
-    if (input.nextAction !== null && !nonempty(input.nextAction))
+    }
+    if (input.nextAction !== null && !nonempty(input.nextAction)) {
         throw new Error('nextAction must be a nonempty string or null.');
-    if (input.status === 'complete' && input.nextAction !== null)
+    }
+    if (input.status === 'complete' && input.nextAction !== null) {
         throw new Error('Completed scope must have nextAction null; completion authorizes no new work.');
-    if (input.status !== 'complete' && !nonempty(input.nextAction))
+    }
+    if (input.status !== 'complete' && !nonempty(input.nextAction)) {
         throw new Error('Active or blocked scope needs an explicit nextAction.');
-    if (!Array.isArray(input.sources) || !input.sources.every(pinned) || input.sources.length === 0)
+    }
+}
+function validatePins(input) {
+    if (!Array.isArray(input.sources) || !input.sources.every(pinned) || input.sources.length === 0) {
         throw new Error('sources must contain pinned IDs, safe relative paths and lowercase SHA-256 hashes.');
-    if (!Array.isArray(input.evidence) || !input.evidence.every(item => pinned(item) && object(item)
-        && ids(item.sourceIds) && item.sourceIds.length > 0 && ids(item.dependsOn)
-        && typeof item.outcome === 'string' && ['passed', 'failed', 'blocked', 'not-run'].includes(item.outcome)))
+    }
+    if (!Array.isArray(input.evidence) || !input.evidence.every(pinnedEvidence)) {
         throw new Error('evidence needs pinned artifacts, sourceIds, dependsOn and outcome passed, failed or not-run.');
-    if (input.sources.length > 256 || input.evidence.length > 256)
+    }
+    if (input.sources.length > 256 || input.evidence.length > 256) {
         throw new Error('Checkpoint supports at most 256 sources and evidence items.');
-    if (input.git !== undefined && !validGit(input.git))
+    }
+}
+function validateProvenance(input) {
+    if (input.git !== undefined && !validGit(input.git)) {
         throw new Error('Invalid Git checkpoint provenance.');
-    if (input.blockers !== undefined && (!Array.isArray(input.blockers) || !input.blockers.every(nonempty)))
+    }
+    if (input.blockers !== undefined &&
+        (!Array.isArray(input.blockers) || !input.blockers.every(nonempty))) {
         throw new Error('blockers must be nonempty strings.');
-    for (const item of input.evidence) {
-        if (item.criterionIds !== undefined && (!ids(item.criterionIds) || !item.criterionIds.length))
-            throw new Error('criterionIds must be nonempty unique IDs.');
-        if (item.kind !== undefined && (typeof item.kind !== 'string' || !['automated', 'manual', 'design-review', 'recommendation'].includes(item.kind)))
-            throw new Error('Invalid verification kind.');
-        if (item.revision !== undefined && !nonempty(item.revision))
-            throw new Error('Invalid evidence revision.');
     }
-    const state = input;
-    const sources = new Set(state.sources.map(source => source.id));
-    const evidence = new Map(state.evidence.map(item => [item.id, item]));
-    if (sources.size !== state.sources.length || evidence.size !== state.evidence.length)
+}
+function validateEvidenceMetadata(item) {
+    if (item.criterionIds !== undefined && (!ids(item.criterionIds) || !item.criterionIds.length)) {
+        throw new Error('criterionIds must be nonempty unique IDs.');
+    }
+    if (item.kind !== undefined &&
+        !oneOf(item.kind, ['automated', 'manual', 'design-review', 'recommendation'])) {
+        throw new Error('Invalid verification kind.');
+    }
+    if (item.revision !== undefined && !nonempty(item.revision)) {
+        throw new Error('Invalid evidence revision.');
+    }
+}
+function validateReferences(state) {
+    const sources = new Set(state.sources.map((source) => source.id));
+    const evidence = new Set(state.evidence.map((item) => item.id));
+    if (sources.size !== state.sources.length || evidence.size !== state.evidence.length) {
         throw new Error('Source IDs and evidence IDs must each be unique.');
-    if (new Set(state.sources.map(source => source.path)).size !== state.sources.length
-        || new Set(state.evidence.map(item => item.path)).size !== state.evidence.length)
-        throw new Error('Source paths and evidence paths must each be unique.');
-    for (const item of state.evidence) {
-        if (item.sourceIds.some(id => !sources.has(id)) || item.dependsOn.some(id => !evidence.has(id)))
-            throw new Error(`Evidence ${item.id} references an unknown source or evidence ID.`);
     }
-    // Iterative topological traversal avoids stack exhaustion on an untrusted graph.
+    if (new Set(state.sources.map((source) => source.path)).size !== state.sources.length ||
+        new Set(state.evidence.map((item) => item.path)).size !== state.evidence.length) {
+        throw new Error('Source paths and evidence paths must each be unique.');
+    }
+    for (const item of state.evidence) {
+        if (item.sourceIds.some((id) => !sources.has(id)) ||
+            item.dependsOn.some((id) => !evidence.has(id))) {
+            throw new Error(`Evidence ${item.id} references an unknown source or evidence ID.`);
+        }
+    }
+}
+function orderEvidence(evidence) {
     const done = new Set();
-    while (done.size < evidence.size) {
-        let progress = false;
-        for (const item of state.evidence)
-            if (!done.has(item.id) && item.dependsOn.every(id => done.has(id))) {
-                done.add(item.id);
-                progress = true;
-            }
-        if (!progress)
+    const ordered = [];
+    // Iterative traversal avoids stack exhaustion on an untrusted dependency graph.
+    while (done.size < evidence.length) {
+        const previousSize = done.size;
+        for (const item of evidence) {
+            if (done.has(item.id) || !item.dependsOn.every((id) => done.has(id)))
+                continue;
+            done.add(item.id);
+            ordered.push(item);
+        }
+        if (done.size === previousSize)
             throw new Error('Evidence dependencies contain a cycle.');
     }
-    return state;
+    return ordered;
+}
+function validate(input) {
+    if (!object(input) || input.format !== 1) {
+        throw new Error('Expected checkpoint format 1. Markdown checkpoints remain a manual workflow.');
+    }
+    validateScope(input);
+    validatePins(input);
+    validateProvenance(input);
+    const state = input;
+    for (const item of state.evidence)
+        validateEvidenceMetadata(item);
+    validateReferences(state);
+    return { state, orderedEvidence: orderEvidence(state.evidence) };
 }
 function readPinned(destination, relative) {
     if (!safePath(relative))
         throw new Error('Expected a safe repository-relative path.');
     const file = path.join(destination, relative);
     checkPath(file);
-    if (!fs.lstatSync(file).isFile() || fs.lstatSync(file).size > 1024 * 1024)
+    if (!fs.lstatSync(file).isFile() || fs.lstatSync(file).size > 1024 * 1024) {
         throw new Error('Expected a regular file.');
+    }
     return fs.readFileSync(file);
 }
 function emptyReport(destination) {
-    return { format: 1, destination: path.resolve(destination), status: 'invalid', findings: [], sources: [], evidence: [] };
+    return {
+        format: 1,
+        destination: path.resolve(destination),
+        status: 'invalid',
+        findings: [],
+        sources: [],
+        evidence: [],
+    };
+}
+function comparePin(report, item, kind) {
+    try {
+        const digest = createHash('sha256')
+            .update(readPinned(report.destination, item.path))
+            .digest('hex');
+        if (digest === item.sha256)
+            return 'unchanged';
+        report.findings.push({
+            code: `${kind}-changed`,
+            id: item.id,
+            path: item.path,
+            message: `Pinned ${kind} content changed; inspect the difference and repeat affected verification.`,
+        });
+        return 'changed';
+    }
+    catch (error) {
+        report.findings.push({
+            code: `${kind}-unavailable`,
+            id: item.id,
+            path: item.path,
+            message: `Cannot inspect pinned ${kind}: ${error.message}`,
+        });
+        return 'unavailable';
+    }
+}
+function evidenceState(item, sourceStates, artifactStates, evidenceStates) {
+    const invalidated = artifactStates.get(item.id) !== 'unchanged' ||
+        item.sourceIds.some((id) => sourceStates.get(id) !== 'unchanged') ||
+        item.dependsOn.some((id) => evidenceStates.get(id) !== 'valid');
+    if (invalidated)
+        return 'invalidated';
+    return item.outcome === 'passed' ? 'valid' : item.outcome;
+}
+function inspectPins(report, state, orderedEvidence) {
+    report.sources = state.sources.map((source) => ({
+        id: source.id,
+        state: comparePin(report, source, 'source'),
+    }));
+    const sourceStates = new Map(report.sources.map((source) => [source.id, source.state]));
+    const artifactStates = new Map(state.evidence.map((item) => [item.id, comparePin(report, item, 'evidence')]));
+    const evidenceStates = new Map();
+    for (const item of orderedEvidence) {
+        const result = evidenceState(item, sourceStates, artifactStates, evidenceStates);
+        evidenceStates.set(item.id, result);
+        if (result !== 'valid') {
+            report.findings.push({
+                code: `evidence-${result}`,
+                id: item.id,
+                path: item.path,
+                message: `Evidence ${item.id} is ${result}; it cannot support resumption until affected verification is recorded again.`,
+            });
+        }
+    }
+    report.evidence = state.evidence.map((item) => ({
+        id: item.id,
+        state: evidenceStates.get(item.id),
+    }));
+}
+function inspectGit(report, recorded) {
+    if (!recorded)
+        return false;
+    try {
+        const current = gitState(report.destination);
+        const changed = Object.entries(recorded).some(([key, value]) => current[key] !== value);
+        if (changed) {
+            report.findings.push({
+                code: 'git-changed',
+                message: 'Branch, commit or worktree changed; reassess scope and omitted dependencies. Independent pins are retained.',
+            });
+        }
+        return changed;
+    }
+    catch {
+        report.findings.push({
+            code: 'git-unavailable',
+            message: 'Cannot compare recorded Git provenance.',
+        });
+        return true;
+    }
+}
+function reportStatus(state, report, gitChanged) {
+    if (state.status === 'blocked' ||
+        (state.blockers?.length ?? 0) > 0 ||
+        state.evidence.some((item) => item.outcome === 'blocked')) {
+        return 'blocked';
+    }
+    const needsVerification = gitChanged ||
+        report.sources.some((source) => source.state !== 'unchanged') ||
+        report.evidence.some((item) => item.state !== 'valid') ||
+        report.evidence.length === 0;
+    if (needsVerification)
+        return 'reverify';
+    return state.status === 'complete' ? 'complete' : 'ready';
 }
 /** Read-only inspection; report readiness never grants execution or integration permission. */
 export function inspectCheckpoint(destination, input) {
     const report = emptyReport(destination);
-    let state;
+    let validated;
     try {
-        state = validate(input);
+        validated = validate(input);
         checkPath(report.destination);
-        if (!fs.statSync(report.destination).isDirectory())
+        if (!fs.statSync(report.destination).isDirectory()) {
             throw new Error('Destination must be a directory.');
+        }
     }
     catch (error) {
         report.findings.push({ code: 'invalid-checkpoint', message: error.message });
         return report;
     }
+    const { state, orderedEvidence } = validated;
     report.scope = state.scope;
     report.nextAction = state.nextAction;
-    const compare = (item, kind) => {
-        try {
-            const digest = createHash('sha256').update(readPinned(report.destination, item.path)).digest('hex');
-            if (digest === item.sha256)
-                return 'unchanged';
-            report.findings.push({ code: `${kind}-changed`, id: item.id, path: item.path, message: `Pinned ${kind} content changed; inspect the difference and repeat affected verification.` });
-            return 'changed';
-        }
-        catch (error) {
-            report.findings.push({ code: `${kind}-unavailable`, id: item.id, path: item.path, message: `Cannot inspect pinned ${kind}: ${error.message}` });
-            return 'unavailable';
-        }
-    };
-    report.sources = state.sources.map(source => ({ id: source.id, state: compare(source, 'source') }));
-    const sourceStates = new Map(report.sources.map(source => [source.id, source.state]));
-    const artifactStates = new Map(state.evidence.map(item => [item.id, compare(item, 'evidence')]));
-    const evidenceStates = new Map();
-    while (evidenceStates.size < state.evidence.length) {
-        for (const item of state.evidence) {
-            if (evidenceStates.has(item.id) || !item.dependsOn.every(id => evidenceStates.has(id)))
-                continue;
-            const invalidated = artifactStates.get(item.id) !== 'unchanged'
-                || item.sourceIds.some(id => sourceStates.get(id) !== 'unchanged')
-                || item.dependsOn.some(id => evidenceStates.get(id) !== 'valid');
-            const result = invalidated ? 'invalidated' : item.outcome === 'passed' ? 'valid' : item.outcome;
-            evidenceStates.set(item.id, result);
-            if (result !== 'valid')
-                report.findings.push({ code: `evidence-${result}`, id: item.id, path: item.path,
-                    message: `Evidence ${item.id} is ${result}; it cannot support resumption until affected verification is recorded again.` });
-        }
-    }
-    report.evidence = state.evidence.map(item => ({ id: item.id, state: evidenceStates.get(item.id) }));
-    let gitChanged = false;
-    if (state.git) {
-        try {
-            const current = gitState(report.destination);
-            gitChanged = Object.entries(state.git).some(([key, value]) => current[key] !== value);
-            if (gitChanged)
-                report.findings.push({ code: 'git-changed', message: 'Branch, commit or worktree changed; reassess scope and omitted dependencies. Independent pins are retained.' });
-        }
-        catch {
-            gitChanged = true;
-            report.findings.push({ code: 'git-unavailable', message: 'Cannot compare recorded Git provenance.' });
-        }
-    }
-    for (const blocker of state.blockers ?? [])
+    inspectPins(report, state, orderedEvidence);
+    const gitChanged = inspectGit(report, state.git);
+    for (const blocker of state.blockers ?? []) {
         report.findings.push({ code: 'dependency-blocked', message: blocker });
-    const needsVerification = gitChanged || report.sources.some(source => source.state !== 'unchanged')
-        || report.evidence.some(item => item.state !== 'valid') || report.evidence.length === 0;
-    if (!report.evidence.length)
-        report.findings.push({ code: 'evidence-empty', message: 'No evidence was pinned; establish verification before relying on this checkpoint.' });
-    report.status = state.status === 'blocked' || (state.blockers?.length ?? 0) > 0 || state.evidence.some(item => item.outcome === 'blocked') ? 'blocked' : needsVerification ? 'reverify' : state.status === 'complete' ? 'complete' : 'ready';
+    }
+    if (!report.evidence.length) {
+        report.findings.push({
+            code: 'evidence-empty',
+            message: 'No evidence was pinned; establish verification before relying on this checkpoint.',
+        });
+    }
+    report.status = reportStatus(state, report, gitChanged);
     return report;
 }
 /** Load a JSON checkpoint within the project; never follows symbolic paths or changes files. */
@@ -165,7 +290,11 @@ export function readCheckpoint(destination, checkpointPath) {
     }
     catch (error) {
         const report = emptyReport(destination);
-        report.findings.push({ code: 'invalid-checkpoint', path: checkpointPath, message: error.message });
+        report.findings.push({
+            code: 'invalid-checkpoint',
+            path: checkpointPath,
+            message: error.message,
+        });
         return report;
     }
 }

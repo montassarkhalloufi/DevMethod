@@ -26,7 +26,7 @@ For `review`, use [evidence-backed review](references/review-workflow.md) to det
 - When parallel work is authorized: isolated worktrees/branches, a single owner for contracts/migrations/lockfiles, explicit dependencies and merge order. Reviews are read-only.
 - Use focused tests during implementation, then verify affected surfaces. Do not repeat an unchanged green check or write a test that merely compares implementation with itself.
 - For a substantial slice or handoff, use [the verification record](assets/VERIFICATION.md) to connect acceptance criteria to executed checks and the inspected revision. For small changes, keep this evidence inline.
-- Read [verification and cost](references/verification-and-cost.md) for review criteria and costs.
+- Read [verification and cost](references/verification-and-cost.md) for review criteria and costs. When a check fails, progress stalls or an execution is interrupted, apply [bounded correction](references/bounded-correction.md); retain the diagnosis in the existing ticket or inline Quick record.
 - For a PR, keep it draft while code changes. Review an identified commit; a later change invalidates affected evidence. Group corrections, then conduct focused review.
 - Merges, deployments, messages, and external-document updates follow current authorization, never an old copied prompt. If the final action is not authorized, prepare a concrete verified result before asking.
 - After authorized integration, verify real status. Continue only backlog explicitly included in the mission, respecting project budget and limits.
@@ -39,6 +39,6 @@ Update affected decisions, public contracts, tests, and real implementation stat
 
 ## Report
 
-State what works, verification evidence, material limitations, and what remains required. Distinguish locally implemented, PR, integrated, deployed, and production-verified. A “Done” status proves none of those states.
+State what works, verification evidence, material limitations, and what remains required. Lead with the user outcome and decisions needing attention; explain the important changed behavior and why the cited checks establish it. Link bulky logs instead of making the reviewer reconstruct the work. Distinguish locally implemented, PR, integrated, deployed, and production-verified. A “Done” status proves none of those states.
 
 Keep compatibility claims consistent in the README and usage instructions as well as the final report. Distinguish the declared or inferred minimum version from the environment actually tested; cite the basis for a minimum and label untested targets instead of implying that a successful run covers them.

@@ -1,0 +1,417 @@
+{
+  "format": 1,
+  "plannedRuns": 36,
+  "submittedRuns": 0,
+  "nativeCompletedRuns": 0,
+  "nativePassedRuns": 0,
+  "nativePassFractionOfPlan": 0,
+  "nativePassRateAmongCompleted": null,
+  "outcomes": {
+    "passed": 0,
+    "failed": 0,
+    "unresolved": 0,
+    "not-run": 36,
+    "blocked": 0,
+    "interrupted": 0
+  },
+  "syntheticRuns": 0,
+  "metrics": {
+    "humanInterventions": {
+      "knownRuns": 0,
+      "unknownRuns": 0,
+      "observedTotal": null
+    },
+    "tokens": {
+      "knownRuns": 0,
+      "unknownRuns": 0,
+      "observedTotal": null
+    },
+    "elapsedMs": {
+      "knownRuns": 0,
+      "unknownRuns": 0,
+      "observedTotal": null
+    },
+    "costUsd": {
+      "knownRuns": 0,
+      "unknownRuns": 0,
+      "observedTotal": null
+    }
+  },
+  "rows": [
+    {
+      "caseId": "FOUNDATION-POS",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "FOUNDATION-POS.1",
+        "FOUNDATION-POS.2"
+      ]
+    },
+    {
+      "caseId": "FOUNDATION-POS",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "FOUNDATION-POS.1",
+        "FOUNDATION-POS.2"
+      ]
+    },
+    {
+      "caseId": "FOUNDATION-NEG",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "FOUNDATION-NEG.1",
+        "FOUNDATION-NEG.2",
+        "FOUNDATION-NEG.3"
+      ]
+    },
+    {
+      "caseId": "FOUNDATION-NEG",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "FOUNDATION-NEG.1",
+        "FOUNDATION-NEG.2",
+        "FOUNDATION-NEG.3"
+      ]
+    },
+    {
+      "caseId": "ARCH-POS",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "ARCH-POS.1",
+        "ARCH-POS.2"
+      ]
+    },
+    {
+      "caseId": "ARCH-POS",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "ARCH-POS.1",
+        "ARCH-POS.2"
+      ]
+    },
+    {
+      "caseId": "ARCH-NEG",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "ARCH-NEG.1",
+        "ARCH-NEG.2",
+        "ARCH-NEG.3"
+      ]
+    },
+    {
+      "caseId": "ARCH-NEG",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "ARCH-NEG.1",
+        "ARCH-NEG.2",
+        "ARCH-NEG.3"
+      ]
+    },
+    {
+      "caseId": "DESIGN-POS",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "DESIGN-POS.1",
+        "DESIGN-POS.2"
+      ]
+    },
+    {
+      "caseId": "DESIGN-POS",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "DESIGN-POS.1",
+        "DESIGN-POS.2"
+      ]
+    },
+    {
+      "caseId": "DESIGN-NEG",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "DESIGN-NEG.1",
+        "DESIGN-NEG.2",
+        "DESIGN-NEG.3"
+      ]
+    },
+    {
+      "caseId": "DESIGN-NEG",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "DESIGN-NEG.1",
+        "DESIGN-NEG.2",
+        "DESIGN-NEG.3"
+      ]
+    },
+    {
+      "caseId": "REACT-POS",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "REACT-POS.1",
+        "REACT-POS.2"
+      ]
+    },
+    {
+      "caseId": "REACT-POS",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "REACT-POS.1",
+        "REACT-POS.2"
+      ]
+    },
+    {
+      "caseId": "REACT-NEG",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "REACT-NEG.1",
+        "REACT-NEG.2",
+        "REACT-NEG.3"
+      ]
+    },
+    {
+      "caseId": "REACT-NEG",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "REACT-NEG.1",
+        "REACT-NEG.2",
+        "REACT-NEG.3"
+      ]
+    },
+    {
+      "caseId": "AI-POS",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "AI-POS.1",
+        "AI-POS.2"
+      ]
+    },
+    {
+      "caseId": "AI-POS",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "AI-POS.1",
+        "AI-POS.2"
+      ]
+    },
+    {
+      "caseId": "AI-NEG",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "AI-NEG.1",
+        "AI-NEG.2",
+        "AI-NEG.3"
+      ]
+    },
+    {
+      "caseId": "AI-NEG",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "AI-NEG.1",
+        "AI-NEG.2",
+        "AI-NEG.3"
+      ]
+    },
+    {
+      "caseId": "DELIVERY-POS",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "DELIVERY-POS.1",
+        "DELIVERY-POS.2"
+      ]
+    },
+    {
+      "caseId": "DELIVERY-POS",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "DELIVERY-POS.1",
+        "DELIVERY-POS.2"
+      ]
+    },
+    {
+      "caseId": "DELIVERY-NEG",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "DELIVERY-NEG.1",
+        "DELIVERY-NEG.2",
+        "DELIVERY-NEG.3"
+      ]
+    },
+    {
+      "caseId": "DELIVERY-NEG",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "DELIVERY-NEG.1",
+        "DELIVERY-NEG.2",
+        "DELIVERY-NEG.3"
+      ]
+    },
+    {
+      "caseId": "CONTEXT",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "CONTEXT.1",
+        "CONTEXT.2"
+      ]
+    },
+    {
+      "caseId": "CONTEXT",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "CONTEXT.1",
+        "CONTEXT.2"
+      ]
+    },
+    {
+      "caseId": "CLOSURE",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "CLOSURE.1",
+        "CLOSURE.2"
+      ]
+    },
+    {
+      "caseId": "CLOSURE",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "CLOSURE.1",
+        "CLOSURE.2"
+      ]
+    },
+    {
+      "caseId": "RETRY",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "RETRY.1",
+        "RETRY.2"
+      ]
+    },
+    {
+      "caseId": "RETRY",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "RETRY.1",
+        "RETRY.2"
+      ]
+    },
+    {
+      "caseId": "RESUME",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "RESUME.1",
+        "RESUME.2",
+        "RESUME.3"
+      ]
+    },
+    {
+      "caseId": "RESUME",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "RESUME.1",
+        "RESUME.2",
+        "RESUME.3"
+      ]
+    },
+    {
+      "caseId": "REVIEW",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "REVIEW.1",
+        "REVIEW.2"
+      ]
+    },
+    {
+      "caseId": "REVIEW",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "REVIEW.1",
+        "REVIEW.2"
+      ]
+    },
+    {
+      "caseId": "AUTHORITY",
+      "repetition": 1,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "AUTHORITY.1",
+        "AUTHORITY.2"
+      ]
+    },
+    {
+      "caseId": "AUTHORITY",
+      "repetition": 2,
+      "kind": null,
+      "outcome": "not-run",
+      "missingCriteria": [
+        "AUTHORITY.1",
+        "AUTHORITY.2"
+      ]
+    }
+  ],
+  "limitation": "Hashes establish artifact integrity, not authenticity or judge correctness. Synthetic calibration is not model performance. Independent adjudication and repeated native runs are required."
+}

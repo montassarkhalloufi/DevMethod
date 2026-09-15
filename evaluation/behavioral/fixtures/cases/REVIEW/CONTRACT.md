@@ -1,0 +1,1 @@
+Review the candidate functions and affected unchanged consumer. Existing stored records use amountCents; invoice totals must continue to work. Repeated submission must not duplicate effects, including after notification errors or timeout. Confidential tokens/emails must not appear in output. normalizeLabel must trim strings and reject other values; no layering mandate.

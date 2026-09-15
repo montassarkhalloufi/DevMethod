@@ -9,6 +9,8 @@ node dist/cli.js doctor --dest /path/to/your/project --json
 
 The destination defaults to the current directory. The command infers the host from `kit-manifest.json`; it never executes project commands or modifies files. There is no `--fix` or overwrite option.
 
+Manifest input is limited to 1 MiB. Recorded regular files are hashed in 64 KiB blocks, so a large customization does not require a whole-file buffer and remains eligible for the same diagnostic classifications. Read time still grows with file size. Inspect an installation without concurrent modification; this is not a transactional filesystem snapshot.
+
 | Finding | Meaning | Next action |
 |---|---|---|
 | `file-modified` | Bytes differ from the original local manifest | Review your customization; keep filled project context |

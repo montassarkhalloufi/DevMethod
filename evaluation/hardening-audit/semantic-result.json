@@ -1,0 +1,18 @@
+{
+  "kind": "deterministic-contract-probe-not-native",
+  "rows": [
+    {
+      "variant": "seeded-defect",
+      "weakCheckExit": 0,
+      "contractOracleExit": 1,
+      "closureStatus": "supported"
+    },
+    {
+      "variant": "healthy-control",
+      "weakCheckExit": 0,
+      "contractOracleExit": 0,
+      "closureStatus": "supported"
+    }
+  ],
+  "conclusion": "Structural support does not certify assertion relevance. The contract oracle discriminates this seeded defect from the healthy control; no reviewer accuracy or general mutation score is measured."
+}

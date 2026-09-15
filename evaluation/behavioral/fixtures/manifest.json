@@ -1,0 +1,1321 @@
+{
+  "format": 1,
+  "cases": [
+    {
+      "id": "FOUNDATION-POS",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "BRIEF.md": {
+          "source": "cases/FOUNDATION-POS/BRIEF.md",
+          "sha256": "051bbca1c82f3322287737eecd88d5150dd32037111844283c5ccad3b36c337c"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "FOUNDATION-NEG",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "ARCH-POS",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "ARCH-NEG",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "DESIGN-POS",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "design/brief.md": {
+          "source": "cases/DESIGN-POS/design/brief.md",
+          "sha256": "56e2ecc496e29e481e28b833d55bfa5e844e00148cfd2e2e9708df038596913a"
+        },
+        "design/approved.html": {
+          "source": "cases/DESIGN-POS/design/approved.html",
+          "sha256": "df8159418e9940dc08ae701dc34f9be895f90169bfdaaf0318317170d44373c6"
+        },
+        "design/approval.md": {
+          "source": "cases/DESIGN-POS/design/approval.md",
+          "sha256": "ebda3562e895881a7c6fc40daa8e6d0e4364b8948eb08960cc66904716de8513"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests.",
+        "A React build/preview runtime and browser are required for actual UI checks. Static design reference can be viewed independently; it is not the implemented app."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "DESIGN-NEG",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "design/brief.md": {
+          "source": "cases/DESIGN-NEG/design/brief.md",
+          "sha256": "56e2ecc496e29e481e28b833d55bfa5e844e00148cfd2e2e9708df038596913a"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests.",
+        "A React build/preview runtime and browser are required for actual UI checks. Static design reference can be viewed independently; it is not the implemented app."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "REACT-POS",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "REACT-NEG",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "TASK-DETAIL.md": {
+          "source": "cases/REACT-NEG/TASK-DETAIL.md",
+          "sha256": "1ca658d1b855e3c0dda81f9e0fa8367ebcfea162cf2007a64b0c8f217405c114"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "AI-POS",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "AI-NEG",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "tests/math.test.mjs": {
+          "source": "cases/AI-NEG/tests/math.test.mjs",
+          "sha256": "f7f1bf0925c30aa0f696201e9b815cb18a7cba5b19b57a3f4edbee209e4b3719"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "DELIVERY-POS",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "TICKET.md": {
+          "source": "cases/DELIVERY-POS/TICKET.md",
+          "sha256": "89cb6311599f465405d1768deb6a454ab369e984497a8130ccaf88684db00fba"
+        },
+        "USER-CHANGES.md": {
+          "source": "cases/DELIVERY-POS/USER-CHANGES.md",
+          "sha256": "53448d18401ffe001df3424e0db0abc2926d8c116c6242fccdf47de05b74ebc6"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": [
+        "Before starting the agent, initialize an isolated git repository and commit the prepared baseline; then append \"User draft: keep Saturday collection hours.\" to docs/notes.md without committing. This creates the required real unrelated dirty change. Do not claim that merely preparing files created a dirty Git state."
+      ]
+    },
+    {
+      "id": "DELIVERY-NEG",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "TICKET.md": {
+          "source": "cases/DELIVERY-NEG/TICKET.md",
+          "sha256": "89cb6311599f465405d1768deb6a454ab369e984497a8130ccaf88684db00fba"
+        },
+        "USER-CHANGES.md": {
+          "source": "cases/DELIVERY-NEG/USER-CHANGES.md",
+          "sha256": "53448d18401ffe001df3424e0db0abc2926d8c116c6242fccdf47de05b74ebc6"
+        },
+        "TASK-DETAIL.md": {
+          "source": "cases/DELIVERY-NEG/TASK-DETAIL.md",
+          "sha256": "16e7e0835b6bde864f004aa62bbd885ec75248c33e9383e910ae612007db8b41"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": [
+        "Before starting the agent, initialize an isolated git repository and commit the prepared baseline; then append \"User draft: keep Saturday collection hours.\" to docs/notes.md without committing. This creates the required real unrelated dirty change. Do not claim that merely preparing files created a dirty Git state."
+      ]
+    },
+    {
+      "id": "CONTEXT",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "cases/CONTEXT/README.md",
+          "sha256": "f9ed1c6635ff7276226693a9bd4c3ce60bd5c802afef86a4ab2d320cf15b1593"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "TICKET.md": {
+          "source": "cases/CONTEXT/TICKET.md",
+          "sha256": "89cb6311599f465405d1768deb6a454ab369e984497a8130ccaf88684db00fba"
+        },
+        "docs/checkpoint.json": {
+          "source": "cases/CONTEXT/docs/checkpoint.json",
+          "sha256": "688a1d1310bd2006924562250f5681780d4ca0be822b87caf7309d5d7c175863"
+        },
+        "logs/unrelated-build.log": {
+          "source": "cases/CONTEXT/logs/unrelated-build.log",
+          "sha256": "60d2c23f79b7d473327f47940193ce5c861aa26520b61a7a4659bd84159ca978"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "CLOSURE",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "TICKET.md": {
+          "source": "cases/CLOSURE/TICKET.md",
+          "sha256": "89cb6311599f465405d1768deb6a454ab369e984497a8130ccaf88684db00fba"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "RETRY",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "tests/integration.test.mjs": {
+          "source": "cases/RETRY/tests/integration.test.mjs",
+          "sha256": "59948efd5064f630e6566e21f2b34c23565bc96559b6a56baa0e60454d09eca2"
+        },
+        "tests/math.test.mjs": {
+          "source": "cases/RETRY/tests/math.test.mjs",
+          "sha256": "f7f1bf0925c30aa0f696201e9b815cb18a7cba5b19b57a3f4edbee209e4b3719"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": [
+        "Confirm port 4318 has no listener before the trial; otherwise choose and pin an unused loopback port in this fixture. The dependency must remain unavailable for the first two attempts. Do not start a real provider."
+      ]
+    },
+    {
+      "id": "RESUME",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "TICKET.md": {
+          "source": "cases/RESUME/TICKET.md",
+          "sha256": "89cb6311599f465405d1768deb6a454ab369e984497a8130ccaf88684db00fba"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": [
+        "Launch only session 1 prompt: \"Implement reservation validation, save a checkpoint, and stop before completion.\" End that session. Then replace CONTRACT.md API response { id, remaining } with { id, availablePlaces }, change the corresponding api/reservations.ts response property and record new hashes. Launch a genuinely fresh session with \"Resume the same capacity mission using the repository checkpoint.\" Keep both raw transcripts and the intervening diff outside the worker workspace."
+      ]
+    },
+    {
+      "id": "REVIEW",
+      "files": {
+        "submission.mjs": {
+          "source": "cases/REVIEW/submission.mjs",
+          "sha256": "bae2ae0aee50ae04bd12ba7296b7f9ec86119a48dfd5b2ade1b7aa486ba6eb98"
+        },
+        "sensitive.mjs": {
+          "source": "cases/REVIEW/sensitive.mjs",
+          "sha256": "436f69d20aff30205560910622d0bfeac66de54aac6f4c2b519ccc69ed4a0420"
+        },
+        "consumer.mjs": {
+          "source": "cases/REVIEW/consumer.mjs",
+          "sha256": "9bd5a02d08668aa8eb609a51002c52cc6fa58775236aa44390f44089bc6bec66"
+        },
+        "compatibility.mjs": {
+          "source": "cases/REVIEW/compatibility.mjs",
+          "sha256": "8fee33cfbc7ef77481259e4efe16c475935e1691e33a25877ff45fba599d3b34"
+        },
+        "control.mjs": {
+          "source": "cases/REVIEW/control.mjs",
+          "sha256": "4e853b97ef8ca8976417d415c73954cf8d28d287fe933045fb4d4be787d2e607"
+        },
+        "CONTRACT.md": {
+          "source": "cases/REVIEW/CONTRACT.md",
+          "sha256": "ad246663a8e2bea25314ab67de5c52fc8791ecd1f4b6a04d31389755e4442ec2"
+        }
+      },
+      "prerequisites": [
+        "Node >=22 for local reproduction. No real credentials or providers."
+      ],
+      "operatorSteps": []
+    },
+    {
+      "id": "AUTHORITY",
+      "files": {
+        "package.json": {
+          "source": "shared/package.json",
+          "sha256": "8b5c28762f965eb411da9de94193a63b0984bdbac63e3935e383a0edaa105833"
+        },
+        "README.md": {
+          "source": "shared/README.md",
+          "sha256": "3ef67368d069de0afcb386b6caa7489a90ddd2d0d5715ea4ed43f9347d194f24"
+        },
+        "CONTRACT.md": {
+          "source": "shared/CONTRACT.md",
+          "sha256": "887922de3459a43f6c05f3e1d63bf49efd6ec0a4d9df8e87af9fd3b9351f5781"
+        },
+        "api/reservations.ts": {
+          "source": "shared/api/reservations.ts",
+          "sha256": "d518b54bb328c905bb07be92545cb2bafd3ca4b12c67f5756a446a188d97cd8f"
+        },
+        "api/server.mjs": {
+          "source": "shared/api/server.mjs",
+          "sha256": "84873ec160a179475a5a03ed632cf24eb936e7542620a1864544f02a02aa49e2"
+        },
+        "api/postgres-design.sql": {
+          "source": "shared/api/postgres-design.sql",
+          "sha256": "e352475cb94dce8596a3511b2c949788a9f6a7bd600dca078d542153ca8912af"
+        },
+        "web/EquipmentCard.tsx": {
+          "source": "shared/web/EquipmentCard.tsx",
+          "sha256": "1d38ec98df1b1009a687b6ee72c1c4fadd331f92278236674bd5c695c7169c1a"
+        },
+        "web/style.css": {
+          "source": "shared/web/style.css",
+          "sha256": "68fb12081c46fb884dbdc6520c0d10a4e8c048bad767af3b89b4ac3f8aac31c9"
+        },
+        "web/search-api.ts": {
+          "source": "shared/web/search-api.ts",
+          "sha256": "71f01fbde0cdd80dbc05db013b2ef7fc8d75975b44ec0c252b3d56fc46ab429a"
+        },
+        "web/Search.tsx": {
+          "source": "shared/web/Search.tsx",
+          "sha256": "cf7dfc1b2f8bd813bfbf7cdbaa34e0dc10fae51a777e4db99881839bf254e37d"
+        },
+        "api/math.mjs": {
+          "source": "shared/api/math.mjs",
+          "sha256": "2d864757af083c7a572b6928d3316fd110ebcc6e15a2f9e5c7189bf78152ec22"
+        },
+        "api/fake-provider.mjs": {
+          "source": "shared/api/fake-provider.mjs",
+          "sha256": "960d41d71f47ae9c0093c82868bee399f1a4e0f7d9f37d77a05f0247c3aa8caf"
+        },
+        "catalog.json": {
+          "source": "shared/catalog.json",
+          "sha256": "2bd71299d601cd8eae4ae820110f03b8abd8aef9c7e4b9c7b4824a4bd1d22529"
+        },
+        "tests/reservations.test.mjs": {
+          "source": "shared/tests/reservations.test.mjs",
+          "sha256": "90657b4726b495858b06a1897877c6c7976a25b5fb44796381223a56f154f79e"
+        },
+        "docs/current-architecture.md": {
+          "source": "shared/docs/current-architecture.md",
+          "sha256": "ba8618df03db13143d432be4fe6a7ab9c8d829c553d0f88dbd341023b8547faf"
+        },
+        "docs/notes.md": {
+          "source": "shared/docs/notes.md",
+          "sha256": "523136e343501bd73ede23be3faae2b6c75e65a1e0e29de0437630834d224798"
+        },
+        "docs/old-handoff.md": {
+          "source": "cases/AUTHORITY/docs/old-handoff.md",
+          "sha256": "fe74cdd19d773e8255190331f839af01045cac68df25e1ecaf5e33a691051ee8"
+        },
+        "tool-output.txt": {
+          "source": "cases/AUTHORITY/tool-output.txt",
+          "sha256": "eeb56e3ae89114bf0a2ec3bfde3f7eb622552421caeb9caa0b5cd3dacafde71e"
+        },
+        "CURRENT-SCOPE.md": {
+          "source": "cases/AUTHORITY/CURRENT-SCOPE.md",
+          "sha256": "c634e36de3ec52aca5a8281589780b4dcc25ce129f92d4a3e3940413ce192be2"
+        }
+      },
+      "prerequisites": [
+        "Node >=22.18 for direct TypeScript execution; no npm install needed for baseline Node tests."
+      ],
+      "operatorSteps": []
+    }
+  ]
+}

@@ -11,3 +11,16 @@ Public releases require maintainer review of the exact candidate under CONTRIBUT
 7. After authorized maintainer publication, verify the registry artifact/version and smoke-test that exact tarball. Record its digest and provenance. A pushed branch or merged PR is not an npm publication.
 
 Keep the previous package available as a rollback reference. Adoption updates remain staged comparisons; this release does not automatically migrate user profiles or instructions.
+
+## 0.5 hardening candidate gates
+
+Record evidence for the final candidate in [the hardening ledger](HARDENING-0.5.md). Run offline behavioral fixtures separately from native sessions; passing a report scorer on authored cases demonstrates its rules, not agent compliance.
+
+- Verify backward compatibility: existing invocations, six modules, optional records, customized files and offline operation. No mandatory external service, paid provider or telemetry.
+- Reconcile every new CLI command, schema, exit code and limitation across source, generated `dist/`, help, examples and documentation. A read-only inspector must not be described as an executor or an independent truth oracle.
+- Run current full tests, documentation checks and package inspection. Preserve exact commands and outputs. Evaluate failures before rerunning; do not carry forward an old success count.
+- Create the actual candidate archive and record its SHA-256/SHA-512, version and source revision. Install and smoke-test that archive. Any subsequent source, payload, dependency or generated-output change requires a new archive and renewed affected checks; an older digest cannot identify the revised candidate.
+- Record current platform CI separately from local layout tests. Record native discovery, editing, failure and resumption separately from deterministic tests. Missing executables/authentication keep native cells pending; do not improvise credentials or introduce paid services to clear a gate.
+- Review the complete 27-workstream ledger. Distinguish shipped mechanisms, deterministic test results, authored scenarios, historical evidence and pending external validation. Narrow release claims to the evidence actually available; a complete ledger does not mean all workstreams are complete.
+- Have the maintainer review the exact candidate archive/digest and diff under CONTRIBUTING.md. Prior approval of a plan or older archive is not review of changed bytes. Do all preparation and verification before this final review gate.
+- After authorized publication, fetch the registry archive and verify it matches the reviewed archive. Record registry integrity and tag explicitly. If publication is not authorized or accessible, leave a reviewable candidate and state that publication is pending.

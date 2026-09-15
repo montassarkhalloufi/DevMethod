@@ -23,7 +23,7 @@ npm run test:e2e
 
 The password above is a deliberately public, local-only fixture credential, not a secret or production configuration. Use only a disposable database: these suites apply migrations and insert/delete their own test rows. `test:db` and `test:e2e` fail when `DATABASE_URL` is missing, rather than reporting a skipped test as passed.
 
-`npm test` compiles the API and runs six domain/use-case/HTTP/web-model tests. `test:db` verifies real migrations, replay, durability and database constraints. `test:e2e` builds API and Next production output, starts both HTTP servers on ephemeral loopback ports, creates a task through Nest, verifies its title in Next HTML, and verifies the API-unavailable rendering. It cleans up its task and HTTP processes.
+`npm test` compiles the API and runs seven domain/use-case/HTTP/web-model tests. `test:db` verifies real migrations, replay, durability, database constraints and the title/UUID ordering with a 100-row bound. `test:e2e` builds API and Next production output, starts both HTTP servers on ephemeral loopback ports, creates a task through Nest, verifies its title in Next HTML, and verifies the API-unavailable rendering. It cleans up its task and HTTP processes.
 
 To explore the feature after the tests, run in one terminal:
 

@@ -12,7 +12,7 @@ test('initialization success alone cannot admit an unattended comparison', () =>
 
 test('all requirements are explicit and missing or non-boolean evidence blocks admission', () => {
   const fields = comparisonReadiness({}).missing;
-  const complete = Object.fromEntries(fields.map(key => [key, true]));
+  const complete = Object.fromEntries(fields.map((key) => [key, true]));
   assert.equal(comparisonReadiness(complete).ready, true);
   for (const key of fields) {
     assert.deepEqual(comparisonReadiness({ ...complete, [key]: 'passed' }).missing, [key]);

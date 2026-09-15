@@ -1,2 +1,64 @@
-const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');const assert=require('node:assert/strict');const fs=require('node:fs');
-(async()=>{const browser=await chromium.launch({channel:'chrome',headless:true});const context=await browser.newContext({viewport:{width:1280,height:900},reducedMotion:'reduce'});const p=await context.newPage();const errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:8766');assert.equal(await p.locator('.task').count(),0);await p.locator('.add-button').click();assert.equal(await p.locator('#form-error').isVisible(),true);await p.locator('#task-title').fill('Vérifier le parcours');await p.locator('#task-note').fill('Une note de démonstration.');await p.locator('.add-button').click();assert.equal(await p.locator('.task').count(),1);await p.locator('.task-check').first().click();await p.locator('[data-filter="active"]').click();assert.equal(await p.locator('.task').count(),0);await p.locator('[data-filter="done"]').click();assert.equal(await p.locator('.task').count(),1);await p.reload();await p.locator('[data-filter="all"]').click();assert.equal(await p.locator('.task').count(),1);await p.locator('.task-delete').first().click();assert.equal(await p.locator('.task').count(),0);await p.locator('#undo-button').click();assert.equal(await p.locator('.task').count(),1);await p.locator('#demo-button').click();assert.ok(await p.locator('.task').count()>=1);fs.mkdirSync('docs/media/from-zero/captures',{recursive:true});await p.screenshot({path:'docs/media/from-zero/captures/clair-desktop.png',fullPage:true});await p.setViewportSize({width:390,height:844});await p.screenshot({path:'docs/media/from-zero/captures/clair-mobile.png',fullPage:true});assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await p.locator('#task-title').focus();await p.keyboard.type('Ajout clavier');await p.keyboard.press('Tab');await p.keyboard.press('Tab');assert.equal(await p.locator('.add-button').evaluate(e=>e===document.activeElement),true);await p.keyboard.press('Enter');assert.ok(await p.locator('.task').filter({hasText:'Ajout clavier'}).count());const blocked=await browser.newContext();await blocked.addInitScript(()=>{Storage.prototype.setItem=()=>{throw new DOMException('Blocked','QuotaExceededError');};});const b=await blocked.newPage();await b.goto('http://127.0.0.1:8766');await b.locator('#task-title').fill('Conserver ma saisie');await b.locator('.add-button').click();assert.equal(await b.locator('#storage-alert').isVisible(),true);assert.equal(await b.locator('.task').count(),1);assert.deepEqual(errors,[]);console.log('PASS: empty state, blank validation, add/note, complete/filter, reload persistence, delete/undo, demo, keyboard submit, mobile overflow, storage failure retains task and alerts.');await browser.close();})();
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+(async () => {
+  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const context = await browser.newContext({
+    viewport: { width: 1280, height: 900 },
+    reducedMotion: 'reduce',
+  });
+  const p = await context.newPage();
+  const errors = [];
+  p.on('pageerror', (e) => errors.push(e.message));
+  await p.goto('http://127.0.0.1:8766');
+  assert.equal(await p.locator('.task').count(), 0);
+  await p.locator('.add-button').click();
+  assert.equal(await p.locator('#form-error').isVisible(), true);
+  await p.locator('#task-title').fill('Vérifier le parcours');
+  await p.locator('#task-note').fill('Une note de démonstration.');
+  await p.locator('.add-button').click();
+  assert.equal(await p.locator('.task').count(), 1);
+  await p.locator('.task-check').first().click();
+  await p.locator('[data-filter="active"]').click();
+  assert.equal(await p.locator('.task').count(), 0);
+  await p.locator('[data-filter="done"]').click();
+  assert.equal(await p.locator('.task').count(), 1);
+  await p.reload();
+  await p.locator('[data-filter="all"]').click();
+  assert.equal(await p.locator('.task').count(), 1);
+  await p.locator('.task-delete').first().click();
+  assert.equal(await p.locator('.task').count(), 0);
+  await p.locator('#undo-button').click();
+  assert.equal(await p.locator('.task').count(), 1);
+  await p.locator('#demo-button').click();
+  assert.ok((await p.locator('.task').count()) >= 1);
+  fs.mkdirSync('docs/media/from-zero/captures', { recursive: true });
+  await p.screenshot({ path: 'docs/media/from-zero/captures/clair-desktop.png', fullPage: true });
+  await p.setViewportSize({ width: 390, height: 844 });
+  await p.screenshot({ path: 'docs/media/from-zero/captures/clair-mobile.png', fullPage: true });
+  assert.equal(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  await p.locator('#task-title').focus();
+  await p.keyboard.type('Ajout clavier');
+  await p.keyboard.press('Tab');
+  await p.keyboard.press('Tab');
+  assert.equal(await p.locator('.add-button').evaluate((e) => e === document.activeElement), true);
+  await p.keyboard.press('Enter');
+  assert.ok(await p.locator('.task').filter({ hasText: 'Ajout clavier' }).count());
+  const blocked = await browser.newContext();
+  await blocked.addInitScript(() => {
+    Storage.prototype.setItem = () => {
+      throw new DOMException('Blocked', 'QuotaExceededError');
+    };
+  });
+  const b = await blocked.newPage();
+  await b.goto('http://127.0.0.1:8766');
+  await b.locator('#task-title').fill('Conserver ma saisie');
+  await b.locator('.add-button').click();
+  assert.equal(await b.locator('#storage-alert').isVisible(), true);
+  assert.equal(await b.locator('.task').count(), 1);
+  assert.deepEqual(errors, []);
+  console.log(
+    'PASS: empty state, blank validation, add/note, complete/filter, reload persistence, delete/undo, demo, keyboard submit, mobile overflow, storage failure retains task and alerts.',
+  );
+  await browser.close();
+})();

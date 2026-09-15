@@ -6,11 +6,11 @@ Historical platform assessment date: 2026-09-12; those results apply only to the
 
 | Host | Export directory | Invocation | Evidence |
 |---|---|---|---|
-| Codex | `.agents/skills/<name>/SKILL.md` | `$devmethod-status` (legacy `$project-foundation status`) | Local payload/export tests; method exercised with Codex in this session |
+| Codex | `.agents/skills/<name>/SKILL.md` | `$devmethod-status` (legacy `$project-foundation status`) | Local payload/export tests; historical scoped Codex pilot, not this candidate |
 | Claude Code | `.claude/skills/<name>/SKILL.md` | `/devmethod-status` (legacy `/project-foundation status`) | Official format reviewed; export tests; authenticated native session pending |
 | Cursor Agent | `.cursor/skills/<name>/SKILL.md` | `/devmethod-status` (legacy `/project-foundation status`) | Official format reviewed; export tests; authenticated native session pending |
 
-The earlier validation environment lacked native executables/credentials. On 2026-09-13, version probes found Codex CLI 0.147.0 and Claude Code 2.1.238; Cursor CLI was not found on PATH. The subsequent delegated pilot executed six authenticated Codex invocations; see [reviewed native results](docs/NATIVE-PILOT-RESULTS.md) for the narrow fixture coverage, budget stop and incomplete comparison. Passing installer tests does not prove host discovery, model behavior or UI command completion. No Claude Code or Cursor version is claimed as runtime-tested. Therefore these profiles are provisionally compatible, not certified end-to-end.
+The current 0.5 hardening environment has no `codex`, `claude` or `cursor` executable on PATH. No new authenticated native CLI campaign is claimed. Installed skills and this conversation are not proof of a native CLI adapter. The earlier validation environment lacked native executables/credentials. On 2026-09-13, version probes found Codex CLI 0.147.0 and Claude Code 2.1.238; Cursor CLI was not found on PATH. The subsequent delegated pilot executed six authenticated Codex invocations; see [reviewed native results](docs/NATIVE-PILOT-RESULTS.md) for the narrow fixture coverage, budget stop and incomplete comparison. Passing installer tests does not prove host discovery, model behavior or UI command completion. No Claude Code or Cursor version is claimed as runtime-tested. Therefore these profiles are provisionally compatible, not certified end-to-end.
 
 Official references: [Claude Code skills](https://code.claude.com/docs/en/skills), [Claude Code memory](https://code.claude.com/docs/en/memory), [Cursor skills](https://cursor.com/docs/skills), [Codex skills](https://developers.openai.com/codex/skills). A host version or organization policy may change discovery or execution.
 
@@ -30,3 +30,7 @@ Run separately in authenticated Codex, Claude Code and Cursor Agent sessions. Us
 Read the project's CONTRIBUTING and accepted decisions throughout. Evaluate all fourteen stages before marking full native workflow coverage. An absent discovery entry, broken relative link, unexecuted check reported as passed, forbidden write or unexplained permission expansion is a failure, not a cosmetic issue.
 
 Version 0.4.1 installs the offline report runtime with scoped-delivery. Tests execute it in all three exported layouts under CommonJS, ESM and package-less projects, intercepting only the OS-opening boundary. These tests validate report generation and dispatch, not native menu discovery or graphical browser rendering. See [release details](docs/RELEASE-0.4.1.md).
+
+## Capability and candidate scope
+
+See [host capabilities](docs/HOST-CAPABILITIES.md) for the separation between instructions, deterministic checks, historical fixture execution and unverified host behavior. The [0.5 hardening ledger](docs/HARDENING-0.5.md) tracks coverage and remaining gates. Historical installation, platform and native results never transfer automatically to a changed candidate.

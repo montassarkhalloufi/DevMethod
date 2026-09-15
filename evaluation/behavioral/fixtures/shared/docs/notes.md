@@ -1,0 +1,3 @@
+# Notes
+
+Fictional equipment catalogue.

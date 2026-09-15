@@ -1,0 +1,15 @@
+# Generated distribution and retained/pinned experiment inputs keep their bytes.
+dist/
+**/node_modules/
+evaluation/
+docs/
+scripts/media/
+*.tgz
+
+**/build/
+**/.next/
+**/next-env.d.ts
+**/package-lock.json
+**/migrations/meta/
+**/mission.json
+**/evidence/

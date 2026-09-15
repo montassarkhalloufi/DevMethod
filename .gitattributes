@@ -9,3 +9,29 @@ src/review-ui.css text eol=lf
 dist/review-ui.css text eol=lf
 examples/review/REVIEW.md text eol=lf
 examples/review/review-demo.html text eol=lf
+
+# Behavioral fixtures and recorded probes pin exact bytes on every OS.
+evaluation/behavioral/** text eol=lf
+evaluation/work-mode-review/** text eol=lf
+
+# Maintained code has the same Prettier line endings on every CI platform.
+src/** text eol=lf
+scripts/**/*.mjs text eol=lf
+tests/**/*.mjs text eol=lf
+*.config.mjs text eol=lf
+package.json text eol=lf
+.github/workflows/** text eol=lf
+examples/pocket-tasks/**/*.mjs text eol=lf
+examples/pocket-tasks/**/*.js text eol=lf
+examples/pocket-tasks/**/*.css text eol=lf
+examples/pocket-tasks/**/*.html text eol=lf
+examples/clair-from-zero/**/*.mjs text eol=lf
+examples/clair-from-zero/**/*.cjs text eol=lf
+examples/clair-from-zero/**/*.css text eol=lf
+examples/clair-from-zero/**/*.html text eol=lf
+examples/fullstack/**/*.ts text eol=lf
+examples/fullstack/**/*.tsx text eol=lf
+examples/fullstack/**/*.mjs text eol=lf
+examples/fullstack/**/*.cjs text eol=lf
+examples/fullstack/**/*.css text eol=lf
+examples/fullstack/**/*.html text eol=lf

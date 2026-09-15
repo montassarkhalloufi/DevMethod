@@ -10,6 +10,8 @@ Consult relevant official documentation and search for skills published by the a
 
 Choose checks according to affected scope: need/acceptance, business rules/edges, architecture/contracts, authorization/data isolation, integrity/transactions/concurrency, errors/recovery, UX/accessibility/visual fidelity, performance/operations/maintainability and relevant tests. Read affected interactions, then execute available checks. For UI inspect real rendering and interactions at relevant viewports even when automated tests pass; for backend inspect flows, errors, contracts and permissions.
 
+Apply [verification and cost](verification-and-cost.md) for assertion relevance, justified test order, decomposition and actual lint/format/type/complexity checks. For a material state-changing flow, resolve decision-architecture's `references/backend-boundaries.md` and trace its failure scenario, invariant, enforcing boundary, guarantee scope and executed evidence. Keep unmeasured or untested claims separate from confirmed findings.
+
 For an HTTP adapter or a claimed response contract, resolve decision-architecture's `references/api-contracts.md` and inspect relevant server-generated responses as well as business handlers. Passing application tests alone does not establish transport semantics or a uniform error envelope.
 
 Follow relevant behavior beyond changed lines. Trace affected callers, other user journeys, downstream contract consumers and previously stored data. Identify the concrete compatibility obligation before proposing a migration. A clean diff or passing new-path test does not establish compatibility with existing consumers or records.
@@ -30,6 +32,8 @@ Use [structured review authoring](../assets/REVIEW.md) for the versioned record 
 ## Communicate and preserve ownership
 
 For substantial reviews use a versioned validated result source under the existing convention, or docs/missions/<mission-id>/reviews/<review-id>/review.json. Derive REVIEW.md, browser presentation and counters from it. Tickets and plans link finding IDs rather than copy results. Keep legacy Markdown reports readable as historical text; do not fabricate their missing structured fields.
+
+Make the conclusion examinable: lead with the outcome, blocking findings and material decisions; summarize relevant behavior changes and link detailed evidence. Keep one coherent review scope where possible, and flag a scope too broad to verify reliably rather than substituting more reviewer opinions for coverage.
 
 Derive the conclusion from checks, unresolved confirmed findings and the project's explicit blocking policy: corrections required, ready on verified scope, incomplete or blocked. State uncovered surfaces and source limits. A changed revision calls for reassessing affected checks, not erasing history or indiscriminately invalidating independent evidence. Record changed targets and evidence dependencies where known.
 

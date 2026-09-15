@@ -6,7 +6,9 @@ import { Task } from '../domain/task';
 import { tasks } from './schema';
 export class PostgresTasks implements TaskStore {
   private readonly db;
-  constructor(pool: Pool) { this.db = drizzle(pool); }
+  constructor(pool: Pool) {
+    this.db = drizzle(pool);
+  }
   list(): Promise<Task[]> {
     return this.db.select().from(tasks).orderBy(asc(tasks.title), asc(tasks.id)).limit(100);
   }

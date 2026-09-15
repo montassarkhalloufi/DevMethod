@@ -1,47 +1,31 @@
-import { sanitizedReview, summarizeReview, severityLabels, confidenceLabels, resolutionLabels, checkLabels, conclusionLabels, filterFindings, reviewFreshness, reviewMarkdown, reviewUrl, redactReviewText } from './review-model.js';
+import { renderFindingDetail } from './review-detail.js';
+import { sanitizedReview, severityLabels, confidenceLabels, resolutionLabels, filterFindings, reviewMarkdown, redactReviewText, } from './review-model.js';
+import { el, button, badge, download, tabs } from './review-dom.js';
+import { renderCoverage, renderSources } from './review-panels.js';
+import { renderSummary } from './review-summary.js';
 const app = document.getElementById('app');
 const data = document.getElementById('review-data');
 let review = null;
 let legacy = null;
 let currentRevision = null;
 let changedTargets = [];
-let state = { view: 'findings', selected: '', section: 'evidence', filters: { query: '', domain: '', severity: '', confidence: '', resolution: '' }, mobileDetail: false };
-const el = (tag, cls = '', text) => {
-    const n = document.createElement(tag);
-    if (cls)
-        n.className = cls;
-    if (text !== undefined)
-        n.textContent = text;
-    return n;
+let state = {
+    view: 'findings',
+    selected: '',
+    section: 'evidence',
+    filters: { query: '', domain: '', severity: '', confidence: '', resolution: '' },
+    mobileDetail: false,
 };
-function button(label, cls, action) { const b = el('button', cls, label); b.type = 'button'; b.addEventListener('click', action); return b; }
-function textBlock(title, value, parent) { const box = el('section', 'text-block'); box.append(el('h3', '', title), el('p', '', value)); parent.append(box); }
-function badge(label, kind, icon) { return el('span', `badge ${kind}`, `${icon} ${label}`); }
-function link(label, url, parent, cls = 'link') {
-    if (!reviewUrl(url)) {
-        parent.append(el('p', 'muted unavailable', 'Destination indisponible : aucun lien HTTPS valide renseigné.'));
-        return;
-    }
-    const a = el('a', cls, `${label} ↗`);
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    parent.append(a);
-}
-function download(name, body, type) {
-    const url = URL.createObjectURL(new Blob([body], { type }));
-    const a = el('a');
-    a.href = url;
-    a.download = name;
-    document.body.append(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 const safeJSON = (value) => JSON.stringify(value).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
 function exportHtml() {
     const copy = document.documentElement.cloneNode(true);
-    copy.querySelector('#review-data').textContent = safeJSON({ review, legacy, currentRevision, changedTargets, uiState: state });
+    copy.querySelector('#review-data').textContent = safeJSON({
+        review,
+        legacy,
+        currentRevision,
+        changedTargets,
+        uiState: state,
+    });
     // Rebuild the presentation on reopening from the same validated result source.
     copy.querySelector('#app').replaceChildren();
     download(`${review?.id || 'review'}.html`, '<!doctype html>\n' + copy.outerHTML, 'text/html;charset=utf-8');
@@ -51,9 +35,18 @@ function exports(parent) {
     const summary = el('summary', 'button secondary', '↓  Exporter le rapport');
     box.append(summary);
     const menu = el('div', 'export-menu');
-    menu.append(button('HTML interactif · rouvrir hors ligne', '', () => { box.open = false; exportHtml(); }));
+    menu.append(button('HTML interactif · rouvrir hors ligne', '', () => {
+        box.open = false;
+        exportHtml();
+    }));
     if (review) {
-        menu.append(button('Rapport Markdown', '', () => { box.open = false; download(`${review.id}.md`, reviewMarkdown(review), 'text/markdown;charset=utf-8'); }), button('Source JSON', '', () => { box.open = false; download(`${review.id}.json`, JSON.stringify(review, null, 2) + '\n', 'application/json'); }));
+        menu.append(button('Rapport Markdown', '', () => {
+            box.open = false;
+            download(`${review.id}.md`, reviewMarkdown(review), 'text/markdown;charset=utf-8');
+        }), button('Source JSON', '', () => {
+            box.open = false;
+            download(`${review.id}.json`, JSON.stringify(review, null, 2) + '\n', 'application/json');
+        }));
     }
     else if (legacy !== null)
         menu.append(button('Rapport Markdown original', '', () => download('review-legacy.md', legacy, 'text/markdown;charset=utf-8')));
@@ -90,7 +83,13 @@ function importer(parent) {
             }
             currentRevision = null;
             changedTargets = [];
-            state = { view: 'findings', selected: '', section: 'evidence', filters: { query: '', domain: '', severity: '', confidence: '', resolution: '' }, mobileDetail: false };
+            state = {
+                view: 'findings',
+                selected: '',
+                section: 'evidence',
+                filters: { query: '', domain: '', severity: '', confidence: '', resolution: '' },
+                mobileDetail: false,
+            };
             location.hash = '';
             render();
         }
@@ -122,7 +121,7 @@ function shell() {
     const title = el('div');
     title.append(el('h1', '', review?.title || (legacy !== null ? 'Rapport historique' : 'Espace de review')));
     if (review) {
-        title.append(el('p', 'subtitle', `${review.project}  /  ${review.mission}  ·  ${review.tickets.map(t => t.id).join(', ') || 'Sans ticket'}`), el('p', 'revision', `Révision ${review.revision.commit} · ${review.date}${review.revision.dirty.length ? ` · Modifications non commitées : ${review.revision.dirty.join(', ')}` : ''}`));
+        title.append(el('p', 'subtitle', `${review.project}  /  ${review.mission}  ·  ${review.tickets.map((t) => t.id).join(', ') || 'Sans ticket'}`), el('p', 'revision', `Révision ${review.revision.commit} · ${review.date}${review.revision.dirty.length ? ` · Modifications non commitées : ${review.revision.dirty.join(', ')}` : ''}`));
     }
     header.append(title);
     if (review || legacy !== null)
@@ -132,30 +131,12 @@ function shell() {
     app.append(layout);
     return main;
 }
-function showError(message) { const main = shell(); const box = el('section', 'empty error'); box.setAttribute('role', 'alert'); box.append(el('h2', '', 'Review indisponible'), el('p', '', message)); main.append(box); }
-function tabs(items, active, change, label, panelId) {
-    const group = el('div', 'tabs');
-    group.setAttribute('role', 'tablist');
-    group.setAttribute('aria-label', label);
-    for (const [id, title] of items) {
-        const b = button(title, active === id ? 'tab active' : 'tab', () => { change(id); document.getElementById(`${panelId}-${id}`)?.focus(); });
-        b.id = `${panelId}-${id}`;
-        b.setAttribute('role', 'tab');
-        b.setAttribute('aria-selected', String(active === id));
-        b.setAttribute('aria-controls', panelId);
-        b.tabIndex = active === id ? 0 : -1;
-        b.addEventListener('keydown', e => { const index = items.findIndex(i => i[0] === id); let next = null; if (e.key === 'ArrowRight')
-            next = (index + 1) % items.length; if (e.key === 'ArrowLeft')
-            next = (index + items.length - 1) % items.length; if (e.key === 'Home')
-            next = 0; if (e.key === 'End')
-            next = items.length - 1; if (next !== null) {
-            e.preventDefault();
-            change(items[next][0]);
-            document.getElementById(`${panelId}-${items[next][0]}`)?.focus();
-        } });
-        group.append(b);
-    }
-    return group;
+function showError(message) {
+    const main = shell();
+    const box = el('section', 'empty error');
+    box.setAttribute('role', 'alert');
+    box.append(el('h2', '', 'Review indisponible'), el('p', '', message));
+    main.append(box);
 }
 function render() {
     const main = shell();
@@ -171,55 +152,19 @@ function render() {
         }
         return;
     }
-    const r = review, sum = summarizeReview(r), fresh = reviewFreshness(r, currentRevision, changedTargets);
-    const banner = el('section', `banner ${sum.conclusion}`);
-    banner.append(el('span', 'banner-icon', sum.conclusion === 'ready' ? '✓' : sum.conclusion === 'corrections' ? '⚠' : 'ⓘ'));
-    const message = el('div');
-    message.append(el('h2', '', conclusionLabels[sum.conclusion]), el('p', '', r.summary), el('p', 'policy', r.policy.rationale));
-    banner.append(message);
-    main.append(banner);
-    if (fresh.state === 'different')
-        main.append(el('p', 'notice', `↻ Révision différente ou cibles modifiées : réévaluer les éléments concernés. Contrôles ciblés : ${fresh.affectedChecks.join(', ') || 'à déterminer'}. Constats ciblés : ${fresh.affectedFindings.join(', ') || 'à déterminer'}. Les preuves historiques et résultats indépendants sont conservés.`));
-    else if (fresh.state === 'unknown')
-        main.append(el('p', 'revision-hint', 'Historique : la révision courante n’est pas fournie. Cette review atteste uniquement de sa révision inspectée.'));
-    const stats = el('section', 'stats');
-    stats.setAttribute('aria-label', 'Compteurs de toute la review, indépendants des filtres');
-    for (const severity of ['critical', 'major', 'moderate', 'minor']) {
-        const card = el('div', `stat ${severity}`);
-        card.append(el('span', 'stat-icon', severity === 'critical' || severity === 'major' ? '!' : '△'), el('strong', '', String(sum.severities[severity])), el('span', '', severityLabels[severity]));
-        stats.append(card);
-    }
-    const uncertain = el('div', 'stat suspected');
-    uncertain.append(el('span', 'stat-icon', '?'), el('strong', '', String(sum.suspected)), el('span', '', 'À vérifier'));
-    stats.append(uncertain);
-    const coverage = el('div', 'stat coverage-stat');
-    coverage.append(el('strong', '', `${sum.checks.passed} réussis · ${sum.checks.failed} en échec`), el('span', '', `${sum.checks['not-run']} non exécutés · ${sum.checks.blocked} bloqués · ${sum.checks['out-of-scope']} hors périmètre`));
-    const bars = el('div', 'coverage-bars');
-    bars.setAttribute('aria-hidden', 'true');
-    const total = r.checks.length || 1;
-    for (const [status, count] of Object.entries(sum.checks)) {
-        const bar = el('span', status);
-        bar.style.flexGrow = String(count / total);
-        if (count)
-            bars.append(bar);
-    }
-    coverage.append(bars);
-    stats.append(coverage);
-    main.append(stats, el('p', 'count-caption', 'Compteurs : toute la review, y compris les constats résolus. Les risques à vérifier sont indiqués séparément.'));
-    if (r.limits.length || r.exclusions.length) {
-        const limits = el('details', 'limits');
-        limits.append(el('summary', '', `Limites & périmètre · ${r.limits.length} limite(s) signalée(s)`));
-        const ul = el('ul');
-        for (const t of [...r.scope.map(t => `Inclus : ${t}`), ...r.exclusions.map(t => `Exclu : ${t}`), ...r.limits])
-            ul.append(el('li', '', t));
-        limits.append(ul);
-        main.append(limits);
-        if (r.limits.length)
-            main.append(el('p', 'important-limit', r.limits[0]));
-    }
+    const r = review;
+    renderSummary(r, main, currentRevision, changedTargets);
     const workspace = el('section', `workspace ${state.mobileDetail ? 'show-detail' : ''}`);
     const left = el('div', 'list-panel');
-    left.append(tabs([['findings', `Constats ${r.findings.length}`], ['coverage', 'Couverture'], ['sources', 'Sources']], state.view, id => { state.view = id; state.mobileDetail = false; render(); }, 'Vues de review', 'view-panel'));
+    left.append(tabs([
+        ['findings', `Constats ${r.findings.length}`],
+        ['coverage', 'Couverture'],
+        ['sources', 'Sources'],
+    ], state.view, (id) => {
+        state.view = id;
+        state.mobileDetail = false;
+        render();
+    }, 'Vues de review', 'view-panel'));
     const panel = el('div', 'view-panel');
     panel.id = 'view-panel';
     panel.setAttribute('role', 'tabpanel');
@@ -227,13 +172,22 @@ function render() {
     if (state.view === 'findings')
         renderFindingList(panel);
     if (state.view === 'coverage')
-        renderCoverage(panel);
+        renderCoverage(r, panel);
     if (state.view === 'sources')
-        renderSources(panel);
+        renderSources(r, panel);
     left.append(panel);
     const detail = el('article', 'detail-panel');
     detail.id = 'finding-detail';
-    renderDetail(detail);
+    renderFindingDetail(r, detail, state, {
+        back: () => {
+            state.mobileDetail = false;
+            render();
+        },
+        selectSection: (section) => {
+            state.section = section;
+            render();
+        },
+    });
     workspace.append(left, detail);
     main.append(workspace);
 }
@@ -247,16 +201,31 @@ function renderFindingList(parent) {
     search.id = 'finding-search';
     searchLabel.append(search);
     filters.append(searchLabel);
-    const select = (key, label, values) => { const l = el('label', '', label); const node = el('select'); node.setAttribute('aria-label', label); for (const [value, name] of [['', 'Tous'], ...values]) {
-        const option = el('option', '', name);
-        option.value = value;
-        node.append(option);
-    } node.value = state.filters[key]; node.addEventListener('change', () => { state.filters[key] = node.value; renderListOnly(); }); l.append(node); filters.append(l); };
-    select('domain', 'Domaine', [...new Set(review.findings.map(f => f.domain))].sort().map(v => [v, v]));
+    const select = (key, label, values) => {
+        const l = el('label', '', label);
+        const node = el('select');
+        node.setAttribute('aria-label', label);
+        for (const [value, name] of [['', 'Tous'], ...values]) {
+            const option = el('option', '', name);
+            option.value = value;
+            node.append(option);
+        }
+        node.value = state.filters[key];
+        node.addEventListener('change', () => {
+            state.filters[key] = node.value;
+            renderListOnly();
+        });
+        l.append(node);
+        filters.append(l);
+    };
+    select('domain', 'Domaine', [...new Set(review.findings.map((f) => f.domain))].sort().map((v) => [v, v]));
     select('severity', 'Gravité', Object.entries(severityLabels));
     select('confidence', 'Confiance', Object.entries(confidenceLabels));
     select('resolution', 'Résolution', Object.entries(resolutionLabels));
-    search.addEventListener('input', () => { state.filters.query = search.value; renderListOnly(); });
+    search.addEventListener('input', () => {
+        state.filters.query = search.value;
+        renderListOnly();
+    });
     parent.append(filters);
     const results = el('div', 'finding-results');
     results.id = 'finding-results';
@@ -265,9 +234,14 @@ function renderFindingList(parent) {
     // The parent is not yet attached during a complete render.
     fillFindingResults(results);
 }
-function renderListOnly() { const list = document.getElementById('finding-results'); if (list)
-    fillFindingResults(list); const note = document.getElementById('detail-filter-note'); if (note && review)
-    note.hidden = filterFindings(review, state.filters).some(f => f.id === state.selected); }
+function renderListOnly() {
+    const list = document.getElementById('finding-results');
+    if (list)
+        fillFindingResults(list);
+    const note = document.getElementById('detail-filter-note');
+    if (note && review)
+        note.hidden = filterFindings(review, state.filters).some((f) => f.id === state.selected);
+}
 function fillFindingResults(parent) {
     parent.replaceChildren();
     const findings = filterFindings(review, state.filters);
@@ -275,11 +249,20 @@ function fillFindingResults(parent) {
     count.setAttribute('role', 'status');
     parent.append(count);
     if (!findings.length) {
-        parent.append(el('div', 'empty small', review.findings.length ? 'Aucun résultat ne correspond aux filtres.' : 'Aucun problème détecté. Consultez la couverture et les limites avant de conclure.'));
+        parent.append(el('div', 'empty small', review.findings.length
+            ? 'Aucun résultat ne correspond aux filtres.'
+            : 'Aucun problème détecté. Consultez la couverture et les limites avant de conclure.'));
         return;
     }
     for (const f of findings) {
-        const b = button('', `finding ${state.selected === f.id ? 'selected' : ''}`, () => { state.selected = f.id; state.mobileDetail = true; state.section = 'evidence'; history.pushState(null, '', `#finding=${encodeURIComponent(f.id)}`); render(); document.getElementById('detail-title')?.focus(); });
+        const b = button('', `finding ${state.selected === f.id ? 'selected' : ''}`, () => {
+            state.selected = f.id;
+            state.mobileDetail = true;
+            state.section = 'evidence';
+            history.pushState(null, '', `#finding=${encodeURIComponent(f.id)}`);
+            render();
+            document.getElementById('detail-title')?.focus();
+        });
         b.setAttribute('aria-label', `${f.id} ${f.title}, ${severityLabels[f.severity]}, ${confidenceLabels[f.confidence]}, ${resolutionLabels[f.resolution]}`);
         b.setAttribute('aria-current', String(state.selected === f.id));
         const top = el('div', 'finding-top');
@@ -291,143 +274,6 @@ function fillFindingResults(parent) {
         parent.append(b);
     }
 }
-function renderCoverage(parent) {
-    parent.append(el('h2', 'panel-title', 'Couverture par domaine'), el('p', 'muted', 'Contrôles exécutés, non exécutés et hors périmètre. Aucun score de risque.'));
-    if (!review.checks.length)
-        parent.append(el('p', 'empty small', 'Aucun contrôle enregistré : couverture inconnue.'));
-    for (const domain of [...new Set(review.checks.map(c => c.domain))]) {
-        parent.append(el('h3', 'domain-title', domain));
-        for (const c of review.checks.filter(c => c.domain === domain)) {
-            const card = el('section', 'check-card');
-            card.append(badge(checkLabels[c.status], c.status, c.status === 'passed' ? '✓' : c.status === 'failed' ? '✕' : '—'), el('h4', '', `${c.id} · ${c.title}`), el('p', '', c.result), el('p', 'muted', `${c.kind === 'manual' ? 'Inspection manuelle' : 'Contrôle automatisé'} · Révision ${c.revision}`));
-            if (c.reason)
-                card.append(el('p', '', `Raison : ${c.reason}`));
-            for (const id of c.evidenceIds) {
-                const e = review.evidence.find(e => e.id === id);
-                const d = el('details');
-                d.append(el('summary', '', `Preuve ${id} · ${e.title}`), el('pre', '', e.content));
-                card.append(d);
-            }
-            if (!c.evidenceIds.length)
-                card.append(el('p', 'muted', 'Aucune preuve jointe.'));
-            parent.append(card);
-        }
-    }
-}
-function sourceCard(source) {
-    const card = el('section', 'source-card');
-    card.append(el('h3', '', source.title), el('p', 'source-meta', `${source.publisher} · ${source.technology} ${source.version}`), badge(source.access === 'consulted' ? 'Consultée' : source.access === 'unavailable' ? 'Inaccessible' : 'Non vérifiée', source.access === 'consulted' ? 'confirmed' : 'suspected', source.access === 'consulted' ? '✓' : '?'), el('p', 'muted', `Consultation : ${source.consultedAt || 'non enregistrée'} · ${source.kind}`));
-    textBlock('Usage', source.usage, card);
-    textBlock('Compatibilité & limites', source.compatibility, card);
-    textBlock('Provenance', source.provenance, card);
-    link('Ouvrir la référence', source.url, card);
-    return card;
-}
-function renderSources(parent) {
-    parent.append(el('h2', 'panel-title', 'Sources & technologies'));
-    for (const t of review.technologies)
-        parent.append(el('p', 'technology', `${t.name} ${t.version} — ${t.detectedFrom}`));
-    if (!review.sources.length)
-        parent.append(el('p', 'empty small', 'Aucune source consultée enregistrée.'));
-    for (const source of review.sources)
-        parent.append(sourceCard(source));
-}
-function renderDetail(parent) {
-    const back = button('← Retour aux résultats', 'back-button', () => { state.mobileDetail = false; render(); (document.querySelector('.finding.selected') || document.getElementById('view-panel-findings'))?.focus(); });
-    parent.append(back);
-    const f = review.findings.find(f => f.id === state.selected);
-    if (!f) {
-        parent.append(el('div', 'empty detail-empty', state.selected ? 'Ce constat est introuvable dans cette review. Revenez à la liste pour en sélectionner un autre.' : 'Sélectionnez un constat pour consulter ses preuves, sa correction et ses références.'));
-        return;
-    }
-    const filterNote = el('p', 'notice', 'Ce constat est hors de la sélection filtrée. Son détail reste disponible.');
-    filterNote.id = 'detail-filter-note';
-    filterNote.hidden = filterFindings(review, state.filters).some(item => item.id === f.id);
-    parent.append(filterNote);
-    const title = el('h2', 'detail-title', `${f.id} · ${f.title}`);
-    title.id = 'detail-title';
-    title.tabIndex = -1;
-    parent.append(title);
-    const badges = el('div', 'detail-badges');
-    badges.append(badge(severityLabels[f.severity], f.severity, '!'), badge(confidenceLabels[f.confidence], f.confidence, f.confidence === 'confirmed' ? '✓' : '?'), badge(resolutionLabels[f.resolution], 'neutral', '◌'));
-    parent.append(badges, el('p', 'impact', f.impact), el('p', 'location', `${f.location.path}${f.location.line ? `:${f.location.line}` : ''}${f.location.component ? ` · ${f.location.component}` : ''}`));
-    parent.append(tabs([['evidence', 'Preuve'], ['correction', 'Correction'], ['references', 'Références']], state.section, id => { state.section = id; render(); }, 'Détail du constat', 'detail-content'));
-    const content = el('div', 'detail-content');
-    content.id = 'detail-content';
-    content.setAttribute('role', 'tabpanel');
-    content.setAttribute('aria-labelledby', `detail-content-${state.section}`);
-    if (state.section === 'evidence')
-        evidenceDetail(f, content);
-    if (state.section === 'correction') {
-        textBlock('Correction recommandée', f.correction, content);
-        textBlock('Conséquences & compromis', f.tradeoffs, content);
-        textBlock('Vérification après correction', f.verification, content);
-        textBlock('État de résolution', `${resolutionLabels[f.resolution]} · Preuves de résolution : ${f.resolutionEvidenceIds.join(', ') || 'aucune'}`, content);
-        ticketLinks(f, content);
-    }
-    if (state.section === 'references') {
-        textBlock('Justification de la gravité', f.severityReason, content);
-        if (!f.sourceIds.length)
-            content.append(el('p', 'empty small', 'Aucune référence pertinente renseignée.'));
-        for (const id of f.sourceIds)
-            content.append(sourceCard(review.sources.find(s => s.id === id)));
-    }
-    parent.append(content);
-    const actions = el('footer', 'detail-actions');
-    actions.append(button('↗ Lien vers ce constat', 'button secondary', () => { const url = new URL(location.href); url.hash = `finding=${encodeURIComponent(f.id)}`; location.hash = url.hash; const destination = el('input'); destination.readOnly = true; destination.value = url.href; destination.setAttribute('aria-label', 'Lien local vers le constat'); actions.querySelector('input')?.remove(); actions.append(destination); destination.focus(); destination.select(); }));
-    if (f.evidenceIds.length)
-        actions.append(button('▤ Voir la preuve', 'button primary', () => { state.section = 'evidence'; render(); document.getElementById('evidence-full')?.scrollIntoView({ block: 'nearest' }); document.getElementById('evidence-full')?.focus(); }));
-    parent.append(actions);
-}
-function ticketLinks(f, parent) {
-    if (!f.ticketIds.length)
-        parent.append(el('p', 'muted', 'Aucun ticket associé.'));
-    for (const id of f.ticketIds) {
-        const t = review.tickets.find(t => t.id === id);
-        parent.append(el('p', '', `${t.id} · ${t.title}`));
-        link('Ouvrir le ticket', t.url, parent, 'button primary');
-    }
-}
-function evidenceDetail(f, parent) {
-    textBlock('Scénario déclencheur', f.trigger, parent);
-    const compare = el('div', 'compare');
-    textBlock('Attendu', f.expected, compare);
-    textBlock('Observé', f.observed, compare);
-    parent.append(compare);
-    const steps = el('ol', 'reproduction');
-    for (const step of f.reproduction)
-        steps.append(el('li', '', step));
-    parent.append(steps);
-    if (!f.evidenceIds.length)
-        parent.append(el('p', 'notice', 'Preuve non disponible : ce constat repose sur les étapes et limites décrites ci-dessus.'));
-    for (const [index, id] of f.evidenceIds.entries()) {
-        const e = review.evidence.find(e => e.id === id);
-        const card = el('section', 'evidence-card');
-        if (index === 0) {
-            card.id = 'evidence-full';
-            card.tabIndex = -1;
-        }
-        card.append(el('h3', '', e.title));
-        if (e.kind === 'diagram')
-            card.append(el('span', 'eyebrow', 'SCHÉMA EXPLICATIF · PAS UNE CAPTURE D’EXÉCUTION'));
-        if (e.image) {
-            const img = el('img', 'evidence-image');
-            img.src = `data:${e.image.mime};base64,${e.image.base64}`;
-            img.alt = e.image.alt;
-            card.append(el('p', 'muted', e.image.origin === 'captured' ? 'Capture déclarée réelle par l’auteur · confidentialité relue' : 'Illustration explicative · pas une preuve d’exécution'), img);
-            img.addEventListener('error', () => { img.replaceWith(el('p', 'notice', `Image indisponible. Alternative : ${e.image.alt}`)); });
-        }
-        card.append(el('pre', e.kind === 'diagram' ? 'diagram' : '', e.content));
-        if (e.url)
-            link('Ouvrir la preuve complète', e.url, card);
-        else
-            card.append(el('p', 'muted', 'Preuve incluse dans ce rapport ; aucun lien externe renseigné.'));
-        parent.append(card);
-    }
-    const correction = el('div', 'correction-preview');
-    correction.append(el('strong', '', '⌁ Correction proposée'), el('p', '', f.correction));
-    parent.append(correction);
-}
 function hashSelection() {
     const id = new URLSearchParams(location.hash.slice(1)).get('finding');
     if (id) {
@@ -436,8 +282,14 @@ function hashSelection() {
         state.mobileDetail = true;
     }
 }
-window.addEventListener('hashchange', () => { hashSelection(); render(); });
-window.addEventListener('popstate', () => { hashSelection(); render(); });
+window.addEventListener('hashchange', () => {
+    hashSelection();
+    render();
+});
+window.addEventListener('popstate', () => {
+    hashSelection();
+    render();
+});
 try {
     const payload = JSON.parse(data.textContent || '{}');
     if (payload.review != null)
@@ -445,10 +297,19 @@ try {
     if (typeof payload.legacy === 'string')
         legacy = redactReviewText(payload.legacy);
     currentRevision = typeof payload.currentRevision === 'string' ? payload.currentRevision : null;
-    changedTargets = Array.isArray(payload.changedTargets) && payload.changedTargets.every(v => typeof v === 'string') ? payload.changedTargets : [];
+    changedTargets =
+        Array.isArray(payload.changedTargets) &&
+            payload.changedTargets.every((v) => typeof v === 'string')
+            ? payload.changedTargets
+            : [];
     // Saved UI state is only a convenience; validate before using it in selectors/rendering.
     const saved = payload.uiState;
-    if (saved && ['findings', 'coverage', 'sources'].includes(saved.view) && ['evidence', 'correction', 'references'].includes(saved.section) && typeof saved.selected === 'string' && saved.filters && ['query', 'domain', 'severity', 'confidence', 'resolution'].every(k => typeof saved.filters[k] === 'string'))
+    if (saved &&
+        ['findings', 'coverage', 'sources'].includes(saved.view) &&
+        ['evidence', 'correction', 'references'].includes(saved.section) &&
+        typeof saved.selected === 'string' &&
+        saved.filters &&
+        ['query', 'domain', 'severity', 'confidence', 'resolution'].every((k) => typeof saved.filters[k] === 'string'))
         state = saved;
     if (!state.selected && review?.findings[0])
         state.selected = review.findings[0].id;
