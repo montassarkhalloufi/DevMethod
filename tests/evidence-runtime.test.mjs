@@ -17,6 +17,123 @@ posixTest('semantic failure uses exit one with strict failed verdicts', async (t
   assert.equal(report.results.find(({ mode }) => mode === 'overbook').status, 'completed');
 });
 
+posixTest(
+  'incoherent stored support fails closed instead of reporting fresh evidence',
+  async (t) => {
+    const f = fixture(t);
+    await f.run();
+    const original = f.state();
+    for (const [name, corrupt] of [
+      [
+        'supported outcome with failed criterion',
+        (state) => {
+          state.attempts[0].criteria[0].status = 'failed';
+        },
+      ],
+      [
+        'null criterion',
+        (state) => {
+          state.attempts[0].criteria[0] = null;
+        },
+      ],
+      [
+        'unknown outcome',
+        (state) => {
+          state.attempts[0].outcome = 'accepted';
+        },
+      ],
+      [
+        'malformed revision',
+        (state) => {
+          state.revisions[0].permit = 'invalid';
+        },
+      ],
+      [
+        'oversized note',
+        (state) => {
+          state.attempts[0].diagnosis = 'x'.repeat(8193);
+        },
+      ],
+      [
+        'negative duration',
+        (state) => {
+          state.attempts[0].durationMs = -1;
+        },
+      ],
+      [
+        'invalid date',
+        (state) => {
+          state.attempts[0].startedAt = 'not-a-date';
+        },
+      ],
+      [
+        'inconsistent freshness',
+        (state) => {
+          state.attempts[0].after = '0'.repeat(64);
+        },
+      ],
+      [
+        'null result',
+        (state) => {
+          state.attempts[0].results[0] = null;
+        },
+      ],
+      [
+        'invalid verdict',
+        (state) => {
+          state.attempts[0].results[0].verdicts.capacity = 'maybe';
+        },
+      ],
+      [
+        'candidate failure hidden by support',
+        (state) => {
+          state.attempts[0].results.at(-1).verdicts.capacity = 'failed';
+        },
+      ],
+      [
+        'unfinished passing attempt',
+        (state) => {
+          state.attempts[0].results[2] = { check: 'booking', mode: 'candidate', status: 'not-run' };
+        },
+      ],
+    ]) {
+      await t.test(name, () => {
+        const state = structuredClone(original);
+        corrupt(state);
+        const bytes = JSON.stringify(state);
+        fs.writeFileSync(path.join(f.session, 'state.json'), bytes);
+        assert.throws(f.status, /[Ii]nvalid|[Ii]nconsistent/);
+        assert.equal(fs.readFileSync(path.join(f.session, 'state.json'), 'utf8'), bytes);
+      });
+    }
+  },
+);
+
+posixTest('stored failure signature must match the recorded failing criteria', async (t) => {
+  const f = fixture(t);
+  f.candidate('failed');
+  await f.run();
+  const state = f.state();
+  state.attempts[0].signature = '0'.repeat(64);
+  fs.writeFileSync(path.join(f.session, 'state.json'), JSON.stringify(state));
+  assert.throws(f.status, /[Ii]nvalid/);
+  await assert.rejects(
+    f.run({ diagnosis: 'Investigated.', adjustment: 'Adjusted.' }),
+    /[Ii]nvalid/,
+  );
+});
+
+posixTest('omitted stored controls cannot match a current execution plan', async (t) => {
+  const f = fixture(t);
+  await f.run();
+  const state = f.state();
+  state.attempts[0].results.splice(1, 1);
+  fs.writeFileSync(path.join(f.session, 'state.json'), JSON.stringify(state));
+  assert.equal(f.status().status, 'stale');
+  assert.equal(f.status().fresh, false);
+  await assert.rejects(f.run(), /[Ii]nvalid/);
+});
+
 for (const [label, code, verdict] of [
   ['zero with failed criteria', 0, 'failed'],
   ['one with passing criteria', 1, 'passed'],

@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { performance } from 'node:perf_hooks';
-import { digest, text } from './records.js';
+import { text } from './records.js';
 import {
   boundedFile,
   canonicalOptions,
@@ -15,6 +15,7 @@ import {
 import { executeCheck, type EvidenceResult } from './evidence-process.js';
 import {
   openEvidenceStore,
+  evidenceFailureSignature,
   type CriterionEvidence,
   type EvidenceAttempt,
   type EvidenceState,
@@ -166,6 +167,7 @@ function resultReport(
 
 function currentReport(state: EvidenceState, plan: Plan) {
   const last = state.attempts.at(-1);
+  validateCurrentAttempt(last, plan);
   const current = filesSignature(freezeFiles(plan.options.root, plan.contract.candidateInputs));
   const fresh =
     !state.halted &&
@@ -175,6 +177,31 @@ function currentReport(state: EvidenceState, plan: Plan) {
     last.after === current;
   const status = state.halted ? 'halted' : !last ? 'not-run' : fresh ? last.outcome : 'stale';
   return resultReport(state, plan.contract, status, fresh);
+}
+
+function validateCurrentAttempt(attempt: EvidenceAttempt | undefined, plan: Plan): void {
+  if (!attempt || attempt.permit !== plan.permit) return;
+  const expected = plan.invocations.map(({ check, mode }) => [check, mode]);
+  const actual = attempt.results.map(({ check, mode }) => [check, mode]);
+  const criteria = plan.contract.criteria.map(({ id }) =>
+    criterionResult(id, plan.contract.checks, attempt.results),
+  );
+  const identities = (values: CriterionEvidence[]) =>
+    JSON.stringify(values.map(({ id, status }) => [id, status]).sort());
+  const envelopes = attempt.results.every(
+    (result) =>
+      result.status !== 'completed' ||
+      JSON.stringify(Object.keys(result.verdicts!).sort()) ===
+        JSON.stringify(
+          [...plan.contract.checks.find(({ id }) => id === result.check)!.criteria].sort(),
+        ),
+  );
+  if (
+    JSON.stringify(expected) !== JSON.stringify(actual) ||
+    identities(criteria) !== identities(attempt.criteria) ||
+    !envelopes
+  )
+    throw new Error('Invalid evidence state: current plan observations.');
 }
 
 export function evidenceStatus(raw: EvidenceOptions & { session: string }) {
@@ -263,14 +290,7 @@ function recordOutcome(
       : criteria.every((criterion) => criterion.status === 'supported')
         ? 'supported'
         : 'unchallenged';
-  const signature =
-    outcome === 'failed'
-      ? digest(
-          JSON.stringify(
-            failures.map(({ id, status }) => [id, status]).sort(([a], [b]) => a!.localeCompare(b!)),
-          ),
-        )
-      : null;
+  const signature = outcome === 'failed' ? evidenceFailureSignature(criteria) : null;
   return {
     startedAt,
     durationMs: performance.now() - started,
@@ -346,6 +366,10 @@ async function attemptRun(
   verifyAfter(plan, attempt, state);
   attempt.durationMs = performance.now() - started;
   if (attempt.durationMs > plan.contract.limits.attemptTimeoutMs) halt(state, 'attempt-timeout');
+  if (state.halted) {
+    attempt.outcome = 'interrupted';
+    attempt.signature = null;
+  }
   state.attempts.push(attempt);
   state.pending = false;
   const reason = stopReason(state);
@@ -394,6 +418,7 @@ export async function runEvidence(
     if (!plan.executionSupported)
       throw new Error('Execution requires the POSIX process-group profile.');
     const state = existing ?? initialState(plan);
+    validateCurrentAttempt(state.attempts.at(-1), plan);
     if (state.attempts.length >= Math.min(state.maxAttempts, plan.contract.limits.maxAttempts)) {
       halt(state, 'attempt-limit');
       store.save(state);
