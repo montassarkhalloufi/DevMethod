@@ -29,6 +29,8 @@ Use `$devmethod-architecture` with the product or change to decide, or let `$pro
 
 The [architecture procedure](../.agents/skills/decision-architecture/references/capacity-and-operations.md) compares credible options with diagrams, workload-linked trade-offs and estimated fixed/variable costs plus operating effort. Estimates identify units, source dates and uncertainty. It recommends an option and evolution triggers, then links capacity/recovery claims to milestone and ticket verification. A diagram, cost calculation or chosen component does not establish production capacity; unavailable measurements remain unverified. Accepted architectures and routine fixes do not reopen this comparison automatically.
 
+For a detailed or presentation-quality architecture illustration, use `$devmethod-architecture` with the accepted contract and any graphic reference. The [architecture visual procedure](../.agents/skills/decision-architecture/references/architecture-visuals.md) separates system meaning from styling, composes a readable overview and relevant detail views, and preserves editable sources plus actual rendered previews. SVG with PNG is the default for a polished illustrated request, while supported inline Mermaid remains useful for simpler explanations. The agent checks visual legibility and contract fidelity independently; the graphic does not establish measured system capacity.
+
 ## Choose working mode and carry a study forward
 
 For a new project, `$project-foundation` offers guided or autonomous work when no preference/delegation is already known. The mode changes how decisions are discussed, not the quality requirements or authorized scope. Reuse it on resumption and change it when requested.

@@ -21,6 +21,8 @@ For an open structural decision, present the credible options in the conversatio
 
 Give each viable option a comparable diagram at the level needed for the choice: actors/entry points, synchronous versus asynchronous flows, data owners, transaction/consistency and relevant failure boundaries. Use a supported rendered format such as Mermaid or SVG; do not rely only on component names in prose or claim a diagram was displayed when only source was produced. Label external dependencies and provisional components. Diagram complexity is not evidence of capacity.
 
+Apply [architecture visuals](architecture-visuals.md) for the diagram's semantic model, graphic hierarchy, detail views and render checks. Keep alternatives comparable without copying the technology choices of a supplied visual reference.
+
 Explain the limiting resource or coordination point, expected behavior at saturation/failure, and how each option preserves the required invariants. A cache needs an ownership/freshness/invalidation and miss-path story; a broker needs the delivery/recovery contract in [backend boundaries](backend-boundaries.md). Redis, Kafka, replicas or service splitting must solve an identified constraint rather than serve as proof that the architecture scales. Compare estimated infrastructure and operating costs using [product and operations decisions](product-decisions.md).
 
 Recommend an option with its current scope, trade-offs and unknowns. State a measurable trigger for an evolution, the evidence required before it, and migration/rollback consequences. An option can be selected under delegation while its capacity claim remains unverified; do not present “chosen” as “proven under load”.
