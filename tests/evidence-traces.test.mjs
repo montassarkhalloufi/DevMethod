@@ -3,7 +3,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { test } from 'node:test';
 
 const repository = fileURLToPath(new URL('../', import.meta.url));
@@ -15,7 +15,7 @@ function write(root, name, value) {
 }
 
 function fixture(t, script, outcome) {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'evidence-trace-test-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'evidence-trace-#-test-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   write(
     root,
@@ -63,7 +63,11 @@ syncBuiltinESMExports();`,
   fs.mkdirSync(temporary);
   const result = spawnSync(
     process.execPath,
-    ['--import', path.join(root, 'inject.mjs'), path.join(root, `scripts/${script}.mjs`)],
+    [
+      '--import',
+      pathToFileURL(path.join(root, 'inject.mjs')).href,
+      path.join(root, `scripts/${script}.mjs`),
+    ],
     {
       encoding: 'utf8',
       timeout: 5000,

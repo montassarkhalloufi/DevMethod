@@ -134,7 +134,7 @@
     "tests/evaluation.test.mjs": "6351a678629397ef600980595cba27b0dd0a50d2d6947d04dcfd516737fde8a0",
     "tests/evidence-application.test.mjs": "43355ecb7bde436aa5e04eddd692c41e93b7975c8d91650a717ed39317d18526",
     "tests/evidence-runtime.test.mjs": "47df9488d14875ab348554fdfdea31d9e0a65cc9b0097b36b6d098b6122ea6d9",
-    "tests/evidence-traces.test.mjs": "d33286cf08d417342b8521d9ac865076538c06bd395c2b9d260dec19b7e09994",
+    "tests/evidence-traces.test.mjs": "1100e48e9ded4b3bd467b77b707cf5f10f7161699dc408a525675d9b5e1a6aab",
     "tests/guard-revision.test.mjs": "e19a6f413a221fb51e3364c59efa92a21565432778fa0470b72f995fb9f4bb3c",
     "tests/guard-store.test.mjs": "531d36ff68495738e850d8d22706eccf2aaa32d3932f35d174864445cd8557ba",
     "tests/guard.test.mjs": "3db93107c9b7d3436174d8a8f1ae215b4343c7ee166c9f5aac78f128198946e2",
