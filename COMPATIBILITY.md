@@ -1,5 +1,7 @@
 # Compatibility evidence
 
+Version 0.5.0 packages expanded product, visual-design, architecture and portable-study guidance; see [release details](docs/RELEASE-0.5.0.md). These instructions depend on the host's available research, image, browser and document tools. Installation does not supply those capabilities or establish native-agent parity. Registry metadata remains the authority for publication status.
+
 Historical platform assessment date: 2026-09-12; those results apply only to their recorded revision. Release status: [published 0.2.0 validation](docs/RELEASE-0.2.0.md), [published 0.1.0 validation](docs/RELEASE-0.1.0.md); [rc.2 validation](docs/RC2-VALIDATION.md) remains a historical record. Target: local project skills, not every cloud or chat product carrying the same brand. Packaged installation passed on native Linux x64, macOS ARM64 and Windows Server 2025 x64 runners with Node.js 22.23.2; see [the operating-system results](VALIDATION.md#native-operating-system-results). These results do not establish authenticated coding-agent behavior.
 
 | Host | Export directory | Invocation | Evidence |
