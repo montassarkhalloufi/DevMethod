@@ -91,7 +91,7 @@ export function executeCheck(options: {
     child.on('exit', killGroup);
     child.on('close', (code, signal) => {
       if (settled) return;
-      if (reason || signal || code !== 0)
+      if (reason || signal || (code !== 0 && code !== 1))
         return finish({
           check: check.id,
           mode,
@@ -99,11 +99,15 @@ export function executeCheck(options: {
           reason: reason ?? 'nonzero-exit-or-signal',
         });
       try {
+        const result = verdicts(Buffer.concat(chunks), check);
+        // Exit one is semantic evidence only when the complete protocol reports a failure.
+        const expectedExit = Object.values(result).includes('failed') ? 1 : 0;
+        if (code !== expectedExit) throw new Error('Exit status contradicts criterion verdicts.');
         finish({
           check: check.id,
           mode,
           status: 'completed',
-          verdicts: verdicts(Buffer.concat(chunks), check),
+          verdicts: result,
         });
       } catch {
         finish({

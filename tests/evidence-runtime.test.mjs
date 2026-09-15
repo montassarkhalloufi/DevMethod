@@ -7,6 +7,35 @@ import { inspectEvidence, runEvidence, evidenceStatus } from '../dist/evidence-r
 
 const posixTest = (name, run) => test(name, { skip: process.platform === 'win32' }, run);
 
+posixTest('semantic failure uses exit one with strict failed verdicts', async (t) => {
+  const f = fixture(t);
+  f.runner(
+    `const [,mode,check]=process.argv.slice(2); const failed=mode==='overbook'; console.log(JSON.stringify({format:1,check,verdicts:{capacity:failed?'failed':'passed'}})); process.exitCode=failed?1:0;`,
+  );
+  const report = await f.run();
+  assert.equal(report.status, 'supported');
+  assert.equal(report.results.find(({ mode }) => mode === 'overbook').status, 'completed');
+});
+
+for (const [label, code, verdict] of [
+  ['zero with failed criteria', 0, 'failed'],
+  ['one with passing criteria', 1, 'passed'],
+  ['unrecognized exit code with failed criteria', 2, 'failed'],
+  ['one with malformed output', 1, null],
+]) {
+  posixTest(`contradictory fault protocol: ${label}`, async (t) => {
+    const f = fixture(t);
+    f.runner(
+      `const [,mode,check]=process.argv.slice(2); if(mode==='healthy'){console.log(JSON.stringify({format:1,check,verdicts:{capacity:'passed'}}));}else{const verdict=${JSON.stringify(verdict)};console.log(verdict===null?'not-json':JSON.stringify({format:1,check,verdicts:{capacity:verdict}}));process.exitCode=${code};}`,
+    );
+    const report = await f.run();
+    assert.equal(report.status, 'halted');
+    assert.equal(report.results[0].status, 'completed');
+    assert.equal(report.results[1].status, 'interrupted');
+    assert.equal(report.results[2].status, 'not-run');
+  });
+}
+
 function fixture(t) {
   const directory = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'evidence-'));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
@@ -44,7 +73,7 @@ function fixture(t) {
   candidate();
   writeContract();
   runner(
-    `import fs from 'node:fs'; import path from 'node:path'; const [root,mode,check]=process.argv.slice(2); const verdict=mode==='candidate'?JSON.parse(fs.readFileSync(path.join(root,'candidate.json'))).verdict:mode==='healthy'?'passed':'failed'; console.log(JSON.stringify({format:1,check,verdicts:{capacity:verdict}}));`,
+    `import fs from 'node:fs'; import path from 'node:path'; const [root,mode,check]=process.argv.slice(2); const verdict=mode==='candidate'?JSON.parse(fs.readFileSync(path.join(root,'candidate.json'))).verdict:mode==='healthy'?'passed':'failed'; console.log(JSON.stringify({format:1,check,verdicts:{capacity:verdict}})); process.exitCode=verdict==='failed'?1:0;`,
   );
   const plan = () => inspectEvidence(options);
   const run = (extra = {}) => runEvidence({ ...options, permit: plan().permit, ...extra });
@@ -203,7 +232,7 @@ posixTest('snapshot preserves the exact candidate bytes from before execution', 
 posixTest('candidate mutation during verification invalidates evidence and halts', async (t) => {
   const f = fixture(t);
   f.runner(
-    `import fs from 'node:fs'; import path from 'node:path'; const [root,mode,check]=process.argv.slice(2); if(mode==='candidate')fs.appendFileSync(path.join(root,'candidate.json'),' '); console.log(JSON.stringify({format:1,check,verdicts:{capacity:mode==='overbook'?'failed':'passed'}}));`,
+    `import fs from 'node:fs'; import path from 'node:path'; const [root,mode,check]=process.argv.slice(2); if(mode==='candidate')fs.appendFileSync(path.join(root,'candidate.json'),' '); console.log(JSON.stringify({format:1,check,verdicts:{capacity:mode==='overbook'?'failed':'passed'}})); process.exitCode=mode==='overbook'?1:0;`,
   );
   assert.equal((await f.run()).status, 'halted');
   assert.equal(f.status().fresh, false);
@@ -293,7 +322,7 @@ posixTest(
     f.contract.checks[0].faults.push({ id: 'identity-loss', target: 'identity' });
     f.writeContract();
     f.runner(
-      `const [,mode,check]=process.argv.slice(2); const verdict=mode==='candidate'||mode==='healthy'?'passed':'failed'; console.log(JSON.stringify({format:1,check,verdicts:{capacity:verdict,identity:verdict}}));`,
+      `const [,mode,check]=process.argv.slice(2); const verdict=mode==='candidate'||mode==='healthy'?'passed':'failed'; console.log(JSON.stringify({format:1,check,verdicts:{capacity:verdict,identity:verdict}})); process.exitCode=verdict==='failed'?1:0;`,
     );
     const report = await f.run();
     assert.equal(report.status, 'failed');
@@ -314,7 +343,7 @@ posixTest(
     f.contract.limits = { maxNoProgress: 1 };
     f.writeContract();
     f.runner(
-      `import fs from 'node:fs'; import path from 'node:path'; const [root,mode,check]=process.argv.slice(2); const selected=JSON.parse(fs.readFileSync(path.join(root,'candidate.json'))).verdict; const failed=mode==='candidate'?selected:mode==='overbook'?'capacity':mode==='identity-loss'?'identity':null; console.log(JSON.stringify({format:1,check,verdicts:{capacity:failed==='capacity'?'failed':'passed',identity:failed==='identity'?'failed':'passed'}}));`,
+      `import fs from 'node:fs'; import path from 'node:path'; const [root,mode,check]=process.argv.slice(2); const selected=JSON.parse(fs.readFileSync(path.join(root,'candidate.json'))).verdict; const failed=mode==='candidate'?selected:mode==='overbook'?'capacity':mode==='identity-loss'?'identity':null; console.log(JSON.stringify({format:1,check,verdicts:{capacity:failed==='capacity'?'failed':'passed',identity:failed==='identity'?'failed':'passed'}})); process.exitCode=failed?1:0;`,
     );
     f.candidate('capacity');
     assert.equal((await f.run()).status, 'failed');
@@ -366,7 +395,7 @@ posixTest(
       else process.env.EVIDENCE_TEST_SECRET = previous;
     });
     f.runner(
-      `const [,mode,check]=process.argv.slice(2); if(process.env.EVIDENCE_TEST_SECRET || process.env.NODE_OPTIONS || process.env.HOME) process.exit(12); console.log(JSON.stringify({format:1,check,verdicts:{capacity:mode==='overbook'?'failed':'passed'}}));`,
+      `const [,mode,check]=process.argv.slice(2); if(process.env.EVIDENCE_TEST_SECRET || process.env.NODE_OPTIONS || process.env.HOME) process.exit(12); console.log(JSON.stringify({format:1,check,verdicts:{capacity:mode==='overbook'?'failed':'passed'}})); process.exitCode=mode==='overbook'?1:0;`,
     );
     assert.equal((await f.run()).status, 'supported');
   },
