@@ -10,7 +10,7 @@ The equivalent `$project-foundation review TASK-1` (Codex) and `/project-foundat
 
 The default installation exposes all fourteen stages. Module subsets expose only commands whose procedure is installed; foundation commands remain available. Do not claim a missing module was loaded. These skills instruct the connected agent to do the work; they do not turn the installer into an autonomous executor.
 
-An unknown stage displays available stages without starting work. With no stage, read the current state and apply `status`. Routing is an instruction to the model, not a deterministic parser or execution guarantee.
+An unknown stage displays available stages without starting work. With neither a stage nor an actionable objective, read the current state and apply `status`. When the user supplies an actionable objective without naming a stage, select the proportionate path for that objective and carry out the authorized work; do not downgrade a delivery request to `status`. Explicit stage-only requests retain their stated scope. Routing is an instruction to the model, not a deterministic parser or execution guarantee.
 
 Every command starts by reading applicable instructions, accepted decisions, real status, and required sources. It produces a verifiable outcome without inventing missing data, business rules, or validation.
 
@@ -49,7 +49,7 @@ For prose-only changes, inspect accuracy, links and diff; do not invent `npm run
 ## Discovery, decisions and delivery dialogue
 
 - `explore` follows [existing solutions research](exploration.md): dated evidence, uncertainty and a conversation about continuing, repositioning, reducing, deepening or abandoning. Skip irrelevant research for isolated fixes.
-- `frame` records need, scope, success criteria and business rules in the product owner, referring to research. `design` continues to follow the unchanged design-to-code workflow and approved directions.
+- `frame` records need, scope, success criteria and business rules in the product owner, referring to research. Before handing it off, check that the first slice still serves the requested outcome and distinguish deferred capabilities from discarded ones. For a stateful core journey, walk a normal transition and a relevant changed-input or retry case: identify what happens to already saved or confirmed state, or mark that behavior unresolved before dependent implementation. Keep this check in the existing framing record, not a new approval stage. `design` continues to follow the unchanged design-to-code workflow and approved directions.
 - `architecture` resolves decision-architecture and presents alternatives in conversation before dependent detail. Record a clear choice or scoped delegation; a PROPOSED document alone is insufficient. Silence, an ambiguous “ok” or invoking `plan` does not adopt it.
 - `plan` follows [delivery planning](delivery-planning.md), invites scope edits and records priorities/milestones under current delegation. Open architecture means a conditional plan. An omitted architecture exchange resumes directly in `architecture`.
 
@@ -60,7 +60,7 @@ At the end of every command, provide:
 1. **Done**: concrete outcome and available evidence.
 2. **Not done / uncertain**: limits, assumptions, and blockers.
 3. **Recommended next command**: exactly one command, with the ticket when present.
-4. Ask for authorization only before a merge, deployment, publication, message, or external action that was not already authorized.
+4. For merges, deployments, publications, messages, and other external actions, ask for authorization only when it is not already present. Separately, resolve material product, architecture, or visual choices that remain undecided and undelegated through their relevant module; do not request confirmation again for an existing choice or scoped delegation.
 
 ## Ready ticket
 

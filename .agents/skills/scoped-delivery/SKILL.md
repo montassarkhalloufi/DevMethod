@@ -40,3 +40,5 @@ Update affected decisions, public contracts, tests, and real implementation stat
 ## Report
 
 State what works, verification evidence, material limitations, and what remains required. Distinguish locally implemented, PR, integrated, deployed, and production-verified. A “Done” status proves none of those states.
+
+Keep compatibility claims consistent in the README and usage instructions as well as the final report. Distinguish the declared or inferred minimum version from the environment actually tested; cite the basis for a minimum and label untested targets instead of implying that a successful run covers them.

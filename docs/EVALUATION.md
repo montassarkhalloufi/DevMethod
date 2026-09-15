@@ -1,5 +1,7 @@
 # Workflow evaluation protocol
 
+For short natural-language requests, delegated delivery, and independent state/claim checks, use the [short-intent evaluation corpus](../evaluation/short-intent/README.md). It defines observable outcomes and evidence limits; it is not an agent dispatcher or a cross-host result.
+
 Status: protocol and four executable fixtures provided; no comparative model results yet. Unit tests establish CLI behavior, not instruction adherence.
 
 ## Comparison conditions
