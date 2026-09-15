@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Common Ground · Volunteer day</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/"
+        ><span class="brand-icon" aria-hidden="true">✳</span> Common Ground</a
+      ><span class="demo-tag">LOCAL DEMO · FICTIONAL EVENT</span>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="headline">
+        <div>
+          <p class="eyebrow">A little time. A shared difference.</p>
+          <h1 id="headline">Make room<br />for good.</h1>
+          <p class="intro">
+            Join your neighbours for a morning of helping hands. Pick a role, bring a friend, and
+            make the day happen.
+          </p>
+          <div class="event-meta">
+            <span>Saturday · 09:00–12:00</span><span>Neighbourhood House</span>
+          </div>
+        </div>
+        <aside class="event-card">
+          <span class="sun" aria-hidden="true">☀</span>
+          <p>COMMUNITY VOLUNTEER DAY</p>
+          <strong id="available">—</strong><span>places waiting for helping hands</span
+          ><small>Two teams. One lovely morning.</small>
+        </aside>
+      </section>
+      <div id="notice" role="status" aria-live="polite" tabindex="-1"></div>
+      <section aria-labelledby="roles-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">FIND YOUR PART</p>
+            <h2 id="roles-title">Choose your team</h2>
+          </div>
+          <button id="refresh" class="text-button" type="button">Refresh availability ↻</button>
+        </div>
+        <div id="slots" class="slots"><p>Loading volunteer roles…</p></div>
+      </section>
+      <section class="reservations-section" aria-labelledby="reservations-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">YOUR MORNING, PLANNED</p>
+            <h2 id="reservations-title">Reservations</h2>
+          </div>
+          <span class="saved-label">Saved on this computer</span>
+        </div>
+        <p class="reservation-context">
+          This shared demo shows every reservation. Keep its reference to find it again.
+        </p>
+        <div id="reservations"></div>
+      </section>
+    </main>
+    <footer>
+      <span>Common Ground · Small acts, shared spaces.</span
+      ><span>No account needed. No personal information collected.</span>
+    </footer>
+    <template id="slot-template"
+      ><article class="slot">
+        <div class="slot-top">
+          <span class="role-symbol" aria-hidden="true"></span><span class="availability"></span>
+        </div>
+        <h3></h3>
+        <p class="role-description"></p>
+        <p class="time">09:00–12:00 · Saturday</p>
+        <form>
+          <label
+            >Number of places<select name="seats">
+              <option value="1">1 person</option>
+              <option value="2">2 people</option>
+              <option value="3">3 people</option>
+            </select></label
+          ><button type="submit">Reserve places <span aria-hidden="true">↗</span></button>
+        </form>
+      </article></template
+    >
+  </body>
+</html>
