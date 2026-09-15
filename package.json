@@ -32,7 +32,7 @@
     "test": "npm run build && node --test tests/*.test.mjs",
     "test:fixtures": "node --test tests/evaluation.test.mjs",
     "check:docs": "node scripts/check-docs.mjs",
-    "test:cli": "node --test tests/install.test.mjs tests/doctor.test.mjs tests/update.test.mjs tests/checkpoint.test.mjs tests/resume-cli.test.mjs tests/mission.test.mjs tests/planner.test.mjs tests/closure-loop.test.mjs",
+    "test:cli": "node --test tests/install.test.mjs tests/doctor.test.mjs tests/update.test.mjs tests/checkpoint.test.mjs tests/resume-cli.test.mjs tests/mission.test.mjs tests/planner.test.mjs tests/closure-loop.test.mjs tests/guard.test.mjs tests/guard-store.test.mjs tests/guard-revision.test.mjs",
     "test:behavior": "node --test tests/behavioral-evaluation.test.mjs tests/prepare-behavior-case.test.mjs",
     "test:protocols": "node --test tests/comparison.test.mjs",
     "test:greenfield": "node --test examples/pocket-tasks/tests/*.test.mjs evaluation/greenfield/*.test.mjs examples/clair-from-zero/tests/*.test.mjs",

@@ -5,7 +5,7 @@
     "eslint": "10.10.0",
     "sonarjs": "4.2.1"
   },
-  "files": 103,
+  "files": 115,
   "threshold": 15,
   "maximum": 12,
   "overThreshold": 0,
@@ -31,6 +31,11 @@
       "score": 11
     },
     {
+      "file": "src/guard.ts",
+      "line": 163,
+      "score": 11
+    },
+    {
       "file": "src/review-cli.ts",
       "line": 27,
       "score": 11
@@ -48,6 +53,16 @@
     {
       "file": "scripts/prepare-behavior-case.mjs",
       "line": 39,
+      "score": 10
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 38,
+      "score": 10
+    },
+    {
+      "file": "src/commands.ts",
+      "line": 37,
       "score": 10
     },
     {
@@ -98,6 +113,11 @@
     {
       "file": "src/doctor.ts",
       "line": 252,
+      "score": 9
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 225,
       "score": 9
     },
     {
@@ -152,7 +172,7 @@
     },
     {
       "file": "src/closure.ts",
-      "line": 65,
+      "line": 66,
       "score": 8
     },
     {
@@ -161,8 +181,13 @@
       "score": 8
     },
     {
-      "file": "src/loop.ts",
-      "line": 201,
+      "file": "src/guard-revision.ts",
+      "line": 102,
+      "score": 8
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 96,
       "score": 8
     },
     {
@@ -227,7 +252,7 @@
     },
     {
       "file": "src/loop.ts",
-      "line": 158,
+      "line": 182,
       "score": 7
     },
     {
@@ -286,6 +311,16 @@
       "score": 6
     },
     {
+      "file": "src/guard-revision.ts",
+      "line": 42,
+      "score": 6
+    },
+    {
+      "file": "src/guard-state.ts",
+      "line": 68,
+      "score": 6
+    },
+    {
       "file": "src/init.ts",
       "line": 85,
       "score": 6
@@ -317,7 +352,7 @@
     },
     {
       "file": "tests/closure-loop.test.mjs",
-      "line": 224,
+      "line": 263,
       "score": 6
     },
     {
@@ -387,7 +422,7 @@
     },
     {
       "file": "src/loop.ts",
-      "line": 91,
+      "line": 115,
       "score": 5
     },
     {
@@ -481,6 +516,11 @@
       "score": 4
     },
     {
+      "file": "src/behavior.ts",
+      "line": 107,
+      "score": 4
+    },
+    {
       "file": "src/checkpoint.ts",
       "line": 144,
       "score": 4
@@ -492,12 +532,37 @@
     },
     {
       "file": "src/closure.ts",
-      "line": 108,
+      "line": 109,
       "score": 4
     },
     {
       "file": "src/doctor.ts",
       "line": 168,
+      "score": 4
+    },
+    {
+      "file": "src/guard-cli.ts",
+      "line": 6,
+      "score": 4
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 125,
+      "score": 4
+    },
+    {
+      "file": "src/guard-state.ts",
+      "line": 28,
+      "score": 4
+    },
+    {
+      "file": "src/guard-store.ts",
+      "line": 26,
+      "score": 4
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 141,
       "score": 4
     },
     {
@@ -512,12 +577,17 @@
     },
     {
       "file": "src/loop.ts",
-      "line": 145,
+      "line": 9,
       "score": 4
     },
     {
       "file": "src/loop.ts",
-      "line": 190,
+      "line": 169,
+      "score": 4
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 214,
       "score": 4
     },
     {
@@ -687,12 +757,17 @@
     },
     {
       "file": "src/closure.ts",
-      "line": 41,
+      "line": 42,
       "score": 3
     },
     {
       "file": "src/closure.ts",
-      "line": 139,
+      "line": 140,
+      "score": 3
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 208,
       "score": 3
     },
     {
@@ -716,6 +791,31 @@
       "score": 3
     },
     {
+      "file": "src/guard-context.ts",
+      "line": 73,
+      "score": 3
+    },
+    {
+      "file": "src/guard-state.ts",
+      "line": 39,
+      "score": 3
+    },
+    {
+      "file": "src/guard-store.ts",
+      "line": 54,
+      "score": 3
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 66,
+      "score": 3
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 212,
+      "score": 3
+    },
+    {
       "file": "src/init.ts",
       "line": 52,
       "score": 3
@@ -727,12 +827,17 @@
     },
     {
       "file": "src/loop.ts",
-      "line": 85,
+      "line": 109,
       "score": 3
     },
     {
       "file": "src/loop.ts",
-      "line": 172,
+      "line": 196,
+      "score": 3
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 245,
       "score": 3
     },
     {
@@ -797,7 +902,7 @@
     },
     {
       "file": "tests/closure-loop.test.mjs",
-      "line": 269,
+      "line": 308,
       "score": 3
     },
     {
@@ -813,6 +918,16 @@
     {
       "file": "tests/doctor.test.mjs",
       "line": 145,
+      "score": 3
+    },
+    {
+      "file": "tests/guard.test.mjs",
+      "line": 140,
+      "score": 3
+    },
+    {
+      "file": "tests/guard.test.mjs",
+      "line": 234,
       "score": 3
     },
     {
@@ -901,6 +1016,11 @@
       "score": 2
     },
     {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 418,
+      "score": 2
+    },
+    {
       "file": "scripts/hosts/codex-rpc.mjs",
       "line": 34,
       "score": 2
@@ -918,6 +1038,11 @@
     {
       "file": "scripts/native-host.mjs",
       "line": 24,
+      "score": 2
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 75,
       "score": 2
     },
     {
@@ -956,18 +1081,38 @@
       "score": 2
     },
     {
+      "file": "src/guard-revision.ts",
+      "line": 86,
+      "score": 2
+    },
+    {
+      "file": "src/guard-store.ts",
+      "line": 36,
+      "score": 2
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 28,
+      "score": 2
+    },
+    {
       "file": "src/init.ts",
       "line": 240,
       "score": 2
     },
     {
       "file": "src/loop.ts",
-      "line": 127,
+      "line": 90,
       "score": 2
     },
     {
       "file": "src/loop.ts",
-      "line": 138,
+      "line": 151,
+      "score": 2
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 162,
       "score": 2
     },
     {
@@ -1341,6 +1486,11 @@
       "score": 1
     },
     {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 424,
+      "score": 1
+    },
+    {
       "file": "scripts/hosts/checks.mjs",
       "line": 5,
       "score": 1
@@ -1406,6 +1556,21 @@
       "score": 1
     },
     {
+      "file": "src/behavior.ts",
+      "line": 24,
+      "score": 1
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 84,
+      "score": 1
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 92,
+      "score": 1
+    },
+    {
       "file": "src/checkpoint.ts",
       "line": 54,
       "score": 1
@@ -1452,27 +1617,42 @@
     },
     {
       "file": "src/closure.ts",
-      "line": 32,
+      "line": 33,
       "score": 1
     },
     {
       "file": "src/closure.ts",
-      "line": 36,
+      "line": 37,
       "score": 1
     },
     {
       "file": "src/closure.ts",
-      "line": 116,
+      "line": 117,
       "score": 1
     },
     {
       "file": "src/closure.ts",
-      "line": 123,
+      "line": 124,
       "score": 1
     },
     {
       "file": "src/closure.ts",
-      "line": 154,
+      "line": 155,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 186,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 195,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 201,
       "score": 1
     },
     {
@@ -1521,6 +1701,71 @@
       "score": 1
     },
     {
+      "file": "src/guard-cli.ts",
+      "line": 31,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 56,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 58,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 61,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 69,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 85,
+      "score": 1
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 64,
+      "score": 1
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 71,
+      "score": 1
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 99,
+      "score": 1
+    },
+    {
+      "file": "src/guard-state.ts",
+      "line": 5,
+      "score": 1
+    },
+    {
+      "file": "src/guard-store.ts",
+      "line": 18,
+      "score": 1
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 86,
+      "score": 1
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 195,
+      "score": 1
+    },
+    {
       "file": "src/init.ts",
       "line": 113,
       "score": 1
@@ -1537,27 +1782,17 @@
     },
     {
       "file": "src/loop.ts",
-      "line": 39,
-      "score": 1
-    },
-    {
-      "file": "src/loop.ts",
-      "line": 41,
-      "score": 1
-    },
-    {
-      "file": "src/loop.ts",
-      "line": 45,
-      "score": 1
-    },
-    {
-      "file": "src/loop.ts",
-      "line": 48,
-      "score": 1
-    },
-    {
-      "file": "src/loop.ts",
       "line": 60,
+      "score": 1
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 62,
+      "score": 1
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 66,
       "score": 1
     },
     {
@@ -1567,12 +1802,12 @@
     },
     {
       "file": "src/loop.ts",
-      "line": 134,
+      "line": 81,
       "score": 1
     },
     {
       "file": "src/loop.ts",
-      "line": 220,
+      "line": 158,
       "score": 1
     },
     {
@@ -1897,17 +2132,17 @@
     },
     {
       "file": "tests/closure-loop.test.mjs",
-      "line": 261,
+      "line": 300,
       "score": 1
     },
     {
       "file": "tests/closure-loop.test.mjs",
-      "line": 335,
+      "line": 374,
       "score": 1
     },
     {
       "file": "tests/closure-loop.test.mjs",
-      "line": 365,
+      "line": 404,
       "score": 1
     },
     {
@@ -1978,6 +2213,26 @@
     {
       "file": "tests/doctor.test.mjs",
       "line": 164,
+      "score": 1
+    },
+    {
+      "file": "tests/guard-revision.test.mjs",
+      "line": 93,
+      "score": 1
+    },
+    {
+      "file": "tests/guard-revision.test.mjs",
+      "line": 226,
+      "score": 1
+    },
+    {
+      "file": "tests/guard.test.mjs",
+      "line": 199,
+      "score": 1
+    },
+    {
+      "file": "tests/guard.test.mjs",
+      "line": 282,
       "score": 1
     },
     {

@@ -4,6 +4,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import { checkPackedGuard } from './package-guard-smoke.mjs';
 const archive = process.argv[2];
 if (!archive) throw new Error('Usage: node scripts/package-smoke.mjs PACKAGE_TGZ');
 const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'devmethod-package-'));
@@ -152,6 +153,7 @@ try {
   assert.equal(JSON.parse(call(closureArgs)).status, 'supported');
   writeClosure('code.txt', 'changed fixture');
   assert.equal(JSON.parse(call(closureArgs, 1)).status, 'reverify');
+  checkPackedGuard(call, closureRoot, path.join(root, 'guard-session'));
   const behavioral = JSON.parse(
     run(
       process.execPath,

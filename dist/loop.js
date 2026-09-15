@@ -1,4 +1,17 @@
-import { object, text, id } from './records.js';
+import { object, text, id, hash } from './records.js';
+/** A later success cannot erase a circuit breaker already reached in this history. */
+export function repeatedFailureSignature(attempts) {
+    for (let index = 1; index < attempts.length; index++) {
+        const previous = attempts[index - 1];
+        const current = attempts[index];
+        if (previous.outcome === 'failed' &&
+            current.outcome === 'failed' &&
+            hash(current.failureSignature) &&
+            previous.failureSignature === current.failureSignature)
+            return current.failureSignature;
+    }
+    return null;
+}
 const count = (value) => Number.isSafeInteger(value) && value >= 0;
 const positive = (value) => count(value) && value > 0;
 const optionalText = (value) => value === null || text(value);
@@ -31,6 +44,9 @@ function validAttempt(value, index) {
         optionalCount(value.durationMs) &&
         optionalCount(value.tokens) &&
         validEvidenceIds(value.evidenceIds) &&
+        (value.failureSignature === undefined ||
+            value.failureSignature === null ||
+            (value.outcome === 'failed' && hash(value.failureSignature))) &&
         (value.outcome !== 'passed' || value.evidenceIds.length > 0));
 }
 function validActions(loop) {
@@ -137,6 +153,8 @@ function inspectLimits(loop, history) {
     return reasons;
 }
 function loopStatus(loop, history, limitReasons) {
+    if (repeatedFailureSignature(loop.attempts))
+        return 'human-intervention';
     const last = loop.attempts.at(-1);
     if (loop.state === 'abandoned')
         return 'abandoned';
@@ -163,6 +181,8 @@ export function inspectLoop(input) {
     const history = inspectHistory(loop);
     const limitReasons = inspectLimits(loop, history);
     const status = loopStatus(loop, history, limitReasons);
+    if (status === 'human-intervention')
+        history.findings.push('repeated-failure-signature');
     return {
         format: 1,
         missionId: loop.missionId,
@@ -175,7 +195,7 @@ export function inspectLoop(input) {
         limitReasons,
         nextAction: status === 'eligible' ? loop.nextAction : null,
         recordedNextAction: loop.nextAction,
-        stopReason: loop.stopReason,
+        stopReason: status === 'human-intervention' ? 'repeated-failure-signature' : loop.stopReason,
         limitations: 'Read-only operator-supplied history; no dispatch, retry, runtime budget enforcement, authorization or evidence certification. Usage is observed, not a hard cap. A rewritten/omitted history and semantic diagnosis require review. Complete claims require separate criterion coverage and relevance assessment.',
     };
 }

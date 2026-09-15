@@ -1,6 +1,7 @@
 import { validateMission, missionStatus } from './mission.js';
 import { inspectCheckpoint, } from './checkpoint.js';
 import { readRecord, readLocal, digest, secretPath, object } from './records.js';
+import { verifyBehaviorReceipt } from './behavior.js';
 const limitations = 'Read-only coverage of declared criteria and recorded evidence. No commands executed, truth certification, external-state validation, status mutation or execution authorization. A supported report still requires assessment of criterion completeness and evidence relevance.';
 function hasSecretPins(entries) {
     return (Array.isArray(entries) &&
@@ -122,4 +123,35 @@ export function inspectClosure(root, missionPath, checkpointPath) {
         criteria,
         limitations,
     };
+}
+function behavioralCoverage(root, checkpointPath, receipt, criteria) {
+    const checkpoint = readRecord(root, checkpointPath);
+    const matchingIds = new Set(checkpoint.evidence
+        .filter((item) => item.path === receipt.reportPath && item.sha256 === receipt.reportSha256)
+        .map((item) => item.id));
+    return (criteria.length > 0 &&
+        criteria.every((criterion) => criterion.status === 'supported' && criterion.evidenceIds.some((id) => matchingIds.has(id))));
+}
+/** Local acceptance requires both current criterion coverage and revalidated behavioral evidence. */
+export function inspectAcceptance(root, missionPath, checkpointPath, receipt) {
+    if (!verifyBehaviorReceipt(root, missionPath, receipt))
+        return {
+            allowed: false,
+            reason: 'behavioral-evidence-unverified',
+            behavioralEvidenceSignature: null,
+        };
+    const closure = inspectClosure(root, missionPath, checkpointPath);
+    if (closure.status !== 'supported')
+        return {
+            allowed: false,
+            reason: `closure-${closure.status}`,
+            behavioralEvidenceSignature: null,
+        };
+    if (!behavioralCoverage(root, checkpointPath, receipt, closure.criteria))
+        return {
+            allowed: false,
+            reason: 'behavioral-coverage-missing',
+            behavioralEvidenceSignature: null,
+        };
+    return { allowed: true, reason: null, behavioralEvidenceSignature: receipt.signature };
 }

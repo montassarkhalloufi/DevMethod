@@ -167,6 +167,8 @@ Select an action below and add its target. These are prompts to the skill, not s
 
 See [research, decision dialogue and mission migration](docs/WORKFLOW-0.3.md). See the [full command contract](.agents/skills/project-foundation/references/operating-commands.md). A failed check returns to correction; a blocked gate leads to handoff or replanning. Tests, code review and native permissions remain necessary.
 
+Projects explicitly adopting the [optional local guard](docs/ADR-012-local-execution-guard.md) can enforce the implementation, verification and local acceptance gates through `devmethod guard`. Two identical consecutive behavioral failures stop its session and preserve declared context for human reconciliation. This strict profile uses committed code and verified behavioral reports; it does not dispatch agents or merge PRs.
+
 ![DevMethod delivery loop: accepted references, implementation, verification and correction](docs/images/devmethod-delivery.svg)
 
 ## More recorded examples

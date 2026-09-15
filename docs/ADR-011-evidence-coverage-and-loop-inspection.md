@@ -18,6 +18,8 @@ Changing legacy schemas or silently strengthening `resume` would break existing 
 
 Neither inspector executes commands, writes trackers, authorizes actions, verifies that evidence is honest, detects every semantic omission, or protects against a rewritten history. Inspect a quiescent directory; pins do not prevent concurrent replacement. External effects must be reconciled separately. The hypothetical next action remains untrusted data. In particular a source hash cannot prove a test examines the right behavior or that a mission contains all of the user's requirements.
 
+The separately requested [local guard](ADR-012-local-execution-guard.md) adds owned execution and acceptance state without changing these read-only contracts. Histories may now include a failure signature; two consecutive matching signatures yield `human-intervention`, even when later entries claim recovery. Here "signature" means a content digest, not an authenticated digital signature. Unsigned legacy histories remain inspectable.
+
 ## Acceptance and research
 
 Test uncovered criteria despite green logs, mismatched kinds/revisions/dependencies, stale source and mission pins, blockers, malicious paths, interrupted histories, unknown usage, stagnation and false complete labels. Validate the extracted package and retain legacy test results. Native agent behavior needs separate observed evaluations.

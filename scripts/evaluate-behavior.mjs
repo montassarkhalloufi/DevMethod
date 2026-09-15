@@ -414,20 +414,53 @@ export function scoreBehavior(report, { spec = suite, expectations = oracle, art
       'Hashes establish artifact integrity, not authenticity or judge correctness. Synthetic calibration is not model performance. Independent adjudication and repeated native runs are required.',
   };
 }
+/** Stable failure identity excludes transcript names, run IDs, timestamps and commentary. */
+export function assessBehavior(report, options = {}) {
+  const score = scoreBehavior(report, options);
+  const failed = score.rows.filter((row) => row.outcome !== 'passed' || row.kind !== 'native');
+  const identities = failed
+    .map((row) => {
+      const run = report.runs.find(
+        (item) => item.caseId === row.caseId && item.repetition === row.repetition,
+      );
+      const judgments = (run?.judgments ?? [])
+        .filter((item) => item.verdict !== 'pass')
+        .map((item) => [item.criterionId, item.verdict])
+        .sort((a, b) => a[0].localeCompare(b[0]));
+      return { ...row, missingCriteria: [...row.missingCriteria].sort(), judgments };
+    })
+    .sort((a, b) => a.caseId.localeCompare(b.caseId) || a.repetition - b.repetition);
+  return {
+    format: 1,
+    status: failed.length ? 'failed' : 'passed',
+    failureSignature: failed.length
+      ? createHash('sha256')
+          .update(JSON.stringify(['devmethod-behavior-failure/v1', identities]))
+          .digest('hex')
+      : null,
+    score,
+  };
+}
+
 if (
   process.argv[1] &&
   path.relative(fileURLToPath(import.meta.url), path.resolve(process.argv[1])) === ''
 ) {
   try {
-    const [file, artifactRoot, ...extra] = process.argv.slice(2);
+    const args = process.argv.slice(2);
+    const guard = args.at(-1) === '--guard';
+    if (guard) args.pop();
+    const [file, artifactRoot, ...extra] = args;
     if (!file || extra.length)
-      fail('Usage: node scripts/evaluate-behavior.mjs REPORT.json [ARTIFACT_ROOT]');
+      fail('Usage: node scripts/evaluate-behavior.mjs REPORT.json [ARTIFACT_ROOT] [--guard]');
     const stat = fs.statSync(file);
     if (!stat.isFile() || stat.size > MAX_REPORT_BYTES)
       fail('Report must be a regular file within the report size limit');
     console.log(
       JSON.stringify(
-        scoreBehavior(JSON.parse(fs.readFileSync(file, 'utf8')), { artifactRoot }),
+        (guard ? assessBehavior : scoreBehavior)(JSON.parse(fs.readFileSync(file, 'utf8')), {
+          artifactRoot,
+        }),
         null,
         2,
       ),

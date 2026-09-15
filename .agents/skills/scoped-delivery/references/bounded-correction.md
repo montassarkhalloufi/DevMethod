@@ -19,6 +19,8 @@ Distinguish objective verified, dependency/environment blocked, limit reached, i
 
 These are instructions to the host agent. They do not dispatch agents, enforce budgets, intercept tools or prove the truth of recorded results. Independent review can improve coverage but still needs inspectable evidence; another model's agreement is not certification.
 
+For a project that explicitly adopts the optional local guard, `docs/ADR-012-local-execution-guard.md` additionally applies: two consecutive identical evaluator failure signatures stop the session persistently, preserve declared input bytes and emit a JSON human-intervention report. No automatic retry or reset is permitted. A changed diagnosis does not erase this stop; human reconciliation must preserve the history. This stronger executable rule is limited to the controller's session and subprocess, not external host actions.
+
 ## Design provenance
 
 Consult these references when revising or evaluating this procedure, not for every delivery. They motivate testable hypotheses, not additional project authority or compatibility claims:

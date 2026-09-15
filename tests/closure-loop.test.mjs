@@ -215,6 +215,45 @@ test('loop differentiates initial work, failed checks, diagnosis and stagnation'
   retry.attempts[1].progress = false;
   assert.equal(inspectLoop(retry).status, 'limit-reached');
 });
+
+test('double-failure signatures take precedence over progress, a later pass and complete labels', () => {
+  const failureSignature = digest('same behavioral failure');
+  const value = loop([
+    attempt(1, { failureSignature, progress: true }),
+    attempt(2, {
+      failureSignature,
+      progress: true,
+      diagnosis: 'Investigated',
+      adjustment: 'Changed code',
+    }),
+    attempt(3, {
+      outcome: 'passed',
+      progress: true,
+      diagnosis: 'Claimed recovery',
+      adjustment: 'Reran',
+    }),
+  ]);
+  value.state = 'complete';
+  value.nextAction = null;
+  value.stopReason = 'Claimed complete';
+  const result = inspectLoop(value);
+  assert.equal(result.status, 'human-intervention');
+  assert.equal(result.stopReason, 'repeated-failure-signature');
+  assert.equal(result.nextAction, null);
+});
+
+test('unsigned legacy failures and nonconsecutive signatures do not invent a double failure', () => {
+  assert.notEqual(inspectLoop(loop([attempt(1), attempt(2)])).status, 'human-intervention');
+  const failureSignature = digest('failure');
+  const value = loop([
+    attempt(1, { failureSignature }),
+    attempt(2, { outcome: 'passed', progress: true, diagnosis: 'Fixed', adjustment: 'Changed' }),
+    attempt(3, { failureSignature, progress: true }),
+  ]);
+  assert.notEqual(inspectLoop(value).status, 'human-intervention');
+  value.attempts[0].failureSignature = 'not-a-sha256';
+  assert.throws(() => inspectLoop(value), /Attempts require/);
+});
 test('unknown usage is not zero and prevents further bounded admission', () => {
   const r = inspectLoop(loop([attempt(1, { tokens: null })]));
   assert.equal(r.status, 'needs-reconciliation');

@@ -6,6 +6,7 @@ import {
   type CheckpointSource,
 } from './checkpoint.js';
 import { readRecord, readLocal, digest, secretPath, object } from './records.js';
+import { verifyBehaviorReceipt, type BehaviorReceipt } from './behavior.js';
 
 interface CoverageFinding {
   code: string;
@@ -180,4 +181,54 @@ export function inspectClosure(root: string, missionPath: string, checkpointPath
     criteria,
     limitations,
   };
+}
+
+function behavioralCoverage(
+  root: string,
+  checkpointPath: string,
+  receipt: BehaviorReceipt,
+  criteria: CriterionCoverage[],
+): boolean {
+  const checkpoint = readRecord(root, checkpointPath) as Checkpoint;
+  const matchingIds = new Set(
+    checkpoint.evidence
+      .filter((item) => item.path === receipt.reportPath && item.sha256 === receipt.reportSha256)
+      .map((item) => item.id),
+  );
+  return (
+    criteria.length > 0 &&
+    criteria.every(
+      (criterion) =>
+        criterion.status === 'supported' && criterion.evidenceIds.some((id) => matchingIds.has(id)),
+    )
+  );
+}
+
+/** Local acceptance requires both current criterion coverage and revalidated behavioral evidence. */
+export function inspectAcceptance(
+  root: string,
+  missionPath: string,
+  checkpointPath: string,
+  receipt: unknown,
+) {
+  if (!verifyBehaviorReceipt(root, missionPath, receipt))
+    return {
+      allowed: false,
+      reason: 'behavioral-evidence-unverified',
+      behavioralEvidenceSignature: null,
+    };
+  const closure = inspectClosure(root, missionPath, checkpointPath);
+  if (closure.status !== 'supported')
+    return {
+      allowed: false,
+      reason: `closure-${closure.status}`,
+      behavioralEvidenceSignature: null,
+    };
+  if (!behavioralCoverage(root, checkpointPath, receipt, closure.criteria))
+    return {
+      allowed: false,
+      reason: 'behavioral-coverage-missing',
+      behavioralEvidenceSignature: null,
+    };
+  return { allowed: true, reason: null, behavioralEvidenceSignature: receipt.signature };
 }
