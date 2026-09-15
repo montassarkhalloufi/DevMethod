@@ -1,6 +1,6 @@
 ---
 name: decision-architecture
-description: Resolve product or engineering trade-offs, record ADRs, and design or review domain, application and infrastructure boundaries. Use for architecture choices, backend slices or changes to accepted contracts; skip cosmetic and routine changes without a decision or boundary impact.
+description: Resolve product or engineering trade-offs, record ADRs, design or review system boundaries, and produce technical architecture diagrams. Use for architecture choices, backend slices, changed contracts or architecture visualizations; skip routine code and UI edits without a decision or boundary impact.
 ---
 
 # Decision Architecture
@@ -20,6 +20,8 @@ A PROPOSED label in an ADR does not replace this exchange. Silence, an ambiguous
 Preserve accepted choices and delegations within their scope; routine reversible details do not need individual validation. When replacing an accepted decision, link the replacement, affected contracts/tickets and evidence that needs rechecking. Resolve only dependent blockers.
 
 For a new service or a material capacity, performance or availability decision, apply [capacity and operations](references/capacity-and-operations.md), including under technical delegation. Establish the decision-changing workload and service constraints, compare viable options visually with estimated costs, and link claims to verification. Preserve the lightweight path for changes without this impact.
+
+For architecture diagrams, especially a detailed or presentation-quality visual request, apply [architecture visuals](references/architecture-visuals.md). Reuse accepted architecture when only its explanation is requested; graphic refinement is not permission to change the system. Produce and inspect actual readable renders alongside editable diagram sources.
 
 ## Proportionate trade-off
 

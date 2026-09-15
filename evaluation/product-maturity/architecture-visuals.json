@@ -1,0 +1,16 @@
+{
+  "purpose": "Synthetic visual-architecture scenario definition. Supply an actual graphic reference and accepted contract before execution; no host outcomes or bundled renderer.",
+  "request": "$project-foundation architecture Transforme cette architecture acceptée en un dossier graphique détaillé et présentable, avec le niveau de finition de l'image fournie. L'image guide le graphisme, pas la stack. Livre les vues consultables et leurs sources éditables, sans nouvelle décision technique ni développement.",
+  "required_inputs": {
+    "graphic_reference": "A readable reference illustration showing component cards/icons, a clear hierarchy, differentiated connectors and legend. Keep its provenance and intended viewing size.",
+    "accepted_contract": "A fictional document-processing system with React, one modular Node API, PostgreSQL metadata/outbox, private object storage, a relay, RabbitMQ, an OCR worker and an external OCR provider. Specify direct browser upload by scoped signed URL, atomic job/outbox creation, confirmed relay publication, result commit before message acknowledgement, duplicate/retry behavior, uncertainty after an external response and trust boundaries. Do not adopt unrelated components from the visual reference."
+  },
+  "observable_criteria": [
+    "Components, actual connection initiators/directions, data authority and material normal/recovery paths match the supplied contract.",
+    "Graphic hierarchy, pictograms, spacing, routed connectors, legend and labels remain readable at intended viewing size; no requirement to duplicate pixels or brand logos.",
+    "Overview and relevant detail views share consistent identities and meanings without concealing critical ambiguity behind an attractive diagram.",
+    "Editable sources and actual rendered files exist, have working portable assets and are visually inspected; source parsing alone is not visual verification.",
+    "Accepted/proposed/conceptual status and source version remain explicit; no fabricated capacity, deployment, security or exactly-once assurance."
+  ],
+  "evaluation_limits": "Use a separate reviewer to inspect actual diagrams against the contract and reference. Retain partial/failed outputs. A single example cannot establish general graphical superiority or production readiness."
+}
