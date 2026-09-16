@@ -82,7 +82,10 @@ des neuf fichiers publics Studio : leur chemin ne déclarait pas encore les fins
 La correction ajoute les attributs de la nouvelle surface et protège les exemples/observations
 figés contre la conversion. Un checkout local avec `core.autocrlf=true` retrouve 49 fichiers
 identiques et les empreintes des six révisions. Cette reproduction ne remplace pas le nouveau
-passage Windows ; consulter les contrôles du commit courant de la [PR #37](https://github.com/montassarkhalloufi/DevMethod/pull/37).
+passage Windows. Le [workflow corrigé](https://github.com/montassarkhalloufi/DevMethod/actions/runs/35124980021)
+a finalement réussi sur les trois plateformes pour `6fb8a90` ; le [scénario fullstack](https://github.com/montassarkhalloufi/DevMethod/actions/runs/35124980136) aussi. Les
+[conclusions enregistrées](evidence/platform-ci.json) concernent le runtime et le paquet,
+pas l’exécution de fournisseurs natifs. Consulter les contrôles du commit courant de la [PR #37](https://github.com/montassarkhalloufi/DevMethod/pull/37).
 
 [Registre des contrôles et empreintes du runtime](evidence/local-verification.json).
 La [revue UX de l’éditeur](evidence/studio/EDITOR-UX-REVIEW.md) conserve deux défauts mobiles

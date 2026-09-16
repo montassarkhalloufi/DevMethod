@@ -3,8 +3,9 @@
 État : parcours Les Ateliers et transfert métier réalisés ; éditeur implémenté, 21 tests
 ciblés réussis et parcours navigateur édition, erreurs, récupération et adoption enregistré.
 La suite locale rapporte 472/472 tests réussis ; lint, format et smoke global du paquet local
-ont réussi après correction des liens documentaires. La CI du commit candidat reste à
-inspecter avant toute affirmation multiplateforme. L’esthétique
+ont réussi après correction des liens documentaires. La CI du runtime `6fb8a90` a réussi
+sur Linux, macOS et Windows, ainsi que le scénario fullstack. Ces tests ne lancent pas les
+fournisseurs natifs ; voir la [trace CI](evidence/platform-ci.json). L’esthétique
 olive de K a été rejetée après essai ; composition et fonctions restent retenues. **L bleu
 nuit / indigo attend le choix humain.** Continuer les travaux techniques indépendants.
 Voir [résultats et limites](RESULTS.md), [contrat actuel](CONTRACT.md),
@@ -13,7 +14,9 @@ Voir [résultats et limites](RESULTS.md), [contrat actuel](CONTRACT.md),
 Livraison dans la [PR brouillon #37](https://github.com/montassarkhalloufi/DevMethod/pull/37),
 branche `codex/creation-experience`, base PR #36. Le premier commit `37c9633` a passé les
 contrôles Linux/macOS mais échoué au format Windows. La correction des attributs Git conserve
-les octets des fichiers Studio et des révisions enregistrées ; vérifier la CI du nouveau HEAD.
+les octets des fichiers Studio et des révisions enregistrées. Le runtime corrigé `6fb8a90`
+a ensuite passé les trois plateformes. Le commit de checkpoint suivant ne change que les
+documents et cette trace ; consulter également les contrôles du HEAD de la PR.
 Ne pas fusionner ni publier sans nouvelle autorisation.
 
 ## Sources à conserver

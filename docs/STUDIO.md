@@ -161,6 +161,12 @@ L’adaptateur doit trouver `codex` sur le PATH et utilise son authentification 
 devmethod studio --workspace /chemin/absolu/mon-produit --agent codex --max-jobs 2 --timeout-ms 300000
 ```
 
+L’exécution native a été essayée sur macOS seulement. Le lancement direct ne prend pas en
+charge un lanceur Windows `codex.cmd` : les contrôles d’installation Windows du Studio
+utilisent le bridge, pas un appel au fournisseur. Sur cette configuration, utiliser le
+bridge avec l’agent hôte ; ne pas interpréter une CI verte comme validation de l’adaptateur
+natif Windows. Le Studio ne lance pas automatiquement un shell pour contourner cette limite.
+
 Il lance une demande dans un dossier de travail avec sandbox `workspace-write`, sans réseau,
 installation de paquets, plugins, recherche web ou sous-agents. Les références sont copiées
 et le contexte transmis. Des skills DevMethod distribués alimentent `method.md` : ce guidage
