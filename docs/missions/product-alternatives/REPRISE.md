@@ -1,5 +1,21 @@
 # Checkpoint — 2026-09-16
 
+## Follow-up snapshot — 10:48 UTC
+
+The user explicitly requested continued research and assigned the UI preference to separate agent work. Both proceeded independently. The research mission is **not complete**: no breakthrough or comparative user benefit is established.
+
+Current implementation pin: `d91a3c6`, after ordinary cancellation `6d73ee7`, follow-up research `9944269`, and separately authored blue UI `e8d3269`. [Research continuation](RECONSIDERATION.md) records the preregistered ordinary capability probe, raw results, new browser path, reconsidered conceptions and primary-source research about customization during real work. A successful explicit call cancellation does not demonstrate arbitrary decision reversal; no special decision runtime is justified for this case. No stopped native campaign was reopened.
+
+The user's references supersede the earlier agent-selected green palette. [DESIGN](DESIGN.md) owns that direction and actual viewport observations. [Independent blue UI review](evidence/atelier-blue-review.md) found the empty creation form closing on target change; the author reproduced and corrected it, and the independent reviewer closed it against `23871ab`, cherry-picked as `d91a3c6`. The ordinary implementation has its [separate review](evidence/reconsideration/review.md).
+
+The integrated Node 24.18.0 suite passes **331/331, zero skipped**; lint, format and Markdown links pass. These supersede the local counts in the historical snapshot below. Local logs: `/private/tmp/devmethod-followup-final/`. The new extracted archive and current-head CI results belong in PR #36; older green checks below must not be reused as checks of this head. No merge, publication or deployment is authorized or performed.
+
+Usable local experiences: Atelier on `http://127.0.0.1:4318/` with the retained original fictional session; separate UI QA session on `http://127.0.0.1:4321/`; cancellation experience on `http://127.0.0.1:9089/` with parent-authored demo state. A raw `file://.../scripts/atelier/public/index.html` is not the application server and cannot supply its API. Launch instructions remain in the existing guides.
+
+Next research step: use an actual recurring task and its existing artefacts to test whether in-use tool creation or adoption on current data changes the owner's work. A good ordinary agent may build the same capability, preserve data, ask useful questions and prototype freely. Count setup/integration and observe subsequent use; do not equate another working demo with an advantage. A concrete real-task question was sent to the owner; no answer or approval is inferred from silence. That question does not suspend independently authorized work. Do not add a generic graph, runtime, questionnaire or synthetic human to manufacture a positive conclusion.
+
+## Historical delivery snapshot
+
 Mission: seek a possible change in how DevMethod works, preserve understanding/exploration/framing/design/architecture, compare real alternatives and carry the promising one into a usable experience. The user's latest direction explicitly makes laboratory corrections and benchmarks supporting work. Do not silently return to the old laboratory agenda.
 
 ## Delivered state
