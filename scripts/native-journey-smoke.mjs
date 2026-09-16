@@ -278,11 +278,60 @@ function check(root, entry, directory, filename = 'evaluate.mjs', writable = [])
   };
 }
 
-function protectedChanges(directory, expected) {
+export function protectedChanges(directory, expected) {
   const actual = tree(directory);
   return Object.entries(expected)
     .filter(([file, hash]) => actual[file] !== hash)
     .map(([file]) => file);
+}
+
+export function journeyProtectedInputs(directory, supplied, maintenance) {
+  if (!maintenance) return { ...supplied };
+  return {
+    ...supplied,
+    'operator-setup.json': digest(fs.readFileSync(path.join(directory, 'operator-setup.json'))),
+  };
+}
+
+export function journeyAcceptance({ phase, verification, continuity, changed }) {
+  if (verification.exit !== 0 || changed.length !== 0) return false;
+  if (phase === 'initial') return true;
+  if (phase !== 'maintenance' || continuity?.exit !== 0) return false;
+  try {
+    return JSON.parse(continuity.stdout).outcome === 'passed';
+  } catch {
+    return false;
+  }
+}
+
+export function journeyUsage(records) {
+  const observedTokensLowerBound = records.reduce(
+    (sum, record) =>
+      sum + (record.usage ? record.usage.inputTokens + record.usage.outputTokens : 0),
+    0,
+  );
+  return {
+    observedTokensLowerBound,
+    totalTokens: records.some((record) => !record.usage) ? null : observedTokensLowerBound,
+  };
+}
+
+export function journeySlots(root, slots, records) {
+  const admitted = new Set(
+    slots
+      .filter(({ id }) => fs.existsSync(path.join(root, 'ledger', id + '.json')))
+      .map(({ id }) => id),
+  );
+  const finalized = new Set(records.map(({ id }) => id));
+  const unresolved = slots
+    .filter(({ id }) => admitted.has(id) && !finalized.has(id))
+    .map(({ id }) => ({
+      id,
+      status: 'unresolved',
+      dispatchAttempted: fs.existsSync(path.join(root, 'private', id + '-dispatch.json')),
+      usage: null,
+    }));
+  return { unresolved, notRun: slots.filter(({ id }) => !admitted.has(id)).map(({ id }) => id) };
 }
 
 async function runSlot(root, frozen, entry, signal) {
@@ -298,11 +347,16 @@ async function runSlot(root, frozen, entry, signal) {
       throw new Error('Maintenance setup failed; admitted slot requires reconciliation');
     fs.cpSync(path.join(root, 'fixture/maintenance'), directory, { recursive: true });
   }
-  const expected = {
-    ...frozen.arms[entry.arm].files,
-    ...(entry.phase === 'maintenance' ? tree(path.join(root, 'fixture/maintenance')) : {}),
-  };
+  const expected = journeyProtectedInputs(
+    directory,
+    {
+      ...frozen.arms[entry.arm].files,
+      ...(entry.phase === 'maintenance' ? tree(path.join(root, 'fixture/maintenance')) : {}),
+    },
+    entry.phase === 'maintenance',
+  );
   const args = nativeArguments(directory, frozen.disabledSkills);
+  write(path.join(root, 'private', entry.id + '-dispatch.json'), { at: new Date().toISOString() });
   const result = await supervise({
     command: 'codex',
     args,
@@ -342,7 +396,7 @@ async function runSlot(root, frozen, entry, signal) {
     maintenanceSetup,
     continuity,
     protectedChanges: changed,
-    acceptance: verification.exit === 0 && changed.length === 0,
+    acceptance: journeyAcceptance({ phase: entry.phase, verification, continuity, changed }),
     transcriptSha256: digest(result.stdout),
     methodRevision: frozen.arms[entry.arm].methodRevision,
   };
@@ -383,7 +437,7 @@ export async function run(root) {
           id: entry.id,
           status: record.status,
           acceptance: record.acceptance,
-          observedTokens,
+          observedTokensLowerBound: observedTokens,
         }),
       );
       if (record.status !== 'exited' || !record.usage) {
@@ -392,21 +446,21 @@ export async function run(root) {
       }
     }
   } catch (error) {
-    reason = 'admission-or-setup-failure';
+    reason = 'admission-or-collection-failure';
     throw error;
   } finally {
     process.removeListener('SIGINT', stop);
     process.removeListener('SIGTERM', stop);
+    const slots = journeySlots(root, frozen.slots, records);
+    const usage = journeyUsage([...records, ...slots.unresolved]);
     write(path.join(root, 'results.json'), {
       format: 1,
       pins,
       reason,
-      observedTokens,
+      ...usage,
       costUSD: null,
       records,
-      notRun: frozen.slots
-        .filter((slot) => !records.some((r) => r.id === slot.id))
-        .map(({ id }) => id),
+      ...slots,
     });
   }
 }
