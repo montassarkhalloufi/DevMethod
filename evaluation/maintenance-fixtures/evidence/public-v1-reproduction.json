@@ -1,0 +1,7 @@
+{
+  "kind": "New local syntax reproduction of unchanged V1 verifier; not native",
+  "status": 1,
+  "stdout": "",
+  "stderr": "<OPERATOR_PATH>:26\n\n\n\nSyntaxError: Unexpected end of input\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.18.0\n",
+  "expectedFailureObserved": true
+}

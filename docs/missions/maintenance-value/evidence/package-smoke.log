@@ -1,0 +1,3 @@
+Packed application evidence journey: correction, restart, maintenance and sticky stop passed.
+Packed restart checker: healthy acceptance and known restart fault detection passed.
+Packed 0.5.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.

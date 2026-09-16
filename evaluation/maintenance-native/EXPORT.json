@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "sourceRevision": "2ab754d",
+  "sourceRoot": "/private/tmp/devmethod-maintenance-campaign-20260916",
+  "redactions": [
+    "absolute home directory prefix to <HOME>",
+    "host temporary directory prefix to <HOST_TEMP>"
+  ],
+  "note": "The original frozen.sha256 identifies the private original, not the sanitized frozen.json. Original files are retained unchanged. No credentials were copied. This export is evidence, not a runnable permit.",
+  "files": [
+    {
+      "path": "frozen.json",
+      "originalSha256": "2733e70e5316f0ce9f10e6495b984dcb6052860e51e320bc4a61106b05296f88",
+      "publishedSha256": "3fc6aa0003edb70cc1eb660f587cd4e5cf84ffae0e74ce69918621fc8d134469",
+      "sanitized": true
+    },
+    {
+      "path": "frozen.sha256",
+      "originalSha256": "5c452a0c5359f7b9de0af168c6938d2138a87a9afa6610a946e1b0af35acbf63",
+      "publishedSha256": "5c452a0c5359f7b9de0af168c6938d2138a87a9afa6610a946e1b0af35acbf63",
+      "sanitized": false
+    },
+    {
+      "path": "private/readiness.jsonl",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publishedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitized": false
+    },
+    {
+      "path": "private/readiness.stderr",
+      "originalSha256": "b5bd28a8697c502f84e124ef0e690705c19eca1cf10e38f6d12fb0dbd587227b",
+      "publishedSha256": "b5bd28a8697c502f84e124ef0e690705c19eca1cf10e38f6d12fb0dbd587227b",
+      "sanitized": false
+    },
+    {
+      "path": "private/readiness-result.json",
+      "originalSha256": "fa2ee1500fda469b0b166721af7a78b054498820bb679fbf4c9fc00f29b51e4c",
+      "publishedSha256": "d44784bf771fde6a72f02c2b54d49b8304b483e298fde96a480f8edc1ed5dc16",
+      "sanitized": true
+    },
+    {
+      "path": "private/readiness-dispatch.json",
+      "originalSha256": "a6421b97fc628ab0d0784861f14e3bbf55710178c0e8f177c7368f52028523be",
+      "publishedSha256": "a6421b97fc628ab0d0784861f14e3bbf55710178c0e8f177c7368f52028523be",
+      "sanitized": false
+    },
+    {
+      "path": "ledger/readiness.json",
+      "originalSha256": "fffcb4347feb72dbdfe40fab700a7e5468015437e12593761f28399caf2d5797",
+      "publishedSha256": "fffcb4347feb72dbdfe40fab700a7e5468015437e12593761f28399caf2d5797",
+      "sanitized": false
+    }
+  ]
+}

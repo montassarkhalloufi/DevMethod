@@ -1,0 +1,53 @@
+{
+  "format": "passed",
+  "runtimeSourceCommit": "207afde",
+  "runtime": "Node 24.18.0 / macOS",
+  "nativeCallsDuringGates": 0,
+  "tests": {
+    "pass": 293,
+    "fail": 0,
+    "skip": 0,
+    "command": "npm test"
+  },
+  "lint": "passed",
+  "docs": "passed",
+  "distUnchanged": true,
+  "quality": {
+    "analyzer": {
+      "eslint": "10.10.0",
+      "sonarjs": "4.2.1"
+    },
+    "scope": "Maintained CLI, review UI, tooling, tests, four maintained applications and the independent example evaluator; other fixtures and generated code excluded.",
+    "files": 142,
+    "threshold": 15,
+    "maximum": 15,
+    "overThreshold": 0,
+    "limitations": "Cognitive complexity is a static heuristic, not a correctness, readability or scalability proof. Functions scoring zero are omitted."
+  },
+  "package": {
+    "actualArchiveCreated": true,
+    "smoke": "passed: three host installs, subset, customization preservation, mission/context/staleness/planning, application evidence/restart and documentation",
+    "publicExportIntegrity": "28 visible files verified; 347 extracted suite files verified",
+    "publicAdoptionChecksPassed": 5,
+    "boundary": "Archive used for these adoption checks predates the checkpoint/log documentation commit; final delivery digest and renewed final archive smoke are recorded on the PR. The frozen public artifact bytes are identical.",
+    "packageSmokeScriptSha256": "21d2afd6473a7d5b5c240804d0bcb62ae9fcc57a452d113b66c252d8edcf7888"
+  },
+  "packedAdoptionExport": {
+    "originalSha256": "ef2c3ca290595d5f42fb683c98732ba4c63e4e7f6a7379b7614ba7f0b6300a18",
+    "publishedSha256": "4520e2ab9b8d65c8fcd5e9d93345905f8a6274d214cbb2763f6f96c621927ede",
+    "normalization": "Home prefix and both host-temporary-path aliases only; outcome/timing fields unchanged"
+  },
+  "logs": {
+    "tests.log": "06e4244c315f925c997c5f9fdc7746bd7da681fdf106375bb51c245829e2aa2b",
+    "lint.log": "dd36a89f26a8b0f08f74973e6e25e9e3670f5c85a3a4f30b0f8bb98ea70d11b8",
+    "format.log": "2fe93e16251b880622ee619e10afc4f682febcf7cbcd9e05840f0cbdaea0b90e",
+    "package-smoke.log": "e442327e6c43a45be7e6c206d68bd39e2807da66755f1d0c02dd6d09ed6a6e0a"
+  },
+  "notMeasured": [
+    "native A/B or C quality",
+    "agent-authored tests",
+    "browser fidelity",
+    "tokens or cash savings",
+    "operator productivity"
+  ]
+}
