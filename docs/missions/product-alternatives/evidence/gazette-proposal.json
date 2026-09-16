@@ -1,0 +1,259 @@
+{
+  "baseRevision": 2,
+  "summary": "Proposition réelle de l’agent, à essayer sans nouveau choix utilisateur : ajouter Retiré localement et l’action Retirer, puis réutiliser Soumettre pour renvoyer en relecture. Bureau : retrait autorisé à Nina, Sam et Lou ; pairs : aux quatre membres. Relecture et publication conservent leurs permissions. Droits permanents faute de notion d’absence. Aucun article, ancien état, essai, auteur ou motif du choix n’est remplacé ; la direction enregistrée reste à reconsidérer.",
+  "variants": [
+    {
+      "id": "bureau-editorial",
+      "title": "Bureau et circuit éditorial",
+      "premise": "Proposition de l’agent : le bureau conserve Sam et Lou pour la relecture, Nina et Sam pour la publication. Lou peut aussi retirer localement un article, comme Nina et Sam, sans attendre leur présence. Chacun peut ensuite le renvoyer en relecture.",
+      "tradeoff": "Lou peut suspendre localement une publication sans recevoir le droit de publier. Les responsabilités de remise en publication restent identifiables, mais celle-ci peut attendre Nina ou Sam. Le droit de retrait est permanent : le moteur ne peut pas le conditionner à leur absence.",
+      "design": {
+        "layout": "board",
+        "accent": "#315C87"
+      },
+      "architecture": {
+        "boundaries": [
+          "La liste des quatre personnes est un contexte de simulation ; elle n’authentifie personne et ne gère pas d’appartenance à l’association.",
+          "Les règles de transition autorisent ou refusent une action selon son état, son acteur et l’interdiction de relire son propre texte.",
+          "L’affichage en colonnes sert à voir où les articles attendent. Il n’ajoute aucune permission et ne représente pas un calendrier de bouclage.",
+          "Publié et Retiré sont des états locaux. Retirer ne supprime pas le record, ne modifie pas son propriétaire et ne retire aucun contenu d’un site, moteur de recherche, cache ou service externe.",
+          "Le moteur vérifie un état et une liste d’identités. Il ne représente pas présence, urgence ou délégation temporaire : les nouveaux droits de retrait sont permanents dans cette proposition."
+        ],
+        "data": "Chaque article porte seulement id, titre, état et propriétaire. Les observations enregistrent séparément l’action et son acteur. Aucun texte intégral, commentaire de relecture, donnée personnelle réelle ou justificatif de vérification n’est stocké dans ce cas. Le retrait conserve id, titre et propriétaire ; ses observations ajoutent acteur et états avant/après. Aucun motif obligatoire, horodatage ou contenu corrigé n’est inventé.",
+        "tradeoffs": [
+          "Le moteur représente un circuit fini, pas l’organisation complète d’une rédaction. Les rôles sont des listes d’identités fixes, sans remplacement automatique.",
+          "Une seule relecture par une autre personne suffit pour atteindre Prêt. Le moteur n’établit ni la qualité de cet avis ni un quorum.",
+          "La préparation et la soumission peuvent être effectuées par chacun des quatre membres, y compris pour le texte d’un autre ; le moteur v1 ne restreint pas une action au seul propriétaire.",
+          "Le retrait mène à Retiré, puis Soumettre mène à À relire ; aucune republication directe depuis Retiré n’est prévue. Les droits de Relire et Publier restent inchangés. Lou peut retirer son propre article, mais pas le relire ; son retour en publication dépend encore d’autres personnes habilitées."
+        ]
+      },
+      "states": [
+        {
+          "id": "draft",
+          "label": "Brouillon"
+        },
+        {
+          "id": "submitted",
+          "label": "À relire"
+        },
+        {
+          "id": "ready",
+          "label": "Prêt"
+        },
+        {
+          "id": "published",
+          "label": "Publié localement"
+        },
+        {
+          "id": "withdrawn",
+          "label": "Retiré localement"
+        }
+      ],
+      "actions": [
+        {
+          "id": "create",
+          "label": "Créer un article",
+          "kind": "create",
+          "from": [],
+          "to": "draft",
+          "actors": [
+            "camille",
+            "nina",
+            "sam",
+            "lou"
+          ],
+          "otherOwner": false
+        },
+        {
+          "id": "submit",
+          "label": "Soumettre à la relecture",
+          "kind": "transition",
+          "from": [
+            "draft",
+            "withdrawn"
+          ],
+          "to": "submitted",
+          "actors": [
+            "camille",
+            "nina",
+            "sam",
+            "lou"
+          ],
+          "otherOwner": false
+        },
+        {
+          "id": "review",
+          "label": "Relire",
+          "kind": "transition",
+          "from": [
+            "submitted"
+          ],
+          "to": "ready",
+          "actors": [
+            "sam",
+            "lou"
+          ],
+          "otherOwner": true
+        },
+        {
+          "id": "publish",
+          "label": "Publier localement",
+          "kind": "transition",
+          "from": [
+            "ready"
+          ],
+          "to": "published",
+          "actors": [
+            "nina",
+            "sam"
+          ],
+          "otherOwner": false
+        },
+        {
+          "id": "withdraw",
+          "label": "Retirer localement",
+          "kind": "transition",
+          "from": [
+            "published"
+          ],
+          "to": "withdrawn",
+          "actors": [
+            "nina",
+            "sam",
+            "lou"
+          ],
+          "otherOwner": false
+        }
+      ]
+    },
+    {
+      "id": "relecture-pairs",
+      "title": "Relecture entre pairs",
+      "premise": "Proposition de l’agent : chaque membre peut retirer localement un article publié et le renvoyer en relecture. Une nouvelle relecture par une autre personne que la propriétaire reste nécessaire avant une nouvelle publication. Les actes gardent leur auteur.",
+      "tradeoff": "Le retrait et la reprise disposent de plus de relais. Chaque membre peut cependant suspendre un article d’un autre, même en cas de désaccord ; l’état et l’acteur sont visibles, mais le moteur ne décide ni de la légitimité du retrait ni de l’arbitrage.",
+      "design": {
+        "layout": "list",
+        "accent": "#875E32"
+      },
+      "architecture": {
+        "boundaries": [
+          "La liste des quatre personnes est un contexte de simulation ; elle n’authentifie personne et ne mesure pas leur compétence éditoriale.",
+          "Les règles de transition donnent à chaque membre les mêmes possibilités, avec une exception commune : personne ne peut relire son propre article.",
+          "L’affichage en liste met en regard titre, propriétaire et état. Il n’attribue pas de travail automatiquement et ne remplace pas la discussion entre pairs.",
+          "Publié et Retiré sont des états locaux. Retirer ne supprime pas le record, ne modifie pas son propriétaire et ne retire aucun contenu d’un site, moteur de recherche, cache ou service externe.",
+          "Le moteur vérifie un état et une liste d’identités. Il ne représente pas présence, urgence ou délégation temporaire : les nouveaux droits de retrait sont permanents dans cette proposition."
+        ],
+        "data": "Chaque article porte seulement id, titre, état et propriétaire, comme dans le bureau éditorial. Les observations enregistrent séparément l’action et son acteur. Aucun score de confiance, profil de compétence ou accord collectif implicite n’est ajouté. Le retrait conserve id, titre et propriétaire ; ses observations ajoutent acteur et états avant/après. Aucun motif obligatoire, horodatage ou contenu corrigé n’est inventé.",
+        "tradeoffs": [
+          "Des droits identiques ne prouvent pas des compétences identiques. Le moteur ne vérifie ni formation ni disponibilité.",
+          "Une seule relecture par une autre personne suffit pour atteindre Prêt, comme dans l’autre variante. Une convergence éditoriale ou une vérification des faits n’est pas garantie.",
+          "La préparation et la soumission peuvent être effectuées par chacun des quatre membres, y compris pour le texte d’un autre ; le moteur v1 ne restreint pas une action au seul propriétaire.",
+          "Le retrait mène à Retiré, puis Soumettre mène à À relire ; aucune republication directe depuis Retiré n’est prévue. Chacun peut retirer son propre article, mais la relecture par son propriétaire reste interdite. Le moteur ne vérifie ni motif du retrait, ni correction du contenu, ni quorum."
+        ]
+      },
+      "states": [
+        {
+          "id": "draft",
+          "label": "Brouillon"
+        },
+        {
+          "id": "submitted",
+          "label": "À relire"
+        },
+        {
+          "id": "ready",
+          "label": "Prêt"
+        },
+        {
+          "id": "published",
+          "label": "Publié localement"
+        },
+        {
+          "id": "withdrawn",
+          "label": "Retiré localement"
+        }
+      ],
+      "actions": [
+        {
+          "id": "create",
+          "label": "Créer un article",
+          "kind": "create",
+          "from": [],
+          "to": "draft",
+          "actors": [
+            "camille",
+            "nina",
+            "sam",
+            "lou"
+          ],
+          "otherOwner": false
+        },
+        {
+          "id": "submit",
+          "label": "Soumettre à la relecture",
+          "kind": "transition",
+          "from": [
+            "draft",
+            "withdrawn"
+          ],
+          "to": "submitted",
+          "actors": [
+            "camille",
+            "nina",
+            "sam",
+            "lou"
+          ],
+          "otherOwner": false
+        },
+        {
+          "id": "review",
+          "label": "Relire",
+          "kind": "transition",
+          "from": [
+            "submitted"
+          ],
+          "to": "ready",
+          "actors": [
+            "camille",
+            "nina",
+            "sam",
+            "lou"
+          ],
+          "otherOwner": true
+        },
+        {
+          "id": "publish",
+          "label": "Publier localement",
+          "kind": "transition",
+          "from": [
+            "ready"
+          ],
+          "to": "published",
+          "actors": [
+            "camille",
+            "nina",
+            "sam",
+            "lou"
+          ],
+          "otherOwner": false
+        },
+        {
+          "id": "withdraw",
+          "label": "Retirer localement",
+          "kind": "transition",
+          "from": [
+            "published"
+          ],
+          "to": "withdrawn",
+          "actors": [
+            "camille",
+            "nina",
+            "sam",
+            "lou"
+          ],
+          "otherOwner": false
+        }
+      ]
+    }
+  ]
+}

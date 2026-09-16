@@ -137,6 +137,13 @@ export function chooseDirection(original, input) {
     variant: structuredClone(variant),
     revision: session.revision,
     scenario: structuredClone(session.situation),
+    context: structuredClone({
+      brief: session.project.brief,
+      constraints: session.project.constraints,
+      sources: session.project.sources,
+      questions: session.project.questions,
+    }),
+    observations: structuredClone(session.lanes),
     reason: input.reason.trim(),
     reviewNeeded: false,
   };

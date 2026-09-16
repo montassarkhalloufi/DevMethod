@@ -36,11 +36,12 @@
     "test:behavior": "node --test tests/behavioral-evaluation.test.mjs tests/prepare-behavior-case.test.mjs",
     "test:protocols": "node --test tests/comparison.test.mjs",
     "test:greenfield": "node --test examples/pocket-tasks/tests/*.test.mjs evaluation/greenfield/*.test.mjs examples/clair-from-zero/tests/*.test.mjs",
-    "lint": "eslint src scripts tests examples/pocket-tasks examples/clair-from-zero examples/fullstack examples/evidence-lab *.config.mjs --max-warnings 0",
-    "format:check": "prettier --check \"src/**/*.{ts,css}\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab}/**/*.{js,mjs,cjs,ts,tsx,css,html}\"",
-    "format": "prettier --write \"src/**/*.{ts,css}\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab}/**/*.{js,mjs,cjs,ts,tsx,css,html}\"",
+    "lint": "eslint src scripts tests examples/pocket-tasks examples/clair-from-zero examples/fullstack examples/evidence-lab examples/seance *.config.mjs --max-warnings 0",
+    "format:check": "prettier --check \"src/**/*.{ts,css}\" \"scripts/**/*.{mjs,js,css,html,json}\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab,seance}/**/*.{js,mjs,cjs,ts,tsx,css,html}\"",
+    "format": "prettier --write \"src/**/*.{ts,css}\" \"scripts/**/*.{mjs,js,css,html,json}\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab,seance}/**/*.{js,mjs,cjs,ts,tsx,css,html}\"",
     "test:evidence-demo": "node --test examples/evidence-lab/app/*.test.mjs && node scripts/evidence-demo.mjs",
-    "quality:report": "node scripts/quality-report.mjs"
+    "quality:report": "node scripts/quality-report.mjs",
+    "atelier": "node scripts/atelier.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

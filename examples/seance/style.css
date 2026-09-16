@@ -77,6 +77,11 @@ input,
 select {
   font: inherit;
 }
+select {
+  display: block;
+  max-width: 100%;
+  min-height: 44px;
+}
 button {
   border: 1px solid #56776c;
   border-radius: 7px;
@@ -125,6 +130,8 @@ input {
 }
 .row .name {
   flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .row small {
   display: block;

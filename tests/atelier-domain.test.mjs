@@ -182,6 +182,28 @@ test('one shared intent yields independent actual outcomes and preserves record 
   assert.notEqual(session.lanes.direct.records, session.lanes.review.records);
 });
 
+test('a saved choice retains the context and individual observations after replay and revised intent', () => {
+  const initial = createSession(project());
+  const used = performAction(initial, { ...start, variantId: 'direct' }).session;
+  const chosen = chooseDirection(used, {
+    variantId: 'direct',
+    reason: 'The actual direct action matters.',
+  });
+  const replayed = replaySituation(chosen, []);
+  const revised = reviseIntent(replayed, { brief: 'A different need', constraints: [] });
+  const exported = exportDecision(revised);
+  assert.deepEqual(exported.decision.observations, used.lanes);
+  assert.deepEqual(exported.decision.context, {
+    brief: initial.project.brief,
+    constraints: initial.project.constraints,
+    sources: initial.project.sources,
+    questions: initial.project.questions,
+  });
+  assert.equal(exported.decision.observations.direct.records[0].state, 'active');
+  assert.equal(exported.lanes.direct.records[0].state, 'queued');
+  assert.equal(exported.decision.reviewNeeded, true);
+});
+
 test('refusals never fabricate transitions, and targeted actions do not enter shared situations', () => {
   const session = createSession(project());
   const cases = [

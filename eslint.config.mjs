@@ -36,7 +36,8 @@ export default defineConfig(
   },
   {
     files: [
-      'examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab}/**/*.{js,mjs,cjs,ts,tsx}',
+      'scripts/atelier/public/*.js',
+      'examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab,seance}/**/*.{js,mjs,cjs,ts,tsx}',
     ],
     extends: [js.configs.recommended],
     plugins: { sonarjs },
@@ -59,6 +60,8 @@ export default defineConfig(
   },
   {
     files: [
+      'scripts/atelier/public/*.js',
+      'examples/seance/code/*.js',
       'examples/pocket-tasks/public/**/*.js',
       'examples/clair-from-zero/app/**/*.mjs',
       'examples/fullstack/web/**/*.{ts,tsx}',
