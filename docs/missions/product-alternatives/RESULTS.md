@@ -1,8 +1,14 @@
 # Observations, decisions and limits — 2026-09-16
 
-**Interpretation update from the owner:** [EMPOWERMENT](EMPOWERMENT.md) distinguishes agent capability with supplied guidance from the method's contribution to a person's project work. The observations below are unchanged. Ordinary-agent success is not a measured absence of human benefit, and the narrow runtime/capability verdicts must not be generalized to the whole method. DevMethod versus current Spec Kit/BMAD remains to be executed under matched initial information with preparation and human work explicitly accounted for.
+**Interpretation update from the owner:** [EMPOWERMENT](EMPOWERMENT.md) distinguishes agent capability with supplied guidance from the method's contribution to a person's project work. Ordinary-agent success is not a measured absence of human benefit, and the narrow runtime/capability verdicts must not be generalized to the whole method. A complete comparison of DevMethod, Spec Kit and BMAD with matched initial information, preparation and human work accounted for remains uncompleted.
 
-This record separates an implemented capability, an agent-operated browser observation and a measured user benefit. **No formal human study, native matched A/B/C campaign, competitor execution, token saving or breakthrough is reported.** The owner subsequently supplied real but narrow UI feedback about block separation; it is recorded in DESIGN, not counted as comparative validation. The previous stopped native campaigns remain closed. Current task agents performed bounded research, implementation and review; their participation is not a synthetic user study.
+This record separates an implemented capability, an agent-operated browser observation and a measured user benefit. **No formal human study, completed native matched A/B/C campaign, token saving or breakthrough is reported.** The owner subsequently supplied real but narrow UI feedback about block separation; it is recorded in DESIGN, not counted as comparative validation. The previous stopped native campaigns remain closed. Current task agents performed bounded research, implementation and review; their participation is not a synthetic user study.
+
+## Context continuity follow-up
+
+The [continuity report](evidence/continuity/REPORT.md) records a reproduced product gap and its correction: prepared Atelier requests now retain recorded decision history and the common situation. Actual HTTP checks preserve current data, and a second process reloads the same immutable request. This repairs transmission; it does not establish that the recipient agent uses history well or that a person saves work. Full history increases file size.
+
+A distinct native framing diagnostic admits one successful host calibration, then BMAD spec. BMAD reads the common sources and identifies the same omission, but reaches the prospective 120-second timeout before a final specification or recovered usage. DevMethod frame and Spec Kit specify are consequently not admitted. Known accumulated usage is 101,046 tokens including the historical 51,712 reference; the real total is unknown. This is partial competitor execution, with no ranking or completed matched comparison. Original closed campaigns and this new stop remain intact.
 
 ## Product attempts
 

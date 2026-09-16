@@ -57,6 +57,14 @@ Une [politique native unique](evidence/empowerment/single-sandbox.md) a ensuite 
 
 Les [événements](evidence/empowerment/admission-events.jsonl) et le [stderr](evidence/empowerment/admission-stderr.txt) publiés sont des dérivés : l'identifiant de thread et le chemin local du worker sont remplacés par des marqueurs. Les hashes des originaux privés, du protocole et du pilote sont dans le résultat. Les consommations inconnues des anciennes séries ne sont ni remplacées ni comptées comme zéro.
 
+## Reprise : continuité du contexte et premier cadrage natif
+
+Après la demande explicite de reprise, une lacune du parcours produit est reproduite : les anciennes raisons et contraintes restent dans la session Atelier mais disparaissent de la demande à l'agent. La [correction livrée et ses observations](evidence/continuity/REPORT.md) ajoutent l'historique enregistré et la situation commune. Les données courantes restent distinctes ; les fichiers préparés restent immuables et lisibles après redémarrage. Aucun bénéfice humain n'est inféré de cette conservation technique, qui augmente aussi la taille du contexte transmis.
+
+Un diagnostic prospectif de cadrage reçoit les mêmes sources pour les trois méthodes, avec préparation opérateur déclarée. Sous politique native unique, la calibration réussit (49 334 nouveaux tokens). BMAD spec lit les sources, retrouve la lacune et écrit un journal partiel, puis atteint la borne de 120 secondes sans réponse finale ni consommation récupérée. La règle d'arrêt ferme la série avant DevMethod frame et Spec Kit specify. Cumul connu avec l'ancienne référence : 101 046 tokens ; total réel et coût monétaire inconnus. [Protocole](evidence/continuity/framing-protocol.json), [résultat](evidence/continuity/framing-result.json) et [revue](evidence/continuity/framing-review.md) préservent limites, préflights et corrections du pilote, sans reset ni retry.
+
+Ce premier travail natif BMAD est une observation partielle, pas une comparaison achevée ou une infériorité démontrée. Le produit corrigé est utilisable ; la puissance donnée à la personne reste à observer sur la construction et l'utilisation du contexte, avec le parcours natif complet et les coûts de chaque méthode. Ne pas ouvrir une nouvelle série pour contourner cet arrêt.
+
 ## Expérience d'amplification à conduire
 
 L'unité est une mission complète ou une évolution substantielle appartenant à une personne, avec ses sources initiales. Établir d'abord la provenance du besoin et les décisions déjà exprimées ; une démo fictive peut calibrer l'instrument, elle ne devient pas un besoin observé. La préférence réelle de séparation des blocs de l'Atelier et les instructions de continuation sont des matériaux disponibles ; Gazette, Séance et la location numérique restent des domaines construits.

@@ -20,7 +20,9 @@ async function start(workspace) {
        const project = JSON.parse(fs.readFileSync(new URL(${JSON.stringify(projectFile)}), 'utf8'));
        const server = createAtelierServer({ workspace: process.argv[1], project });
        server.listen(0, '127.0.0.1', () => process.send(server.address().port));
-       process.on('SIGTERM', () => server.close(() => process.exit(0)));`,
+       process.on('message', (message) => {
+         if (message === 'close') server.close(() => process.exit(0));
+       });`,
       workspace,
     ],
     { stdio: ['ignore', 'ignore', 'pipe', 'ipc'] },
@@ -52,7 +54,7 @@ async function start(workspace) {
   const close = async () => {
     if (child.exitCode !== null) return;
     const exited = once(child, 'exit');
-    child.kill('SIGTERM');
+    child.send('close');
     assert.deepEqual(await exited, [0, null]);
   };
   return { get, post, close, pid: child.pid };

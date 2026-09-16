@@ -1,5 +1,15 @@
 # Checkpoint — 2026-09-16
 
+## Continuity snapshot — latest resumption
+
+The owner explicitly resumed the mission. The [continuity report](evidence/continuity/REPORT.md) owns the new product correction, native diagnostic and retained limits. Source head was `617b22c`; implementation `54087089` is integrated as `b590fb1`, followed by a portable IPC stop in its new test. Prepared Atelier requests now include recorded decision history and the shared scenario. Earlier reasons/contexts stay distinct from current state. No preference or human authorship is inferred, and no old request file is rewritten. The product change is independently reviewed; measured human advantage and the broader research mission remain open.
+
+Actual before/after HTTP probes reproduce then close the omission. Local Node 24.18.0 suite passes **353/353, zero skipped**, lint and format pass; the final IPC-adjusted HTTP tests pass **6/6**. The live server at `http://127.0.0.1:4318/` runs the correction with its persisted session unchanged across restart. Archive and current-head CI evidence belong to draft PR #36, not an older head. No merge, release, deployment or external contact.
+
+The bounded framing diagnostic is **closed**. A single-policy host calibration completes and passes independent checks (49,334 new observed tokens). BMAD spec then reads the same prepared sources, identifies the omitted history/scenario and writes a partial native journal, but reaches 120 seconds before final response or recovered usage. Neither DevMethod frame nor Spec Kit specify is admitted afterward. The retained known cumulative amount is **101,046 tokens**, including the earlier 51,712 reference; BMAD and two older series remain unknown, not zero. This is no method ranking. The 120-second limit is a diagnostic bound, not evidence of BMAD inferiority. No retries or budget reset.
+
+Next research question: whether retaining and selecting context improves a person's actual continuation, control and decisions relative to the native alternative workflows. Do not substitute another serialization test for that observation, or reopen this stopped series under a new directory. Any new comparative protocol must account for context preparation and interrupted-run consumption before admission. The situated-tool and concrete-discovery conceptions remain available; no breakthrough is declared.
+
 ## Empowerment snapshot — 12:43 UTC
 
 The owner clarified the target: **the power given to a person by guidance and context management**, compared with Spec Kit and BMAD. [EMPOWERMENT](EMPOWERMENT.md) owns the corrected comparison and the executed work. Compare the complete person–agent workflow from equivalent initial needs and accessible sources. Useful context, expert briefs and prepared decisions are outputs, with preparation cost; a capable agent implementing them is a narrower capability control. Previous negative observations remain intact. No comparative human benefit or breakthrough is established.
