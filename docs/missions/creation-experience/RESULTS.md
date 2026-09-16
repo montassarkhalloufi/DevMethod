@@ -76,6 +76,14 @@ le commit candidat sur les trois systèmes ; les résultats locaux seuls ne perm
 de déclarer Windows ou Linux validés. Les captures et la revue UX sont liées au code du
 Studio, distinct des six révisions de l’application d’exemple.
 
+Le [premier workflow de plateforme](https://github.com/montassarkhalloufi/DevMethod/actions/runs/35124507844)
+du commit `37c9633` a ensuite réussi sur Linux et macOS, mais échoué sur Windows au formatage
+des neuf fichiers publics Studio : leur chemin ne déclarait pas encore les fins de ligne LF.
+La correction ajoute les attributs de la nouvelle surface et protège les exemples/observations
+figés contre la conversion. Un checkout local avec `core.autocrlf=true` retrouve 49 fichiers
+identiques et les empreintes des six révisions. Cette reproduction ne remplace pas le nouveau
+passage Windows ; consulter les contrôles du commit courant de la [PR #37](https://github.com/montassarkhalloufi/DevMethod/pull/37).
+
 [Registre des contrôles et empreintes du runtime](evidence/local-verification.json).
 La [revue UX de l’éditeur](evidence/studio/EDITOR-UX-REVIEW.md) conserve deux défauts mobiles
 avant correction puis les nouvelles observations : menu accessible et 320 px de code visibles

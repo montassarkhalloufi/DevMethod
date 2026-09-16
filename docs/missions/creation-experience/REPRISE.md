@@ -10,6 +10,12 @@ nuit / indigo attend le choix humain.** Continuer les travaux techniques indépe
 Voir [résultats et limites](RESULTS.md), [contrat actuel](CONTRACT.md),
 [guide Studio](../../STUDIO.md), [critères et budgets](PLAN.md).
 
+Livraison dans la [PR brouillon #37](https://github.com/montassarkhalloufi/DevMethod/pull/37),
+branche `codex/creation-experience`, base PR #36. Le premier commit `37c9633` a passé les
+contrôles Linux/macOS mais échoué au format Windows. La correction des attributs Git conserve
+les octets des fichiers Studio et des révisions enregistrées ; vérifier la CI du nouveau HEAD.
+Ne pas fusionner ni publier sans nouvelle autorisation.
+
 ## Sources à conserver
 
 - Application Les Ateliers : master Agenda et mobile dans [DESIGN.md](DESIGN.md).
