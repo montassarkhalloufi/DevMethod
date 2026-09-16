@@ -58,9 +58,12 @@ examples/seance/** text eol=lf
 
 studio-ui/** text eol=lf
 dist/studio-build/** text eol=lf
-dist/studio-ui/** text eol=lf
+# Generated third-party JavaScript contains significant multiline string whitespace.
+dist/studio-ui/** text eol=lf whitespace=-blank-at-eol,-blank-at-eof
 templates/studio-react/** text eol=lf
 examples/studio-ateliers-react/** text eol=lf
 
 # Third-party pins and their integrity manifest preserve exact upstream bytes.
-.agents/skills/react-feature-engineering/references/vercel/** -text
+.agents/skills/react-feature-engineering/references/vercel/** -text whitespace=-blank-at-eol,-blank-at-eof
+# Raw command output is retained byte for byte, including assertion indentation.
+docs/missions/creation-experience/evidence/react-studio/*.log -text whitespace=-blank-at-eol,-blank-at-eof
