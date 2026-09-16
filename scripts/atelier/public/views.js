@@ -16,6 +16,52 @@ export const button = (label, action, attributes = {}) =>
 export const paragraph = (text, className = '') => el('p', { text, className });
 export const heading = (level, text) => el('h' + level, { text });
 
+export function workspaceNavigation() {
+  const links = [
+    ['01', 'Le projet', '#project'],
+    ['02', 'Comparer', '#prototypes'],
+    ['03', 'Essayer', '#situation'],
+    ['04', 'Décider', '#decision'],
+  ];
+  return el('nav', { className: 'workspace-nav', 'aria-label': 'Dans cet atelier' }, [
+    paragraph('VOTRE ATELIER', 'eyebrow'),
+    ...links.map(([number, label, href]) =>
+      el('a', { href }, [
+        el('span', { className: 'nav-number', text: number, 'aria-hidden': 'true' }),
+        el('span', { text: label }),
+      ]),
+    ),
+    paragraph('Comprendre.\nEssayer.\nChoisir.', 'nav-note'),
+  ]);
+}
+
+export function projectIntent(project, edit) {
+  const disclosure = (label, content, open = false) =>
+    el('details', { ...(open ? { open: '' } : {}) }, [el('summary', { text: label }), content]);
+  return el('aside', { className: 'intent-panel', 'aria-label': 'Intentions du projet' }, [
+    heading(2, 'Intentions'),
+    disclosure('Le besoin à comprendre', paragraph(project.brief), true),
+    disclosure(
+      'Contraintes à garder',
+      el(
+        'ul',
+        {},
+        project.constraints.map((item) => el('li', { text: item.text })),
+      ),
+    ),
+    disclosure(
+      'Questions ouvertes',
+      el(
+        'ul',
+        {},
+        project.questions.map((text) => el('li', { text })),
+      ),
+    ),
+    button('Ouvrir le contexte', edit, { id: 'open-intent-context' }),
+    paragraph('Un choix se construit à partir de ce que vous avez essayé.', 'intent-note'),
+  ]);
+}
+
 export function field(label, id, control) {
   control.id = id;
   return el('div', { className: 'field' }, [el('label', { for: id, text: label }), control]);
@@ -97,7 +143,12 @@ export function laneView(variant, lane, index, actorId, act, actors) {
       paragraph(variant.premise, 'premise'),
     ],
   );
-  const product = el('div', { className: 'product' });
+  const product = el('div', {
+    className: 'product',
+    tabindex: '0',
+    role: 'region',
+    'aria-label': 'Données et actions — ' + variant.title,
+  });
   for (const state of variant.states) {
     const records = lane.records.filter((record) => record.state === state.id);
     product.append(

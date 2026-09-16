@@ -1,4 +1,15 @@
-import { el, button, paragraph, heading, field, select, laneView, contextView } from './views.js';
+import {
+  el,
+  button,
+  paragraph,
+  heading,
+  field,
+  select,
+  laneView,
+  contextView,
+  workspaceNavigation,
+  projectIntent,
+} from './views.js';
 import { controlChoices, hasIndividualTrials } from './controls.js';
 
 let state;
@@ -66,6 +77,12 @@ async function change(route, input) {
 
 const act = (action) => change('action', { action });
 
+function showDialog(selector) {
+  const dialog = document.querySelector(selector);
+  dialog.dataset.returnFocus = document.activeElement?.id ?? '';
+  dialog.showModal();
+}
+
 function confirmReset(message, action) {
   const dialog = document.querySelector('#reset-dialog');
   document.querySelector('#reset-message').textContent = message;
@@ -73,7 +90,7 @@ function confirmReset(message, action) {
     dialog.close();
     action();
   };
-  dialog.showModal();
+  showDialog('#reset-dialog');
 }
 
 function choices(project) {
@@ -165,22 +182,26 @@ function newRecordForm(project) {
 
 function commonControls(project) {
   const { transitions, records } = choices(project);
-  const controls = el('section', { className: 'situation', 'aria-label': 'Situation commune' }, [
-    el('div', { className: 'situation-title' }, [
-      paragraph(baseline ? 'PROTOTYPES ORDINAIRES' : 'UNE SITUATION À EXPLORER', 'eyebrow'),
-      heading(
-        2,
-        baseline || single
-          ? 'Essayez chaque fonctionnement.'
-          : 'Même situation. Plusieurs fonctionnements.',
-      ),
-      paragraph(
-        'Changez d’acteur, essayez une action, observez ce qui se passe. Aucun envoi ni publication externe.',
-        'muted',
-      ),
-    ]),
-  ]);
-  const row = el('div', { className: 'controls' }, [
+  const controls = el(
+    'section',
+    { id: 'situation', className: 'situation', 'aria-label': 'Situation commune' },
+    [
+      el('div', { className: 'situation-title' }, [
+        paragraph(baseline ? 'PROTOTYPES ORDINAIRES' : 'UNE SITUATION À EXPLORER', 'eyebrow'),
+        heading(
+          2,
+          baseline || single
+            ? 'Essayez chaque fonctionnement.'
+            : 'Même situation. Plusieurs fonctionnements.',
+        ),
+        paragraph(
+          'Changez d’acteur, essayez une action, observez ce qui se passe. Aucun envoi ni publication externe.',
+          'muted',
+        ),
+      ]),
+    ],
+  );
+  const row = el('div', { className: 'controls' + (baseline || single ? ' individual' : '') }, [
     field(
       'Agir en tant que',
       'actor',
@@ -225,7 +246,12 @@ function commonControls(project) {
         'muted',
       ),
     );
-  controls.append(newRecordForm(project));
+  controls.append(
+    el('details', { className: 'create-disclosure', ...(draft.title ? { open: '' } : {}) }, [
+      el('summary', { text: 'Ajouter un élément à essayer' }),
+      newRecordForm(project),
+    ]),
+  );
   return controls;
 }
 
@@ -247,14 +273,18 @@ function situationHistory() {
           () => change('replay', {}),
         );
       },
-      { disabled: !steps.length },
+      { id: 'replay-trials', disabled: !steps.length },
     ),
-    button('Recommencer les essais', () => {
-      confirmReset(
-        'Revenir aux données fictives de départ ? Votre décision reste conservée, mais les essais et éléments ajoutés seront réinitialisés.',
-        () => change('replay', { steps: [] }),
-      );
-    }),
+    button(
+      'Recommencer les essais',
+      () => {
+        confirmReset(
+          'Revenir aux données fictives de départ ? Votre décision reste conservée, mais les essais et éléments ajoutés seront réinitialisés.',
+          () => change('replay', { steps: [] }),
+        );
+      },
+      { id: 'reset-trials' },
+    ),
   ]);
   if (steps.length)
     history.append(
@@ -311,7 +341,7 @@ function decisionView(project) {
       el('button', { type: 'submit', className: 'primary', text: 'Conserver ce choix' }),
     ],
   );
-  const section = el('section', { className: 'decision-panel' }, [
+  const section = el('section', { id: 'decision', className: 'decision-panel' }, [
     paragraph('DÉCIDER À PARTIR DE CE QUE VOUS AVEZ ESSAYÉ', 'eyebrow'),
     heading(2, 'Quel fonctionnement voulez-vous garder ?'),
     form,
@@ -365,31 +395,49 @@ function render() {
   const shown = single
     ? project.variants.filter((variant) => variant.id === single)
     : project.variants;
-  root.replaceChildren(
-    el('div', { className: 'project-head' }, [
+  const workbench = el('div', { className: 'workbench' }, [
+    el('div', { id: 'project', className: 'project-head' }, [
       el('div', {}, [
         paragraph('PROJET / RÉVISION ' + state.session.revision, 'eyebrow'),
         heading(1, project.title),
         paragraph(project.brief.split('\n')[0], 'subtitle'),
       ]),
       el('div', { className: 'head-actions' }, [
-        button('Contexte du projet', openContext),
-        button('Préparer une exploration', openAgent, { className: 'primary' }),
+        button('Contexte du projet', openContext, { id: 'open-context' }),
+        button('Préparer une exploration', openAgent, { id: 'open-agent', className: 'primary' }),
       ]),
     ]),
     commonControls(project),
-  );
+  ]);
   if (single)
-    root.append(el('a', { href: '/', text: '← Revenir à la comparaison', className: 'back-link' }));
+    workbench.append(
+      el('a', { href: '/', text: '← Revenir à la comparaison', className: 'back-link' }),
+    );
   const lanes = el('div', { className: 'lanes' + (single ? ' single' : '') });
   shown.forEach((variant, index) =>
     lanes.append(
       laneView(variant, state.session.lanes[variant.id], index, draft.actorId, act, project.actors),
     ),
   );
-  root.append(lanes);
-  if (!single && !baseline) root.append(situationHistory());
-  root.append(decisionView(project));
+  workbench.append(
+    el(
+      'section',
+      { id: 'prototypes', className: 'prototype-section', 'aria-label': 'Prototypes à essayer' },
+      [
+        el('div', { className: 'section-heading' }, [
+          heading(2, single ? 'Le prototype à essayer' : 'Des façons de faire, à essayer'),
+          paragraph(
+            'Chaque carte montre les données et les actions de ce fonctionnement.',
+            'muted',
+          ),
+        ]),
+        lanes,
+      ],
+    ),
+  );
+  if (!single && !baseline) workbench.append(situationHistory());
+  workbench.append(decisionView(project));
+  root.replaceChildren(workspaceNavigation(), workbench, projectIntent(project, openContext));
   if (focusId) document.getElementById(focusId)?.focus({ preventScroll: true });
 }
 
@@ -399,7 +447,7 @@ function openContext() {
       if (await change('intent', { intent })) document.querySelector('#context-dialog').close();
     }),
   );
-  document.querySelector('#context-dialog').showModal();
+  showDialog('#context-dialog');
 }
 
 function openAgent() {
@@ -418,7 +466,7 @@ function openAgent() {
         ]),
       ),
   );
-  document.querySelector('#agent-dialog').showModal();
+  showDialog('#agent-dialog');
 }
 
 function requestResult(result) {
@@ -482,6 +530,10 @@ document.querySelector('#proposal-form').addEventListener('submit', async (event
     );
   }
 });
+for (const dialog of document.querySelectorAll('dialog'))
+  dialog.addEventListener('close', () => {
+    document.getElementById(dialog.dataset.returnFocus)?.focus({ preventScroll: true });
+  });
 for (const close of document.querySelectorAll('[data-close]'))
   close.addEventListener('click', () => document.getElementById(close.dataset.close).close());
 document.querySelector('#reload').addEventListener('click', load);
