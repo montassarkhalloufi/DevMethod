@@ -57,3 +57,7 @@ None supports novelty claims for stage routing, evidence records or independent 
 | Universal autonomous orchestrator or semantic completion certificate | Broad coordination proposal | Would require trustworthy host/tool/budget and semantic evaluation contracts not provided by hashes | High implementation/adoption cost; no observed need that simpler checks fail to address here | **Not selected for this delivery.** No general controller added |
 
 The native smoke separately compares ordinary instructions, stable DevMethod and the exact pre-repair experimental lab. Its results cannot credit these later fixes. The [mission](../missions/journey-evolution/PLAN.md) and dated checkpoint own delivery scope/evidence. Missing target-user studies, broad model replication and image-design comparative quality remain external validation gaps, not fabricated successes.
+
+## Current native observation
+
+The [bounded native smoke](../../evaluation/journey-native/README.md) admitted one of six slots, then stopped on timeout and unknown usage. The ordinary baseline produced a CLI satisfying all four tested criteria, but its handoff stayed pending. B/C and maintenance did not run. This strengthens neither a superiority claim nor a causal explanation of historical context overhead. Its exact Node runtime was not retained; the current driver now freezes/rechecks it. Three reporting/continuity defects found in the unexecuted maintenance/exception paths were corrected separately with local regressions. The actual interrupted outcome is preserved.

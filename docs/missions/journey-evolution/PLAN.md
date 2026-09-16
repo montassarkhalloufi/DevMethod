@@ -18,4 +18,4 @@ This bounded delivery evaluates an existing complete product journey and targete
 
 Parent owns integration, browser/app changes and this mission. `workflow_audit` owns a bounded read-only capability/primary-source review. `lab_audit` owns a separate worktree for restart evaluator repair. `native_admission` owns bounded read-only capability inspection until a protocol is frozen. Reviewers inspect named candidates read-only. Source, distribution, contracts and package checks must remain consistent.
 
-Historical evidence: [lab checkpoint](../../EVIDENCE-LAB-CHECKPOINT.md), [retained runs](../../../evaluation/evidence-runs/README.md), [native protocol](../../research/evidence-native-protocol.md). Current results and exact next action will be linked from the dated checkpoint after verification; this plan is scope, not proof of completion.
+Historical evidence: [lab checkpoint](../../EVIDENCE-LAB-CHECKPOINT.md), [retained runs](../../../evaluation/evidence-runs/README.md), [native protocol](../../research/evidence-native-protocol.md). Current results and exact next action are recorded in the [dated checkpoint](REPRISE.md); this plan is scope, not proof of completion.

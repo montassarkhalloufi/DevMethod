@@ -32,7 +32,7 @@ The independent fixture was authored by the workflow-audit worker before any nat
 
 Raw native output and complete workspace snapshots stay outside public records. Only manually inspected fictional task/product artifacts, sanitized observations and short trace excerpts are published in `evaluation/journey-native/`. Final results must retain all not-run slots and the exact stop reason.
 
-Reproduction is explicit opt-in: `node scripts/native-journey-smoke.mjs prepare FIXTURE NEW_ABSOLUTE_ROOT`, then `node scripts/native-journey-smoke.mjs run ROOT` after reviewing the frozen record. The new bounded authorization for this task does not authorize a later operator's campaign. Results and review are linked from the evaluation directory after execution.
+Reproduction requires a source checkout containing both pinned Git revisions on the inspected macOS profile; an extracted npm archive does not contain those Git objects. Execution is explicit opt-in: `node scripts/native-journey-smoke.mjs prepare FIXTURE NEW_ABSOLUTE_ROOT`, then `node scripts/native-journey-smoke.mjs run ROOT` after reviewing the frozen record. The new bounded authorization for this task does not authorize a later operator's campaign. Results and review are linked from the evaluation directory after execution.
 
 ## Post-execution runtime correction
 
