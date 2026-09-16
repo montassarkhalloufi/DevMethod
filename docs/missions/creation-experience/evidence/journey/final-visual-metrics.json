@@ -1,0 +1,479 @@
+{
+  "checkedAt": "2026-09-16T15:57:45.467Z",
+  "url": "http://127.0.0.1:4331/",
+  "revisionIdProvidedByHost": "4bb3238f-fd3a-4edb-8377-89d5850cc258",
+  "browser": "Chrome, independent agent tab",
+  "scope": "Targeted visual QA of desktop compact three-column workshop cards and mobile wrapping filters; no registration mutations.",
+  "references": [
+    "../../design/master-desktop.png",
+    "../../design/mobile.png"
+  ],
+  "desktop": {
+    "cards": [
+      {
+        "children": [
+          {
+            "className": "date-block",
+            "rect": {
+              "bottom": 437.5283966064453,
+              "height": 193.62925720214844,
+              "right": 555.2911682128906,
+              "width": 90,
+              "x": 465.2911682128906,
+              "y": 243.89913940429688
+            }
+          },
+          {
+            "className": "workshop-details",
+            "rect": {
+              "bottom": 437.5283966064453,
+              "height": 193.62925720214844,
+              "right": 1034.1335144042969,
+              "width": 478.8423156738281,
+              "x": 555.2911987304688,
+              "y": 243.89913940429688
+            }
+          },
+          {
+            "className": "booking-panel",
+            "rect": {
+              "bottom": 437.5283966064453,
+              "height": 193.62925720214844,
+              "right": 1214.133544921875,
+              "width": 180,
+              "x": 1034.133544921875,
+              "y": 243.89913940429688
+            }
+          }
+        ],
+        "gridTemplateColumns": "90px 478.842px 180px",
+        "rect": {
+          "bottom": 462.4360656738281,
+          "height": 243.4445953369141,
+          "right": 1239.0411682128906,
+          "width": 798.6576538085938,
+          "x": 440.3835144042969,
+          "y": 218.9914703369141
+        },
+        "title": "Réparer son vélo"
+      },
+      {
+        "children": [
+          {
+            "className": "date-block",
+            "rect": {
+              "bottom": 669.5241241455078,
+              "height": 168.1818084716797,
+              "right": 555.2911682128906,
+              "width": 90,
+              "x": 465.2911682128906,
+              "y": 501.3423156738281
+            }
+          },
+          {
+            "className": "workshop-details",
+            "rect": {
+              "bottom": 669.5241241455078,
+              "height": 168.1818084716797,
+              "right": 1034.1335144042969,
+              "width": 478.8423156738281,
+              "x": 555.2911987304688,
+              "y": 501.3423156738281
+            }
+          },
+          {
+            "className": "booking-panel",
+            "rect": {
+              "bottom": 669.5241241455078,
+              "height": 168.1818084716797,
+              "right": 1214.133544921875,
+              "width": 180,
+              "x": 1034.133544921875,
+              "y": 501.3423156738281
+            }
+          }
+        ],
+        "gridTemplateColumns": "90px 478.842px 180px",
+        "rect": {
+          "bottom": 694.4317779541016,
+          "height": 217.9971466064453,
+          "right": 1239.0411682128906,
+          "width": 798.6576538085938,
+          "x": 440.3835144042969,
+          "y": 476.43463134765625
+        },
+        "title": "Cuisine de saison"
+      },
+      {
+        "children": [
+          {
+            "className": "date-block",
+            "rect": {
+              "bottom": 901.5198211669922,
+              "height": 168.1818084716797,
+              "right": 555.2911682128906,
+              "width": 90,
+              "x": 465.2911682128906,
+              "y": 733.3380126953125
+            }
+          },
+          {
+            "className": "workshop-details",
+            "rect": {
+              "bottom": 901.5198211669922,
+              "height": 168.1818084716797,
+              "right": 1034.1335144042969,
+              "width": 478.8423156738281,
+              "x": 555.2911987304688,
+              "y": 733.3380126953125
+            }
+          },
+          {
+            "className": "booking-panel",
+            "rect": {
+              "bottom": 901.5198211669922,
+              "height": 168.1818084716797,
+              "right": 1214.133544921875,
+              "width": 180,
+              "x": 1034.133544921875,
+              "y": 733.3380126953125
+            }
+          }
+        ],
+        "gridTemplateColumns": "90px 478.842px 180px",
+        "rect": {
+          "bottom": 926.427505493164,
+          "height": 217.9971466064453,
+          "right": 1239.0411682128906,
+          "width": 798.6576538085938,
+          "x": 440.3835144042969,
+          "y": 708.4303588867188
+        },
+        "title": "Initiation à la couture"
+      }
+    ],
+    "document": {
+      "clientWidth": 1280,
+      "scrollHeight": 1536,
+      "scrollWidth": 1280
+    },
+    "filters": [
+      {
+        "rect": {
+          "bottom": 194.99288940429688,
+          "height": 50,
+          "right": 547.8764114379883,
+          "width": 107.4928970336914,
+          "x": 440.3835144042969,
+          "y": 144.99288940429688
+        },
+        "text": "Tous"
+      },
+      {
+        "rect": {
+          "bottom": 194.99288940429688,
+          "height": 50,
+          "right": 720.6959991455078,
+          "width": 157.81959533691406,
+          "x": 562.8764038085938,
+          "y": 144.99288940429688
+        },
+        "text": "Réparation"
+      },
+      {
+        "rect": {
+          "bottom": 194.99288940429688,
+          "height": 50,
+          "right": 865.1846160888672,
+          "width": 129.48863220214844,
+          "x": 735.6959838867188,
+          "y": 144.99288940429688
+        },
+        "text": "Cuisine"
+      },
+      {
+        "rect": {
+          "bottom": 194.99288940429688,
+          "height": 50,
+          "right": 1014.3536682128906,
+          "width": 134.16903686523438,
+          "x": 880.1846313476562,
+          "y": 144.99288940429688
+        },
+        "text": "Couture"
+      }
+    ],
+    "registrationText": "Noa — Cuisine de saison18 h–20 h, Cuisine partagéeAnnulerOmar — Réparer son vélo10 h–12 h, Maison des associationsAnnulerLina — Réparer son vélo10 h–12 h, Maison des associationsAnnulerListe d’attenteSami — Réparer son véloEn attente · position 1 — 10 h–12 h, Maison des associationsQuitter la liste",
+    "viewport": {
+      "devicePixelRatio": 1.100000023841858,
+      "height": 960,
+      "width": 1280
+    }
+  },
+  "mobile": {
+    "cards": [
+      {
+        "children": [
+          {
+            "className": "date-block",
+            "rect": {
+              "bottom": 1013.2811889648438,
+              "height": 366.00140380859375,
+              "right": 106.90340423583984,
+              "width": 72.99715423583984,
+              "x": 33.90625,
+              "y": 647.27978515625
+            }
+          },
+          {
+            "className": "workshop-details",
+            "rect": {
+              "bottom": 832.4999542236328,
+              "height": 185.2201690673828,
+              "right": 356.09374237060547,
+              "width": 249.1903381347656,
+              "x": 106.90340423583984,
+              "y": 647.27978515625
+            }
+          },
+          {
+            "className": "booking-panel",
+            "rect": {
+              "bottom": 1013.28125,
+              "height": 180.78125,
+              "right": 356.09374237060547,
+              "width": 249.1903381347656,
+              "x": 106.90340423583984,
+              "y": 832.5
+            }
+          }
+        ],
+        "gridTemplateColumns": "72.9972px 249.19px",
+        "rect": {
+          "bottom": 1033.1888732910156,
+          "height": 405.8167419433594,
+          "right": 370,
+          "width": 350,
+          "x": 20,
+          "y": 627.3721313476562
+        },
+        "title": "Réparer son vélo"
+      },
+      {
+        "children": [
+          {
+            "className": "date-block",
+            "rect": {
+              "bottom": 1389.8010559082031,
+              "height": 322.7059631347656,
+              "right": 106.90340423583984,
+              "width": 72.99715423583984,
+              "x": 33.90625,
+              "y": 1067.0950927734375
+            }
+          },
+          {
+            "className": "workshop-details",
+            "rect": {
+              "bottom": 1252.3152618408203,
+              "height": 185.2201690673828,
+              "right": 356.09374237060547,
+              "width": 249.1903381347656,
+              "x": 106.90340423583984,
+              "y": 1067.0950927734375
+            }
+          },
+          {
+            "className": "booking-panel",
+            "rect": {
+              "bottom": 1389.8011016845703,
+              "height": 137.4857940673828,
+              "right": 356.09374237060547,
+              "width": 249.1903381347656,
+              "x": 106.90340423583984,
+              "y": 1252.3153076171875
+            }
+          }
+        ],
+        "gridTemplateColumns": "72.9972px 249.19px",
+        "rect": {
+          "bottom": 1409.7088012695312,
+          "height": 362.5213012695313,
+          "right": 370,
+          "width": 350,
+          "x": 20,
+          "y": 1047.1875
+        },
+        "title": "Cuisine de saison"
+      },
+      {
+        "children": [
+          {
+            "className": "date-block",
+            "rect": {
+              "bottom": 1796.5624084472656,
+              "height": 352.9474182128906,
+              "right": 106.90340423583984,
+              "width": 72.99715423583984,
+              "x": 33.90625,
+              "y": 1443.614990234375
+            }
+          },
+          {
+            "className": "workshop-details",
+            "rect": {
+              "bottom": 1659.076629638672,
+              "height": 215.46163940429688,
+              "right": 356.09374237060547,
+              "width": 249.1903381347656,
+              "x": 106.90340423583984,
+              "y": 1443.614990234375
+            }
+          },
+          {
+            "className": "booking-panel",
+            "rect": {
+              "bottom": 1796.5624542236328,
+              "height": 137.4857940673828,
+              "right": 356.09374237060547,
+              "width": 249.1903381347656,
+              "x": 106.90340423583984,
+              "y": 1659.07666015625
+            }
+          }
+        ],
+        "gridTemplateColumns": "72.9972px 249.19px",
+        "rect": {
+          "bottom": 1816.4700317382812,
+          "height": 392.76275634765625,
+          "right": 370,
+          "width": 350,
+          "x": 20,
+          "y": 1423.707275390625
+        },
+        "title": "Initiation à la couture"
+      }
+    ],
+    "document": {
+      "clientWidth": 390,
+      "scrollHeight": 2751,
+      "scrollWidth": 390
+    },
+    "filterGroup": {
+      "display": "flex",
+      "flexWrap": "wrap",
+      "rect": {
+        "bottom": 603.3735580444336,
+        "height": 95.99431610107422,
+        "right": 370,
+        "width": 350,
+        "x": 20,
+        "y": 507.3792419433594
+      }
+    },
+    "filters": [
+      {
+        "rect": {
+          "bottom": 551.3778190612793,
+          "height": 43.99857711791992,
+          "right": 87.30113220214844,
+          "width": 67.30113220214844,
+          "x": 20,
+          "y": 507.3792419433594
+        },
+        "text": "Tous"
+      },
+      {
+        "rect": {
+          "bottom": 551.3778190612793,
+          "height": 43.99857711791992,
+          "right": 207.32953643798828,
+          "width": 112.03124237060548,
+          "x": 95.2982940673828,
+          "y": 507.3792419433594
+        },
+        "text": "Réparation"
+      },
+      {
+        "rect": {
+          "bottom": 551.3778190612793,
+          "height": 43.99857711791992,
+          "right": 302.18038177490234,
+          "width": 86.85369110107422,
+          "x": 215.32669067382812,
+          "y": 507.3792419433594
+        },
+        "text": "Cuisine"
+      },
+      {
+        "rect": {
+          "bottom": 603.3735771179199,
+          "height": 43.99857711791992,
+          "right": 111.0085220336914,
+          "width": 91.0085220336914,
+          "x": 20,
+          "y": 559.375
+        },
+        "text": "Couture"
+      }
+    ],
+    "registrationText": "Noa — Cuisine de saison18 h–20 h, Cuisine partagéeAnnulerOmar — Réparer son vélo10 h–12 h, Maison des associationsAnnulerLina — Réparer son vélo10 h–12 h, Maison des associationsAnnulerListe d’attenteSami — Réparer son véloEn attente · position 1 — 10 h–12 h, Maison des associationsQuitter la liste",
+    "viewport": {
+      "devicePixelRatio": 1.100000023841858,
+      "height": 843,
+      "width": 390
+    }
+  },
+  "checks": {
+    "desktopNoHorizontalOverflow": true,
+    "desktopThreeColumns": true,
+    "mobileNoHorizontalOverflow": true,
+    "mobileFiltersWrap": true,
+    "mobileAllFiltersInsideViewport": true,
+    "cuisineFilter": [
+      "Cuisine de saison"
+    ],
+    "allFilter": [
+      "Réparer son vélo",
+      "Cuisine de saison",
+      "Initiation à la couture"
+    ],
+    "registrationsDisplayedUnchanged": true
+  },
+  "console": [],
+  "captures": {
+    "desktop": {
+      "file": "final-desktop.jpg",
+      "fullPage": false,
+      "requestedOverride": {
+        "width": 1408,
+        "height": 1056
+      },
+      "actualDom": {
+        "width": 1280,
+        "height": 960
+      }
+    },
+    "mobile": {
+      "file": "final-mobile.jpg",
+      "fullPage": false,
+      "requestedOverride": {
+        "width": 429,
+        "height": 928
+      },
+      "actualDom": {
+        "width": 390,
+        "height": 843
+      }
+    },
+    "note": "Existing Chrome zoom is 110%; overrides were adjusted using actual innerWidth. Mobile fullPage capture was discarded because the capture API clipped its right edge at this zoom; final-mobile is the normal viewport screenshot."
+  },
+  "assessment": {
+    "affectedFixes": "pass",
+    "referenceDifferencesNotRetestedOrChanged": [
+      "Live dates, availability and existing registrations are data rather than the reference fixture.",
+      "Mobile keeps the date beside details and booking; the reference shows a full-width bottom booking row. This existing layout difference is outside the two CSS fixes."
+    ],
+    "limits": "No full journey, enrollment, cancellation, persistence, accessibility, other browsers or all breakpoints tested in this pass. The user IAB tab was not selected or modified."
+  }
+}

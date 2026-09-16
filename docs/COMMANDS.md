@@ -33,7 +33,17 @@ For a detailed or presentation-quality architecture illustration, use `$devmetho
 
 ## Choose working mode and carry a study forward
 
-For a new project, `$project-foundation` offers guided or autonomous work when no preference/delegation is already known. The mode changes how decisions are discussed, not the quality requirements or authorized scope. Reuse it on resumption and change it when requested.
+For a new project, `$project-foundation` reuses the preference and delegation already supplied. If a material boundary remains undecided, it offers three working modes once:
+
+| Mode | Choices and delivery | Human checkpoint |
+|---|---|---|
+| **Autonomous** | The agent explores, chooses within the reversible delegation, implements and verifies the authorized scope. | A decision outside that delegation, a required external-action authorization, or observed drift that cannot be resolved within the agreed bounds. |
+| **DevAuto** | Structural product, design and architecture choices are discussed and accepted first; the agent then implements, verifies and makes bounded corrections within that scope. | A new or invalidated structural choice; acceptance already given is reused. |
+| **Guided** | Material choices and acceptance of useful delivered slices are discussed; authorized implementation and checks still proceed without micromanaging commands. | The agreed choice and result checkpoints, after the agent has prepared a concrete, reviewable result. |
+
+These are [agent collaboration contracts](../.agents/skills/project-foundation/references/working-modes.md), not additional commands or a universal execution service. For example, ask `$project-foundation continue in DevAuto with the accepted design and architecture`. Automatic continuation requires an available, authorized host executor; unavailable capabilities remain explicit. The modes share the same verification, review and repository gates. They do not add permission to merge, publish, spend or contact others.
+
+Record the mode and its source in the existing profile, reuse them after interruption, and change them on request. A failure, repeated unsuccessful correction, invalidated context or unknown consumption is a factual signal to inspect the affected scope. It is not a numeric confidence score or an automatic reason to ask the user about everything. Continue independent work and request only the decision needed to resume the affected part. A routine fix does not reopen accepted architecture, repeat onboarding or require a full set of planning documents.
 
 Ask `$project-foundation` or `$devmethod-handoff` to generate a complete project study in PDF or DOCX and an editable portable package. The agent first checks the actual agreed study: research, features/rules, architecture and costs, selected design assets where applicable, milestones and tickets. Missing required elements are addressed before producing a report labeled complete. Export requires document/rendering capabilities supplied by the host, not by the installer.
 

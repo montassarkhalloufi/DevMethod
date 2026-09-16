@@ -1,0 +1,71 @@
+{
+  "observedAt": "2026-09-16T16:25:29.073Z",
+  "activeRevision": "1aea70fe-1134-4dfa-a872-a79e3003b6aa",
+  "title": "Modification manuelle du code",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1566,
+      "sha256": "995750c93885b248d849e4a4cb01476871f5fd338919107f5f139c40c11c0bf6"
+    },
+    {
+      "path": "app.js",
+      "bytes": 12433,
+      "sha256": "525eb6bdd60c7943777fea47add48fc407906c0caf3066c5a0af563a1d6640c4"
+    },
+    {
+      "path": "index.html",
+      "bytes": 4539,
+      "sha256": "da2b387ed22786e350e8427538cc76e48e3c8c43bdac3f7182c70294b7afd221"
+    },
+    {
+      "path": "lib.mjs",
+      "bytes": 3929,
+      "sha256": "2c0d17e4fabe4ee3d52724aaf2a1a7b7e64732ff6f95877416d79ab4cb029894"
+    },
+    {
+      "path": "styles.css",
+      "bytes": 10499,
+      "sha256": "9fa202d8e3fd7c750bc67614ff1b1e6ea21df8ebbf32c9f68c70a6f770fa3100"
+    },
+    {
+      "path": "tests.mjs",
+      "bytes": 6247,
+      "sha256": "f0dca5f6b17f1d988a9864e0f722b52a0d272d0f25ff88f8e3aa37b8d318db19"
+    }
+  ],
+  "checks": [
+    {
+      "revisionId": "1aea70fe-1134-4dfa-a872-a79e3003b6aa",
+      "label": "Édition : syntaxe JavaScript et JSON — comportement non évalué",
+      "status": "passed",
+      "kind": "command",
+      "command": "node --input-type=module --check (stdin: octets exacts de chaque .js/.mjs) ; node --input-type=commonjs --check (stdin: octets exacts de chaque .cjs) ; borne globale 10s ; JSON.parse (fichiers JSON)",
+      "output": "[{\"severity\":\"info\",\"file\":\"\",\"message\":\"Syntaxe JS et JSON uniquement ; aucun test métier, contrôle CSS, JavaScript inline, compilation TypeScript ni installation exécuté.\",\"direction\":\"Essayer l’aperçu et revoir les critères avant adoption ; les avertissements de références sont heuristiques.\"}]",
+      "id": "8c24f0bc-a909-44db-8f17-e98f714fa74b",
+      "createdAt": "2026-09-16T16:25:00.538Z"
+    }
+  ],
+  "businessData": {
+    "version": 10,
+    "sha256": "22aac06a026ec812cdee26b830e3e7b49ef8a10ddba441099bcc9297894f6cb8",
+    "containsTrial": false
+  },
+  "draftData": {
+    "version": 11,
+    "containsTrial": true
+  },
+  "steps": [
+    "HTML footer edited through real Code UI; automatic save/build opened actual third-origin preview",
+    "App.js with ESM imports plus incomplete expression exposed a Node --check false success; negative case preserved and verifier changed to exact bytes on stdin with explicit parse mode",
+    "After server restart, identical malformed code blocked build with app.js:270 diagnostic; last good preview retained",
+    "A real thrown Error in valid JS reported by iframe error observer blocked adoption; after restoring original JS the signal cleared on the next build",
+    "Trial registration typed and saved only in draft preview; active business data stayed byte-identical",
+    "Manual adoption clicked in real UI; only index.html footer changed, no old functional checks copied"
+  ],
+  "limits": [
+    "Browser-agent observations, not human evaluation",
+    "Runtime signals originate in preview code; not independent correctness proofs",
+    "Static JS/JSON checks do not validate CSS, TypeScript, backend integrations or product suitability"
+  ]
+}

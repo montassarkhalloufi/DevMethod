@@ -1,0 +1,32 @@
+{
+  "beforeAt": "2026-09-16T15:33:43.303Z",
+  "dataSha256": "22aac06a026ec812cdee26b830e3e7b49ef8a10ddba441099bcc9297894f6cb8",
+  "dataVersion": 10,
+  "activeRevision": "b44b4b37-4d31-4a72-a9b2-da47c95cabc9",
+  "selectedDesignId": "agenda",
+  "draft": "Reprise vérifiée : conserver les choix, les inscriptions et la liste d’attente.",
+  "jobCount": 5,
+  "knownTokens": 277934,
+  "after": {
+    "at": "2026-09-16T15:35:58.581Z",
+    "dataSha256": "22aac06a026ec812cdee26b830e3e7b49ef8a10ddba441099bcc9297894f6cb8",
+    "activeRevision": "b44b4b37-4d31-4a72-a9b2-da47c95cabc9",
+    "selectedDesignId": "agenda",
+    "draft": "Reprise vérifiée : conserver les choix, les inscriptions et la liste d’attente.",
+    "jobCount": 5
+  },
+  "stoppedObserved": true,
+  "observer": "Parent agent: real browser plus files/API, not human validation",
+  "browser": {
+    "visibleDraft": "test",
+    "registrations": [
+      "Noa",
+      "Omar",
+      "Lina"
+    ],
+    "waiting": [
+      "Sami"
+    ],
+    "horizontalOverflowAt607": false
+  }
+}

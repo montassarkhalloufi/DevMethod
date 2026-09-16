@@ -1,0 +1,256 @@
+.editor-heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.editor-heading h2 {
+  margin: 0;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.editor-heading .editor-status {
+  margin: 0;
+  flex: 1;
+}
+.editor-note {
+  margin: 6px 0;
+}
+.editor-more {
+  position: relative;
+  font-size: 13px;
+}
+.editor-more summary {
+  padding: 8px;
+  cursor: pointer;
+}
+.editor-more-actions {
+  position: absolute;
+  right: 0;
+  z-index: 4;
+  display: grid;
+  gap: 6px;
+  width: 280px;
+  padding: 10px;
+  border: 1px solid var(--line, #394738);
+  background: #202d24;
+  border-radius: 8px;
+  box-shadow: 0 10px 32px #0006;
+}
+.editor-file-message:empty {
+  display: none;
+}
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 8px 0;
+}
+.editor-auto {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  font-size: 13px;
+  margin-right: auto;
+}
+.editor-auto input {
+  width: auto;
+}
+.editor-body {
+  display: grid;
+  grid-template-columns: 150px minmax(230px, 1fr) minmax(240px, 0.8fr);
+  min-height: 420px;
+  border: 1px solid var(--line, #394738);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.editor-files {
+  background: #141d18;
+  padding: 10px;
+  overflow: auto;
+  max-height: 620px;
+}
+.editor-files button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font:
+    13px/1.5 ui-monospace,
+    monospace;
+  border: 0;
+  background: transparent;
+  word-break: break-word;
+  margin-bottom: 4px;
+}
+.editor-files button[aria-current='true'] {
+  background: #354331;
+  color: #e1edb0;
+}
+.editor-editing {
+  min-width: 0;
+  background: #111a17;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.editor-editing label {
+  font:
+    13px ui-monospace,
+    monospace;
+}
+.editor-input {
+  flex: 1;
+  width: 100%;
+  min-height: 360px;
+  resize: vertical;
+  border: 0;
+  border-radius: 0;
+  background: #111a17;
+  color: #dae5cc;
+  font:
+    13px/1.65 ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    monospace;
+  tab-size: 2;
+  padding: 10px 0;
+  white-space: pre;
+  overflow: auto;
+}
+.editor-position,
+.editor-note,
+.editor-file-message {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b8c3b4;
+}
+.editor-preview {
+  min-width: 0;
+  padding: 12px;
+  border-left: 1px solid #394738;
+}
+.editor-preview h3 {
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+.editor-preview p {
+  font-size: 13px;
+  color: #b8c3b4;
+}
+.editor-preview iframe {
+  width: 100%;
+  height: 460px;
+  border: 0;
+  background: #fff;
+  border-radius: 5px;
+}
+.editor-status {
+  font-size: 13px;
+  padding: 10px 12px;
+  background: #283628;
+  border-radius: 6px;
+}
+.editor-status.error {
+  background: #493826;
+  color: #ffdc97;
+}
+.editor-diagnostics {
+  margin-top: 16px;
+  border-top: 1px solid #394738;
+  padding-top: 12px;
+}
+.editor-diagnostics h3 {
+  font-size: 14px;
+}
+.editor-signal {
+  font-size: 13px;
+  line-height: 1.55;
+  padding: 10px 14px;
+  margin: 8px 0;
+  border-left: 3px solid #99aa83;
+  background: #202d24;
+  overflow-wrap: anywhere;
+}
+.editor-signal.error {
+  border-color: #e6a85a;
+  background: #342c23;
+}
+.editor-signal.warning {
+  border-color: #d4c479;
+}
+.editor-signal p {
+  white-space: pre-wrap;
+  margin: 3px 0;
+}
+.editor-direction {
+  color: #d3ddc9;
+}
+.editor-signal button {
+  margin-top: 6px;
+}
+.source-editor-back {
+  margin-bottom: 8px;
+}
+@media (max-width: 1200px) {
+  .editor-body {
+    grid-template-columns: 130px minmax(220px, 1fr);
+  }
+  .editor-preview {
+    grid-column: 1/-1;
+    border-left: 0;
+    border-top: 1px solid #394738;
+  }
+}
+@media (max-width: 620px) {
+  .editor-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: 'auto more' 'check adopt';
+  }
+  .editor-auto {
+    grid-area: auto;
+  }
+  .editor-toolbar > button:first-of-type {
+    grid-area: check;
+  }
+  .editor-toolbar > button:nth-of-type(2) {
+    grid-area: adopt;
+  }
+  .editor-more {
+    grid-area: more;
+    justify-self: end;
+  }
+  .editor-heading {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .editor-more-actions {
+    right: 0;
+    left: auto;
+    max-width: calc(100vw - 70px);
+  }
+  .editor-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .editor-files {
+    display: flex;
+    gap: 6px;
+    padding: 6px;
+    overflow-x: auto;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .editor-files button {
+    width: auto;
+    flex: 0 0 auto;
+    max-width: 220px;
+    margin: 0;
+  }
+  .editor-input {
+    min-height: 320px;
+  }
+  .editor-preview {
+    grid-column: auto;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "attempts": 1,
+  "knownTokens": 277934,
+  "unknownUsage": false,
+  "runs": [
+    {
+      "jobId": "48f29572-b237-42bd-a83e-cfc9d762e6e7",
+      "status": "completed",
+      "startedAt": "2026-09-16T14:50:41.630Z",
+      "usage": {
+        "inputTokens": 264412,
+        "outputTokens": 13522,
+        "cachedInputTokens": 228224,
+        "costUSD": null
+      },
+      "finishedAt": "2026-09-16T14:55:13.634Z"
+    }
+  ]
+}

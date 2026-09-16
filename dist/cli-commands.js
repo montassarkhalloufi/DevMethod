@@ -16,6 +16,8 @@ const help = `DevMethod — install and inspect reusable AI skills
 
 devmethod init [--tool codex|claude|cursor] [--dest PATH]
                [--modules name,name] [--dry-run]
+devmethod studio --workspace /ABSOLUTE/DEDICATED_DIR [--agent codex]
+devmethod studio --help
 devmethod doctor [--dest PATH] [--json]
 devmethod update-preview [--dest PATH] [--json]
 devmethod mission --mission RELATIVE_JSON [--dest PATH] [--json]
@@ -37,6 +39,9 @@ devmethod evidence status --contract JSON_PATH --evaluator EXTERNAL_DIR --sessio
 devmethod review [--review RELATIVE_JSON | --legacy RELATIVE_MD | --demo]
                  [--output RELATIVE_HTML] [--open] [--markdown RELATIVE_MD] [--dest PATH]
                  [--current-revision REV] [--changed-targets name,name] [--json]
+
+Studio runs a local product workspace with three working modes, real application preview,
+durable jobs and export. The optional Codex adapter uses existing local access. See docs/STUDIO.md.
 
 For init, an interactive terminal asks for the host when --tool is omitted.
 Non-interactive init calls require --tool. Destination defaults to the current directory.

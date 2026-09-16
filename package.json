@@ -41,7 +41,8 @@
     "format": "prettier --write \"src/**/*.{ts,css}\" \"scripts/**/*.{mjs,js,css,html,json}\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab,seance}/**/*.{js,mjs,cjs,ts,tsx,css,html}\"",
     "test:evidence-demo": "node --test examples/evidence-lab/app/*.test.mjs && node scripts/evidence-demo.mjs",
     "quality:report": "node scripts/quality-report.mjs",
-    "atelier": "node scripts/atelier.mjs"
+    "atelier": "node scripts/atelier.mjs",
+    "studio": "node scripts/studio.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

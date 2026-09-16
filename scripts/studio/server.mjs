@@ -1,0 +1,254 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import http from 'node:http';
+import { randomUUID, timingSafeEqual } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+import { createStudioStore } from './store.mjs';
+import * as domain from './domain.mjs';
+import { createJobs } from './jobs.mjs';
+import { createPreview } from './preview.mjs';
+import { safeFile, mimeType, atomicJSON } from './files.mjs';
+import { body, send, sameOrigin, errorResponse } from './http.mjs';
+import { exportProject } from './bundle.mjs';
+import { readSource } from './source.mjs';
+import { createEditor } from './editor.mjs';
+
+const publicRoot = fileURLToPath(new URL('./public', import.meta.url));
+const browserActions = {
+  '/api/project': domain.updateProject,
+  '/api/draft': domain.setDraft,
+  '/api/requests': domain.queueRequest,
+  '/api/jobs/cancel': domain.cancelJob,
+  '/api/design': domain.chooseDesign,
+  '/api/activate': domain.activateRevision,
+  '/api/approve': domain.approvePlan,
+};
+const extensions = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/webp': 'webp',
+  'text/plain': 'txt',
+  'text/markdown': 'md',
+};
+
+function authorized(request, token) {
+  const supplied = Buffer.from(request.headers.authorization ?? ''),
+    expected = Buffer.from('Bearer ' + token);
+  return supplied.length === expected.length && timingSafeEqual(supplied, expected);
+}
+
+function upload(store, input) {
+  const extension = extensions[input.mime];
+  if (
+    !extension ||
+    typeof input.base64 !== 'string' ||
+    !/^[A-Za-z0-9+/]*={0,2}$/.test(input.base64)
+  )
+    throw new Error('Format de référence invalide.');
+  const bytes = Buffer.from(input.base64, 'base64');
+  if (!bytes.length || bytes.length > 8 * 1024 * 1024)
+    throw new Error('Référence vide ou supérieure à 8 Mio.');
+  const id = randomUUID(),
+    file = `references/${id}.${extension}`;
+  const reference = { id, name: input.name, file, mime: input.mime },
+    target = safeFile(store.root, file);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, bytes, { flag: 'wx' });
+  try {
+    return {
+      state: store.commit(input.version, (draft) => draft.references.push(reference)),
+      reference,
+    };
+  } catch (error) {
+    fs.rmSync(target);
+    throw error;
+  }
+}
+
+function getRoute(url, response, context) {
+  const { store, runtime, editor } = context;
+  if (url.pathname === '/api/state') return send(response, 200, store.read());
+  if (url.pathname === '/api/editor')
+    return send(response, 200, editor.read(url.searchParams.get('baseRevision')));
+  if (url.pathname === '/api/source')
+    return send(
+      response,
+      200,
+      readSource(
+        store.root,
+        store.read(),
+        url.searchParams.get('revision'),
+        url.searchParams.get('path'),
+      ),
+    );
+  if (url.pathname === '/api/runtime')
+    return send(response, 200, { ...runtime(), token: undefined });
+  if (url.pathname === '/api/export') {
+    response.setHeader('Content-Disposition', 'attachment; filename="devmethod-project.tar"');
+    return send(response, 200, exportProject(store.root, store.read()), 'application/x-tar');
+  }
+  if (url.pathname.startsWith('/references/')) {
+    const reference = store.read().references.find((r) => r.id === url.pathname.slice(12));
+    if (!reference) return send(response, 404, { error: 'Référence absente.' });
+    return send(
+      response,
+      200,
+      fs.readFileSync(safeFile(store.root, reference.file)),
+      reference.mime,
+    );
+  }
+  const relative = url.pathname === '/' ? 'index.html' : decodeURIComponent(url.pathname.slice(1));
+  const file = safeFile(publicRoot, relative);
+  response.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-src http://127.0.0.1:*; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'",
+  );
+  return send(response, 200, fs.readFileSync(file), mimeType(file));
+}
+
+async function postRoute(url, request, response, context) {
+  const { store, jobs, runtime, wake, editor } = context,
+    current = runtime();
+  const worker = authorized(request, current.token);
+  if (!worker) sameOrigin(request, current.url);
+  const input = await body(
+    request,
+    url.pathname.startsWith('/api/editor/') ? 40 * 1024 * 1024 : undefined,
+  );
+  const editorAction = {
+    '/api/editor/save': 'save',
+    '/api/editor/build': 'build',
+    '/api/editor/apply': 'apply',
+    '/api/editor/reset': 'reset',
+  }[url.pathname];
+  if (editorAction) {
+    sameOrigin(request, current.url);
+    return send(response, 200, await editor[editorAction](input));
+  }
+  const workerRoutes = {
+    '/api/jobs/claim': () => jobs.claim(input.worker),
+    '/api/jobs/finish': () => jobs.finish(input),
+    '/api/jobs/fail': () => ({ state: jobs.fail(input) }),
+    '/api/checks': () => ({
+      state: store.commit(store.read().version, (draft) => domain.recordCheck(draft, input)),
+    }),
+  };
+  if (workerRoutes[url.pathname]) {
+    if (!worker)
+      return send(response, 403, { error: 'Cette action appartient à l’agent connecté.' });
+    return send(response, 200, workerRoutes[url.pathname]());
+  }
+  if (url.pathname === '/api/references') return send(response, 200, upload(store, input));
+  const action = browserActions[url.pathname];
+  if (!action) return send(response, 404, { error: 'Action inconnue.' });
+  let result;
+  const state = store.commit(input.version, (draft) => {
+    const payload = { ...input };
+    delete payload.version;
+    result = action(draft, payload);
+  });
+  send(response, 200, { state, ...(url.pathname === '/api/requests' ? { job: result } : {}) });
+  wake();
+}
+
+const listen = (server, port) =>
+  new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(port, '127.0.0.1', () => {
+      server.removeListener('error', reject);
+      resolve();
+    });
+  });
+const closeServer = (server) =>
+  new Promise((resolve) => {
+    server.close(resolve);
+    server.closeAllConnections();
+  });
+
+export async function startStudio({ workspace, port = 4330, previewPort = 0, agent = null }) {
+  const packageRoot = fileURLToPath(new URL('../../', import.meta.url));
+  if (path.resolve(workspace) === path.resolve(packageRoot))
+    throw new Error('Choisissez un dossier dédié au produit, distinct du dépôt DevMethod.');
+  const store = createStudioStore(workspace),
+    jobs = createJobs(store),
+    token = randomUUID();
+  let url, previewOrigin, editorPreviewOrigin, runner;
+  let editor;
+  const runtime = () => {
+    const state = store.read(),
+      approval = domain.planApprovalStatus(state);
+    return {
+      url,
+      previewOrigin,
+      editorPreviewOrigin,
+      token,
+      workspace: store.root,
+      agent: runner?.status() ?? { kind: 'host-bridge', automatic: false },
+      delegation: domain.effectiveDelegation(state),
+      approval,
+      planApproved: approval.planApproved,
+      capabilities: { staticApps: true, localData: true, auth: false, deployment: false },
+    };
+  };
+  let preview, editorPreview;
+  try {
+    editor = createEditor({ store, jobs, getPreviewOrigin: () => editorPreviewOrigin });
+    preview = createPreview({
+      workspace: store.root,
+      getState: store.read,
+      getStudioOrigin: () => url,
+    });
+    editorPreview = createPreview({
+      workspace: editor.previewWorkspace,
+      getState: editor.previewState,
+      getStudioOrigin: () => url,
+      revisionPrefix: 'builds',
+      reportRuntimeErrors: true,
+    });
+  } catch (error) {
+    store.close();
+    throw error;
+  }
+  const context = { store, jobs, runtime, editor, wake: () => runner?.wake() };
+  const server = http.createServer(async (request, response) => {
+    try {
+      if (request.headers.host !== new URL(url).host)
+        return send(response, 403, { error: 'Hôte non autorisé.' });
+      const requestUrl = new URL(request.url, url);
+      if (request.method === 'GET') return getRoute(requestUrl, response, context);
+      if (request.method === 'POST') return await postRoute(requestUrl, request, response, context);
+      send(response, 405, { error: 'Méthode non autorisée.' });
+    } catch (error) {
+      errorResponse(response, error);
+    }
+  });
+  try {
+    await listen(preview, previewPort);
+    previewOrigin = 'http://127.0.0.1:' + preview.address().port;
+    await listen(editorPreview, 0);
+    editorPreviewOrigin = 'http://127.0.0.1:' + editorPreview.address().port;
+    await listen(server, port);
+    url = 'http://127.0.0.1:' + server.address().port;
+    if (agent) {
+      const { createAgentRunner } = await import('./runner.mjs');
+      runner = createAgentRunner({ store, jobs, options: agent });
+    }
+    atomicJSON(safeFile(store.root, '.devmethod/runtime.json'), runtime());
+    runner?.wake();
+  } catch (error) {
+    await Promise.all([closeServer(server), closeServer(preview), closeServer(editorPreview)]);
+    store.close();
+    throw error;
+  }
+  return {
+    store,
+    jobs,
+    runtime,
+    async close() {
+      await runner?.close();
+      await Promise.all([closeServer(server), closeServer(preview), closeServer(editorPreview)]);
+      fs.rmSync(safeFile(store.root, '.devmethod/runtime.json'), { force: true });
+      store.close();
+    },
+  };
+}

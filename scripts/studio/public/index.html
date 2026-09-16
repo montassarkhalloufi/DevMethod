@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>DevMethod — Studio</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/editor.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body data-studio="">
+    <a class="skip-link" href="#workspace">Aller au projet</a>
+    <header class="topbar">
+      <a class="brand" href="/">DevMethod <span>/ Studio</span></a
+      ><button id="project-menu" type="button" aria-controls="project-form">
+        Mon projet <span aria-hidden="true">⌄</span>
+      </button>
+      <fieldset class="modes header-modes">
+        <legend class="sr-only">Comment souhaitez-vous avancer ?</legend>
+        <label
+          ><input type="radio" name="mode" value="guided" checked="" form="project-form" /><span
+            title="Échanger sur les choix importants, étape par étape."
+            ><strong>Guidé</strong></span
+          ></label
+        ><label
+          ><input type="radio" name="mode" value="devauto" form="project-form" /><span
+            title="Cadrer ensemble, puis déléguer la réalisation par tranches."
+            ><strong>DevAuto</strong></span
+          ></label
+        ><label
+          ><input type="radio" name="mode" value="delegated" form="project-form" /><span
+            title="Déléguer les choix réversibles et suivre le résultat."
+            ><strong>Autonome</strong></span
+          ></label
+        >
+      </fieldset>
+      <a class="button-link export-project" href="/api/export" download="">↑ Exporter</a>
+    </header>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden=""></div>
+    <nav class="mobile-navigation" aria-label="Accès rapide au projet">
+      <a href="#workspace">Le produit</a>
+      <a href="#request">Discussion et demande ↓</a>
+    </nav>
+    <div class="studio-layout">
+      <aside id="discussion" class="conversation" aria-label="Le fil du projet" tabindex="-1">
+        <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
+        <section class="policy-panel" aria-label="Délégation actuelle">
+          <div id="policy"></div>
+          <button id="adjust-policy" type="button" class="text-button">Ajuster</button>
+        </section>
+        <section id="project" class="panel introduction" aria-labelledby="project-title">
+          <div class="section-heading">
+            <div>
+              <p id="project-eyebrow" class="eyebrow">VOTRE ESPACE DE CRÉATION</p>
+              <h1 id="project-title">Qu’aimeriez-vous créer ?</h1>
+            </div>
+            <div class="project-heading-actions">
+              <button
+                id="edit-project"
+                type="button"
+                aria-expanded="true"
+                aria-controls="project-form"
+                hidden=""
+              >
+                Ajuster le projet</button
+              ><button id="refresh" class="quiet" type="button">Actualiser</button>
+            </div>
+          </div>
+
+          <p id="project-intro" class="intro-copy">
+            Une idée, un besoin quotidien, une référence. Nous gardons le fil jusqu’à une app que
+            vous pouvez essayer.
+          </p>
+          <form id="project-form">
+            <label class="sr-only" for="idea">Votre idée et le résultat attendu</label>
+            <textarea
+              id="idea"
+              rows="3"
+              maxlength="20000"
+              required=""
+              placeholder="J’aimerais une app pour… Elle aiderait… à…"
+            ></textarea>
+            <div class="project-options">
+              <details id="project-details">
+                <summary>Nom et contraintes</summary>
+                <div class="detail-fields">
+                  <label for="project-name">Nom du projet <span>(facultatif)</span></label
+                  ><input id="project-name" maxlength="200" placeholder="Mon projet" /><label
+                    for="constraints"
+                    >Ce qu’il faut garder <span>(une contrainte par ligne)</span></label
+                  ><textarea
+                    id="constraints"
+                    rows="2"
+                    placeholder="Un usage sur mobile, mes données existantes…"
+                  ></textarea>
+                </div>
+              </details>
+              <label class="reference-upload" for="reference-file"
+                >＋ Ajouter une référence<input
+                  id="reference-file"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,text/plain,text/markdown,.md"
+              /></label>
+            </div>
+
+            <details class="delegation-settings">
+              <summary>Qui prend les décisions ?</summary>
+              <p class="muted">
+                Ces réglages précisent le mode. Une délégation ne remplace pas votre accord
+                explicite.
+              </p>
+              <label for="delegate-structure">Cadrage et technique</label
+              ><select id="delegate-structure">
+                <option value="user">Moi, avec validation</option>
+                <option value="agent">L’agent, par délégation</option></select
+              ><label for="delegate-visual">Direction visuelle</label
+              ><select id="delegate-visual">
+                <option value="user">Moi, avec validation</option>
+                <option value="agent">L’agent, par délégation</option></select
+              ><label for="delegate-adoption">Adopter une version</label
+              ><select id="delegate-adoption">
+                <option value="user">Moi, avec validation</option>
+                <option value="agent">L’agent, par délégation</option>
+              </select>
+            </details>
+            <div class="form-footer">
+              <span id="project-save-status" class="muted"
+                >Le projet est conservé dans cet espace local.</span
+              ><button id="save-project" class="primary" type="submit">
+                Garder cette idée <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </form>
+
+          <details class="project-context">
+            <summary>Contexte et références</summary>
+            <div id="project-summary" class="project-summary" hidden="">
+              <p id="project-idea-summary"></p>
+              <span id="project-mode" class="badge"></span
+              ><span id="project-unsaved" class="muted" hidden=""
+                >Modifications non enregistrées</span
+              >
+            </div>
+            <div id="references" class="references" aria-label="Références du projet"></div>
+          </details>
+        </section>
+        <div class="conversation-flow" id="conversation-flow">
+          <div id="jobs" class="jobs" aria-label="Demandes et résultats"></div>
+          <section id="directions" class="panel flow-directions" aria-labelledby="directions-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">DONNER UNE DIRECTION</p>
+                <h2 id="directions-title">Des choix que vous pouvez voir</h2>
+              </div>
+            </div>
+            <div id="designs" class="design-grid"></div>
+            <form id="design-form" hidden="">
+              <label for="design-reason">Ce qui vous plaît dans cette direction</label
+              ><textarea
+                id="design-reason"
+                rows="2"
+                maxlength="4000"
+                placeholder="Ce que je souhaite garder…"
+              ></textarea
+              ><button id="choose-design" class="primary" type="submit">
+                Garder cette direction
+              </button>
+            </form>
+          </section>
+          <div id="flow-decisions" class="flow-decisions" aria-label="Décisions récentes"></div>
+        </div>
+        <section class="panel request-panel" aria-labelledby="request-title">
+          <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
+          <div class="section-heading">
+            <div>
+              <h2 id="request-title">Faire évoluer le projet</h2>
+            </div>
+            <span id="agent-status" class="badge">Connexion à vérifier</span>
+          </div>
+          <details class="agent-connection">
+            <summary>Connexion à l’agent</summary>
+            <p id="agent-description" class="muted">Lecture de la connexion à l’agent…</p>
+          </details>
+          <form id="request-form">
+            <div id="element-selection" class="element-selection" hidden="">
+              <span id="element-label"></span
+              ><button id="clear-element" type="button" aria-label="Retirer l’élément ciblé">
+                ×
+              </button>
+            </div>
+            <label class="sr-only" for="request">Votre demande</label
+            ><textarea
+              id="request"
+              rows="2"
+              maxlength="20000"
+              required=""
+              placeholder="Décrivez ce qui doit changer, ce qui doit rester…"
+            ></textarea>
+            <div class="form-footer">
+              <div class="draft-actions">
+                <span id="draft-status" class="muted">Votre brouillon sera conservé.</span
+                ><button id="save-draft" class="text-button" type="button">Enregistrer</button>
+              </div>
+              <button id="send-request" class="primary" type="submit">
+                Envoyer <span aria-hidden="true">↑</span>
+              </button>
+            </div>
+          </form>
+
+          <p class="composer-note">Votre demande conserve le contexte et les choix du projet.</p>
+        </section>
+      </aside>
+      <main id="workspace" tabindex="-1">
+        <section id="project-cap" class="project-cap" aria-label="Le résultat visé"></section>
+        <div class="workbench">
+          <nav class="workspace-tabs" role="tablist" aria-label="Vues du projet">
+            <button
+              id="tab-product"
+              type="button"
+              role="tab"
+              aria-controls="product"
+              aria-selected="true"
+              data-panel="product"
+              tabindex="0"
+            >
+              <span aria-hidden="true">▣</span> Application</button
+            ><button
+              id="tab-code"
+              type="button"
+              role="tab"
+              aria-controls="code"
+              aria-selected="false"
+              data-panel="code"
+              tabindex="-1"
+            >
+              <span aria-hidden="true">⌘</span> Code</button
+            ><button
+              id="tab-choices"
+              type="button"
+              role="tab"
+              aria-controls="choices"
+              aria-selected="false"
+              data-panel="choices"
+              tabindex="-1"
+            >
+              <span aria-hidden="true">◇</span> Choix</button
+            ><button
+              id="tab-checks"
+              type="button"
+              role="tab"
+              aria-controls="checks"
+              aria-selected="false"
+              data-panel="checks"
+              tabindex="-1"
+            >
+              <span aria-hidden="true">✓</span> Preuves</button
+            ><button
+              id="tab-history"
+              type="button"
+              role="tab"
+              aria-controls="history"
+              aria-selected="false"
+              data-panel="history"
+              tabindex="-1"
+            >
+              <span aria-hidden="true">↶</span> Reprise
+            </button>
+          </nav>
+          <div class="preview-toolbar">
+            <label for="preview-version" class="sr-only">Version à essayer</label
+            ><select id="preview-version" aria-label="Version à essayer">
+              <option value="">Aucune version</option>
+            </select>
+            <div class="viewport-buttons" role="group" aria-label="Largeur de l’aperçu">
+              <button id="wide-preview" type="button" aria-pressed="true">Bureau</button
+              ><button id="mobile-preview" type="button" aria-pressed="false">Mobile</button>
+            </div>
+            <button id="inspect-element" type="button" disabled="" aria-pressed="false">
+              ⌖ Cibler un élément</button
+            ><a
+              id="open-preview"
+              class="button-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden=""
+              >Ouvrir ↗</a
+            >
+          </div>
+          <section
+            id="product"
+            class="panel product-panel"
+            aria-labelledby="tab-product"
+            role="tabpanel"
+          >
+            <div class="section-heading sr-only">
+              <div>
+                <h2 id="product-title">Votre app</h2>
+              </div>
+              <span id="preview-status" class="badge">Aucune version</span>
+            </div>
+
+            <div id="preview-stage" class="preview-stage">
+              <div id="preview-empty" class="preview-empty">
+                <span class="empty-symbol" aria-hidden="true">▧</span>
+                <h3>Une vraie app apparaîtra ici</h3>
+                <p>
+                  Gardez votre idée, puis préparez une première demande. L’aperçu s’ouvrira dès
+                  qu’une version aura été produite.
+                </p>
+                <button id="first-request" type="button">Préparer ma première demande →</button>
+              </div>
+              <iframe
+                id="preview"
+                title="Application du projet — aperçu interactif"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"
+                hidden=""
+              ></iframe>
+            </div>
+            <p class="preview-note">
+              Les données saisies dans l’app sont partagées entre ses versions. Revenir au code
+              précédent ne restaure pas les anciennes données.
+            </p>
+          </section>
+          <section
+            id="code"
+            class="panel code-panel"
+            role="tabpanel"
+            aria-labelledby="tab-code"
+            hidden=""
+          >
+            <div id="source-view"></div>
+          </section>
+          <section
+            id="choices"
+            class="panel choices-panel"
+            role="tabpanel"
+            aria-labelledby="tab-choices"
+            hidden=""
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">LES RAISONS DE NOS CHOIX</p>
+                <h2>Une direction révisable</h2>
+              </div>
+            </div>
+            <div id="context"></div>
+            <form id="approval-form" class="approval-card" hidden="">
+              <h3>Valider le cadrage</h3>
+              <p id="approval-status">Lisez les choix ci-dessus avant de lancer la réalisation.</p>
+              <label for="approval-reason"
+                >Ce qui motive votre choix <span>(facultatif)</span></label
+              ><textarea id="approval-reason" rows="2" maxlength="4000"></textarea
+              ><button id="approve-plan" class="primary" type="submit">Valider ces choix</button>
+            </form>
+            <div class="capabilities">
+              <h3>Dans cet espace</h3>
+              <p>Apps web et données locales.</p>
+              <p id="capability-limits">Authentification et publication externe indisponibles.</p>
+            </div>
+          </section>
+          <section
+            id="checks"
+            class="panel checks-panel"
+            role="tabpanel"
+            aria-labelledby="tab-checks"
+            hidden=""
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">CONFRONTER LE RÉSULTAT À L’INTENTION</p>
+                <h2>Ce qui a été vérifié</h2>
+              </div>
+            </div>
+            <div id="checks-list"></div>
+          </section>
+          <section
+            id="history"
+            class="panel"
+            aria-labelledby="tab-history"
+            role="tabpanel"
+            hidden=""
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">REPRENDRE SANS REPARTIR DE ZÉRO</p>
+                <h2 id="history-title">Reprendre et retrouver les versions</h2>
+              </div>
+            </div>
+            <div id="versions" class="versions"></div>
+            <details class="technical">
+              <summary>Journal du projet</summary>
+              <div id="events"></div>
+            </details>
+          </section>
+        </div>
+        <section
+          id="evidence-dock"
+          class="evidence-dock"
+          aria-label="État de la version active"
+        ></section>
+      </main>
+    </div>
+  </body>
+</html>

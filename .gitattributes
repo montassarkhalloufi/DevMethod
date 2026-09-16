@@ -18,7 +18,10 @@ evaluation/work-mode-review/** text eol=lf
 src/** text eol=lf
 scripts/**/*.mjs text eol=lf
 scripts/atelier/** text eol=lf
+scripts/studio/** text eol=lf
 docs/missions/product-alternatives/evidence/** -text
+docs/missions/creation-experience/evidence/** -text
+examples/studio-ateliers/** -text
 tests/**/*.mjs text eol=lf
 *.config.mjs text eol=lf
 package.json text eol=lf

@@ -1,0 +1,116 @@
+{
+  "observedAt": "2026-09-16T16:05:29.405Z",
+  "reference": "exec-28bf2b7f-7dbd-44c9-babc-79d51dc5d769.png",
+  "desktop": {
+    "documentHeight": 1000,
+    "documentWidth": 1536,
+    "flowHeight": 466,
+    "height": 1000,
+    "iframe": {
+      "height": 534,
+      "width": 1013
+    },
+    "overflow": [],
+    "width": 1536
+  },
+  "mobile": {
+    "documentHeight": 2154,
+    "documentWidth": 390,
+    "flowHeight": 450,
+    "height": 843,
+    "overflow": [],
+    "width": 390
+  },
+  "desktop1280": {
+    "documentWidth": 1280,
+    "flowHeight": 366,
+    "height": 900,
+    "overflow": [],
+    "width": 1280
+  },
+  "tabs": [
+    {
+      "selected": "◇ Choix",
+      "visiblePanels": [
+        "choices"
+      ]
+    },
+    {
+      "selected": "✓ Preuves",
+      "visiblePanels": [
+        "checks"
+      ]
+    },
+    {
+      "selected": "↶ Reprise",
+      "visiblePanels": [
+        "history"
+      ]
+    },
+    {
+      "selected": "▣ Application",
+      "visiblePanels": [
+        "product"
+      ]
+    }
+  ],
+  "settings": {
+    "delegationOpen": true,
+    "fields": [
+      {
+        "key": "structure",
+        "value": "agent"
+      },
+      {
+        "key": "visual",
+        "value": "agent"
+      },
+      {
+        "key": "adoption",
+        "value": "agent"
+      }
+    ],
+    "focused": "delegate-visual",
+    "projectOpen": true
+  },
+  "source": {
+    "characters": 4482,
+    "compareEnabled": true,
+    "editorPresent": false,
+    "files": [
+      "app.js",
+      "index.html",
+      "lib.mjs",
+      "README.md",
+      "styles.css",
+      "tests.mjs"
+    ],
+    "selected": "⌘ Code",
+    "sourceFile": "index.html",
+    "status": "Fichier de la version chargé. Lecture seule."
+  },
+  "consoleErrors": [],
+  "actions": [
+    "Nouvel onglet Chrome distinct du navigateur IAB utilisateur.",
+    "Lecture de cinq onglets, réglages ouverts/repliés sans modification.",
+    "Aucune saisie ni soumission ; aucune manipulation des données de l’application.",
+    "Viewport temporaire compensant le zoom Chrome existant puis réinitialisé."
+  ],
+  "captures": {
+    "desktop": "1536 pixels CSS, viewport de1000px.",
+    "mobile": "390 pixels CSS, viewport de843px ; le reste est accessible en défilement.",
+    "format": "JPEG natif CUA converti en PNG sans retouche ni redimensionnement."
+  },
+  "fidelity": {
+    "preserved": [
+      "Palette olive et gradient, panneaux nettement séparés.",
+      "Colonne conversation et application, cap explicite et critères neutres.",
+      "Politique, états des décisions, preuves limitées à la version active."
+    ],
+    "limits": [
+      "L’application intégrée est la vraie version conservée, pas le produit illustratif du raster.",
+      "Aucune fidélité pixel parfaite ni validation humaine déduite.",
+      "Éditeur en cours d’intégration par un autre agent, non testé par cette vérification."
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "capturedAt": "2026-09-16T15:20:15.683827+00:00",
+  "note": "Filesystem snapshot at evidence collection; source may have evolved during the broader mission. Recheck final candidate revision separately.",
+  "sha256": {
+    "archive.mjs": "b01cdc129228ccd2a4b1eb27ac008e35b9719eaf7677dd9520962a7188ecfc95",
+    "budget.mjs": "729c9771bc348a7bd3b082919e3bbb039812f03079c80600fc16d77dafec5919",
+    "bundle.mjs": "cc3df164ee99552a9e6c218d06f73dd10bcbce3cfbf0bc006e159c4bb2aa865d",
+    "cli.mjs": "42eb0ad5b904c68a8f68dc329c85ac74f6f866c6a47bdc8d5ba33bddaab184f8",
+    "domain.mjs": "338003358fdb2a1412a6f7bd8c23001c00082c16e8a3aee3a584ce98813d33d7",
+    "files.mjs": "b60efed067be56d090f940caa4c0d3b7f8cf8dce49359bbdc77dffea87fa0382",
+    "http.mjs": "f9f4f4e8df61e6418d6d17145e4d2ab1fa817c4cc426f014d138d4027379c5f0",
+    "jobs.mjs": "4b8bb8b729687871330aee019dbb836d1f87b8b847501095d5967193e69bef44",
+    "preview.mjs": "0b6fc395dfe1bfc9d0aae4efc409f991c99d3a596fed0fbe59af13e9b127f212",
+    "runner.mjs": "2acf2a77f2223c1d87c93d859fdff5b3a5fc4e267960ecc700b5aa6bb8e8f809",
+    "server.mjs": "4c101c469f78cdc257a8cf49a27482e62bbbb46a3c96836c7010cc38f0df8800",
+    "store.mjs": "2a42ff426d1307a7c9434708f1eebdc26e3b59a9f8616628defc877113ed1241",
+    "verify.mjs": "2e4dbacfd46ac6025c7722ac3b872b2673044786a8c682ed12585f7d7f32229f",
+    "workflow.mjs": "9735a5a2a6f27f54b4c80c28b4ad38d1c34a35c7045f3cd9805448f7af127b94"
+  }
+}
