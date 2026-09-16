@@ -94,8 +94,18 @@ Les deux applications passent leur build TypeScript/Vite.
 L’archive locale a passé le smoke consommateur : installation des dépendances runtime,
 compilation React réelle, assets Monaco, données, export/reprise et trois profils de skills.
 Aucun appel fournisseur. Les [sorties de vérification](evidence/react-studio/validation.json)
-conservent leur portée. La CI multi-plateforme est à observer sur la PR de cette branche ;
-les observations locales ne prouvent pas Windows/Linux. Aucun paquet n’a été publié.
+conservent leur portée. La [PR #38, en brouillon](https://github.com/montassarkhalloufi/DevMethod/pull/38)
+contient cette livraison. Sur `4c4719d`, la [CI d’installation](https://github.com/montassarkhalloufi/DevMethod/actions/runs/35137041327)
+passe sur macOS et Linux ; Windows vérifie les trois profils puis atteint la limite globale
+de 15 minutes pendant le smoke suivant. Le [contrôle fullstack](https://github.com/montassarkhalloufi/DevMethod/actions/runs/35137041279)
+passe aussi. Ce timeout n’est pas compté comme une réussite Windows.
+
+La CI installe désormais l’archive une fois, puis vérifie les trois profils avec le binaire
+local via `npx --offline --yes=false`. Les mêmes diagnostics et empreintes sont conservés,
+ainsi que le smoke consommateur distinct ; le délai global reste de 15 minutes. Le bloc
+YAML exact a passé un essai local avec les trois profils. Les checks de la PR donnent le
+résultat multi-plateforme de cette correction, sans étendre les conclusions locales.
+Aucun paquet n’a été publié.
 
 ## Enseignements conservés
 

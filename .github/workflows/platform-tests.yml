@@ -54,13 +54,17 @@ jobs:
         run: git diff --exit-code -- dist/
       - name: Package
         run: npm pack --json > package-result.json
-      - name: Install each host profile through npx
+      - name: Install archive once and verify each host through npx
         run: |
-          PACKAGE_FILE="$(node -p 'require("./package-result.json")[0].filename')"
-          for HOST in codex claude cursor; do
-            export CASE_DIR="$RUNNER_TEMP/devmethod $HOST"
-            npx --yes --prefer-offline --package="./$PACKAGE_FILE" devmethod init --tool "$HOST" --dest "$CASE_DIR"
-            npx --yes --prefer-offline --package="./$PACKAGE_FILE" devmethod doctor --dest "$CASE_DIR" --json > doctor-result.json
+          STUDIO_ARCHIVE="$(node -p 'require("node:path").resolve(require("./package-result.json")[0].filename)')"
+          export STUDIO_CONSUMER="$RUNNER_TEMP/devmethod-cli-consumer"
+          node -e 'const fs=require("node:fs"),path=require("node:path"),root=process.env.STUDIO_CONSUMER; fs.mkdirSync(root,{recursive:true}); fs.writeFileSync(path.join(root,"package.json"),JSON.stringify({private:true}));'
+          npm install --prefix "$STUDIO_CONSUMER" --ignore-scripts --prefer-offline --no-audit --no-fund "$STUDIO_ARCHIVE"
+          cd "$STUDIO_CONSUMER"
+          for PROFILE_TOOL in codex claude cursor; do
+            export CASE_DIR="$RUNNER_TEMP/devmethod $PROFILE_TOOL"
+            npx --offline --yes=false devmethod init --tool "$PROFILE_TOOL" --dest "$CASE_DIR"
+            npx --offline --yes=false devmethod doctor --dest "$CASE_DIR" --json > doctor-result.json
             node --input-type=module -e 'import fs from "node:fs"; import assert from "node:assert/strict"; const report=JSON.parse(fs.readFileSync("doctor-result.json")); assert.equal(report.status,"ok"); assert.equal(report.checked,report.unchanged);'
             node --input-type=module -e 'import fs from "node:fs"; import path from "node:path"; import assert from "node:assert/strict"; import {createHash} from "node:crypto"; const root=fs.realpathSync(process.env.CASE_DIR); const manifest=JSON.parse(fs.readFileSync(path.join(root,"kit-manifest.json"))); assert.equal(manifest.skills.length,6); for (const [file,hash] of Object.entries(manifest.files)) assert.equal(createHash("sha256").update(fs.readFileSync(path.join(root,file))).digest("hex"),hash); console.log("Verified installed payload:", manifest.tool);'
           done
