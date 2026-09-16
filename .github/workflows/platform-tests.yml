@@ -13,7 +13,7 @@ jobs:
   installation:
     name: Install on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -59,8 +59,8 @@ jobs:
           PACKAGE_FILE="$(node -p 'require("./package-result.json")[0].filename')"
           for HOST in codex claude cursor; do
             export CASE_DIR="$RUNNER_TEMP/devmethod $HOST"
-            npx --yes --offline --package="./$PACKAGE_FILE" devmethod init --tool "$HOST" --dest "$CASE_DIR"
-            npx --yes --offline --package="./$PACKAGE_FILE" devmethod doctor --dest "$CASE_DIR" --json > doctor-result.json
+            npx --yes --prefer-offline --package="./$PACKAGE_FILE" devmethod init --tool "$HOST" --dest "$CASE_DIR"
+            npx --yes --prefer-offline --package="./$PACKAGE_FILE" devmethod doctor --dest "$CASE_DIR" --json > doctor-result.json
             node --input-type=module -e 'import fs from "node:fs"; import assert from "node:assert/strict"; const report=JSON.parse(fs.readFileSync("doctor-result.json")); assert.equal(report.status,"ok"); assert.equal(report.checked,report.unchanged);'
             node --input-type=module -e 'import fs from "node:fs"; import path from "node:path"; import assert from "node:assert/strict"; import {createHash} from "node:crypto"; const root=fs.realpathSync(process.env.CASE_DIR); const manifest=JSON.parse(fs.readFileSync(path.join(root,"kit-manifest.json"))); assert.equal(manifest.skills.length,6); for (const [file,hash] of Object.entries(manifest.files)) assert.equal(createHash("sha256").update(fs.readFileSync(path.join(root,file))).digest("hex"),hash); console.log("Verified installed payload:", manifest.tool);'
           done
@@ -68,4 +68,4 @@ jobs:
       - name: Verify packed candidate behavior
         run: |
           PACKAGE_FILE="$(node -p 'require("./package-result.json")[0].filename')"
-          node scripts/package-smoke.mjs "$PACKAGE_FILE"
+          npm run test:package -- "$PACKAGE_FILE"

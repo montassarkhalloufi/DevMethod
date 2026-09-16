@@ -1,0 +1,110 @@
+{
+  "method": "WCAG relative luminance sRGB, computed from CSS token pairs; disabled controls excluded",
+  "date": "2026-09-16",
+  "pairs": [
+    {
+      "name": "Texte principal / fond",
+      "foreground": "#F5F7FC",
+      "background": "#0B1220",
+      "ratio": 17.468,
+      "minimum": 4.5,
+      "passes": true
+    },
+    {
+      "name": "Texte secondaire / surface",
+      "foreground": "#CAD3E2",
+      "background": "#1C2940",
+      "ratio": 9.668,
+      "minimum": 4.5,
+      "passes": true
+    },
+    {
+      "name": "Texte principal / décision active",
+      "foreground": "#F5F7FC",
+      "background": "#253550",
+      "ratio": 11.5,
+      "minimum": 4.5,
+      "passes": true
+    },
+    {
+      "name": "Texte secondaire / décision active",
+      "foreground": "#CAD3E2",
+      "background": "#253550",
+      "ratio": 8.174,
+      "minimum": 4.5,
+      "passes": true
+    },
+    {
+      "name": "Accent / décision active",
+      "foreground": "#9A85FF",
+      "background": "#253550",
+      "ratio": 4.21,
+      "minimum": 3,
+      "passes": true
+    },
+    {
+      "name": "Focus / surface",
+      "foreground": "#9A85FF",
+      "background": "#1C2940",
+      "ratio": 4.979,
+      "minimum": 3,
+      "passes": true
+    },
+    {
+      "name": "Bouton principal / violet profond",
+      "foreground": "#F5F7FC",
+      "background": "#6E50D6",
+      "ratio": 5.181,
+      "minimum": 4.5,
+      "passes": true
+    },
+    {
+      "name": "Bouton principal survol",
+      "foreground": "#F5F7FC",
+      "background": "#7559DA",
+      "ratio": 4.667,
+      "minimum": 4.5,
+      "passes": true
+    },
+    {
+      "name": "Violet désaturé / texte utilisateur",
+      "foreground": "#F5F7FC",
+      "background": "#2B2C4B",
+      "ratio": 12.522,
+      "minimum": 4.5,
+      "passes": true
+    },
+    {
+      "name": "Ambre / fond avertissement",
+      "foreground": "#FFD166",
+      "background": "#392E1B",
+      "ratio": 9.214,
+      "minimum": 4.5,
+      "passes": true
+    },
+    {
+      "name": "Vert / fond succès",
+      "foreground": "#8CEBC4",
+      "background": "#143B35",
+      "ratio": 8.669,
+      "minimum": 4.5,
+      "passes": true
+    },
+    {
+      "name": "Champ / contour",
+      "foreground": "#627593",
+      "background": "#0B1220",
+      "ratio": 3.999,
+      "minimum": 3,
+      "passes": true
+    },
+    {
+      "name": "Blanc / accent original — non retenu pour bouton",
+      "foreground": "#F5F7FC",
+      "background": "#9A85FF",
+      "ratio": 2.731,
+      "minimum": 4.5,
+      "passes": false
+    }
+  ]
+}

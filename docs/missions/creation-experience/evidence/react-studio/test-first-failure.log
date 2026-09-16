@@ -1,0 +1,1001 @@
+
+> devmethod-ai@0.5.0 test
+> npm run build && node --experimental-strip-types --test tests/*.test.mjs examples/studio-ateliers-react/tests/*.test.ts
+
+
+> devmethod-ai@0.5.0 build
+> tsc && node scripts/build-review.mjs && npm run build:studio-ui
+
+
+> devmethod-ai@0.5.0 build:studio-ui
+> tsc -p studio-ui/tsconfig.json && vite build --config studio-ui/vite.config.ts && node scripts/build-studio-notices.mjs
+
+vite v8.3.0 building client environment for production...
+transforming...
+✓ 1256 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/studio-ui/assets/editor.worker-CoxK7wpB.js    301.15 kB
+dist/studio-ui/assets/json.worker-NqY_TxEu.js      430.52 kB
+dist/studio-ui/assets/html.worker-DZEeq16I.js      740.77 kB
+dist/studio-ui/assets/css.worker-fQD24i06.js     1,075.75 kB
+dist/studio-ui/assets/ts.worker-ApoTl-3m.js      6,926.08 kB
+dist/studio-ui/code-widget.css                     349.77 kB │ gzip: 117.17 kB
+dist/studio-ui/javascript-C8CHcP8h.js                0.86 kB │ gzip:   0.52 kB
+dist/studio-ui/azcli-CLGNa0wF.js                     1.09 kB │ gzip:   0.39 kB
+dist/studio-ui/ini-DAoNsTkV.js                       1.45 kB │ gzip:   0.63 kB
+dist/studio-ui/csp-DvdhxaNC.js                       1.54 kB │ gzip:   0.57 kB
+dist/studio-ui/workers-Ct0B1W_j.js                   1.55 kB │ gzip:   0.70 kB
+dist/studio-ui/pla-BhpV5iom.js                       2.31 kB │ gzip:   0.77 kB
+dist/studio-ui/sb-CfyYm0fs.js                        2.35 kB │ gzip:   0.94 kB
+dist/studio-ui/bat-CAz1OfAu.js                       2.36 kB │ gzip:   0.98 kB
+dist/studio-ui/scheme-DGoR7CnT.js                    2.39 kB │ gzip:   0.95 kB
+dist/studio-ui/flow9-DNlf0Ct1.js                     2.43 kB │ gzip:   0.96 kB
+dist/studio-ui/xml-TiVz6QU7.js                       2.65 kB │ gzip:   0.91 kB
+dist/studio-ui/dockerfile-Yk3LuDQk.js                2.72 kB │ gzip:   0.80 kB
+dist/studio-ui/pascaligo-DY-d5ac0.js                 2.73 kB │ gzip:   1.02 kB
+dist/studio-ui/objective-c-D-xZGaTr.js               2.84 kB │ gzip:   1.18 kB
+dist/studio-ui/cameligo-DbbJwPXc.js                  2.84 kB │ gzip:   1.09 kB
+dist/studio-ui/sparql-BXIHBfyc.js                    2.88 kB │ gzip:   1.26 kB
+dist/studio-ui/lua-COF3XwLj.js                       2.89 kB │ gzip:   1.05 kB
+dist/studio-ui/graphql-BsDuKp-c.js                   2.93 kB │ gzip:   1.16 kB
+dist/studio-ui/mips-ll8pdQLQ.js                      3.10 kB │ gzip:   1.19 kB
+dist/studio-ui/go-D7w79i6g.js                        3.18 kB │ gzip:   1.28 kB
+dist/studio-ui/lexon-6WvX9sfN.js                     3.19 kB │ gzip:   1.06 kB
+dist/studio-ui/sophia-DGSFfDWE.js                    3.25 kB │ gzip:   1.32 kB
+dist/studio-ui/m3-BEIPFJxi.js                        3.42 kB │ gzip:   1.48 kB
+dist/studio-ui/bicep-B6UDBWZN.js                     3.43 kB │ gzip:   1.08 kB
+dist/studio-ui/fsharp-DdRbc-sH.js                    3.44 kB │ gzip:   1.45 kB
+dist/studio-ui/pascal-CKVRL3bp.js                    3.48 kB │ gzip:   1.53 kB
+dist/studio-ui/qsharp-Bp73mf5Z.js                    3.49 kB │ gzip:   1.56 kB
+dist/studio-ui/cssMode-BlgggzMT.js                   3.57 kB │ gzip:   1.32 kB
+dist/studio-ui/redis-B09Z6nB5.js                     3.66 kB │ gzip:   1.59 kB
+dist/studio-ui/r-DF_g8_2l.js                         3.76 kB │ gzip:   1.44 kB
+dist/studio-ui/java-Cp0vrvO9.js                      3.80 kB │ gzip:   1.52 kB
+dist/studio-ui/shell-CpVOERQd.js                     3.84 kB │ gzip:   1.34 kB
+dist/studio-ui/typespec-4ubJw-FV.js                  3.87 kB │ gzip:   1.25 kB
+dist/studio-ui/kotlin-DYeWZuUb.js                    3.98 kB │ gzip:   1.59 kB
+dist/studio-ui/htmlMode-BuU-k5Gz.js                  3.99 kB │ gzip:   1.42 kB
+dist/studio-ui/cypher-CFQunzEa.js                    4.05 kB │ gzip:   1.58 kB
+dist/studio-ui/powershell-0oEoSDwW.js                4.24 kB │ gzip:   1.53 kB
+dist/studio-ui/liquid-DF5W_hwb.js                    4.29 kB │ gzip:   1.63 kB
+dist/studio-ui/tcl-D7mHOiU2.js                       4.34 kB │ gzip:   1.50 kB
+dist/studio-ui/apex-adZnEfO4.js                      4.37 kB │ gzip:   1.91 kB
+dist/studio-ui/hcl-CXnaLDBx.js                       4.46 kB │ gzip:   1.64 kB
+dist/studio-ui/yaml-uvtwgRZg.js                      4.62 kB │ gzip:   1.48 kB
+dist/studio-ui/rust-DdLDSWVK.js                      4.64 kB │ gzip:   1.99 kB
+dist/studio-ui/python-D6Nsbkja.js                    4.70 kB │ gzip:   1.60 kB
+dist/studio-ui/coffee-BjQKeqpj.js                    4.73 kB │ gzip:   1.44 kB
+dist/studio-ui/register-CoIKknfv.js                  4.87 kB │ gzip:   1.49 kB
+dist/studio-ui/layout.js                             4.94 kB │ gzip:   2.01 kB
+dist/studio-ui/less-INmgXeDn.js                      4.96 kB │ gzip:   1.59 kB
+dist/studio-ui/markdown-CCGC2kAW.js                  5.02 kB │ gzip:   1.60 kB
+dist/studio-ui/msdax-B5WVqOWw.js                     5.04 kB │ gzip:   2.06 kB
+dist/studio-ui/dart-DeIsDVRt.js                      5.08 kB │ gzip:   1.81 kB
+dist/studio-ui/restructuredtext-TuEti2mf.js          5.19 kB │ gzip:   1.60 kB
+dist/studio-ui/csharp-DIgVBsD4.js                    5.46 kB │ gzip:   1.87 kB
+dist/studio-ui/swift-DIkzszb_.js                     5.54 kB │ gzip:   2.19 kB
+dist/studio-ui/ecl-BLFA7ldk.js                       5.61 kB │ gzip:   2.37 kB
+dist/studio-ui/css-CyL9hcFb.js                       5.81 kB │ gzip:   1.56 kB
+dist/studio-ui/cpp-SbfDT5PL.js                       5.90 kB │ gzip:   2.23 kB
+dist/studio-ui/mdx-DHxuA8zs.js                       5.98 kB │ gzip:   1.42 kB
+dist/studio-ui/typescript-CJUKd2Sz.js                5.98 kB │ gzip:   2.15 kB
+dist/studio-ui/pug-CTxaaQKP.js                       6.12 kB │ gzip:   1.86 kB
+dist/studio-ui/html-QQHrgZa1.js                      6.14 kB │ gzip:   1.37 kB
+dist/studio-ui/vb-SSAHHOVh.js                        6.56 kB │ gzip:   2.20 kB
+dist/studio-ui/twig-CWOr6DII.js                      7.70 kB │ gzip:   1.75 kB
+dist/studio-ui/wgsl-hf5cqFtC.js                      8.23 kB │ gzip:   2.91 kB
+dist/studio-ui/handlebars-BvRWHA-H.js                8.29 kB │ gzip:   1.59 kB
+dist/studio-ui/systemverilog-T3rz_k7V.js             8.32 kB │ gzip:   2.96 kB
+dist/studio-ui/scss-D-qk8UVY.js                      8.37 kB │ gzip:   1.99 kB
+dist/studio-ui/julia-CVutXSdh.js                     8.48 kB │ gzip:   2.89 kB
+dist/studio-ui/clojure-BmcSQAck.js                   8.90 kB │ gzip:   3.68 kB
+dist/studio-ui/perl-DqL2sfnN.js                      8.95 kB │ gzip:   3.33 kB
+dist/studio-ui/st-CKElxhZl.js                        9.08 kB │ gzip:   2.47 kB
+dist/studio-ui/sql-DHvzW7ba.js                       9.76 kB │ gzip:   3.94 kB
+dist/studio-ui/scala-Bg3GaqPc.js                     9.79 kB │ gzip:   2.39 kB
+dist/studio-ui/postiats-oh_Dlofq.js                  9.89 kB │ gzip:   2.65 kB
+dist/studio-ui/php-BbqlrNqC.js                      10.08 kB │ gzip:   2.28 kB
+dist/studio-ui/mysql-CnCmYLcK.js                    10.49 kB │ gzip:   4.17 kB
+dist/studio-ui/razor-ZYDBbK7D.js                    10.63 kB │ gzip:   2.31 kB
+dist/studio-ui/ruby-CWBObvDC.js                     10.92 kB │ gzip:   2.84 kB
+dist/studio-ui/redshift-WjSjVhoV.js                 11.12 kB │ gzip:   4.43 kB
+dist/studio-ui/protobuf-DlOMtU4U.js                 12.24 kB │ gzip:   2.35 kB
+dist/studio-ui/abap-CfCwO0wY.js                     12.35 kB │ gzip:   5.31 kB
+dist/studio-ui/elixir-y_NY5k67.js                   12.65 kB │ gzip:   2.79 kB
+dist/studio-ui/pgsql-BpvbArh-.js                    12.70 kB │ gzip:   4.61 kB
+dist/studio-ui/powerquery-DuSN2JW8.js               16.24 kB │ gzip:   4.92 kB
+dist/studio-ui/jsonMode-C9IhPd1b.js                 16.28 kB │ gzip:   5.08 kB
+dist/studio-ui/solidity-CVmhJ22u.js                 16.76 kB │ gzip:   4.58 kB
+dist/studio-ui/freemarker2-D5E5wqid.js              19.94 kB │ gzip:   4.46 kB
+dist/studio-ui/tsMode-B4UHtSDt.js                   26.00 kB │ gzip:   6.81 kB
+dist/studio-ui/lspLanguageFeatures-B9iGfGRp.js      35.75 kB │ gzip:   7.90 kB
+dist/studio-ui/code-widget.js                      365.15 kB │ gzip:  93.37 kB
+dist/studio-ui/toggleHighContrast-wJCBnj4M.js    1,426.49 kB │ gzip: 326.73 kB
+dist/studio-ui/editor.api-CBhnZFl3.js            3,225.33 kB │ gzip: 749.69 kB
+
+✓ built in 1.37s
+✔ initial empty storage is distinct from unknown existing data (1.16025ms)
+✔ strict validation refuses malformed capacities and references without mutation (0.275125ms)
+✔ the additive waitlist migration retains existing names and unknown fields (0.1545ms)
+✔ capacity overflow joins FIFO and cancellation promotes only the matching first person (0.319459ms)
+✔ leaving waitlist does not consume a seat or erase unrelated fields (0.142042ms)
+✔ retry on fresh data preserves the competing booking and queue order (0.129458ms)
+✔ stored data is decoded without a write or initialization (21.106791ms)
+✔ first use initializes empty data with the exact version and retains a concurrent initializer (0.565417ms)
+✔ HTTP 409 is never an acknowledged save or a blind retry (0.35375ms)
+✔ failed acknowledgement and incompatible existing data cannot announce persistence (0.276666ms)
+✔ a valid read-only prototype has a usable empty control state (0.864792ms)
+✔ creation choices follow the target prototype, including new action identities (0.262875ms)
+✔ a shared identifier with different action kinds remains available in both controls (0.157584ms)
+✔ a discovered situation stays an unchanged preview until the explicit replay confirmation (256.260916ms)
+✔ identical display labels cannot hide the actual values compared by discovery (9.570916ms)
+✔ project import validates references, bounds and unknown fields without changing input (3.597291ms)
+✔ one shared intent yields independent actual outcomes and preserves record identity (3.389084ms)
+✔ a saved choice retains the context and individual observations after replay and revised intent (0.947917ms)
+✔ refusals never fabricate transitions, and targeted actions do not enter shared situations (1.116292ms)
+✔ create keeps common IDs and normalized titles while owner rules and duplicates remain visible (0.876875ms)
+✔ an other-owner creation rule cannot silently create a record owned by its actor (0.288708ms)
+✔ replay rebuilds from starting data and preserves decision and context without duplicate events (1.0045ms)
+✔ a changed intent preserves experience and choice reasons while requiring reconsideration (1.447958ms)
+✔ proposal merge keeps current records/events and chosen snapshots; new lanes use starting records (1.009167ms)
+✔ proposal incompatible with a live state is rejected atomically with migration guidance (0.463ms)
+✔ removing a still-used starting state also explains that migration is required (0.30125ms)
+✔ 500 observations are retained and the next action is refused instead of silently truncating (156.287666ms)
+✔ decision export is honest, independent data containing actual observations and an agent handoff (0.561458ms)
+✔ prepared handoff preserves historical context and shared scenario through separate-process restart (337.696583ms)
+ℹ request bytes=34863; same data without added history/scenario=25393; historical decisions=1; shared actions=1
+✔ atelier persists observed differences, choices and live records through changed needs and restart (74.062ms)
+✔ atelier rejects stale tabs, cross-origin writes and malformed proposals without losing state (31.76975ms)
+✔ discovery is read-only, replays real consequences and rejects a stale project (48.880042ms)
+✔ agent request is an actual retained handoff; imported response preserves data and is auditable (21.405875ms)
+✔ a corrupt persisted lane fails on opening and is not silently reset (7.4465ms)
+✔ changing creation target preserves an empty open form and its keyboard focus (135.959875ms)
+✔ 18 scenario specs cover positive and negative controls for all six skills (1.225041ms)
+✔ missing campaign is not a success and unknown metrics are null (0.586167ms)
+✔ synthetic calibration never inflates native performance (2.493041ms)
+✔ native-shaped constructed records preserve total denominator and unknown measurements (2.90225ms)
+✔ green-test claim cannot replace missing or failed acceptance judgments (1.042667ms)
+✔ blocked interrupted and explicit not-run retain states and denominator (1.031583ms)
+✔ duplicate identity and duplicate slot cannot inflate score (1.083375ms)
+✔ unknown cases repetitions and criteria are rejected (2.701041ms)
+✔ malformed reports, unsupported claims and unavailable metric strings are rejected (4.060416ms)
+✔ unknown, empty or duplicate evidence references are rejected (1.867708ms)
+✔ artifact hashing detects tampering and refuses traversal or symbolic evidence (2.511625ms)
+✔ native records require provenance and session transcripts (0.953083ms)
+✔ resume completion requires distinct sessions and distinct transcript references (0.839459ms)
+✔ report content remains inert data (0.929291ms)
+✔ suite and oracle inconsistencies fail closed (0.236042ms)
+✔ CLI emits a pending report and fails malformed data without execution (92.992541ms)
+✔ separate native configurations cannot be pooled into one score (0.874166ms)
+✔ two-session completion rejects reused bytes even under new artifact identity (1.205542ms)
+✔ different fixture revisions for repeated native cases cannot inflate score (0.866625ms)
+✔ blocked without invocation does not count as attempted native cost or unknown usage (0.722ms)
+✔ oversized evidence and CLI reports are rejected before reading payload bytes (39.309209ms)
+✔ negative controls require the requested outcome as well as non-activation (5.143208ms)
+✔ copied transcripts cannot stand for additional native trials (1.626417ms)
+✔ run-local session labels remain usable with different transcript artifacts (1.649916ms)
+✔ native provenance requires real ISO dates with explicit timezone and chronology (2.571708ms)
+✔ counts reject unsafe integers instead of silently rounding measurements (1.916833ms)
+✔ metric totals reject overflow and preserve finite decimal observations (6.75475ms)
+✔ unchanged pins remain ready regardless of timestamps and inspection preserves files (8.835125ms)
+✔ source changes invalidate dependent evidence but preserve independent results (2.53675ms)
+✔ artifact changes and failed prerequisites invalidate downstream evidence in any array order (3.7655ms)
+✔ missing sources, evidence and nonregular files cannot support resumption (2.180125ms)
+✔ invalid schema, IDs, dependencies and cycles fail before reading sources (2.064209ms)
+✔ array enum values are rejected without inspecting source or evidence files (2.231458ms)
+✔ portable paths reject traversal, absolute, Windows aliases and control characters (2.448708ms)
+✔ symbolic file, directory, destination and checkpoint paths are refused (3.769625ms)
+✔ completed scope never suggests new work; blocked state persists despite valid evidence (2.964416ms)
+✔ JSON loading, absent evidence and unrun outcomes are explicit (3.106834ms)
+✔ closure maps criteria to current pinned typed evidence without changing records (227.371166ms)
+✔ green unrelated checks cannot close an uncovered user criterion (211.684875ms)
+✔ kind, inspected revision and changed-file dependencies cannot be substituted (397.051667ms)
+✔ complete labels cannot bypass changed code, failed evidence or blocked dependencies (310.654625ms)
+✔ changed mission, missing context pins and absent Git provenance cannot support closure (144.952333ms)
+✔ closure rejects unsafe/secret records and pins before reading them (150.055542ms)
+✔ loop differentiates initial work, failed checks, diagnosis and stagnation (0.568ms)
+✔ double-failure signatures take precedence over progress, a later pass and complete labels (0.156833ms)
+✔ unsigned legacy failures and nonconsecutive signatures do not invent a double failure (0.177583ms)
+✔ unknown usage is not zero and prevents further bounded admission (0.103166ms)
+✔ partial unknown usage preserves known threshold crossings and later attempts (0.655333ms)
+✔ known usage totals reject overflow even when another observation is unknown (0.1205ms)
+✔ interrupted and blocked attempts require reconciliation even if marked complete (0.083791ms)
+✔ complete loop still needs closure and abandoned scope suggests no action (0.048417ms)
+✔ loop reports observed limit overruns and does not label them hard caps (0.049375ms)
+✔ a later success cannot erase a historical limit crossing (0.055167ms)
+✔ loop preserves prefix findings before retry diagnostics and reconciliation priority (0.053458ms)
+✔ malformed histories, duplicate attempts and forged passing shapes are rejected (0.199584ms)
+✔ closure and loop CLI preserve inputs, report failing exit codes and reject unrelated flags (563.97675ms)
+✔ child discovery without thread/started; repeated cumulative updates are not added (0.881208ms)
+✔ unmetered, unfinished, unknown threads and resumed turns block accounting (0.178875ms)
+✔ stdio RPC correlates replies and rejects server errors without hanging (36.079583ms)
+✔ malformed stream, premature exit and deadline reject pending calls (320.554625ms)
+✔ wait for child completion after interrupt acknowledgement before finalizing usage (31.720584ms)
+✔ cancellation during initialization does not dispatch a model turn (0.752916ms)
+✖ native commands: codex installs all documented entry points and their references (179.60875ms)
+✖ native commands: claude installs all documented entry points and their references (144.533708ms)
+✖ native commands: cursor installs all documented entry points and their references (131.411542ms)
+✖ legacy manifests without commands remain valid and preview additions without writes (129.460833ms)
+✔ subsets expose only supported procedures and reject arbitrary manifest command paths (26.702708ms)
+✔ a command in another host blocks installation before writes (2.647416ms)
+✔ initialization success alone cannot admit an unattended comparison (0.469625ms)
+✔ all requirements are explicit and missing or non-boolean evidence blocks admission (0.490917ms)
+✔ matched summary preserves failures, blocked denominator, and unavailable usage (0.826667ms)
+✔ rejects missing/duplicate arms and mismatched conditions (0.730042ms)
+✔ budget and measurement failures cannot produce a summary (0.187333ms)
+✔ numeric experience preserves a manual trial until confirmation and keeps keyboard access at the time limit (136.364958ms)
+✔ rental arithmetic handles fragmentation, free pauses and the exact closing boundary (1.137292ms)
+✔ frozen engine finds a replayable shortest rental witness, independently enumerated (2.453958ms)
+✔ short rental search remains bounded and identical policies exhaust the finite window (27.1635ms)
+✔ BFS returns a shortest real difference, not the first depth-first branch (1.3555ms)
+✔ canonical values ignore object key order and cosmetic metadata, not array order (0.227416ms)
+✔ equivalent cycles exhaust their reachable keys instead of looping to the depth bound (0.142792ms)
+✔ depth frontier distinguishes an unexplored continuation, a terminal leaf and a witness (0.2425ms)
+✔ state and transition budgets stop only when work remains (0.170042ms)
+✔ callbacks cannot mutate the supplied initial state, sibling inputs or saved actions (0.764125ms)
+✔ invalid limits and malformed machine responses fail explicitly (2.015584ms)
+✔ non-JSON and cyclic values are rejected rather than silently compared as null (0.412792ms)
+✔ Atelier witness needs two actions and replays through the actual domain without mutating the project (47.174458ms)
+✔ a new record can unlock a later difference, with only one fresh identity in the replay (16.647292ms)
+✔ mixed create/transition IDs retain both existing-record and fresh-record behavior (2.494875ms)
+✔ cosmetic reasons do not make a witness and the domain quota counter is not silently merged (1.953125ms)
+✔ adapter accepts no-action projects, avoids record ID collisions and rejects invalid projects (14.808709ms)
+✖ doctor accepts full and subset codex installations without changes (172.899542ms)
+✖ doctor accepts full and subset claude installations without changes (149.829291ms)
+✖ doctor accepts full and subset cursor installations without changes (150.426208ms)
+✖ customized templates and skills are warnings, preserved byte for byte (150.895541ms)
+✖ missing files and duplicate host copies are errors even alongside customization (170.755834ms)
+✔ doctor rejects malformed, incomplete and unsupported manifests before reading payload (1504.80825ms)
+✔ untrusted manifest cannot select traversal, absolute, foreign-host or arbitrary project paths (1131.195708ms)
+✖ doctor refuses symlink destinations, manifests, payloads and alternate host ancestors (259.127041ms)
+✖ doctor CLI emits parseable JSON, stable exit codes and rejects irrelevant options (164.7845ms)
+✔ B1 pinned starting state and objective check (108.924417ms)
+✔ B3 pinned starting state and objective check (114.8105ms)
+✔ B4 pinned starting state and objective check (111.889292ms)
+✔ B5 pinned starting state and objective check (110.189084ms)
+✔ collector detects altered tests, unrelated writes and deleted files (10.244417ms)
+✔ evidence refuses symbolic paths (1.001958ms)
+✔ actual DOM event bindings reserve, show full capacity and cancel through the HTTP application (145.975333ms)
+✔ UI retries an uncertain response with the same request identity and avoids a duplicate booking (59.649584ms)
+✔ refresh preserves an unsubmitted choice after recovery instead of silently booking fewer seats (46.546ms)
+✔ refresh keeps a now-unavailable choice explicit until the user chooses a valid quantity (82.677375ms)
+✔ the same ordinary and calibrated assertions reject every known queue fault (5357.182125ms)
+✔ an import crash remains an unavailable check, never a semantic fault detection (1546.052959ms)
+✔ semantic failure uses exit one with strict failed verdicts (511.978ms)
+▶ incoherent stored support fails closed instead of reporting fresh evidence
+  ✔ supported outcome with failed criterion (3.565667ms)
+  ✔ null criterion (1.75625ms)
+  ✔ unknown outcome (1.3225ms)
+  ✔ array outcome masquerading as a scalar enum (1.249625ms)
+  ✔ malformed revision (1.079083ms)
+  ✔ oversized note (1.239125ms)
+  ✔ negative duration (1.486416ms)
+  ✔ invalid date (1.252959ms)
+  ✔ inconsistent freshness (0.980208ms)
+  ✔ null result (0.73075ms)
+  ✔ invalid verdict (0.667125ms)
+  ✔ candidate failure hidden by support (0.812709ms)
+  ✔ unfinished passing attempt (1.147166ms)
+✔ incoherent stored support fails closed instead of reporting fresh evidence (445.463042ms)
+✔ stored failure signature must match the recorded failing criteria (496.570083ms)
+✔ omitted stored controls cannot match a current execution plan (745.106125ms)
+✔ contradictory fault protocol: zero with failed criteria (396.332375ms)
+✔ contradictory fault protocol: one with passing criteria (377.566375ms)
+✔ contradictory fault protocol: unrecognized exit code with failed criteria (494.586875ms)
+✔ contradictory fault protocol: one with malformed output (394.389ms)
+✔ plan is read-only; explicit permit executes calibrated checks and produces current support (699.100667ms)
+✔ permit excludes candidate bytes but pins evaluator and contract (385.141084ms)
+✔ green candidate is unchallenged when healthy and fault controls are absent (351.582791ms)
+✔ insensitive test fails calibration even with a green candidate (445.407292ms)
+✔ two identical criterion failures halt persistently despite repairs (1815.230917ms)
+✔ candidate repair preserves attempt history and refreshes a stale receipt (1591.038041ms)
+✔ explicit current permit adopts changed need and evaluator while preserving revision history (857.633708ms)
+✔ fault nonzero exit is an interrupted attempt, never fault detection (332.120333ms)
+✔ fault import crash is an interrupted attempt, never fault detection (315.145625ms)
+✔ fault malformed JSON is an interrupted attempt, never fault detection (308.007ms)
+✔ fault wrong check is an interrupted attempt, never fault detection (313.555ms)
+✔ fault missing criterion is an interrupted attempt, never fault detection (311.214667ms)
+✔ output and timeout bounds halt without treating killed fault controls as proof (306.92375ms)
+✔ snapshot preserves the exact candidate bytes from before execution (374.444333ms)
+✔ candidate mutation during verification invalidates evidence and halts (349.879291ms)
+✔ existing lock and pending intent require reconciliation and are preserved (514.473709ms)
+✔ session scope cannot be replaced by a different root (453.947708ms)
+✔ session and evaluator must stay outside candidate; symlink inputs rejected (199.678625ms)
+✔ hard contract bounds reject excessive calls and attempts before execution (2.07425ms)
+✔ every control is scheduled before every candidate check (68.968458ms)
+✔ a valid correlated fault may fail its target and additional criteria (407.284084ms)
+✔ a fault passing its target cannot calibrate by failing another criterion (413.939583ms)
+✔ a healthy control failure prevents support even when fault targets fail (435.060208ms)
+✔ changing failure signatures without measurable progress still exhausts the session (1017.934875ms)
+✔ finite attempt budget remains exhausted after a contract revision increases its requested limit (454.498208ms)
+✔ tightened no-progress limit halts before another runner or pending attempt (962.103958ms)
+✔ tightened attempt budget preserves a valid halt below completed history (911.063584ms)
+✔ hanging evaluator times out and never qualifies as a fault control (404.407667ms)
+✔ evaluator receives a minimal environment without inherited credentials or NODE_OPTIONS (361.250625ms)
+✔ real evidence demo completes from a symbolic temporary directory (4440.956167ms)
+✔ evidence-demo preserves malformed invocation before decoding its report (53.608875ms)
+✔ evidence-demo preserves empty invocation before decoding its report (51.944667ms)
+✔ evidence-demo preserves timeout invocation before decoding its report (60.279333ms)
+✔ evidence-demo preserves valid invocation before decoding its report (61.753ms)
+✔ evidence-holdout preserves malformed invocation before decoding its report (56.238541ms)
+✔ evidence-holdout preserves empty invocation before decoding its report (55.530125ms)
+✔ evidence-holdout preserves timeout invocation before decoding its report (91.669416ms)
+✔ evidence-holdout preserves valid invocation before decoding its report (155.083125ms)
+✔ committed raw bytes are accepted for both Git object formats (306.126625ms)
+✔ a code change with unchanged HEAD cannot reuse prior behavioral observations (236.928416ms)
+✔ declared sources and changes must already be present at the commit (286.551125ms)
+✔ an untracked mission may select committed inputs, while other tracked edits are rejected (223.63275ms)
+✔ index-only modifications and a different HEAD fail even with original worktree bytes (231.233459ms)
+✔ reports and declared artifacts must remain outside HEAD and the index (309.557834ms)
+✔ evidence cannot overlap a declared source or change (220.871083ms)
+✔ raw-byte policy rejects CRLF conversion and does not run filters or external diff (227.664792ms)
+✔ unverifiable secret paths, symlink objects and submodules fail closed (505.202333ms)
+✔ oversized tracked files fail before reading their payload (135.690458ms)
+✔ tracked content is bounded across files, including the 64 MiB boundary (1170.492667ms)
+✔ maximum admitted attempt notes remain readable after atomic persistence (56.551833ms)
+✔ command gates block unresolved dependencies and verification before implementation (275.614959ms)
+✔ two identical failures latch a persistent stop, preserve context and deny every command (1056.871167ms)
+✔ failure signatures ignore run ordering and commentary (962.017375ms)
+✔ different failures permit a diagnosed correction and unchanged passing evidence is reused (1528.21525ms)
+✔ reports for an earlier method revision cannot verify the current revision (657.73025ms)
+✔ a passing report cannot be rebound to changed code under the same HEAD (1825.371667ms)
+✔ a manufactured hash for an unexecuted campaign cannot satisfy acceptance (742.417708ms)
+✔ an evaluator validation error participates in the same persistent circuit breaker (1123.403958ms)
+✔ unowned session directories and scope changes cannot overwrite existing records (313.34025ms)
+✔ integration needs current native evidence tied to every mission criterion (1309.615167ms)
+✔ synthetic campaigns cannot create verified receipts (432.074792ms)
+✔ locks and interrupted pending verification fail closed without automatic recovery (218.234041ms)
+✔ artifact mutation invalidates a receipt even when ignored by Git (569.414458ms)
+✔ a missing declared input invalidates persisted acceptance and requires human reconciliation (820.163042ms)
+✔ a supported checkpoint cannot substitute unrelated evidence for the behavioral report (774.957417ms)
+✔ install codex: complete payload, links, hashes and license (225.419209ms)
+✔ install claude: complete payload, links, hashes and license (174.061875ms)
+✔ install cursor: complete payload, links, hashes and license (187.287875ms)
+✔ dry-run does not write and subsets retain foundation (59.238875ms)
+✔ conflicts fail before writing and project instructions stay intact (174.543292ms)
+✔ reject invalid arguments, duplicate hosts, symbolic and blocked paths (150.317958ms)
+✔ CLI validates noninteractive input and executes a real installation (504.48975ms)
+✔ workflow resources on codex: complete references and mission preservation (228.000667ms)
+✔ workflow resources on claude: complete references and mission preservation (153.223167ms)
+✔ workflow resources on cursor: complete references and mission preservation (199.814583ms)
+✔ malformed project JSON never leaks its content through CLI errors (269.981875ms)
+✔ mission context retains provenance without source bodies and detects changed contracts (258.9135ms)
+✔ Git changes include dirty-to-dirty edits and branch changes; complete never gains a next action (330.817875ms)
+✔ dependencies and declared contradictions block without modifying records (183.139834ms)
+✔ secret paths, credential text, symlinks, oversized sources and tampered pins fail closed (297.365541ms)
+✔ discovery omits secret paths; CLI never executes verification strings and rejects unrelated flags (370.299791ms)
+✔ checkpoint extensions preserve legacy pins, blocked outcome, and selective Git reassessment (261.599542ms)
+✔ Git provenance cannot execute repository fsmonitor or clean filters (127.405458ms)
+✔ unknown mission/source properties are omitted from generated context (149.260041ms)
+✔ host supervisor distinguishes success, failure, missing executable and cancellation (80.50975ms)
+✔ host supervisor stops timeouts and excessive output (131.557583ms)
+✔ ledger refuses concurrency, duplicate IDs, unknown usage and spent run budget (8.076458ms)
+✔ ledger rejects malformed or unsafe recorded usage without admitting or rewriting slots (91.874125ms)
+✔ ledger preserves genuine zero usage and explicit unmetered terminal outcomes (16.6775ms)
+✔ Codex adapter pins sandbox/model and never fabricates unavailable cost or tokens (0.74775ms)
+✔ active cancellation stops a running process (104.007ms)
+✔ Codex parent environment excludes alternate API credentials and provider routing (0.356709ms)
+✔ POSIX timeout terminates descendants in the supervised process group (302.59825ms)
+✔ frozen task inputs reject altered requirements, added files, and symbolic sources (12.386459ms)
+✔ a prior campaign directory cannot be prepared again or overwritten (3.768584ms)
+✔ fresh-state success cannot certify missing, failed, or operator-assisted continuity (0.146167ms)
+✔ missing native usage remains unknown even when other turns have measured usage (0.509417ms)
+✔ maintenance cannot rewrite the operator witness to certify changed saved data (1.651125ms)
+✔ an admitted native slot with a collection failure is unresolved, never not-run (4.322209ms)
+✔ runtime drift after preparation is refused before any native dispatch (52.522667ms)
+✔ a commentary message followed by work is not a terminal native response (0.482292ms)
+✔ collection failure preserves already observed native accounting and blocks readiness (3.701916ms)
+✔ staging unchanged working bytes invalidates frozen resumption attribution (228.526166ms)
+✔ outer read isolation permits canonical worker paths without exposing protected data (47.882084ms)
+✔ startup preflight checks the second sandbox before any Codex process (38.599083ms)
+✔ native arguments place both Node and zsh temporary files inside the assigned workspace (0.676458ms)
+✔ local shell preflight reproduces denied heredoc and verifies the bounded correction (75.646334ms)
+✔ large customized payloads retain exact hashes without whole-file reads (101.641333ms)
+✔ stream hashing handles empty files, short reads and closes on read failures (29.902666ms)
+✔ init refuses size conflicts before reading existing payload bytes (51.0825ms)
+✔ init refuses oversized existing manifests before parsing their bytes (28.558625ms)
+✔ planner bounds candidates, respects dependencies and sequential fallback without mutation (1.840833ms)
+✔ failure, cancellation, exhausted attempts and interrupted work never auto-retry (1.693542ms)
+✔ ownership conflicts, nested worktrees, graph errors and false completion fail closed (0.590625ms)
+✔ pre-execution blocking and cancellation require no fabricated attempt (0.115875ms)
+✔ dependency evaluation retains declared task and candidate order (0.142292ms)
+✔ FOUNDATION-POS materializes only pinned neutral fixture inputs (12.77925ms)
+✔ FOUNDATION-NEG materializes only pinned neutral fixture inputs (28.9665ms)
+✔ ARCH-POS materializes only pinned neutral fixture inputs (31.230917ms)
+✔ ARCH-NEG materializes only pinned neutral fixture inputs (31.244666ms)
+✔ DESIGN-POS materializes only pinned neutral fixture inputs (13.307708ms)
+✔ DESIGN-NEG materializes only pinned neutral fixture inputs (13.785458ms)
+✔ REACT-POS materializes only pinned neutral fixture inputs (11.79375ms)
+✔ REACT-NEG materializes only pinned neutral fixture inputs (16.801625ms)
+✔ AI-POS materializes only pinned neutral fixture inputs (14.8365ms)
+✔ AI-NEG materializes only pinned neutral fixture inputs (11.32325ms)
+✔ DELIVERY-POS materializes only pinned neutral fixture inputs (11.614458ms)
+✔ DELIVERY-NEG materializes only pinned neutral fixture inputs (20.714ms)
+✔ CONTEXT materializes only pinned neutral fixture inputs (15.90025ms)
+✔ CLOSURE materializes only pinned neutral fixture inputs (11.032542ms)
+✔ RETRY materializes only pinned neutral fixture inputs (13.537834ms)
+✔ RESUME materializes only pinned neutral fixture inputs (8.054042ms)
+✔ REVIEW materializes only pinned neutral fixture inputs (7.370167ms)
+✔ AUTHORITY materializes only pinned neutral fixture inputs (13.310209ms)
+✔ closure baseline tests are green while concurrent calls violate actual capacity (276.894458ms)
+✔ fake provider reproduces malformed output and applied-effect timeout without external service (15.25675ms)
+✔ negative math control starts with a real failing deterministic assertion (100.42075ms)
+✔ resume and delivery operator prerequisites are explicit, not reported executed (25.689084ms)
+✔ destination traversal, relative paths and symbolic ancestors are refused (1.521833ms)
+✔ tampered sources and symbolic files cannot be prepared (43.343292ms)
+✔ manifest traversal and evaluator artifact injection are refused (29.03075ms)
+✔ preparer CLI emits provenance only after successful copy and refuses reused destination (90.41825ms)
+✔ destination lexical validation accepts native Windows paths without hiding traversal (0.423834ms)
+✔ resume CLI JSON is read-only and fails closed for all nonready statuses (324.270416ms)
+✔ resume CLI rejects irrelevant flags and missing checkpoint, and refuses unsafe paths (658.968042ms)
+✔ installed report flow: codex, commonjs, no npm or source checkout (472.642542ms)
+✔ installed report flow: codex, module, no npm or source checkout (341.9535ms)
+✔ installed report flow: codex, absent, no npm or source checkout (306.328084ms)
+✔ installed report flow: claude, commonjs, no npm or source checkout (320.704417ms)
+✔ installed report flow: claude, module, no npm or source checkout (380.651708ms)
+✔ installed report flow: claude, absent, no npm or source checkout (361.733875ms)
+✔ installed report flow: cursor, commonjs, no npm or source checkout (445.17325ms)
+✔ installed report flow: cursor, module, no npm or source checkout (379.444042ms)
+✔ installed report flow: cursor, absent, no npm or source checkout (479.179666ms)
+✔ seeded application defects are reproducible, independent of report formatting (38.795459ms)
+✔ calibration counts missed defects, false positives and unresolved findings separately (2.136542ms)
+✔ generated viewer filters findings while retaining global counts and selected detail (189.164875ms)
+✔ generated viewer binds coverage, keyboard tabs and finding sections to their records (81.973958ms)
+✔ browser opening preserves hostile filenames as a single encoded URL without a shell (0.678667ms)
+✔ open requires an output before writing and is restricted to review (110.966083ms)
+✔ review format 1 preserves evidence and rejects missing, foreign, duplicate or dangling fields (3.841875ms)
+✔ counts distinguish finding severity, confidence and checks; readiness is bounded by explicit policy (1.688542ms)
+✔ filters compose without changing full-review counts or resolution (0.241792ms)
+✔ revision drift signals reassessment while preserving independent historical checks (0.251875ms)
+✔ untrusted destinations and raw credentials are not distributed; Markdown is escaped (1.651417ms)
+✔ report derives controls, finding resolution, references, evidence and limits from the same record (0.259084ms)
+✔ browser HTML contains only inert escaped data and a CSP-pinned local program (4.519542ms)
+✔ CLI derives reports and preserves outputs, legacy text and source bytes without executing content (824.821666ms)
+✔ report links reject Markdown/HTML delimiters; declared raster evidence remains supported (0.686542ms)
+✔ checked-in review report is derived exactly from its structured owner (1.56ms)
+✔ browser bundle is an executable classic script after CRLF compiler output (250.399875ms)
+✔ common authorization headers, environment keys and quoted credentials are completely redacted (0.92075ms)
+✔ durées exactes, initial 20:57 et sortie 21:02 (0.675833ms)
+✔ choix 1 : six films, remplacement explicite, appel exact, F6 dernier (0.59925ms)
+✔ choix 2 : retrait F4, discussion15, attente2, sortie limite exacte (0.121333ms)
+✔ garder six films et discussion10 après appel dépasse de2 ; publication bloquée (0.290833ms)
+✔ appel en retard : conflit explicite sans film coupé ni chevauchement (0.116958ms)
+✔ événement ne choisit pas implicitement une option, ni ne modifie le brouillon (0.089125ms)
+✔ publication transactionnelle conserve v1 et son HTML après choix, édition et v2 (0.450959ms)
+✔ export autonome : contenu échappé et aucune ressource distante ni script (0.160959ms)
+✔ stockage local séparé : roundtrip de brouillon + versions, corruption signalée (0.346417ms)
+✔ catalogue ne permet pas de falsifier les durées (1.251333ms)
+✔ le chargement refuse un identifiant inconnu sans effacer un brouillon horaire à corriger (0.159333ms)
+✔ les liaisons DOM conservent le titre, les ajustements et les versions après réouverture (515.587ms)
+✔ une reprise corrompue signale le refus et ne remplace pas la sauvegarde (5.5095ms)
+✔ annuler l’appel conserve les éditions indépendantes sans deviner les activités à restaurer (0.144625ms)
+✔ les deux compromis peuvent être retirés sans modifier les anciennes publications ou leur HTML (0.548083ms)
+✔ aperçu DOM : annulation sans écriture, ajout explicite, application puis reprise inchangée des versions (86.671042ms)
+✔ une édition ordinaire ferme un aperçu devenu périmé ; discussion restaurée uniquement par choix explicite (46.05525ms)
+✔ portable export restores code, current data and decisions without runtime credentials (50.652167ms)
+✔ traversal and duplicate entries are rejected before extracting any file (4.779334ms)
+✔ corrupted headers, unsupported symlink entries and truncated contents are rejected (0.895292ms)
+✔ restoration refuses existing files and a symbolic destination without touching targets (1.417417ms)
+✔ archive parent-file collisions reject the whole extraction before partial writes (0.83575ms)
+✔ export refuses symlink references instead of copying their outside target (12.596042ms)
+✔ missing archive terminator and appended nonzero junk are refused before writes (0.9425ms)
+✔ USTAR prefix preserves long valid application paths in a real project export (45.675917ms)
+✔ archive validates the recomposed prefix and name before writing anything (1.35425ms)
+✔ server verification errors remain excluded from local syntax counts, including when mixed with worker diagnostics (1.314458ms)
+✔ late widget loading receives the latest document, preserves fallback text, and wires changes once (53.189334ms)
+✔ clearing while the widget loads cannot expose a superseded or binary source (9.929833ms)
+✔ bundle failure leaves a working explicit text fallback and disposal invalidates a pending mount (18.548417ms)
+✔ a failure while installing the first widget document permanently restores the text fallback (13.742791ms)
+▶ later widget failures in document, diagnostics or focus cannot disable the durable text editor
+  ✔ setDocument (7.106542ms)
+  ✔ setDiagnostics (8.242083ms)
+  ✔ focus (8.531584ms)
+✔ later widget failures in document, diagnostics or focus cannot disable the durable text editor (28.29475ms)
+✔ guided completion stays ready until activation, checks remain tied to old revision (8.222042ms)
+✔ delegated completion activates real revision but creates no successful check (0.65925ms)
+✔ automatic adoption replaces the prior manual active-version decision without inventing user approval (0.49825ms)
+✔ cancelled work cannot finish or fail late; only one worker owns a running job (0.428334ms)
+✔ code produced on an obsolete base is refused without losing the running job (0.434375ms)
+✔ framing can complete without inventing a code revision; active decisions are superseded (0.429625ms)
+✔ design selection refers to an uploaded reference and records explicit user choice (0.290083ms)
+✔ requests preserve element context and clear only the submitted draft (0.116417ms)
+✔ DevAuto keeps its explicit mode and activates a finished implementation (0.273ms)
+✔ invalid provider completion never creates fake user decisions or empty results (0.215208ms)
+✔ guided and DevAuto require approval of the current scope; delegated mode creates no fake approval (0.307625ms)
+✔ changed brief, design, architecture or intention invalidate approval; versions and checks do not (3.077292ms)
+✔ renewed approval supersedes its predecessor and agent-authored approval never opens the gate (0.213583ms)
+✔ approval hash is independent of object insertion order and non-structural decisions (0.096375ms)
+✔ code completion enforces approval before and after structural changes without partial mutation (4.054125ms)
+✔ guided can delegate structure and adoption while reserving an explicit visual choice before code (6.134541ms)
+✔ autonomous visual reservation still gates code and explicit adoption user prevents autoactivation (3.728584ms)
+✔ visual approval follows the selected id and cannot be forged or superseded by an agent delivery (10.331917ms)
+✔ explicit delegation is complete, validated and survives a project update from a legacy client (0.21875ms)
+✔ code changes survive a save in flight and only the newest acknowledged text becomes buildable (77.403166ms)
+✔ a conflict preserves text and local recovery, without an automatic retry or adoption (24.471625ms)
+✔ syntax failure leaves the last good preview visible, exposes direction and cannot be adopted (26.501291ms)
+✔ manual adoption uses the exact built draft and a later keystroke disables it again (28.134625ms)
+✔ local unacknowledged changes recover without overwriting them from polling, and correction stays a draft (14.347792ms)
+✔ adoption locks typing until the response so an intermediate keystroke cannot be discarded (10.9405ms)
+✔ only the current draft iframe can report a runtime error and disable adoption (22.7735ms)
+✔ opening after another version became active recovers the previous draft instead of overwriting it (8.990875ms)
+✔ explicit conflict reload retires the old local recovery only after a successful read (25.949291ms)
+✔ changing the base removes the previous preview and retires its downloaded local recovery (14.499708ms)
+✔ editing invalidates server markers while retaining explicitly historical diagnostics until a fresh check (9.912417ms)
+✔ editor saves exact text durably, rejects stale CAS and unsafe paths without losing changes (95.846667ms)
+✔ build refuses concurrent saves and preserves last good preview after a syntax error (237.073791ms)
+✔ manual adoption uses exact build and new check, reopens at adopted contents, and respects visual reservation (192.374041ms)
+✔ changed base and substituted source symlink are refused while the durable draft remains intact (80.441ms)
+✔ editor-only runtime observer precedes application scripts and reports bounded errors and rejections to Studio (204.079958ms)
+✔ editor HTTP preview has its own origin and data; syntax checking never executes application scripts (245.369083ms)
+✔ JSON errors block a build, missing local references are explicitly heuristic, and altered build bytes refuse adoption (260.83025ms)
+✔ ES module import followed by a trailing syntax error fails both editor and revision verification (207.904791ms)
+✔ syntax stdin selects module for mjs and commonjs for cjs without running either (140.006167ms)
+✔ persisted builds from the former checker require reverification without losing preview or source (234.089041ms)
+✔ deleting a plain relative HTML stylesheet warns, and a bare package import is explicitly unresolved (267.151417ms)
+✔ recorded example restores exact code, decisions and data without resetting provider usage (138.281291ms)
+✔ starting Studio in its own package directory fails before creating project state (61.965541ms)
+✔ a project-context change during execution refuses adoption and preserves work (79.255334ms)
+✔ typing a next request during execution does not invalidate the current result (66.512542ms)
+✔ malicious Origin and malformed preview JSON are handled without losing persisted data (4.354625ms)
+✔ failed preview initialization preserves corrupt data and releases the project lock (31.81475ms)
+✔ a metadata-only scope proposal after an approved app creates no revision and reopens approval (109.80775ms)
+✔ runtime exposes effective delegation and visual reservation through the public API (61.808084ms)
+✔ a visual choice changed during a claimed job refuses its result and retains its work (69.155166ms)
+✔ real files, isolated preview, conflicts, code rollback, export and restart retain data (281.571083ms)
+✔ origin and worker boundaries reject forged mutations, token not exposed (53.908833ms)
+✔ cancelled worker cannot finish or change active code (92.813541ms)
+✔ element targeting identifies the selected repeated heading and ignores foreign messages (488.303542ms)
+✔ keyboard resizing respects bounds, persists, and clamps again after a viewport resize (157.451167ms)
+✔ mouse dragging works without browser storage and mobile cannot resize the desktop columns (41.077375ms)
+✔ render events retain the visible message anchor when earlier messages are inserted (43.799042ms)
+✔ expanded mode preserves editor DOM and input, restores layout, and respects a consumed Escape (32.805625ms)
+✔ all existing destination ancestors are checked before creating archive directories (8.223375ms)
+✔ dangling ancestor links and copy destinations are refused without writing through them (10.974458ms)
+✔ invalid footer and file-directory conflicts fail before destination creation (9.393792ms)
+✔ disk failure during extraction leaves an existing empty destination unchanged (25.85325ms)
+✔ successful extraction atomically supplies the complete bundle (8.6045ms)
+✔ a concurrent user file prevents installation and is preserved (10.95675ms)
+✔ strict React 19 and Tailwind build preserves separate sources and emits actual browser assets (2149.9245ms)
+✔ a real strict type mismatch blocks all output even when app tsconfig disables strict (1758.284291ms)
+✔ package scripts and application JS configuration never run during the trusted build (1190.267208ms)
+✔ outside imports and Tailwind executable plugins cannot escape the input snapshot (2204.838667ms)
+✔ cancelled or expired compilation publishes no partial output (4.752ms)
+✔ the compiled React bundle runs, alias and shadcn dependencies resolve, and a click updates state (1374.641125ms)
+✔ network CSS and unapproved packages fail closed without output (2547.701084ms)
+✔ a source changed during compilation is rejected and an existing build is never overwritten (3413.205042ms)
+✔ a symlinked source is refused before reading its target (2.861542ms)
+✔ unreferenced application sources cannot weaken strict index access or suppress checks (1077.475291ms)
+✔ identical sources compile identically in separate roots and CSS loads without an explicit head (2208.30375ms)
+✔ a React example requires explicit technical delegation before creating any workspace (81.892459ms)
+✔ explicit delegation changes only the new example technical policy and preserves data and history (3375.913375ms)
+✔ technical delegation flag is rejected outside the example command (76.161083ms)
+✔ React job, edited type error, recovery, adoption, export and real server restart preserve source and data (7498.480542ms)
+✔ unsupported typed extensions fail explicitly instead of passing the static checker (0.378583ms)
+✔ a cancelled asynchronous React build cannot adopt a late result (2535.531ms)
+✔ tampering compiled artifacts fails preview and export without changing source or data (1214.26975ms)
+✔ compiled application carries complete local licenses for bundled packages through project export (2427.375333ms)
+✔ notices exclude whitelisted runtime packages that contributed no application code (1462.187792ms)
+✔ trusted dependencies resolve from their owning package in a nested npm installation (126.220459ms)
+✔ separate installed versions retain their own transitive dependencies and roots (51.070542ms)
+✔ a successful booking cannot erase or hide text typed while that booking was saving (319.6205ms)
+✔ a whitespace-only name gets a focused inline error without a network save (116.887375ms)
+✔ restoring multiple booking drafts does not steal focus or trigger a mobile keyboard (35.762667ms)
+✔ cancelling a registration requires a reversible confirmation before any save (79.589417ms)
+✔ runner snapshots actual files and context without manufacturing verification (97.091375ms)
+✔ maximum admitted jobs persists across runner restart and leaves later work queued (71.422ms)
+✔ token threshold is an admission bound and may be crossed by the last allowed call (63.730625ms)
+✔ unknown usage after failure suspends subsequent automatic admission (46.324417ms)
+✔ cancel aborts the executor and rejects even a late success with real files (37.489125ms)
+✔ crash receipt with running attempt makes prior consumption unknown (27.813375ms)
+✔ invalid bounds or corrupt persisted budget fail before execution (28.138334ms)
+✔ unapproved DevAuto planning cannot activate files an executor wrongly generated (53.256209ms)
+✔ Codex command disables subagents and network and retains workspace sandbox (0.212ms)
+✔ obsolete queued work settles without repeated admission or starving the event loop (62.245084ms)
+✔ valid queued work continues after planning and stops at its persisted admission bound (71.178334ms)
+✔ runner follows explicit visual reservation and adoption instead of the mode label (162.167167ms)
+✔ real manifest drives nested file choices and source is displayed as text, never executed (137.657209ms)
+✔ a late response from an old revision cannot overwrite the displayed revision (11.053ms)
+✔ failed integrity or read error clears source and retry makes a real request (21.066583ms)
+✔ binary and truncated files remain explicitly distinguishable from a complete textual read (18.596ms)
+✔ empty selection and destruction invalidate pending reads without fake success (12.689916ms)
+✔ polling the same immutable manifest preserves selected file and folder state (15.288625ms)
+✔ line differences reconstruct both actual sources, including line endings and repeated lines (0.567583ms)
+✔ line comparison stops before exceeding its work budget rather than showing an invented result (0.299917ms)
+✔ comparison fetches both versions, includes deleted and added files, and never executes code (26.478541ms)
+✔ comparison refuses a truncated old source and prevents a stale comparison from replacing a source view (24.72ms)
+✔ comparison uses the actual job base after rollback, never the neighboring revision (0.204417ms)
+✔ copy reports success only after copying the displayed content and exposes denied clipboard access (12.132625ms)
+✔ source returns the actual pinned bytes and refuses other files, revisions and traversal (3.512708ms)
+✔ source does not follow a substituted symlink (2.77225ms)
+✔ source distinguishes binary and bounds text without breaking UTF-8 (14.464791ms)
+✔ source preserves a UTF-8 BOM for an exact comparison (1.354166ms)
+✔ CAS rejects stale writes and mutable read/commit results cannot change stored state (23.506791ms)
+✔ a second writer is refused and clean restart interrupts running work without retry (31.258416ms)
+✔ failed validation or mutator never changes disk, memory or version (11.634375ms)
+✔ durable malformed state fails visibly, is preserved, and does not retain the lock (6.068667ms)
+✔ recorded requests cannot be silently rewritten or removed (14.691291ms)
+✔ symlinks including dangling canonical-state links are refused without touching target (6.606333ms)
+✔ validation rejects traversal, unknown references and invented successful checks (0.51175ms)
+✔ polling preserves edits, focus, open context and a live preview without reloading it (222.372625ms)
+✔ visual directions use exclusive radios but persist only after explicit validation with a reason (55.454208ms)
+✔ a conflict retains the draft, refreshes the version and never resubmits the request automatically (78.970333ms)
+✔ a new draft typed during a request response is retained (46.338375ms)
+✔ element targeting accepts only the preview origin and the actual iframe window (46.080667ms)
+✔ approval is explicit for DevAuto and new active versions follow until the user chooses an older one (123.731083ms)
+✔ API propagates conflict status and sends the optimistic version without losing unicode (0.62475ms)
+✔ a connected runner stopped by its budget is visibly suspended, not described as manual (31.973625ms)
+✔ first use keeps the idea composer open, then a saved project collapses without recreating its fields (37.297584ms)
+✔ an existing project is compact and its open edits survive polling and a save conflict (26.650583ms)
+✔ exploration context includes active exploration decisions and hypotheses but excludes superseded ones (23.089292ms)
+✔ method surfaces keep the intended result visible and distinguish delegation from an actual human agreement (7.574208ms)
+✔ evidence dock excludes checks from other revisions and exposes interrupted work and unknown costs (6.219375ms)
+✔ workspace tabs preserve the live app and typed request while loading actual code on demand (44.081709ms)
+✔ explicit policy overrides survive project saves and visual approval blocks structural approval independently of the mode name (25.090041ms)
+✔ a header mode change is persisted but a conflicting choice stays visible for retry (42.850583ms)
+✔ ready work and active revisions remain distinct from verified results (6.507875ms)
+✔ the recent request flow keeps three compact excerpts and exposes every full original (7.598542ms)
+✔ versioned third-party sources survive every supported installation byte for byte (316.115792ms)
+✔ relocated Studio workflow exposes actual shipped skill and readable pinned references (71.334709ms)
+✔ upstream link fallback resolves only the documented guide and existing rules (2.676584ms)
+✔ deep-linked category is restored and browser back/forward preserve drafts, data, other query and anchor (246.536333ms)
+✔ unknown category falls back to all without rewriting unrelated query or anchor (112.578792ms)
+✔ filter hook can render without a browser global (8.84975ms)
+✖ preview codex full/subset provenance is deterministic and read-only (132.473209ms)
+✖ preview claude full/subset provenance is deterministic and read-only (75.482583ms)
+✖ preview cursor full/subset provenance is deterministic and read-only (169.527834ms)
+✖ legacy manifest remains untouched and provenance is unknown (156.284334ms)
+✖ comparison distinguishes upstream edits, local customization, additions, removals and collisions without writes (115.82975ms)
+✔ preview refuses traversal and symbolic paths and malformed provenance (495.831167ms)
+✖ update-preview JSON and CLI exit codes (127.089417ms)
+ℹ tests 530
+ℹ suites 0
+ℹ pass 513
+ℹ fail 17
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24213.351417
+
+✖ failing tests:
+
+test at tests/commands.test.mjs:34:3
+✖ native commands: codex installs all documented entry points and their references (179.60875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/commands.test.mjs:63:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/commands.test.mjs:34:3
+✖ native commands: claude installs all documented entry points and their references (144.533708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/commands.test.mjs:63:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/commands.test.mjs:34:3
+✖ native commands: cursor installs all documented entry points and their references (131.411542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/commands.test.mjs:63:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/commands.test.mjs:74:1
+✖ legacy manifests without commands remain valid and preview additions without writes (129.460833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/commands.test.mjs:87:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/doctor.test.mjs:38:3
+✖ doctor accepts full and subset codex installations without changes (172.899542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/doctor.test.mjs:43:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/doctor.test.mjs:38:3
+✖ doctor accepts full and subset claude installations without changes (149.829291ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/doctor.test.mjs:43:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/doctor.test.mjs:38:3
+✖ doctor accepts full and subset cursor installations without changes (150.426208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/doctor.test.mjs:43:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/doctor.test.mjs:52:1
+✖ customized templates and skills are warnings, preserved byte for byte (150.895541ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'warning'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/doctor.test.mjs:59:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'warning',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/doctor.test.mjs:65:1
+✖ missing files and duplicate host copies are errors even alongside customization (170.755834ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(report.findings.some((f) => f.code === 'file-missing'))
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/doctor.test.mjs:72:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/doctor.test.mjs:145:1
+✖ doctor refuses symlink destinations, manifests, payloads and alternate host ancestors (259.127041ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(diagnose(destination).findings.some((f) => f.code === 'file-unreadable'))
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/doctor.test.mjs:154:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/doctor.test.mjs:164:1
+✖ doctor CLI emits parseable JSON, stable exit codes and rejects irrelevant options (164.7845ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/doctor.test.mjs:169:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/update.test.mjs:40:3
+✖ preview codex full/subset provenance is deterministic and read-only (132.473209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/update.test.mjs:45:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/update.test.mjs:40:3
+✖ preview claude full/subset provenance is deterministic and read-only (75.482583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/update.test.mjs:45:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/update.test.mjs:40:3
+✖ preview cursor full/subset provenance is deterministic and read-only (169.527834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'ok'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/update.test.mjs:45:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'ok',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/update.test.mjs:56:1
+✖ legacy manifest remains untouched and provenance is unknown (156.284334ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'error' !== 'warning'
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/update.test.mjs:65:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'warning',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/update.test.mjs:68:1
+✖ comparison distinguishes upstream edits, local customization, additions, removals and collisions without writes (115.82975ms)
+  TypeError: Cannot read properties of undefined (reading 'classification')
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/update.test.mjs:89:30)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at tests/update.test.mjs:135:1
+✖ update-preview JSON and CLI exit codes (127.089417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///Users/montassar/.codex/worktrees/2701/DevMethod/tests/update.test.mjs:142:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

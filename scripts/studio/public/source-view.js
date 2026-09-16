@@ -1,5 +1,6 @@
 import { compareLineSources } from './source-diff.js';
 import { createCodeEditor } from './source-editor.js';
+import { createCodeSurface } from './code-widget.js';
 
 async function readSource({ revisionId, path, signal }) {
   const query = new URLSearchParams({ revision: revisionId, path });
@@ -67,10 +68,12 @@ export function createSourceView({
   retry.type = 'button';
   retry.hidden = true;
   const viewer = element('section', undefined, 'source-viewer');
-  viewer.append(selectedLabel, actions, status, metadata, pre, retry);
+  const codeHost = element('div', undefined, 'source-monaco-host');
+  viewer.append(selectedLabel, actions, status, metadata, codeHost, pre, retry);
+  const codeSurface = createCodeSurface({ document, host: codeHost, fallback: pre });
   const body = element('div', undefined, 'source-body');
   body.append(navigation, viewer);
-  const reading = element('div');
+  const reading = element('div', undefined, 'source-reading');
   reading.append(heading, revisionLabel, hint, body);
   const editing = element('div');
   editing.hidden = true;
@@ -154,6 +157,7 @@ export function createSourceView({
       copyButton.disabled = !copyText;
       copyButton.textContent = result.truncated ? 'Copier l’extrait' : 'Copier le contenu';
       pre.hidden = false;
+      codeSurface.setDocument({ path: result.path, value: result.content, readOnly: true });
       status.textContent = result.truncated
         ? 'Aperçu limité : une partie du fichier est affichée. L’export conserve le fichier complet.'
         : 'Fichier de la version chargé. Lecture seule.';
@@ -198,6 +202,12 @@ export function createSourceView({
       code.append(line);
     }
     pre.hidden = false;
+    codeSurface.setDocument({
+      path: selectedPath,
+      value: after?.content || '',
+      original: before?.content || '',
+      readOnly: true,
+    });
   }
 
   async function openFile(file) {
@@ -215,6 +225,7 @@ export function createSourceView({
     viewer.setAttribute('aria-busy', 'true');
     retry.hidden = true;
     pre.hidden = true;
+    codeSurface.clear();
     pre.setAttribute(
       'aria-label',
       mode === 'source'
@@ -358,6 +369,7 @@ export function createSourceView({
       metadata.textContent = '';
       retry.hidden = true;
       pre.hidden = true;
+      codeSurface.clear();
       viewer.setAttribute('aria-busy', 'false');
       navigation.replaceChildren();
       if (!revision || !files.length) {
@@ -384,6 +396,7 @@ export function createSourceView({
       compareButton.removeEventListener('click', showDifference);
       copyButton.removeEventListener('click', copySource);
       editor?.destroy();
+      codeSurface.dispose();
       root.replaceChildren();
     },
   };

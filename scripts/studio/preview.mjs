@@ -97,9 +97,14 @@ export function createPreview({
         : url.pathname === '/'
           ? 'index.html'
           : url.pathname.slice(1);
-      const expected = revision.files.find((f) => f.path === relative);
+      const expected = (revision.compilation?.files ?? revision.files).find(
+        (f) => f.path === relative,
+      );
       if (!expected) return send(response, 404, 'Fichier absent de cette version.', 'text/plain');
-      const file = safeFile(workspace, 'revisions/' + id + '/app/' + relative);
+      const file = safeFile(
+        workspace,
+        'revisions/' + id + (revision.compilation ? '/compiled/' : '/app/') + relative,
+      );
       let content = fs.readFileSync(file);
       if (digest(content) !== expected.sha256)
         throw new Error(

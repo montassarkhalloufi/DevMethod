@@ -1,13 +1,16 @@
-# DevMethod Studio — contrat d’exécution v2
+# DevMethod Studio — contrat d’exécution v3
 
 État documentaire au 16 septembre 2026 ; le format persistant reste `format: 1`.
-[Décision d’architecture](../../ADR-016-local-creation-studio.md) et [guide de lancement](../../STUDIO.md).
+[Décision initiale](../../ADR-016-local-creation-studio.md), [profil React](../../ADR-017-typed-react-studio.md)
+et [guide de lancement](../../STUDIO.md).
 Le contrat appartient à l’intégration ; les exécuteurs respectent ses frontières.
 
 ## Portée et deux exécuteurs disponibles
 
-Applications locales en vrais fichiers HTML/CSS/JavaScript/assets, avec service JSON
-persistant. Ce runtime n’est ni un IDE universel, ni un hébergeur, ni un fournisseur d’auth,
+Applications locales en vrais fichiers HTML/CSS/JavaScript/assets ou en sources React/TypeScript
+compilées, avec service JSON persistant. Le profil `react-ts` est déclaré dans
+`package.json` sous `devmethod.profile` ; le profil statique reste disponible sans ce champ.
+Ce runtime n’est ni un IDE universel, ni un hébergeur, ni un fournisseur d’auth,
 de paiement ou de génération d’images. Les références raster sont importées ; celles de
 la mission ont été produites par une capacité de l’hôte, distincte du CLI Studio.
 
@@ -21,8 +24,10 @@ la mission ont été produites par une capacité de l’hôte, distincte du CLI 
   toute la méthode et n’apporte pas les capacités absentes.
 
 Une demande `running` correspond à une prise en charge réelle, `ready` à un résultat reçu.
-Aucun délai visuel n’invente une construction réussie. Le runner contrôle la syntaxe des
-fichiers `.js`/`.mjs` livrés ; cette preuve ne couvre ni le comportement ni le rendu.
+Aucun délai visuel n’invente une construction réussie. Le profil statique contrôle la syntaxe
+des fichiers `.js`/`.mjs` livrés. Le profil React contrôle TypeScript strict et compile les
+sources avec TypeScript, esbuild et Tailwind de confiance ; ces contrôles ne couvrent ni
+le comportement métier ni la fidélité du rendu.
 
 ## Modes, choix et approbation
 
@@ -70,9 +75,11 @@ sans analyser quels fichiers dépendent du choix visuel. Ce n’est pas encore u
 granulaire permettant de livrer seulement son backend pendant cette attente.
 
 Les consignes de cette mission délèguent produit et technique mais réservent le visuel.
-Après l’accord initial K, l’utilisateur a rejeté l’olive lors de l’essai ; composition et
-fonctions DevMethod restent retenues, palette rouverte. La proposition L bleu nuit / indigo
-attend son accord. La méthode conserve les choix valides et continue les travaux indépendants.
+Après l’accord initial K, l’utilisateur a rejeté l’olive lors de l’essai. Il a ensuite
+explicitement validé la maquette M bleu nuit et son brief ; cette référence devient active
+pour le shell, avec la composition K conservée. L’implémentation et les contrôles rendus
+sont décrits dans la [revue navigateur](evidence/react-studio/LAYOUT-REVIEW.md) ; l’accord
+sur l’image reste distinct de la portée de ces observations.
 Le runtime ne révoque pas un accord persistant à partir d’une conversation ; l’agent hôte
 doit réconcilier cette réouverture. Ces choix concernent le shell, pas les applications créées.
 
@@ -83,7 +90,11 @@ Les décisions actives de même sujet remplacent les anciennes sans effacer leur
 ## État et fichiers
 
 Workspace absolu dédié, distinct du dépôt DevMethod, sans liens symboliques ni traversée.
-Node.js 22+ et modules natifs ; pas de dépendance npm de production.
+Node.js 22+ pour Studio et le runtime exporté. La distribution Studio comprend désormais
+les dépendances npm de compilation et React ; elles sont installées avec DevMethod, jamais
+téléchargées par un build de projet. Le runtime de consultation exporté sert les artefacts
+déjà compilés avec les modules natifs de Node. Le chemin Vite autonome des sources exige
+Node ≥ 22.12 et les dépendances de développement déclarées dans le projet.
 
 | Emplacement | Rôle |
 | --- | --- |
@@ -98,6 +109,7 @@ Node.js 22+ et modules natifs ; pas de dépendance npm de production.
 | `.devmethod/logs/` | Traces fournisseur locales, non exportées |
 | `work/<jobId>/app/` | Staging modifiable d’une seule demande |
 | `revisions/<revisionId>/app/` | Snapshot de fichiers avec empreintes SHA-256 |
+| `revisions/<revisionId>/compiled/` | Artefacts React et notices de licences, avec manifeste distinct |
 | `references/` | Fichiers importés, noms dérivés par le serveur |
 
 ```text
@@ -111,7 +123,8 @@ Node.js 22+ et modules natifs ; pas de dépendance npm de production.
  jobs:[{id,request,element:null|{selector,text},baseRevision:null|string,
    status:'queued'|'running'|'ready'|'failed'|'cancelled'|'interrupted',
    worker:null|string,createdAt,finishedAt?,summary?,error?}],
- revisions:[{id,jobId,title,summary,createdAt,files:[{path,sha256,bytes}]}],
+ revisions:[{id,jobId,title,summary,createdAt,files:[{path,sha256,bytes}],
+   compilation?:{profile:'react-ts',protocol:'react-strict-v1',files:[{path,sha256,bytes}]}}],
  activeRevision:null|string,
  checks:[{id,revisionId,label,status:'passed'|'failed',
    kind:'command'|'agent-observation',command?,output?,createdAt}],
@@ -121,6 +134,22 @@ Node.js 22+ et modules natifs ; pas de dépendance npm de production.
 `designs.file` désigne un identifiant de référence image, pas un chemin libre. `constraints`,
 `scope` et `excluded` sont des tableaux de chaînes. Une révision nécessite `index.html` ;
 limites actuelles : 256 fichiers, 32 Mio de code par tranche, 8 Mio par référence.
+
+Pour une révision React, `files` décrit les sources exactes et `compilation.files` les
+artefacts produits. L’aperçu sert seulement le second manifeste et vérifie les empreintes ;
+la vue Code lit le premier. L’export conserve les deux ensembles. Le fichier compilé
+`THIRD_PARTY_NOTICES.txt` inclut les licences complètes locales des paquets dont le JavaScript
+contribue au bundle, Tailwind lorsque du CSS est produit et les notices de projet présentes
+à la racine (`THIRD_PARTY_NOTICES.md` / `.txt`). Il appartient au manifeste et suit l’export.
+
+`react-strict-v1` impose TypeScript strict et `noUncheckedIndexedAccess` aux fichiers TS/TSX
+de `src`. Les sources ne peuvent pas désactiver le contrôle par directives de suppression
+ou `any` explicite. `src/main.tsx` est l’entrée et `@/` désigne `src/`. La liste d’imports
+est explicite : React/react-dom, clsx, tailwind-merge, class-variance-authority et
+@radix-ui/react-slot. Les scripts npm, configurations Vite exécutables et plugins du projet
+ne sont pas lancés. Une extension ou dépendance non supportée produit une erreur ; Next.js,
+RSC et NestJS ne sont pas exécutés par ce profil. Les sources exportées proposent leur
+propre chemin Vite, distinct de cette compilation contrôlée.
 
 `createStudioStore(workspace)` retourne `{root,read(),commit(expectedVersion,mutator),close()}`.
 `commit` clone, applique une mutation synchrone, valide les invariants et les transitions,
@@ -222,8 +251,8 @@ et `criteriaToReview`. Les chemins sont validés ; 256 fichiers et 32 Mio au tot
 Un texte modifié est limité à 256 Kio. `content: null` supprime un fichier côté API ; l’interface
 actuelle ne propose que la modification de textes existants, sans ajout/suppression.
 
-Un build copie les fichiers de base et applique le brouillon, calcule le manifest, puis
-vérifie les octets exacts des fichiers JS via stdin : `node --input-type=module --check`
+Un build copie les fichiers de base et applique le brouillon, puis calcule le manifeste.
+Pour le profil statique, il vérifie les octets exacts des fichiers JS via stdin : `node --input-type=module --check`
 pour `.js`/`.mjs`, `node --input-type=commonjs --check` pour `.cjs`. Les fichiers JSON passent
 par `JSON.parse`, avec une borne globale de 10 secondes pour les contrôles. Le protocole
 `node-stdin-v1` corrige un faux succès observé de `node --check FILE` sur un fichier ESM
@@ -233,8 +262,11 @@ Aucun code applicatif n’est exécuté côté serveur. L’absence de `index.ht
 ou une erreur statique empêche le nouveau build ; le dernier bon aperçu reste disponible,
 sans prétendre représenter les dernières saisies. Les références locales manquantes sont
 heuristiques, pas des défauts certains ; un import de package non résolu invite à vérifier
-l'import map et n'est pas une preuve de dépendance manquante. Aucun bundler, TypeScript, validateur CSS, contrôle
-de JavaScript inline, installation ou test métier n’est fourni par ce build.
+l'import map et n'est pas une preuve de dépendance manquante. Aucun bundler, TypeScript,
+validateur CSS, contrôle de JavaScript inline, installation ou test métier n’est fourni par
+ce chemin statique. Pour `react-ts`, le build utilise au contraire `react-strict-v1`, avec
+contrôle des types, compilation JS/CSS et artefacts séparés décrits plus haut. Le délai de
+compilation est borné à 15 secondes ; aucune configuration exécutable du projet n’est chargée.
 
 Le premier build réussi clone les données métier dans l’espace éditeur. Les builds suivants
 du même brouillon les conservent. L’iframe exécute réellement l’application avec cette copie,
@@ -297,7 +329,9 @@ et projection assainie du budget. Elle exclut token, credentials globaux, journa
 Un budget illisible exporte un arrêt pour usage inconnu, pas un budget neuf. La restauration
 exige une destination absente ou vide, refuse liens symboliques/traversées/conflits/footer
 invalide et passe par un staging avant installation. Limites actuelles : 1 500 entrées,
-64 Mio de contenu à l’export, chemins USTAR de 99 octets maximum.
+64 Mio de contenu à l’export. Un chemin USTAR utilise jusqu’à 100 octets pour son nom final
+et, si nécessaire, un préfixe de dossier jusqu’à 155 octets ; un chemin non représentable
+dans ces champs est refusé.
 
 `node launch.mjs 4399` exécute le produit exporté avec ses données, sans DevMethod ni agent.
 `devmethod studio --workspace ...` reprend l’édition. Aucun export n’établit une portabilité

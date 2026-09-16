@@ -6,6 +6,7 @@ import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { checkPackedGuard } from './package-guard-smoke.mjs';
 import { checkPackedAtelier } from './package-atelier-smoke.mjs';
+import { checkPackedReact } from './package-react-smoke.mjs';
 import { checkPackedStudio } from './package-studio-smoke.mjs';
 const archive = process.argv[2];
 if (!archive) throw new Error('Usage: node scripts/package-smoke.mjs PACKAGE_TGZ');
@@ -22,6 +23,7 @@ try {
   const cli = path.join(pkg, 'dist/cli.js');
   await checkPackedAtelier(pkg, path.join(root, 'atelier'));
   await checkPackedStudio(pkg, path.join(root, 'studio'));
+  await checkPackedReact(path.join(root, 'react-studio'), path.resolve(archive));
   if (process.platform !== 'win32') {
     run(process.execPath, ['scripts/evidence-demo.mjs'], pkg);
     console.log(

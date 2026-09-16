@@ -3,3 +3,6 @@
 evaluation-private/
 node_modules/
 *.tgz
+
+templates/**/dist/
+examples/studio-ateliers-react/dist/

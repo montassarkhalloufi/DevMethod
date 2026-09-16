@@ -201,7 +201,11 @@ function validateJob(job, revisionIds) {
 }
 
 function validateRevision(revision, jobs) {
-  shape(revision, ['id', 'jobId', 'title', 'summary', 'createdAt', 'files'], 'Révision');
+  shape(
+    revision,
+    ['id', 'jobId', 'title', 'summary', 'createdAt', 'files', 'compilation'],
+    'Révision',
+  );
   identifier(revision.id);
   identifier(revision.jobId);
   requireValue(
@@ -211,13 +215,23 @@ function validateRevision(revision, jobs) {
   text(revision.title, 'Titre de révision', 200, false);
   text(revision.summary, 'Résumé de révision', 10000);
   date(revision.createdAt);
-  unique(revision.files, 'Fichiers', 'path');
-  requireValue(
-    revision.files.length > 0 && revision.files.length <= 256,
-    'Nombre de fichiers invalide.',
-  );
+  validateFileManifest(revision.files);
+  if (revision.compilation !== undefined) {
+    const build = revision.compilation;
+    shape(build, ['profile', 'protocol', 'files'], 'Compilation');
+    requireValue(
+      build.profile === 'react-ts' && build.protocol === 'react-strict-v1',
+      'Profil de compilation invalide.',
+    );
+    validateFileManifest(build.files);
+  }
+}
+
+function validateFileManifest(files) {
+  unique(files, 'Fichiers', 'path');
+  requireValue(files.length > 0 && files.length <= 256, 'Nombre de fichiers invalide.');
   let bytes = 0;
-  for (const file of revision.files) {
+  for (const file of files) {
     shape(file, ['path', 'sha256', 'bytes'], 'Fichier');
     relativeFile(file.path);
     requireValue(
@@ -231,7 +245,7 @@ function validateRevision(revision, jobs) {
     bytes += file.bytes;
   }
   requireValue(
-    bytes <= 32 * 1024 * 1024 && revision.files.some((file) => file.path === 'index.html'),
+    bytes <= 32 * 1024 * 1024 && files.some((file) => file.path === 'index.html'),
     'Application absente ou supérieure à 32 Mio.',
   );
 }
@@ -484,6 +498,16 @@ export function finishJob(state, completion) {
   event(state, 'ready', 'Résultat disponible ; les vérifications restent distinctes.');
   if (revision !== undefined && effectiveDelegation(state).adoption === 'agent') {
     state.activeRevision = revision.id;
+    appendDecisions(state, [
+      {
+        id: randomUUID(),
+        topic: 'Version active',
+        choice: revision.title,
+        reason: 'Adoption automatique dans le cadre de la délégation enregistrée.',
+        source: 'agent',
+        status: 'active',
+      },
+    ]);
     event(state, 'activated', 'Révision activée dans le cadre de la délégation.');
   }
 }

@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { startStudio } from './server.mjs';
 import { restoreArchive } from './archive.mjs';
+import { initializeReactExample } from './react-example.mjs';
 import { initializeExample } from './example.mjs';
 
 function argumentsFor(args) {
@@ -15,6 +16,10 @@ function argumentsFor(args) {
     }
     if (value === '--help') {
       options.help = true;
+      continue;
+    }
+    if (value === '--delegate-technical') {
+      options.delegateTechnical = true;
       continue;
     }
     if (
@@ -42,15 +47,27 @@ export async function runStudioCli(args) {
     const { options, command } = argumentsFor(args);
     if (options.help) {
       console.log(
-        'devmethod studio [serve|example|status|claim|finish|fail|check|restore] --workspace /dossier\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nfinish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.',
+        'devmethod studio [serve|example|status|claim|finish|fail|check|restore|example-react] --workspace /dossier\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nfinish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
       );
       return;
     }
     if (!options.workspace || !path.isAbsolute(options.workspace))
       throw new Error('--workspace doit désigner un dossier absolu dédié.');
+    if (options.delegateTechnical && command !== 'example-react')
+      throw new Error('--delegate-technical est réservé à example-react, dans une nouvelle copie.');
     if (command === 'example') {
       console.log(
         'Exemple Les Ateliers restauré : ' + initializeExample(options.workspace) + ' fichiers.',
+      );
+      return;
+    }
+    if (command === 'example-react') {
+      console.log(
+        'Exemple React typé restauré : ' +
+          (await initializeReactExample(options.workspace, {
+            delegateTechnical: options.delegateTechnical,
+          })) +
+          ' fichiers. Aucun appel modèle.',
       );
       return;
     }

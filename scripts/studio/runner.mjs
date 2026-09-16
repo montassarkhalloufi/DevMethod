@@ -293,7 +293,7 @@ export function createAgentRunner({ store, jobs, options, execute = runProcess }
       let decisions = {};
       const metadata = path.join(directory, 'decisions.json');
       if (fs.existsSync(metadata)) decisions = JSON.parse(fs.readFileSync(metadata, 'utf8'));
-      const completed = jobs.finish({ ...decisions, ...result.result, jobId: job.id });
+      const completed = await jobs.finish({ ...decisions, ...result.result, jobId: job.id });
       if (completed.revision) await verifySyntax(store, completed.revision);
       message = 'Une version est prête. Consultez les vérifications et essayez-la.';
     } catch (error) {

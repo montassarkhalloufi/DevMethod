@@ -9,7 +9,7 @@ Fusion, déploiement public, publication npm, achat, télémétrie et contact ex
 La personne veut exprimer une idée, examiner ou déléguer ses choix, essayer le vrai
 logiciel, le modifier depuis l’usage puis le reprendre. Les captures Lovable fournies
 montrent cette continuité, pas une autorisation de copier son identité ou Deskeo.
-La composition du shell et ses validations successives sont conservées dans [STUDIO-DESIGN.md](STUDIO-DESIGN.md). La palette Olive a été rouverte après un défaut de distinction des blocs observé par l’utilisateur.
+La composition du shell et ses validations successives sont conservées dans [STUDIO-DESIGN.md](STUDIO-DESIGN.md). La palette Olive a été rouverte après un défaut de distinction des blocs observé par l’utilisateur ; la référence M bleu nuit/ardoise a ensuite été explicitement validée. La tranche React et ses limites sont suivies dans [REACT-CHECKPOINT.md](REACT-CHECKPOINT.md).
 
 [Capacités existantes et limites](evidence/acquis.md), [Bolt/Lovable/Replit](evidence/builders-a.md),
 [v0/Base44/Dyad](evidence/builders-b.md). Ces recherches documentaires ne sont pas des essais

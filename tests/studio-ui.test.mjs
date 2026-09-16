@@ -84,6 +84,36 @@ test('polling preserves edits, focus, open context and a live preview without re
   assert.equal(f.el('context').querySelector('details').open, true);
 });
 
+test('visual directions use exclusive radios but persist only after explicit validation with a reason', async (t) => {
+  const f = await fixture(t, (state) => {
+    state.designs = ['agenda', 'catalogue'].map((id) => ({
+      id,
+      file: id + '.png',
+      title: id,
+      description: 'Direction réelle ' + id,
+    }));
+    state.selectedDesignId = 'agenda';
+  });
+  assert.equal(f.el('design-agenda').type, 'radio');
+  assert.equal(f.el('design-agenda').checked, true);
+  f.el('design-catalogue').click();
+  assert.equal(f.el('design-catalogue').checked, true);
+  assert.equal(f.el('design-agenda').checked, false);
+  assert.equal(f.state().selectedDesignId, 'agenda');
+  assert.equal(f.calls.length, 0);
+  assert.equal(f.el('design-form').hidden, false);
+  f.input('design-reason', 'Les images aident à découvrir les ateliers.');
+  await f.app.refresh();
+  assert.equal(f.el('design-catalogue').checked, true);
+  assert.equal(f.el('design-reason').value, 'Les images aident à découvrir les ateliers.');
+  await f.submit('design-form');
+  assert.deepEqual(f.calls.at(-1).input, {
+    id: 'catalogue',
+    reason: 'Les images aident à découvrir les ateliers.',
+  });
+  assert.equal(f.calls.at(-1).route, 'design');
+});
+
 test('a conflict retains the draft, refreshes the version and never resubmits the request automatically', async (t) => {
   const f = await fixture(t);
   f.input('request', 'Préparer les choix');
@@ -201,6 +231,10 @@ test('a connected runner stopped by its budget is visibly suspended, not describ
   };
   await f.app.refresh();
   assert.match(f.el('agent-status').textContent, /connecté · appels suspendus/);
+  assert.equal(f.el('agent-status').closest('summary')?.parentElement.open, false);
+  assert.equal(f.el('draft-status').closest('details'), null);
+  f.input('request', 'Conserver cette demande inachevée');
+  assert.match(f.el('draft-status').textContent, /modifié/);
   assert.match(f.el('agent-description').textContent, /Limite de budget atteinte/);
   assert.doesNotMatch(f.el('agent-description').textContent, /ne lance pas un agent/);
 });

@@ -1,3 +1,7 @@
+> Évolution suivante : [React typé, Monaco et référence M](REACT-CHECKPOINT.md).
+> Les résultats ci-dessous décrivent la tranche antérieure et ses limites ; la référence M
+> a depuis été validée, sans valider rétroactivement la réalisation Olive.
+
 # Résultats — création et évolution locales
 
 16 septembre 2026. **Un parcours local exécutable a été réalisé et repris ; aucun avantage
@@ -27,6 +31,8 @@ anciens contrôles. Les limites sont détaillées dans le [contrat](CONTRACT.md)
 
 Les tests ciblés rapportés pour cette tranche sont **19 réussis** : 11 tests backend dans
 `tests/studio-editor.test.mjs` et 10 tests UI dans `tests/studio-editor-ui.test.mjs`.
+Cette ligne historique contient une incohérence de total (11 + 10 ≠ 19) ; elle
+ne sert pas au décompte du candidat React, établi par sa sortie de suite complète.
 Ils couvrent notamment les conflits,
 la conservation des textes, le dernier bon aperçu après syntaxe invalide, l’isolation des
 données, l’absence d’exécution applicative serveur, l’adoption du build exact et le rejet des

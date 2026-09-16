@@ -311,3 +311,66 @@ test('changing the base removes the previous preview and retires its downloaded 
   assert.equal(dom.window.localStorage.getItem('devmethod-code-draft:base'), null);
   assert.match(root.querySelector('.editor-preview p').textContent, /Aucun aperçu valide/);
 });
+
+test('editing invalidates server markers while retaining explicitly historical diagnostics until a fresh check', async (t) => {
+  const oldDiagnostic = {
+    file: 'app.js',
+    line: 1,
+    severity: 'error',
+    message: 'SyntaxError: Unexpected token =',
+  };
+  let state = draft('export const = ;', 2, {
+    diagnostics: [oldDiagnostic],
+    changedPaths: ['app.js'],
+  });
+  let markers = [];
+  let mounted = false;
+  const { editor, type, root, button, dom } = setup(
+    t,
+    {
+      read: async () => state,
+      save: async ({ version, changes }) =>
+        (state = draft(changes[0].content, version + 1, {
+          diagnostics: [],
+          changedPaths: ['app.js'],
+        })),
+      build: async ({ version }) =>
+        (state = {
+          ...state,
+          diagnostics: [],
+          buildId: 'fresh-build',
+          builtVersion: version,
+        }),
+    },
+    {
+      loadWidget: async () => ({
+        mountCodeWidget: async () => {
+          mounted = true;
+          return {
+            setDocument() {},
+            setDiagnostics(value) {
+              markers = structuredClone(value);
+            },
+            dispose() {},
+          };
+        },
+      }),
+    },
+  );
+  dom.window.Worker = class {};
+  await editor.open('base');
+  await setImmediate();
+  assert.equal(mounted, true);
+  assert.ok(markers.some((item) => item.message === oldDiagnostic.message));
+  root.querySelector('.editor-auto input').checked = false;
+  type('export const valid = 1;');
+  assert.equal(markers.length, 0);
+  const diagnosticText = root.querySelector('.editor-diagnostics').textContent;
+  assert.match(diagnosticText, /SyntaxError/);
+  assert.match(diagnosticText, /ancien|précédent|obsolète/i);
+  assert.equal(button('Adopter cette version').disabled, true);
+  await editor.flush();
+  assert.equal(markers.length, 0);
+  assert.doesNotMatch(root.querySelector('.editor-diagnostics').textContent, /SyntaxError/);
+  assert.equal(button('Adopter cette version').disabled, false);
+});

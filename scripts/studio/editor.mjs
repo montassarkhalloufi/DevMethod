@@ -4,10 +4,12 @@ import { randomUUID } from 'node:crypto';
 import { atomicJSON, safeFile, fileManifest, copyFiles, digest } from './files.mjs';
 import { readSource } from './source.mjs';
 import * as domain from './domain.mjs';
+import { compileSource } from './profile.mjs';
 import { checkJavaScript } from './verify.mjs';
 
 const maxText = 256 * 1024;
 const verificationProtocol = 'node-stdin-v1';
+const knownProtocol = (value) => [verificationProtocol, 'react-strict-v1'].includes(value);
 const fail = (message, status = 400) => {
   throw Object.assign(new Error(message), { status });
 };
@@ -234,7 +236,7 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
     const previewPath = draft.buildId ? `/builds/${draft.buildId}/` : null;
     return {
       ...draft,
-      builtVersion: draft.verificationProtocol === verificationProtocol ? draft.builtVersion : null,
+      builtVersion: knownProtocol(draft.verificationProtocol) ? draft.builtVersion : null,
       builds: undefined,
       changes: undefined,
       files: draftFiles(store, draft),
@@ -322,7 +324,11 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
       copyFiles(source.root, target, source.revision.files);
       writeChanges(target, draft.changes);
       const files = fileManifest(target),
-        diagnostics = await inspectBuild(target, files);
+        compiled = await compileSource(target, files),
+        diagnostics = compiled ? compiled.diagnostics : await inspectBuild(target, files);
+      const compilation = compiled?.ok
+        ? { profile: 'react-ts', protocol: compiled.protocol, files: compiled.files }
+        : null;
       if (store.read().activeRevision !== draft.baseRevision)
         fail('La base a changé pendant la vérification ; brouillon conservé.', 409);
       const next = { ...draft, diagnostics };
@@ -330,8 +336,8 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
         if (!draft.builds.length) cloneData();
         next.buildId = id;
         next.builtVersion = draft.version;
-        next.verificationProtocol = verificationProtocol;
-        next.builds = [...draft.builds, { id, files }];
+        next.verificationProtocol = compilation?.protocol ?? verificationProtocol;
+        next.builds = [...draft.builds, { id, files, ...(compilation ? { compilation } : {}) }];
         retained = true;
       }
       atomicJSON(file, next);
@@ -348,11 +354,16 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
       result.state = store.commit(store.read().version, (state) => {
         domain.recordCheck(state, {
           revisionId: result.revision.id,
-          label: 'Édition : syntaxe JavaScript et JSON — comportement non évalué',
+          label:
+            draft.verificationProtocol === 'react-strict-v1'
+              ? 'Édition : TypeScript strict et compilation React — comportement non évalué'
+              : 'Édition : syntaxe JavaScript et JSON — comportement non évalué',
           status: 'passed',
           kind: 'command',
           command:
-            'node --input-type=module --check (stdin: octets exacts de chaque .js/.mjs) ; node --input-type=commonjs --check (stdin: octets exacts de chaque .cjs) ; borne globale 10s ; JSON.parse (fichiers JSON)',
+            draft.verificationProtocol === 'react-strict-v1'
+              ? 'react-strict-v1'
+              : 'node --input-type=module --check (stdin: octets exacts de chaque .js/.mjs) ; node --input-type=commonjs --check (stdin: octets exacts de chaque .cjs) ; borne globale 10s ; JSON.parse (fichiers JSON)',
           output: JSON.stringify(draft.diagnostics).slice(0, 16000),
         });
         domain.activateRevision(state, {
@@ -378,7 +389,7 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
       fail('Les choix réservés doivent être approuvés avant adoption du code.', 409);
     if (state.jobs.some((j) => j.status === 'queued' || j.status === 'running'))
       fail('Terminez ou annulez la demande en cours avant adoption manuelle.', 409);
-    if (draft.verificationProtocol !== verificationProtocol)
+    if (!knownProtocol(draft.verificationProtocol))
       fail(
         'Ce build précède le vérificateur corrigé. Vérifiez le brouillon à nouveau avant adoption.',
         409,
@@ -396,6 +407,12 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
       source = safeFile(previewWorkspace, `revisions/${build.id}/app`);
     if (JSON.stringify(fileManifest(source)) !== JSON.stringify(build.files))
       fail('Le build a changé ; adoption refusée.');
+    if (
+      build.compilation &&
+      JSON.stringify(fileManifest(path.join(path.dirname(source), 'compiled'))) !==
+        JSON.stringify(build.compilation.files)
+    )
+      fail('Le build compilé a changé ; adoption refusée.');
     store.commit(state.version, (s) => {
       const conversationDraft = s.draft;
       domain.queueRequest(s, { request: `Édition manuelle ${build.id} : ${input.title}` });
@@ -415,6 +432,23 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
       jobs.fail({ jobId: claim.job.id, error: error.message });
       throw error;
     }
+    if (result instanceof Promise) {
+      busy = true;
+      return result
+        .then((value) => finishAdoption(value, draft))
+        .catch((error) => {
+          if (store.read().jobs.find((job) => job.id === claim.job.id)?.status === 'running')
+            jobs.fail({ jobId: claim.job.id, error: error.message });
+          throw error;
+        })
+        .finally(() => {
+          busy = false;
+        });
+    }
+    return finishAdoption(result, draft);
+  }
+
+  function finishAdoption(result, draft) {
     result = adoption(result, draft);
     const next = {
       ...draft,

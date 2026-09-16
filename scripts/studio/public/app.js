@@ -223,27 +223,32 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   }
   function render(next) {
     if (state && next.version < state.version) return;
-    state = next;
-    syncInputs();
-    preview();
-    agentStatus();
-    const key = String(state.version);
-    for (const id of ['context', 'references', 'jobs', 'events'])
-      region(id, key, () => views[id](state));
-    region('designs', key + chosenDesign, () =>
-      views.designs(state, chosenDesign || state.selectedDesignId),
-    );
-    region('versions', key + previewId, () => views.versions(state, previewId));
-    region('project-cap', key, () => views.cap(state));
-    region(
-      'policy',
-      key + JSON.stringify(runtime?.approval) + JSON.stringify(runtime?.delegation),
-      () => views.policy(state, runtime),
-    );
-    region('flow-decisions', key, () => views.flowDecisions(state));
-    for (const id of ['evidence-dock', 'checks-list'])
-      region(id, key + JSON.stringify(runtime?.agent), () => views.evidence(state, runtime));
-    el('design-form').hidden = !chosenDesign;
+    document.dispatchEvent(new window.Event('studio:before-render'));
+    try {
+      state = next;
+      syncInputs();
+      preview();
+      agentStatus();
+      const key = String(state.version);
+      for (const id of ['context', 'references', 'jobs', 'events'])
+        region(id, key, () => views[id](state));
+      region('designs', key + chosenDesign, () =>
+        views.designs(state, chosenDesign || state.selectedDesignId),
+      );
+      region('versions', key + previewId, () => views.versions(state, previewId));
+      region('project-cap', key, () => views.cap(state));
+      region(
+        'policy',
+        key + JSON.stringify(runtime?.approval) + JSON.stringify(runtime?.delegation),
+        () => views.policy(state, runtime),
+      );
+      region('flow-decisions', key, () => views.flowDecisions(state));
+      for (const id of ['evidence-dock', 'checks-list'])
+        region(id, key + JSON.stringify(runtime?.agent), () => views.evidence(state, runtime));
+      el('design-form').hidden = !chosenDesign;
+    } finally {
+      document.dispatchEvent(new window.Event('studio:after-render'));
+    }
   }
   async function refresh() {
     if (refreshing) return;
@@ -399,7 +404,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     design(id) {
       chosenDesign = id;
       render(state);
-      el('design-reason').focus();
+      el('design-' + id)?.focus({ preventScroll: true });
     },
     cancel(id) {
       return change('jobs/cancel', { jobId: id });

@@ -3,6 +3,7 @@ import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import sonarjs from 'eslint-plugin-sonarjs';
 import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default defineConfig(
   {
@@ -28,6 +29,21 @@ export default defineConfig(
         { blankLine: 'always', prev: '*', next: 'function' },
         { blankLine: 'always', prev: 'function', next: '*' },
       ],
+    },
+  },
+  {
+    files: [
+      'studio-ui/**/*.{ts,tsx}',
+      'templates/studio-react/**/*.{ts,tsx}',
+      'examples/studio-ateliers-react/**/*.{ts,tsx}',
+    ],
+    extends: [js.configs.recommended, tseslint.configs.recommended],
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
+    plugins: { sonarjs, 'react-hooks': reactHooks },
+    rules: {
+      'sonarjs/cognitive-complexity': ['error', 15],
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'error',
     },
   },
   {

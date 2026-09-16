@@ -89,13 +89,16 @@ export function createViews(document) {
     const status = { active: 'Actuel', superseded: 'Remplacé', hypothesis: 'Hypothèse' }[
       item.status
     ];
-    return group('article', 'decision', [
+    const card = group('article', 'decision', [
       node('h4', item.topic),
       badge(status),
       node('p', item.choice),
       node('p', item.reason, 'muted'),
       node('small', item.source === 'user' ? 'Choix de la personne' : 'Proposition de l’agent'),
     ]);
+    card.dataset.status = item.status;
+    card.dataset.scrollKey = 'decision:' + item.id;
+    return card;
   }
   function references(state) {
     return state.references.map((ref) => {
@@ -126,15 +129,22 @@ export function createViews(document) {
       image.src = '/references/' + encodeURIComponent(design.file);
       image.alt = 'Proposition visuelle : ' + design.title;
       image.loading = 'lazy';
-      const button = action(
-        selected ? 'Direction sélectionnée' : 'Choisir cette direction',
-        'design',
-        design.id,
-      );
-      button.setAttribute('aria-pressed', String(selected));
-      const details = [image, node('h3', design.title), node('p', design.description), button];
+      const choice = node('input');
+      choice.type = 'radio';
+      choice.name = 'design-option';
+      choice.id = 'design-' + design.id;
+      choice.value = design.id;
+      choice.checked = selected;
+      choice.dataset.action = 'design';
+      choice.dataset.id = design.id;
+      const label = node('label', '', 'design-choice');
+      label.htmlFor = choice.id;
+      label.append(choice, node('span', design.title));
+      const details = [image, label, node('p', design.description)];
       if (state.selectedDesignId === design.id) details.push(badge('Choix enregistré', 'success'));
-      return group('article', 'design-card' + (selected ? ' selected' : ''), details);
+      const card = group('article', 'design-card' + (selected ? ' selected' : ''), details);
+      card.dataset.scrollKey = 'design:' + design.id;
+      return card;
     });
   }
   function jobs(state) {
@@ -195,7 +205,9 @@ export function createViews(document) {
             node('pre', detail.join('\n')),
           ]),
         );
-        return group('article', 'job-card', parts);
+        const card = group('article', 'job-card', parts);
+        card.dataset.scrollKey = 'job:' + job.id;
+        return card;
       });
     return [
       ...cards.slice(0, 3),

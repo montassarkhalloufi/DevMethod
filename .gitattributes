@@ -55,3 +55,12 @@ evaluation/maintenance-*/** -text
 docs/missions/maintenance-value/evidence/** -text
 
 examples/seance/** text eol=lf
+
+studio-ui/** text eol=lf
+dist/studio-build/** text eol=lf
+dist/studio-ui/** text eol=lf
+templates/studio-react/** text eol=lf
+examples/studio-ateliers-react/** text eol=lf
+
+# Third-party pins and their integrity manifest preserve exact upstream bytes.
+.agents/skills/react-feature-engineering/references/vercel/** -text

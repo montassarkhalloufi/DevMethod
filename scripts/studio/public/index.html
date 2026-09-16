@@ -7,7 +7,10 @@
     <title>DevMethod — Studio</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/editor.css" />
+    <link rel="stylesheet" href="/layout.css" />
+    <link rel="stylesheet" href="/studio-ui/code-widget.css" />
     <script type="module" src="/app.js"></script>
+    <script type="module" src="/studio-ui/layout.js"></script>
   </head>
   <body data-studio="">
     <a class="skip-link" href="#workspace">Aller au projet</a>
@@ -145,7 +148,7 @@
             <div id="references" class="references" aria-label="Références du projet"></div>
           </details>
         </section>
-        <div class="conversation-flow" id="conversation-flow">
+        <div class="conversation-flow" id="conversation-flow" data-scroll-region="conversation">
           <div id="jobs" class="jobs" aria-label="Demandes et résultats"></div>
           <section id="directions" class="panel flow-directions" aria-labelledby="directions-title">
             <div class="section-heading">
@@ -163,24 +166,18 @@
                 maxlength="4000"
                 placeholder="Ce que je souhaite garder…"
               ></textarea
-              ><button id="choose-design" class="primary" type="submit">
-                Garder cette direction
-              </button>
+              ><button id="choose-design" class="primary" type="submit">Valider ce choix</button>
             </form>
           </section>
           <div id="flow-decisions" class="flow-decisions" aria-label="Décisions récentes"></div>
         </div>
         <section class="panel request-panel" aria-labelledby="request-title">
           <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
-          <div class="section-heading">
-            <div>
-              <h2 id="request-title">Faire évoluer le projet</h2>
-            </div>
-            <span id="agent-status" class="badge">Connexion à vérifier</span>
-          </div>
+          <h2 id="request-title" class="sr-only">Faire évoluer le projet</h2>
           <details class="agent-connection">
-            <summary>Connexion à l’agent</summary>
+            <summary><span id="agent-status" class="badge">Connexion à vérifier</span></summary>
             <p id="agent-description" class="muted">Lecture de la connexion à l’agent…</p>
+            <p class="composer-note">Votre demande conserve le contexte et les choix du projet.</p>
           </details>
           <form id="request-form">
             <div id="element-selection" class="element-selection" hidden="">
@@ -199,7 +196,8 @@
             ></textarea>
             <div class="form-footer">
               <div class="draft-actions">
-                <span id="draft-status" class="muted">Votre brouillon sera conservé.</span
+                <span id="draft-status" class="muted" role="status"
+                  >Votre brouillon sera conservé.</span
                 ><button id="save-draft" class="text-button" type="button">Enregistrer</button>
               </div>
               <button id="send-request" class="primary" type="submit">
@@ -207,11 +205,22 @@
               </button>
             </div>
           </form>
-
-          <p class="composer-note">Votre demande conserve le contexte et les choix du projet.</p>
         </section>
       </aside>
-      <main id="workspace" tabindex="-1">
+      <div
+        id="conversation-resizer"
+        class="conversation-resizer"
+        role="separator"
+        tabindex="0"
+        aria-label="Largeur de la discussion"
+        aria-orientation="vertical"
+        aria-controls="discussion"
+        aria-valuemin="300"
+        aria-valuemax="720"
+        aria-valuenow="300"
+        title="Glisser pour redimensionner. Flèches pour ajuster, Début/Fin pour les limites, double-clic pour réinitialiser."
+      ></div>
+      <main id="workspace" tabindex="-1" data-scroll-region="preview">
         <section id="project-cap" class="project-cap" aria-label="Le résultat visé"></section>
         <div class="workbench">
           <nav class="workspace-tabs" role="tablist" aria-label="Vues du projet">
@@ -268,6 +277,14 @@
             </button>
           </nav>
           <div class="preview-toolbar">
+            <button
+              id="expand-workspace"
+              type="button"
+              aria-controls="workspace"
+              aria-pressed="false"
+            >
+              Agrandir cette vue
+            </button>
             <label for="preview-version" class="sr-only">Version à essayer</label
             ><select id="preview-version" aria-label="Version à essayer">
               <option value="">Aucune version</option>

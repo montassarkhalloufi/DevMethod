@@ -1,7 +1,8 @@
 # DevMethod Studio — créer, essayer et reprendre une application locale
 
 Studio relie une idée, ses choix, de vrais fichiers exécutés et leurs vérifications. Cette
-version produit des applications navigateur HTML/CSS/JavaScript avec données JSON locales.
+version produit des applications React 19 / TypeScript strict et conserve le profil
+HTML/CSS/JavaScript, avec données JSON locales dans les deux cas.
 Elle ne fournit ni authentification, ni hébergement public, ni paiement, ni génération
 d’images intégrée. Les références visuelles peuvent être importées. L’agent hôte peut
 produire des images lorsqu’il dispose de cette capacité ; le CLI Studio ne la crée pas.
@@ -81,10 +82,10 @@ l’agent doit réconcilier une décision rouverte avant le travail qui en dépe
 
 Pour le shell Studio, K a fixé la composition, le résultat visible, « Qui décide ? », les
 choix révisables et les preuves par version. Après essai, l’utilisateur a rejeté l’esthétique
-olive (« camouflage ») : cette partie du choix est rouverte. La proposition **L bleu nuit /
-indigo** attend son accord ; elle n’est ni une direction validée ni une fidélité démontrée.
-Les travaux techniques indépendants continuent. Le design Agenda de l’application créée
-reste distinct de celui du shell.
+olive (« camouflage »). Après la proposition L, l’utilisateur a validé **M bleu nuit /
+ardoise / violet**, avec trois niveaux de surface et une séparation plus lisible des blocs.
+Voir la [référence et ses critères](missions/creation-experience/STUDIO-DESIGN.md).
+Le design Agenda de l’application créée reste distinct de celui du shell.
 
 ## Le parcours visible
 
@@ -113,10 +114,12 @@ ou de suppression de fichiers. Avec « Aperçu automatique », une pause de sais
 déclenche l’enregistrement puis la vérification ; « Vérifier et actualiser » et Ctrl/Cmd+S
 permettent de le demander explicitement.
 
-La « compilation » de cette tranche vérifie la syntaxe des fichiers JavaScript et JSON,
-sans exécuter le code applicatif côté serveur. Elle n’installe pas de paquets et ne fournit
-ni bundler, TypeScript, validateur CSS, contrôle du JavaScript inline ni tests métier.
-Les références locales possiblement manquantes sont des avertissements heuristiques.
+Pour le **profil statique HTML/JS**, la vérification contrôle la syntaxe JavaScript et JSON,
+sans exécuter le code applicatif côté serveur. Ce chemin ne fournit ni bundler, TypeScript,
+validateur CSS, contrôle du JavaScript inline ni tests métier. Ses références locales
+possiblement manquantes sont des avertissements heuristiques. Le **profil React** décrit
+plus bas ajoute un contrôle TypeScript strict et une compilation réelle. Aucun des deux
+chemins n’installe de paquets pendant la vérification.
 Le navigateur exécute ensuite le brouillon sur une **troisième origine locale**, annoncée
 par le runtime, avec une copie des données métier. Ces données d’essai sont conservées entre
 les builds du même brouillon ; elles ne modifient pas celles du produit actif.
@@ -171,8 +174,10 @@ Il lance une demande dans un dossier de travail avec sandbox `workspace-write`, 
 installation de paquets, plugins, recherche web ou sous-agents. Les références sont copiées
 et le contexte transmis. Des skills DevMethod distribués alimentent `method.md` : ce guidage
 ne transforme pas les services indisponibles en capacités du produit. L’adaptateur exécute
-un contrôle de syntaxe des fichiers JavaScript livrés ; les essais fonctionnels et visuels
-restent à effectuer et à documenter.
+un contrôle de syntaxe des fichiers JavaScript livrés ; la réception d’un résultat React
+passe aussi par le compilateur contrôlé. Les essais fonctionnels et visuels restent à
+effectuer et à documenter. L’essai natif conservé ci-dessous portait sur le profil HTML/JS,
+pas sur une génération React par cet adaptateur.
 
 Le registre de consommation persiste dans le projet. Par défaut : au plus deux admissions,
 300 secondes par appel et arrêt **entre appels** à 100 000 tokens connus. Ce seuil n’est pas
@@ -251,3 +256,56 @@ Ouvrir `http://127.0.0.1:4399/`. Cette commande exécute le produit local et son
 ne fournit pas le Studio ni un agent. Le contrat et les fichiers sont portables ; l’exécution
 de plusieurs fournisseurs n’a pas été vérifiée. Voir la [conception et ses critères de
 réfutation](missions/creation-experience/PLAN.md).
+
+## Profil React et éditeur de code
+
+La tranche React ajoute un profil réutilisable : React 19.3, TypeScript 5.9 strict avec
+`noUncheckedIndexedAccess`, Tailwind 4, primitives shadcn/Radix, sources séparées entre
+`app`, `features` (vues, hooks, règles pures, services) et `shared`. Le
+[template générique](../templates/studio-react/README.md) sert aux nouvelles applications ;
+[Les Ateliers React](../examples/studio-ateliers-react/README.md) éprouve inscriptions,
+capacité, attente FIFO et conflits sans remplacer les preuves historiques HTML/JS.
+
+```sh
+node scripts/studio.mjs example-react --workspace /chemin/absolu/absent/studio-react --delegate-technical
+node scripts/studio.mjs serve --workspace /chemin/absolu/absent/studio-react --port 4342 --preview-port 4343
+```
+
+Sur ce Mac, choisir `/private/tmp` plutôt que le lien symbolique `/tmp`. `example-react`
+reconstruit l’historique puis compile le portage enregistré par le vrai chemin de tâche.
+Il n’appelle aucun modèle et conserve le budget natif clos. L’agent hôte reste disponible
+par le bridge documenté ; cette commande ne simule pas une génération autonome.
+
+Dans **Code**, choisir un fichier puis **Modifier le code** : Monaco apporte coloration
+par extension, numéros de lignes, undo et diff. TS, TSX, JS, JSX, HTML, CSS, JSON et Markdown
+possèdent une coloration dédiée ; une extension inconnue reste explicitement en texte.
+Les diagnostics immédiats couvrent la syntaxe locale. La vérification serveur couvre tous
+les fichiers TS/TSX de `src`, les imports supportés et la compilation réelle. Modifier un
+nombre en chaîne à un emplacement typé `number` doit échouer, donner le fichier et la ligne,
+et conserver le dernier aperçu valide. Le typage ne prouve ni le besoin ni tous les comportements.
+
+Studio compile avec TypeScript, esbuild et Tailwind installés avec DevMethod. Il n’exécute
+pas `vite.config`, les scripts `package.json` ni les plugins applicatifs. Le projet exporté
+fournit aussi un chemin Vite autonome vérifié, avec `npm install` puis `npm run build`.
+Vite seul ne fournit pas l’API `/api/data` ; le README du projet explique cette frontière.
+Le profil supporte les imports React/react-dom, clsx, tailwind-merge,
+class-variance-authority et @radix-ui/react-slot. Une autre bibliothèque donne un diagnostic,
+sans installation silencieuse. `.mts`, `.cts` et `.jsx` ne sont pas des sources compilables
+dans ce profil strict ; utiliser `.ts`/`.tsx`. La coloration de ces extensions ne signifie
+pas leur compilation.
+
+Les sources dans `revisions/<id>/app/` et les artefacts dans `compiled/` ont des manifestes
+distincts. L’adoption et l’export préservent les sources TS exactes. Le runtime exporté peut
+servir l’application déjà compilée avec Node 22+, sans téléchargement ni recompilation.
+Les données métier restent hors du code ; changer de version ne restaure pas la base.
+Les artefacts incluent `THIRD_PARTY_NOTICES.txt` : versions et licences complètes des paquets
+JavaScript réellement incorporés, licence Tailwind si du CSS est produit, et notices locales
+du projet. Ce fichier est vérifié et exporté avec les autres artefacts.
+
+Next.js, React Server Components et NestJS ne sont pas exécutés par ce profil local. Ils
+restent des choix d’architecture à justifier selon les besoins, pas des cases activées en
+apparence. La [décision technique](ADR-017-typed-react-studio.md) distingue ces alternatives.
+L’utilisateur a validé la maquette M bleu nuit et son brief pour le shell, en conservant
+la composition K. La réalisation et les essais navigateur sont consignés dans la
+[revue de disposition](missions/creation-experience/evidence/react-studio/LAYOUT-REVIEW.md).
+Ce choix reste distinct du design Agenda de l’application Les Ateliers et des preuves de compilation.

@@ -14,8 +14,11 @@ export function exportProject(workspace, state) {
   add('.devmethod/studio.json', JSON.stringify(state, null, 2) + '\n');
   add('.devmethod/data.json', fs.readFileSync(safeFile(workspace, '.devmethod/data.json')));
   for (const revision of state.revisions)
-    for (const file of revision.files) {
-      const relative = 'revisions/' + revision.id + '/app/' + file.path;
+    for (const file of [
+      ...revision.files.map((f) => ({ ...f, folder: 'app' })),
+      ...(revision.compilation?.files ?? []).map((f) => ({ ...f, folder: 'compiled' })),
+    ]) {
+      const relative = 'revisions/' + revision.id + '/' + file.folder + '/' + file.path;
       const bytes = fs.readFileSync(safeFile(workspace, relative));
       if (digest(bytes) !== file.sha256)
         throw new Error('Une version a été modifiée hors de Studio.');

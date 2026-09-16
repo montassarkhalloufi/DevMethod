@@ -13,6 +13,7 @@ import { exportProject } from './bundle.mjs';
 import { readSource } from './source.mjs';
 import { createEditor } from './editor.mjs';
 
+const widgetRoot = fileURLToPath(new URL('../../dist/studio-ui', import.meta.url));
 const publicRoot = fileURLToPath(new URL('./public', import.meta.url));
 const browserActions = {
   '/api/project': domain.updateProject,
@@ -98,10 +99,12 @@ function getRoute(url, response, context) {
     );
   }
   const relative = url.pathname === '/' ? 'index.html' : decodeURIComponent(url.pathname.slice(1));
-  const file = safeFile(publicRoot, relative);
+  const file = relative.startsWith('studio-ui/')
+    ? safeFile(widgetRoot, relative.slice('studio-ui/'.length))
+    : safeFile(publicRoot, relative);
   response.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-src http://127.0.0.1:*; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'",
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:; font-src 'self' data:; img-src 'self' data:; frame-src http://127.0.0.1:*; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'",
   );
   return send(response, 200, fs.readFileSync(file), mimeType(file));
 }
@@ -136,7 +139,7 @@ async function postRoute(url, request, response, context) {
   if (workerRoutes[url.pathname]) {
     if (!worker)
       return send(response, 403, { error: 'Cette action appartient à l’agent connecté.' });
-    return send(response, 200, workerRoutes[url.pathname]());
+    return send(response, 200, await workerRoutes[url.pathname]());
   }
   if (url.pathname === '/api/references') return send(response, 200, upload(store, input));
   const action = browserActions[url.pathname];
@@ -187,7 +190,13 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
       delegation: domain.effectiveDelegation(state),
       approval,
       planApproved: approval.planApproved,
-      capabilities: { staticApps: true, localData: true, auth: false, deployment: false },
+      capabilities: {
+        staticApps: true,
+        reactTypeScript: true,
+        localData: true,
+        auth: false,
+        deployment: false,
+      },
     };
   };
   let preview, editorPreview;

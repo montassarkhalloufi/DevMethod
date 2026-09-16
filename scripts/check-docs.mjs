@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { localMarkdownFileExists } from './markdown-links.mjs';
 const skip = new Set(['.git', 'node_modules', '.next', 'dist', 'evaluation-private']);
 
 function files(root) {
@@ -23,8 +24,7 @@ for (const file of files('.')) {
     .matchAll(/\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
     if (/^[a-z]+:|^#|^<|\$|\{/.test(target)) continue;
     const relative = decodeURIComponent(target.split('#')[0]);
-    if (relative && !fs.existsSync(path.resolve(path.dirname(file), relative)))
-      failures.push(`${file}: ${target}`);
+    if (relative && !localMarkdownFileExists(file, relative)) failures.push(`${file}: ${target}`);
   }
 }
 if (failures.length) {
