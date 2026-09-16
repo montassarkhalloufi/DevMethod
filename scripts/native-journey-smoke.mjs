@@ -79,6 +79,7 @@ export function journeyRuntime() {
     platform: process.platform,
     arch: process.arch,
     pathNodeVersion: execute('node', ['--version']),
+    shellPath: nativeShellEnvironment(source).PATH,
   };
 }
 
@@ -100,11 +101,16 @@ function disabledGlobalSkills() {
 
 function nativeShellEnvironment(directory) {
   const temporary = path.join(directory, '.runtime/tmp');
-  return { TMPDIR: temporary, TMPPREFIX: path.join(temporary, 'zsh') };
+  return {
+    TMPDIR: temporary,
+    TMPPREFIX: path.join(temporary, 'zsh'),
+    PATH: [path.dirname(process.execPath), process.env.PATH].filter(Boolean).join(path.delimiter),
+  };
 }
 
 export function nativeArguments(directory, disabledSkills) {
   const args = codexArguments({ directory, model: pins.model });
+  args.splice(args.length - 1, 0, '-c', 'allow_login_shell=false');
   for (const feature of [
     'hooks',
     'browser_use',
@@ -137,18 +143,14 @@ export function nativeShellPreflight(directory) {
   const environment = nativeShellEnvironment(fs.realpathSync(directory));
   fs.mkdirSync(environment.TMPDIR, { recursive: true });
   const profile = `(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (subpath ${JSON.stringify(environment.TMPDIR)}) (literal "/dev/null"))`;
-  const probe = (settings) => {
-    const result = spawnSync(
-      '/usr/bin/sandbox-exec',
-      ['-p', profile, '/bin/zsh', '-f', '-c', "cat <<'PROBE'\nheredoc-ok\nPROBE"],
-      {
-        cwd: directory,
-        env: { PATH: '/usr/bin:/bin', ...settings },
-        encoding: 'utf8',
-        timeout: 5000,
-        maxBuffer: 65536,
-      },
-    );
+  const probe = (settings, command = "cat <<'PROBE'\nheredoc-ok\nPROBE", flags = '-c') => {
+    const result = spawnSync('/usr/bin/sandbox-exec', ['-p', profile, '/bin/zsh', flags, command], {
+      cwd: directory,
+      env: { ...codexEnvironment(), PATH: '/usr/bin:/bin', ...settings },
+      encoding: 'utf8',
+      timeout: 5000,
+      maxBuffer: 65536,
+    });
     if (result.error) throw result.error;
     return {
       exit: result.status,
@@ -157,10 +159,24 @@ export function nativeShellPreflight(directory) {
       stderr: result.stderr,
     };
   };
+  const expected = { version: process.version, executable: process.execPath };
+  const runtime = probe(
+    environment,
+    "node -p 'JSON.stringify({version:process.version,executable:process.execPath})'",
+  );
+  let observed;
+  try {
+    observed = JSON.parse(runtime.stdout);
+  } catch {
+    throw new Error('Native non-login shell did not report a valid Node runtime');
+  }
+  if (runtime.exit !== 0 || JSON.stringify(observed) !== JSON.stringify(expected))
+    throw new Error('Native non-login shell Node runtime differs from pinned parent');
   return {
     mode: 'local-shell-no-model',
-    legacy: probe({ TMPDIR: environment.TMPDIR }),
+    legacy: probe({ TMPDIR: environment.TMPDIR }, undefined, '-fc'),
     configured: probe(environment),
+    runtime: { ...runtime, expected, observed },
   };
 }
 

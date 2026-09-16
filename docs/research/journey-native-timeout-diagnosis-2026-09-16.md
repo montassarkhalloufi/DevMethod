@@ -56,3 +56,13 @@ Historical private root: `/private/tmp/devmethod-native-campaign-20260916`.
 The associated shell snapshot's hash is `f81ed18d9e46f099d93cdc217071014917963ae8ac4d339dd85ca0151f02730c`. Only named temporary-path/runtime environment entries were inspected; no credentials were read or copied.
 
 Validation: legacy heredoc denial observed before the code change; corrected preflight observed afterward. Eighteen focused shell, journey and supervisor tests pass on the explicitly selected Node 24.18.0 runtime, including the real macOS sandbox probe. Maintained-file lint, formatting and Markdown links pass. Non-macOS runs skip the platform-specific shell probe explicitly; no cross-platform shell claim is made.
+
+## Follow-up: shell-visible Node pin
+
+A further local admission probe reproduced a separate runtime divergence. With the parent executable pinned to Node 24.18.0 and that binary directory prepended to PATH, the complete `/bin/zsh -lc` command used in the historical trace selected `/opt/homebrew/bin/node`, version 23.10.0. The clean `zsh -fc` probe selected 24.18.0. Therefore the earlier parent/direct-child runtime pin did not establish the runtime visible after login-shell startup. The task-local TMPDIR and TMPPREFIX remained correct in both cases. No model call was made.
+
+The per-invocation correction adds `allow_login_shell=false` and explicitly sets PATH with the parent executable directory first. [The official configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference) documents that this disables login-shell behavior. The installed CLI 0.147.0 recognizes the setting as a boolean: supplying an intentionally invalid string to its local prompt-input diagnostic fails with a typed `allow_login_shell` validation error. The debug and features subcommands do not support `--strict-config`; these checks are not reported as successful strict-configuration validation.
+
+The local probe now uses the complete non-login `/bin/zsh -c` shell, preserving the same allowed parent environment and explicit PATH as the native invocation. It verifies the observed Node executable and version against the parent before admission, and separately verifies the heredoc. The complete PATH is frozen alongside the other runtime pins. Both runtime and heredoc probes pass under the sandbox without network access or global writes. The legacy heredoc reproduction keeps `-fc` to isolate the original temporary-prefix defect.
+
+This validates the local shell boundary and the supported configuration key, not a new native turn or provider completion. Global shell files and Codex configuration are unchanged. Historical outputs and their original runtime uncertainty remain unchanged.

@@ -12,6 +12,11 @@ test('native arguments place both Node and zsh temporary files inside the assign
   const temporary = path.join(directory, '.runtime/tmp');
   assert.ok(setting.includes(`TMPDIR=${JSON.stringify(temporary)}`));
   assert.ok(setting.includes(`TMPPREFIX=${JSON.stringify(path.join(temporary, 'zsh'))}`));
+  const pinnedPath = [path.dirname(process.execPath), process.env.PATH]
+    .filter(Boolean)
+    .join(path.delimiter);
+  assert.ok(setting.includes(`PATH=${JSON.stringify(pinnedPath)}`));
+  assert.ok(args.includes('allow_login_shell=false'));
   assert.ok(args.includes('sandbox_workspace_write.exclude_slash_tmp=true'));
   assert.ok(args.includes('sandbox_workspace_write.exclude_tmpdir_env_var=true'));
   assert.equal(args.at(-1), '-');
@@ -37,6 +42,12 @@ test(
       stdout: 'heredoc-ok\n',
       stderr: '',
     });
+    assert.equal(result.runtime.exit, 0);
+    assert.deepEqual(result.runtime.observed, {
+      version: process.version,
+      executable: process.execPath,
+    });
+    assert.deepEqual(result.runtime.observed, result.runtime.expected);
     assert.deepEqual(fs.readdirSync(path.join(directory, '.runtime/tmp')), []);
   },
 );
