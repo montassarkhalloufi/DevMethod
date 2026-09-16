@@ -98,7 +98,12 @@ function disabledGlobalSkills() {
     .flatMap((file) => [file, path.dirname(file)]);
 }
 
-function nativeArguments(directory, disabledSkills) {
+function nativeShellEnvironment(directory) {
+  const temporary = path.join(directory, '.runtime/tmp');
+  return { TMPDIR: temporary, TMPPREFIX: path.join(temporary, 'zsh') };
+}
+
+export function nativeArguments(directory, disabledSkills) {
   const args = codexArguments({ directory, model: pins.model });
   for (const feature of [
     'hooks',
@@ -119,9 +124,44 @@ function nativeArguments(directory, disabledSkills) {
     args.length - 1,
     0,
     '-c',
-    `shell_environment_policy.set={TMPDIR=${JSON.stringify(path.join(directory, '.runtime/tmp'))}}`,
+    `shell_environment_policy.set={${Object.entries(nativeShellEnvironment(directory))
+      .map(([key, value]) => `${key}=${JSON.stringify(value)}`)
+      .join(',')}}`,
   );
   return args;
+}
+
+/** Local shell diagnostic only: no Codex process, authentication or model call. */
+export function nativeShellPreflight(directory) {
+  if (process.platform !== 'darwin') throw new Error('Native shell preflight requires macOS');
+  const environment = nativeShellEnvironment(fs.realpathSync(directory));
+  fs.mkdirSync(environment.TMPDIR, { recursive: true });
+  const profile = `(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (subpath ${JSON.stringify(environment.TMPDIR)}) (literal "/dev/null"))`;
+  const probe = (settings) => {
+    const result = spawnSync(
+      '/usr/bin/sandbox-exec',
+      ['-p', profile, '/bin/zsh', '-f', '-c', "cat <<'PROBE'\nheredoc-ok\nPROBE"],
+      {
+        cwd: directory,
+        env: { PATH: '/usr/bin:/bin', ...settings },
+        encoding: 'utf8',
+        timeout: 5000,
+        maxBuffer: 65536,
+      },
+    );
+    if (result.error) throw result.error;
+    return {
+      exit: result.status,
+      signal: result.signal,
+      stdout: result.stdout,
+      stderr: result.stderr,
+    };
+  };
+  return {
+    mode: 'local-shell-no-model',
+    legacy: probe({ TMPDIR: environment.TMPDIR }),
+    configured: probe(environment),
+  };
 }
 
 function installArchive(root, revision) {
