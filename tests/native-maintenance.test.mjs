@@ -11,6 +11,7 @@ import {
   retainMaintenanceOutput,
   maintenanceReady,
   maintenanceReadProfile,
+  maintenanceConfigPreflight,
 } from '../scripts/native-maintenance.mjs';
 import { tree } from '../scripts/native-journey-smoke.mjs';
 import { gitState } from '../dist/records.js';
@@ -136,5 +137,53 @@ test(
     assert.ifError(result.error);
     assert.equal(result.status, 0, result.stderr);
     assert.equal(result.stdout, '');
+  },
+);
+
+test(
+  'startup preflight checks the second sandbox before any Codex process',
+  { skip: process.platform !== 'darwin' },
+  (t) => {
+    const root = temporary(t);
+    const directory = path.join(root, 'workers/readiness');
+    const fixture = path.join(root, 'evaluator');
+    fs.mkdirSync(directory, { recursive: true });
+    fs.mkdirSync(fixture);
+    // Local stub only: the regression must never invoke a model or authentication.
+    const marker = path.join(directory, 'codex-was-invoked');
+    fs.writeFileSync(
+      path.join(directory, 'codex'),
+      "#!/bin/sh\n: > codex-was-invoked\nprintf '%s\\n' 'invalid type: string \"devmethod-preflight-invalid\", expected a boolean' 'in `allow_login_shell`' >&2\nexit 1\n",
+      { mode: 0o700 },
+    );
+    const profile = maintenanceReadProfile(root, directory, fixture);
+    const nested = spawnSync(
+      '/usr/bin/sandbox-exec',
+      [
+        '-p',
+        profile,
+        '/usr/bin/sandbox-exec',
+        '-p',
+        '(version 1) (allow default)',
+        '/usr/bin/true',
+      ],
+      { cwd: directory, encoding: 'utf8', timeout: 5000, maxBuffer: 65536 },
+    );
+    assert.ifError(nested.error);
+    const previous = process.env.PATH;
+    process.env.PATH = `${directory}${path.delimiter}${previous}`;
+    try {
+      if (nested.status !== 0) {
+        assert.throws(
+          () => maintenanceConfigPreflight(profile, directory, []),
+          /Nested tool sandbox unavailable before admission/,
+        );
+        assert.equal(fs.existsSync(marker), false);
+      } else {
+        assert.equal(maintenanceConfigPreflight(profile, directory, []).toolSandbox.exit, 0);
+      }
+    } finally {
+      process.env.PATH = previous;
+    }
   },
 );

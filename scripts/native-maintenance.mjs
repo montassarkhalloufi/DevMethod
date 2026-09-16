@@ -265,6 +265,18 @@ function probeReads(root, entry, frozen, profile) {
 }
 
 export function maintenanceConfigPreflight(profile, directory, disabledSkills) {
+  // Codex starts its own tool sandbox. A successful outer shell/config probe
+  // cannot establish that this second sandbox can start on the current host.
+  const toolSandbox = spawnSync(
+    '/usr/bin/sandbox-exec',
+    ['-p', profile, '/usr/bin/sandbox-exec', '-p', '(version 1) (allow default)', '/usr/bin/true'],
+    { cwd: directory, env: codexEnvironment(), encoding: 'utf8', timeout: 5000, maxBuffer: 65536 },
+  );
+  if (toolSandbox.error || toolSandbox.status !== 0)
+    throw new Error(
+      'Nested tool sandbox unavailable before admission; no model call. ' +
+        (toolSandbox.error?.message ?? toolSandbox.stderr.trim()),
+    );
   // The pinned CLI must reject this typed configuration before model dispatch.
   const args = nativeArguments(directory, disabledSkills);
   args.splice(args.length - 1, 0, '-c', 'allow_login_shell="devmethod-preflight-invalid"');
@@ -286,7 +298,12 @@ export function maintenanceConfigPreflight(profile, directory, disabledSkills) {
     !result.stderr.includes('in `allow_login_shell`')
   )
     throw new Error('Native startup/configuration preflight failed before admission');
-  return { mode: 'invalid-config-no-model', exit: result.status, stderr: result.stderr };
+  return {
+    mode: 'invalid-config-no-model',
+    exit: result.status,
+    stderr: result.stderr,
+    toolSandbox: { exit: toolSandbox.status },
+  };
 }
 
 function parseEvents(stdout) {
