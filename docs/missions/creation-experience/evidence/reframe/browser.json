@@ -1,0 +1,58 @@
+{
+  "selection": {
+    "src": "http://127.0.0.1:63744/revisions/d7cd1dff-4985-46ea-abbc-40bdc930346e/index.html?category=repair&workshop=repair-bike&form=join#workshop-repair-bike",
+    "version": "d7cd1dff-4985-46ea-abbc-40bdc930346e"
+  },
+  "resize": {
+    "before": "444",
+    "after": "460"
+  },
+  "historyScroll": {
+    "decisionTop": 253.9630584716797,
+    "historyTop": 245.4545440673828,
+    "pageTop": 0,
+    "before": {
+      "historyTop": 0,
+      "decisionTop": 253.9630584716797,
+      "pageTop": 0
+    }
+  },
+  "leaveComparison": {
+    "disabled": false,
+    "pending": true,
+    "src": "http://127.0.0.1:4347/revisions/336de365-3d32-476e-9577-5d5798829ed8/index.html",
+    "version": "336de365-3d32-476e-9577-5d5798829ed8"
+  },
+  "recordedAt": "2026-09-16T20:20:51.633Z",
+  "browser": "Chrome, automation by coding agent; no human validation",
+  "desktop": {
+    "width": 1536,
+    "height": 1024
+  },
+  "mobile": {
+    "width": 390,
+    "height": 843,
+    "documentWidth": 390
+  },
+  "expandedCode": {
+    "mainWidth": 1520.3692626953125,
+    "viewportWidth": 1536,
+    "syntaxColors": 6
+  },
+  "proposalWrite": {
+    "result": "405 visible",
+    "inputRetained": true,
+    "dataPreserved": true
+  },
+  "limits": [
+    "Recorded browser observations, not a perceptual pixel-diff score.",
+    "Current data read-only comparison, not a historic data snapshot.",
+    "No autonomous provider generation rerun."
+  ],
+  "reasonRestart": {
+    "typed": "Essai de reprise du brouillon, sans approbation.",
+    "afterReload": "Essai de reprise du brouillon, sans approbation.",
+    "pending": true,
+    "cleanup": "Test text removed with normal keyboard input; no approval."
+  }
+}

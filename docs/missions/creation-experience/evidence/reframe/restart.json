@@ -1,0 +1,140 @@
+{
+  "before": {
+    "at": "2026-09-16T20:15:44.509Z",
+    "workspaces": {
+      "/private/tmp/devmethod-react-live": {
+        "activeRevision": "336de365-3d32-476e-9577-5d5798829ed8",
+        "draftSha256": "3c2efe771ba11c6bf57e2aee19eb584db758bea684f1e4aa4e845f1991cdc37a",
+        "draftLength": 2616,
+        "mode": "guided",
+        "delegation": {
+          "structure": "agent",
+          "visual": "agent",
+          "adoption": "agent"
+        },
+        "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+        "designJourney": {
+          "activeMasterId": "retained-agenda-master",
+          "masters": [
+            {
+              "id": "retained-agenda-master",
+              "designId": "agenda",
+              "referenceId": "53223255-28ee-40e5-a7c4-38fc39ad3573",
+              "source": "agent",
+              "createdAt": "2026-09-16T20:00:59.402Z",
+              "approvedBy": "agent",
+              "approvedAt": "2026-09-16T20:00:59.420Z",
+              "approvalReason": "Relecture par l’agent de la référence déjà retenue : agenda papier, dates et disponibilités lisibles, vert profond. Enregistrement rétrospectif des acquis sous la délégation visuelle existante ; aucun nouvel accord humain revendiqué."
+            }
+          ],
+          "screens": [
+            {
+              "id": "retained-agenda-mobile",
+              "title": "Agenda mobile — référence existante",
+              "masterId": "retained-agenda-master",
+              "referenceId": "35b114a3-9aeb-48a4-87a1-6dbca0f39df5",
+              "source": "agent",
+              "createdAt": "2026-09-16T20:00:59.436Z"
+            }
+          ],
+          "prototypes": [
+            {
+              "id": "retained-react-prototype",
+              "masterId": "retained-agenda-master",
+              "revisionId": "336de365-3d32-476e-9577-5d5798829ed8",
+              "source": "agent",
+              "createdAt": "2026-09-16T20:00:59.451Z"
+            }
+          ]
+        },
+        "pending": []
+      },
+      "/private/tmp/devmethod-reframe-demo": {
+        "activeRevision": "336de365-3d32-476e-9577-5d5798829ed8",
+        "draftSha256": "4c7177855c2e447aa19271844d08abe3aede3874b05365a86f051aefb6c43783",
+        "draftLength": 80,
+        "mode": "guided",
+        "delegation": {
+          "structure": "agent",
+          "visual": "agent",
+          "adoption": "user"
+        },
+        "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+        "designJourney": null,
+        "pending": [
+          "reframe-direct-form"
+        ]
+      }
+    }
+  },
+  "after": {
+    "at": "2026-09-16T20:18:35.411Z",
+    "workspaces": {
+      "/private/tmp/devmethod-react-live": {
+        "activeRevision": "336de365-3d32-476e-9577-5d5798829ed8",
+        "draftSha256": "3c2efe771ba11c6bf57e2aee19eb584db758bea684f1e4aa4e845f1991cdc37a",
+        "draftLength": 2616,
+        "mode": "guided",
+        "delegation": {
+          "structure": "agent",
+          "visual": "agent",
+          "adoption": "agent"
+        },
+        "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+        "designJourney": {
+          "activeMasterId": "retained-agenda-master",
+          "masters": [
+            {
+              "id": "retained-agenda-master",
+              "designId": "agenda",
+              "referenceId": "53223255-28ee-40e5-a7c4-38fc39ad3573",
+              "source": "agent",
+              "createdAt": "2026-09-16T20:00:59.402Z",
+              "approvedBy": "agent",
+              "approvedAt": "2026-09-16T20:00:59.420Z",
+              "approvalReason": "Relecture par l’agent de la référence déjà retenue : agenda papier, dates et disponibilités lisibles, vert profond. Enregistrement rétrospectif des acquis sous la délégation visuelle existante ; aucun nouvel accord humain revendiqué."
+            }
+          ],
+          "screens": [
+            {
+              "id": "retained-agenda-mobile",
+              "title": "Agenda mobile — référence existante",
+              "masterId": "retained-agenda-master",
+              "referenceId": "35b114a3-9aeb-48a4-87a1-6dbca0f39df5",
+              "source": "agent",
+              "createdAt": "2026-09-16T20:00:59.436Z"
+            }
+          ],
+          "prototypes": [
+            {
+              "id": "retained-react-prototype",
+              "masterId": "retained-agenda-master",
+              "revisionId": "336de365-3d32-476e-9577-5d5798829ed8",
+              "source": "agent",
+              "createdAt": "2026-09-16T20:00:59.451Z"
+            }
+          ]
+        },
+        "pending": [],
+        "preserved": true
+      },
+      "/private/tmp/devmethod-reframe-demo": {
+        "activeRevision": "336de365-3d32-476e-9577-5d5798829ed8",
+        "draftSha256": "4c7177855c2e447aa19271844d08abe3aede3874b05365a86f051aefb6c43783",
+        "draftLength": 80,
+        "mode": "guided",
+        "delegation": {
+          "structure": "agent",
+          "visual": "agent",
+          "adoption": "user"
+        },
+        "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+        "designJourney": null,
+        "pending": [
+          "reframe-direct-form"
+        ],
+        "preserved": true
+      }
+    }
+  }
+}

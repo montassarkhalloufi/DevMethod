@@ -15,6 +15,8 @@ function contextKey(state) {
         decisions: state.decisions,
         selectedDesignId: state.selectedDesignId,
         designs: state.designs,
+        proposals: state.proposals,
+        designJourney: state.designJourney,
       }),
     ),
   );
@@ -79,6 +81,8 @@ export function createJobs(store) {
       approval: domain.planApprovalStatus(state),
       brief: state.brief,
       decisions: state.decisions,
+      proposals: state.proposals || [],
+      designJourney: state.designJourney || null,
       selectedDesignId: state.selectedDesignId,
       designs: state.designs,
       references: state.references,

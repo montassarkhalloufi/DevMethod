@@ -28,6 +28,7 @@ async function fixture(t, customize = () => {}) {
   const calls = [];
   const runtime = {
     previewOrigin: 'http://127.0.0.1:4331',
+    comparisonPreviewOrigin: 'http://127.0.0.1:4332',
     agent: { automatic: false },
     planApproved: false,
   };
@@ -82,6 +83,75 @@ test('polling preserves edits, focus, open context and a live preview without re
   assert.equal(f.dom.window.document.activeElement.id, 'request');
   assert.equal(f.el('preview').contentWindow, iframeWindow);
   assert.equal(f.el('context').querySelector('details').open, true);
+});
+
+test('comparison labels, source and iframe follow the candidate identity on the read-only origin', async (t) => {
+  const f = await fixture(t, (state) => {
+    state.revisions = [revision('current'), revision('candidate')];
+    state.activeRevision = 'current';
+    state.proposals = [
+      {
+        id: 'change',
+        topic: 'Inscription',
+        stage: 'visual',
+        question: 'Quel rendu ?',
+        baseRevision: 'current',
+        selectedOptionId: 'form',
+        resolution: null,
+        options: [
+          {
+            id: 'form',
+            title: 'Formulaire',
+            consequences: ['Saisie directement visible.'],
+            preview: {
+              kind: 'revision',
+              status: 'implemented',
+              revisionId: 'candidate',
+              route: '/?form=join',
+              element: { selector: '#form', text: 'Formulaire' },
+            },
+          },
+        ],
+      },
+    ];
+  });
+  assert.equal(f.el('preview-version').value, 'candidate');
+  assert.equal(f.el('preview-status').textContent, 'Version à examiner');
+  assert.match(
+    f.el('preview').src,
+    /^http:\/\/127\.0\.0\.1:4332\/revisions\/candidate\/index.html\?form=join$/,
+  );
+  assert.match(f.el('preview-data-note').textContent, /lecture seule/);
+  f.el('tab-code').click();
+  await setImmediate();
+  assert.match(f.el('source-view').textContent, /candidate/);
+  f.el('tab-product').click();
+  f.el('comparison-before').click();
+  assert.equal(f.el('preview-version').value, 'current');
+  assert.equal(f.el('preview-status').textContent, 'Version active');
+  assert.match(f.el('preview').src, /:4332\/revisions\/current\//);
+  assert.equal(f.state().activeRevision, 'current');
+  f.input('request', 'Une saisie à conserver pendant la comparaison');
+  f.el('comparison-toggle').click();
+  assert.match(f.el('preview').src, /:4331\/revisions\/current\//);
+  assert.equal(f.el('preview-version').disabled, false);
+  assert.match(f.el('comparison-status').textContent, /suspendue.*sans approbation/);
+  assert.equal(f.el('comparison-toggle').textContent, 'Reprendre la comparaison');
+  assert.equal(f.state().proposals[0].resolution, null);
+  assert.equal(f.state().proposals[0].selectedOptionId, 'form');
+  await f.app.refresh();
+  assert.match(f.el('preview').src, /:4331\/revisions\/current\//);
+  assert.equal(f.el('request').value, 'Une saisie à conserver pendant la comparaison');
+  f.el('comparison-toggle').click();
+  f.el('comparison-proposal').click();
+  assert.match(f.el('preview').src, /:4332\/revisions\/candidate\//);
+  f.dom.window.document.querySelector('[data-action="preview"][data-id="current"]').click();
+  assert.match(f.el('preview').src, /:4331\/revisions\/current\//);
+  await f.app.refresh();
+  assert.match(f.el('preview').src, /:4331\/revisions\/current\//);
+  assert.equal(f.el('preview-version').value, 'current');
+  assert.equal(f.el('request').value, 'Une saisie à conserver pendant la comparaison');
+  assert.deepEqual(f.calls, []);
 });
 
 test('visual directions use exclusive radios but persist only after explicit validation with a reason', async (t) => {

@@ -13,11 +13,71 @@
     <script type="module" src="/studio-ui/layout.js"></script>
   </head>
   <body data-studio="">
+    <svg
+      class="icon-sprite"
+      aria-hidden="true"
+      focusable="false"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <symbol id="studio-icon-folder" viewBox="0 0 24 24">
+          <path d="M3 7h18v13H3zM3 7V4h6l2 3" />
+        </symbol>
+        <symbol id="studio-icon-upload" viewBox="0 0 24 24">
+          <path d="M12 15V3m-4 4 4-4 4 4M4 13v8h16v-8" />
+        </symbol>
+        <symbol id="studio-icon-preview" viewBox="0 0 24 24">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M3 8h18M7 6h.01M10 6h.01M13 6h.01" />
+        </symbol>
+        <symbol id="studio-icon-code" viewBox="0 0 24 24">
+          <path d="m8 6-5 6 5 6m8-12 5 6-5 6m-3-15-2 18" />
+        </symbol>
+        <symbol id="studio-icon-document" viewBox="0 0 24 24">
+          <path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6" />
+        </symbol>
+        <symbol id="studio-icon-shield" viewBox="0 0 24 24">
+          <path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6zM8 12l3 3 5-6" />
+        </symbol>
+        <symbol id="studio-icon-history" viewBox="0 0 24 24">
+          <path d="M3 11a9 9 0 1 1 3 8M3 5v6h6M12 7v6l4 2" />
+        </symbol>
+        <symbol id="studio-icon-journey" viewBox="0 0 24 24">
+          <circle cx="6" cy="5" r="2" />
+          <circle cx="18" cy="19" r="2" />
+          <path d="M8 5h8a4 4 0 0 1 0 8H8a3 3 0 0 0 0 6h8" />
+        </symbol>
+        <symbol id="studio-icon-users" viewBox="0 0 24 24">
+          <circle cx="9" cy="7" r="3" />
+          <path d="M3 20v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6m1 3a5 5 0 0 1 4 5v2" />
+        </symbol>
+        <symbol id="studio-icon-user" viewBox="0 0 24 24">
+          <circle cx="12" cy="7" r="4" />
+          <path d="M4 21v-2a8 8 0 0 1 16 0v2" />
+        </symbol>
+        <symbol id="studio-icon-lock" viewBox="0 0 24 24">
+          <rect x="5" y="10" width="14" height="11" rx="2" />
+          <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+        </symbol>
+        <symbol id="studio-icon-desktop" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="13" rx="2" />
+          <path d="M12 16v5M8 21h8" />
+        </symbol>
+        <symbol id="studio-icon-phone" viewBox="0 0 24 24">
+          <rect x="7" y="2" width="10" height="20" rx="2" />
+          <path d="M11 18h2" />
+        </symbol>
+        <symbol id="studio-icon-target" viewBox="0 0 24 24">
+          <path d="M20.4 9a9 9 0 1 1-5.4-5.4M16.4 9a5 5 0 1 1-1.4-1.4M12 12l9-9m-5 0h5v5" />
+        </symbol>
+      </defs>
+    </svg>
     <a class="skip-link" href="#workspace">Aller au projet</a>
     <header class="topbar">
       <a class="brand" href="/">DevMethod <span>/ Studio</span></a
       ><button id="project-menu" type="button" aria-controls="project-form">
-        Mon projet <span aria-hidden="true">⌄</span>
+        <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-folder" /></svg
+        ><span id="project-menu-label">Mon projet</span><span aria-hidden="true">⌄</span>
       </button>
       <fieldset class="modes header-modes">
         <legend class="sr-only">Comment souhaitez-vous avancer ?</legend>
@@ -38,7 +98,9 @@
           ></label
         >
       </fieldset>
-      <a class="button-link export-project" href="/api/export" download="">↑ Exporter</a>
+      <a class="button-link export-project" href="/api/export" download=""
+        ><svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-upload" /></svg>Exporter</a
+      >
     </header>
     <div id="notice" class="notice" role="status" aria-live="polite" hidden=""></div>
     <nav class="mobile-navigation" aria-label="Accès rapide au projet">
@@ -48,10 +110,16 @@
     <div class="studio-layout">
       <aside id="discussion" class="conversation" aria-label="Le fil du projet" tabindex="-1">
         <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
-        <section class="policy-panel" aria-label="Délégation actuelle">
+        <details id="responsibilities" class="policy-panel">
+          <summary>
+            <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-users" /></svg>
+            <span class="responsibility-heading"
+              >Qui décide ?<small id="responsibility-summary"></small
+            ></span>
+          </summary>
           <div id="policy"></div>
           <button id="adjust-policy" type="button" class="text-button">Ajuster</button>
-        </section>
+        </details>
         <section id="project" class="panel introduction" aria-labelledby="project-title">
           <div class="section-heading">
             <div>
@@ -148,29 +216,56 @@
             <div id="references" class="references" aria-label="Références du projet"></div>
           </details>
         </section>
-        <div class="conversation-flow" id="conversation-flow" data-scroll-region="conversation">
-          <div id="jobs" class="jobs" aria-label="Demandes et résultats"></div>
-          <section id="directions" class="panel flow-directions" aria-labelledby="directions-title">
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">DONNER UNE DIRECTION</p>
-                <h2 id="directions-title">Des choix que vous pouvez voir</h2>
-              </div>
-            </div>
-            <div id="designs" class="design-grid"></div>
-            <form id="design-form" hidden="">
-              <label for="design-reason">Ce qui vous plaît dans cette direction</label
-              ><textarea
-                id="design-reason"
-                rows="2"
-                maxlength="4000"
-                placeholder="Ce que je souhaite garder…"
-              ></textarea
-              ><button id="choose-design" class="primary" type="submit">Valider ce choix</button>
-            </form>
-          </section>
-          <div id="flow-decisions" class="flow-decisions" aria-label="Décisions récentes"></div>
+        <div id="decision-request" class="decision-request" hidden="">
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-user" /></svg>
+          <p id="decision-request-text"></p>
         </div>
+        <section
+          id="active-decision"
+          aria-label="La décision à prendre"
+          tabindex="-1"
+          hidden=""
+        ></section>
+        <details id="preserve-constraints" class="preserve-constraints" hidden="">
+          <summary>
+            <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-lock" /></svg>À
+            préserver
+          </summary>
+          <div id="preserve-constraints-content"></div>
+        </details>
+        <details id="activity" class="activity-panel" open="">
+          <summary>
+            <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
+            >Activité et choix précédents
+          </summary>
+          <div class="conversation-flow" id="conversation-flow" data-scroll-region="conversation">
+            <div id="jobs" class="jobs" aria-label="Demandes et résultats"></div>
+            <section
+              id="directions"
+              class="panel flow-directions"
+              aria-labelledby="directions-title"
+            >
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">DONNER UNE DIRECTION</p>
+                  <h2 id="directions-title">Des choix que vous pouvez voir</h2>
+                </div>
+              </div>
+              <div id="designs" class="design-grid"></div>
+              <form id="design-form" hidden="">
+                <label for="design-reason">Ce qui vous plaît dans cette direction</label
+                ><textarea
+                  id="design-reason"
+                  rows="2"
+                  maxlength="4000"
+                  placeholder="Ce que je souhaite garder…"
+                ></textarea
+                ><button id="choose-design" class="primary" type="submit">Valider ce choix</button>
+              </form>
+            </section>
+            <div id="flow-decisions" class="flow-decisions" aria-label="Décisions récentes"></div>
+          </div>
+        </details>
         <section class="panel request-panel" aria-labelledby="request-title">
           <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
           <h2 id="request-title" class="sr-only">Faire évoluer le projet</h2>
@@ -225,6 +320,18 @@
         <div class="workbench">
           <nav class="workspace-tabs" role="tablist" aria-label="Vues du projet">
             <button
+              id="tab-journey"
+              type="button"
+              role="tab"
+              aria-controls="journey"
+              aria-selected="false"
+              data-panel="journey"
+              tabindex="-1"
+            >
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-journey" /></svg
+              >Parcours
+            </button>
+            <button
               id="tab-product"
               type="button"
               role="tab"
@@ -233,7 +340,8 @@
               data-panel="product"
               tabindex="0"
             >
-              <span aria-hidden="true">▣</span> Application</button
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-preview" /></svg
+              >Aperçu</button
             ><button
               id="tab-code"
               type="button"
@@ -243,7 +351,8 @@
               data-panel="code"
               tabindex="-1"
             >
-              <span aria-hidden="true">⌘</span> Code</button
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-code" /></svg
+              >Code</button
             ><button
               id="tab-choices"
               type="button"
@@ -253,7 +362,8 @@
               data-panel="choices"
               tabindex="-1"
             >
-              <span aria-hidden="true">◇</span> Choix</button
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-document" /></svg
+              >Décisions</button
             ><button
               id="tab-checks"
               type="button"
@@ -263,7 +373,8 @@
               data-panel="checks"
               tabindex="-1"
             >
-              <span aria-hidden="true">✓</span> Preuves</button
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-shield" /></svg
+              >Vérifications</button
             ><button
               id="tab-history"
               type="button"
@@ -273,7 +384,8 @@
               data-panel="history"
               tabindex="-1"
             >
-              <span aria-hidden="true">↶</span> Reprise
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
+              >Historique
             </button>
           </nav>
           <div class="preview-toolbar">
@@ -290,11 +402,29 @@
               <option value="">Aucune version</option>
             </select>
             <div class="viewport-buttons" role="group" aria-label="Largeur de l’aperçu">
-              <button id="wide-preview" type="button" aria-pressed="true">Bureau</button
-              ><button id="mobile-preview" type="button" aria-pressed="false">Mobile</button>
+              <button
+                id="wide-preview"
+                type="button"
+                aria-pressed="true"
+                aria-label="Aperçu bureau"
+                title="Aperçu bureau"
+              >
+                <svg class="ui-icon" aria-hidden="true">
+                  <use href="#studio-icon-desktop" />
+                </svg></button
+              ><button
+                id="mobile-preview"
+                type="button"
+                aria-pressed="false"
+                aria-label="Aperçu mobile"
+                title="Aperçu mobile"
+              >
+                <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-phone" /></svg>
+              </button>
             </div>
             <button id="inspect-element" type="button" disabled="" aria-pressed="false">
-              ⌖ Cibler un élément</button
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-target" /></svg>
+              Cibler un élément</button
             ><a
               id="open-preview"
               class="button-link"
@@ -305,11 +435,29 @@
             >
           </div>
           <section
+            id="journey"
+            class="panel journey-panel"
+            aria-labelledby="tab-journey"
+            role="tabpanel"
+            hidden=""
+          >
+            <div id="journey-view"></div>
+          </section>
+          <section
             id="product"
             class="panel product-panel"
             aria-labelledby="tab-product"
             role="tabpanel"
           >
+            <div id="proposal-comparison" class="proposal-comparison" hidden="">
+              <div class="comparison-switch" role="group" aria-label="Comparer le changement">
+                <button id="comparison-before" type="button" aria-pressed="true">Avant</button>
+                <button id="comparison-proposal" type="button" aria-pressed="false">
+                  Proposition
+                </button>
+              </div>
+              <p id="comparison-status" role="status" aria-live="polite"></p>
+            </div>
             <div class="section-heading sr-only">
               <div>
                 <h2 id="product-title">Votre app</h2>
@@ -318,6 +466,13 @@
             </div>
 
             <div id="preview-stage" class="preview-stage">
+              <img
+                id="proposal-image"
+                class="proposal-image"
+                alt="Aperçu visuel de la proposition"
+                hidden=""
+              />
+              <div id="proposal-empty" class="proposal-empty" role="status" hidden=""></div>
               <div id="preview-empty" class="preview-empty">
                 <span class="empty-symbol" aria-hidden="true">▧</span>
                 <h3>Une vraie app apparaîtra ici</h3>
@@ -334,7 +489,7 @@
                 hidden=""
               ></iframe>
             </div>
-            <p class="preview-note">
+            <p id="preview-data-note" class="preview-note">
               Les données saisies dans l’app sont partagées entre ses versions. Revenir au code
               précédent ne restaure pas les anciennes données.
             </p>

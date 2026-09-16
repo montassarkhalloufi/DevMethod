@@ -8,6 +8,9 @@ const selectorScript = `<script>
 (()=>{let selecting=false,previous=null;const studioOrigin=STUDIO_ORIGIN;
 const locate=el=>{const parts=[];for(let node=el;node&&node.nodeType===1;node=node.parentElement){if(node.id){const id='#'+CSS.escape(node.id);if(document.querySelectorAll(id).length===1){parts.unshift(id);break;}}let part=node.tagName.toLowerCase();if(node.parentElement)part+=':nth-child('+(Array.from(node.parentElement.children).indexOf(node)+1)+')';parts.unshift(part);}return parts.join(' > ');};
 const clear=()=>{if(previous){previous.style.outline=previous.dataset.dmOutline||'';delete previous.dataset.dmOutline;previous=null;}};
+let focusObserver,focusDeadline,lastFocus;
+const focusTarget=selector=>{if(typeof selector!=='string'||selector.length>2000||selector===lastFocus)return;lastFocus=selector;focusObserver?.disconnect();clearTimeout(focusDeadline);const find=()=>{let target;try{target=document.querySelector(selector);}catch{return true;}if(!target)return false;target.scrollIntoView({block:'center',behavior:'instant'});parent.postMessage({type:'devmethod-focus-result',selector,found:true},studioOrigin);return true;};if(find())return;focusObserver=new MutationObserver(()=>{if(find()){focusObserver.disconnect();clearTimeout(focusDeadline);}});focusObserver.observe(document.documentElement,{childList:true,subtree:true});focusDeadline=setTimeout(()=>{focusObserver.disconnect();parent.postMessage({type:'devmethod-focus-result',selector,found:false},studioOrigin);},5000);};
+addEventListener('message',e=>{if(e.source===parent&&e.origin===studioOrigin&&e.data?.type==='devmethod-focus')focusTarget(e.data.selector);});
 addEventListener('message',e=>{if(e.source===parent&&e.origin===studioOrigin&&e.data?.type==='devmethod-select'){selecting=!!e.data.enabled;if(!selecting)clear();}});
 addEventListener('keydown',e=>{if(e.key==='Escape'){selecting=false;clear();}});
 addEventListener('pointerover',e=>{if(!selecting)return;clear();previous=e.target;previous.dataset.dmOutline=previous.style.outline;previous.style.outline='2px solid #0866ff';},true);
@@ -33,8 +36,15 @@ function instrumentHTML(content, origin, id, reportRuntimeErrors) {
   return Buffer.from(html + selectorScript.replace('STUDIO_ORIGIN', JSON.stringify(origin)));
 }
 
-async function dataRoute(request, response, origin, readData, dataFile) {
+async function dataRoute(request, response, origin, readData, dataFile, readOnlyData) {
   if (request.method === 'GET') return send(response, 200, readData());
+  if (readOnlyData) {
+    response.setHeader('Allow', 'GET');
+    return send(response, 405, {
+      error:
+        'Les données de cet aperçu de comparaison sont en lecture seule. Revenez à l’application active pour les modifier.',
+    });
+  }
   if (request.method !== 'POST') return send(response, 405, { error: 'Méthode non autorisée.' });
   sameOrigin(request, origin);
   const input = await body(request, 1024 * 1024),
@@ -57,6 +67,7 @@ export function createPreview({
   getStudioOrigin = () => null,
   revisionPrefix = 'revisions',
   reportRuntimeErrors = false,
+  readOnlyData = false,
 }) {
   const dataFile = safeFile(workspace, '.devmethod/data.json');
   fs.mkdirSync(path.dirname(dataFile), { recursive: true });
@@ -82,7 +93,7 @@ export function createPreview({
         return send(response, 403, { error: 'Hôte non autorisé.' });
       const url = new URL(request.url, origin);
       if (url.pathname === '/api/data')
-        return await dataRoute(request, response, origin, readData, dataFile);
+        return await dataRoute(request, response, origin, readData, dataFile, readOnlyData);
       if (request.method !== 'GET') return send(response, 405, { error: 'Lecture uniquement.' });
       const state = getState();
       const match = new RegExp(`^/${revisionPrefix}/([a-zA-Z0-9-]+)/(.*)$`).exec(

@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Button } from '@/shared/ui/button';
 import { CATEGORY_LABELS } from '../model/domain';
+import { opensWorkshopForm } from '../model/navigation';
 import type { Workshop } from '../model/types';
 
 interface Props {
@@ -50,7 +51,9 @@ export function WorkshopCard({
   onDraft,
   onRegister,
 }: Props) {
-  const [open, setOpen] = useState(Boolean(draft));
+  const [open, setOpen] = useState(
+    () => Boolean(draft) || opensWorkshopForm(window.location.search, workshop.id),
+  );
   const [nameError, setNameError] = useState('');
   const edits = useRef(0);
   const focusRequested = useRef(false);
@@ -77,7 +80,11 @@ export function WorkshopCard({
   }
 
   return (
-    <article className="workshop-card" data-category={workshop.category}>
+    <article
+      id={`workshop-${workshop.id}`}
+      className="workshop-card"
+      data-category={workshop.category}
+    >
       <DateBlock value={workshop.date} />
       <div className="workshop-details">
         <span className="category-pill">

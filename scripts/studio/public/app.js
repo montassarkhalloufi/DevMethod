@@ -1,6 +1,8 @@
 import { createStudioApi, readReference } from './api.js';
 import { createViews } from './views.js';
 import { createSourceView, comparisonBase } from './source-view.js';
+import { createProposalController } from './proposal-controller.js';
+import { renderComparison, comparisonURL } from './comparison-view.js';
 
 export function mountStudio({ document, window, api = createStudioApi(), pollMs = 2000 }) {
   const el = (id) => document.getElementById(id);
@@ -41,6 +43,8 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   let draftDirty = false;
   let draftTimer;
   let previewId = null;
+  let displayedRevisionId = null;
+  let frameOrigin = null;
   let followActive = true;
   let chosenDesign = null;
   let selectedElement = null;
@@ -49,9 +53,26 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   let writes = Promise.resolve();
   const rendered = new Map();
   let activePanel = 'product';
+  let comparedProposal = null;
+  let availableComparisonProposal = null;
+  let comparisonSide = 'proposal';
+  let previewTarget = null;
+  let journeyWidget, journeyLoading;
+  let disposed = false;
+  let initialPanel = true;
+  const proposalController = createProposalController({
+    document,
+    change,
+    showComparison(proposal, side, availableProposal = proposal) {
+      comparedProposal = proposal;
+      availableComparisonProposal = availableProposal;
+      comparisonSide = side;
+      if (state) preview();
+    },
+  });
 
   function openPanel(id) {
-    if (!['product', 'code', 'choices', 'checks', 'history'].includes(id)) return;
+    if (!['journey', 'product', 'code', 'choices', 'checks', 'history'].includes(id)) return;
     activePanel = id;
     for (const button of document.querySelectorAll('[data-panel]')) {
       const selected = button.dataset.panel === id;
@@ -62,10 +83,57 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     for (const control of ['wide-preview', 'mobile-preview', 'inspect-element', 'open-preview'])
       el(control).hidden = id !== 'product' || (control === 'open-preview' && !previewId);
     if (id === 'code') updateSource();
+    if (id === 'journey') updateJourney();
+  }
+  function prepareStage(stage, request) {
+    const existing = el('request').value;
+    if (
+      existing.trim() &&
+      !window.confirm('Remplacer le brouillon par la demande pour ' + stage + ' ?')
+    )
+      return;
+    el('request').value = request;
+    markDraftDirty();
+    el('request').focus();
+  }
+  function updateJourney() {
+    if (!state || activePanel !== 'journey') return;
+    const props = {
+      state,
+      onRequest: prepareStage,
+      onApproveMaster: async (masterId) => {
+        const result = await change('design/master/approve', {
+          masterId,
+          reason: 'Validation explicite de cet écran maître depuis le parcours.',
+        });
+        if (!result) throw new Error('Validation non enregistrée. Consultez le message du Studio.');
+      },
+      onChooseDirection: async (id) => {
+        const result = await change('design', {
+          id,
+          reason:
+            'Direction choisie explicitement dans le parcours, écran maître à détailler ensuite.',
+        });
+        if (!result) throw new Error('Choix non enregistré. Consultez le message du Studio.');
+        await refresh();
+      },
+    };
+    if (journeyWidget) return journeyWidget.update(props);
+    journeyLoading ??= import('/studio-ui/journey-widget.js')
+      .then((module) => {
+        if (disposed) return;
+        journeyWidget = module.mountJourneyWidget(el('journey-view'), props);
+        updateJourney();
+      })
+      .catch(() => {
+        journeyLoading = null;
+        el('journey-view').textContent =
+          'Le parcours ne peut pas être chargé. Actualisez pour réessayer.';
+      });
   }
   function updateSource() {
     if (!state || activePanel !== 'code') return;
-    const revision = state.revisions.find((entry) => entry.id === previewId) || null;
+    const revision = state.revisions.find((entry) => entry.id === displayedRevisionId) || null;
     void sourceView.showRevision(revision, {
       previousRevision: comparisonBase(state, revision),
       activeRevision: state.activeRevision,
@@ -80,6 +148,14 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
         adoption: state.project.mode === 'guided' ? 'user' : 'agent',
       }
     );
+  }
+
+  function responsibilitySummary() {
+    const target = el('responsibility-summary');
+    if (!target || !state) return;
+    const delegation = effectiveDelegation();
+    const owner = (value) => (value === 'agent' ? 'agent' : 'vous');
+    target.textContent = `Produit : ${owner(delegation.structure)} · Visuel : ${owner(delegation.visual)}`;
   }
 
   function notice(message, error = false) {
@@ -131,7 +207,8 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     el('project-title').textContent =
       state.project.name ||
       (state.project.idea.trim() ? 'Votre projet' : 'Qu’aimeriez-vous créer ?');
-    el('project-menu').textContent = (state.project.name || 'Mon projet') + ' ⌄';
+    (el('project-menu-label') || el('project-menu')).textContent =
+      state.project.name || 'Mon projet';
     projectPresentation();
   }
   function projectPresentation() {
@@ -154,7 +231,21 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   function preview() {
     if (followActive || !state.revisions.some((rev) => rev.id === previewId))
       previewId = state.activeRevision || state.revisions.at(-1)?.id || null;
-    const revision = state.revisions.find((rev) => rev.id === previewId);
+    const comparison = renderComparison({
+      document,
+      state,
+      proposal: comparedProposal,
+      side: comparisonSide,
+      availableProposal: availableComparisonProposal,
+    });
+    const shownId = comparison?.kind === 'revision' ? comparison.revisionId : previewId;
+    displayedRevisionId = shownId;
+    const dataNote = el('preview-data-note');
+    if (dataNote)
+      dataNote.textContent = comparison
+        ? 'Comparaison en lecture seule : les inscriptions et les autres données restent inchangées.'
+        : 'Les données saisies dans l’app sont partagées entre ses versions. Revenir au code précédent ne restaure pas les anciennes données.';
+    const revision = state.revisions.find((rev) => rev.id === shownId);
     const key = JSON.stringify(state.revisions.map((rev) => [rev.id, rev.title]));
     region('preview-version', key, () =>
       state.revisions.map((rev) => {
@@ -164,29 +255,55 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
         return option;
       }),
     );
-    el('preview-version').value = previewId || '';
-    el('preview-version').disabled = !revision;
+    el('preview-version').value = shownId || '';
+    el('preview-version').disabled = !revision || Boolean(comparison);
     el('preview').hidden = !revision;
     el('preview-empty').hidden = Boolean(revision);
     el('open-preview').hidden = !revision || activePanel !== 'product';
     el('inspect-element').disabled = !revision;
     el('preview-status').textContent = revision
-      ? state.activeRevision === previewId
+      ? state.activeRevision === shownId
         ? 'Version active'
         : 'Version à examiner'
       : 'Aucune version';
     updateSource();
+    if (comparison && comparison.kind !== 'revision') {
+      previewTarget = null;
+      renderComparison({
+        document,
+        state,
+        proposal: comparedProposal,
+        side: comparisonSide,
+        availableProposal: availableComparisonProposal,
+      });
+      return;
+    }
     if (!revision || !runtime) return;
-    const url = new URL(
-      '/revisions/' + encodeURIComponent(previewId) + '/index.html',
-      runtime.previewOrigin,
-    ).href;
+    frameOrigin = comparison ? runtime.comparisonPreviewOrigin : runtime.previewOrigin;
+    if (!frameOrigin) {
+      el('preview').hidden = true;
+      el('preview-empty').hidden = false;
+      el('preview-empty').textContent =
+        'Le serveur de comparaison en lecture seule est indisponible. Redémarrez le Studio pour examiner cette proposition sans modifier les données.';
+      el('open-preview').hidden = true;
+      return;
+    }
+    const url = comparisonURL(frameOrigin, shownId, comparison?.route);
+    previewTarget = comparison?.element || null;
     if (el('preview').getAttribute('src') !== url) {
       setInspection(false);
       clearElement();
       el('preview').src = url;
     }
     el('open-preview').href = url;
+    if (previewTarget) focusPreviewTarget();
+  }
+  function focusPreviewTarget() {
+    if (!runtime || !previewTarget) return;
+    el('preview').contentWindow?.postMessage(
+      { type: 'devmethod-focus', selector: previewTarget.selector },
+      frameOrigin,
+    );
   }
   function agentStatus() {
     if (!runtime) return;
@@ -215,11 +332,13 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     el('approval-form').hidden = !approvalNeeded || !state.brief.outcome;
     el('approve-plan').disabled =
       !state.brief.criteria.length || Boolean(approval?.missing.includes('visual'));
-    el('approval-status').textContent = approval?.missing.includes('visual')
-      ? 'Choisissez et validez une direction visuelle dans le fil avant de valider le cadrage.'
-      : runtime.planApproved
-        ? 'Choix actuels validés. Vous pouvez demander la réalisation.'
-        : 'Lisez le cadrage et les choix ci-dessus avant de lancer la réalisation.';
+    el('approval-status').textContent =
+      approval?.visualBlock?.message ||
+      (approval?.missing.includes('visual')
+        ? 'Choisissez et validez une direction visuelle dans le fil avant de valider le cadrage.'
+        : runtime.planApproved
+          ? 'Choix actuels validés. Vous pouvez demander la réalisation.'
+          : 'Lisez le cadrage et les choix ci-dessus avant de lancer la réalisation.');
   }
   function render(next) {
     if (state && next.version < state.version) return;
@@ -227,7 +346,13 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     try {
       state = next;
       syncInputs();
-      preview();
+      responsibilitySummary();
+      proposalController.update(state, runtime);
+      if (initialPanel) {
+        initialPanel = false;
+        if (!state.revisions.length) openPanel('journey');
+      }
+      updateJourney();
       agentStatus();
       const key = String(state.version);
       for (const id of ['context', 'references', 'jobs', 'events'])
@@ -243,8 +368,21 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
         () => views.policy(state, runtime),
       );
       region('flow-decisions', key, () => views.flowDecisions(state));
-      for (const id of ['evidence-dock', 'checks-list'])
-        region(id, key + JSON.stringify(runtime?.agent), () => views.evidence(state, runtime));
+      region('evidence-dock', key, () => views.evidenceDock(state));
+      region('checks-list', key + JSON.stringify(runtime?.agent), () =>
+        views.evidence(state, runtime),
+      );
+      const constraints = el('preserve-constraints');
+      if (constraints) {
+        constraints.hidden = !state.project.constraints.length;
+        region('preserve-constraints-content', key, () =>
+          state.project.constraints.map((text) => {
+            const item = document.createElement('p');
+            item.textContent = text;
+            return item;
+          }),
+        );
+      }
       el('design-form').hidden = !chosenDesign;
     } finally {
       document.dispatchEvent(new window.Event('studio:after-render'));
@@ -352,13 +490,24 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     if (runtime)
       el('preview').contentWindow?.postMessage(
         { type: 'devmethod-select', enabled: value },
-        runtime.previewOrigin,
+        frameOrigin,
       );
   }
   function selectedMessage(event) {
     if (
+      runtime &&
+      event.origin === frameOrigin &&
+      event.source === el('preview').contentWindow &&
+      event.data?.type === 'devmethod-focus-result'
+    ) {
+      if (!event.data.found && previewTarget?.selector === event.data.selector)
+        el('comparison-status').textContent +=
+          ' La cible est introuvable dans cette version ; aucun écran ciblé n’est confirmé.';
+      return;
+    }
+    if (
       !runtime ||
-      event.origin !== runtime.previewOrigin ||
+      event.origin !== frameOrigin ||
       event.source !== el('preview').contentWindow ||
       !inspecting
     )
@@ -381,6 +530,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   function showVersion(id) {
     followActive = false;
     previewId = id;
+    proposalController.suspend();
     render(state);
   }
   function retryDraft(id) {
@@ -397,6 +547,16 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     el('request').focus();
   }
   const actions = {
+    'exit-comparison'() {
+      followActive = true;
+      proposalController.suspend();
+    },
+    'resume-comparison'() {
+      proposalController.resume();
+    },
+    checks() {
+      openPanel('checks');
+    },
     preview(id) {
       showVersion(id);
       openPanel('product');
@@ -502,6 +662,9 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   on('refresh', 'click', refresh);
   on('reference-file', 'change', upload);
   on('preview-version', 'change', (event) => showVersion(event.target.value));
+  on('comparison-before', 'click', () => proposalController.compare('before'));
+  on('comparison-proposal', 'click', () => proposalController.compare('proposal'));
+  on('preview', 'load', focusPreviewTarget);
   on('inspect-element', 'click', () => setInspection(!inspecting));
   on('clear-element', 'click', clearElement);
   for (const mode of ['wide', 'mobile'])
@@ -550,8 +713,11 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     refresh,
     settled: () => writes,
     destroy() {
+      disposed = true;
       controller.abort();
       sourceView.destroy();
+      proposalController.dispose();
+      journeyWidget?.dispose();
       window.clearInterval(interval);
       window.clearTimeout(draftTimer);
     },

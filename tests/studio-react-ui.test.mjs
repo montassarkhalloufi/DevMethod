@@ -42,9 +42,12 @@ async function until(predicate) {
   assert.ok(predicate(), 'React view did not reach the expected state');
 }
 
-async function fixture(t, { drafts = {}, data = initialData() } = {}) {
+async function fixture(
+  t,
+  { drafts = {}, data = initialData(), url = 'http://localhost:4999/' } = {},
+) {
   const dom = new JSDOM('<main id="root"></main>', {
-    url: 'http://localhost:4999/',
+    url,
     runScripts: 'outside-only',
     pretendToBeVisual: true,
   });
@@ -128,6 +131,37 @@ test('restoring multiple booking drafts does not steal focus or trigger a mobile
   });
   assert.equal(f.document.querySelectorAll('.name-input').length, 2);
   assert.equal(f.document.activeElement, f.document.body);
+});
+
+test('a join deep link opens only its target while preserving drafts and leaving focus and data untouched', async (t) => {
+  const data = initialData();
+  const [target, draftWorkshop, closedWorkshop] = data.workshops;
+  const drafts = { [draftWorkshop.id]: 'Mina, saisie conservée' };
+  const f = await fixture(t, {
+    data,
+    drafts,
+    url: `http://localhost:4999/?workshop=${encodeURIComponent(target.id)}&form=join#workshop-${target.id}`,
+  });
+  assert.equal(f.document.getElementById(`workshop-${target.id}`).querySelector('input').value, '');
+  assert.equal(
+    f.document.getElementById(`workshop-${draftWorkshop.id}`).querySelector('input').value,
+    drafts[draftWorkshop.id],
+  );
+  assert.equal(
+    f.document.getElementById(`workshop-${closedWorkshop.id}`).querySelector('form'),
+    null,
+  );
+  assert.equal(f.document.activeElement, f.document.body);
+  assert.equal(f.writes.length, 0);
+  assert.deepEqual(JSON.parse(f.dom.window.localStorage.getItem('les-ateliers:drafts:v1')), drafts);
+});
+
+test('an unknown workshop or non-join deep link does not open a booking form', async (t) => {
+  for (const query of ['workshop=unknown&form=join', 'workshop=repair-bike&form=preview']) {
+    const f = await fixture(t, { url: `http://localhost:4999/?${query}` });
+    assert.equal(f.document.querySelector('.booking-form'), null);
+    assert.equal(f.writes.length, 0);
+  }
 });
 
 test('cancelling a registration requires a reversible confirmation before any save', async (t) => {

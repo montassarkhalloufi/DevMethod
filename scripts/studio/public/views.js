@@ -20,6 +20,37 @@ export function createViews(document) {
   }
   const empty = (text) => node('p', text, 'empty-copy');
   const badge = (text, style = '') => node('span', text, 'badge ' + style);
+  function icon(kind) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    for (const [key, value] of Object.entries({
+      viewBox: '0 0 24 24',
+      width: '22',
+      height: '22',
+      fill: 'none',
+      stroke: 'currentColor',
+      'stroke-width': '1.7',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'aria-hidden': 'true',
+    }))
+      svg.setAttribute(key, value);
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute(
+      'd',
+      {
+        version: 'M12 2 3 7v10l9 5 9-5V7ZM3 7l9 5 9-5M12 12v10M7 4.8l10 5.5',
+        proposal:
+          'M7 5a2 2 0 1 0 0 .01M17 17a2 2 0 1 0 0 .01M7 17a2 2 0 1 0 0 .01M7 7v8M7 8c0 5 10 0 10 7',
+        visual: 'M3 3h18v18H3ZM3 16l6-6 5 5 3-3 4 4M16 7h.01',
+        success: 'M21 12a9 9 0 1 1-3-6.7M7 12l3 3 9-10',
+        failed: 'M12 3 2 21h20ZM12 9v5m0 3v.01',
+        unverified: 'M12 3a9 9 0 1 0 .01 0M12 8v5m0 3v.01',
+        muted: 'M12 3a9 9 0 1 0 .01 0M12 7v6l4 2',
+      }[kind],
+    );
+    svg.append(path);
+    return svg;
+  }
   const list = (items) =>
     group(
       'ul',
@@ -279,7 +310,7 @@ export function createViews(document) {
   function cap(state) {
     const criteria = state.brief.criteria;
     return [
-      node('p', 'LE CAP DU PROJET', 'eyebrow'),
+      node('p', 'Objectif', 'eyebrow'),
       node(
         'h2',
         state.brief.outcome || 'Précisons le résultat que votre app doit rendre possible.',
@@ -287,7 +318,7 @@ export function createViews(document) {
       criteria.length
         ? list(criteria.slice(0, 2).map((item) => item.text))
         : empty('Les critères de réussite restent à définir.'),
-      disclosure('Périmètre et critères conservés', [
+      disclosure('Voir les critères', [
         node('h3', 'Dans cette version'),
         state.brief.scope.length ? list(state.brief.scope) : empty('Périmètre encore ouvert.'),
         node('h3', 'Ce que nous ne faisons pas'),
@@ -310,9 +341,9 @@ export function createViews(document) {
     return [
       node('h3', 'Qui décide ?'),
       ...Object.entries({
-        structure: 'Cadrage et technique',
-        visual: 'Direction visuelle',
-        adoption: 'Adoption du résultat',
+        structure: 'Décisions produit et architecture',
+        visual: 'Validation visuelle',
+        adoption: 'Application d’une version',
       }).map(([key, label]) => {
         const delegated = delegation[key] === 'agent';
         const parts = [
@@ -326,6 +357,13 @@ export function createViews(document) {
         return group('div', 'policy-choice', parts);
       }),
       disclosure('Comprendre la délégation', [
+        node(
+          'p',
+          'Réalisation technique : agent. ' +
+            (runtime?.agent?.automatic
+              ? 'Exécution automatique connectée.'
+              : 'Prise en charge par votre agent hôte ; pas de lancement automatique.'),
+        ),
         node(
           'p',
           'La délégation autorise l’agent à choisir ; elle ne vaut pas validation humaine.',
@@ -407,7 +445,59 @@ export function createViews(document) {
     return parts;
   }
   function flowDecisions(state) {
-    return state.decisions.slice(-3).map(decision);
+    return [
+      disclosure(
+        'Décisions précédentes · ' + state.decisions.length,
+        state.decisions.slice().reverse().map(decision),
+      ),
+    ];
+  }
+  function evidenceDock(state) {
+    const active = state.revisions.find((revision) => revision.id === state.activeRevision);
+    const checks = state.checks.filter((check) => check.revisionId === active?.id);
+    const failed = checks.filter((check) => check.status === 'failed').length;
+    const replaced = new Set(state.proposals?.map((entry) => entry.supersedes));
+    const proposal = state.proposals?.find((entry) => !entry.resolution && !replaced.has(entry.id));
+    const option = proposal?.options.find((entry) => entry.id === proposal.selectedOptionId);
+    const preview = option?.preview;
+    const checkedProposal =
+      preview?.kind === 'revision' && preview.status === 'implemented'
+        ? state.checks.filter((check) => check.revisionId === preview.revisionId)
+        : [];
+    const approval = state.proposals?.findLast(
+      (entry) =>
+        entry.stage === 'visual' &&
+        entry.resolution?.preview?.kind === 'revision' &&
+        entry.resolution.preview.status === 'implemented' &&
+        entry.resolution.preview.revisionId === active?.id,
+    );
+    function row(kind, title, text, status = '') {
+      return group('div', 'evidence-row', [
+        group('div', 'evidence-kind', [icon(kind), node('strong', title)]),
+        group('p', 'evidence-result ' + status, [icon(status || 'muted'), node('span', text)]),
+      ]);
+    }
+    return [
+      row(
+        'version',
+        active ? 'Version actuelle · ' + active.id.slice(0, 8) : 'Version actuelle',
+        currentCheckSummary(active, checks, failed),
+        failed ? 'failed' : checks.length ? 'success' : 'unverified',
+      ),
+      row(
+        'proposal',
+        'Proposition',
+        proposalCheckSummary(proposal, checkedProposal, preview),
+        'muted',
+      ),
+      row(
+        'visual',
+        'Validation visuelle',
+        visualCheckSummary(proposal, approval, active),
+        approval && !proposal ? 'success' : 'unverified',
+      ),
+      action('Voir les vérifications →', 'checks', '', 'text-button'),
+    ];
   }
   return {
     context,
@@ -420,6 +510,7 @@ export function createViews(document) {
     policy,
     evidence,
     flowDecisions,
+    evidenceDock,
   };
 }
 
@@ -433,4 +524,26 @@ function date(value) {
 function excerpt(value = '', limit = 150) {
   const text = value.replace(/\s+/g, ' ').trim();
   return text.length > limit ? text.slice(0, limit).trimEnd() + '…' : text;
+}
+
+function currentCheckSummary(active, checks, failed) {
+  if (!active) return 'Aucune application réalisée';
+  return checks.length
+    ? `${checks.length - failed} contrôle(s) passé(s), ${failed} échec(s) sur ${active.id.slice(0, 8)}`
+    : 'Aucun contrôle de cette version';
+}
+function proposalCheckSummary(proposal, checks, preview) {
+  if (!proposal) return 'Aucune décision en attente';
+  return checks.length
+    ? `${checks.length} contrôle(s) rattaché(s) à ${preview.revisionId.slice(0, 8)} ; voir les résultats`
+    : 'Contrôles à exécuter après réalisation';
+}
+function visualCheckSummary(proposal, approval, active) {
+  if (proposal) return 'Proposition à examiner · aucun accord enregistré';
+  if (!approval) return 'Aucun accord sur le rendu de cette version';
+  return (
+    'Rendu accepté pour ' +
+    active.id.slice(0, 8) +
+    (approval.resolution.source === 'agent' ? ' · par délégation' : ' · par vous')
+  );
 }

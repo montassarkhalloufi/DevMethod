@@ -10,7 +10,8 @@ import { createPreview } from './preview.mjs';
 import { safeFile, mimeType, atomicJSON } from './files.mjs';
 import { body, send, sameOrigin, errorResponse } from './http.mjs';
 import { exportProject } from './bundle.mjs';
-import { readSource } from './source.mjs';
+import { readSource, readRuntimeSource, readProjectServices } from './source.mjs';
+import { getRuntimeServices } from './backend-runtime.mjs';
 import { createEditor } from './editor.mjs';
 
 const widgetRoot = fileURLToPath(new URL('../../dist/studio-ui', import.meta.url));
@@ -23,7 +24,26 @@ const browserActions = {
   '/api/design': domain.chooseDesign,
   '/api/activate': domain.activateRevision,
   '/api/approve': domain.approvePlan,
+  '/api/proposals/select': domain.selectProposalOption,
+  '/api/proposals/approve': approveAndPrepare,
+  '/api/design/master/approve': (state, input) =>
+    domain.approveDesignMaster(state, input, { actor: 'user' }),
 };
+
+function approveAndPrepare(state, input, actor = 'user') {
+  const proposal = domain.approveProposal(state, input, { actor });
+  if (proposal.stage !== 'implementation') return;
+
+  const option = proposal.options.find((entry) => entry.id === input.optionId);
+  const draft = state.draft;
+  const job = domain.queueRequest(state, {
+    request: `Réaliser le choix approuvé : ${proposal.topic}.\n${option.title}\n${option.consequences.join('\n')}\nRaison : ${input.reason || 'Choix explicite.'}\nPréserver les décisions actives et vérifier le résultat. La proposition visuelle ne constitue pas une implémentation.`,
+    element: option.preview?.element || null,
+  });
+  state.draft = draft;
+  return job;
+}
+
 const extensions = {
   'image/png': 'png',
   'image/jpeg': 'jpg',
@@ -66,7 +86,7 @@ function upload(store, input) {
   }
 }
 
-function getRoute(url, response, context) {
+async function getRoute(url, response, context) {
   const { store, runtime, editor } = context;
   if (url.pathname === '/api/state') return send(response, 200, store.read());
   if (url.pathname === '/api/editor')
@@ -75,13 +95,26 @@ function getRoute(url, response, context) {
     return send(
       response,
       200,
-      readSource(
-        store.root,
-        store.read(),
-        url.searchParams.get('revision'),
-        url.searchParams.get('path'),
-      ),
+      url.searchParams.get('scope') === 'runtime'
+        ? readRuntimeSource(url.searchParams.get('path'))
+        : readSource(
+            store.root,
+            store.read(),
+            url.searchParams.get('revision'),
+            url.searchParams.get('path'),
+          ),
     );
+  if (url.pathname === '/api/runtime/services') {
+    const state = store.read();
+    return send(response, 200, {
+      ...(await getRuntimeServices(runtime())),
+      project: readProjectServices(
+        store.root,
+        state,
+        url.searchParams.get('revision') || state.activeRevision,
+      ),
+    });
+  }
   if (url.pathname === '/api/runtime')
     return send(response, 200, { ...runtime(), token: undefined });
   if (url.pathname === '/api/export') {
@@ -113,6 +146,20 @@ async function postRoute(url, request, response, context) {
   const { store, jobs, runtime, wake, editor } = context,
     current = runtime();
   const worker = authorized(request, current.token);
+  if (
+    worker &&
+    [
+      '/api/project',
+      '/api/proposals/approve',
+      '/api/design/master/approve',
+      '/api/design',
+      '/api/approve',
+      '/api/activate',
+    ].includes(url.pathname)
+  )
+    return send(response, 403, {
+      error: 'Le jeton agent ne peut pas enregistrer un accord attribué à la personne.',
+    });
   if (!worker) sameOrigin(request, current.url);
   const input = await body(
     request,
@@ -129,6 +176,53 @@ async function postRoute(url, request, response, context) {
     return send(response, 200, await editor[editorAction](input));
   }
   const workerRoutes = {
+    '/api/proposals/delegate-approval': () => {
+      const approval = { ...input };
+      delete approval.version;
+      let job;
+      const state = store.commit(input.version, (draft) => {
+        job = approveAndPrepare(draft, approval, 'agent');
+      });
+      wake();
+      return { state, ...(job ? { job } : {}) };
+    },
+    '/api/design/master/delegate-approval': () => {
+      const approval = { ...input };
+      delete approval.version;
+      const state = store.commit(input.version, (draft) =>
+        domain.approveDesignMaster(draft, approval, { actor: 'agent' }),
+      );
+      wake();
+      return { state };
+    },
+    '/api/proposals': () => ({
+      state: store.commit(input.version, (draft) => {
+        const proposal = { ...input };
+        delete proposal.version;
+        domain.proposeDecision(draft, proposal, { actor: 'agent' });
+      }),
+    }),
+    '/api/design/master': () => ({
+      state: store.commit(input.version, (draft) => {
+        const master = { ...input };
+        delete master.version;
+        domain.setDesignMaster(draft, master, { actor: 'agent' });
+      }),
+    }),
+    '/api/design/screen': () => ({
+      state: store.commit(input.version, (draft) => {
+        const screen = { ...input };
+        delete screen.version;
+        domain.addDesignScreen(draft, screen, { actor: 'agent' });
+      }),
+    }),
+    '/api/design/prototype': () => ({
+      state: store.commit(input.version, (draft) => {
+        const prototype = { ...input };
+        delete prototype.version;
+        domain.linkDesignPrototype(draft, prototype, { actor: 'agent' });
+      }),
+    }),
     '/api/jobs/claim': () => jobs.claim(input.worker),
     '/api/jobs/finish': () => jobs.finish(input),
     '/api/jobs/fail': () => ({ state: jobs.fail(input) }),
@@ -175,7 +269,7 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
   const store = createStudioStore(workspace),
     jobs = createJobs(store),
     token = randomUUID();
-  let url, previewOrigin, editorPreviewOrigin, runner;
+  let url, previewOrigin, editorPreviewOrigin, comparisonPreviewOrigin, runner;
   let editor;
   const runtime = () => {
     const state = store.read(),
@@ -184,6 +278,7 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
       url,
       previewOrigin,
       editorPreviewOrigin,
+      comparisonPreviewOrigin,
       token,
       workspace: store.root,
       agent: runner?.status() ?? { kind: 'host-bridge', automatic: false },
@@ -199,7 +294,7 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
       },
     };
   };
-  let preview, editorPreview;
+  let preview, editorPreview, comparisonPreview;
   try {
     editor = createEditor({ store, jobs, getPreviewOrigin: () => editorPreviewOrigin });
     preview = createPreview({
@@ -214,7 +309,14 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
       revisionPrefix: 'builds',
       reportRuntimeErrors: true,
     });
+    comparisonPreview = createPreview({
+      workspace: store.root,
+      getState: store.read,
+      getStudioOrigin: () => url,
+      readOnlyData: true,
+    });
   } catch (error) {
+    await Promise.all([preview, editorPreview, comparisonPreview].filter(Boolean).map(closeServer));
     store.close();
     throw error;
   }
@@ -224,7 +326,7 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
       if (request.headers.host !== new URL(url).host)
         return send(response, 403, { error: 'Hôte non autorisé.' });
       const requestUrl = new URL(request.url, url);
-      if (request.method === 'GET') return getRoute(requestUrl, response, context);
+      if (request.method === 'GET') return await getRoute(requestUrl, response, context);
       if (request.method === 'POST') return await postRoute(requestUrl, request, response, context);
       send(response, 405, { error: 'Méthode non autorisée.' });
     } catch (error) {
@@ -236,6 +338,8 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
     previewOrigin = 'http://127.0.0.1:' + preview.address().port;
     await listen(editorPreview, 0);
     editorPreviewOrigin = 'http://127.0.0.1:' + editorPreview.address().port;
+    await listen(comparisonPreview, 0);
+    comparisonPreviewOrigin = 'http://127.0.0.1:' + comparisonPreview.address().port;
     await listen(server, port);
     url = 'http://127.0.0.1:' + server.address().port;
     if (agent) {
@@ -245,7 +349,7 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
     atomicJSON(safeFile(store.root, '.devmethod/runtime.json'), runtime());
     runner?.wake();
   } catch (error) {
-    await Promise.all([closeServer(server), closeServer(preview), closeServer(editorPreview)]);
+    await Promise.all([server, preview, editorPreview, comparisonPreview].map(closeServer));
     store.close();
     throw error;
   }
@@ -255,7 +359,7 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
     runtime,
     async close() {
       await runner?.close();
-      await Promise.all([closeServer(server), closeServer(preview), closeServer(editorPreview)]);
+      await Promise.all([server, preview, editorPreview, comparisonPreview].map(closeServer));
       fs.rmSync(safeFile(store.root, '.devmethod/runtime.json'), { force: true });
       store.close();
     },

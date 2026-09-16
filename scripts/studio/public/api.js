@@ -17,8 +17,12 @@ export function createStudioApi(fetcher = fetch) {
   return {
     state: () => request('/api/state'),
     runtime: () => request('/api/runtime'),
-    source: ({ revisionId, path, signal }) =>
-      request('/api/source?' + new URLSearchParams({ revision: revisionId, path }), { signal }),
+    source: ({ revisionId, path, signal, scope }) =>
+      request(
+        '/api/source?' +
+          new URLSearchParams({ revision: revisionId, path, ...(scope ? { scope } : {}) }),
+        { signal },
+      ),
     change: (route, version, input) =>
       request('/api/' + route, {
         method: 'POST',
