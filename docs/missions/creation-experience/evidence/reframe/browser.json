@@ -54,5 +54,71 @@
     "afterReload": "Essai de reprise du brouillon, sans approbation.",
     "pending": true,
     "cleanup": "Test text removed with normal keyboard input; no approval."
+  },
+  "codeHeightCorrection": {
+    "before": {
+      "editorHeight": 158,
+      "smallDockClientHeight": 74,
+      "smallDockScrollHeight": 149
+    },
+    "afterSmall": {
+      "dock": {
+        "bottom": 745.8238067626953,
+        "height": 135.8096466064453,
+        "left": 15.994318008422852,
+        "right": 1546.732843399048,
+        "top": 610.01416015625,
+        "width": 1530.738525390625,
+        "x": 15.994318008422852,
+        "y": 610.01416015625
+      },
+      "dockOverflow": false,
+      "editor": [
+        {
+          "bottom": 562.4857788085938,
+          "height": 251.9957275390625,
+          "left": 342.3934631347656,
+          "right": 1536.3919982910156,
+          "top": 310.49005126953125,
+          "width": 1193.99853515625,
+          "x": 342.3934631347656,
+          "y": 310.49005126953125
+        }
+      ],
+      "viewport": {
+        "height": 762,
+        "width": 1562
+      }
+    },
+    "afterLarge": {
+      "dock": {
+        "bottom": 1008.5510864257812,
+        "height": 153.7926025390625,
+        "left": 15.994318008422852,
+        "right": 1520.3693180084229,
+        "top": 854.7584838867188,
+        "width": 1504.375,
+        "x": 15.994318008422852,
+        "y": 854.7584838867188
+      },
+      "dockOverflow": false,
+      "editor": [
+        {
+          "bottom": 806.4843444824219,
+          "height": 495.9942932128906,
+          "left": 337.116455078125,
+          "right": 1510.113525390625,
+          "top": 310.49005126953125,
+          "width": 1172.9970703125,
+          "x": 337.116455078125,
+          "y": 310.49005126953125
+        }
+      ],
+      "viewport": {
+        "height": 1024,
+        "width": 1536
+      }
+    },
+    "metadataDetailsAccessible": true
   }
 }

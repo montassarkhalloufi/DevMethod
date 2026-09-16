@@ -47,7 +47,7 @@ test('real manifest drives nested file choices and source is displayed as text, 
   });
   await view.showRevision(current);
   assert.equal(root.querySelectorAll('nav button').length, 2);
-  assert.equal(root.querySelector('summary').textContent, 'src');
+  assert.equal(root.querySelector('.source-files summary').textContent, 'src');
   assert.equal(root.querySelectorAll('script').length, 0);
   assert.match(root.querySelector('code').textContent, /<script>/);
   assert.equal(root.querySelectorAll('textarea,[contenteditable],input').length, 0);
@@ -78,6 +78,28 @@ test('a late response from an old revision cannot overwrite the displayed revisi
   await old;
   assert.equal(root.querySelector('code').textContent, 'NEW SOURCE');
   assert.match(root.querySelector('.source-revision').textContent, /new/);
+});
+
+test('secondary provenance and file integrity remain available in a disclosure while read failures stay outside it', async (t) => {
+  let fail = false;
+  const { root, view } = fixture(t, async ({ revisionId, path }) => {
+    if (fail) throw new Error('Lecture interrompue');
+    return response(revisionId, file(path));
+  });
+  await view.showRevision(revision('exact-version', [file('index.html')]));
+  const details = root.querySelector('.source-details');
+  assert.equal(details.open, false);
+  assert.match(details.textContent, /exact-version/);
+  assert.match(details.textContent, /SHA-256 a{64}/);
+  assert.match(details.textContent, /Lecture seule/);
+  details.open = true;
+  assert.equal(details.querySelector('.source-metadata').hidden, false);
+  fail = true;
+  root.querySelector('[data-path="index.html"]').click();
+  await setImmediate();
+  const status = root.querySelector('.source-status');
+  assert.equal(status.closest('details'), null);
+  assert.match(status.textContent, /Lecture interrompue/);
 });
 
 test('failed integrity or read error clears source and retry makes a real request', async (t) => {
@@ -155,10 +177,10 @@ test('polling the same immutable manifest preserves selected file and folder sta
   await view.showRevision(current);
   root.querySelector('[data-path="src/main.js"]').click();
   await setImmediate();
-  root.querySelector('details').open = false;
+  root.querySelector('.source-files details').open = false;
   await view.showRevision(structuredClone(current));
   assert.equal(calls, 2);
-  assert.equal(root.querySelector('details').open, false);
+  assert.equal(root.querySelector('.source-files details').open, false);
   assert.equal(root.querySelector('h3').textContent, 'src/main.js');
 });
 

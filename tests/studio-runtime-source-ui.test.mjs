@@ -89,6 +89,12 @@ test('backend sources have a separate read-only tree and genuine health failures
   assert.equal(backend.querySelector('code').textContent, 'ACTUAL RUNTIME');
   assert.match(backend.textContent, /délai dépassé — état indéterminé/);
   assert.match(backend.textContent, /API métier.*non connecté/);
+  const limit = backend.querySelector('.source-runtime-limit');
+  assert.match(limit.textContent, /lecture seule.*déclarations/);
+  assert.equal(limit.closest('details'), null);
+  assert.equal(backend.querySelector('.source-details').open, false);
+  assert.match(backend.querySelector('.source-details').textContent, /runtime-abc/);
+  assert.match(backend.querySelector('.source-details').textContent, /SHA-256 a{64}/);
   assert.equal(
     [...backend.querySelectorAll('button')].some((button) => /Modifier/.test(button.textContent)),
     false,

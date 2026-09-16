@@ -75,11 +75,16 @@ function createRuntimeBrowser({ document, root, loadServices, loadSource, copyTe
   refresh.type = 'button';
   refresh.textContent = 'Actualiser les services';
   const status = document.createElement('p');
+  status.className = 'source-runtime-limit';
   status.setAttribute('role', 'status');
   const details = document.createElement('div');
+  details.className = 'source-runtime-details';
+  const toolbar = document.createElement('div');
+  toolbar.className = 'source-runtime-toolbar';
+  toolbar.append(refresh, details);
   const sourceRoot = document.createElement('div');
   sourceRoot.className = 'source-runtime-code';
-  root.append(refresh, status, details, sourceRoot);
+  root.append(toolbar, status, sourceRoot);
   const source = createSourceView({
     document,
     root: sourceRoot,
@@ -187,6 +192,10 @@ export function createSourceView({
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
   const metadata = element('p', '', 'source-metadata');
+  const sourceDetails = element('details', undefined, 'source-details');
+  sourceDetails.append(element('summary', 'Version et fichier'), revisionLabel, hint, metadata);
+  const readingHeader = element('div', undefined, 'source-reading-header');
+  readingHeader.append(heading, sourceDetails);
   const pre = element('pre', undefined, 'source-content');
   pre.tabIndex = 0;
   pre.setAttribute('aria-label', 'Contenu du fichier en lecture seule');
@@ -197,12 +206,14 @@ export function createSourceView({
   retry.hidden = true;
   const viewer = element('section', undefined, 'source-viewer');
   const codeHost = element('div', undefined, 'source-monaco-host');
-  viewer.append(selectedLabel, actions, status, metadata, codeHost, pre, retry);
+  const fileToolbar = element('div', undefined, 'source-file-toolbar');
+  fileToolbar.append(selectedLabel, actions);
+  viewer.append(fileToolbar, status, codeHost, pre, retry);
   const codeSurface = createCodeSurface({ document, host: codeHost, fallback: pre });
   const body = element('div', undefined, 'source-body');
   body.append(navigation, viewer);
   const reading = element('div', undefined, 'source-reading');
-  reading.append(heading, revisionLabel, hint, body);
+  reading.append(readingHeader, body);
   const editing = element('div');
   editing.hidden = true;
   const back = element('button', '← Consulter la version et ses différences', 'source-editor-back');

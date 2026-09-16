@@ -1,11 +1,11 @@
 {
-  "at": "2026-09-16T20:26:51.963Z",
-  "baseCommit": "63f70444ec6907e203523f1f57d69be8f7a9360c",
+  "at": "2026-09-16T20:43:50.331Z",
+  "baseCommit": "7d2b043171c13a97c83bd5ce0b4951f4dd5c5551",
   "scope": "Uncommitted final reframe source identified by SHA-256; CI results must refer to their actual commit.",
   "checks": {
     "test": {
       "command": "npm test",
-      "passed": 582,
+      "passed": 583,
       "failed": 0,
       "skipped": 0
     },
@@ -15,7 +15,7 @@
     "package": {
       "status": "passed",
       "command": "npm run test:package -- /private/tmp/devmethod-reframe-package/devmethod-ai-0.5.0.tgz",
-      "sha256": "7c6e35604fc3224a52eeceb8c9f7cbb6e7cb67e6ff546a69acd673ff0003792e",
+      "sha256": "37a216a9982a9f64aa24924a3b159bf68e239545c9f3f143f450ec12dd952161",
       "initialFailure": "Two Markdown links referenced repository tests omitted from npm archive; changed to explicit repository paths and reran smoke successfully."
     }
   },
@@ -49,8 +49,8 @@
     "scripts/studio/public/comparison-view.js": "58012d10d31ea35807ee7dbc4cac91a4360cc208788b520e9e284ca8b733bec8",
     "scripts/studio/public/index.html": "bc197b1a9ff958fa826eb7a01c3dc1617dfcffd21aaf38e65359e87b1c2d432d",
     "scripts/studio/public/proposal-controller.js": "45d769e19193279e54d651666ce803d2583eede73fbd0eb64fd808b4a8e2a95d",
-    "scripts/studio/public/source-view.js": "85022bd1fff6bd699518ae72d155e30c3d0d150cc961cfc1463bc7676eff3a62",
-    "scripts/studio/public/style.css": "0603d56516cd25e8d10a233720e4c35d95c3bfd9d978611577f6ebb5249f54fc",
+    "scripts/studio/public/source-view.js": "c12ac8f30a5d37db4b3cc55029c2581d9bacf1dec93b09fb57a5540ca528f8bc",
+    "scripts/studio/public/style.css": "e8a3ca2a077e6c02a895749c27e46e0e1abf584a0618dcbb7167ed52745c8c7d",
     "scripts/studio/public/views.js": "d38f5bb59b7a5fadf6d21aeb67c79fda14262c4db68518827e6b9a756deae480",
     "scripts/studio/server.mjs": "fd90f9947d7fb52988c5dddefd7b80a8803fe6598ec3a1335e72ff49e9b4876a",
     "scripts/studio/source.mjs": "a79cf20deb9e5aa04e76bded7590440aae4dc86b936ef726e0bbceda585fe400",
@@ -74,7 +74,18 @@
     "tests/studio-proposal-server.test.mjs": "536ea8012e8e127fb9dd807d1a5154a54d0466e48cd118a92b39c13ae11c206a",
     "tests/studio-proposals.test.mjs": "bb03c45275123dc80159ae5d65689a91ce53d5fb3c29dd4f260b7cb8f8903b01",
     "tests/studio-react-ui.test.mjs": "4384fa73e4bd69b424bcc923a004f99dec81f1f14165866aa721e24eb0a6cc70",
-    "tests/studio-runtime-source-ui.test.mjs": "5297c641e46462c967eb43c13b373a14abe1c9ea8613f955b95618464bb632c5",
-    "tests/studio-ui.test.mjs": "69bda5711e74580e607a19182c0d12c4c05c607ddd50d3a17806aec3eebfb40a"
+    "tests/studio-runtime-source-ui.test.mjs": "d4b10f2a3352bc711f43179ffe1415dbfd93a36e7ffa5f582559e1a479322694",
+    "tests/studio-ui.test.mjs": "69bda5711e74580e607a19182c0d12c4c05c607ddd50d3a17806aec3eebfb40a",
+    "tests/studio-source-ui.test.mjs": "0529bda9398854d5ab2350ee876c39d280f3296db3cbfed961823b30e54d9c3b"
+  },
+  "codeLayoutFollowup": {
+    "reason": "Browser capture exposed an editor fixed at 158 px and clipped evidence footer.",
+    "verification": "252 px editor on 1562×762 and 496 px on 1536×1024, footer visible, metadata disclosure readable; 583 tests, lint, format, docs and package smoke passed."
+  },
+  "previousCI": {
+    "commit": "7d2b043171c13a97c83bd5ce0b4951f4dd5c5551",
+    "platforms": "https://github.com/montassarkhalloufi/DevMethod/actions/runs/35146938373",
+    "fullstack": "https://github.com/montassarkhalloufi/DevMethod/actions/runs/35146938370",
+    "status": "success; excludes this later Code layout refinement"
   }
 }

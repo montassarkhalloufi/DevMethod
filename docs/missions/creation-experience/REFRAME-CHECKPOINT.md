@@ -99,7 +99,7 @@ hôte sans nouvel appel fournisseur : `d7cd1dff`. Elle n’est pas adoptée ; la
 | Historique au clavier | Le conteneur d’activité défile ; la carte de décision et la page restent en place. |
 | Raison de décision après rechargement | Texte retrouvé dans le navigateur, décision toujours en attente. Brouillon local isolé par projet/proposition/base, avertissement si stockage indisponible. |
 | Redimensionnement | Flèche droite sur le séparateur : 444 → 460 ; double-clic rétablit la disposition. |
-| Code agrandi | Vue de 1 520 px à l’intérieur d’un viewport de 1 536 px ; coloration Monaco observée avec six couleurs distinctes. |
+| Code agrandi | Coloration Monaco avec six couleurs. La capture initiale a révélé un éditeur limité à 158 px et un pied coupé : après correction, 252 px de code à 762 px de hauteur, 496 px à 1 024 px ; les trois lignes de preuves sont entières. Identifiants et empreintes restent accessibles dans « Version et fichier ». |
 | Mobile 390 px | Largeur du document égale au viewport, sans débordement horizontal ; les panneaux se suivent verticalement. |
 | Parcours / Design | Le lien de phase défile dans le panneau ; une régression qui déplaçait toute la page a été corrigée puis revérifiée. |
 | Master devenu insuffisant | Test React : quand la personne reprend le visuel, l’ancien accord délégué est signalé comme historique et insuffisant. Le serveur garde le blocage. |
@@ -118,7 +118,7 @@ Voir les [observations navigateur](evidence/reframe/browser.json), les
 [empreintes avant/après redémarrage](evidence/reframe/restart.json) et la
 [revue Vercel applicable](evidence/reframe/VERCEL-REVIEW.md). Les résultats globaux et le
 redémarrage sont consignés dans le [registre de validation](evidence/reframe/validation.json)
-de cette tranche : **582 tests passent**, avec TypeScript, lint et formatage. Les anciens tests
+de cette tranche : **583 tests passent**, avec TypeScript, lint et formatage. Les anciens tests
 et la CI verte de `63f7044` ne sont pas attribués automatiquement à ce recadrage.
 
 Aucun nouvel appel natif n’est autorisé par ce recadrage : budget clos, campagnes antérieures
