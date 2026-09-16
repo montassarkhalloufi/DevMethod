@@ -8,7 +8,8 @@ export function describeComparison(state, proposal, side) {
       revisionId: proposal.baseRevision,
       route: preview?.route,
       element: preview?.element,
-      label: 'Avant · version de départ · Données en lecture seule pendant la comparaison.',
+      label:
+        'Avant · version de départ · Comparaison en lecture seule : saisies et boutons désactivés.',
     };
   if (!option) return { kind: 'empty', label: 'Sélectionnez une proposition à examiner.' };
   if (!preview)
@@ -32,7 +33,7 @@ export function describeComparison(state, proposal, side) {
   const failed = checks.filter((check) => check.status === 'failed').length;
   return {
     ...preview,
-    label: `Proposition · ${option.title} · Version réalisée ${preview.revisionId.slice(0, 8)}, ${preview.revisionId === state.activeRevision ? 'déjà actuelle' : 'non appliquée'}. ${checks.length ? `${checks.length} contrôle(s) enregistré(s), ${failed} échec(s)` : 'Aucun contrôle pour cette version'}. Données en lecture seule pendant la comparaison.`,
+    label: `${preview.revisionId === state.activeRevision ? 'Version appliquée' : 'Proposition non appliquée'} · ${option.title} · ${preview.revisionId.slice(0, 8)}. ${checks.length ? `${checks.length} contrôle(s) enregistré(s), ${failed} échec(s)` : 'Aucun contrôle pour cette version'}. Lecture seule : saisies et boutons désactivés.`,
   };
 }
 
@@ -68,7 +69,7 @@ export function renderComparison({
       toggle.type = 'button';
       el('comparison-before').parentElement.append(toggle);
     }
-    toggle.textContent = presentation ? 'Revenir à l’application' : 'Reprendre la comparaison';
+    toggle.textContent = presentation ? 'Ouvrir la version appliquée' : 'Comparer';
     toggle.dataset.action = presentation ? 'exit-comparison' : 'resume-comparison';
     el('comparison-before').hidden = !presentation;
     el('comparison-proposal').hidden = !presentation;
@@ -77,6 +78,9 @@ export function renderComparison({
         'Comparaison suspendue. La proposition reste en attente, sans approbation ni modification.';
   }
   if (!presentation) return null;
+  const selected = proposal.options.find((option) => option.id === proposal.selectedOptionId);
+  el('comparison-proposal').textContent =
+    selected?.preview?.revisionId === state.activeRevision ? 'Version appliquée' : 'Proposition';
   el('comparison-before').setAttribute('aria-pressed', String(side === 'before'));
   el('comparison-proposal').setAttribute('aria-pressed', String(side === 'proposal'));
   el('comparison-status').textContent = presentation.label;

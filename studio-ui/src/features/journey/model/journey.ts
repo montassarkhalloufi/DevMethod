@@ -18,18 +18,25 @@ function foundation(state: JourneyState): StageSummary {
   };
 }
 function exploration(state: JourneyState): StageSummary {
-  const hypotheses = state.decisions.filter((decision) => decision.status === 'hypothesis');
+  const records = state.decisions.filter(
+    (decision) =>
+      decision.status === 'hypothesis' ||
+      (decision.status === 'active' && /explor/i.test(decision.topic)),
+  );
   return {
     id: 'exploration',
     title: 'Explorer les possibilités',
     purpose: 'Comparer les usages, alternatives et incertitudes utiles avant de choisir.',
-    status: hypotheses.length
-      ? count(hypotheses.length, 'hypothèse enregistrée', 'hypothèses enregistrées')
+    status: records.length
+      ? count(records.length, 'piste enregistrée', 'pistes enregistrées')
       : 'Exploration à documenter',
-    facts: hypotheses.length
-      ? hypotheses.map((item) => `${item.topic} — ${item.choice}`)
+    facts: records.length
+      ? records.map(
+          (item) =>
+            `${item.status === 'hypothesis' ? 'Hypothèse' : 'Choix actif'} : ${item.topic} — ${item.choice}${item.reason ? `. ${item.reason}` : ''}`,
+        )
       : [
-          'Aucune hypothèse explicite enregistrée. Cela ne prouve pas qu’une exploration a été menée.',
+          'Aucune hypothèse ou décision d’exploration enregistrée. Cela ne prouve pas qu’une exploration a été menée.',
         ],
     request:
       'Explore les besoins, usages et alternatives réellement différents pour ce projet. Appuie les possibilités sur des observations et propose une expérience bornée pour les incertitudes importantes.',

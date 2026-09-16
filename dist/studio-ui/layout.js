@@ -80,7 +80,9 @@ function o(e, r) {
 			}));
 			for (let e of m) e.element.setAttribute("inert", "");
 		}
-		h = !h, o.classList.toggle("workspace-expanded", h), e.body.classList.toggle("studio-expanded", h), c.setAttribute("aria-pressed", String(h)), c.textContent = h ? "Revenir à la disposition" : "Agrandir cette vue", v(), n(r), c.focus({ preventScroll: !0 });
+		h = !h, o.classList.toggle("workspace-expanded", h), e.body.classList.toggle("studio-expanded", h), c.setAttribute("aria-pressed", String(h));
+		let i = h ? "Revenir à la disposition" : "Agrandir cette vue";
+		c.setAttribute("aria-label", i), c.setAttribute("title", i), v(), n(r), c.focus({ preventScroll: !0 });
 	}
 	function S(e) {
 		if (r.innerWidth <= 900 || h) return;

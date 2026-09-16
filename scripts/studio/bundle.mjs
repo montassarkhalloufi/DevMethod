@@ -26,7 +26,7 @@ export function exportProject(workspace, state) {
     }
   for (const reference of state.references)
     add(reference.file, fs.readFileSync(safeFile(workspace, reference.file)));
-  for (const name of ['preview.mjs', 'files.mjs', 'http.mjs'])
+  for (const name of ['preview.mjs', 'files.mjs', 'http.mjs', 'public/comparison-guard.js'])
     add('runtime/' + name, fs.readFileSync(fileURLToPath(new URL(name, import.meta.url))));
   add(
     'launch.mjs',

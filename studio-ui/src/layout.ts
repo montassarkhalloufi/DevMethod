@@ -156,7 +156,9 @@ export function mountStudioLayout(document: Document, window: Window) {
     layout!.classList.toggle('workspace-expanded', expanded);
     document.body.classList.toggle('studio-expanded', expanded);
     expand!.setAttribute('aria-pressed', String(expanded));
-    expand!.textContent = expanded ? 'Revenir à la disposition' : 'Agrandir cette vue';
+    const label = expanded ? 'Revenir à la disposition' : 'Agrandir cette vue';
+    expand!.setAttribute('aria-label', label);
+    expand!.setAttribute('title', label);
     resize();
     restoreScroll(before);
     expand!.focus({ preventScroll: true });

@@ -67,6 +67,7 @@ export interface JourneyOptions {
   onRequest: (stage: JourneyStage, request: string) => void;
   onApproveMaster?: (masterId: string) => Promise<void>;
   onChooseDirection?: (designId: string) => Promise<void>;
+  onOpenPrototype?: (revisionId: string) => void;
 }
 export interface JourneyHandle {
   update(options: JourneyOptions): void;

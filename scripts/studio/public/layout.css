@@ -42,9 +42,55 @@
     background: var(--accent);
     inset-block: 25%;
   }
-  .conversation,
+  .conversation {
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
+    scroll-padding-block: 12px 45dvh;
+  }
+  #discussion > .introduction {
+    max-height: none;
+    overflow: visible;
+  }
+  #discussion > .activity-panel[open] {
+    flex: 1 0 300px;
+    height: 300px;
+    min-height: 300px;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+  #discussion > .activity-panel[open] .conversation-flow {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  #discussion > #active-decision {
+    flex: 1 0 320px;
+    min-height: 320px;
+  }
+  #discussion > .request-panel {
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+    max-height: 45dvh;
+    overflow-y: auto;
+  }
   #workspace {
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
+  }
+  #workspace > .project-cap,
+  #workspace > .evidence-dock {
+    flex: 0 0 auto;
+  }
+  #workspace > .workbench {
+    flex: 1 0 auto;
+    min-height: 440px;
   }
   .conversation-flow,
   .workbench > [role='tabpanel'] {
@@ -64,7 +110,7 @@ body.studio-expanded #notice {
   inset: 8px;
   padding: 8px;
   background: var(--canvas, #0b1220);
-  overflow: hidden;
+  overflow: auto;
   grid-template-rows: auto minmax(0, 1fr) auto;
 }
 .workspace-expanded .conversation-resizer {

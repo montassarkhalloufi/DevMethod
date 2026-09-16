@@ -124,3 +124,130 @@ et la CI verte de `63f7044` ne sont pas attribués automatiquement à ce recadra
 Aucun nouvel appel natif n’est autorisé par ce recadrage : budget clos, campagnes antérieures
 arrêtées conservées. Aucun bénéfice humain comparatif ou avantage de productivité n’est déduit
 des tests techniques ; l’hypothèse reste un guidage plus lisible et une continuité mieux conservée.
+
+## Complément — espaces de conception et défilement
+
+Après `23b7a34`, deux retours ont été traités ensemble : les étapes avant code étaient
+noyées dans le bilan Parcours et les accordéons ouverts pouvaient rendre le panneau droit
+impossible à parcourir. La tranche réutilise les données et l’identité existantes.
+
+**Conception** remplace le libellé Parcours. Projet, Discovery, Cadrage, Design, Architecture
+et Réalisation ouvrent un espace à la fois, dans le panneau droit ; la conversation reste
+présente. Le cadrage expose résultat, périmètre, exclusions et critères enregistrés. Les
+références du projet sont accessibles. Discovery affiche les hypothèses disponibles et
+signale l’absence d’un espace structuré pour leurs sources et expériences, sans inventer
+une étude menée.
+
+Design possède quatre vues : directions comparables → master détaillé → écrans et états →
+prototype. Pour une identité nouvelle, le skill demande trois directions du même écran,
+pas trois masters complets ; un format explicitement différent et une identité déjà
+approuvée restent possibles. Le prototype d’usage est distinct d’un POC technique risqué.
+« Essayer ce prototype » n’apparaît que pour une révision liée existante : l’ouverture ne
+l’adopte pas. Un master à réexaminer est signalé aussi dans cette vue. « Préparer » reste
+une composition de demande, avec protection du brouillon ; aucune génération d’image ou
+réalisation implicite n’a été ajoutée.
+
+Liens directs de la session : [cadrage](http://127.0.0.1:4342/#journey-frame),
+[design](http://127.0.0.1:4342/#journey-design),
+[prototype](http://127.0.0.1:4342/#journey-design-prototype).
+Les espaces et jalons sont dans l’URL. Précédent/suivant et rechargement conservent la vue ;
+les onglets Code/Vérifications restent cohérents avec leur URL après navigation.
+
+La colonne droite défile indépendamment sur ordinateur. Les critères, services et détails
+ouverts agrandissent le contenu ; ils n’écrasent plus le code à hauteur nulle. Les preuves
+peuvent passer sous la ligne de flottaison mais restent accessibles. Le mobile conserve
+son défilement naturel. Voir [mesures avant/après](evidence/scroll/browser.json),
+[capture code](evidence/scroll/backend-open-scrolled.png) et
+[capture Conception](evidence/scroll/conception-design.png).
+
+Vérification de cette tranche : **586 tests** passent, dont navigation du widget et du
+shell, périmètre/exclusions et ouverture du prototype sans adoption. Build TypeScript/Vite,
+lint, formatage, liens documentaires et `npm pack --dry-run` ont été contrôlés. La première
+exécution des tests HTTP dans le sandbox a échoué avec `listen EPERM` ; la même suite a
+ensuite passé avec l’ouverture des serveurs locaux autorisée. La revue a trouvé et corrigé
+la reprise initiale du mauvais onglet, l’avertissement historique masqué dans Prototype et
+le double abonnement aux événements de navigation.
+
+Navigateur : passage Cadrage/Design, retour du prototype par historique et rechargement
+vérifiés ; le prototype `336de365` ouvre bien sa révision dans l’iframe du projet principal.
+Cadrage à 390 × 840 : document de 390 px, aucun débordement horizontal. Les mesures du
+panneau droit tous détails ouverts sont conservées dans la trace ci-dessus. Aucun nouvel
+appel fournisseur, aucune approbation, aucun changement de données applicatives pendant
+ces observations. Cette tranche ne prouve ni l’exécution native autonome du parcours entier,
+ni une fidélité pixel à pixel, ni une validation humaine du produit.
+
+Revue React/Vercel : React 19, vues séparées des actions et de la navigation navigateur ;
+état d’URL lu via une seule souscription externe avec nettoyage ; état serveur non recopié
+dans un état local d’approbation ; rendu limité à l’espace actif ; imports directs, widget
+chargé seulement à l’ouverture, liens natifs et clics modifiés conservés, focus visible,
+images dimensionnées, libellés et états vides explicites. La complexité de la vue dérivés /
+prototype a conduit à séparer leurs responsabilités. Pas de nouveau runtime Next/RSC,
+service d’image, dépendance ou règle Vercel modifiée. Le contrôle porte sur ces surfaces,
+pas sur une conformité globale, un profilage de longues listes ou un audit lecteur d’écran.
+
+## Complément — hiérarchie et états de la référence « gg »
+
+Référence utilisateur : `gg.png`, reçue pendant la tranche précédente. Les surfaces restent
+bleu nuit ; les badges Agent sont cyan, les actions/sélections violettes, les attentes ambre,
+les contrôles passés menthe et les blocages rouges. Le Studio utilise sa police sans empattement ;
+le design propre de l’application n’a pas été remplacé par celui de la scène illustrative.
+
+- **Responsabilités** : trois lignes issues de la délégation effective, sans déduire un accord
+  d’un responsable. Les explications sont dépliables. Les réglages regroupent chaque libellé
+  et son sélecteur : grille adaptative, aucun alignement fondé sur des espaces.
+- **Colonne gauche** : décision active ou dernier résultat, contraintes compactes et historique
+  replié. Sur ordinateur, la colonne et l’historique défilent ; la saisie reste ancrée en bas.
+  À petite largeur, les panneaux suivent le défilement naturel avec les liens d’accès rapide.
+- **Aperçu** : une barre réunit scénario/version, comparaison, largeur, ciblage, agrandissement
+  et ouverture externe. Le scénario est une inspection locale : changer le scénario ne
+  remplace pas le choix enregistré, n’approuve rien et ne déplace pas le focus. Les scénarios
+  disponibles viennent des propositions ; aucun catalogue universel de routes n’est inventé.
+- **Version affichée** : le pied et les preuves suivent son identifiant exact. La version
+  appliquée reste telle même si elle était auparavant proposée ; une ancienne version dans
+  « Avant » est la version de départ. Une image/simulation n’hérite jamais des tests de l’app.
+  Une couverture complète n’est pas déduite d’un seul contrôle. Responsable visuel, accord
+  sur le rendu ciblé et attente restent distincts.
+- **Comparaison** : origine en lecture seule avec refus HTTP 405, formulaires et contrôles
+  désactivés visiblement, y compris après rendu React. « Ouvrir la version appliquée » quitte
+  la comparaison ; l’ouverture externe interactive conserve la révision/scénario affichés.
+  L’application normale garde ses interactions. Le garde est aussi présent dans l’export.
+
+La désactivation est générique : tous les boutons de l’application sont inactifs en comparaison,
+y compris ceux qui pourraient servir uniquement à naviguer. Les liens locaux natifs et les
+accordéons restent lisibles. Ce garde ne constitue pas une isolation générale d’un programme
+arbitraire ; la frontière des données reste le refus d’écriture du serveur de comparaison.
+Le backend embarqué reste consultable en lecture seule ; ce recadrage ne crée pas un orchestrateur
+de microservices ni une exécution autonome des demandes par l’agent hôte.
+
+Les données de démonstration restent telles que trouvées : `d7cd1dff` a été appliquée dans
+l’historique par la personne, et la proposition reposant sur `336de365` est devenue périmée.
+L’interface conserve ce blocage réel ; aucune validation n’a été fabriquée pour embellir la capture.
+Les espaces Conception utilisent toujours les contrats existants et leurs limites documentées.
+
+Les traces de défilement et de redimensionnement sont dans
+[observations de la colonne gauche](evidence/scroll/left-browser.json).
+La capture de référence de cette tranche est
+[Studio sur ordinateur](evidence/scroll/studio-semantic-desktop.png).
+Le défaut de débordement mobile de la barre trouvé en revue reste consigné avec sa correction,
+au lieu d’être effacé des observations.
+
+Validation finale de cet ensemble : **606 tests passent**, build TypeScript/Vite inclus,
+lint et formatage sans erreur, liens documentaires valides, `npm pack --dry-run` réussi.
+[Registre et empreintes du code contrôlé](evidence/scroll/validation.json).
+[Contrastes mesurés](evidence/scroll/semantic-contrast.json) : toutes les paires consignées
+passent 4,5:1 ; le minimum relevé est 5,44:1. Ce calcul ne certifie pas tout WCAG.
+
+Navigateur : 1 536 × 1 024, 1 309 × 727 et 390 × 840 ; défilement de l’historique jusqu’à sa
+fin, déplacement indépendant des deux colonnes, saisie visible sur ordinateur, sélecteurs
+regroupés à 320 puis 600 px de largeur de discussion. Le débordement de la barre mobile
+(408 px dans 368 px disponibles) a été reproduit puis corrigé à 368/368 px. L’application
+prévisualisée garde ses propres règles responsive. Le ciblage d’un champ natif désactivé
+nécessitait `pointerdown` en mode inspection : le défaut a été reproduit et corrigé sans
+rendre ce champ modifiable. Les preuves de comparaison détaillent les essais sans écriture.
+
+[Comparaison vérifiée dans Chrome](evidence/scroll/readonly-browser.json) : saisie refusée,
+Tab ignorant les champs désactivés, focus conservé sur Avant/Version appliquée, ciblage du
+champ désactivé réussi après correction, lien externe ouvrant la révision exacte avec formulaire
+actif. Empreinte des données avant/après identique, quatre inscriptions et une attente conservées.
+Le dry-run npm final a d’abord rencontré `EPERM` dans le cache utilisateur ; il a été relancé
+avec un cache temporaire dédié, sans changement de permissions globales.

@@ -70,6 +70,12 @@
         <symbol id="studio-icon-target" viewBox="0 0 24 24">
           <path d="M20.4 9a9 9 0 1 1-5.4-5.4M16.4 9a5 5 0 1 1-1.4-1.4M12 12l9-9m-5 0h5v5" />
         </symbol>
+        <symbol id="studio-icon-expand" viewBox="0 0 24 24">
+          <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M3 3l6 6m12-6-6 6M3 21l6-6m12 6-6-6" />
+        </symbol>
+        <symbol id="studio-icon-external" viewBox="0 0 24 24">
+          <path d="M14 3h7v7m0-7L10 14M10 5H4v16h16v-6" />
+        </symbol>
       </defs>
     </svg>
     <a class="skip-link" href="#workspace">Aller au projet</a>
@@ -110,16 +116,20 @@
     <div class="studio-layout">
       <aside id="discussion" class="conversation" aria-label="Le fil du projet" tabindex="-1">
         <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
-        <details id="responsibilities" class="policy-panel">
-          <summary>
-            <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-users" /></svg>
-            <span class="responsibility-heading"
-              >Qui décide ?<small id="responsibility-summary"></small
-            ></span>
-          </summary>
+        <section
+          id="responsibilities"
+          class="policy-panel"
+          aria-labelledby="responsibilities-title"
+        >
+          <div class="section-heading">
+            <h2 id="responsibilities-title" class="responsibility-title">
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-users" /></svg
+              >Responsabilités
+            </h2>
+            <button id="adjust-policy" type="button" class="text-button">Ajuster</button>
+          </div>
           <div id="policy"></div>
-          <button id="adjust-policy" type="button" class="text-button">Ajuster</button>
-        </details>
+        </section>
         <section id="project" class="panel introduction" aria-labelledby="project-title">
           <div class="section-heading">
             <div>
@@ -181,19 +191,29 @@
                 Ces réglages précisent le mode. Une délégation ne remplace pas votre accord
                 explicite.
               </p>
-              <label for="delegate-structure">Cadrage et technique</label
-              ><select id="delegate-structure">
-                <option value="user">Moi, avec validation</option>
-                <option value="agent">L’agent, par délégation</option></select
-              ><label for="delegate-visual">Direction visuelle</label
-              ><select id="delegate-visual">
-                <option value="user">Moi, avec validation</option>
-                <option value="agent">L’agent, par délégation</option></select
-              ><label for="delegate-adoption">Adopter une version</label
-              ><select id="delegate-adoption">
-                <option value="user">Moi, avec validation</option>
-                <option value="agent">L’agent, par délégation</option>
-              </select>
+              <div class="delegation-fields">
+                <div class="delegation-field">
+                  <label for="delegate-structure">Produit et architecture</label
+                  ><select id="delegate-structure">
+                    <option value="user">Moi, avec validation</option>
+                    <option value="agent">L’agent, par délégation</option>
+                  </select>
+                </div>
+                <div class="delegation-field">
+                  <label for="delegate-visual">Validation visuelle</label
+                  ><select id="delegate-visual">
+                    <option value="user">Moi, avec validation</option>
+                    <option value="agent">L’agent, par délégation</option>
+                  </select>
+                </div>
+                <div class="delegation-field">
+                  <label for="delegate-adoption">Application d’une version</label
+                  ><select id="delegate-adoption">
+                    <option value="user">Moi, avec validation</option>
+                    <option value="agent">L’agent, par délégation</option>
+                  </select>
+                </div>
+              </div>
             </details>
             <div class="form-footer">
               <span id="project-save-status" class="muted"
@@ -226,17 +246,23 @@
           tabindex="-1"
           hidden=""
         ></section>
+        <section
+          id="latest-result"
+          class="latest-result"
+          hidden=""
+          aria-label="Dernier résultat"
+        ></section>
         <details id="preserve-constraints" class="preserve-constraints" hidden="">
           <summary>
             <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-lock" /></svg>À
-            préserver
+            préserver <span id="preserve-summary" class="preserve-summary"></span>
           </summary>
           <div id="preserve-constraints-content"></div>
         </details>
-        <details id="activity" class="activity-panel" open="">
+        <details id="activity" class="activity-panel">
           <summary>
             <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
-            >Activité et choix précédents
+            >Activité précédente
           </summary>
           <div class="conversation-flow" id="conversation-flow" data-scroll-region="conversation">
             <div id="jobs" class="jobs" aria-label="Demandes et résultats"></div>
@@ -329,7 +355,7 @@
               tabindex="-1"
             >
               <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-journey" /></svg
-              >Parcours
+              >Conception
             </button>
             <button
               id="tab-product"
@@ -388,19 +414,36 @@
               >Historique
             </button>
           </nav>
-          <div class="preview-toolbar">
+          <div class="preview-toolbar preview-command-bar">
             <button
               id="expand-workspace"
+              aria-label="Agrandir cette vue"
+              title="Agrandir cette vue"
               type="button"
               aria-controls="workspace"
               aria-pressed="false"
             >
-              Agrandir cette vue
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-expand" /></svg>
             </button>
+            <select
+              id="preview-scenario"
+              class="preview-scenario"
+              aria-label="Scénario à comparer sans modifier le choix"
+              title="Comparer un scénario sans changer la décision enregistrée"
+              hidden=""
+            ></select>
             <label for="preview-version" class="sr-only">Version à essayer</label
             ><select id="preview-version" aria-label="Version à essayer">
               <option value="">Aucune version</option>
             </select>
+            <div id="proposal-comparison" class="proposal-comparison" hidden="">
+              <div class="comparison-switch" role="group" aria-label="Comparer le changement">
+                <button id="comparison-before" type="button" aria-pressed="true">Avant</button>
+                <button id="comparison-proposal" type="button" aria-pressed="false">
+                  Proposition
+                </button>
+              </div>
+            </div>
             <div class="viewport-buttons" role="group" aria-label="Largeur de l’aperçu">
               <button
                 id="wide-preview"
@@ -422,17 +465,26 @@
                 <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-phone" /></svg>
               </button>
             </div>
-            <button id="inspect-element" type="button" disabled="" aria-pressed="false">
+            <button
+              id="inspect-element"
+              aria-label="Cibler un élément"
+              title="Cibler un élément dans l’aperçu"
+              type="button"
+              disabled=""
+              aria-pressed="false"
+            >
               <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-target" /></svg>
-              Cibler un élément</button
+              <span class="sr-only">Cibler un élément</span></button
             ><a
               id="open-preview"
+              aria-label="Ouvrir l’application interactive dans un nouvel onglet"
+              title="Ouvrir l’application interactive dans un nouvel onglet"
               class="button-link"
               target="_blank"
               rel="noopener noreferrer"
               hidden=""
-              >Ouvrir ↗</a
-            >
+              ><svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-external" /></svg
+            ></a>
           </div>
           <section
             id="journey"
@@ -449,13 +501,7 @@
             aria-labelledby="tab-product"
             role="tabpanel"
           >
-            <div id="proposal-comparison" class="proposal-comparison" hidden="">
-              <div class="comparison-switch" role="group" aria-label="Comparer le changement">
-                <button id="comparison-before" type="button" aria-pressed="true">Avant</button>
-                <button id="comparison-proposal" type="button" aria-pressed="false">
-                  Proposition
-                </button>
-              </div>
+            <div class="preview-context">
               <p id="comparison-status" role="status" aria-live="polite"></p>
             </div>
             <div class="section-heading sr-only">
@@ -489,10 +535,13 @@
                 hidden=""
               ></iframe>
             </div>
-            <p id="preview-data-note" class="preview-note">
-              Les données saisies dans l’app sont partagées entre ses versions. Revenir au code
-              précédent ne restaure pas les anciennes données.
-            </p>
+            <details class="preview-note">
+              <summary>Données partagées entre versions</summary>
+              <p id="preview-data-note">
+                Les données saisies dans l’app sont partagées entre ses versions. Revenir au code
+                précédent ne restaure pas les anciennes données.
+              </p>
+            </details>
           </section>
           <section
             id="code"
@@ -569,7 +618,7 @@
         <section
           id="evidence-dock"
           class="evidence-dock"
-          aria-label="État de la version active"
+          aria-label="État de la version affichée"
         ></section>
       </main>
     </div>

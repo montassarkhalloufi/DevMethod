@@ -1,3 +1,5 @@
+import { presentation } from './version-presentation.js';
+
 export function createViews(document) {
   function node(tag, text = '', className = '') {
     const result = document.createElement(tag);
@@ -337,25 +339,27 @@ export function createViews(document) {
         visual: 'agent',
         adoption: state.project.mode === 'guided' ? 'user' : 'agent',
       };
-    const recorded = runtime?.approval?.recorded || {};
     return [
-      node('h3', 'Qui décide ?'),
-      ...Object.entries({
-        structure: 'Décisions produit et architecture',
-        visual: 'Validation visuelle',
-        adoption: 'Application d’une version',
-      }).map(([key, label]) => {
-        const delegated = delegation[key] === 'agent';
-        const parts = [
-          node('strong', label),
-          node('span', delegated ? 'Délégué à l’agent' : 'Votre validation'),
-        ];
-        if (recorded[key])
-          parts.push(node('small', 'Accord explicite enregistré', 'policy-agreement'));
-        else if (!delegated && key !== 'adoption')
-          parts.push(node('small', 'Accord actuel à recueillir', 'muted'));
-        return group('div', 'policy-choice', parts);
-      }),
+      group(
+        'div',
+        'responsibility-rows',
+        Object.entries({
+          structure: 'Produit et architecture',
+          visual: 'Validation visuelle',
+          adoption: 'Application d’une version',
+        }).map(([key, label]) =>
+          group('div', 'responsibility-role', [
+            group('span', 'responsibility-title', [
+              icon(key === 'visual' ? 'visual' : key === 'adoption' ? 'version' : 'proposal'),
+              node('span', label),
+            ]),
+            badge(
+              delegation[key] === 'agent' ? 'Agent' : 'Vous',
+              delegation[key] === 'agent' ? 'agent-badge' : 'person-badge',
+            ),
+          ]),
+        ),
+      ),
       disclosure('Comprendre la délégation', [
         node(
           'p',
@@ -376,7 +380,7 @@ export function createViews(document) {
     const latest = state.jobs.at(-1);
     const signals = [];
     if (failed.length)
-      signals.push(`${failed.length} contrôle(s) échoué(s) sur la version active.`);
+      signals.push(`${failed.length} contrôle(s) échoué(s) sur la version affichée.`);
     if (latest && ['failed', 'interrupted'].includes(latest.status))
       signals.push(
         `Dernière demande ${latest.status === 'failed' ? 'en échec' : 'interrompue'} : ${latest.error || 'consultez son résultat dans le fil.'}`,
@@ -397,21 +401,21 @@ export function createViews(document) {
     if (checks.length) return badge('Contrôles enregistrés · couverture à établir', 'unverified');
     return badge('Non vérifié sur cette version', 'unverified');
   }
-  function evidence(state, runtime) {
-    const active = state.revisions.find((revision) => revision.id === state.activeRevision);
-    const checks = active ? state.checks.filter((item) => item.revisionId === active.id) : [];
+  function evidence(state, runtime, shown = presentation(state)) {
+    const active = state.revisions.find((revision) => revision.id === shown.displayed.revisionId);
+    const checks = shown.checks.items;
     const passed = checks.filter((item) => item.status === 'passed');
     const failed = checks.filter((item) => item.status === 'failed');
     const agent = runtime?.agent;
     const signals = evidenceSignals(state, agent, failed);
     const parts = [
-      node('h3', active ? 'Version active · ' + active.title : 'Aucune version active'),
+      node('h3', shown.displayed.label),
       ...(active ? [verificationBadge(checks, failed)] : []),
       node(
         'p',
         active
           ? `${passed.length} contrôle(s) passé(s) · ${failed.length} échoué(s)`
-          : 'Une application reste à produire.',
+          : 'Aucun contrôle de fonctionnement attribuable à cet aperçu.',
         'evidence-summary',
       ),
       node(
@@ -432,9 +436,7 @@ export function createViews(document) {
     parts.push(
       disclosure(
         'Preuves de cette version',
-        checks.length
-          ? checks.map(check)
-          : [empty('Aucune preuve enregistrée pour la version active.')],
+        checks.length ? checks.map(check) : [empty('Aucune preuve enregistrée pour cet aperçu.')],
       ),
       disclosure('Ce qui reste à établir', [
         empty(
@@ -452,51 +454,60 @@ export function createViews(document) {
       ),
     ];
   }
-  function evidenceDock(state) {
-    const active = state.revisions.find((revision) => revision.id === state.activeRevision);
-    const checks = state.checks.filter((check) => check.revisionId === active?.id);
-    const failed = checks.filter((check) => check.status === 'failed').length;
-    const replaced = new Set(state.proposals?.map((entry) => entry.supersedes));
-    const proposal = state.proposals?.find((entry) => !entry.resolution && !replaced.has(entry.id));
-    const option = proposal?.options.find((entry) => entry.id === proposal.selectedOptionId);
-    const preview = option?.preview;
-    const checkedProposal =
-      preview?.kind === 'revision' && preview.status === 'implemented'
-        ? state.checks.filter((check) => check.revisionId === preview.revisionId)
-        : [];
-    const approval = state.proposals?.findLast(
-      (entry) =>
-        entry.stage === 'visual' &&
-        entry.resolution?.preview?.kind === 'revision' &&
-        entry.resolution.preview.status === 'implemented' &&
-        entry.resolution.preview.revisionId === active?.id,
-    );
-    function row(kind, title, text, status = '') {
-      return group('div', 'evidence-row', [
-        group('div', 'evidence-kind', [icon(kind), node('strong', title)]),
-        group('p', 'evidence-result ' + status, [icon(status || 'muted'), node('span', text)]),
-      ]);
-    }
+  function evidenceDock(state, shown = presentation(state)) {
+    const { displayed, checks, visual } = shown;
+    const status =
+      checks.status === 'passed' ? 'success' : checks.status === 'failed' ? 'failed' : 'unverified';
+    const identity = displayed.revisionId?.slice(0, 8) || displayed.referenceId || 'Aucune version';
+    const visualStatus = visual.status === 'accepted' ? 'success' : 'unverified';
     return [
-      row(
-        'version',
-        active ? 'Version actuelle · ' + active.id.slice(0, 8) : 'Version actuelle',
-        currentCheckSummary(active, checks, failed),
-        failed ? 'failed' : checks.length ? 'success' : 'unverified',
-      ),
-      row(
-        'proposal',
-        'Proposition',
-        proposalCheckSummary(proposal, checkedProposal, preview),
-        'muted',
-      ),
-      row(
-        'visual',
-        'Validation visuelle',
-        visualCheckSummary(proposal, approval, active),
-        approval && !proposal ? 'success' : 'unverified',
-      ),
-      action('Voir les vérifications →', 'checks', '', 'text-button'),
+      group('div', 'evidence-row', [
+        group('div', 'evidence-kind', [icon('version'), node('strong', displayed.label)]),
+        node('span', identity + ' · affichée', 'muted'),
+      ]),
+      group('div', 'evidence-row', [
+        group('div', 'evidence-kind', [icon(status), node('strong', 'Contrôles enregistrés')]),
+        node('span', checks.label, 'evidence-result ' + status),
+        action('Détails →', 'checks', '', 'text-button'),
+      ]),
+      group('div', 'evidence-row', [
+        group('div', 'evidence-kind', [
+          icon('visual'),
+          node('strong', 'Validation visuelle'),
+          badge(
+            visual.responsibilityLabel,
+            visual.responsibility === 'agent' ? 'agent-badge' : 'person-badge',
+          ),
+        ]),
+        node('span', visual.label, 'evidence-result ' + visualStatus),
+      ]),
+      node('small', 'La délégation ne vaut pas validation.', 'muted'),
+    ];
+  }
+  function latestResult(state) {
+    const job = state.jobs.at(-1);
+    if (!job) return [];
+    const revision = state.revisions.findLast((item) => item.jobId === job.id);
+    const labels = {
+      ready: 'Résultat disponible',
+      queued: 'Demande enregistrée',
+      running: 'Réalisation en cours',
+      failed: 'Échec',
+      interrupted: 'Interrompue',
+      cancelled: 'Annulée',
+    };
+    const style = ['failed', 'interrupted'].includes(job.status)
+      ? 'semantic-error'
+      : job.status === 'ready'
+        ? 'semantic-agent'
+        : 'semantic-warning';
+    return [
+      node('strong', labels[job.status], style),
+      node('p', excerpt(job.summary || job.error || job.request, 180)),
+      ...(revision
+        ? [action('Examiner le résultat →', 'preview', revision.id, 'result-action')]
+        : []),
+      action('Voir la demande complète', 'activity', '', 'text-button'),
     ];
   }
   return {
@@ -511,6 +522,7 @@ export function createViews(document) {
     evidence,
     flowDecisions,
     evidenceDock,
+    latestResult,
   };
 }
 
@@ -524,26 +536,4 @@ function date(value) {
 function excerpt(value = '', limit = 150) {
   const text = value.replace(/\s+/g, ' ').trim();
   return text.length > limit ? text.slice(0, limit).trimEnd() + '…' : text;
-}
-
-function currentCheckSummary(active, checks, failed) {
-  if (!active) return 'Aucune application réalisée';
-  return checks.length
-    ? `${checks.length - failed} contrôle(s) passé(s), ${failed} échec(s) sur ${active.id.slice(0, 8)}`
-    : 'Aucun contrôle de cette version';
-}
-function proposalCheckSummary(proposal, checks, preview) {
-  if (!proposal) return 'Aucune décision en attente';
-  return checks.length
-    ? `${checks.length} contrôle(s) rattaché(s) à ${preview.revisionId.slice(0, 8)} ; voir les résultats`
-    : 'Contrôles à exécuter après réalisation';
-}
-function visualCheckSummary(proposal, approval, active) {
-  if (proposal) return 'Proposition à examiner · aucun accord enregistré';
-  if (!approval) return 'Aucun accord sur le rendu de cette version';
-  return (
-    'Rendu accepté pour ' +
-    active.id.slice(0, 8) +
-    (approval.resolution.source === 'agent' ? ' · par délégation' : ' · par vous')
-  );
 }

@@ -13,11 +13,14 @@ export function createProposalController({
     disposed = false;
   let currentId = null;
   let selectedOptionId = null;
+  let scenarioId = null;
   let comparisonEnabled = true;
   let side = 'proposal';
   function present() {
     const proposal = latest?.proposal || null;
-    showComparison(comparisonEnabled ? proposal : null, side, proposal);
+    const scenario =
+      proposal && scenarioId ? { ...proposal, selectedOptionId: scenarioId } : proposal;
+    showComparison(comparisonEnabled ? scenario : null, side, proposal);
   }
   const actions = {
     async select(proposalId, optionId) {
@@ -83,16 +86,19 @@ export function createProposalController({
       latest = null;
       currentId = null;
       selectedOptionId = null;
+      scenarioId = null;
       present();
       return;
     }
     if (proposal.id !== currentId) {
       currentId = proposal.id;
+      scenarioId = null;
       comparisonEnabled = true;
       side = 'proposal';
       document.getElementById('activity').open = false;
     }
     if (proposal.selectedOptionId !== selectedOptionId) {
+      scenarioId = null;
       comparisonEnabled = true;
       side = 'proposal';
     }
@@ -109,6 +115,13 @@ export function createProposalController({
   }
   return {
     update,
+    scenario(id) {
+      if (!latest?.proposal.options.some((option) => option.id === id)) return;
+      scenarioId = id;
+      comparisonEnabled = true;
+      side = 'proposal';
+      present();
+    },
     compare(value) {
       side = value;
       comparisonEnabled = true;

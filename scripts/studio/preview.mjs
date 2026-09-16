@@ -3,6 +3,7 @@ import path from 'node:path';
 import http from 'node:http';
 import { atomicJSON, safeFile, mimeType, digest } from './files.mjs';
 import { body, send, sameOrigin, errorResponse } from './http.mjs';
+import { installComparisonGuard } from './public/comparison-guard.js';
 
 const selectorScript = `<script>
 (()=>{let selecting=false,previous=null;const studioOrigin=STUDIO_ORIGIN;
@@ -14,7 +15,9 @@ addEventListener('message',e=>{if(e.source===parent&&e.origin===studioOrigin&&e.
 addEventListener('message',e=>{if(e.source===parent&&e.origin===studioOrigin&&e.data?.type==='devmethod-select'){selecting=!!e.data.enabled;if(!selecting)clear();}});
 addEventListener('keydown',e=>{if(e.key==='Escape'){selecting=false;clear();}});
 addEventListener('pointerover',e=>{if(!selecting)return;clear();previous=e.target;previous.dataset.dmOutline=previous.style.outline;previous.style.outline='2px solid #0866ff';},true);
-addEventListener('click',e=>{if(!selecting)return;e.preventDefault();e.stopImmediatePropagation();const el=e.target;const selector=locate(el);parent.postMessage({type:'devmethod-element',selector,text:(el.innerText||el.getAttribute('aria-label')||'').slice(0,500)},studioOrigin);selecting=false;clear();},true);
+const selectElement=e=>{if(!selecting)return;e.preventDefault();e.stopImmediatePropagation();const el=e.target;const selector=locate(el);parent.postMessage({type:'devmethod-element',selector,text:(el.innerText||el.getAttribute('aria-label')||'').slice(0,500)},studioOrigin);selecting=false;clear();};
+addEventListener('click',selectElement,true);
+addEventListener('pointerdown',e=>{if(e.target.closest?.('[disabled][data-devmethod-readonly-control]'))selectElement(e);},true);
 })();</script>`;
 
 function runtimeObserver(origin, buildId) {
@@ -27,13 +30,19 @@ addEventListener('unhandledrejection',event=>report(event.reason?.message??event
 })();</script>`.replaceAll('\n', '');
 }
 
-function instrumentHTML(content, origin, id, reportRuntimeErrors) {
+function instrumentHTML(content, origin, id, reportRuntimeErrors, readOnlyData) {
   let html = content.toString('utf8');
-  if (reportRuntimeErrors) {
+  const selector = origin ? selectorScript.replace('STUDIO_ORIGIN', JSON.stringify(origin)) : '';
+  if (reportRuntimeErrors || readOnlyData) {
     const offset = /^\uFEFF?\s*<!doctype[^>]*>/i.exec(html)?.[0].length ?? 0;
-    html = html.slice(0, offset) + runtimeObserver(origin, id) + html.slice(offset);
+    const runtime = reportRuntimeErrors ? runtimeObserver(origin, id) : '';
+    // Register the element inspector first so explicit targeting still wins over the guard.
+    const comparison = readOnlyData
+      ? selector + `<script>(${installComparisonGuard.toString()})();</script>`
+      : '';
+    html = html.slice(0, offset) + runtime + comparison + html.slice(offset);
   }
-  return Buffer.from(html + selectorScript.replace('STUDIO_ORIGIN', JSON.stringify(origin)));
+  return Buffer.from(html + (readOnlyData ? '' : selector));
 }
 
 async function dataRoute(request, response, origin, readData, dataFile, readOnlyData) {
@@ -121,11 +130,12 @@ export function createPreview({
         throw new Error(
           'Ce fichier a été modifié hors de sa version. Préparez une nouvelle demande.',
         );
-      if (path.extname(file) === '.html' && getStudioOrigin())
-        content = instrumentHTML(content, getStudioOrigin(), id, reportRuntimeErrors);
+      if (path.extname(file) === '.html' && (getStudioOrigin() || readOnlyData))
+        content = instrumentHTML(content, getStudioOrigin(), id, reportRuntimeErrors, readOnlyData);
       response.setHeader(
         'Content-Security-Policy',
-        "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'",
+        "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action " +
+          (readOnlyData ? "'none'" : "'self'"),
       );
       send(response, 200, content, mimeType(file));
     } catch (error) {

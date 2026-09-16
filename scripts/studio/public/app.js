@@ -1,5 +1,6 @@
 import { createStudioApi, readReference } from './api.js';
 import { createViews } from './views.js';
+import { presentation } from './version-presentation.js';
 import { createSourceView, comparisonBase } from './source-view.js';
 import { createProposalController } from './proposal-controller.js';
 import { renderComparison, comparisonURL } from './comparison-view.js';
@@ -60,6 +61,11 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   let journeyWidget, journeyLoading;
   let disposed = false;
   let initialPanel = true;
+  const isJourneyHash = () =>
+    /^#journey-(foundation|exploration|frame|design|architecture|delivery)(-|$)/.test(
+      window.location.hash,
+    );
+  let lastJourneyHash = isJourneyHash() ? window.location.hash : '#journey-foundation';
   const proposalController = createProposalController({
     document,
     change,
@@ -71,8 +77,12 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     },
   });
 
-  function openPanel(id) {
+  function openPanel(id, navigation = 'replace') {
     if (!['journey', 'product', 'code', 'choices', 'checks', 'history'].includes(id)) return;
+    if (isJourneyHash()) lastJourneyHash = window.location.hash;
+    const hash = id === 'journey' ? lastJourneyHash : '#' + id;
+    if (navigation !== 'none' && window.location.hash !== hash)
+      window.history[navigation === 'push' ? 'pushState' : 'replaceState'](null, '', hash);
     activePanel = id;
     for (const button of document.querySelectorAll('[data-panel]')) {
       const selected = button.dataset.panel === id;
@@ -81,7 +91,11 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       el(button.dataset.panel).hidden = !selected;
     }
     for (const control of ['wide-preview', 'mobile-preview', 'inspect-element', 'open-preview'])
-      el(control).hidden = id !== 'product' || (control === 'open-preview' && !previewId);
+      el(control).hidden = id !== 'product' || (control === 'open-preview' && !displayedRevisionId);
+    el('preview-version').hidden =
+      !['product', 'code'].includes(id) || (Boolean(comparedProposal) && id === 'product');
+    el('proposal-comparison').hidden = id !== 'product' || !availableComparisonProposal;
+    el('preview-scenario').hidden = id !== 'product' || !comparedProposal;
     if (id === 'code') updateSource();
     if (id === 'journey') updateJourney();
   }
@@ -101,6 +115,10 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     const props = {
       state,
       onRequest: prepareStage,
+      onOpenPrototype: (id) => {
+        showVersion(id);
+        openPanel('product', 'push');
+      },
       onApproveMaster: async (masterId) => {
         const result = await change('design/master/approve', {
           masterId,
@@ -148,14 +166,6 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
         adoption: state.project.mode === 'guided' ? 'user' : 'agent',
       }
     );
-  }
-
-  function responsibilitySummary() {
-    const target = el('responsibility-summary');
-    if (!target || !state) return;
-    const delegation = effectiveDelegation();
-    const owner = (value) => (value === 'agent' ? 'agent' : 'vous');
-    target.textContent = `Produit : ${owner(delegation.structure)} · Visuel : ${owner(delegation.visual)}`;
   }
 
   function notice(message, error = false) {
@@ -238,13 +248,10 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       side: comparisonSide,
       availableProposal: availableComparisonProposal,
     });
-    const shownId = comparison?.kind === 'revision' ? comparison.revisionId : previewId;
+    const shownId = comparison ? comparison.revisionId || null : previewId;
     displayedRevisionId = shownId;
-    const dataNote = el('preview-data-note');
-    if (dataNote)
-      dataNote.textContent = comparison
-        ? 'Comparaison en lecture seule : les inscriptions et les autres données restent inchangées.'
-        : 'Les données saisies dans l’app sont partagées entre ses versions. Revenir au code précédent ne restaure pas les anciennes données.';
+    updateEvidence();
+    updatePreviewControls(comparison);
     const revision = state.revisions.find((rev) => rev.id === shownId);
     const key = JSON.stringify(state.revisions.map((rev) => [rev.id, rev.title]));
     region('preview-version', key, () =>
@@ -258,24 +265,12 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     el('preview-version').value = shownId || '';
     el('preview-version').disabled = !revision || Boolean(comparison);
     el('preview').hidden = !revision;
-    el('preview-empty').hidden = Boolean(revision);
+    el('preview-empty').hidden = Boolean(revision) || Boolean(comparison);
     el('open-preview').hidden = !revision || activePanel !== 'product';
     el('inspect-element').disabled = !revision;
-    el('preview-status').textContent = revision
-      ? state.activeRevision === shownId
-        ? 'Version active'
-        : 'Version à examiner'
-      : 'Aucune version';
     updateSource();
     if (comparison && comparison.kind !== 'revision') {
       previewTarget = null;
-      renderComparison({
-        document,
-        state,
-        proposal: comparedProposal,
-        side: comparisonSide,
-        availableProposal: availableComparisonProposal,
-      });
       return;
     }
     if (!revision || !runtime) return;
@@ -295,8 +290,49 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       clearElement();
       el('preview').src = url;
     }
-    el('open-preview').href = url;
+    el('open-preview').href = comparisonURL(runtime.previewOrigin, shownId, comparison?.route);
     if (previewTarget) focusPreviewTarget();
+  }
+  function updateEvidence() {
+    const shown = presentation(state, {
+      displayedRevisionId,
+      comparedProposal,
+      comparisonSide,
+      delegation: effectiveDelegation(),
+    });
+    el('preview-status').textContent = shown.displayed.label;
+    const key = JSON.stringify([state.version, shown, runtime?.agent]);
+    region('evidence-dock', key, () => views.evidenceDock(state, shown));
+    region('checks-list', key, () => views.evidence(state, runtime, shown));
+  }
+  function updatePreviewControls(comparison) {
+    const dataNote = el('preview-data-note');
+    dataNote.parentElement.hidden = Boolean(comparison);
+    if (!comparison)
+      el('comparison-status').textContent =
+        'Application interactive · les saisies modifient les données du projet.';
+    if (dataNote)
+      dataNote.textContent = comparison
+        ? 'Comparaison en lecture seule : les inscriptions et les autres données restent inchangées.'
+        : 'Les données saisies dans l’app sont partagées entre ses versions. Revenir au code précédent ne restaure pas les anciennes données.';
+
+    const option = comparedProposal?.options.find(
+      (item) => item.id === comparedProposal.selectedOptionId,
+    );
+    region('preview-scenario', JSON.stringify(comparedProposal?.options), () =>
+      (comparedProposal?.options || []).map((item) => {
+        const choice = document.createElement('option');
+        choice.value = item.id;
+        choice.textContent = 'Scénario · ' + item.title;
+        return choice;
+      }),
+    );
+    el('preview-scenario').value = option?.id || '';
+    el('preview-scenario').hidden = !comparison || activePanel !== 'product';
+    el('preview-version').hidden =
+      !['product', 'code'].includes(activePanel) ||
+      (Boolean(comparison) && activePanel === 'product');
+    el('proposal-comparison').hidden = activePanel !== 'product' || !availableComparisonProposal;
   }
   function focusPreviewTarget() {
     if (!runtime || !previewTarget) return;
@@ -346,11 +382,14 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     try {
       state = next;
       syncInputs();
-      responsibilitySummary();
       proposalController.update(state, runtime);
       if (initialPanel) {
         initialPanel = false;
-        if (!state.revisions.length) openPanel('journey');
+        const requestedPanel = window.location.hash.slice(1);
+        if (isJourneyHash()) openPanel('journey');
+        else if (['product', 'code', 'choices', 'checks', 'history'].includes(requestedPanel))
+          openPanel(requestedPanel);
+        else if (!state.revisions.length) openPanel('journey');
       }
       updateJourney();
       agentStatus();
@@ -368,13 +407,12 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
         () => views.policy(state, runtime),
       );
       region('flow-decisions', key, () => views.flowDecisions(state));
-      region('evidence-dock', key, () => views.evidenceDock(state));
-      region('checks-list', key + JSON.stringify(runtime?.agent), () =>
-        views.evidence(state, runtime),
-      );
+      el('latest-result').hidden = !el('active-decision').hidden || !state.jobs.length;
+      region('latest-result', key, () => views.latestResult(state));
       const constraints = el('preserve-constraints');
       if (constraints) {
         constraints.hidden = !state.project.constraints.length;
+        el('preserve-summary').textContent = state.project.constraints.length + ' contraintes';
         region('preserve-constraints-content', key, () =>
           state.project.constraints.map((text) => {
             const item = document.createElement('p');
@@ -547,6 +585,10 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     el('request').focus();
   }
   const actions = {
+    activity() {
+      el('activity').open = true;
+      el('activity').querySelector('summary').focus();
+    },
     'exit-comparison'() {
       followActive = true;
       proposalController.suspend();
@@ -629,7 +671,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       options,
     );
   for (const button of document.querySelectorAll('[data-panel]')) {
-    button.addEventListener('click', () => openPanel(button.dataset.panel), options);
+    button.addEventListener('click', () => openPanel(button.dataset.panel, 'push'), options);
     button.addEventListener(
       'keydown',
       (event) => {
@@ -661,6 +703,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   on('request-form', 'submit', sendRequest);
   on('refresh', 'click', refresh);
   on('reference-file', 'change', upload);
+  on('preview-scenario', 'change', (event) => proposalController.scenario(event.target.value));
   on('preview-version', 'change', (event) => showVersion(event.target.value));
   on('comparison-before', 'click', () => proposalController.compare('before'));
   on('comparison-proposal', 'click', () => proposalController.compare('proposal'));
@@ -694,6 +737,17 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     await refresh();
   });
   document.addEventListener('click', clickAction, options);
+  window.addEventListener(
+    'hashchange',
+    () => {
+      if (isJourneyHash()) openPanel('journey', 'none');
+      else if (
+        ['product', 'code', 'choices', 'checks', 'history'].includes(window.location.hash.slice(1))
+      )
+        openPanel(window.location.hash.slice(1), 'none');
+    },
+    options,
+  );
   window.addEventListener('message', selectedMessage, options);
   document.addEventListener(
     'keydown',
