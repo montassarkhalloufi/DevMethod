@@ -3,9 +3,10 @@ export function controlChoices(project, lanes, variantId) {
   const variants = variantId
     ? project.variants.filter((variant) => variant.id === variantId)
     : project.variants;
-  const actions = [
+  const actions = variants.flatMap((variant) => variant.actions);
+  const actionsOfKind = (kind) => [
     ...new Map(
-      variants.flatMap((variant) => variant.actions).map((action) => [action.id, action]),
+      actions.filter((action) => action.kind === kind).map((action) => [action.id, action]),
     ).values(),
   ];
   const records = [
@@ -17,8 +18,8 @@ export function controlChoices(project, lanes, variantId) {
   ];
   return {
     records,
-    transitions: actions.filter((action) => action.kind === 'transition'),
-    creations: actions.filter((action) => action.kind === 'create'),
+    transitions: actionsOfKind('transition'),
+    creations: actionsOfKind('create'),
   };
 }
 

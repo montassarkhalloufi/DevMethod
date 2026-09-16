@@ -29,3 +29,14 @@ test('creation choices follow the target prototype, including new action identit
     ['create', 'create-peer'],
   );
 });
+
+test('a shared identifier with different action kinds remains available in both controls', () => {
+  const project = structuredClone(seed);
+  project.variants[1].actions = project.variants[1].actions.filter(
+    (action) => action.id !== 'submit',
+  );
+  project.variants[1].actions[0].id = 'submit';
+  const shared = controlChoices(project, {});
+  assert.ok(shared.transitions.some((action) => action.id === 'submit'));
+  assert.ok(shared.creations.some((action) => action.id === 'submit'));
+});
