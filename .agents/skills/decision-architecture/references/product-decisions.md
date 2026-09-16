@@ -2,7 +2,7 @@
 
 ## Test value before adding complexity
 
-Identify the user, job to be done, current alternative, friction, and success signal. For an AI/comparison product, ask what it provides beyond a public prompt: authorized/fresh data, verifiable calculation, durable context, history, simulation, monitoring, or workflow execution. This does not require all those functions in an MVP.
+Identify the user, job to be done, current alternative, friction, and success signal. For a product that guides people using agents, compare the complete human–agent workflow: what the person must supply, how context and choices are prepared, what they can achieve and control, and the total preparation, supervision and rework. A capable agent implementing an expert brief is a useful capability control; its success does not establish that guidance has no value. A simpler prompt-based workflow remains a valid alternative, including the work needed to obtain and maintain its inputs. Guidance, durable context, authorized data, calculation or workflow execution may each create value; none is established by its description or must be algorithmically exclusive.
 
 Preserve validated exclusions, business criteria, and contracts. Do not turn “autonomous” into a “zero human operation” promise: describe exceptions, alerts, recovery, and expected operator time. Choose an architecture the current team can operate.
 

@@ -1,5 +1,7 @@
 # Rechercher les conséquences avant de figer la demande
 
+Clarification ultérieure : [EMPOWERMENT](EMPOWERMENT.md) replace ces observations dans l'objectif humain + méthode. La recherche numérique compare deux capacités **après** construction du domaine, des actions, des observations et de la question. Elle ne compare pas l'aide apportée à la personne pour obtenir et maintenir ces éléments.
+
 16 septembre 2026. Recherche et prototype autorisés par la délégation du propriétaire : « Creuse dans tous les sens des prob reel, la science, les modele les metgode et tous, tu dois passer devMethode a un etat superieur ». Aucune adoption globale ni rupture démontrée. Les campagnes natives arrêtées restent closes.
 
 ## Ce qui change dans la conception de DevMethod

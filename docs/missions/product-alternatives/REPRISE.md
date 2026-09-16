@@ -1,5 +1,19 @@
 # Checkpoint — 2026-09-16
 
+## Empowerment snapshot — 12:43 UTC
+
+The owner clarified the target: **the power given to a person by guidance and context management**, compared with Spec Kit and BMAD. [EMPOWERMENT](EMPOWERMENT.md) owns the corrected comparison and the executed work. Compare the complete person–agent workflow from equivalent initial needs and accessible sources. Useful context, expert briefs and prepared decisions are outputs, with preparation cost; a capable agent implementing them is a narrower capability control. Previous negative observations remain intact. No comparative human benefit or breakthrough is established.
+
+The distributed method now states this distinction in the product-decision guide, exploration reference and opportunities template. It retains the simpler alternative and proportionate workflow; no new required stage or runtime. [Independent review](evidence/empowerment/review.md) found no blocking issue in the pinned candidate; its minor cached-input wording correction is applied. These are inspected instruction/template changes, not demonstrated effects on fresh agents or people.
+
+Current official comparators are installed in isolated local projects: Spec Kit v1.0.7 at `fe1d00e3ccaf495880aaf90fb0e17679e82f065b` and BMAD v6.12.0 at `05bfbd46d00766ec88eb9b42e76be2c575d64d7b`. DevMethod's changed resources were installed into a third empty project and checked byte-for-byte. Reports preserve provenance, optional extensions, initial installation failure and repair. No participant or comparative method execution occurred.
+
+A distinct one-call host calibration failed: final response and usage were recovered, but tools could not start and the requested function remained defective. **51,712 observed tokens**, including 40,704 cached input tokens already counted in the input, exceeded the prospective 20,000 soft inter-call threshold. It is closed; no retry or comparison admitted. The previous campaigns remain closed with their original unknown usage. A local no-model diagnosis reproduces nested macOS sandbox failure. A red/green regression and guard now reject this composition before reservation or provider dispatch. A single-policy local alternative passed its declared probes, with explicitly weaker ancestor-listing privacy; full agent readiness is not established.
+
+Validation before this checkpoint: Node 24.18.0 suite **352/352 passed, zero skipped**, lint and format passed; after the skill edits, install/update **17/17 passed**, actual installation copies matched, and Markdown links passed. These checks establish technical behavior and packaging consistency, not empowerment. Logs: `/private/tmp/devmethod-empowerment-final/`. Final archive and current-head CI belong to draft PR #36; prior green results must not be used for this delta. Source at the start of this tranche: `d14e64493bc02ed0470e8b65b72df3498706d6ac`; review and installation inventories identify modified bytes. No UI/domain change, merge, release or deployment.
+
+Next substantive work is the full-path comparison described in EMPOWERMENT: source → constructed context → prepared choice → usable result → correction and resumption. Preserve real human decisions and distinguish artifact checks from observed human effort and control. The pending earlier friction questionnaire is superseded by the owner's instruction to research independently; it is not a blocker. Do not silently resume a closed model campaign or reinterpret an installation success as comparative evidence.
+
 ## Frontier snapshot — 11:25 UTC
 
 The owner explicitly asked for broader work on real problems, science, models and methods. [FRONTIER](FRONTIER.md) owns the three independent research reports, competing conceptions, selected mechanism, prospective experiment and outcomes. The mission remains open: **no breakthrough or measured human advantage is established**. Do not treat this as a return to laboratory maintenance.

@@ -1,5 +1,7 @@
 # DevMethod product alternatives — 2026-09-16
 
+**Current objective clarification:** the owner's later instruction defines value as the power given to a person by method-guided work and context management, compared with Spec Kit and BMAD using the same underlying agent and initial information. [EMPOWERMENT](EMPOWERMENT.md) owns this clarification, the measures, and the narrower interpretation of prior ordinary-agent probes. A well-prepared ordinary agent remains a useful capability control; its success does not alone refute method value or account for the preparation supplied to it. Existing negative outcomes and closed campaign records remain intact.
+
 The user explicitly asks for a possible break with current operation, several genuinely different conceptions, and a promising proposal carried into a usable experience. Benchmarks and lab repairs are supporting work, not the outcome. This supersedes the earlier research direction; it does not reopen either stopped native campaign. Base: PR #35 at 9809134. Branch: codex/product-alternatives-studio. No merge, publication, external contacts, purchases or hidden telemetry.
 
 Working audience, pending optional user preference: a product creator working with coding agents. The user's instruction delegates selection and prototyping of the most promising conception. Preserve understanding, exploration, framing, design and architecture as real capabilities; their primary representation and execution may change. Existing fourteen stages are already proportional, not compulsory; do not caricature them.

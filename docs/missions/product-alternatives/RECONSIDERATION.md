@@ -1,5 +1,7 @@
 # Recherche poursuivie après le premier prototype — 16 septembre 2026
 
+Clarification ultérieure du propriétaire : [EMPOWERMENT](EMPOWERMENT.md) distingue la réussite d'une opération à partir d'un brief de préservation fourni et la contribution de la méthode à la construction de ce brief avec l'humain. La première est observée ci-dessous ; la seconde ne l'était pas. Le résultat ne réfute donc pas la valeur générale du guidage ou du contexte DevMethod.
+
 La mission de recherche reste ouverte. La préférence UI donnée ensuite par le propriétaire est un travail parallèle : elle ne remplace pas la recherche de rupture. Ce document fixe les enseignements de la reprise ; [RESULTS](RESULTS.md) reste le propriétaire des conclusions générales.
 
 ## Une opération utile, obtenue par l’agent ordinaire

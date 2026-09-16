@@ -1,5 +1,7 @@
 # Observations, decisions and limits — 2026-09-16
 
+**Interpretation update from the owner:** [EMPOWERMENT](EMPOWERMENT.md) distinguishes agent capability with supplied guidance from the method's contribution to a person's project work. The observations below are unchanged. Ordinary-agent success is not a measured absence of human benefit, and the narrow runtime/capability verdicts must not be generalized to the whole method. DevMethod versus current Spec Kit/BMAD remains to be executed under matched initial information with preparation and human work explicitly accounted for.
+
 This record separates an implemented capability, an agent-operated browser observation and a measured user benefit. **No formal human study, native matched A/B/C campaign, competitor execution, token saving or breakthrough is reported.** The owner subsequently supplied real but narrow UI feedback about block separation; it is recorded in DESIGN, not counted as comparative validation. The previous stopped native campaigns remain closed. Current task agents performed bounded research, implementation and review; their participation is not a synthetic user study.
 
 ## Product attempts
