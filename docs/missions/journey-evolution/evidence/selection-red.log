@@ -1,0 +1,48 @@
+✔ actual DOM event bindings reserve, show full capacity and cancel through the HTTP application (146.686375ms)
+✔ UI retries an uncertain response with the same request identity and avoids a duplicate booking (58.386666ms)
+✖ refresh preserves an unsubmitted choice after recovery instead of silently booking fewer seats (39.563792ms)
+✖ refresh keeps a now-unavailable choice explicit until the user chooses a valid quantity (44.030209ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 843.897417
+
+✖ failing tests:
+
+test at tests/evidence-application.test.mjs:98:1
+✖ refresh preserves an unsubmitted choice after recovery instead of silently booking fewer seats (39.563792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '1' !== '2'
+  
+      at TestContext.<anonymous> (file://<checkout>/tests/evidence-application.test.mjs:105:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '1',
+    expected: '2',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/evidence-application.test.mjs:109:1
+✖ refresh keeps a now-unavailable choice explicit until the user chooses a valid quantity (44.030209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '1' !== '2'
+  
+      at TestContext.<anonymous> (file://<checkout>/tests/evidence-application.test.mjs:123:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '1',
+    expected: '2',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

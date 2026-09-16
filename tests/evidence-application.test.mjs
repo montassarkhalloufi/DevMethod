@@ -94,3 +94,45 @@ test('UI retries an uncertain response with the same request identity and avoids
   assert.equal(state.reservations.length, 1);
   assert.equal(state.slots.find((slot) => slot.id === 'welcome').remaining, 1);
 });
+
+test('refresh preserves an unsubmitted choice after recovery instead of silently booking fewer seats', async (t) => {
+  const { dom, document } = await fixture(t);
+  const select = document.querySelector('.slot select');
+  select.value = '2';
+  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  document.querySelector('#refresh').click();
+  await waitFor(() => document.querySelector('.slot select') !== select);
+  assert.equal(document.querySelector('.slot select').value, '2');
+  assert.equal(document.querySelector('.slot button').disabled, false);
+});
+
+test('refresh keeps a now-unavailable choice explicit until the user chooses a valid quantity', async (t) => {
+  const { dom, document, origin } = await fixture(t);
+  const select = document.querySelector('.slot select');
+  select.value = '2';
+  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  const result = await fetch(`${origin}/api/reservations`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ slotId: 'welcome', seats: 1, requestId: 'another-visitor' }),
+  });
+  assert.equal(result.status, 200);
+  document.querySelector('#refresh').click();
+  await waitFor(() => document.querySelector('.slot select') !== select);
+  const current = document.querySelector('.slot select');
+  assert.equal(current.value, '2');
+  assert.match(current.selectedOptions[0].textContent, /unavailable/);
+  assert.equal(document.querySelector('.slot button').disabled, true);
+  assert.equal(document.querySelector('.quantity-hint').hidden, false);
+  assert.equal(
+    current.getAttribute('aria-describedby'),
+    document.querySelector('.quantity-hint').id,
+  );
+  current.value = '1';
+  current.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  assert.equal(document.querySelector('.slot button').disabled, false);
+  assert.equal(document.querySelector('.quantity-hint').hidden, true);
+  reserve(dom, document, 1);
+  await waitFor(() => document.querySelectorAll('.reservation').length === 2);
+  assert.equal(document.querySelector('.availability').textContent, 'Team complete');
+});

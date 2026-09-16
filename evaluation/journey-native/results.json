@@ -1,0 +1,113 @@
+{
+  "format": 1,
+  "kind": "native-smoke-interrupted",
+  "startedAt": "2026-09-16T06:04:50.249Z",
+  "pins": {
+    "stable": "6f31552ac3f68c70ee1caa7b4bffb1181341a336",
+    "experimental": "440db4322167102546cd974004462fb4dab743a5",
+    "host": "codex-cli 0.147.0",
+    "model": "gpt-5.6-sol",
+    "effort": "low",
+    "maxRuns": 6,
+    "timeoutMs": 120000,
+    "maxBytes": 2097152,
+    "observedTokenStop": 100000
+  },
+  "stopReason": "timeout",
+  "plannedInvocations": 6,
+  "attemptedInvocations": 1,
+  "completedInvocations": 0,
+  "completedTurnTokensObserved": 0,
+  "totalTokens": null,
+  "costUSD": null,
+  "accounting": "No usage event was emitted. Zero is the sum of known completed-turn usage, not zero consumption.",
+  "setupSeconds": 12.897,
+  "evaluationSeconds": 0.85,
+  "authoringAndReviewEffort": "Performed separately; elapsed time and model consumption not independently metered.",
+  "slots": [
+    {
+      "id": "A-initial",
+      "arm": "A",
+      "phase": "initial",
+      "status": "timeout",
+      "methodRevision": "none",
+      "elapsedSeconds": 120.009,
+      "usage": null,
+      "functionalAcceptance": true,
+      "check": {
+        "format": 1,
+        "stage": "initial",
+        "verdicts": {
+          "intake": "passed",
+          "finality": "passed",
+          "durability": "passed",
+          "integrity": "passed"
+        },
+        "details": {},
+        "processes": 27,
+        "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim.",
+        "handoff": {
+          "present": true,
+          "bytes": 825,
+          "semanticReview": "required"
+        }
+      },
+      "protectedChanges": [],
+      "handoff": "Present but incomplete: pending verification remains stale after observed successful checks.",
+      "transcriptSha256": "ff499061fe2bfa256d5f82872ba1a6b2d4f7c8fc631941f908c852cff01fb061"
+    },
+    {
+      "id": "B-initial",
+      "arm": "B",
+      "phase": "initial",
+      "status": "not-run",
+      "reason": "Stopped after A-initial timeout with unknown usage",
+      "methodRevision": "6f31552ac3f68c70ee1caa7b4bffb1181341a336"
+    },
+    {
+      "id": "C-initial",
+      "arm": "C",
+      "phase": "initial",
+      "status": "not-run",
+      "reason": "Stopped after A-initial timeout with unknown usage",
+      "methodRevision": "440db4322167102546cd974004462fb4dab743a5"
+    },
+    {
+      "id": "C-maintenance",
+      "arm": "C",
+      "phase": "maintenance",
+      "status": "not-run",
+      "reason": "Stopped after A-initial timeout with unknown usage",
+      "methodRevision": "440db4322167102546cd974004462fb4dab743a5"
+    },
+    {
+      "id": "B-maintenance",
+      "arm": "B",
+      "phase": "maintenance",
+      "status": "not-run",
+      "reason": "Stopped after A-initial timeout with unknown usage",
+      "methodRevision": "6f31552ac3f68c70ee1caa7b4bffb1181341a336"
+    },
+    {
+      "id": "A-maintenance",
+      "arm": "A",
+      "phase": "maintenance",
+      "status": "not-run",
+      "reason": "Stopped after A-initial timeout with unknown usage",
+      "methodRevision": "none"
+    }
+  ],
+  "localCancellation": {
+    "supervisorReturned": true,
+    "noKnownCampaignCwdProcesses": true,
+    "groupPidRetained": false,
+    "serverCancellation": "unverified"
+  },
+  "limitations": [
+    "No A/B/C comparison completed; B and C were not invoked.",
+    "No maintenance or actual two-session chain observed.",
+    "No native product usability, visual design, architecture quality or generalized benefit claim.",
+    "C would be pre-repair 440db432; no later changes receive native credit.",
+    "No retries or budget reset. Unknown usage requires reconciliation before further native admission."
+  ]
+}

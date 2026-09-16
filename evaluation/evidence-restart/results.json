@@ -1,0 +1,546 @@
+{
+  "format": 1,
+  "kind": "known-fault-repair-not-generalization",
+  "workspace": "/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU",
+  "node": "v24.18.0",
+  "platform": "darwin",
+  "createdAt": "2026-09-16T05:55:58.196Z",
+  "inputs": {
+    "scripts/evidence-restart-check.mjs": {
+      "sha256": "c9e5e14163d79378e0d69b43b13f2ba86495003fbf01076f2d4ef4fd013c15b5",
+      "bytes": 3177,
+      "lines": 85
+    },
+    "scripts/evidence-restart-comparison.mjs": {
+      "sha256": "1f846ae064616d13cab648447a68731eb697f6e962c6a536233f09223c776839",
+      "bytes": 5731,
+      "lines": 159
+    },
+    "tests/evidence-restart.test.mjs": {
+      "sha256": "925a518bd30bef1ebd6931408fc62b17f3d875c0e131a75a5cde0ec6c2fd0d11",
+      "bytes": 2463,
+      "lines": 67
+    },
+    "evaluation/evidence-restart/PROTOCOL.md": {
+      "sha256": "d9ab8a75682ff872f1e10a6be08c46a81b1d7a356177a6a2192775eed4bb9fdc",
+      "bytes": 3051,
+      "lines": 19
+    },
+    "evaluation/evidence-holdout/runner-v2.mjs": {
+      "sha256": "8392a771274c6ebb1512d12490acda6540ef2ad07c8931e5beb80663a148a2a1",
+      "bytes": 1607,
+      "lines": 27
+    },
+    "evaluation/evidence-holdout/controls.mjs": {
+      "sha256": "c7ed1fbdae53dabf989cd790f23b6b9eaf08efb1886a48157e36b115025b9db6",
+      "bytes": 713,
+      "lines": 11
+    },
+    "evaluation/evidence-holdout/adjudicate.mjs": {
+      "sha256": "cd083857f41fb8e1afe5ff5e8fa4a078559a3d600a6059e1c04c38249121f504",
+      "bytes": 1629,
+      "lines": 23
+    },
+    "evaluation/evidence-holdout/contract-v2.json": {
+      "sha256": "459cb1c38fcf6e9ca85728e7379fe9ca83621504873ab60b98cfe4a2b8dea2fa",
+      "bytes": 1083,
+      "lines": 13
+    },
+    "evaluation/evidence-holdout/candidates/healthy/queue.mjs": {
+      "sha256": "859b14c57234aec212d743772a2431064d1856a73f3f6cea31e1d6e0e5ceeb8e",
+      "bytes": 651,
+      "lines": 11
+    },
+    "evaluation/evidence-holdout/candidates/duplicate/queue.mjs": {
+      "sha256": "cdaa782680a1e5e20ec935eddcce69e8750a76dc7fbc6b21ffc8041f146ef922",
+      "bytes": 679,
+      "lines": 11
+    },
+    "evaluation/evidence-holdout/candidates/resurrect/queue.mjs": {
+      "sha256": "95a1f3cfbf9022ae999f70471254619c2b3e5d2d00671fd9187bf0a2b14dcb26",
+      "bytes": 678,
+      "lines": 11
+    },
+    "evaluation/evidence-holdout/candidates/lost-restart/queue.mjs": {
+      "sha256": "0f1a701f6ff58f94bc0a973185974b3089ce76bed9d7dd83855607a50dfac11b",
+      "bytes": 565,
+      "lines": 11
+    },
+    "dist/evidence-runtime.js": {
+      "sha256": "72539ec6c662453ea64e0952cbcc61318a15a2eddeea11e7d7927fc4063633c6",
+      "bytes": 14377,
+      "lines": 345
+    },
+    "dist/evidence-contract.js": {
+      "sha256": "8364b24932e68e890682d52df669d69b160df8b558b729d7859a39de9ced4f45",
+      "bytes": 9179,
+      "lines": 197
+    },
+    "dist/evidence-store.js": {
+      "sha256": "35aaf6cde996ba19a89f0bb83c9040922c43a7a98afea93498afcce1f7bac0b7",
+      "bytes": 9852,
+      "lines": 181
+    },
+    "dist/evidence-process.js": {
+      "sha256": "06d26b4ec98ec3d0f1a608299fa6a50929f0735bb068adc9eaf4a63dde9a4a8a",
+      "bytes": 4217,
+      "lines": 107
+    }
+  },
+  "addedMaintainedCode": [
+    "scripts/evidence-restart-check.mjs",
+    "scripts/evidence-restart-comparison.mjs",
+    "tests/evidence-restart.test.mjs"
+  ],
+  "cases": [
+    {
+      "candidate": "healthy",
+      "ordinary": {
+        "argv": [
+          "/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+          "/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/restart-check.mjs",
+          "/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/healthy",
+          "candidate",
+          "queue-partial"
+        ],
+        "status": 0,
+        "signal": null,
+        "error": null,
+        "stdout": "{\"format\":1,\"check\":\"queue-partial\",\"verdicts\":{\"idempotency\":\"passed\",\"finality\":\"passed\"}}\n",
+        "stderr": "{\"argv\":[\"/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/runner-v2.mjs\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/healthy\",\"candidate\",\"queue-partial\"],\"status\":0,\"signal\":null,\"error\":null,\"stdout\":\"{\\\"format\\\":1,\\\"check\\\":\\\"queue-partial\\\",\\\"verdicts\\\":{\\\"idempotency\\\":\\\"passed\\\",\\\"finality\\\":\\\"passed\\\"}}\",\"stderr\":\"\"}\n{\"argv\":[\"/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/adjudicate.mjs\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/healthy\"],\"status\":0,\"signal\":null,\"error\":null,\"stdout\":\"{\\\"format\\\":1,\\\"kind\\\":\\\"independent-restart-adjudication\\\",\\\"durability\\\":\\\"passed\\\",\\\"finality\\\":\\\"passed\\\",\\\"observed\\\":{\\\"pending\\\":[\\\"waiting\\\"],\\\"retry\\\":false,\\\"after\\\":[\\\"waiting\\\"]}}\",\"stderr\":\"\"}\n",
+        "durationMs": 154.46633400000002,
+        "verdicts": {
+          "idempotency": "passed",
+          "finality": "passed"
+        }
+      },
+      "lab": {
+        "format": 1,
+        "status": "supported",
+        "fresh": true,
+        "reason": null,
+        "attempts": 1,
+        "permit": "7e36ea5da53c903776e27681092bf4fb84a490770757af93f04c52cd9ebffb73",
+        "failureSignature": null,
+        "candidateBefore": "a839093afb184c268a3110e3a6df4af5d6cb456dac3f746532265ab924488a8f",
+        "candidateAfter": "a839093afb184c268a3110e3a6df4af5d6cb456dac3f746532265ab924488a8f",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "supported"
+          },
+          {
+            "id": "finality",
+            "status": "supported"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-16T05:55:58.485Z",
+        "durationMs": 779.0338750000001,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "labDurationMs": 851.627375,
+      "labInvocations": [
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "healthy"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "duplicate"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "resurrect"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "candidate"
+        }
+      ]
+    },
+    {
+      "candidate": "duplicate",
+      "ordinary": {
+        "argv": [
+          "/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+          "/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/restart-check.mjs",
+          "/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/duplicate",
+          "candidate",
+          "queue-partial"
+        ],
+        "status": 1,
+        "signal": null,
+        "error": null,
+        "stdout": "{\"format\":1,\"check\":\"queue-partial\",\"verdicts\":{\"idempotency\":\"failed\",\"finality\":\"passed\"}}\n",
+        "stderr": "{\"argv\":[\"/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/runner-v2.mjs\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/duplicate\",\"candidate\",\"queue-partial\"],\"status\":1,\"signal\":null,\"error\":null,\"stdout\":\"{\\\"format\\\":1,\\\"check\\\":\\\"queue-partial\\\",\\\"verdicts\\\":{\\\"idempotency\\\":\\\"failed\\\",\\\"finality\\\":\\\"passed\\\"}}\",\"stderr\":\"\"}\n{\"argv\":[\"/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/adjudicate.mjs\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/duplicate\"],\"status\":0,\"signal\":null,\"error\":null,\"stdout\":\"{\\\"format\\\":1,\\\"kind\\\":\\\"independent-restart-adjudication\\\",\\\"durability\\\":\\\"passed\\\",\\\"finality\\\":\\\"passed\\\",\\\"observed\\\":{\\\"pending\\\":[\\\"waiting\\\"],\\\"retry\\\":false,\\\"after\\\":[\\\"waiting\\\"]}}\",\"stderr\":\"\"}\n",
+        "durationMs": 164.69012500000008,
+        "verdicts": {
+          "idempotency": "failed",
+          "finality": "passed"
+        }
+      },
+      "lab": {
+        "format": 1,
+        "status": "failed",
+        "fresh": true,
+        "reason": null,
+        "attempts": 1,
+        "permit": "047855ff8e7ea5ede45107a3142a113dab094e12ddffaf4ae36ac6e4e29e644f",
+        "failureSignature": "37ef25ad44002a452bd0ca855ced24fcc3c5a6b074638fc3df1f8e97e5e8bdf5",
+        "candidateBefore": "547dcc062890358a002574fdd3930872fb211eb22685b1c5e5c790ae0474bd63",
+        "candidateAfter": "547dcc062890358a002574fdd3930872fb211eb22685b1c5e5c790ae0474bd63",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "failed"
+          },
+          {
+            "id": "finality",
+            "status": "supported"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-16T05:55:59.570Z",
+        "durationMs": 804.2618339999999,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "labDurationMs": 875.0376670000003,
+      "labInvocations": [
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "healthy"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "duplicate"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "resurrect"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "candidate"
+        }
+      ]
+    },
+    {
+      "candidate": "resurrect",
+      "ordinary": {
+        "argv": [
+          "/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+          "/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/restart-check.mjs",
+          "/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/resurrect",
+          "candidate",
+          "queue-partial"
+        ],
+        "status": 1,
+        "signal": null,
+        "error": null,
+        "stdout": "{\"format\":1,\"check\":\"queue-partial\",\"verdicts\":{\"idempotency\":\"passed\",\"finality\":\"failed\"}}\n",
+        "stderr": "{\"argv\":[\"/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/runner-v2.mjs\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/resurrect\",\"candidate\",\"queue-partial\"],\"status\":1,\"signal\":null,\"error\":null,\"stdout\":\"{\\\"format\\\":1,\\\"check\\\":\\\"queue-partial\\\",\\\"verdicts\\\":{\\\"idempotency\\\":\\\"passed\\\",\\\"finality\\\":\\\"failed\\\"}}\",\"stderr\":\"\"}\n{\"argv\":[\"/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/adjudicate.mjs\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/resurrect\"],\"status\":1,\"signal\":null,\"error\":null,\"stdout\":\"{\\\"format\\\":1,\\\"kind\\\":\\\"independent-restart-adjudication\\\",\\\"durability\\\":\\\"passed\\\",\\\"finality\\\":\\\"failed\\\",\\\"observed\\\":{\\\"pending\\\":[\\\"waiting\\\"],\\\"retry\\\":true,\\\"after\\\":[\\\"waiting\\\",\\\"finished\\\"]}}\",\"stderr\":\"\"}\n",
+        "durationMs": 158.63824999999997,
+        "verdicts": {
+          "idempotency": "passed",
+          "finality": "failed"
+        }
+      },
+      "lab": {
+        "format": 1,
+        "status": "failed",
+        "fresh": true,
+        "reason": null,
+        "attempts": 1,
+        "permit": "ebbf9be613688e7996c1fb5bc1d39bc9ab60886188efe875681a5ac0c648565b",
+        "failureSignature": "0980da6219f2fbca16134cbce991eba22c9a443a5239902b9731a863671b1eb1",
+        "candidateBefore": "63401f8b5505d68b51d0dc5d7069f1899149584cb22f8d64e21d3434bdb9ca75",
+        "candidateAfter": "63401f8b5505d68b51d0dc5d7069f1899149584cb22f8d64e21d3434bdb9ca75",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "supported"
+          },
+          {
+            "id": "finality",
+            "status": "failed"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-16T05:56:00.671Z",
+        "durationMs": 735.2296249999999,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "labDurationMs": 805.0365419999998,
+      "labInvocations": [
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "healthy"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "duplicate"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "resurrect"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "candidate"
+        }
+      ]
+    },
+    {
+      "candidate": "lost-restart",
+      "ordinary": {
+        "argv": [
+          "/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+          "/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/restart-check.mjs",
+          "/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/lost-restart",
+          "candidate",
+          "queue-partial"
+        ],
+        "status": 1,
+        "signal": null,
+        "error": null,
+        "stdout": "{\"format\":1,\"check\":\"queue-partial\",\"verdicts\":{\"idempotency\":\"failed\",\"finality\":\"failed\"}}\n",
+        "stderr": "{\"argv\":[\"/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/runner-v2.mjs\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/lost-restart\",\"candidate\",\"queue-partial\"],\"status\":0,\"signal\":null,\"error\":null,\"stdout\":\"{\\\"format\\\":1,\\\"check\\\":\\\"queue-partial\\\",\\\"verdicts\\\":{\\\"idempotency\\\":\\\"passed\\\",\\\"finality\\\":\\\"passed\\\"}}\",\"stderr\":\"\"}\n{\"argv\":[\"/Users/montassar/.local/share/fnm/node-versions/v24.18.0/installation/bin/node\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/evaluator/adjudicate.mjs\",\"/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-restart-comparison-7N3voU/lost-restart\"],\"status\":1,\"signal\":null,\"error\":null,\"stdout\":\"{\\\"format\\\":1,\\\"kind\\\":\\\"independent-restart-adjudication\\\",\\\"durability\\\":\\\"failed\\\",\\\"finality\\\":\\\"failed\\\",\\\"observed\\\":{\\\"pending\\\":[],\\\"retry\\\":true,\\\"after\\\":[\\\"finished\\\"]}}\",\"stderr\":\"\"}\n",
+        "durationMs": 152.39283299999988,
+        "verdicts": {
+          "idempotency": "failed",
+          "finality": "failed"
+        }
+      },
+      "lab": {
+        "format": 1,
+        "status": "failed",
+        "fresh": true,
+        "reason": null,
+        "attempts": 1,
+        "permit": "e4fb978f1eba62648ee393922defead1576c3cf830054882194895dad3d05f08",
+        "failureSignature": "6d50c3010862df1395f47fdff0e4e4759c7bae4d37ca273f9431eae763d9cf53",
+        "candidateBefore": "1e21bde20d8ab76461002f592cdf851e97dfba5a4e8c5a134fe8c079907cd877",
+        "candidateAfter": "1e21bde20d8ab76461002f592cdf851e97dfba5a4e8c5a134fe8c079907cd877",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "failed"
+          },
+          {
+            "id": "finality",
+            "status": "failed"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "failed"
+            }
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-16T05:56:01.691Z",
+        "durationMs": 773.1126249999998,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "labDurationMs": 841.5750419999999,
+      "labInvocations": [
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "healthy"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "duplicate"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "resurrect"
+        },
+        {
+          "check": "queue-partial",
+          "runner": "restart-check.mjs",
+          "mode": "candidate"
+        }
+      ]
+    }
+  ],
+  "runnerInvocations": {
+    "ordinary": 4,
+    "lab": 16
+  },
+  "derivedNodeProcessesOnCompletedPaths": {
+    "ordinary": 20,
+    "lab": 80
+  },
+  "limitations": "Known repair cases, fixed order, one local run; nested process counts derived from completed paths. No native model, author-time, human-effort or user-benefit measurement."
+}

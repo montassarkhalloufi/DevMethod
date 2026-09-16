@@ -51,7 +51,7 @@ there is no automatic migration.
 positive safe integer. Identical requests return the original booking; changing
 parameters for a used request identifier produces `REQUEST_CONFLICT`. The
 browser reuses an uncertain request identifier while its page remains open.
-After a browser reload, inspect the reservation list before booking again.
+Refreshing availability preserves an unsubmitted quantity. If it is no longer available, the quantity stays visible and submission is disabled until a valid selection is made. After a browser reload, inspect the reservation list before booking again.
 
 HTTP: `GET /api/state`, `POST /api/reservations` with JSON booking arguments, and
 `POST /api/reservations/:id/cancel`. Success is HTTP 200; bad requests are 400,

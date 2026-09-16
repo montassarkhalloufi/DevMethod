@@ -76,10 +76,14 @@ Exit 0 means a valid plan or a supported result. Run/status return 1 for unsuppo
 
 ## Practical limits
 
-This experimental execution profile is POSIX-only; Windows execution refuses rather than claiming unverified descendant cancellation. Host installation layouts remain unchanged. Current native command discovery and behavior in Codex, Claude Code and Cursor are not tested by these runs. Here the Cloud Browser blocked the local URL; DOM-to-HTTP interaction tests are recorded separately and do not certify layout, responsive rendering, accessibility or CSP enforcement in a browser.
+This experimental execution profile is POSIX-only; Windows execution refuses rather than claiming unverified descendant cancellation. Host installation layouts remain unchanged. Current native command discovery and behavior in Codex, Claude Code and Cursor are not tested by these runs. The original cloud environment blocked the local URL. A later local Chrome journey exercised rendering, keyboard reservation, cancellation, reload, server restart and recovery; see the [dated browser evidence](missions/journey-evolution/BROWSER.md). This is agent inspection, not user research, full accessibility conformance or a comprehensive CSP audit.
 
 The lab limits its own local subprocess groups and output. It does not sandbox arbitrary adapter code, intercept host tools, prevent external writers, undo side effects or enforce provider/token/dollar budgets. Keep candidate and evaluator quiescent during verification. Local files are trusted state; an owner able to rewrite them can falsify history. A separate path is not a security boundary against hostile code.
 
 Declared-file coverage is deliberately explicit. Undeclared dependencies, live databases, environment variables, toolchain contents and remote systems need additional scoped evidence. Controls and their authoring cost are part of the approach's overhead. Visual quality, accessibility and usefulness still need direct product/user assessment.
 
 The [research decision](ADR-013-application-evidence-lab.md) and [results](../evaluation/evidence-lab/README.md) describe both gains and losses. A partial oracle passed calibration and missed another fault. This experiment does not establish that DevMethod outperforms an excellent model with good tools and independent tests.
+
+## Restart checking and the simple baseline
+
+The [separate restart repair](../evaluation/evidence-restart/README.md) composes the original partial queue checker with a real two-process probe. The deliberately faulty candidate and old miss remain intact. The same stronger assertions detect all three known defects both directly and through the lab; ordinary execution uses fewer checks. Prefer ordinary tests for this case unless the existing receipt/freshness history has a demonstrated need. This is repair of known cases, not new generalization evidence.

@@ -251,6 +251,11 @@ h2 {
 .slot button span {
   margin-left: 17px;
 }
+.quantity-hint {
+  color: #7e351f;
+  font-size: 12px;
+  margin: 12px 0 0;
+}
 .reservations-section {
   margin-top: 50px;
   padding-top: 32px;
