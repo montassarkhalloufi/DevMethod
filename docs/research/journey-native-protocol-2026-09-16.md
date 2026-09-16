@@ -14,7 +14,7 @@ Fixed execution order: A-initial, B-initial, C-initial, C-maintenance, B-mainten
 
 ## Admission and fixed budget
 
-- Codex CLI 0.147.0; `gpt-5.6-sol`; reasoning `low`; macOS 15.0 arm64. Read-only CLI/RPC preflight confirmed ChatGPT authentication and model availability before dispatch. Claude 2.1.238 was present but unauthenticated and is excluded. The initial capability audit and fixture calibration observed Node 24.18.0, but the executed driver did not retain its Node executable/version; a later local shell resolved Node 23.10.0. The exact native/evaluator Node runtime is therefore not certified by this trial.
+- Codex CLI 0.147.0; `gpt-5.6-sol`; reasoning `low`; macOS 15.0 arm64; Node 24.18.0. Read-only CLI/RPC preflight confirmed ChatGPT authentication and model availability before dispatch. Claude 2.1.238 was present but unauthenticated and is excluded.
 - At most six native model invocations; one active; 120-second termination deadline plus 1.5-second local kill grace; 2 MiB combined output per invocation.
 - Stop before the next invocation once observed input plus output reaches 100000 tokens. This can overshoot during a call and is not a hard token or dollar cap. Any interruption, timeout, unknown usage or failed host process stops the campaign. No automatic retry, purchases, quota resets, alternate provider or extra worker.
 - Dollars remain unavailable with this authentication. Available account quota was confirmed privately before admission; it is not a campaign token measurement. No account settings changed.
@@ -33,3 +33,7 @@ The independent fixture was authored by the workflow-audit worker before any nat
 Raw native output and complete workspace snapshots stay outside public records. Only manually inspected fictional task/product artifacts, sanitized observations and short trace excerpts are published in `evaluation/journey-native/`. Final results must retain all not-run slots and the exact stop reason.
 
 Reproduction is explicit opt-in: `node scripts/native-journey-smoke.mjs prepare FIXTURE NEW_ABSOLUTE_ROOT`, then `node scripts/native-journey-smoke.mjs run ROOT` after reviewing the frozen record. The new bounded authorization for this task does not authorize a later operator's campaign. Results and review are linked from the evaluation directory after execution.
+
+## Post-execution runtime correction
+
+The Node 24.18.0 statement in the frozen preparation description above came from the initial capability audit and fixture calibration. The executed driver did not retain its own Node executable/version, and a later local shell resolved Node 23.10.0. The exact historical native/evaluator Node runtime is therefore **not pinned or certified** by this trial. The private frozen record and original driver in `fe2d963` remain unchanged. A subsequent locally tested correction records `process.version`, executable, OS/architecture and PATH-resolved `node --version` at preparation and refuses dispatch if those observations change. No native rerun validates this corrected version.

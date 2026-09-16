@@ -72,6 +72,21 @@ function driverPins() {
   );
 }
 
+export function journeyRuntime() {
+  return {
+    version: process.version,
+    executable: process.execPath,
+    platform: process.platform,
+    arch: process.arch,
+    pathNodeVersion: execute('node', ['--version']),
+  };
+}
+
+export function assertRuntime(expected, actual = journeyRuntime()) {
+  if (JSON.stringify(expected) !== JSON.stringify(actual))
+    throw new Error('Pinned Node/runtime changed; no dispatch');
+}
+
 function disabledGlobalSkills() {
   const roots = [
     path.join(process.env.HOME, '.agents/skills'),
@@ -202,6 +217,7 @@ export async function prepare(fixture, root) {
     arms,
     fixture: tree(path.join(root, 'fixture')),
     drivers: driverPins(),
+    runtime: journeyRuntime(),
     disabledSkills: disabledGlobalSkills(),
     setupSeconds: (Date.now() - started) / 1000,
     ambientSkills:
@@ -218,6 +234,7 @@ export async function prepare(fixture, root) {
 
 function preflight(root) {
   const frozen = read(path.join(root, 'frozen.json'));
+  assertRuntime(frozen.runtime);
   if (
     digest(fs.readFileSync(path.join(root, 'frozen.json'))) !==
     read(path.join(root, 'frozen.sha256.json')).sha256

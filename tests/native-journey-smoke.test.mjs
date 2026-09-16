@@ -12,6 +12,8 @@ import {
   journeyProtectedInputs,
   protectedChanges,
   journeySlots,
+  journeyRuntime,
+  assertRuntime,
 } from '../scripts/native-journey-smoke.mjs';
 
 test('frozen task inputs reject altered requirements, added files, and symbolic sources', (t) => {
@@ -114,4 +116,13 @@ test('an admitted native slot with a collection failure is unresolved, never not
   assert.deepEqual(summary.unresolved, [
     { id: 'A-initial', status: 'unresolved', dispatchAttempted: true, usage: null },
   ]);
+});
+
+test('runtime drift after preparation is refused before any native dispatch', () => {
+  const observed = journeyRuntime();
+  assert.equal(observed.version, process.version);
+  assert.equal(observed.executable, process.execPath);
+  assert.match(observed.pathNodeVersion, /^v\d+\./);
+  assert.doesNotThrow(() => assertRuntime(observed));
+  assert.throws(() => assertRuntime({ ...observed, pathNodeVersion: 'v0.0.0' }), /runtime changed/);
 });
