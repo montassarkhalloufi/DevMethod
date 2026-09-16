@@ -1,0 +1,89 @@
+{
+  "date": "2026-09-16",
+  "kind": "AI-generated visual proposals, not screenshots or proof of implemented capability",
+  "status": "K method composition explicitly approved and implemented; olive palette reopened after user feedback about indistinct blocks. L midnight-indigo proposal awaiting visual answer.",
+  "constraints": "Creative, modern, simple to use, contemporary, gradient colors, artistry evident in interface; show source code",
+  "artPrompts": [
+    {
+      "key": "G",
+      "name": "Carnet de création",
+      "art": "CREATIVE EDITORIAL ART DIRECTION: ivory textured paper UI panels on a deep ink-navy to ultraviolet softly luminous gradient workspace, striking sophisticated Didot-like editorial serif project title paired with perfectly readable humanist sans controls; elegant cobalt hand-drawn marginal marks connecting a design choice to its revision, tiny handwritten blue annotations in the gutter only, fine ink section lines, slim tabbed paper edges and intentionally asymmetrical spacious typography. Restrained handdrawn loops around ONE pendingvisualapproval; one faint gridprintedtexture in outergutter. Colors ink/ivory/cobalt with small warmochre alert. The interface itself feels like a living design notebook or architect's atelier. Not generic SaaS cards, not a decorative painting behind a standardapp. Artistic confidence and meticulous craft, without visualclutter."
+    },
+    {
+      "key": "H",
+      "name": "Atelier de lumière",
+      "art": "ORIGINAL LUMINOUS ART DIRECTION: organic flowing ink-blue to violet to pale-cyan gradient forms integrated into the header and partition edges, sculptural rounded asymmetrical workspace perimeter, translucent frosted-milk conversation surface with fine glossy edges, main application pane crisp white floating lightly, beautiful exaggerated thin modern geometric typography for project title with highlyreadable sanssmalllabels. A luminouscontinuous curvedline links visualchoice thumbnail to currentrevisionindicator, subtly conveying designprogress. Primary controls look cut fromgradientglass in deepviolet/cyan, clear focus rings. The interface itself has a distinctive modern creative-tool identity like a refined digital artatelier, not genericrectangularSaaS panels, no rainbowwallpaper, no flat dashboard, no mascots. Atmosphericdesaturatedviolet/cyan keeptextdeepnavy andcontrastreliable."
+    }
+  ],
+  "gradientPrompts": [
+    {
+      "key": "E",
+      "name": "Nuit électrique",
+      "colors": "a sophisticated deep midnight navy to vivid indigo GRADIENT flowing across the top header and thin outer frame, restrained soft cyan light bloom at upperright, subtle pale periwinkle gradients in conversation surfaces, cobalt-to-violet gradient primary buttons. Main paper panels white/verypaleblue; source editor midnightnavy with barelyvisible indigo gradient. Beautiful rich color, definitely visibly gradient but exceptionally readable."
+    },
+    {
+      "key": "F",
+      "name": "Crépuscule",
+      "colors": "a sophisticated dark plum to muted copper GRADIENT flowing across the top header and thin outer frame, restrained soft coral light bloom at upperright, subtle warmcream gradients in conversation surfaces, plum-to-copper gradient primary buttons. Main paper panels warmwhite; source editor deepaubergine with barelyvisible plum gradient. Beautiful rich warmcolor, definitely visibly gradient but exceptionally readable. Avoid neonrainbow and pinkblue Lovableidentity."
+    }
+  ],
+  "iterationPrompts": [
+    "Create an exquisitely crafted HIGH FIDELITY WEB APPLICATION UI mockup, 1536x1024 landscape, full screen French DevMethod Studio. A refined original designer tool, beautiful purposeful hierarchy, no toy dashboard. Art direction C: ATELIER — warm ivory surfaces, near-black navy chrome, elegant editorial serif only for project titles, small precise modern sans labels, cobalt action, muted copper tiny accent, hairline borders and deep generous spacing. Screenshot no perspective/device. Top narrow navbar 'DevMethod / Studio', project dropdown 'Les Ateliers', elegant segmented 'Guidé · DevAuto · Autonome' with DevAuto selected. Persistent left conversation 29% width on warm white. At top project 'Les Ateliers' large serif and subtitle 'Faire ensemble, près de chez soi'. Only two beautiful message blocks: 'Vous' request 'Un agenda pour nos ateliers, avec inscription et liste d’attente.'; assistant 'DevMethod' card 'Une direction claire' with two subtle miniature REAL design mockups side by side not gray skeletons, chosen green editorial agenda first, tiny amber 'Votre validation visuelle'. Small 'Décisions techniques déléguées' line. Bottom left floating composer generous multiline 'Ce que vous aimeriez faire évoluer…' paperclip and blue circular arrow. Right70% actual embedded application viewport on ivory, toolbar tab 'Application' selected, 'Code', 'Choix', 'Vérifications', 'Versions'. Preview has device icons, tiny actual status 'Version à essayer', external open icon. App displayed is Les Ateliers: green typographic wordmark, elegant sparse hero 'Faire ensemble, apprendre autrement.', leftintro 28%, right dated agenda vertical3rows 'Réparer son vélo' with date20SEP, 'Cuisine de saison'23SEP, 'Initiation à la couture'26SEP, places/badge/action, no large photos. Quiet forestgreen/appivory differ clearly from navybuilder. No auth/account/payment fake actions. Bottom right unobtrusive evidence strip '3 inscriptions conservées' + amber 'Mobile à vérifier', fine icon. Topright 'Exporter' secondary. Legible balanced beautifully polished with visual breathing room, avoid nested boxes clutter, conventional corporate blue gradients, generic dashboard metrics. Interface should feel usable yet remarkably composed. One complete screen, no extra decorative labels outside app.",
+    "Create a breathtakingly polished but credible HIGH FIDELITY software interface screenshot 1536x1024 in French, original DevMethod / Studio, direction D: PRECISION — cool near-white canvas, midnight blue narrow topchrome, fine graphite text, luminous small royalblue focus accents, subtle silvergray separators, beautiful geometric humanist sans typography and immaculate generous alignment, less cards and more editorial spacing. No gradients/no mascot/no round bubbly junk. Left30% persistent conversation panel separated by verticalhairline, project 'Les Ateliers' top with small 'Projet local'. Discrete three mode picker 'Guidé | DevAuto | Autonome' in header, Guidéselected. Left naturalrequest and response with timeline thinblue rail, then a beautifully designed visualreviewcard 'Choisir l’ambiance' showing two real mini screenshots palettecreamagendavsbluecatalogue with radiochoices. 'Vous gardez la main sur le visuel' subtlecaption. Composer fixedbottomleft 'Décrivez la prochaine évolution' attachment and squarebluearrow. Right70% main product with top tabs 'Application', 'Code', 'Choix', 'Vérifications', 'Versions', Applicationselected underlined. Huge embedded local workshopsapplication creamwhite and darkgreen serif brand 'Les Ateliers', smallserifhero 'Faire ensemble, apprendre autrement.', elegant agenda threehorizontalrows date20/23/26septembre, repairbike/cooking/sewing and green buttons 'S’inscrire'. No photos/noaccount/nopayment. White product frame finelyrounded10px with verysubtleshadow, generous surroundinggutter. Bottomdrawerhandle titled 'À regarder ensemble' with one amber marker 'Affichage mobile à vérifier', expandable 'Voir les preuves'. Upperright honest 'Version prête à essayer' smallamberdot, 'Exporter le projet'. Distinct visual polish focusing calm precision, generous emptyspace, crisp readable French microcopy. Full screencapture style no deviceno perspective. Beautiful serious professional creative environment.",
+    "Create a high fidelity beautiful SOFTWARE SOURCE CODE VIEW mockup 1536x1024 French DevMethod / Studio, matches warm ivory + nearblack navy direction ATELIER. The SAME product workspace composition: thin navytopbar brand 'DevMethod / Studio', project Les Ateliers, Guidé/DevAuto/Autonome mode control, Exporter. Left29% warmwhite conversation column persists, sparse useful dialogue explaining real change 'La liste d’attente conserve les inscriptions existantes', compact technicaldecision localHTML/CSS/JS + JSON, bottommessagecomposer. Right71% main pane selected top tab 'Code' among Application/Code/Choix/Vérifications/Versions. Inside CODE viewport: leftfiletree width180 white 'Fichiers de la version', expandable folders app and runtime; files index.html, app.js, styles.css, lib.mjs, tests.mjs. app.js selected paleblue, rest neat monochromefileicons. Main codeeditorarea verydarknavy #101e2c with readable syntax highlighting restrained blue mint orange, linenumbers. Filenameapp.js toolbar, badge 'Lecture seule', actions 'Copier' and 'Comparer'. At top ofeditor actual short JS excerpt of function joinWaitlist(workshopId,name) reading capacity and saving: const next = addToWaitlist(state.data, workshopId, name); await saveData(next); render();. No huge nonsense code. Split lower editor panel tabs 'Changements' selected and 'Vérifications', diff + 12 lines green, - 3 lines red, 'Liste d’attente FIFO' caption and concise codegreen additions. Small footer 'Version 4 · Code lié à cette version · Les données restent séparées'. Don't imply code is already saved/verified when not. Source view looks credible and elegant like an excellent modern code review app, not a terminal screenshot. Show sufficiently large readabletext, distinguishwhitefiletreefromnavyeditor andivoryconversation. One fullflat screenshot no perspective/no devices/no decorativewatermarks."
+  ],
+  "assets": [
+    [
+      "studio-a.png",
+      "exec-f121381d-e3c0-4d21-87ab-b4c80d69bed8.png"
+    ],
+    [
+      "studio-b.png",
+      "exec-f04733a6-c5ef-4b0e-8a9b-3541fe4e9bf8.png"
+    ],
+    [
+      "studio-c.png",
+      "exec-a4ba3838-70b0-4619-85c1-3a3bb18328aa.png"
+    ],
+    [
+      "studio-d.png",
+      "exec-9634eda3-f902-43f6-9418-1bcf6471fd0b.png"
+    ],
+    [
+      "studio-code-c.png",
+      "exec-5f3a766b-6776-4186-8d5a-4353c597b9d3.png"
+    ],
+    [
+      "studio-e.png",
+      "exec-a3a5085a-c4a5-4212-8aca-fa41a12f49ed.png"
+    ],
+    [
+      "studio-f.png",
+      "exec-bb5bbb4f-5219-4c31-896a-30b6d84d8402.png"
+    ],
+    [
+      "studio-g.png",
+      "exec-519f8635-b734-4188-9517-aea373a6b08b.png"
+    ],
+    [
+      "studio-h.png",
+      "exec-8ab2e407-9ec1-4ac8-949f-93d0291f2f32.png"
+    ],
+    [
+      "studio-i.png",
+      "exec-ee4a9a58-1df8-4137-b44d-d4ccf0e512d7.png"
+    ],
+    [
+      "studio-j.png",
+      "exec-2825879c-dbca-48fd-845a-3772541c8c2a.png"
+    ],
+    [
+      "studio-k-method-olive.png",
+      "exec-28bf2b7f-7dbd-44c9-babc-79d51dc5d769.png"
+    ],
+    [
+      "studio-l-night-indigo.png",
+      "exec-9e1ce1ba-3336-4a3b-8dc9-b6b82f9b05db.png"
+    ]
+  ]
+}

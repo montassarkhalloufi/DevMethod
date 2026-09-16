@@ -1,0 +1,50 @@
+{
+  "createdAt": "2026-09-16T15:20:15.683827+00:00",
+  "kind": "host-agent-transfer-construction",
+  "automaticProductAgent": false,
+  "nativeProviderCalls": 0,
+  "workerConsumption": "unknown",
+  "workerCostUSD": null,
+  "jobId": "fc92d004-b845-46ca-910a-93ccd22164cb",
+  "revision": {
+    "id": "8fc388e7-b16b-43e8-b21a-b241b85b081b",
+    "jobId": "fc92d004-b845-46ca-910a-93ccd22164cb",
+    "title": "Carnet de prêts avec exemplaires et historique",
+    "summary": "Application locale réelle : créer un exemplaire numéroté, prêter à un prénom, enregistrer un retour sans effacer l’historique, filtrer et exporter les données JSON. Deux libellés identiques restent distincts par identifiant et numéro. Les fichiers ont été vérifiés avec node --check et quatre tests métier agent ; l’essai navigateur et le redémarrage restent à effectuer au moment de cette livraison.",
+    "createdAt": "2026-09-16T15:13:28.794Z",
+    "files": [
+      {
+        "path": "app.mjs",
+        "bytes": 6665,
+        "sha256": "8717d09c70ce4fd51d11d2963fd9ce7ce8e208b533f38721b5980c6de40c9d61"
+      },
+      {
+        "path": "index.html",
+        "bytes": 3059,
+        "sha256": "12ace7acfd50e4eadf99f152266239f72148cb7589d176a34748d30161371681"
+      },
+      {
+        "path": "model.mjs",
+        "bytes": 2992,
+        "sha256": "fb27cc5a481278945c2fc6fb25733a0d7ef72077f1a40a5bd3afc2986b0f4739"
+      },
+      {
+        "path": "style.css",
+        "bytes": 4725,
+        "sha256": "50961c9c99cf61085a352ae83df51c1ec79bee9cc3782f78c80ff83e022fda1b"
+      }
+    ]
+  },
+  "workspace": "/private/tmp/devmethod-studio-holdout",
+  "studioURL": "http://127.0.0.1:4334",
+  "previewURL": "http://127.0.0.1:4335",
+  "activeServerSession": 49585,
+  "stoppedSessions": [
+    89542,
+    76452
+  ],
+  "testedBy": "constructing host agent; independent parent checks pending",
+  "provenanceLimit": "The constructor authored an earlier holdout protocol, did not reopen it during construction, and is not blind. Current request includes history from the first slice.",
+  "reference": "Original CSS composition; no raster generation requested for this bounded transfer.",
+  "exportSHA256": "117b9e15da1b25a62c7c7c38786c5cafbd18b64419f95138fb997f844e8b74f5"
+}

@@ -1,0 +1,247 @@
+# DevMethod Studio — créer, essayer et reprendre une application locale
+
+Studio relie une idée, ses choix, de vrais fichiers exécutés et leurs vérifications. Cette
+version produit des applications navigateur HTML/CSS/JavaScript avec données JSON locales.
+Elle ne fournit ni authentification, ni hébergement public, ni paiement, ni génération
+d’images intégrée. Les références visuelles peuvent être importées. L’agent hôte peut
+produire des images lorsqu’il dispose de cette capacité ; le CLI Studio ne la crée pas.
+
+## Démarrer
+
+Node.js 22+ est requis. Depuis une installation DevMethod :
+
+```sh
+devmethod studio --workspace /chemin/absolu/mon-produit --port 4330 --preview-port 4331
+```
+
+Depuis le dépôt, remplacer `devmethod` par `node scripts/studio.mjs` **et retirer le mot
+`studio`** :
+
+```sh
+node scripts/studio.mjs --workspace /chemin/absolu/mon-produit --port 4330 --preview-port 4331
+```
+
+Choisir un dossier dédié, distinct du dépôt DevMethod, sans liens symboliques dans son
+chemin. Le terminal affiche l’adresse locale ; ouvrir `http://127.0.0.1:4330/`. Le produit
+s’exécute sur une origine distincte, au port 4331. Garder les mêmes ports à la reprise
+préserve aussi l’origine des éventuels brouillons navigateur du produit.
+
+Sans `--agent`, les demandes attendent un agent hôte connecté par le bridge décrit plus
+bas. Aucun appel fournisseur n’est lancé. Le choix d’un mode ne connecte pas un agent.
+
+Pour essayer le parcours **déjà enregistré** Les Ateliers depuis le dépôt, reconstruire
+l’exemple dans un dossier absent ou vide, puis lancer le serveur :
+
+```sh
+node scripts/studio.mjs example --workspace /tmp/devmethod-example
+node scripts/studio.mjs serve --workspace /tmp/devmethod-example
+```
+
+Sur macOS, `/tmp` étant un lien symbolique, employer son chemin réel dans les deux commandes :
+
+```sh
+node scripts/studio.mjs example --workspace /private/tmp/devmethod-example
+node scripts/studio.mjs serve --workspace /private/tmp/devmethod-example
+```
+
+Ouvrir l’adresse affichée. L’exemple restaure les versions, références, décisions, données et
+contrôles enregistrés, y compris les échecs. Il ne régénère pas l’application et ne lance aucun
+appel modèle. La consommation historique de 277 934 tokens et son arrêt sont conservés ;
+reconstruire cet exemple ne renouvelle pas le budget. Les données de démonstration sont fictives.
+
+## Choisir son degré de délégation
+
+| Mode | Choix structurants | Nouvelle version de code |
+| --- | --- | --- |
+| Guidé | Cadrage, design sélectionné et architecture à valider | À examiner puis activer explicitement |
+| DevAuto | Les mêmes choix restent à valider | Réalisation déléguée et activation automatique dans le périmètre approuvé |
+| Autonome | Choix réversibles également délégués | Activation automatique ; mêmes limites et contrôles |
+
+Ces modes donnent des valeurs par défaut. Une délégation explicite peut les préciser avec
+trois responsabilités : `structure` (produit et technique), `visual` (choix visuel) et
+`adoption` (activation du code), chacune confiée à `agent` ou `user`. L’agent hôte peut
+enregistrer cette politique dans `project.delegation` via `/api/project` ; les trois champs
+sont alors requis. Par exemple, `{ "structure": "agent", "visual": "user", "adoption":
+"user" }` délègue les décisions produit et techniques tout en réservant le visuel et
+l’activation. Le nom Guidé ne révoque pas cette délégation.
+
+Si `visual` vaut `user`, choisir explicitement une proposition enregistre l’image sélectionnée
+et une décision d’approbation correspondante. Importer une image, exprimer une préférence ou
+laisser un agent sélectionner un identifiant ne vaut pas approbation. Le serveur refuse toute
+nouvelle révision de code avant cet accord, y compris en Autonome. Sans politique explicite,
+les anciens projets gardent leur comportement : aucun accord d’image indépendant n’est exigé.
+
+Aucun mode n’autorise une dépense nouvelle, un déploiement ou un service externe. Quand un
+accord requis manque, le runner reste au cadrage. Après validation, envoyer la demande de
+réalisation. Modifier l’intention, les contraintes, le cadrage, la référence sélectionnée ou
+la décision d’architecture invalide l’accord structurel correspondant ; une simple version
+de code ne l’invalide pas. L’état expose séparément les responsabilités déléguées et les
+accords enregistrés. La conversation ne révoque pas automatiquement un accord persistant :
+l’agent doit réconcilier une décision rouverte avant le travail qui en dépend.
+
+Pour le shell Studio, K a fixé la composition, le résultat visible, « Qui décide ? », les
+choix révisables et les preuves par version. Après essai, l’utilisateur a rejeté l’esthétique
+olive (« camouflage ») : cette partie du choix est rouverte. La proposition **L bleu nuit /
+indigo** attend son accord ; elle n’est ni une direction validée ni une fidélité démontrée.
+Les travaux techniques indépendants continuent. Le design Agenda de l’application créée
+reste distinct de celui du shell.
+
+## Le parcours visible
+
+1. Décrire le projet, choisir le mode et joindre des références PNG, JPEG, WebP, texte ou
+   Markdown. Sauvegarder, puis envoyer une première demande.
+2. Examiner le cadrage, les propositions et les décisions. Les images sont de vrais fichiers
+   de référence ; une image importée n’est pas une preuve que l’application lui est fidèle.
+3. Essayer la version produite dans l’aperçu. « Prête », « active » et « vérifiée » décrivent
+   des états différents. Lire la portée des contrôles : une syntaxe valide ne prouve pas
+   une inscription fonctionnelle ni un rendu fidèle.
+4. Sélectionner un élément du produit pour accompagner une demande d’évolution, ou décrire
+   directement le changement. Le contexte de cet élément est joint à la demande.
+5. Consulter les anciennes versions et leurs contrôles. Revenir au code précédent conserve
+   les données métier actuelles ; cela ne restaure pas une ancienne base de données.
+
+La vue Code lit les fichiers réels de la version examinée et compare leur texte à la version
+de départ de sa demande. Elle n’invente pas de diff pour un binaire, un aperçu tronqué ou une
+comparaison trop coûteuse. Depuis la version active, ouvrir « Modifier le code » pour travailler
+sur un brouillon séparé.
+
+## Modifier le code et essayer le brouillon
+
+Les fichiers texte existants jusqu’à 256 Kio sont éditables. Les binaires et les fichiers plus
+volumineux restent consultables en lecture seule. L’interface ne propose pas encore d’ajout
+ou de suppression de fichiers. Avec « Aperçu automatique », une pause de saisie de 700 ms
+déclenche l’enregistrement puis la vérification ; « Vérifier et actualiser » et Ctrl/Cmd+S
+permettent de le demander explicitement.
+
+La « compilation » de cette tranche vérifie la syntaxe des fichiers JavaScript et JSON,
+sans exécuter le code applicatif côté serveur. Elle n’installe pas de paquets et ne fournit
+ni bundler, TypeScript, validateur CSS, contrôle du JavaScript inline ni tests métier.
+Les références locales possiblement manquantes sont des avertissements heuristiques.
+Le navigateur exécute ensuite le brouillon sur une **troisième origine locale**, annoncée
+par le runtime, avec une copie des données métier. Ces données d’essai sont conservées entre
+les builds du même brouillon ; elles ne modifient pas celles du produit actif.
+
+En cas d’erreur statique, le dernier aperçu valide reste affiché et signalé comme ancien.
+Les erreurs d’exécution rapportées par l’iframe courante deviennent des diagnostics et
+bloquent l’adoption dans l’interface. Un contrôle réussi ne prouve ni le besoin ni la fidélité
+visuelle : les critères du projet restent à examiner. « Préparer une correction » copie
+les signaux dans la zone de demande, **sans l’envoyer** ni appeler un modèle.
+
+« Adopter cette version » crée une nouvelle révision à partir du build exact vérifié, sous
+réserve des choix requis et de l’absence d’une demande agent en cours. Elle transfère le
+code, pas les données d’essai. La nouvelle preuve couvre uniquement la syntaxe JS/JSON ;
+les contrôles fonctionnels des anciennes versions ne sont pas reconduits. Le brouillon
+repart ensuite de cette révision.
+
+Une écriture concurrente ou une version active changée produit un conflit : la saisie locale
+reste disponible ; choisir explicitement de relire ou de reprendre la version active.
+« Récupérer mes modifications » télécharge un JSON des textes du brouillon. Le brouillon
+serveur persiste au redémarrage ; la copie navigateur protège les textes non acquittés
+lorsque le stockage local est disponible. L’export du projet ne contient pas ce brouillon
+non adopté : récupérer son JSON séparément avant une restauration ailleurs.
+
+Le [parcours enregistré de l'éditeur](missions/creation-experience/evidence/studio/editor-journey.json)
+a réellement essayé une modification du pied de page, deux erreurs récupérables et
+l'adoption de la version `1aea70fe-1134-4dfa-a872-a79e3003b6aa`, sans transférer une inscription
+d'essai dans les données actives. Un défaut du contrôle de syntaxe a été découvert puis
+corrigé pendant cet essai. Si un ancien build doit être revérifié, relancer « Vérifier et
+actualiser » : le brouillon reste conservé. Ces observations d'agent ne sont pas une
+validation humaine ni une vérification complète du produit.
+
+Les erreurs, résultats interrompus et contrôles liés à une autre révision restent visibles.
+Une demande annulée ou devenue obsolète ne peut pas livrer tardivement son résultat. Un
+contexte modifié pendant l’exécution empêche son adoption et conserve les fichiers de travail.
+Annuler puis reformuler une demande obsolète permet de repartir du contexte courant.
+
+## Connecter le CLI Codex existant, facultativement
+
+L’adaptateur doit trouver `codex` sur le PATH et utilise son authentification déjà disponible :
+
+```sh
+devmethod studio --workspace /chemin/absolu/mon-produit --agent codex --max-jobs 2 --timeout-ms 300000
+```
+
+Il lance une demande dans un dossier de travail avec sandbox `workspace-write`, sans réseau,
+installation de paquets, plugins, recherche web ou sous-agents. Les références sont copiées
+et le contexte transmis. Des skills DevMethod distribués alimentent `method.md` : ce guidage
+ne transforme pas les services indisponibles en capacités du produit. L’adaptateur exécute
+un contrôle de syntaxe des fichiers JavaScript livrés ; les essais fonctionnels et visuels
+restent à effectuer et à documenter.
+
+Le registre de consommation persiste dans le projet. Par défaut : au plus deux admissions,
+300 secondes par appel et arrêt **entre appels** à 100 000 tokens connus. Ce seuil n’est pas
+un plafond d’un appel ni une garantie financière. Un usage inconnu suspend les appels
+suivants ; l’export conserve cet arrêt. Le prix monétaire reste inconnu.
+
+L’essai natif du 16 septembre 2026 a effectué **un appel : 277 934 tokens rapportés**
+(264 412 en entrée, dont 228 224 en cache, et 13 522 en sortie). Il a dépassé le seuil au cours
+de cet appel ; aucun second appel natif n’a été lancé. Les corrections et l’évolution
+suivantes ont utilisé l’agent de mission par le bridge. Cela prouve une exécution réelle de
+cet adaptateur, pas une création autonome complète validée ni une supériorité concurrentielle.
+
+## Utiliser le bridge avec un agent hôte
+
+Garder le serveur lancé. Ces commandes sont destinées à l’agent, pas à la coordination
+quotidienne de rôles par l’utilisateur :
+
+```sh
+devmethod studio status --workspace /chemin/absolu/mon-produit
+devmethod studio claim --workspace /chemin/absolu/mon-produit --worker "Agent hôte"
+devmethod studio finish --workspace /chemin/absolu/mon-produit --file /chemin/finish.json
+devmethod studio check --workspace /chemin/absolu/mon-produit --file /chemin/check.json
+```
+
+`claim` renvoie `job`, `context` et `workDirectory`. Lire le contexte retourné et les références
+relatives au workspace ; modifier uniquement le staging de cette demande. L’agent doit
+conserver le design choisi, explorer les incertitudes utiles, exécuter ses vérifications et
+rapporter leurs limites. Le bridge ne lance pas de processus fournisseur à sa place.
+
+Exemple de remise d’une application dont `app/index.html` et ses fichiers existent réellement :
+
+```json
+{"jobId":"identifiant-retourné","title":"Inscription persistante","summary":"Ce qui a changé et ce qui a été essayé."}
+```
+
+Le serveur calcule les empreintes et crée la révision ; l’agent ne fournit pas de faux
+manifest. Un résultat de cadrage peut contenir `brief`, `decisions` et `designs` sans nouvelle
+application. Les décisions de l’agent utilisent `source: "agent"`. `fail --file` accepte
+`{"jobId":"…","error":"Cause observable"}`. Les champs exacts des contrôles et des résultats
+sont définis dans le [contrat](missions/creation-experience/CONTRACT.md).
+
+Le service de données du produit expose `GET /api/data` et
+`POST /api/data` avec `{ "version": 1, "data": {} }`. **`{}` est le stockage initial vide** ;
+l’application décide de son initialisation sans écraser un format non vide inconnu. Un
+HTTP 409 signifie qu’une autre écriture est intervenue : conserver la saisie, recharger puis
+réessayer sur les données fraîches. Studio ne garantit pas à lui seul les migrations ou la
+préservation des formulaires de toute application générée.
+
+## Interrompre, exporter et reprendre
+
+Arrêter le serveur avec Ctrl+C, puis relancer la même commande et le même workspace. Les
+projets, demandes, références, décisions, versions et données persistent. Une demande qui
+était encore `running` à la réouverture devient `interrupted`, sans relance implicite. Après
+un arrêt brutal, le verrou est conservateur : vérifier qu’aucun serveur ne l’utilise avant
+une intervention manuelle sur `.devmethod/studio.lock`.
+
+L’export de l’interface produit une archive TAR contenant code déclaré, références, état,
+données actuelles, runtime autonome et compteur d’admission portable. Il exclut le token de
+contrôle, les journaux fournisseur, les identifiants globaux et les dossiers de travail
+inachevés. Il n’efface pas la consommation pour autoriser un nouvel essai.
+
+```sh
+devmethod studio restore --workspace /chemin/absolu/projet-restaure --file /chemin/devmethod-project.tar
+devmethod studio --workspace /chemin/absolu/projet-restaure
+```
+
+La destination doit être absente ou vide. Une archive invalide est refusée avant extraction ;
+les écritures passent par un dossier temporaire. Pour essayer l’application exportée sans
+installer DevMethod, depuis le dossier extrait :
+
+```sh
+node launch.mjs 4399
+```
+
+Ouvrir `http://127.0.0.1:4399/`. Cette commande exécute le produit local et son stockage ; elle
+ne fournit pas le Studio ni un agent. Le contrat et les fichiers sont portables ; l’exécution
+de plusieurs fournisseurs n’a pas été vérifiée. Voir la [conception et ses critères de
+réfutation](missions/creation-experience/PLAN.md).

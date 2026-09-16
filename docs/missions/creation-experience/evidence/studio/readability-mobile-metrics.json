@@ -1,0 +1,196 @@
+{
+  "capturedAt": "2026-09-16T16:25:30.068Z",
+  "palette": "Olive retained pending explicit approval of L; not a validated final art direction.",
+  "mobile": {
+    "cap": {
+      "bottom": 372.0241241455078,
+      "height": 231.5127716064453,
+      "left": 10,
+      "right": 380,
+      "top": 140.5113525390625,
+      "width": 370,
+      "x": 10,
+      "y": 140.5113525390625
+    },
+    "draft": "Reprise vérifiée : conserver les choix, les inscriptions et la liste d’attente.",
+    "fonts": [
+      {
+        "font": "13px",
+        "selector": "#tab-product"
+      },
+      {
+        "font": "13px",
+        "selector": "#project-cap>ul li"
+      },
+      {
+        "font": "13px",
+        "selector": ".preview-toolbar button"
+      },
+      {
+        "font": "13px",
+        "selector": ".job-card p"
+      },
+      {
+        "font": "13px",
+        "selector": ".policy-choice"
+      },
+      {
+        "font": "13px",
+        "selector": ".evidence-dock p"
+      }
+    ],
+    "height": 843,
+    "overflow": false,
+    "preview": {
+      "bottom": 1047.9900512695312,
+      "height": 520,
+      "left": 15.909090042114258,
+      "right": 374.0908832550049,
+      "top": 527.9900512695312,
+      "width": 358.1817932128906,
+      "x": 15.909090042114258,
+      "y": 527.9900512695312
+    },
+    "tabs": {
+      "bottom": 437.8337821960449,
+      "height": 52.90482711791992,
+      "left": 10.909090042114258,
+      "right": 379.0908832550049,
+      "top": 384.928955078125,
+      "width": 368.1817932128906,
+      "x": 10.909090042114258,
+      "y": 384.928955078125
+    },
+    "width": 390
+  },
+  "desktop1536": {
+    "dock": {
+      "bottom": 983.9985733032228,
+      "height": 114.6022720336914,
+      "left": 483.2954406738281,
+      "right": 1520.3692932128906,
+      "top": 869.3963012695312,
+      "width": 1037.0738525390625,
+      "x": 483.2954406738281,
+      "y": 869.3963012695312
+    },
+    "draft": "Reprise vérifiée : conserver les choix, les inscriptions et la liste d’attente.",
+    "flow": {
+      "bottom": 741.0795288085938,
+      "height": 426.0085144042969,
+      "left": 15.994318008422852,
+      "right": 460.3976993560791,
+      "top": 315.0710144042969,
+      "width": 444.40338134765625,
+      "x": 15.994318008422852,
+      "y": 315.0710144042969
+    },
+    "height": 1000,
+    "overflow": false,
+    "preview": {
+      "bottom": 811.0014038085938,
+      "height": 471.8110656738281,
+      "left": 494.20452880859375,
+      "right": 1509.4601440429688,
+      "top": 339.1903381347656,
+      "width": 1015.255615234375,
+      "x": 494.20452880859375,
+      "y": 339.1903381347656
+    },
+    "width": 1536
+  },
+  "desktop1280": {
+    "flow": {
+      "bottom": 588.288330078125,
+      "height": 273.2173156738281,
+      "left": 15.994318008422852,
+      "right": 383.4943180084229,
+      "top": 315.0710144042969,
+      "width": 367.5,
+      "x": 15.994318008422852,
+      "y": 315.0710144042969
+    },
+    "fonts": [
+      {
+        "font": "13px",
+        "text": "▣ Application"
+      },
+      {
+        "font": "13px",
+        "text": "⌘ Code"
+      },
+      {
+        "font": "13px",
+        "text": "◇ Choix"
+      },
+      {
+        "font": "13px",
+        "text": "✓ Preuves"
+      },
+      {
+        "font": "13px",
+        "text": "↶ Reprise"
+      },
+      {
+        "font": "13px",
+        "text": "Bureau"
+      },
+      {
+        "font": "13px",
+        "text": "Mobile"
+      },
+      {
+        "font": "13px",
+        "text": "⌖ Cibler un élément"
+      },
+      {
+        "font": "13px",
+        "text": "1 contrôle(s) passé(s) · 0 échoué(s)"
+      },
+      {
+        "font": "13px",
+        "text": "Les contrôles enregistrés ne prouvent pas à eux seuls t"
+      },
+      {
+        "font": "13px",
+        "text": "277 934 jetons connus. Coût monétaire non disponible."
+      },
+      {
+        "font": "13px",
+        "text": "Preuves de cette version"
+      },
+      {
+        "font": "13px",
+        "text": "Voir le détail"
+      },
+      {
+        "font": "13px",
+        "text": "Ce qui reste à établir"
+      }
+    ],
+    "height": 900,
+    "overflow": false,
+    "preview": {
+      "bottom": 679.0625,
+      "height": 339.8721618652344,
+      "left": 417.3011169433594,
+      "right": 1253.0965270996094,
+      "top": 339.1903381347656,
+      "width": 835.79541015625,
+      "x": 417.3011169433594,
+      "y": 339.1903381347656
+    },
+    "width": 1280
+  },
+  "interaction": {
+    "discussion": "Native link focused #request, preserved draft; return-to-product link worked.",
+    "tabs": "Code opened actual source view, then Application restored; no request sent."
+  },
+  "consoleErrors": [],
+  "limits": [
+    "This is an agent visual and DOM check, not a human usability study.",
+    "200% browser zoom not independently tested in this pass.",
+    "Browser retained existing 110% zoom; viewport override yielded measured CSS dimensions.",
+    "Product business data and shared request draft were not changed."
+  ]
+}

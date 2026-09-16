@@ -37,6 +37,7 @@ export default defineConfig(
   {
     files: [
       'scripts/atelier/public/*.js',
+      'scripts/studio/public/*.js',
       'examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab,seance}/**/*.{js,mjs,cjs,ts,tsx}',
     ],
     extends: [js.configs.recommended],
@@ -61,6 +62,7 @@ export default defineConfig(
   {
     files: [
       'scripts/atelier/public/*.js',
+      'scripts/studio/public/*.js',
       'examples/seance/code/*.js',
       'examples/pocket-tasks/public/**/*.js',
       'examples/clair-from-zero/app/**/*.mjs',
