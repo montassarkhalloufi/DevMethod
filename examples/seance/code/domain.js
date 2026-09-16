@@ -155,6 +155,16 @@ function proposals(draft) {
     },
   ];
 }
+// Earlier edits have no provenance: only the call can be removed without guessing.
+function cancelCall(draft) {
+  const next = clone(draft);
+  next.order = next.order.filter((id) => id !== 'call');
+  next.callRequired = false;
+  next.decision =
+    'Appel annulé : appel et obligation retirés ; ordre, durées et activités du brouillon courant conservés. Aucun ancien programme restauré.';
+  return next;
+}
+
 function publish(document, publishedAt) {
   const result = schedule(document.draft);
   if (!result.valid) throw new Error(result.errors.join(' '));
@@ -202,6 +212,7 @@ export {
   schedule,
   changes,
   proposals,
+  cancelCall,
   publish,
   validateDocument,
 };

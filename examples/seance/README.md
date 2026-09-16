@@ -16,7 +16,8 @@ Open `http://127.0.0.1:9087`. The source uses ES modules and must be served over
 2. Check the calculated times and explicitly publish a first version. No previous publication is fabricated.
 3. Activate the guest's 20:05–20:20 call. The existing programme is not rearranged automatically. Publication is blocked until the call fits.
 4. Choose one proposed compromise or build a manual arrangement. Review the changes, then publish a new version. Earlier versions remain selectable and unchanged.
-5. Export the chosen version as an offline HTML programme, including the volunteer announcements. Sending it is a separate manual action. JSON backup is available; the prototype has no JSON restore interface.
+5. If the call is cancelled, open “Prévisualiser le retrait de l’appel”. Read the recalculated timetable and changes against the current draft. Cancel without saving, or explicitly apply to the draft. This does not publish.
+6. Export the chosen version as an offline HTML programme, including the volunteer announcements. Sending it is a separate manual action. JSON backup is available; the prototype has no JSON restore interface.
 
 ## Behaviour and boundaries
 
@@ -28,6 +29,10 @@ The initial six films total 92 minutes; adding interval and discussion gives an 
 - Keep a separate 15-minute discussion, remove F4, and wait two minutes before the call: empty room at 21:10.
 
 These are proposals for the known fictional data, not an optimiser or an exhaustive list of possibilities. Applying either requires an explicit click. Manual edits replace the prior compromise note with a reminder to review times and announcements.
+
+Cancelling the call removes only that activity, its requirement and its calculated waiting time. It preserves the current title, relative order, discussion duration and all other activities, including later independent edits. The application does not know why earlier edits happened: it cannot reconstruct an old order or infer whether a missing film/discussion should return. The preview explains this limitation and offers explicit additions at the end, with real recalculated times; ordinary arrows can then move them. An invalid preview can be applied as an editable draft, but publication remains blocked until its schedule is valid. Any ordinary draft edit or compromise selection closes the preview so an outdated copy cannot overwrite new changes.
+
+The preview lives only in memory and does not write to storage. Applying saves through the existing storage boundary. The schema and publication/export format remain unchanged; existing valid saves require no migration. Cancelling an unintegrated call requirement also works.
 
 `code/domain.js` owns pure scheduling, conflicts, proposals, differences and publication snapshots. `code/render.js` owns escaped HTML views and offline exports. `code/storage.js` owns JSON persistence; malformed stored data blocks opening without replacement, while a failed write leaves a visibly temporary session. `code/app.js` binds user actions and coordinates these modules.
 
@@ -41,6 +46,6 @@ From the repository root, with development dependencies available:
 node --test tests/seance.test.mjs
 ```
 
-The ten original functional cases cover timing, both compromises, conflicts, explicit choice, unchanged old publications/HTML, escaping, storage and fixed durations. Additional cases cover invalid activity identifiers, protection of stored data on failed opening, and DOM event bindings through title editing, ordering, publishing, choosing and reopening. DOM tests do not establish actual browser layout, download behaviour, old-phone usability, or human understanding. No generated evidence files are written by this test suite.
+The ten original functional cases cover timing, both compromises, conflicts, explicit choice, unchanged old publications/HTML, escaping, storage and fixed durations. Additional cases cover invalid activity identifiers, protection of stored data on failed opening, and DOM event bindings through title editing, ordering, publishing, choosing and reopening. Cancellation cases also cover current-edit preservation for both compromises, explicit restoration choices, zero writes on preview/cancel, stale-preview invalidation, unchanged publication snapshots and offline HTML, and persistence/reopening after application. DOM tests do not establish actual browser layout, download behaviour, old-phone usability, or human understanding. No generated evidence files are written by this test suite.
 
 This example is an adaptation of an independently authored prototype, not a general replacement for DevMethod. Human usefulness and comparative benefit remain unestablished.

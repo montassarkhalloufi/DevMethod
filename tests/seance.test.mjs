@@ -218,3 +218,157 @@ test('une reprise corrompue signale le refus et ne remplace pas la sauvegarde', 
     dom.window.close();
   }
 });
+
+test('annuler l’appel conserve les éditions indépendantes sans deviner les activités à restaurer', () => {
+  const state = D.initial();
+  state.draft = D.proposals(state.draft)[1].draft;
+  state.draft.title = 'Titre courant';
+  state.draft.order = ['F2', 'F1', 'F3', 'break', 'call', 'shortDiscussion', 'F6'];
+  const before = JSON.stringify(state.draft);
+  const preview = D.cancelCall(state.draft);
+  assert.equal(JSON.stringify(state.draft), before);
+  assert.equal(preview.title, 'Titre courant');
+  assert.deepEqual(preview.order, ['F2', 'F1', 'F3', 'break', 'shortDiscussion', 'F6']);
+  assert.equal(preview.callRequired, false);
+  assert.equal(preview.order.includes('F4'), false);
+  assert.equal(preview.order.includes('F5'), false);
+  assert.equal(
+    D.schedule(preview).rows.some((row) => row.id === 'waiting'),
+    false,
+  );
+  assert.equal(D.schedule(preview).valid, true);
+});
+
+test('les deux compromis peuvent être retirés sans modifier les anciennes publications ou leur HTML', () => {
+  for (const option of [0, 1]) {
+    let state = D.publish(D.initial(), 'avant');
+    state.draft = D.proposals(state.draft)[option].draft;
+    state = D.publish(state, 'compromis');
+    const publications = JSON.stringify(state.publications);
+    const html = state.publications.map(R.offline);
+    state.draft.title = 'Un nouveau titre';
+    state.draft.order = state.draft.order.filter((id) => id !== 'F5');
+    state.draft.order.reverse();
+    const expected = state.draft.order.filter((id) => id !== 'call');
+    state.draft = D.cancelCall(state.draft);
+    assert.deepEqual(state.draft.order, expected);
+    assert.equal(state.draft.title, 'Un nouveau titre');
+    assert.equal(JSON.stringify(state.publications), publications);
+    assert.deepEqual(state.publications.map(R.offline), html);
+    assert.deepEqual(D.validateDocument(state), state);
+    assert.deepEqual(D.cancelCall(state.draft), state.draft);
+  }
+});
+
+async function cancellationPage(seed) {
+  const { JSDOM } = await import('jsdom');
+  const { start } = await import('../examples/seance/code/app.js');
+  const dom = new JSDOM('<p id="storage"></p><div id="app"></div>', { url: 'http://localhost' });
+  const local = dom.window.localStorage;
+  local.setItem(S.key, JSON.stringify(seed));
+  let writes = 0;
+  start(dom.window.document, {
+    load: () => S.load(local),
+    save: (value) => {
+      writes += 1;
+      S.save(value, local);
+    },
+  });
+  return {
+    dom,
+    page: dom.window.document,
+    read: () => S.load(local),
+    bytes: () => local.getItem(S.key),
+    writes: () => writes,
+  };
+}
+
+test('aperçu DOM : annulation sans écriture, ajout explicite, application puis reprise inchangée des versions', async () => {
+  let seed = D.publish(D.initial(), 'première');
+  seed.draft = D.proposals(seed.draft)[1].draft;
+  seed = D.publish(seed, 'appel');
+  seed.draft.title = 'La soirée continue';
+  seed.draft.order = ['F2', 'F1', 'F3', 'break', 'call', 'shortDiscussion', 'F6'];
+  const current = await cancellationPage(seed);
+  try {
+    const { page, read } = current;
+    const before = current.bytes();
+    const writes = current.writes();
+    page.querySelector('#cancel-call').click();
+    const preview = page.querySelector('#cancellation-preview');
+    assert.equal(page.activeElement, preview);
+    assert.match(preview.textContent, /raisons des anciennes éditions ne sont pas conservées/);
+    assert.match(preview.textContent, /Retiré : Appel/);
+    assert.match(preview.textContent, /Retiré : Attente/);
+    assert.match(preview.textContent, /20:27/);
+    page.querySelector('[data-preview-add="F4"]').click();
+    assert.match(page.querySelector('#cancellation-preview').textContent, /Ajouté : Le banc bleu/);
+    assert.equal(current.bytes(), before);
+    assert.equal(current.writes(), writes);
+    page.querySelector('#dismiss-cancellation').click();
+    assert.equal(page.querySelector('#cancellation-preview'), null);
+    assert.equal(current.bytes(), before);
+    assert.equal(current.writes(), writes);
+
+    page.querySelector('#cancel-call').click();
+    page.querySelector('[data-preview-add="F4"]').click();
+    page.querySelector('#apply-cancellation').click();
+    const applied = read();
+    assert.equal(current.writes(), writes + 1);
+    assert.equal(applied.draft.title, seed.draft.title);
+    assert.equal(applied.draft.callRequired, false);
+    assert.deepEqual(applied.draft.order, [
+      'F2',
+      'F1',
+      'F3',
+      'break',
+      'shortDiscussion',
+      'F6',
+      'F4',
+    ]);
+    assert.deepEqual(applied.publications, seed.publications);
+    assert.deepEqual(applied.publications.map(R.offline), seed.publications.map(R.offline));
+    const reopened = await cancellationPage(applied);
+    try {
+      assert.deepEqual(reopened.read(), applied);
+      assert.equal(reopened.page.querySelector('#cancel-call'), null);
+      reopened.page.querySelector('[data-add="F5"]').click();
+      assert.equal(reopened.read().draft.order.at(-1), 'F5');
+      assert.equal(reopened.read().publications.length, 2);
+    } finally {
+      reopened.dom.window.close();
+    }
+  } finally {
+    current.dom.window.close();
+  }
+});
+
+test('une édition ordinaire ferme un aperçu devenu périmé ; discussion restaurée uniquement par choix explicite', async () => {
+  const seed = D.initial();
+  seed.draft = D.proposals(seed.draft)[0].draft;
+  const current = await cancellationPage(seed);
+  try {
+    const { page, dom, read } = current;
+    page.querySelector('#cancel-call').click();
+    assert.equal(
+      page.querySelector('#cancellation-preview tbody').textContent.includes('Discussion'),
+      false,
+    );
+    page.querySelector('[data-preview-add="shortDiscussion"]').click();
+    assert.equal(read().draft.order.includes('shortDiscussion'), false);
+    assert.equal(page.querySelector('[data-preview-add="discussion"]'), null);
+    page.querySelector('#title').value = 'Titre encore modifié';
+    page.querySelector('#title').dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+    assert.equal(page.querySelector('#apply-cancellation'), null);
+    assert.equal(read().draft.callRequired, true);
+    page.querySelector('#cancel-call').click();
+    page.querySelector('[data-preview-add="shortDiscussion"]').click();
+    page.querySelector('#apply-cancellation').click();
+    assert.equal(read().draft.title, 'Titre encore modifié');
+    assert.equal(read().draft.order.at(-1), 'shortDiscussion');
+    assert.equal(read().draft.order.includes('discussion'), false);
+    assert.equal(read().publications.length, 0);
+  } finally {
+    current.dom.window.close();
+  }
+});

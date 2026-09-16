@@ -8,6 +8,7 @@ export function start(document, storage = S) {
   let documentState;
   let volatile = false;
   let selectedVersion = null;
+  let cancellationPreview = null;
   try {
     documentState = storage.load() || D.initial();
   } catch (error) {
@@ -28,6 +29,7 @@ export function start(document, storage = S) {
   }
 
   function mutate(action) {
+    cancellationPreview = null;
     action(documentState.draft);
     documentState.draft.decision =
       'Ajustement manuel du brouillon : vérifier les horaires et les changements avant publication.';
@@ -99,6 +101,7 @@ export function start(document, storage = S) {
   function bindProposals(options) {
     root.querySelectorAll('[data-option]').forEach((button) => {
       button.onclick = () => {
+        cancellationPreview = null;
         documentState.draft = D.clone(options[Number(button.dataset.option)].draft);
         save();
         render();
@@ -106,8 +109,43 @@ export function start(document, storage = S) {
     });
   }
 
+  function bindCancellation() {
+    const open = root.querySelector('#cancel-call');
+    if (open)
+      open.onclick = () => {
+        cancellationPreview = D.cancelCall(documentState.draft);
+        render();
+        root.querySelector('#cancellation-preview').focus();
+      };
+    const dismiss = root.querySelector('#dismiss-cancellation');
+    if (!dismiss) return;
+    dismiss.onclick = () => {
+      cancellationPreview = null;
+      render();
+      root.querySelector('#cancel-call').focus();
+    };
+    root.querySelectorAll('[data-preview-add]').forEach((button) => {
+      button.onclick = () => {
+        if (!cancellationPreview) return;
+        const id = button.dataset.previewAdd;
+        cancellationPreview.order.push(id);
+        cancellationPreview.decision += ` Ajout explicite : ${D.catalog[id].title} (${D.catalog[id].duration} min), en fin de programme.`;
+        render();
+      };
+    });
+    root.querySelector('#apply-cancellation').onclick = () => {
+      if (!cancellationPreview) return;
+      documentState.draft = D.clone(cancellationPreview);
+      cancellationPreview = null;
+      save();
+      render();
+      root.querySelector('#title').focus();
+    };
+  }
+
   function bindPublications(published) {
     root.querySelector('#publish').onclick = () => {
+      cancellationPreview = null;
       documentState = D.publish(documentState, new Date().toISOString());
       selectedVersion = documentState.publications.at(-1).version;
       save();
@@ -145,9 +183,11 @@ export function start(document, storage = S) {
       options,
       published,
       volatile,
+      cancellationPreview,
     });
     bindDraftControls();
     bindProposals(options);
+    bindCancellation();
     bindPublications(published);
   }
 

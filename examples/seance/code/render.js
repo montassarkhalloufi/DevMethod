@@ -59,7 +59,21 @@ function proposalCard(option, index) {
 }
 
 function eventPanel(draft, options) {
-  return `<section class="panel event"><h2>2. Un appel à intégrer à 20:05</h2><p>L’invitée est disponible exactement de 20:05 à 20:20. L’appel est une activité entière ; aucun film ne peut être coupé. Les deux ajustements ci-dessous sont des propositions, pas une décision prise pour vous.</p>${!draft.callRequired ? '<button id="event">Prendre en compte ce changement</button>' : `<div class="options">${options.map(proposalCard).join('')}</div><p>Vous pouvez aussi construire votre propre ajustement avec les flèches. Une arrivée anticipée avant l’appel produit une attente visible ; une arrivée tardive empêche la publication.</p>`}</section>`;
+  return `<section class="panel event"><h2>2. Intégrer ou réintroduire un appel à 20:05</h2><p>Si l’appel est confirmé, l’invitée est disponible exactement de 20:05 à 20:20. L’appel est une activité entière ; aucun film ne peut être coupé. Les deux ajustements ci-dessous sont des propositions, pas une décision prise pour vous.</p>${!draft.callRequired ? '<button id="event">Prendre en compte ce changement</button>' : `<div class="options">${options.map(proposalCard).join('')}</div><p>Vous pouvez aussi construire votre propre ajustement avec les flèches. Une arrivée anticipée avant l’appel produit une attente visible ; une arrivée tardive empêche la publication.</p>`}</section>`;
+}
+
+function cancellationPanel(draft, preview) {
+  if (!draft.callRequired && !draft.order.includes('call')) return '';
+  if (!preview)
+    return `<section class="panel"><h2>L’appel est annulé ?</h2><p>Préparez son retrait à partir du brouillon courant, puis relisez les horaires avant d’appliquer.</p><button id="cancel-call">Prévisualiser le retrait de l’appel</button></section>`;
+  const result = D.schedule(preview);
+  const additions = availableActivities(preview)
+    .map(
+      ([id, item]) =>
+        `<button data-preview-add="${id}">Ajouter ${escape(item.title)} · ${item.duration} min à la fin</button>`,
+    )
+    .join('');
+  return `<section class="panel" id="cancellation-preview" tabindex="-1" aria-label="Aperçu du retrait de l’appel"><h2>Aperçu · appel annulé</h2><p>Le titre, l’ordre relatif, les durées et les autres activités du brouillon courant sont conservés. L’appel, son obligation et son attente disparaissent. Rien n’est encore enregistré ni publié.</p><p class="note">Les raisons des anciennes éditions ne sont pas conservées. Nous ne pouvons pas savoir si un film absent ou une discussion doivent revenir, ni retrouver leur ancienne place. Souhaitez-vous en ajouter explicitement ? Les ajouts ci-dessous vont à la fin ; vous pourrez ensuite les déplacer avec les flèches habituelles.</p><div class="toolbar">${additions || '<span>Toutes les autres activités sont déjà présentes.</span>'}</div>${timetable(result)}${result.errors.length ? `<div class="error" role="alert">${list(result.errors)}<p>Vous pourrez appliquer ce brouillon pour le corriger ; sa publication restera bloquée.</p></div>` : '<p class="success">Les contraintes horaires sont respectées.</p>'}${!result.lastFilmPreferred ? '<p class="note">Le dernier bus n’est pas le dernier film.</p>' : ''}<h3>Différences avec le brouillon courant</h3>${list(D.changes({ title: draft.title, schedule: D.schedule(draft) }, preview))}<p>L’obligation de l’appel est levée. Les anciennes publications restent identiques. Une édition du brouillon ferme cet aperçu ; ouvrez-le à nouveau pour vérifier vos nouveaux horaires.</p><div class="toolbar"><button id="apply-cancellation" class="primary">Appliquer au brouillon sans publier</button><button id="dismiss-cancellation">Annuler l’aperçu sans modification</button></div></section>`;
 }
 
 function publicationPanel(state, result, volatile) {
@@ -78,9 +92,9 @@ function publishedProgram(publications, published) {
   return `<p><label>Ouvrir <select id="version">${versions}</select></label></p><h3>${escape(published.title)}</h3>${timetable(published.schedule)}<details><summary>Annonce enregistrée avec cette version</summary>${list(published.changes)}<p>${escape(published.decision || 'Aucun compromis supplémentaire enregistré.')}</p></details><button id="export">Exporter la version ${published.version} en HTML hors connexion</button>`;
 }
 
-export function workspace(state, { result, options, published, volatile }) {
+export function workspace(state, { result, options, published, volatile, cancellationPreview }) {
   return `<div class="note">Début 19:00 · salle vide avant 21:10 · sortie 5 min · entracte 10 min.<br>Les durées des films sont fixes. F6 en dernier est une préférence, pas une obligation.</div>
     <div class="layout">${editor(state.draft)}${schedulePanel(result)}</div>
-    ${eventPanel(state.draft, options)}${publicationPanel(state, result, volatile)}
+    ${cancellationPanel(state.draft, cancellationPreview)}${eventPanel(state.draft, options)}${publicationPanel(state, result, volatile)}
     <section class="panel"><h2>Versions publiées · lecture seule</h2>${publishedProgram(state.publications, published)}<hr><button id="backup">Télécharger la sauvegarde JSON</button><p class="muted">La sauvegarde contient brouillon et versions. Ce prototype ne propose pas encore sa réimportation.</p></section>`;
 }
