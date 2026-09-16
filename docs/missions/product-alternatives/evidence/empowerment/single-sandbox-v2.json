@@ -1,0 +1,201 @@
+{
+  "format": 1,
+  "mode": "no-model-single-native-sandbox",
+  "startedAt": "2026-09-16T12:29:01.600Z",
+  "endedAt": "2026-09-16T12:29:01.815Z",
+  "root": "/private/tmp/devmethod-single-sandbox-probe-X9OFFO",
+  "worker": "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe",
+  "profileName": "devmethod_single_probe",
+  "profile": {
+    "extends": ":workspace",
+    "filesystem": {
+      ":root": "read",
+      ":tmpdir": "read",
+      ":slash_tmp": "read",
+      "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/evaluator": "deny",
+      "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/ledger": "deny",
+      "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/sibling": "deny",
+      "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe": "write",
+      "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe/.codex": "read",
+      "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe/.agents": "read",
+      "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe/.git": "write",
+      "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe/.runtime/tmp": "write",
+      "<SOURCE>": "deny"
+    },
+    "network": {
+      "enabled": false
+    }
+  },
+  "command": "codex",
+  "args": [
+    "sandbox",
+    "-P",
+    "devmethod_single_probe",
+    "-C",
+    "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe",
+    "-c",
+    "permissions.devmethod_single_probe={\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"read\",\":tmpdir\"=\"read\",\":slash_tmp\"=\"read\",\"/private/tmp/devmethod-single-sandbox-probe-X9OFFO/evaluator\"=\"deny\",\"/private/tmp/devmethod-single-sandbox-probe-X9OFFO/ledger\"=\"deny\",\"/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/sibling\"=\"deny\",\"/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe\"=\"write\",\"/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe/.codex\"=\"read\",\"/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe/.agents\"=\"read\",\"/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe/.git\"=\"write\",\"/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe/.runtime/tmp\"=\"write\",\"<SOURCE>\"=\"deny\"},\"network\"={\"enabled\"=false}}",
+    "--",
+    "<USER_HOME>/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+    "/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/probe/probe.mjs"
+  ],
+  "runtime": {
+    "version": "v24.18.0",
+    "execPath": "<USER_HOME>/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "probeSha256": "bfcf1a9eadc8017a85aba22fcaf47cd48d1dc6da59782a7808974beb1012ca8d",
+  "driverSha256": "1d2ee9879298dddcb2eecea3e77b63d509b5a77b7a78ba49b8ba8bd40d332a49",
+  "exit": 1,
+  "signal": null,
+  "stdout": "{\n  \"runtime\": \"v24.18.0\",\n  \"checks\": [\n    {\n      \"name\": \"worker-read\",\n      \"passed\": true,\n      \"result\": \"fictional worker input\"\n    },\n    {\n      \"name\": \"worker-write\",\n      \"passed\": true,\n      \"result\": \"allowed\"\n    },\n    {\n      \"name\": \"runtime-temp-write\",\n      \"passed\": true,\n      \"result\": \"allowed\"\n    },\n    {\n      \"name\": \"evaluator-read-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, open '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/evaluator/sentinel'\"\n    },\n    {\n      \"name\": \"evaluator-listing-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, scandir '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/evaluator'\"\n    },\n    {\n      \"name\": \"ledger-read-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, open '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/ledger/sentinel'\"\n    },\n    {\n      \"name\": \"ledger-listing-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, scandir '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/ledger'\"\n    },\n    {\n      \"name\": \"workers/sibling-read-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, open '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/sibling/sentinel'\"\n    },\n    {\n      \"name\": \"workers/sibling-listing-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, scandir '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/sibling'\"\n    },\n    {\n      \"name\": \"campaign-listing-denied\",\n      \"passed\": false,\n      \"result\": [\n        \"evaluator\",\n        \"ledger\",\n        \"workers\"\n      ]\n    },\n    {\n      \"name\": \"worker-parent-listing-denied\",\n      \"passed\": false,\n      \"result\": [\n        \"probe\",\n        \"sibling\"\n      ]\n    },\n    {\n      \"name\": \"rootrepo-read-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, open '<SOURCE>/package.json'\"\n    },\n    {\n      \"name\": \"rootrepo-listing-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, scandir '<SOURCE>'\"\n    },\n    {\n      \"name\": \".codex-read\",\n      \"passed\": true,\n      \"result\": \"fictional protected fixture\"\n    },\n    {\n      \"name\": \".codex-write-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, open '.codex/new'\"\n    },\n    {\n      \"name\": \".agents-read\",\n      \"passed\": true,\n      \"result\": \"fictional protected fixture\"\n    },\n    {\n      \"name\": \".agents-write-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, open '.agents/new'\"\n    },\n    {\n      \"name\": \"outside-worker-write-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, open '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/outside-write'\"\n    },\n    {\n      \"name\": \"slash-tmp-write-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, open '/tmp/devmethod-single-sandbox-probe-X9OFFO-unexpected'\"\n    },\n    {\n      \"name\": \"system-temp-write-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"EPERM: operation not permitted, open '/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-single-sandbox-probe-X9OFFO-unexpected'\"\n    },\n    {\n      \"name\": \"git-metadata-write\",\n      \"passed\": true,\n      \"result\": \"allowed\"\n    },\n    {\n      \"name\": \"git-add-and-commit\",\n      \"passed\": true,\n      \"result\": \"committed\"\n    },\n    {\n      \"name\": \"command-network-denied\",\n      \"passed\": true,\n      \"errorCode\": \"EPERM\",\n      \"error\": \"connect EPERM 127.0.0.1:9 - Local (0.0.0.0:0)\"\n    }\n  ],\n  \"passed\": false\n}\n",
+  "stderr": "",
+  "parsed": {
+    "runtime": "v24.18.0",
+    "checks": [
+      {
+        "name": "worker-read",
+        "passed": true,
+        "result": "fictional worker input"
+      },
+      {
+        "name": "worker-write",
+        "passed": true,
+        "result": "allowed"
+      },
+      {
+        "name": "runtime-temp-write",
+        "passed": true,
+        "result": "allowed"
+      },
+      {
+        "name": "evaluator-read-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, open '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/evaluator/sentinel'"
+      },
+      {
+        "name": "evaluator-listing-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, scandir '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/evaluator'"
+      },
+      {
+        "name": "ledger-read-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, open '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/ledger/sentinel'"
+      },
+      {
+        "name": "ledger-listing-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, scandir '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/ledger'"
+      },
+      {
+        "name": "workers/sibling-read-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, open '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/sibling/sentinel'"
+      },
+      {
+        "name": "workers/sibling-listing-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, scandir '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/workers/sibling'"
+      },
+      {
+        "name": "campaign-listing-denied",
+        "passed": false,
+        "result": [
+          "evaluator",
+          "ledger",
+          "workers"
+        ]
+      },
+      {
+        "name": "worker-parent-listing-denied",
+        "passed": false,
+        "result": [
+          "probe",
+          "sibling"
+        ]
+      },
+      {
+        "name": "rootrepo-read-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, open '<SOURCE>/package.json'"
+      },
+      {
+        "name": "rootrepo-listing-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, scandir '<SOURCE>'"
+      },
+      {
+        "name": ".codex-read",
+        "passed": true,
+        "result": "fictional protected fixture"
+      },
+      {
+        "name": ".codex-write-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, open '.codex/new'"
+      },
+      {
+        "name": ".agents-read",
+        "passed": true,
+        "result": "fictional protected fixture"
+      },
+      {
+        "name": ".agents-write-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, open '.agents/new'"
+      },
+      {
+        "name": "outside-worker-write-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, open '/private/tmp/devmethod-single-sandbox-probe-X9OFFO/outside-write'"
+      },
+      {
+        "name": "slash-tmp-write-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, open '/tmp/devmethod-single-sandbox-probe-X9OFFO-unexpected'"
+      },
+      {
+        "name": "system-temp-write-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "EPERM: operation not permitted, open '/private/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/devmethod-single-sandbox-probe-X9OFFO-unexpected'"
+      },
+      {
+        "name": "git-metadata-write",
+        "passed": true,
+        "result": "allowed"
+      },
+      {
+        "name": "git-add-and-commit",
+        "passed": true,
+        "result": "committed"
+      },
+      {
+        "name": "command-network-denied",
+        "passed": true,
+        "errorCode": "EPERM",
+        "error": "connect EPERM 127.0.0.1:9 - Local (0.0.0.0:0)"
+      }
+    ],
+    "passed": false
+  },
+  "limits": {
+    "timeoutMs": 15000,
+    "maxBytes": 262144
+  },
+  "modelTurns": 0
+}

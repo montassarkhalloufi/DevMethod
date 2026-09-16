@@ -1,5 +1,7 @@
 # Observations and decisions — maintenance value
 
+Later interpretation note: the owner clarified that DevMethod should amplify human work through guidance and context management. This frozen protocol supplied resumption notes, compatibility decisions and verification rules before implementation; it did not evaluate constructing them with a person. Its stopped/not-run outcomes below remain unchanged. See the [current measurement objective](../product-alternatives/EMPOWERMENT.md).
+
 No relative benefit of DevMethod has been measured in this tranche. The tiny native admission failed before a model event; the predeclared stop prevented all six A/B slots. The delivered corrections improve the evaluation instrument's local execution and evidence preservation. They are not a demonstrated improvement in an agent's maintenance work.
 
 ## Capability matrix

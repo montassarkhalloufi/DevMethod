@@ -2,6 +2,9 @@
 
 Research owner / claim IDs:
 
+For a comparison: initial need and accessible sources / who supplies or prepares each input:
+Work produced after that starting point / usable outcome, human control and effort actually observed (unknown stays unknown):
+
 | Reuse / improve / add / discard | Evidence link | Useful differentiation / reason to switch | Hypothesis and uncertainty | Experiment or interview / success signal / authorization needed |
 |---|---|---|---|---|
 

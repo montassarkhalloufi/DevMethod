@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>DevMethod — Atelier</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Aller à l’atelier</a>
+    <header class="topbar">
+      <div class="brand-block">
+        <a class="brand" href="/" aria-label="DevMethod Atelier"
+          >DevMethod <span class="brand-section">/ Atelier</span></a
+        >
+        <p class="brand-caption">Des idées aux fonctionnements.</p>
+      </div>
+      <span class="research-label">PROTOTYPE DE RECHERCHE</span>
+      <button id="reload" class="text-button">Recharger</button>
+    </header>
+    <main id="workspace" tabindex="-1">
+      <div id="app"><p>Ouverture de l’atelier…</p></div>
+    </main>
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+    <dialog id="context-dialog" aria-labelledby="context-title">
+      <div class="dialog-head">
+        <h2 id="context-title">Le projet, avant le produit</h2>
+        <button data-close="context-dialog" aria-label="Fermer le contexte">×</button>
+      </div>
+      <div id="context-content"></div>
+    </dialog>
+    <dialog id="agent-dialog" aria-labelledby="agent-title">
+      <div class="dialog-head">
+        <h2 id="agent-title">Explorer avec votre agent</h2>
+        <button data-close="agent-dialog" aria-label="Fermer l’exploration">×</button>
+      </div>
+      <p>
+        Une demande contient le contexte, les essais et votre choix. L’agent peut proposer un autre
+        fonctionnement, identifier une question à résoudre ou recommander de ne pas coder.
+      </p>
+      <p class="callout">
+        Aucun agent n’est connecté automatiquement. La préparation d’une demande ne lance pas de
+        génération.
+      </p>
+      <form id="request-form">
+        <label for="question">Qu’avez-vous besoin de comprendre ou de changer ?</label
+        ><textarea
+          id="question"
+          required
+          maxlength="6000"
+          rows="4"
+          placeholder="Une personne doit pouvoir faire retirer un article, même en l’absence de la rédactrice…"
+        ></textarea
+        ><button class="primary" type="submit">Préparer la demande</button>
+      </form>
+      <div id="request-result"></div>
+      <section>
+        <h3>Recevoir une proposition</h3>
+        <p>
+          Importez le fichier JSON fourni par votre agent. Une proposition conçue avant le dernier
+          changement est refusée ; vos données restent conservées.
+        </p>
+        <label class="file-label" for="proposal-file">Choisir une proposition JSON</label
+        ><input id="proposal-file" type="file" accept="application/json,.json" />
+        <form id="proposal-form">
+          <label for="proposal">Ou coller sa proposition</label
+          ><textarea
+            id="proposal"
+            rows="5"
+            placeholder='{ "baseRevision": 1, "summary": "…", "variants": […] }'
+          ></textarea
+          ><button type="submit">Importer et essayer</button>
+        </form>
+      </section>
+      <div id="request-history"></div>
+    </dialog>
+    <dialog id="reset-dialog" aria-labelledby="reset-title">
+      <div class="dialog-head">
+        <h2 id="reset-title">Remplacer les essais actuels ?</h2>
+        <button data-close="reset-dialog" aria-label="Annuler le rejeu">×</button>
+      </div>
+      <p id="reset-message"></p>
+      <button data-close="reset-dialog">Conserver mes essais</button>
+      <button id="confirm-reset" class="primary">Confirmer le remplacement</button>
+    </dialog>
+    <footer>
+      <span>Faits et données du cas fictifs · état enregistré localement</span
+      ><span>Comprendre. Essayer. Choisir. Reconsidérer.</span>
+    </footer>
+  </body>
+</html>

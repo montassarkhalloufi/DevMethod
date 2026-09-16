@@ -17,6 +17,8 @@ evaluation/work-mode-review/** text eol=lf
 # Maintained code has the same Prettier line endings on every CI platform.
 src/** text eol=lf
 scripts/**/*.mjs text eol=lf
+scripts/atelier/** text eol=lf
+docs/missions/product-alternatives/evidence/** -text
 tests/**/*.mjs text eol=lf
 *.config.mjs text eol=lf
 package.json text eol=lf
@@ -48,3 +50,5 @@ evaluation/journey-native/** text eol=lf
 # Frozen maintenance exports include binary archives/bundles and exact-byte logs.
 evaluation/maintenance-*/** -text
 docs/missions/maintenance-value/evidence/** -text
+
+examples/seance/** text eol=lf

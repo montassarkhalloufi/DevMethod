@@ -1,0 +1,124 @@
+{
+  "runtime": "v24.18.0",
+  "layers": [
+    {
+      "depth": 0,
+      "legalHistories": 1,
+      "differingHistories": 0
+    },
+    {
+      "depth": 1,
+      "legalHistories": 4,
+      "differingHistories": 0
+    },
+    {
+      "depth": 2,
+      "legalHistories": 16,
+      "differingHistories": 3
+    }
+  ],
+  "shortestWitnesses": [
+    [
+      {
+        "kind": "rent",
+        "minutes": 20
+      },
+      {
+        "kind": "rent",
+        "minutes": 40
+      }
+    ],
+    [
+      {
+        "kind": "rent",
+        "minutes": 40
+      },
+      {
+        "kind": "rent",
+        "minutes": 20
+      }
+    ],
+    [
+      {
+        "kind": "rent",
+        "minutes": 40
+      },
+      {
+        "kind": "rent",
+        "minutes": 40
+      }
+    ]
+  ],
+  "chosen": [
+    {
+      "kind": "rent",
+      "minutes": 20
+    },
+    {
+      "kind": "rent",
+      "minutes": 40
+    }
+  ],
+  "trace": [
+    {
+      "step": 0,
+      "action": null,
+      "invoices": {
+        "per-session": {
+          "elapsedMinutes": 0,
+          "usedMinutes": 0,
+          "chargedMinutes": 0,
+          "priceCents": 0
+        },
+        "daily-total": {
+          "elapsedMinutes": 0,
+          "usedMinutes": 0,
+          "chargedMinutes": 0,
+          "priceCents": 0
+        }
+      }
+    },
+    {
+      "step": 1,
+      "action": {
+        "kind": "rent",
+        "minutes": 20
+      },
+      "invoices": {
+        "per-session": {
+          "elapsedMinutes": 20,
+          "usedMinutes": 20,
+          "chargedMinutes": 30,
+          "priceCents": 300
+        },
+        "daily-total": {
+          "elapsedMinutes": 20,
+          "usedMinutes": 20,
+          "chargedMinutes": 30,
+          "priceCents": 300
+        }
+      }
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "rent",
+        "minutes": 40
+      },
+      "invoices": {
+        "per-session": {
+          "elapsedMinutes": 60,
+          "usedMinutes": 60,
+          "chargedMinutes": 90,
+          "priceCents": 900
+        },
+        "daily-total": {
+          "elapsedMinutes": 60,
+          "usedMinutes": 60,
+          "chargedMinutes": 60,
+          "priceCents": 600
+        }
+      }
+    }
+  ]
+}

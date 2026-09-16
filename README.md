@@ -48,6 +48,8 @@ Start with [missions and the tested source quick start](docs/MISSIONS.md), the [
 
 **Experimental branch: application evidence lab.** [Run the local product demonstration](docs/EVIDENCE-LAB.md) to challenge application checks against known healthy/faulty controls and recheck evidence after changes. This opt-in research extension preserves the existing workflow. [The comparison](evaluation/evidence-lab/README.md) reduced some misleading green results but also withheld healthy candidates and missed unrepresented faults; it does not establish general superiority.
 
+**Experimental product research: Atelier.** [Try the local experience](docs/ATELIER.md) to compare behavioral alternatives, retain a decision and its observations, and exercise a real agent proposal after changing the need. [Three different conceptions and their prior art](docs/missions/product-alternatives/RESEARCH.md) challenge how DevMethod could work. The bounded prototype cannot represent every product; an independent scheduling context exposed that limit. No breakthrough or comparative user benefit is established.
+
 DevMethod grew from its creator’s own AI-assisted development practice: making the same way of working reusable across projects. The creator did not know BMAD when the idea began and discovered it afterwards. That origin explains the project; it is not evidence of uniqueness or superiority.
 
 The central unit is a **mission with an observable outcome**. Larger missions can use milestones and coherent tickets; small changes can stay inline. Discuss decisions before dependent work, keep uncertain plans conditional, connect acceptance criteria to executed checks, and leave a dated handoff. The method does not require sprints and can fit an existing team process.

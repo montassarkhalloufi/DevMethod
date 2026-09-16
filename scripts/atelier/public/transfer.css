@@ -1,0 +1,31 @@
+.transfer-workspace {
+  max-width: 1120px;
+  margin: 0 auto 48px;
+  padding: 28px;
+  background: #f7f9fc;
+  border-radius: 12px;
+}
+.transfer-workspace > header {
+  padding: 8px 0 28px;
+}
+.transfer-workspace p {
+  margin: 12px 0;
+  max-width: 80ch;
+}
+.transfer-workspace .eyebrow {
+  margin-top: 0;
+}
+.transfer-workspace .rental-price {
+  font-size: 38px;
+  font-weight: 700;
+  color: #075ecf;
+}
+.transfer-context {
+  padding: 22px 0;
+}
+@media (max-width: 760px) {
+  .transfer-workspace {
+    margin: 0 10px 24px;
+    padding: 18px;
+  }
+}

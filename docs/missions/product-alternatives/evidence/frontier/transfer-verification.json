@@ -1,0 +1,58 @@
+{
+  "verifiedAt": "2026-09-16T11:16:07.844Z",
+  "hashes": {
+    "scripts/discovery/transfer/domain.mjs": "a5ede32c39bcdf5add4284e07b41af5efc88d53703bf337ac5a7c1d2ca67eaad",
+    "scripts/discovery/transfer/README.md": "1917582faff386ed1b61c73df4a69a449c540fbba80ccb89ccaf08cc8408fe2d",
+    "scripts/discovery/transfer/machine.mjs": "f1e50ad215680f06b95f2d9fa445660ddc842dce10beadbd340487519b0d4297",
+    "tests/discovery-transfer.test.mjs": "db2fdd0d52dbe21197ff023e2b44dde70424160df361405076de3d27066f6869",
+    "scripts/discovery/search.mjs": "8b23e894b57013a943a6be2bd31c0bfe0da4d84e60e0e27b34daed14f64aa843"
+  },
+  "independentEnumeration": {
+    "countsByDepth": [
+      1,
+      4,
+      16,
+      51,
+      104,
+      112,
+      64
+    ],
+    "differencesByDepth": [
+      0,
+      0,
+      3,
+      23,
+      61,
+      91,
+      42
+    ]
+  },
+  "short": {
+    "status": "bounded",
+    "trace": [],
+    "stats": {
+      "states": 5,
+      "transitions": 4
+    },
+    "limits": {
+      "maxDepth": 1,
+      "maxStates": 2000,
+      "maxTransitions": 10000
+    },
+    "reason": "maxDepth"
+  },
+  "equivalent": {
+    "status": "exhausted",
+    "trace": [],
+    "stats": {
+      "states": 39,
+      "transitions": 83
+    },
+    "limits": {
+      "maxDepth": 6,
+      "maxStates": 2000,
+      "maxTransitions": 10000
+    },
+    "reason": "frontier-exhausted"
+  }
+}
