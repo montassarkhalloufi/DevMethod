@@ -3,12 +3,14 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import {
   terminalNativeResponse,
   assertMaintenanceInput,
   retainMaintenanceOutput,
   maintenanceReady,
+  maintenanceReadProfile,
 } from '../scripts/native-maintenance.mjs';
 import { tree } from '../scripts/native-journey-smoke.mjs';
 import { gitState } from '../dist/records.js';
@@ -96,3 +98,43 @@ test('staging unchanged working bytes invalidates frozen resumption attribution'
   assert.deepEqual(tree(root), entry.initial);
   assert.throws(() => assertMaintenanceInput(entry), /Git attribution changed/);
 });
+
+test(
+  'outer read isolation permits canonical worker paths without exposing protected data',
+  { skip: process.platform !== 'darwin' },
+  (t) => {
+    const temporaryRoot = temporary(t);
+    const root = path.join(temporaryRoot, 'campaign');
+    const directory = path.join(root, 'workers/readiness');
+    const sibling = path.join(root, 'workers/sibling');
+    const fixture = path.join(temporaryRoot, 'fixture');
+    for (const folder of [directory, sibling, fixture]) fs.mkdirSync(folder, { recursive: true });
+    fs.writeFileSync(path.join(directory, 'task.txt'), 'visible fictional task');
+    const protectedFiles = [
+      path.join(root, 'frozen.json'),
+      path.join(sibling, 'task.txt'),
+      path.join(fixture, 'manifest.json'),
+    ];
+    for (const file of protectedFiles) fs.writeFileSync(file, 'private fictional input');
+    protectedFiles.push(fileURLToPath(new URL('../package.json', import.meta.url)));
+    const code = `
+      const fs = require('node:fs'), assert = require('node:assert/strict');
+      assert.equal(fs.realpathSync(process.cwd()), ${JSON.stringify(directory)});
+      assert.equal(fs.readFileSync('task.txt', 'utf8'), 'visible fictional task');
+      for (const file of ${JSON.stringify(protectedFiles)}) {
+        assert.throws(() => fs.readFileSync(file), { code: 'EPERM' });
+        assert.throws(() => fs.statSync(file), { code: 'EPERM' });
+      }
+      assert.throws(() => fs.readdirSync(${JSON.stringify(root)}), { code: 'EPERM' });
+      assert.throws(() => fs.readdirSync(${JSON.stringify(path.dirname(directory))}), { code: 'EPERM' });
+    `;
+    const result = spawnSync(
+      '/usr/bin/sandbox-exec',
+      ['-p', maintenanceReadProfile(root, directory, fixture), process.execPath, '-e', code],
+      { cwd: directory, encoding: 'utf8', timeout: 5000, maxBuffer: 65536 },
+    );
+    assert.ifError(result.error);
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout, '');
+  },
+);

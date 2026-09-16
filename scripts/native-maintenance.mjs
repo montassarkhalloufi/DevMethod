@@ -69,7 +69,9 @@ function disabledSkills() {
 export function maintenanceReadProfile(root, directory, fixture) {
   // The host can use its authenticated provider, but cannot read evaluator/sibling inputs.
   // Its own workspace-write policy still owns write/network permissions for tool commands.
-  return `(version 1) (allow default) (deny file-read* (subpath ${JSON.stringify(source)}) (subpath ${JSON.stringify(fixture)}) (require-all (subpath ${JSON.stringify(root)}) (require-not (subpath ${JSON.stringify(directory)}))))`;
+  // Canonicalizing the workspace needs metadata for its two campaign ancestors.
+  // Listing those directories and reading any protected content remain denied.
+  return `(version 1) (allow default) (deny file-read* (subpath ${JSON.stringify(source)}) (subpath ${JSON.stringify(fixture)}) (require-all (subpath ${JSON.stringify(root)}) (require-not (subpath ${JSON.stringify(directory)})))) (allow file-read-metadata (literal ${JSON.stringify(root)}) (literal ${JSON.stringify(path.dirname(directory))}))`;
 }
 
 function initializeGit(directory) {
@@ -262,6 +264,31 @@ function probeReads(root, entry, frozen, profile) {
   run('/usr/bin/sandbox-exec', ['-p', profile, process.execPath, '-e', code], entry.directory);
 }
 
+export function maintenanceConfigPreflight(profile, directory, disabledSkills) {
+  // The pinned CLI must reject this typed configuration before model dispatch.
+  const args = nativeArguments(directory, disabledSkills);
+  args.splice(args.length - 1, 0, '-c', 'allow_login_shell="devmethod-preflight-invalid"');
+  const result = spawnSync('/usr/bin/sandbox-exec', ['-p', profile, 'codex', ...args], {
+    cwd: directory,
+    env: codexEnvironment(),
+    input: 'Local configuration validation only.',
+    encoding: 'utf8',
+    timeout: 10000,
+    maxBuffer: 65536,
+  });
+  if (
+    result.error ||
+    result.status !== 1 ||
+    result.stdout !== '' ||
+    !result.stderr.includes(
+      'invalid type: string "devmethod-preflight-invalid", expected a boolean',
+    ) ||
+    !result.stderr.includes('in `allow_login_shell`')
+  )
+    throw new Error('Native startup/configuration preflight failed before admission');
+  return { mode: 'invalid-config-no-model', exit: result.status, stderr: result.stderr };
+}
+
 function parseEvents(stdout) {
   try {
     return stdout
@@ -355,6 +382,7 @@ export async function dispatchMaintenance(root, id, permit) {
   const shell = nativeShellPreflight(entry.directory);
   if (shell.configured.exit !== 0 || shell.configured.stdout.trim() !== 'heredoc-ok')
     throw new Error('Configured shell preflight failed before admission.');
+  const startup = maintenanceConfigPreflight(profile, entry.directory, frozen.disabledSkills);
   requireOutputPaths(root, id);
   const slot = reserveRun(path.join(root, 'ledger'), id, maintenanceLimits);
   write(path.join(root, 'private', `${id}-dispatch.json`), { at: new Date().toISOString(), id });
@@ -395,6 +423,7 @@ export async function dispatchMaintenance(root, id, permit) {
     final: actual,
     transcriptSha256: digest(result.stdout),
     shellPreflight: shell,
+    startupPreflight: startup,
     modelAcceptance:
       'Native completion and usage only; independent product and authored-test evaluation is separate.',
   };

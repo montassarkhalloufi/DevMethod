@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "sourceCommit": "2ab754d",
+  "cli": "codex-cli 0.147.0",
+  "node": "v24.18.0",
+  "modelInvocations": 0,
+  "mode": "typed-invalid-configuration-only",
+  "privateDiagnosticRoot": "/private/tmp/devmethod-readiness-diagnostic-c3yjIs",
+  "normalization": "Profiles replace source, fixture, campaign and worker paths with named placeholders. Command templates elide the unchanged frozen nativeArguments flags and global disabled-skill path list. No environment or authentication contents are included.",
+  "cases": [
+    {
+      "name": "original-invalid-config",
+      "exit": 1,
+      "signal": null,
+      "stdoutBytes": 0,
+      "stderr": "Error: Operation not permitted (os error 1)\n",
+      "commandTemplate": "/usr/bin/sandbox-exec -p <PROFILE> codex <nativeArguments(WORKER, frozen.disabledSkills)> with final override -c allow_login_shell=\"invalid_boolean\" before stdin marker",
+      "profile": "(version 1) (allow default) (deny file-read* (subpath \"<SOURCE>/\") (subpath \"<FIXTURE>\") (require-all (subpath \"<CAMPAIGN>\") (require-not (subpath \"<WORKER>\"))))"
+    },
+    {
+      "name": "precise-invalid-config",
+      "exit": 1,
+      "signal": null,
+      "stdoutBytes": 0,
+      "stderr": "Error loading config.toml: invalid type: string \"invalid_boolean\", expected a boolean\nin `allow_login_shell`\n\n",
+      "commandTemplate": "/usr/bin/sandbox-exec -p <PROFILE> codex <nativeArguments(WORKER, frozen.disabledSkills)> with final override -c allow_login_shell=\"invalid_boolean\" before stdin marker",
+      "profile": "(version 1) (allow default) (deny file-read* (subpath \"<SOURCE>/\") (subpath \"<FIXTURE>\") (require-all (subpath \"<CAMPAIGN>\") (require-not (subpath \"<WORKER>\")))) (allow file-read-metadata (literal \"<CAMPAIGN>\") (literal \"<CAMPAIGN>/workers\"))"
+    }
+  ],
+  "freshContext": {
+    "mode": "invalid-config-no-model",
+    "exit": 1,
+    "stderr": "Error loading config.toml: invalid type: string \"devmethod-preflight-invalid\", expected a boolean\nin `allow_login_shell`\n\n"
+  },
+  "protections": {
+    "workerCanonicalPath": "allowed after correction",
+    "workerTaskRead": "allowed",
+    "campaignDirectoryListing": "EPERM",
+    "workerParentDirectoryListing": "EPERM",
+    "frozenInputRead": "EPERM",
+    "siblingTaskRead": "EPERM",
+    "fixtureManifestRead": "EPERM",
+    "sourcePackageRead": "EPERM",
+    "protectedFileMetadata": "EPERM"
+  },
+  "rawSHA256": {
+    "profile.sb": "d76ddb5edc6b239d14d1a2e565de737f2e682827ee319e923ced46fe8123fb2f",
+    "original-invalid-config.stderr": "b5bd28a8697c502f84e124ef0e690705c19eca1cf10e38f6d12fb0dbd587227b",
+    "precise-invalid-config.stderr": "51f68673fb79f64a76611f5ddc0c6a1baeb8a55c1021cbc789a3eb6bcd8109d3",
+    "precise-protection.stdout": "81d318d890ade147ff0e72abb75ffbb8f54cd77427f2aeed9d87c297a4ce479b",
+    "new-context-result.json": "8f2c5cd0d2623d42232f88a9c6d4da61d550204b7653c14629d3fefb6ea96f46"
+  },
+  "limit": "This reaches local typed config rejection, not successful native inference or completion; no retry of the stopped campaign."
+}
