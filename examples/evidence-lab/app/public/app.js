@@ -7,6 +7,7 @@ const slotDescriptions = {
 };
 const notice = document.querySelector('#notice');
 const pending = new Map();
+const selections = new Map();
 let currentSlots = [];
 
 function announce(message, error = false) {
@@ -60,6 +61,39 @@ function reservationRow(item) {
   return row;
 }
 
+function configureSeats(card, slot) {
+  const select = card.querySelector('select');
+  const button = card.querySelector('button');
+  const selected = selections.get(slot.id) || 1;
+  select.replaceChildren();
+  const quantities = Array.from({ length: slot.remaining }, (_, index) => index + 1);
+  if (selected > slot.remaining) quantities.push(selected);
+  for (const seats of quantities) {
+    const option = document.createElement('option');
+    option.value = String(seats);
+    option.textContent = `${seats} ${seats === 1 ? 'person' : 'people'}${seats > slot.remaining ? ' — unavailable' : ''}`;
+    option.disabled = seats > slot.remaining;
+    select.append(option);
+  }
+  select.value = String(selected);
+  select.disabled = slot.remaining === 0;
+  button.disabled = selected > slot.remaining;
+  const hint = document.createElement('p');
+  hint.className = 'quantity-hint';
+  hint.id = `quantity-hint-${slot.id}`;
+  hint.textContent =
+    'Your selected quantity is unavailable. Choose fewer places or wait for a cancellation.';
+  hint.hidden = !button.disabled;
+  select.setAttribute('aria-describedby', hint.id);
+  card.append(hint);
+  select.addEventListener('change', () => {
+    selections.set(slot.id, Number(select.value));
+    button.disabled = Number(select.value) > slot.remaining;
+    hint.hidden = !button.disabled;
+  });
+  return { select, button };
+}
+
 function slotCard(slot) {
   const card = document.querySelector('#slot-template').content.firstElementChild.cloneNode(true);
   card.querySelector('h3').textContent = slot.title;
@@ -68,20 +102,12 @@ function slotCard(slot) {
   card.querySelector('.availability').textContent = slot.remaining
     ? `${slot.remaining} of ${slot.capacity} places left`
     : 'Team complete';
-  const select = card.querySelector('select');
-  select.replaceChildren();
-  for (let seats = 1; seats <= slot.remaining; seats++) {
-    const option = document.createElement('option');
-    option.value = String(seats);
-    option.textContent = `${seats} ${seats === 1 ? 'person' : 'people'}`;
-    select.append(option);
-  }
-  const button = card.querySelector('button');
-  select.disabled = button.disabled = slot.remaining === 0;
+  const { select, button } = configureSeats(card, slot);
   card.querySelector('form').addEventListener('submit', async (event) => {
     event.preventDefault();
     button.disabled = true;
     const seats = Number(select.value);
+    selections.set(slot.id, seats);
     const key = `${slot.id}:${seats}`;
     if (!pending.has(key)) pending.set(key, crypto.randomUUID());
     try {
@@ -91,6 +117,7 @@ function slotCard(slot) {
         requestId: pending.get(key),
       });
       pending.delete(key);
+      selections.delete(slot.id);
       announce(
         reservation.status === 'cancelled'
           ? 'This request was already cancelled. It has not been booked again.'
@@ -131,7 +158,12 @@ async function refresh() {
   }
 }
 
-document
-  .querySelector('#refresh')
-  .addEventListener('click', () => refresh().catch((error) => announce(error.message, true)));
+document.querySelector('#refresh').addEventListener('click', async () => {
+  try {
+    await refresh();
+    announce('Availability refreshed. Review the reservations before booking.');
+  } catch (error) {
+    announce(error.message, true);
+  }
+});
 refresh().catch((error) => announce(`Cannot load availability. ${error.message}`, true));

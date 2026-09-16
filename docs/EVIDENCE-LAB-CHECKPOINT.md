@@ -51,3 +51,7 @@ Each demonstration invocation creates a distinct disposable experiment workspace
 4. Compare against good independent tests plus Git before adding selective invalidation, more agents, a scheduler or mandatory workflow stages. The measured benefit is scoped discrimination and evidence handling, not demonstrated end-to-end product superiority.
 
 No merge, npm publication, deployment, purchase, new paid service, contact or telemetry is included in this delivery.
+
+## Later continuation
+
+The [2026-09-16 journey mission](missions/journey-evolution/PLAN.md) resumes this exact PR candidate, classifies the healthy abstentions, adds separate restart checking and real local browser evidence, and assesses native access. This checkpoint remains the historical 2026-09-15 snapshot; follow the later mission for its own candidate and limitations.

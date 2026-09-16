@@ -41,3 +41,6 @@ examples/evidence-lab/** text eol=lf
 evaluation/evidence-lab/** text eol=lf
 evaluation/evidence-holdout/** text eol=lf
 evaluation/evidence-runs/** text eol=lf
+
+evaluation/evidence-restart/** text eol=lf
+evaluation/journey-native/** text eol=lf

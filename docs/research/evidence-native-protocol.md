@@ -1,6 +1,6 @@
 # Native comparison: admission requirements and fixed initial budget
 
-Status: **not run; admission blocked**. At the 2026-09-15 checkout, `codex`, `claude`, and `cursor` executables are absent. No native host/version/model or accounting adapter is available to pin. The research workers, deterministic fixtures and DOM tests are not substitutes for this comparison. No account, quota, subscription or permission setting was changed.
+Historical status (2026-09-15): **not run; admission blocked**. The [2026-09-16 journey mission](../missions/journey-evolution/PLAN.md) rechecks local admission and freezes a smaller A/B/C smoke separately; this older proposal is not retroactively marked executed. At the 2026-09-15 checkout, `codex`, `claude`, and `cursor` executables are absent. No native host/version/model or accounting adapter is available to pin. The research workers, deterministic fixtures and DOM tests are not substitutes for this comparison. No account, quota, subscription or permission setting was changed.
 
 Reuse the repository's [native evaluation tooling](../../evaluation/README.md), [comparison validator](../../evaluation/COMPARISONS.md), [historical supervisor](../NATIVE-PILOT.md), and [evaluation protocol](../EVALUATION.md). Do not revive an old unmetered/interrupted session or recycle its budget. The historical B1 figures remain historical and cannot score the new lab.
 
