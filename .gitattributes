@@ -47,3 +47,4 @@ evaluation/journey-native/** text eol=lf
 
 # Frozen maintenance exports include binary archives/bundles and exact-byte logs.
 evaluation/maintenance-*/** -text
+docs/missions/maintenance-value/evidence/** -text
