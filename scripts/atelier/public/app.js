@@ -11,9 +11,12 @@ import {
   projectIntent,
 } from './views.js';
 import { controlChoices, hasIndividualTrials } from './controls.js';
+import { discoveryView } from './discovery-view.js';
 
 let state;
 let busy = false;
+let discovery = null;
+let seeking = false;
 const draft = {
   actorId: '',
   actionId: '',
@@ -44,6 +47,7 @@ async function load() {
     const response = await fetch('/api/session');
     if (!response.ok) throw new Error('Impossible de lire cet atelier.');
     state = await response.json();
+    discovery = null;
     render();
   } catch (error) {
     report(error.message, true);
@@ -63,6 +67,7 @@ async function change(route, input) {
     const result = await response.json();
     if (!response.ok) throw new Error(result.error ?? 'La modification n’a pas été enregistrée.');
     state = result;
+    discovery = null;
     render();
     report('Modification enregistrée localement.');
     return result;
@@ -76,6 +81,62 @@ async function change(route, input) {
 }
 
 const act = (action) => change('action', { action });
+
+async function discover() {
+  if (busy) return;
+  busy = true;
+  seeking = true;
+  const version = state.storageVersion;
+  const returnFocus = document.activeElement?.id === 'discover-situation';
+  render();
+  try {
+    const response = await fetch('/api/discover', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ version }),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error ?? 'Recherche indisponible.');
+    if (version !== state.storageVersion)
+      throw new Error('Le projet a changé. Relancez la recherche.');
+    discovery = result;
+    report('Recherche terminée. Vos essais sont inchangés.');
+  } catch (error) {
+    report(error.message, true);
+  } finally {
+    busy = false;
+    seeking = false;
+    render();
+    if (returnFocus && document.activeElement === document.body)
+      document.querySelector('#discover-situation').focus({ preventScroll: true });
+  }
+}
+
+function playDiscovery() {
+  const steps = discovery.trace.map((step) => step.action);
+  const version = discovery.storageVersion;
+  confirmReset(
+    'Jouer cet essai depuis les données initiales ? Cela remplace vos essais courants et les éléments fictifs ajoutés. Les choix déjà conservés et leurs observations restent dans le dossier.',
+    () => {
+      if (version !== state.storageVersion)
+        return report('Le projet a changé. Relancez la recherche avant de jouer cet essai.', true);
+      return change('replay', { steps });
+    },
+  );
+}
+
+function reconsiderDiscovery() {
+  document.querySelector('#question').value =
+    'La situation proposée ne représente pas suffisamment mon besoin. Voici ce qui manque :\n\n' +
+    '\nSituation proposée :\n' +
+    JSON.stringify(
+      discovery.trace.map((step) => step.action),
+      null,
+      2,
+    );
+  openAgent();
+  document.querySelector('#question').focus();
+}
 
 function showDialog(selector) {
   const dialog = document.querySelector(selector);
@@ -436,7 +497,16 @@ function render() {
       ],
     ),
   );
-  if (!single && !baseline) workbench.append(situationHistory());
+  if (!single && !baseline) {
+    workbench.append(
+      discoveryView(project, discovery, seeking, {
+        search: discover,
+        replay: playDiscovery,
+        reconsider: reconsiderDiscovery,
+      }),
+    );
+    workbench.append(situationHistory());
+  }
   workbench.append(decisionView(project));
   root.replaceChildren(workspaceNavigation(), workbench, projectIntent(project, openContext));
   if (focusId) document.getElementById(focusId)?.focus({ preventScroll: true });

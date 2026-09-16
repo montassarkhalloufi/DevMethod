@@ -120,6 +120,29 @@ test('atelier rejects stale tabs, cross-origin writes and malformed proposals wi
   assert.equal((await api.get()).session.decision.reason, 'Essai');
 });
 
+test('discovery is read-only, replays real consequences and rejects a stale project', async (t) => {
+  const api = await running(t, workspace(t));
+  await api.post('action', {
+    action: { actorId: 'camille', actionId: 'create', recordId: 'my-draft', title: 'À conserver' },
+  });
+  const before = await api.get();
+  const result = await api.post('discover', {});
+  assert.equal(result.status, 200);
+  assert.equal(result.body.status, 'witness');
+  assert.equal(result.body.storageVersion, before.storageVersion);
+  assert.deepEqual(await api.get(), before);
+  const steps = result.body.trace.map((entry) => entry.action);
+  const played = await api.post('replay', { steps }, before.storageVersion);
+  assert.equal(played.status, 200);
+  for (const observation of result.body.trace.at(-1).observations) {
+    const lane = played.body.session.lanes[observation.variantId];
+    assert.equal(lane.events.at(-1).allowed, observation.value.allowed);
+    assert.deepEqual(lane.records, observation.value.records);
+  }
+  assert.equal((await api.post('discover', {}, before.storageVersion)).status, 409);
+  assert.equal((await fetch(api.url + '/discovery-view.js')).status, 200);
+});
+
 test('agent request is an actual retained handoff; imported response preserves data and is auditable', async (t) => {
   const api = await running(t, workspace(t));
   const result = await api.post('request', { question: 'Explorer le retrait d’un article.' });

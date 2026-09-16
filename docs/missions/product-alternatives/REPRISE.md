@@ -1,6 +1,20 @@
 # Checkpoint — 2026-09-16
 
-## Follow-up snapshot — 10:48 UTC
+## Frontier snapshot — 11:25 UTC
+
+The owner explicitly asked for broader work on real problems, science, models and methods. [FRONTIER](FRONTIER.md) owns the three independent research reports, competing conceptions, selected mechanism, prospective experiment and outcomes. The mission remains open: **no breakthrough or measured human advantage is established**. Do not treat this as a return to laboratory maintenance.
+
+New capability: the Atelier searches for a short executable difference instead of requiring the owner to invent every scenario. Preview does not write session state; explicit replay replaces trials from initial data; a relevance objection prepares an editable agent request. A second runnable numerical example is available at `/transfer`, with ordinary actions and real duration/charge calculations. It has deliberately volatile browser state. Neither route dispatches a provider or claims preference inference.
+
+Frozen core: `25809ad` cherry-picked as `d3d94d8`, SHA-256 `8b23e894b57013a943a6be2bd31c0bfe0da4d84e60e0e27b34daed14f64aa843`. Independent numerical domain/adaptation: `cd48f8e` cherry-picked as `3401226`, written after core freeze and domain-pinned before search. Both find and independently replay the two-action difference. An ordinary agent given the same domain/brief succeeds too (51 seconds to checked result, not a cost comparison). The original frozen finite-state failure is preserved.
+
+The accompanying UI/API delta was independently reviewed; four reproduced findings are closed, with targeted regressions and limits in [the report](evidence/frontier/ui-review.md). Final local Node 24.18.0 suite: **351/351 pass, zero skipped**. Lint, format and Markdown links pass; generated dist unchanged. Logs: `/private/tmp/devmethod-frontier-final/`. Exact archive and current-head CI belong to draft PR #36; do not reuse older CI as evidence for new changes. No merge, release, deployment, external contact or stopped native campaign was performed.
+
+Chrome parent journeys exercised actual search, preview, cancellation, confirmation, persisted Gazette consequences, numerical manual usage/preview/replay/pause and terminal keyboard focus. The original `4318` server was restarted with its session byte-identical before/after restart. Current application: `http://127.0.0.1:4318/`; numerical example: `/transfer`; isolated QA: `http://127.0.0.1:4322/`. Earlier Séance examples remain available. A raw file URL still cannot serve the Atelier API.
+
+Next research leverage: observe whether a concrete counterexample changes the owner's understanding or desired behavior, then carry that correction into a reusable capability. The unresolved question is relevance and total effort, not search correctness alone. Situated tool creation remains a credible competing conception; contract coordination remains lower priority without an observed costly dependency. An ordinary agent may write the same explorer. Its general expressivity is not a reason to reject all useful tools, and a working button is not evidence of human benefit.
+
+## Historical follow-up snapshot — 10:48 UTC
 
 The user explicitly requested continued research and assigned the UI preference to separate agent work. Both proceeded independently. The research mission is **not complete**: no breakthrough or comparative user benefit is established.
 

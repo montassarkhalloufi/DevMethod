@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import { createStore } from './store.mjs';
+import { discoverProject } from './discovery.mjs';
 import {
   performAction,
   replaySituation,
@@ -14,6 +15,7 @@ import {
 } from './domain.mjs';
 
 const assets = fileURLToPath(new URL('./public/', import.meta.url));
+const discoveryAssets = fileURLToPath(new URL('../discovery/', import.meta.url));
 const contract = fileURLToPath(
   new URL('../../docs/missions/product-alternatives/CONTRACT.md', import.meta.url),
 );
@@ -119,8 +121,24 @@ function getResource(store, url, response) {
     '/app.js': ['app.js', 'text/javascript; charset=utf-8'],
     '/views.js': ['views.js', 'text/javascript; charset=utf-8'],
     '/controls.js': ['controls.js', 'text/javascript; charset=utf-8'],
+    '/discovery-view.js': ['discovery-view.js', 'text/javascript; charset=utf-8'],
     '/style.css': ['style.css', 'text/css; charset=utf-8'],
+    '/transfer': ['transfer.html', 'text/html; charset=utf-8'],
+    '/transfer-app.js': ['transfer-app.js', 'text/javascript; charset=utf-8'],
+    '/transfer.css': ['transfer.css', 'text/css; charset=utf-8'],
   };
+  const knownDiscovery = {
+    '/discovery/search.mjs': 'search.mjs',
+    '/transfer/domain.mjs': 'transfer/domain.mjs',
+    '/transfer/machine.mjs': 'transfer/machine.mjs',
+  };
+  if (Object.hasOwn(knownDiscovery, url.pathname))
+    return send(
+      response,
+      200,
+      fs.readFileSync(path.join(discoveryAssets, knownDiscovery[url.pathname])),
+      'text/javascript; charset=utf-8',
+    );
   const resource = known[url.pathname];
   if (!resource) return send(response, 404, { error: 'Ressource introuvable.' });
   return send(response, 200, fs.readFileSync(path.join(assets, resource[0])), resource[1]);
@@ -147,6 +165,11 @@ export function createAtelierServer({ workspace, project }) {
           new Error('Une autre modification a été enregistrée. Rechargez le projet.'),
           { status: 409 },
         );
+      if (url.pathname === '/api/discover')
+        return send(response, 200, {
+          ...discoverProject(before.session.project),
+          storageVersion: before.storageVersion,
+        });
       const result = mutate(store, url.pathname, before.session, input);
       const saved = store.commit(input.version, result.session);
       return send(response, 200, { ...saved, outcomes: result.outcomes, ...result.extra });

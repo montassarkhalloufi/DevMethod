@@ -11,6 +11,9 @@ This record separates an implemented capability, an agent-operated browser obser
 | Retain a choice through change | Decisions, handoff and selective reconsideration already prescribed | Snapshot of context/observations/reason, real local persistence, revision-aware import, explicit replay/reset | Technical conservation observed; semantic dependency inference not implemented |
 | Let an agent evolve the experience | Delegation/coordination already prescribed | UI wrote a request; a real task agent returned a proposal; UI imported it and exercised new withdrawal behavior | End-to-end host handoff demonstrated; no background provider integration claimed |
 | New independent context | Existing method permits ordinary tools and non-code solutions | Scheduling needs cannot be represented by the frozen engine; a normal agent built a usable program editor afterward | General product-model ambition of this engine rejected; transaction conception concretely revisited |
+| Discover a situation rather than invent it manually | Agents can already inspect code, reason and write comparison scripts | A frozen bounded search core finds replayable differences; Atelier integrates preview/replay/objection; a separate numerical adapter and browser experience work without changing the core | Transfer demonstrated on a tiny constructed domain; ordinary-agent control succeeds too; human relevance and full cost advantage unmeasured |
+
+The later broad research and prospective transfer protocol are owned by [FRONTIER](FRONTIER.md), including real-need studies, scientific mechanisms and competing operating models. Its positive engineering result does not overturn the negative frozen Atelier schema result below, nor establish rupture. Four UI findings were reproduced and closed in the [independent review](evidence/frontier/ui-review.md).
 
 ## Gazette browser journey
 

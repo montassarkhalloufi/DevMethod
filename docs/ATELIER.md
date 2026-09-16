@@ -14,6 +14,10 @@ Open `http://127.0.0.1:4318`. The default Gazette case and its people/articles a
 
 ## Try the mechanism
 
+**Find an experiment first.** In the comparison view, click **Chercher une situation révélatrice**. The tool searches for a short sequence that produces different observable consequences in the supplied policies. The preview leaves your current records and trials untouched. **Jouer cette situation** explicitly confirms replacing the current trials with a replay from the initial data. **Cette situation manque mon besoin** opens an editable exploration request; it does not invent a preferred alternative or start an agent. Search is bounded and may find a trivial or irrelevant difference. [Scientific basis, alternatives and prospective evaluation](missions/product-alternatives/FRONTIER.md).
+
+**Try another domain.** The link **Essayer le cas d’un équipement partagé** opens `/transfer` on the same local server. Try rentals and pauses, compare two actual charge calculations, ask for a distinguishing sequence and replay it after confirmation. This fictional example uses the unchanged search core with a separate numerical/temporal adapter. Its trials live only in browser memory; reloading resets them. It neither writes the Gazette workspace nor processes payments. [Frozen domain and complete rules](../scripts/discovery/transfer/README.md).
+
 1. Select **Nina**, the article **Réparer ensemble**, and **Relire**. Try the action in every prototype. The bureau refuses; the peer variant permits it. This follows the supplied rules, not a quality judgment.
 2. Try direct buttons in either product or add a fictional item. Inspect **Design et architecture** for assumptions and limits.
 3. Select a direction and explain the compromise you accept. Saving keeps its context, observations and reason; it does not declare the product correct. Download the decision dossier to inspect these snapshots.
@@ -22,7 +26,7 @@ Open `http://127.0.0.1:4318`. The default Gazette case and its people/articles a
 
 The host agent may recommend a clarification or no code. Read that recommendation; there is no need to manufacture a variant to import. An import itself requires one or more valid variants and the current project revision. A rejected or outdated proposal leaves the session unchanged; request a fresh proposal rather than editing its revision number to bypass the check. Existing records cannot be silently migrated or deleted.
 
-`?variant=VARIANT_ID` opens one prototype. `?mode=simple` exposes the same project, ordinary direct controls, context, agent handoff and decision notes without shared replay. It is a controlled UI comparison aid, not a benchmark against an ordinary agent or a competing product.
+`?variant=VARIANT_ID` opens one prototype. `?mode=simple` exposes the same project, ordinary direct controls, context, agent handoff and decision notes without shared replay or generated situations. It is a controlled UI comparison aid, not a benchmark against an ordinary agent or a competing product. A real ordinary-agent comparator is free to write its own scripts and construct experiments.
 
 ## State and boundaries
 

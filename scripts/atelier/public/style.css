@@ -263,6 +263,7 @@ main {
   color: var(--muted);
 }
 .situation,
+.discovery-panel,
 .decision-panel {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -517,6 +518,48 @@ summary {
 .decision-panel {
   margin-top: 12px;
   border-top: 3px solid #89aad0;
+}
+.discovery-panel {
+  margin-top: 22px;
+  border-top: 3px solid #19a6b7;
+}
+.discovery-panel > p {
+  margin: 12px 0;
+  max-width: 76ch;
+}
+.discovery-panel h3 {
+  margin-top: 24px;
+}
+.discovery-panel details {
+  margin-top: 18px;
+}
+.discovery-steps {
+  padding-left: 24px;
+}
+.discovery-steps > li > p {
+  font-weight: 650;
+}
+.discovery-outcomes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 12px;
+  margin: 12px 0 20px;
+}
+.discovery-outcomes section {
+  padding: 14px;
+  background: #f1f7fc;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+}
+.discovery-outcomes p,
+.discovery-outcomes ul {
+  margin: 8px 0 0;
+}
+.discovery-outcomes pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
 }
 .decision-form {
   display: grid;
