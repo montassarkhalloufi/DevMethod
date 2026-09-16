@@ -67,6 +67,8 @@ function prepareRequest(store, session, question) {
     project: session.project,
     currentLanes: session.lanes,
     decision: session.decision,
+    history: session.history,
+    scenario: session.situation,
     contract: fs.readFileSync(contract, 'utf8'),
     instruction:
       'Explore the supplied question using the real project context. Separate sources, assumptions and unresolved choices. Preserve understanding, exploration, framing, design and architecture as relevant lenses. Return a JSON proposal {baseRevision,summary,variants} compatible with the supplied contract. Propose genuinely different behaviors if useful, preserve current records and state IDs, and identify what the prototype cannot represent. Do not fabricate research, user choices or model execution. A clarification/no-code recommendation is valid: return no variant until the question is resolved. Do not access unrelated workspaces, invoke paid services or publish. This is an agent handoff, not authorization for any other action.',
