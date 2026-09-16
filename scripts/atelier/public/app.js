@@ -180,7 +180,7 @@ function newRecordForm(project) {
   return add;
 }
 
-function commonControls(project) {
+function commonControls(project, creationOpen) {
   const { transitions, records } = choices(project);
   const controls = el(
     'section',
@@ -247,7 +247,7 @@ function commonControls(project) {
       ),
     );
   controls.append(
-    el('details', { className: 'create-disclosure', ...(draft.title ? { open: '' } : {}) }, [
+    el('details', { className: 'create-disclosure', ...(creationOpen ? { open: '' } : {}) }, [
       el('summary', { text: 'Ajouter un élément à essayer' }),
       newRecordForm(project),
     ]),
@@ -390,6 +390,7 @@ function decisionView(project) {
 }
 
 function render() {
+  const creationOpen = root.querySelector('.create-disclosure')?.open ?? false;
   const focusId = document.activeElement?.id;
   const project = state.session.project;
   const shown = single
@@ -407,7 +408,7 @@ function render() {
         button('Préparer une exploration', openAgent, { id: 'open-agent', className: 'primary' }),
       ]),
     ]),
-    commonControls(project),
+    commonControls(project, creationOpen),
   ]);
   if (single)
     workbench.append(
