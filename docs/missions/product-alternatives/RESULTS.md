@@ -1,6 +1,6 @@
 # Observations, decisions and limits — 2026-09-16
 
-This record separates an implemented capability, an agent-operated browser observation and a measured user benefit. **No human participant, native matched A/B/C campaign, competitor execution, token saving or breakthrough is reported.** The previous stopped native campaigns remain closed. Current task agents performed bounded research, implementation and review; their participation is not a synthetic user study.
+This record separates an implemented capability, an agent-operated browser observation and a measured user benefit. **No formal human study, native matched A/B/C campaign, competitor execution, token saving or breakthrough is reported.** The owner subsequently supplied real but narrow UI feedback about block separation; it is recorded in DESIGN, not counted as comparative validation. The previous stopped native campaigns remain closed. Current task agents performed bounded research, implementation and review; their participation is not a synthetic user study.
 
 ## Product attempts
 
@@ -55,3 +55,9 @@ The final independent review of `61d9507` found a fifth defect: valid variants u
 The second experience's reviewer found malformed stored activity IDs could reach rendering. The owner added shape/identifier validation while continuing to permit a temporally invalid draft awaiting adjustment. The reviewer rechecked the distinction, actual schedules, explicit choice, concrete diffs and immutable prior HTML/JSON. This is an engineering review, not user validation. Integration and final gates are recorded in the checkpoint.
 
 **Disposition:** finite-state rehearsal retained as experimental; arbitrary-product model rejected for this candidate; direct product transaction retained as a useful second experience and simpler counterexample; generic intent graph indeterminate and not built. The next claim worth earning is whether actual creators discover and preserve consequential preferences better than with their ordinary agent and prototypes. The present work supplies usable artifacts and reasons to test that claim, not its answer.
+
+## Follow-up after the user's instruction to continue
+
+[RECONSIDERATION](RECONSIDERATION.md) records the frozen brief, ordinary author, independent review and actual Chrome path for cancelling the call from the current schedule. The ordinary agent delivered a preview, explicit application/cancellation, preservation of later edits and unchanged historical publications. Its 5 min 50 s wall interval is not a human-time or comparative cost result. The narrow claim that this operation needs a special DevMethod decision runtime is rejected; the useful implementation is retained.
+
+Correction-as-programming, in-use tool creation and adoption on current data were re-examined with primary sources. They remain potential product directions with strong prior art and unmeasured local benefit. A further generic runtime is not justified by this result. The main mission remains open; the separately delegated reference-based UI changes do not constitute its answer.
