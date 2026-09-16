@@ -523,9 +523,9 @@ test('explicit policy overrides survive project saves and visual approval blocks
 
 test('a header mode change is persisted but a conflicting choice stays visible for retry', async (t) => {
   const f = await fixture(t);
-  const delegated = f.dom.window.document.querySelector('[name=mode][value=delegated]');
-  delegated.checked = true;
-  delegated.dispatchEvent(new f.dom.window.Event('change', { bubbles: true }));
+  const mode = f.el('studio-mode');
+  mode.value = 'delegated';
+  mode.dispatchEvent(new f.dom.window.Event('change', { bubbles: true }));
   await f.app.settled();
   await setImmediate();
   assert.equal(f.calls.at(-1).route, 'project');
@@ -533,12 +533,11 @@ test('a header mode change is persisted but a conflicting choice stays visible f
   f.api.change = async () => {
     throw Object.assign(new Error('Conflit'), { status: 409 });
   };
-  const guided = f.dom.window.document.querySelector('[name=mode][value=guided]');
-  guided.checked = true;
-  guided.dispatchEvent(new f.dom.window.Event('change', { bubbles: true }));
+  mode.value = 'guided';
+  mode.dispatchEvent(new f.dom.window.Event('change', { bubbles: true }));
   await f.app.settled();
   await setImmediate();
-  assert.equal(guided.checked, true);
+  assert.equal(mode.value, 'guided');
   assert.match(f.el('notice').textContent, /saisie est conservée/);
 });
 

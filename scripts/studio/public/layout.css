@@ -92,9 +92,14 @@
     flex: 1 0 auto;
     min-height: 440px;
   }
-  .conversation-flow,
-  .workbench > [role='tabpanel'] {
+  .conversation-flow {
     overscroll-behavior: contain;
+    overflow-anchor: none;
+  }
+  /* An expanded panel can be taller than the viewport without overflowing itself.
+     Let its wheel events reach the independently scrollable workspace. */
+  .workbench > [role='tabpanel'] {
+    overscroll-behavior: auto;
     overflow-anchor: none;
   }
 }

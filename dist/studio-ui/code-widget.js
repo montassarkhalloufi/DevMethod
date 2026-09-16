@@ -1977,10 +1977,10 @@ globalThis.MonacoEnvironment = { getWorker(e, t) {
 	inherit: !0,
 	rules: [],
 	colors: {
-		"editor.background": "#111a17",
-		"editorLineNumber.foreground": "#87958e",
-		"editorLineNumber.activeForeground": "#eef1e8",
-		"editorGutter.background": "#111a17"
+		"editor.background": "#0B1526",
+		"editorLineNumber.foreground": "#93A7C9",
+		"editorLineNumber.activeForeground": "#F5F7FC",
+		"editorGutter.background": "#0B1526"
 	}
 });
 //#endregion

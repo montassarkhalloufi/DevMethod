@@ -16,6 +16,7 @@ export function createCodeSurface({
   let disposed = false;
   let enabled = false;
   let failed = false;
+  let pendingFocus;
   const status = document.createElement('p');
   status.className = 'code-language-status';
   status.textContent = 'Chargement de l’éditeur multicolore…';
@@ -61,7 +62,9 @@ export function createCodeSurface({
           onSave,
           onDiagnostics(items) {
             if (!disposed && !failed)
-              status.textContent = `${items.length} diagnostic(s) local(aux) · syntaxe du fichier, hors typage complet et tests du projet.`;
+              status.textContent = items.length
+                ? `${items.length} diagnostic(s) local(aux) · hors typage complet et tests du projet.`
+                : 'Aucun diagnostic local reçu. Exécutez le contrôle du projet pour vérifier le code.';
           },
         }),
       )
@@ -77,6 +80,10 @@ export function createCodeSurface({
         if (ready) {
           host.hidden = !enabled;
           fallback.hidden = true;
+          if (pendingFocus && enabled) {
+            invoke((mounted) => mounted.focus(pendingFocus));
+            pendingFocus = undefined;
+          }
         }
       })
       .catch(degrade);
@@ -84,6 +91,7 @@ export function createCodeSurface({
   return {
     setDocument(next) {
       if (disposed) return;
+      if (current?.path !== next.path) pendingFocus = undefined;
       current = next;
       enabled = true;
       status.hidden = false;
@@ -105,11 +113,15 @@ export function createCodeSurface({
     },
     clear() {
       enabled = false;
+      pendingFocus = undefined;
       host.hidden = true;
       status.hidden = true;
     },
     focus(position) {
-      if (!invoke((mounted) => mounted.focus(position))) fallback.focus();
+      if (!invoke((mounted) => mounted.focus(position))) {
+        pendingFocus = position;
+        fallback.focus();
+      }
     },
     dispose() {
       if (disposed) return;

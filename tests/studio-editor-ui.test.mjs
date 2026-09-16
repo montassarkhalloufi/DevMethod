@@ -30,7 +30,9 @@ function setup(t, api, options = {}) {
   });
   const input = root.querySelector('textarea');
   const button = (label) =>
-    [...root.querySelectorAll('button')].find((entry) => entry.textContent === label);
+    [...root.querySelectorAll('button')].find(
+      (entry) => (entry.getAttribute('aria-label') || entry.textContent) === label,
+    );
   const type = (content) => {
     input.value = content;
     input.dispatchEvent(new dom.window.Event('input'));
@@ -130,8 +132,20 @@ test('syntax failure leaves the last good preview visible, exposes direction and
     }),
   });
   await editor.open('base');
+  const preview = root.querySelector('.editor-preview');
+  const frame = preview.querySelector('iframe');
+  const frameWindow = frame.contentWindow;
+  assert.equal(preview.open, false);
+  preview.open = true;
+  preview.open = false;
+  assert.equal(frame.contentWindow, frameWindow);
+  assert.equal(root.querySelector('.editor-diagnostics-drawer').open, false);
   type('const n = (');
   await editor.flush();
+  assert.equal(root.querySelector('.editor-diagnostics-drawer').open, true);
+  assert.match(root.querySelector('.editor-diagnostics-drawer > summary').textContent, /1 erreur/);
+  assert.equal(preview.querySelector('iframe'), frame);
+  assert.equal(frame.contentWindow, frameWindow);
   assert.match(root.querySelector('iframe').src, /good/);
   assert.match(root.querySelector('.editor-diagnostics').textContent, /Refermer la parenthèse/);
   assert.match(root.querySelector('.editor-preview p').textContent, /ne représente pas/);
@@ -373,4 +387,45 @@ test('editing invalidates server markers while retaining explicitly historical d
   assert.equal(markers.length, 0);
   assert.doesNotMatch(root.querySelector('.editor-diagnostics').textContent, /SyntaxError/);
   assert.equal(button('Adopter cette version').disabled, false);
+});
+
+test('external explorer selection preserves edits and emits analysis refresh only after saving', async (t) => {
+  const selections = [];
+  const source = draft('export const n = 1;', 1, {
+    files: [
+      { path: 'app.js', content: 'export const n = 1;', editable: true },
+      { path: 'backend/api.js', content: 'export const api = true;', editable: true },
+    ],
+  });
+  const { editor, type, input, dom } = setup(
+    t,
+    {
+      read: async () => source,
+      save: async (payload) => ({
+        ...source,
+        version: 2,
+        changedPaths: ['app.js'],
+        files: source.files.map((file) => ({
+          ...file,
+          content:
+            payload.changes.find((change) => change.path === file.path)?.content || file.content,
+        })),
+      }),
+      build: async () => ({ ...source, version: 2, diagnostics: [] }),
+    },
+    { onSelect: (path) => selections.push(path) },
+  );
+  let notifications = 0;
+  dom.window.document.addEventListener('studio:editor-saved', () => notifications++);
+  await editor.open('base', 'app.js');
+  type('export const n = 2;');
+  assert.equal(notifications, 0);
+  assert.equal(editor.selectFile('backend/api.js'), true);
+  assert.match(input.value, /api = true/);
+  assert.equal(editor.selectFile('app.js'), true);
+  assert.equal(input.value, 'export const n = 2;');
+  assert.equal(editor.selectFile('outside.js'), false);
+  await editor.flush();
+  assert.equal(notifications, 1);
+  assert.ok(selections.includes('backend/api.js'));
 });

@@ -95,6 +95,8 @@ export function mountStudioLayout(document: Document, window: Window) {
   }
 
   function limits() {
+    const technical = ['code', 'checks'].includes(document.body.dataset.activePanel || '');
+    const minimum = technical ? 240 : minimumConversation;
     const style = window.getComputedStyle(layout!);
     const available =
       (layout!.clientWidth || window.innerWidth) -
@@ -103,9 +105,9 @@ export function mountStudioLayout(document: Document, window: Window) {
       2 * (Number.parseFloat(style.columnGap) || 8) -
       8;
     return {
-      min: minimumConversation,
-      max: Math.max(minimumConversation, Math.min(720, available - minimumWorkspace)),
-      default: Math.max(minimumConversation, available * 0.3),
+      min: minimum,
+      max: Math.max(minimum, Math.min(720, available - minimumWorkspace)),
+      default: technical ? 260 : Math.max(minimum, available * 0.3),
     };
   }
 

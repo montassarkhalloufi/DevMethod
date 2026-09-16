@@ -23,6 +23,44 @@ function fixture(t, loadWidget) {
   return { surface, host, fallback, document, changes };
 }
 
+test('a source location requested during loading is revealed in Monaco, never in a later file', async (t) => {
+  for (const superseded of [false, true]) {
+    let resolve;
+    const positions = [];
+    const f = fixture(
+      t,
+      () =>
+        new Promise((done) => {
+          resolve = done;
+        }),
+    );
+    f.surface.setDocument({ path: 'route.ts', value: '\n'.repeat(20), readOnly: true });
+    f.surface.focus({ line: 5 });
+    await setImmediate();
+    if (superseded) {
+      f.surface.clear();
+      f.surface.setDocument({ path: 'other.ts', value: '', readOnly: true });
+    }
+    resolve({
+      mountCodeWidget: async () => ({
+        setDocument() {},
+        setDiagnostics() {},
+        dispose() {},
+        focus(position) {
+          assert.equal(
+            f.host.hidden,
+            false,
+            'Monaco must be visible before receiving keyboard focus',
+          );
+          positions.push(position);
+        },
+      }),
+    });
+    await setImmediate();
+    assert.deepEqual(positions, superseded ? [] : [{ line: 5 }]);
+  }
+});
+
 test('late widget loading receives the latest document, preserves fallback text, and wires changes once', async (t) => {
   let resolve, callbacks;
   const documents = [];

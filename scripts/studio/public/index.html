@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/editor.css" />
     <link rel="stylesheet" href="/layout.css" />
     <link rel="stylesheet" href="/studio-ui/code-widget.css" />
+    <link rel="stylesheet" href="/technical.css" />
+    <link rel="stylesheet" href="/source-compact.css" />
+    <link rel="stylesheet" href="/shell-navigation.css" />
     <script type="module" src="/app.js"></script>
     <script type="module" src="/studio-ui/layout.js"></script>
   </head>
@@ -85,27 +88,91 @@
         <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-folder" /></svg
         ><span id="project-menu-label">Mon projet</span><span aria-hidden="true">⌄</span>
       </button>
-      <fieldset class="modes header-modes">
-        <legend class="sr-only">Comment souhaitez-vous avancer ?</legend>
-        <label
-          ><input type="radio" name="mode" value="guided" checked="" form="project-form" /><span
-            title="Échanger sur les choix importants, étape par étape."
-            ><strong>Guidé</strong></span
-          ></label
-        ><label
-          ><input type="radio" name="mode" value="devauto" form="project-form" /><span
-            title="Cadrer ensemble, puis déléguer la réalisation par tranches."
-            ><strong>DevAuto</strong></span
-          ></label
-        ><label
-          ><input type="radio" name="mode" value="delegated" form="project-form" /><span
-            title="Déléguer les choix réversibles et suivre le résultat."
-            ><strong>Autonome</strong></span
-          ></label
+      <nav class="workspace-tabs shell-tabs" role="tablist" aria-label="Vues du projet">
+        <button
+          id="tab-journey"
+          type="button"
+          role="tab"
+          aria-controls="journey"
+          aria-selected="false"
+          data-panel="journey"
+          tabindex="-1"
         >
-      </fieldset>
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-journey" /></svg
+          >Conception
+        </button>
+        <button
+          id="tab-product"
+          type="button"
+          role="tab"
+          aria-controls="product"
+          aria-selected="true"
+          data-panel="product"
+          tabindex="0"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-preview" /></svg
+          >Aperçu</button
+        ><button
+          id="tab-code"
+          type="button"
+          role="tab"
+          aria-controls="code"
+          aria-selected="false"
+          data-panel="code"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-code" /></svg>Code</button
+        ><button
+          id="tab-choices"
+          type="button"
+          role="tab"
+          aria-controls="choices"
+          aria-selected="false"
+          data-panel="choices"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-document" /></svg
+          >Décisions</button
+        ><button
+          id="tab-checks"
+          type="button"
+          role="tab"
+          aria-controls="checks"
+          aria-selected="false"
+          data-panel="checks"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-shield" /></svg
+          >Vérifications</button
+        ><button
+          id="tab-history"
+          type="button"
+          role="tab"
+          aria-controls="history"
+          aria-selected="false"
+          data-panel="history"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
+          >Historique
+        </button>
+      </nav>
+      <label class="shell-mode" for="studio-mode">
+        <span class="sr-only">Mode de travail</span>
+        <select
+          id="studio-mode"
+          name="mode"
+          form="project-form"
+          title="Mode de travail · ajuster la délégation"
+        >
+          <option value="guided">Guidé</option>
+          <option value="devauto">DevAuto</option>
+          <option value="delegated">Autonome</option>
+        </select>
+      </label>
       <a class="button-link export-project" href="/api/export" download=""
-        ><svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-upload" /></svg>Exporter</a
+        ><svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-upload" /></svg
+        ><span class="export-label">Exporter</span></a
       >
     </header>
     <div id="notice" class="notice" role="status" aria-live="polite" hidden=""></div>
@@ -115,6 +182,11 @@
     </nav>
     <div class="studio-layout">
       <aside id="discussion" class="conversation" aria-label="Le fil du projet" tabindex="-1">
+        <section class="technical-assistant">
+          <h2>Assistant</h2>
+          <p class="muted">Objectif du projet</p>
+          <p id="technical-objective"></p>
+        </section>
         <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
         <section
           id="responsibilities"
@@ -246,6 +318,12 @@
           tabindex="-1"
           hidden=""
         ></section>
+        <section class="technical-decision" id="technical-decision" hidden>
+          <span>Décision à examiner</span>
+          <h3 id="technical-decision-title"></h3>
+          <p id="technical-decision-state"></p>
+          <button type="button" data-action="review-decision">Ouvrir la décision →</button>
+        </section>
         <section
           id="latest-result"
           class="latest-result"
@@ -306,6 +384,10 @@
               ><button id="clear-element" type="button" aria-label="Retirer l’élément ciblé">
                 ×
               </button>
+              <small
+                >Le sélecteur DOM ne fournit pas de mapping fiable vers un fichier source. La
+                demande conserve l’élément ciblé.</small
+              >
             </div>
             <label class="sr-only" for="request">Votre demande</label
             ><textarea
@@ -344,76 +426,6 @@
       <main id="workspace" tabindex="-1" data-scroll-region="preview">
         <section id="project-cap" class="project-cap" aria-label="Le résultat visé"></section>
         <div class="workbench">
-          <nav class="workspace-tabs" role="tablist" aria-label="Vues du projet">
-            <button
-              id="tab-journey"
-              type="button"
-              role="tab"
-              aria-controls="journey"
-              aria-selected="false"
-              data-panel="journey"
-              tabindex="-1"
-            >
-              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-journey" /></svg
-              >Conception
-            </button>
-            <button
-              id="tab-product"
-              type="button"
-              role="tab"
-              aria-controls="product"
-              aria-selected="true"
-              data-panel="product"
-              tabindex="0"
-            >
-              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-preview" /></svg
-              >Aperçu</button
-            ><button
-              id="tab-code"
-              type="button"
-              role="tab"
-              aria-controls="code"
-              aria-selected="false"
-              data-panel="code"
-              tabindex="-1"
-            >
-              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-code" /></svg
-              >Code</button
-            ><button
-              id="tab-choices"
-              type="button"
-              role="tab"
-              aria-controls="choices"
-              aria-selected="false"
-              data-panel="choices"
-              tabindex="-1"
-            >
-              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-document" /></svg
-              >Décisions</button
-            ><button
-              id="tab-checks"
-              type="button"
-              role="tab"
-              aria-controls="checks"
-              aria-selected="false"
-              data-panel="checks"
-              tabindex="-1"
-            >
-              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-shield" /></svg
-              >Vérifications</button
-            ><button
-              id="tab-history"
-              type="button"
-              role="tab"
-              aria-controls="history"
-              aria-selected="false"
-              data-panel="history"
-              tabindex="-1"
-            >
-              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
-              >Historique
-            </button>
-          </nav>
           <div class="preview-toolbar preview-command-bar">
             <button
               id="expand-workspace"
@@ -494,6 +506,12 @@
             hidden=""
           >
             <div id="journey-view"></div>
+            <div class="technical-links">
+              <button type="button" data-action="architecture">
+                Examiner l’architecture détectée →
+              </button>
+              <span>La cible et les alternatives de conception restent des choix déclarés.</span>
+            </div>
           </section>
           <section
             id="product"
@@ -551,6 +569,7 @@
             hidden=""
           >
             <div id="source-view"></div>
+            <div id="project-workbench"></div>
           </section>
           <section
             id="choices"
@@ -566,6 +585,12 @@
               </div>
             </div>
             <div id="context"></div>
+            <div class="technical-links">
+              <button type="button" data-action="architecture">
+                Confronter les choix à l’architecture détectée →
+              </button>
+              <button type="button" data-action="impact">Examiner l’impact sur le projet →</button>
+            </div>
             <form id="approval-form" class="approval-card" hidden="">
               <h3>Valider le cadrage</h3>
               <p id="approval-status">Lisez les choix ci-dessus avant de lancer la réalisation.</p>
@@ -594,6 +619,7 @@
               </div>
             </div>
             <div id="checks-list"></div>
+            <div id="quality-workbench"></div>
           </section>
           <section
             id="history"

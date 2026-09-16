@@ -106,6 +106,38 @@ de départ de sa demande. Elle n’invente pas de diff pour un binaire, un aper�
 comparaison trop coûteuse. Depuis la version active, ouvrir « Modifier le code » pour travailler
 sur un brouillon séparé.
 
+## Comprendre le projet et exécuter ses contrôles
+
+Dans **Code**, les vues **Fichiers / Architecture / Flux / Impact** utilisent la même version
+du projet. L’explorateur classe logiquement les fichiers par couche ou fonctionnalité, sans
+les déplacer. Le menu de l’analyse permet d’inclure le brouillon enregistré et de lire son
+périmètre ; ses preuves restent distinctes de celles de sa base. Les fichiers du serveur qui
+héberge DevMethod sont dans **Diagnostic du Studio**, séparés du backend éventuel du projet.
+
+La carte d’architecture permet la sélection, la recherche, les filtres, le zoom, le déplacement,
+la comparaison et l’export SVG. Les relations renvoient aux sources reconnues. **Flux** expose
+les dépendances associées aux entrées détectées, sans inventer leur ordre d’exécution ;
+**Impact** distingue modifications constatées et consommateurs potentiellement concernés.
+Sans instrumentation, aucun temps de réponse ni état de service observé n’est affiché.
+
+Dans **Vérifications**, choisir une famille puis un contrôle pour voir sa portée et ses preuves.
+**Exécuter les contrôles disponibles** lance les adaptateurs pilotables sur la version
+sélectionnée : syntaxe, imports relatifs, JSON, inventaire du bundle, marqueurs de secrets et
+compilation React stricte lorsque le profil est compatible. L’arrêt d’une série laisse le
+contrôle courant se terminer. Les résultats restent associés à leurs empreintes et à leur
+environnement ; quelques réussites ne valident pas toute l’application.
+
+Un outil non raccordé indique **Connexion nécessaire**, ses prérequis et une action pour
+préparer la connexion. Un diagnostic réel propose **Préparer une correction** : version,
+preuve et constat sont ajoutés au brouillon de demande, sans effacer le texte existant ni
+envoyer automatiquement la demande. Le traitement suit ensuite le bridge et la délégation
+du projet. Un agent hôte manuel doit effectivement prendre en charge la demande.
+
+Le menu global reste fixe ; la discussion et le travail défilent séparément. **Focus technique**
+replie la discussion tout en conservant l’accès aux décisions à examiner. Les détails,
+vérifications et aperçus du brouillon sont repliables. Les limites et essais de cette tranche
+sont consignés dans le [checkpoint technique](missions/creation-experience/TECHNICAL-CHECKPOINT.md).
+
 ## Modifier le code et essayer le brouillon
 
 Les fichiers texte existants jusqu’à 256 Kio sont éditables. Les binaires et les fichiers plus
@@ -132,7 +164,8 @@ les signaux dans la zone de demande, **sans l’envoyer** ni appeler un modèle.
 
 « Adopter cette version » crée une nouvelle révision à partir du build exact vérifié, sous
 réserve des choix requis et de l’absence d’une demande agent en cours. Elle transfère le
-code, pas les données d’essai. La nouvelle preuve couvre uniquement la syntaxe JS/JSON ;
+code, pas les données d’essai. La nouvelle preuve couvre la syntaxe JS/JSON pour le profil
+statique, ou le typage et la compilation pour le profil React ;
 les contrôles fonctionnels des anciennes versions ne sont pas reconduits. Le brouillon
 repart ensuite de cette révision.
 

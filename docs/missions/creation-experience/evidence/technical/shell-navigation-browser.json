@@ -1,0 +1,440 @@
+{
+  "testedAt": "2026-09-16T23:11:44.692Z",
+  "url": "http://127.0.0.1:4348/",
+  "globalNavigation": [
+    {
+      "headerHeight": 55.99431610107422,
+      "panel": "code",
+      "tabs": [
+        {
+          "height": 55.08522415161133,
+          "id": "tab-journey",
+          "width": 111.12925720214844,
+          "x": 378.89202880859375,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-product",
+          "width": 85.89488220214844,
+          "x": 490.0213012695313,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-code",
+          "width": 74.63067626953125,
+          "x": 575.9161987304688,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-choices",
+          "width": 100.7741470336914,
+          "x": 650.546875,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-checks",
+          "width": 117.35084533691406,
+          "x": 751.3209838867188,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-history",
+          "width": 104.64488220214844,
+          "x": 868.6718139648438,
+          "y": 0
+        }
+      ],
+      "viewport": [
+        1562,
+        762
+      ],
+      "width": 1562
+    },
+    {
+      "headerHeight": 55.99431610107422,
+      "panel": "journey",
+      "tabs": [
+        {
+          "height": 55.08522415161133,
+          "id": "tab-journey",
+          "width": 111.12925720214844,
+          "x": 378.89202880859375,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-product",
+          "width": 85.89488220214844,
+          "x": 490.0213012695313,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-code",
+          "width": 74.63067626953125,
+          "x": 575.9161987304688,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-choices",
+          "width": 100.7741470336914,
+          "x": 650.546875,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-checks",
+          "width": 117.35084533691406,
+          "x": 751.3209838867188,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-history",
+          "width": 104.64488220214844,
+          "x": 868.6718139648438,
+          "y": 0
+        }
+      ],
+      "viewport": [
+        1562,
+        762
+      ],
+      "width": 1562
+    },
+    {
+      "headerHeight": 55.99431610107422,
+      "panel": "product",
+      "tabs": [
+        {
+          "height": 55.08522415161133,
+          "id": "tab-journey",
+          "width": 111.12925720214844,
+          "x": 378.89202880859375,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-product",
+          "width": 85.89488220214844,
+          "x": 490.0213012695313,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-code",
+          "width": 74.63067626953125,
+          "x": 575.9161987304688,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-choices",
+          "width": 100.7741470336914,
+          "x": 650.546875,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-checks",
+          "width": 117.35084533691406,
+          "x": 751.3209838867188,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-history",
+          "width": 104.64488220214844,
+          "x": 868.6718139648438,
+          "y": 0
+        }
+      ],
+      "viewport": [
+        1562,
+        762
+      ],
+      "width": 1562
+    },
+    {
+      "headerHeight": 55.99431610107422,
+      "panel": "choices",
+      "tabs": [
+        {
+          "height": 55.08522415161133,
+          "id": "tab-journey",
+          "width": 111.12925720214844,
+          "x": 378.89202880859375,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-product",
+          "width": 85.89488220214844,
+          "x": 490.0213012695313,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-code",
+          "width": 74.63067626953125,
+          "x": 575.9161987304688,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-choices",
+          "width": 100.7741470336914,
+          "x": 650.546875,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-checks",
+          "width": 117.35084533691406,
+          "x": 751.3209838867188,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-history",
+          "width": 104.64488220214844,
+          "x": 868.6718139648438,
+          "y": 0
+        }
+      ],
+      "viewport": [
+        1562,
+        762
+      ],
+      "width": 1562
+    },
+    {
+      "headerHeight": 55.99431610107422,
+      "panel": "checks",
+      "tabs": [
+        {
+          "height": 55.08522415161133,
+          "id": "tab-journey",
+          "width": 111.12925720214844,
+          "x": 378.89202880859375,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-product",
+          "width": 85.89488220214844,
+          "x": 490.0213012695313,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-code",
+          "width": 74.63067626953125,
+          "x": 575.9161987304688,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-choices",
+          "width": 100.7741470336914,
+          "x": 650.546875,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-checks",
+          "width": 117.35084533691406,
+          "x": 751.3209838867188,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-history",
+          "width": 104.64488220214844,
+          "x": 868.6718139648438,
+          "y": 0
+        }
+      ],
+      "viewport": [
+        1562,
+        762
+      ],
+      "width": 1562
+    },
+    {
+      "headerHeight": 55.99431610107422,
+      "panel": "history",
+      "tabs": [
+        {
+          "height": 55.08522415161133,
+          "id": "tab-journey",
+          "width": 111.12925720214844,
+          "x": 378.89202880859375,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-product",
+          "width": 85.89488220214844,
+          "x": 490.0213012695313,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-code",
+          "width": 74.63067626953125,
+          "x": 575.9161987304688,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-choices",
+          "width": 100.7741470336914,
+          "x": 650.546875,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-checks",
+          "width": 117.35084533691406,
+          "x": 751.3209838867188,
+          "y": 0
+        },
+        {
+          "height": 55.08522415161133,
+          "id": "tab-history",
+          "width": 104.64488220214844,
+          "x": 868.6718139648438,
+          "y": 0
+        }
+      ],
+      "viewport": [
+        1562,
+        762
+      ],
+      "width": 1562
+    }
+  ],
+  "positionStable": true,
+  "responsive": [
+    {
+      "actual": [
+        1045,
+        818
+      ],
+      "export": {
+        "clientWidth": 95,
+        "height": 33.99857711791992,
+        "scrollWidth": 95,
+        "width": 97.11647033691406,
+        "x": 936.34228515625,
+        "y": 6.995738506317139
+      },
+      "header": {
+        "clientWidth": 1045,
+        "height": 95.99431610107422,
+        "scrollWidth": 1045,
+        "width": 1045.4544677734375,
+        "x": 0,
+        "y": 0
+      },
+      "mode": {
+        "clientWidth": 106,
+        "height": 33.99857711791992,
+        "scrollWidth": 106,
+        "width": 107.99715423583984,
+        "x": 814.3465576171875,
+        "y": 6.995738506317139
+      },
+      "pageWidth": 1045,
+      "requested": [
+        1150,
+        900
+      ],
+      "tabs": {
+        "clientWidth": 1021,
+        "height": 47.99715805053711,
+        "scrollWidth": 1021,
+        "width": 1021.4630126953124,
+        "x": 11.99573802947998,
+        "y": 47.99715805053711
+      }
+    },
+    {
+      "actual": [
+        354,
+        767
+      ],
+      "export": {
+        "clientWidth": 32,
+        "height": 33.99857711791992,
+        "scrollWidth": 32,
+        "width": 33.99857711791992,
+        "x": 312.5497131347656,
+        "y": 6.995738506317139
+      },
+      "header": {
+        "clientWidth": 355,
+        "height": 95.99431610107422,
+        "scrollWidth": 355,
+        "width": 354.5454406738281,
+        "x": 0,
+        "y": 0
+      },
+      "mode": {
+        "clientWidth": 88,
+        "height": 33.99857711791992,
+        "scrollWidth": 88,
+        "width": 90,
+        "x": 215.5539703369141,
+        "y": 6.995738506317139
+      },
+      "pageWidth": 354,
+      "requested": [
+        390,
+        844
+      ],
+      "tabs": {
+        "clientWidth": 339,
+        "height": 47.99715805053711,
+        "scrollWidth": 456,
+        "width": 338.5511169433594,
+        "x": 7.997159004211426,
+        "y": 47.99715805053711
+      }
+    },
+    {
+      "focus": "tab-history",
+      "hash": "#history",
+      "headerTop": 0,
+      "keyboard": "End from Code",
+      "pageWidth": 354,
+      "scrollLeft": 117.7272720336914,
+      "selected": "tab-history",
+      "viewport": [
+        354,
+        767
+      ]
+    }
+  ],
+  "noProjectMutation": true,
+  "viewportReset": true,
+  "tests": {
+    "shellNavigation": 4,
+    "studioUI": 21,
+    "journeyUI": 8,
+    "total": 33,
+    "passed": 33
+  },
+  "limits": [
+    "The Chrome zoom produces actual viewport dimensions different from the requested viewport: both are recorded.",
+    "Mode persistence and explicit delegation were exercised in isolated JSDOM fixtures, not by changing live project policy.",
+    "Screenshots capture only the rendered state at the recorded time; other agents are refining source and quality panels separately."
+  ]
+}

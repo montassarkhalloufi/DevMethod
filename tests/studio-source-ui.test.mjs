@@ -80,6 +80,28 @@ test('a late response from an old revision cannot overwrite the displayed revisi
   assert.match(root.querySelector('.source-revision').textContent, /new/);
 });
 
+test('a superseded source location does not move focus after another file has opened', async (t) => {
+  let resolve;
+  let delay = false;
+  const { root, view, document } = fixture(t, ({ revisionId, path }) => {
+    if (delay && path === 'index.html')
+      return new Promise((done) => {
+        resolve = done;
+      });
+    return Promise.resolve(response(revisionId, file(path), path));
+  });
+  await view.showRevision(revision('one'));
+  delay = true;
+  const obsolete = view.selectFile('index.html', 8);
+  await view.selectFile('src/main.js');
+  const selectedFile = root.querySelector('[data-path="src/main.js"]');
+  selectedFile.focus();
+  resolve(response('one', file('index.html')));
+  assert.equal(await obsolete, false);
+  assert.equal(document.activeElement, selectedFile);
+  assert.equal(root.querySelector('h3').textContent, 'main.js');
+});
+
 test('secondary provenance and file integrity remain available in a disclosure while read failures stay outside it', async (t) => {
   let fail = false;
   const { root, view } = fixture(t, async ({ revisionId, path }) => {
@@ -181,7 +203,8 @@ test('polling the same immutable manifest preserves selected file and folder sta
   await view.showRevision(structuredClone(current));
   assert.equal(calls, 2);
   assert.equal(root.querySelector('.source-files details').open, false);
-  assert.equal(root.querySelector('h3').textContent, 'src/main.js');
+  assert.equal(root.querySelector('h3').textContent, 'main.js');
+  assert.equal(root.querySelector('h3').title, 'src/main.js');
 });
 
 test('line differences reconstruct both actual sources, including line endings and repeated lines', () => {
@@ -256,7 +279,7 @@ test('comparison fetches both versions, includes deleted and added files, and ne
   });
   await view.showRevision(after, { previousRevision: before });
   const compare = [...root.querySelectorAll('button')].find(
-    (button) => button.textContent === 'Comparer à la version précédente',
+    (button) => button.getAttribute('aria-label') === 'Comparer à la version précédente',
   );
   assert.equal(compare.disabled, false);
   compare.click();
@@ -301,7 +324,7 @@ test('comparison refuses a truncated old source and prevents a stale comparison 
   });
   await view.showRevision(revision('after'), { previousRevision: revision('before') });
   const compare = [...root.querySelectorAll('button')].find(
-    (button) => button.textContent === 'Comparer à la version précédente',
+    (button) => button.getAttribute('aria-label') === 'Comparer à la version précédente',
   );
   const source = [...root.querySelectorAll('button')].find(
     (button) => button.textContent === 'Afficher le fichier',
@@ -356,4 +379,85 @@ test('copy reports success only after copying the displayed content and exposes 
   copy.click();
   await setImmediate();
   assert.match(root.querySelector('[role=status]').textContent, /refusée/);
+});
+
+function editableFixture(t, baseRevision = 'one') {
+  const dom = new JSDOM('<main></main>', { url: 'http://127.0.0.1:4330' });
+  const root = dom.window.document.querySelector('main'),
+    reads = [];
+  const value = {
+    version: 1,
+    baseRevision,
+    files: [
+      { path: 'app.js', content: 'DRAFT ONE', editable: true },
+      { path: 'new.ts', content: 'NEW DRAFT FILE', editable: true },
+    ],
+    diagnostics: [],
+    changedPaths: ['app.js', 'new.ts'],
+    criteriaToReview: [],
+  };
+  const view = createSourceView({
+    document: dom.window.document,
+    root,
+    includeRuntime: false,
+    allowEdit: true,
+    loadSource: async ({ revisionId, path }) =>
+      response(revisionId, file(path), 'SOURCE ' + revisionId),
+    editorApi: {
+      read: async (id) => {
+        reads.push(id);
+        return value;
+      },
+    },
+  });
+  t.after(() => {
+    view.destroy();
+    dom.window.close();
+  });
+  const button = (text) =>
+    [...root.querySelectorAll('button')].find(
+      (entry) => (entry.getAttribute('aria-label') || entry.textContent) === text,
+    );
+  return { dom, root, reads, view, button };
+}
+
+test('switching displayed revision leaves editing without discarding local draft text', async (t) => {
+  const f = editableFixture(t);
+  await f.view.showRevision(revision('one', [file('app.js')]), { activeRevision: 'one' });
+  f.button('Modifier le code').click();
+  await setImmediate();
+  f.root.querySelector('.editor-auto input').checked = false;
+  const input = f.root.querySelector('.editor-input');
+  input.value = 'LOCAL UNSAVED ONE';
+  input.dispatchEvent(new f.dom.window.Event('input'));
+  await f.view.showRevision(revision('two', [file('app.js')]), { activeRevision: 'one' });
+  assert.equal(f.root.querySelector('.source-editing').hidden, true);
+  await f.view.selectFile('app.js', 1);
+  assert.equal(f.root.querySelector('code').textContent, 'SOURCE two');
+  assert.equal(input.value, 'LOCAL UNSAVED ONE');
+  await f.view.showRevision(revision('one', [file('app.js')]), { activeRevision: 'one' });
+  f.button('Modifier le code').click();
+  await setImmediate();
+  assert.equal(input.value, 'LOCAL UNSAVED ONE');
+  assert.equal(f.root.dataset.editing, 'true');
+});
+
+test('explicit draft source navigation opens an added persisted file, while immutable navigation stays exact', async (t) => {
+  const f = editableFixture(t);
+  await f.view.showRevision(revision('one', [file('app.js')]), { activeRevision: 'one' });
+  assert.equal(await f.view.selectFile('new.ts', 1, { draft: true }), true);
+  assert.equal(f.root.querySelector('.editor-input').value, 'NEW DRAFT FILE');
+  assert.deepEqual(f.reads, [undefined]);
+  assert.equal(await f.view.selectFile('app.js', 1, { draft: false }), true);
+  assert.equal(f.root.querySelector('.source-reading').hidden, false);
+  assert.equal(f.root.querySelector('code').textContent, 'SOURCE one');
+});
+
+test('a persisted draft belonging to another base cannot be shown as the selected model source', async (t) => {
+  const f = editableFixture(t, 'other');
+  await f.view.showRevision(revision('one', [file('app.js')]), { activeRevision: 'one' });
+  assert.equal(await f.view.selectFile('new.ts', 1, { draft: true }), false);
+  assert.equal(f.root.querySelector('.source-reading').hidden, false);
+  assert.match(f.root.querySelector('.source-status').textContent, /autre version|correspond pas/);
+  assert.equal(f.root.querySelector('.editor-input').value, '');
 });

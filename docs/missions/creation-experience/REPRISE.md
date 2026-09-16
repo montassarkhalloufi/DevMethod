@@ -1,3 +1,5 @@
+> Mise à jour du 17 septembre : [espace technique, architecture, vérifications et défilement](TECHNICAL-CHECKPOINT.md). Les preuves historiques ci-dessous gardent leur périmètre d’origine.
+
 # Reprendre Studio — checkpoint du 16 septembre 2026
 
 **Évolution suivante :** [Studio React typé et éditeur multicolore](REACT-CHECKPOINT.md).

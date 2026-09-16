@@ -1,0 +1,41 @@
+{
+  "observedAt": "2026-09-16T23:17:31.471Z",
+  "url": "http://127.0.0.1:4346/?technical=final-code-height#code",
+  "code": {
+    "bottom": 681.5056457519531,
+    "height": 495.10650634765625,
+    "left": 522.1661987304688,
+    "right": 1221.9885864257812,
+    "top": 186.39913940429688,
+    "width": 699.8223876953125,
+    "x": 522.1661987304688,
+    "y": 186.39913940429688
+  },
+  "hOverflow": false,
+  "header": {
+    "bottom": 55.99431610107422,
+    "height": 55.99431610107422,
+    "left": 0,
+    "right": 1562.7271728515625,
+    "top": 0,
+    "width": 1562.7271728515625,
+    "x": 0,
+    "y": 0
+  },
+  "mode": "delegated",
+  "viewport": [
+    1562,
+    762
+  ],
+  "work": {
+    "bottom": 681.5056457519531,
+    "height": 531.8252563476562,
+    "left": 288.8991394042969,
+    "right": 1549.8223571777344,
+    "top": 149.68038940429688,
+    "width": 1260.9232177734375,
+    "x": 288.8991394042969,
+    "y": 149.68038940429688
+  },
+  "note": "Capture native sans retouche. Version d7cd1dff active, mode Autonome conservé, aucun changement de code sur le projet utilisateur."
+}

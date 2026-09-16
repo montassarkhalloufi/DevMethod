@@ -1,3 +1,5 @@
+> Mise à jour du 17 septembre : [espace technique, architecture, vérifications et défilement](TECHNICAL-CHECKPOINT.md). Les preuves historiques ci-dessous gardent leur périmètre d’origine.
+
 > Évolution suivante : [React typé, Monaco et référence M](REACT-CHECKPOINT.md).
 > Les résultats ci-dessous décrivent la tranche antérieure et ses limites ; la référence M
 > a depuis été validée, sans valider rétroactivement la réalisation Olive.

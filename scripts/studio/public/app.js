@@ -4,10 +4,12 @@ import { presentation } from './version-presentation.js';
 import { createSourceView, comparisonBase } from './source-view.js';
 import { createProposalController } from './proposal-controller.js';
 import { renderComparison, comparisonURL } from './comparison-view.js';
+import { createTechnicalWorkspace } from './technical-workspace.js';
 
 export function mountStudio({ document, window, api = createStudioApi(), pollMs = 2000 }) {
   const el = (id) => document.getElementById(id);
   const views = createViews(document);
+  let technicalWorkspace;
   const sourceView = createSourceView({
     document,
     root: el('source-view'),
@@ -15,26 +17,26 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       api.source ? api.source(input) : Promise.reject(new Error('Lecture du code indisponible.')),
     copyText: window.navigator.clipboard?.writeText.bind(window.navigator.clipboard),
     allowEdit: true,
+    onSelect: (path) => technicalWorkspace?.selectPath(path),
     onApplied: async (result) => {
       followActive = result.activated;
       previewId = result.revision.id;
+      proposalController.suspend();
       await refresh();
     },
-    onCorrection: (message) => {
-      const existing = el('request').value;
-      if (existing.length + message.length + 2 > 20000) {
-        notice(
-          'La demande existante est trop longue pour ajouter le diagnostic. Votre texte est conservé.',
-          true,
-        );
-        return;
-      }
-      el('request').value = existing ? existing + '\n\n' + message : message;
-      markDraftDirty();
-      el('request').focus();
-    },
+    onCorrection: prepareCorrection,
   });
   const controller = new window.AbortController();
+  technicalWorkspace = createTechnicalWorkspace({
+    document,
+    window,
+    sourceView,
+    openPanel,
+    refresh,
+    comparisonBase,
+    showVersion,
+    onPrepareRequest: ({ prompt }) => prepareCorrection(prompt),
+  });
   const options = { signal: controller.signal };
   let state;
   let runtime;
@@ -98,6 +100,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     el('preview-scenario').hidden = id !== 'product' || !comparedProposal;
     if (id === 'code') updateSource();
     if (id === 'journey') updateJourney();
+    technicalWorkspace.update(state, displayedRevisionId, activePanel);
   }
   function prepareStage(stage, request) {
     const existing = el('request').value;
@@ -109,6 +112,21 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     el('request').value = request;
     markDraftDirty();
     el('request').focus();
+  }
+  function prepareCorrection(message) {
+    const existing = el('request').value;
+    if (existing.length + message.length + 2 > 20000) {
+      notice(
+        'La demande existante est trop longue pour ajouter le diagnostic. Votre texte est conservé.',
+        true,
+      );
+      return;
+    }
+    technicalWorkspace?.revealConversation();
+    el('request').value = existing ? existing + '\n\n' + message : message;
+    markDraftDirty();
+    el('request').focus();
+    notice('Diagnostic ajouté à votre demande. Vous pouvez le compléter puis l’envoyer.');
   }
   function updateJourney() {
     if (!state || activePanel !== 'journey') return;
@@ -189,7 +207,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     return {
       name: el('project-name').value.trim(),
       idea: el('idea').value,
-      mode: document.querySelector('input[name="mode"]:checked').value,
+      mode: el('studio-mode').value,
       constraints: el('constraints')
         .value.split('\n')
         .map((line) => line.trim())
@@ -208,8 +226,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       el('project-name').value = state.project.name;
       el('idea').value = state.project.idea;
       el('constraints').value = state.project.constraints.join('\n');
-      document.querySelector('input[name="mode"][value="' + state.project.mode + '"]').checked =
-        true;
+      el('studio-mode').value = state.project.mode;
       for (const [key, value] of Object.entries(effectiveDelegation()))
         el('delegate-' + key).value = value;
     }
@@ -304,6 +321,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     const key = JSON.stringify([state.version, shown, runtime?.agent]);
     region('evidence-dock', key, () => views.evidenceDock(state, shown));
     region('checks-list', key, () => views.evidence(state, runtime, shown));
+    technicalWorkspace.update(state, displayedRevisionId, activePanel);
   }
   function updatePreviewControls(comparison) {
     const dataNote = el('preview-data-note');
@@ -472,7 +490,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
         ? 'Modifications non enregistrées.'
         : 'Idée et mode enregistrés.';
     }).then(() => {
-      if (!editingProject) el('edit-project').focus();
+      if (!editingProject && event.type === 'submit') el('edit-project').focus();
     });
   }
   function markProjectDirty() {
@@ -599,6 +617,23 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     checks() {
       openPanel('checks');
     },
+    architecture() {
+      technicalWorkspace.show('architecture');
+    },
+    impact() {
+      technicalWorkspace.show('impact');
+    },
+    'inspect-impact'(id) {
+      showVersion(id);
+      technicalWorkspace.show('impact');
+    },
+    'review-decision'() {
+      technicalWorkspace.reviewDecision();
+    },
+    'inspect-architecture'(id) {
+      showVersion(id);
+      technicalWorkspace.show('architecture');
+    },
     preview(id) {
       showVersion(id);
       openPanel('product');
@@ -657,19 +692,14 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       delegationDirty = true;
       markProjectDirty();
     });
-  for (const input of document.querySelectorAll('input[name="mode"]'))
-    input.addEventListener(
-      'change',
-      (event) => {
-        if (!state || projectDirty || !state.project.idea.trim()) {
-          markProjectDirty();
-          return;
-        }
-        markProjectDirty();
-        void saveProject(event).then(refresh);
-      },
-      options,
-    );
+  on('studio-mode', 'change', (event) => {
+    if (!state || projectDirty || !state.project.idea.trim()) {
+      markProjectDirty();
+      return;
+    }
+    markProjectDirty();
+    void saveProject(event).then(refresh);
+  });
   for (const button of document.querySelectorAll('[data-panel]')) {
     button.addEventListener('click', () => openPanel(button.dataset.panel, 'push'), options);
     button.addEventListener(
@@ -772,6 +802,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       sourceView.destroy();
       proposalController.dispose();
       journeyWidget?.dispose();
+      technicalWorkspace.destroy();
       window.clearInterval(interval);
       window.clearTimeout(draftTimer);
     },

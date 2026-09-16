@@ -44,12 +44,14 @@ export function createCodeEditor({
   api = createEditorApi(),
   onApplied,
   onCorrection,
+  onSelect,
   storage = document.defaultView?.localStorage,
   debounceMs = 700,
   loadWidget,
+  toolbarHost,
+  backButton,
 }) {
   const make = (tag, text, className) => node(document, tag, text, className);
-  const title = make('h2', 'Éditer le code');
   const status = make('p', 'Ouverture du brouillon…', 'editor-status');
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
@@ -59,8 +61,12 @@ export function createCodeEditor({
     'editor-note',
   );
   const toolbar = make('div', undefined, 'editor-toolbar');
-  const check = make('button', 'Vérifier et actualiser');
-  const adopt = make('button', 'Adopter cette version', 'primary');
+  const check = make('button', 'Vérifier');
+  check.setAttribute('aria-label', 'Vérifier et actualiser');
+  check.title = 'Enregistrer, vérifier et actualiser le brouillon';
+  const adopt = make('button', 'Adopter', 'primary');
+  adopt.setAttribute('aria-label', 'Adopter cette version');
+  adopt.title = 'Adopter cette version vérifiée';
   const download = make('button', 'Récupérer mes modifications');
   const correction = make('button', 'Préparer une correction');
   const rebase = make('button', 'Reprendre la version active');
@@ -71,19 +77,30 @@ export function createCodeEditor({
   const auto = make('input');
   auto.type = 'checkbox';
   auto.checked = true;
-  autoLabel.append(auto, make('span', 'Aperçu automatique'));
+  auto.setAttribute('aria-label', 'Aperçu automatique');
+  autoLabel.append(auto, make('span', 'Auto'));
+  autoLabel.title = 'Enregistrer et compiler automatiquement les modifications';
   for (const button of [check, adopt, download, correction, rebase, reload]) button.type = 'button';
   const more = make('details', undefined, 'editor-more');
   const extra = make('div', undefined, 'editor-more-actions');
-  more.append(make('summary', 'Autres actions'), extra);
-  extra.append(download, correction, rebase, reload);
-  toolbar.append(autoLabel, check, adopt, more);
+  const moreSummary = make('summary', 'Plus');
+  moreSummary.setAttribute('aria-label', 'Autres actions et limites de l’éditeur');
+  more.append(moreSummary, extra);
+  extra.append(download, correction, rebase, reload, note);
+  more.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      more.open = false;
+      moreSummary.focus();
+    }
+  });
   const body = make('div', undefined, 'editor-body');
   const navigation = make('nav', undefined, 'editor-files');
   navigation.setAttribute('aria-label', 'Fichiers à modifier');
   const editing = make('section', undefined, 'editor-editing');
   const filename = make('label', 'Choisissez un fichier');
+  filename.className = 'editor-filename';
   filename.htmlFor = 'studio-code-input';
+  toolbar.append(...(backButton ? [backButton] : []), filename, autoLabel, check, adopt, more);
   const input = make('textarea', undefined, 'editor-input');
   input.id = 'studio-code-input';
   input.spellcheck = false;
@@ -93,21 +110,27 @@ export function createCodeEditor({
   const position = make('p', '', 'editor-position');
   const fileMessage = make('p', '', 'editor-file-message');
   const codeHost = make('div', undefined, 'editor-monaco-host');
-  editing.append(filename, fileMessage, codeHost, input, position);
-  const previewBox = make('section', undefined, 'editor-preview');
-  const previewTitle = make('h3', 'Aperçu du brouillon');
+  editing.append(fileMessage, codeHost, input);
+  const previewBox = make('details', undefined, 'editor-preview editor-drawer');
+  const previewTitle = make('summary', 'Aperçu du brouillon');
   const previewNote = make('p', 'Il apparaîtra après une vérification réussie.');
   const frame = make('iframe');
   frame.title = 'Brouillon exécutable — données d’essai séparées';
   frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
   frame.hidden = true;
   previewBox.append(previewTitle, previewNote, frame);
-  body.append(navigation, editing, previewBox);
+  body.append(navigation, editing);
   const diagnostics = make('section', undefined, 'editor-diagnostics');
   diagnostics.setAttribute('aria-label', 'Signaux et points à vérifier');
-  const header = make('div', undefined, 'editor-heading');
-  header.append(title, status);
-  root.replaceChildren(header, note, toolbar, body, diagnostics);
+  const diagnosticsDrawer = make('details', undefined, 'editor-drawer editor-diagnostics-drawer');
+  const diagnosticsTitle = make('summary', 'Diagnostics · aucun contrôle exécuté');
+  diagnosticsDrawer.append(diagnosticsTitle, diagnostics);
+  const drawers = make('div', undefined, 'editor-drawers');
+  drawers.append(diagnosticsDrawer, previewBox);
+  const statusbar = make('div', undefined, 'editor-statusbar');
+  statusbar.append(status, position);
+  root.replaceChildren(...(toolbarHost ? [] : [toolbar]), body, drawers, statusbar);
+  toolbarHost?.replaceChildren(toolbar);
 
   let draft = null,
     selected = null,
@@ -126,6 +149,7 @@ export function createCodeEditor({
   let runtimeErrors = [];
   let observedBuild = null;
   let diagnosticsVersion = null;
+  let diagnosticsSignalKey = '';
   let changingBase = false;
   const codeSurface = createCodeSurface({
     document,
@@ -142,6 +166,7 @@ export function createCodeEditor({
     },
     onSave: () => void flush(),
   });
+  extra.append(editing.querySelector('.code-language-status'));
   function syncCode() {
     if (selected)
       codeSurface.setDocument({ path: selected, value: input.value, readOnly: input.disabled });
@@ -162,6 +187,7 @@ export function createCodeEditor({
   }
   function say(message, error = false) {
     status.textContent = message;
+    status.title = message;
     status.classList.toggle('error', error);
   }
   function persistLocal() {
@@ -204,9 +230,11 @@ export function createCodeEditor({
     syncCode();
   }
   function select(path) {
+    onSelect?.(path);
     selected = path;
     const file = draft.files.find((entry) => entry.path === path);
-    filename.textContent = path;
+    filename.textContent = path?.split('/').at(-1) || 'Aucun fichier';
+    filename.title = path || '';
     input.disabled = changingBase || file?.editable === false || typeof file?.content !== 'string';
     input.value = contents.get(path) ?? '';
     fileMessage.textContent = input.disabled
@@ -282,12 +310,22 @@ export function createCodeEditor({
     }
     return card;
   }
+  function updateDiagnosticsDrawer(signals, stale) {
+    const errors = signals.filter((item) => item.severity === 'error').length;
+    diagnosticsTitle.textContent = `Diagnostics · ${errors ? `${errors} erreur(s)` : `${signals.length} signal(aux)`}${stale ? ' · à revérifier' : ''}`;
+    diagnosticsTitle.classList.toggle('error', errors > 0);
+    const signalKey = JSON.stringify([draft.version, draft.buildId, signals]);
+    if (errors && !stale && signalKey !== diagnosticsSignalKey) diagnosticsDrawer.open = true;
+    diagnosticsSignalKey = signalKey;
+  }
   function renderSignals() {
     if (observedBuild !== draft.buildId) {
       runtimeErrors = [];
       observedBuild = draft.buildId;
     }
     const stale = previousControls();
+    const signals = [...(draft.diagnostics || []), ...runtimeErrors];
+    updateDiagnosticsDrawer(signals, stale);
     diagnostics.dataset.stale = String(stale);
     diagnostics.replaceChildren(
       make(
@@ -297,8 +335,7 @@ export function createCodeEditor({
           : 'Ce que DevMethod peut constater',
       ),
     );
-    for (const item of [...(draft.diagnostics || []), ...runtimeErrors])
-      diagnostics.append(signalCard(item));
+    for (const item of signals) diagnostics.append(signalCard(item));
     const changed = draft.changedPaths || [];
     if (changed.length) diagnostics.append(make('p', 'Fichiers modifiés : ' + changed.join(', ')));
     if (draft.criteriaToReview?.length) {
@@ -385,6 +422,7 @@ export function createCodeEditor({
         );
         savedGeneration = editGeneration;
         persistLocal();
+        document.dispatchEvent(new window.Event('studio:editor-saved'));
       }
       if (generation !== editGeneration) return;
       say('Vérification du code et préparation de l’aperçu…');
@@ -597,8 +635,26 @@ export function createCodeEditor({
   }
   window?.addEventListener('beforeunload', preventLoss);
 
+  async function readDraft(baseRevision, existingOnly) {
+    try {
+      return await api.read(existingOnly ? undefined : baseRevision);
+    } catch (error) {
+      if (error.status !== 409 || existingOnly) throw error;
+      return api.read();
+    }
+  }
+
   return {
-    async open(baseRevision, initialPath) {
+    getBaseRevision() {
+      return draft?.baseRevision || null;
+    },
+    selectFile(path, line) {
+      if (!draft?.files.some((file) => file.path === path)) return false;
+      select(path);
+      if (line) codeSurface.focus({ line });
+      return true;
+    },
+    async open(baseRevision, initialPath, { existingOnly = false } = {}) {
       activeRevision = baseRevision;
       if (draft) {
         controls();
@@ -608,14 +664,12 @@ export function createCodeEditor({
       selected = initialPath;
       const request = ++requestId;
       try {
-        let next;
-        try {
-          next = await api.read(baseRevision);
-        } catch (error) {
-          if (error.status !== 409) throw error;
-          next = await api.read();
-        }
+        const next = await readDraft(baseRevision, existingOnly);
         if (destroyed || request !== requestId) return;
+        if (existingOnly && next.baseRevision !== baseRevision) {
+          say('Le brouillon enregistré appartient à une autre version.', true);
+          return;
+        }
         revision = next.baseRevision;
         install(next);
         try {
@@ -649,6 +703,7 @@ export function createCodeEditor({
       window?.removeEventListener('beforeunload', preventLoss);
       window?.removeEventListener('message', runtimeSignal);
       codeSurface.dispose();
+      toolbarHost?.replaceChildren();
       root.replaceChildren();
     },
   };

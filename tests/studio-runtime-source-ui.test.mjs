@@ -67,7 +67,9 @@ function fixture(t, loadServices) {
     },
   });
   const button = (text) =>
-    [...root.querySelectorAll('button')].find((node) => node.textContent === text);
+    [...root.querySelectorAll('button')].find(
+      (node) => (node.getAttribute('aria-label') || node.textContent) === text,
+    );
   t.after(() => {
     view.destroy();
     dom.window.close();
@@ -82,7 +84,7 @@ test('backend sources have a separate read-only tree and genuine health failures
     return services();
   });
   await f.view.showRevision(app);
-  f.button('Backend et services').click();
+  f.button('Diagnostic du Studio').click();
   await setImmediate();
   const backend = f.root.querySelector('.source-runtime');
   assert.equal(backend.hidden, false);
@@ -126,7 +128,7 @@ test('failed health refresh removes stale success and an old request cannot repl
     return result;
   });
   await f.view.showRevision(app);
-  f.button('Backend et services').click();
+  f.button('Diagnostic du Studio').click();
   await f.view.showRevision({ ...app, id: 'app-two' });
   await setImmediate();
   oldResolve(services());

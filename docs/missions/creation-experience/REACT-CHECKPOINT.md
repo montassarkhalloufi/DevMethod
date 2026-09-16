@@ -1,3 +1,5 @@
+> Mise à jour du 17 septembre : [espace technique, architecture, vérifications et défilement](TECHNICAL-CHECKPOINT.md). Les preuves historiques ci-dessous gardent leur périmètre d’origine.
+
 # Studio React typé — checkpoint du 16 septembre 2026
 
 Tranche : source React 19 réellement éditable, typée et compilée, avec évolution réutilisable

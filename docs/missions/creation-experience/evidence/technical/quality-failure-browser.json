@@ -1,0 +1,132 @@
+{
+  "recordedAt": "2026-09-16T23:02:22.242Z",
+  "fixture": {
+    "workspace": "/private/tmp/devmethod-quality-failure-qa",
+    "url": "http://127.0.0.1:4352/#checks",
+    "project": "Diagnostic négatif · fixture TypeScript",
+    "purpose": "Projet local isolé contenant volontairement une faute TypeScript. Aucune donnée utilisateur ni mutation métier.",
+    "setup": "Snapshot de fixture importé par store/domain et manifeste de vrais fichiers. La livraison React normale refuse les sources non compilables ; aucun statut de contrôle injecté.",
+    "revisionId": "09ca76c6-bd50-4f1d-bd3f-9ee0db18e19c",
+    "checksBeforeUiRun": 0
+  },
+  "actualBrowserActions": [
+    "Ouverture de Vérifications dans Chrome à la taille native, sans modifier le viewport.",
+    "Activation du contrôle Syntaxe des sources puis Exécuter ce contrôle.",
+    "Sélection du filtre Échec : 1 contrôle, 0 réussite, 1 échec, 0 sans exécution aboutie.",
+    "Activation de src/registration.ts:5 : onglet Code/Inspecteur, bonne révision et bon fichier chargés, sans édition."
+  ],
+  "result": {
+    "schemaVersion": 1,
+    "id": "50908c8a-6a7d-4ff1-b200-988f0f9bfbb4",
+    "checkId": "source-syntax",
+    "title": "Syntaxe des sources",
+    "revisionId": "09ca76c6-bd50-4f1d-bd3f-9ee0db18e19c",
+    "fingerprint": "fc0665ebc93328bcabd8d3957cf0e6e363023cb6acef40b838f60ac030e80668",
+    "status": "failed",
+    "tool": "Node --check / parseur TypeScript installé",
+    "environment": "Node 24.18.0 · darwin/arm64 · TypeScript 5.9.3",
+    "expected": "Repérer les erreurs de syntaxe sans exécuter le programme.",
+    "startedAt": "2026-09-16T22:57:18.021Z",
+    "finishedAt": "2026-09-16T22:57:18.024Z",
+    "durationMs": 3,
+    "observed": "1 fichier(s) analysé(s), 1 erreur(s) de syntaxe.",
+    "findings": [
+      {
+        "source": {
+          "path": "src/registration.ts",
+          "line": 5
+        },
+        "message": "Erreur de syntaxe TypeScript TS1110."
+      }
+    ],
+    "limits": [
+      "Analyse syntaxique uniquement : ni typage sémantique complet, ni exécution, ni test du comportement."
+    ],
+    "events": [
+      {
+        "label": "Empreintes des fichiers confrontées au manifeste de la version.",
+        "at": "2026-09-16T22:57:18.021Z"
+      },
+      {
+        "label": "1 fichier(s) analysé(s), 1 erreur(s) de syntaxe.",
+        "at": "2026-09-16T22:57:18.024Z"
+      }
+    ],
+    "linkedCheckId": "ac534efd-fb87-4f5f-aafb-1b11c5c56a99"
+  },
+  "sourceNavigation": {
+    "revisionCorrect": true,
+    "fileCorrect": true,
+    "requestedLine": 5,
+    "observedActiveLine": 5,
+    "lineTargetConfirmed": true,
+    "limitation": null,
+    "noEdits": true,
+    "previousObservation": "Première tentative : ligne active1 après chargement différé de Monaco. La correction du bridge mémorise désormais la position jusqu’au chargement ; reprise navigateur confirmée à ligne5."
+  },
+  "screenshots": [
+    "quality-failure.png",
+    "quality-failure-detail.png",
+    "quality-failure-source.png"
+  ],
+  "checks": {
+    "tests": "18 tests qualité ciblés (11 backend, 7 widget), incluant batch/révision/demande et compilation React réelle.",
+    "eslint": "réussi",
+    "prettier": "réussi"
+  },
+  "limits": [
+    "Analyse syntaxique sans exécution de code projet, sans typage sémantique complet, sans test métier.",
+    "Ces résultats concernent un scénario négatif de test isolé et la révision enregistrée uniquement.",
+    "Aucun test mobile supplémentaire revendiqué par cette capture native."
+  ],
+  "failedStateContrast": [
+    {
+      "surface": "État Échec sur ligne sélectionnée",
+      "foreground": "#ff9ca9",
+      "background": "#382335",
+      "ratio": 7.25
+    },
+    {
+      "surface": "État Échec sur détail",
+      "foreground": "#ff9ca9",
+      "background": "#15263c",
+      "ratio": 7.7
+    },
+    {
+      "surface": "Texte sur ligne sélectionnée",
+      "foreground": "#f5f7fc",
+      "background": "#382335",
+      "ratio": 13.42
+    }
+  ],
+  "finalCaptureAt": "2026-09-16T23:21:59.146Z",
+  "correctionPreparation": {
+    "requestPrepared": true,
+    "exactRevision": true,
+    "checkId": "source-syntax",
+    "evidenceId": "50908c8a-6a7d-4ff1-b200-988f0f9bfbb4",
+    "fingerprintIncluded": true,
+    "diagnostic": "src/registration.ts:5 — TS1110",
+    "focus": "request",
+    "sent": false
+  },
+  "finalBrowser": {
+    "viewport": {
+      "width": 1562,
+      "height": 762
+    },
+    "newHeader": true,
+    "filter": "Échec",
+    "filteredCounts": {
+      "passed": 0,
+      "failed": 1,
+      "notrun": 0,
+      "configure": 0,
+      "blocked": 0
+    },
+    "explicitDetailFocus": "quality-detail-heading",
+    "verticalScrollOwner": "workspace",
+    "workspaceScrollTop": 344.09,
+    "tableScrollTop": 0
+  }
+}

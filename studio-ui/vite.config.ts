@@ -27,6 +27,8 @@ export default defineConfig({
         layout: fileURLToPath(new URL('./src/layout.ts', import.meta.url)),
         'decision-widget': fileURLToPath(new URL('./src/decision-widget.tsx', import.meta.url)),
         'journey-widget': fileURLToPath(new URL('./src/journey-widget.tsx', import.meta.url)),
+        'project-widget': fileURLToPath(new URL('./src/project-widget.tsx', import.meta.url)),
+        'quality-widget': fileURLToPath(new URL('./src/quality-widget.tsx', import.meta.url)),
       },
       formats: ['es'],
       fileName: (_format, entryName) => entryName + '.js',

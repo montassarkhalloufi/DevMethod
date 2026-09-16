@@ -86,9 +86,74 @@ function upload(store, input) {
   }
 }
 
+async function loadAnalysisModule(module) {
+  try {
+    return await import(module);
+  } catch (error) {
+    if (
+      error.code === 'ERR_MODULE_NOT_FOUND' &&
+      /Cannot find package 'typescript'/.test(error.message)
+    )
+      throw Object.assign(
+        new Error(
+          'Cette capacité nécessite TypeScript. Installez les dépendances du paquet DevMethod puis redémarrez le Studio.',
+          { cause: error },
+        ),
+        { status: 503 },
+      );
+    throw error;
+  }
+}
+
+function projectTools(store, editor) {
+  let intelligence, quality;
+  return {
+    intelligence() {
+      intelligence ??= loadAnalysisModule('./intelligence.mjs').then(
+        ({ createProjectIntelligence }) => createProjectIntelligence({ store, editor }),
+      );
+      return intelligence;
+    },
+    quality() {
+      quality ??= loadAnalysisModule('./quality.mjs');
+      return quality;
+    },
+  };
+}
+
+async function projectQuality(context, revisionId) {
+  const quality = await context.tools.quality();
+  const intelligence = await context.tools.intelligence();
+  // Quality must still show obsolete evidence when immutable source integrity fails.
+  const report = quality.readProjectQuality(context.store, revisionId);
+  try {
+    const analysis = intelligence.read({ revisionId }).analysis;
+    return quality.readProjectQuality(context.store, revisionId, analysis);
+  } catch {
+    report.limits.push(
+      'Parcours indisponibles : l’intégrité ou l’analyse des sources doit être réexaminée.',
+    );
+    return report;
+  }
+}
+
 async function getRoute(url, response, context) {
   const { store, runtime, editor } = context;
   if (url.pathname === '/api/state') return send(response, 200, store.read());
+  if (url.pathname === '/api/project/model')
+    return send(
+      response,
+      200,
+      (await context.tools.intelligence()).read({
+        revisionId: url.searchParams.get('revision'),
+        baseRevisionId: url.searchParams.get('base'),
+        draft: url.searchParams.get('draft') === '1',
+      }),
+    );
+  if (url.pathname === '/api/project/checks') {
+    const revisionId = url.searchParams.get('revision') || store.read().activeRevision;
+    return send(response, 200, await projectQuality(context, revisionId));
+  }
   if (url.pathname === '/api/editor')
     return send(response, 200, editor.read(url.searchParams.get('baseRevision')));
   if (url.pathname === '/api/source')
@@ -174,6 +239,16 @@ async function postRoute(url, request, response, context) {
   if (editorAction) {
     sameOrigin(request, current.url);
     return send(response, 200, await editor[editorAction](input));
+  }
+  if (url.pathname === '/api/project/checks/run') {
+    sameOrigin(request, current.url);
+    return send(
+      response,
+      200,
+      await (
+        await context.tools.quality()
+      ).runProjectQuality(store, input.revisionId, input.checkId),
+    );
   }
   const workerRoutes = {
     '/api/proposals/delegate-approval': () => {
@@ -320,7 +395,14 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
     store.close();
     throw error;
   }
-  const context = { store, jobs, runtime, editor, wake: () => runner?.wake() };
+  const context = {
+    store,
+    jobs,
+    runtime,
+    editor,
+    tools: projectTools(store, editor),
+    wake: () => runner?.wake(),
+  };
   const server = http.createServer(async (request, response) => {
     try {
       if (request.headers.host !== new URL(url).host)

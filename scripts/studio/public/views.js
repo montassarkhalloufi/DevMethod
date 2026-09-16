@@ -290,6 +290,8 @@ export function createViews(document) {
             revision.id,
           ),
           ...(!active ? [action('Utiliser cette version', 'activate', revision.id)] : []),
+          action('Comparer le code et l’impact', 'inspect-impact', revision.id),
+          action('Voir l’architecture', 'inspect-architecture', revision.id),
         ]),
         ...(checks.length
           ? checks.map(check)

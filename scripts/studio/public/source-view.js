@@ -160,6 +160,7 @@ export function createSourceView({
   editorApi,
   loadServices = readServices,
   includeRuntime = true,
+  onSelect,
 }) {
   const element = (tag, text, className) => {
     const node = document.createElement(tag);
@@ -172,7 +173,9 @@ export function createSourceView({
   const hint = element('p', 'Lecture seule · Les fichiers appartiennent à la version affichée.');
   const sourceButton = element('button', 'Afficher le fichier');
   sourceButton.type = 'button';
-  const compareButton = element('button', 'Comparer à la version précédente');
+  const compareButton = element('button', 'Comparer');
+  compareButton.setAttribute('aria-label', 'Comparer à la version précédente');
+  compareButton.title = 'Comparer à la version précédente';
   compareButton.type = 'button';
   compareButton.disabled = true;
   const copyButton = element('button', 'Copier le contenu');
@@ -180,11 +183,12 @@ export function createSourceView({
   copyButton.disabled = true;
   if (!copyText) copyButton.title = 'Le presse-papiers est indisponible dans cet environnement.';
   const actions = element('div', undefined, 'source-actions');
-  actions.append(sourceButton, compareButton, copyButton);
-  const editButton = element('button', 'Modifier le code');
+  const editButton = element('button', 'Modifier');
+  editButton.setAttribute('aria-label', 'Modifier le code');
   editButton.type = 'button';
   editButton.disabled = true;
   if (allowEdit) actions.append(editButton);
+  actions.append(compareButton);
   const navigation = element('nav', undefined, 'source-files');
   navigation.setAttribute('aria-label', 'Fichiers de la version');
   const selectedLabel = element('h3', 'Aucun fichier sélectionné');
@@ -193,9 +197,13 @@ export function createSourceView({
   status.setAttribute('aria-live', 'polite');
   const metadata = element('p', '', 'source-metadata');
   const sourceDetails = element('details', undefined, 'source-details');
-  sourceDetails.append(element('summary', 'Version et fichier'), revisionLabel, hint, metadata);
-  const readingHeader = element('div', undefined, 'source-reading-header');
-  readingHeader.append(heading, sourceDetails);
+  sourceDetails.append(
+    element('summary', 'Version et fichier'),
+    heading,
+    revisionLabel,
+    hint,
+    metadata,
+  );
   const pre = element('pre', undefined, 'source-content');
   pre.tabIndex = 0;
   pre.setAttribute('aria-label', 'Contenu du fichier en lecture seule');
@@ -208,33 +216,49 @@ export function createSourceView({
   const codeHost = element('div', undefined, 'source-monaco-host');
   const fileToolbar = element('div', undefined, 'source-file-toolbar');
   fileToolbar.append(selectedLabel, actions);
-  viewer.append(fileToolbar, status, codeHost, pre, retry);
+  viewer.append(status, codeHost, pre, retry);
   const codeSurface = createCodeSurface({ document, host: codeHost, fallback: pre });
   const body = element('div', undefined, 'source-body');
   body.append(navigation, viewer);
   const reading = element('div', undefined, 'source-reading');
-  reading.append(readingHeader, body);
-  const editing = element('div');
+  reading.append(body);
+  const editing = element('div', undefined, 'source-editing');
   editing.hidden = true;
-  const back = element('button', '← Consulter la version et ses différences', 'source-editor-back');
+  const back = element('button', '←', 'source-editor-back');
+  back.setAttribute('aria-label', 'Consulter la version et ses différences');
+  back.title = 'Consulter la version et ses différences';
   back.type = 'button';
-  const editorRoot = element('div');
-  editing.append(back, editorRoot);
+  const editorRoot = element('div', undefined, 'source-editor-root');
+  const editorControls = element('div', undefined, 'source-editor-controls');
+  editorControls.hidden = true;
+  editing.append(editorRoot);
   const runtimeRoot = element('div', undefined, 'source-runtime');
   runtimeRoot.hidden = true;
-  const sectionButtons = element('div', undefined, 'source-actions source-sections');
+  const sectionMenu = element('details', undefined, 'source-menu');
+  const sectionSummary = element('summary', includeRuntime ? 'Application' : 'Options');
+  const sectionButtons = element('div', undefined, 'source-menu-actions');
   const applicationButton = element('button', 'Application');
-  const runtimeButton = element('button', 'Backend et services');
+  const runtimeButton = element('button', 'Diagnostic du Studio');
   applicationButton.type = runtimeButton.type = 'button';
   applicationButton.setAttribute('aria-pressed', 'true');
   runtimeButton.setAttribute('aria-pressed', 'false');
-  sectionButtons.append(applicationButton, runtimeButton);
-  root.replaceChildren(
-    ...(includeRuntime ? [sectionButtons] : []),
-    reading,
-    editing,
-    ...(includeRuntime ? [runtimeRoot] : []),
+  if (includeRuntime) sectionButtons.append(applicationButton, runtimeButton);
+  sectionButtons.append(
+    sourceButton,
+    copyButton,
+    sourceDetails,
+    viewer.querySelector('.code-language-status'),
   );
+  sectionMenu.append(sectionSummary, sectionButtons);
+  const topbar = element('div', undefined, 'source-topbar');
+  topbar.append(fileToolbar, editorControls, sectionMenu);
+  root.replaceChildren(topbar, reading, editing, ...(includeRuntime ? [runtimeRoot] : []));
+  sectionMenu.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      sectionMenu.open = false;
+      sectionSummary.focus();
+    }
+  });
   let revision = null;
   let previousRevision = null;
   let mode = 'source';
@@ -248,18 +272,14 @@ export function createSourceView({
   let editor = null;
   let runtimeBrowser = null;
   let runtimeVisible = false;
-  applicationButton.addEventListener('click', () => {
-    runtimeVisible = false;
-    runtimeBrowser?.cancel();
-    reading.hidden = false;
-    runtimeRoot.hidden = true;
-    applicationButton.setAttribute('aria-pressed', 'true');
-    runtimeButton.setAttribute('aria-pressed', 'false');
-  });
+  applicationButton.addEventListener('click', readSurface);
   runtimeButton.addEventListener('click', () => {
     runtimeVisible = true;
     reading.hidden = editing.hidden = true;
     runtimeRoot.hidden = false;
+    fileToolbar.hidden = editorControls.hidden = true;
+    sectionMenu.open = false;
+    sectionSummary.textContent = 'Diagnostic du Studio';
     applicationButton.setAttribute('aria-pressed', 'false');
     runtimeButton.setAttribute('aria-pressed', 'true');
     runtimeBrowser ??= createRuntimeBrowser({
@@ -271,26 +291,68 @@ export function createSourceView({
     });
     void runtimeBrowser.load(revision?.id);
   });
-  editButton.addEventListener('click', () => {
-    if (!revision) return;
+  function readSurface() {
+    root.dataset.editing = 'false';
+    reading.hidden = false;
+    editing.hidden = true;
+    fileToolbar.hidden = false;
+    editorControls.hidden = true;
+    runtimeVisible = false;
+    runtimeBrowser?.cancel();
+    runtimeRoot.hidden = true;
+    sectionMenu.open = false;
+    sectionSummary.textContent = includeRuntime ? 'Application' : 'Options';
+    applicationButton.setAttribute('aria-pressed', 'true');
+    runtimeButton.setAttribute('aria-pressed', 'false');
+  }
+  function editSurface() {
     reading.hidden = true;
     editing.hidden = false;
+    fileToolbar.hidden = true;
+    editorControls.hidden = false;
+    root.dataset.editing = 'true';
+    runtimeVisible = false;
+    runtimeRoot.hidden = true;
+    sectionMenu.open = false;
+    sectionSummary.textContent = 'Application';
+  }
+  function draftUnavailable() {
+    readSurface();
+    status.textContent =
+      'Le brouillon est indisponible ou appartient à une autre version. La copie locale est conservée.';
+    status.dataset.state = 'error';
+    return false;
+  }
+  async function openEditor(initialPath, existingOnly = false) {
+    if (!revision) return false;
+    const expectedRevision = revision.id;
+    if (existingOnly && editor?.getBaseRevision() && editor.getBaseRevision() !== expectedRevision)
+      return draftUnavailable();
+    if (!existingOnly) editSurface();
     editor ??= createCodeEditor({
       document,
       root: editorRoot,
       api: editorApi,
       onApplied,
       onCorrection,
+      onSelect,
+      toolbarHost: editorControls,
+      backButton: back,
     });
-    void editor.open(revision.id, selectedPath).then(() => {
+    await editor.open(expectedRevision, initialPath, { existingOnly });
+    if (destroyed || revision?.id !== expectedRevision) return false;
+    if (existingOnly && editor.getBaseRevision() !== expectedRevision) return draftUnavailable();
+    if (existingOnly && !editor.selectFile(initialPath)) return draftUnavailable();
+    editSurface();
+    return true;
+  }
+  editButton.addEventListener('click', () => {
+    void openEditor(selectedPath).then(() => {
       if (document.defaultView?.matchMedia?.('(max-width: 900px)').matches)
         editing.scrollIntoView({ block: 'start' });
     });
   });
-  back.addEventListener('click', () => {
-    reading.hidden = false;
-    editing.hidden = true;
-  });
+  back.addEventListener('click', readSurface);
 
   function markSelected() {
     for (const button of navigation.querySelectorAll('button')) {
@@ -344,6 +406,7 @@ export function createSourceView({
       status.textContent = result.truncated
         ? 'Aperçu limité : une partie du fichier est affichée. L’export conserve le fichier complet.'
         : 'Fichier de la version chargé. Lecture seule.';
+      status.dataset.state = result.truncated ? 'partial' : 'ready';
     }
   }
 
@@ -394,17 +457,20 @@ export function createSourceView({
   }
 
   async function openFile(file) {
-    if (!revision || destroyed) return;
+    if (!revision || destroyed) return false;
     const currentRequest = ++requestNumber;
     pending?.abort();
     pending = new AbortController();
     selectedPath = file.path;
-    selectedLabel.textContent = file.path;
+    onSelect?.(file.path);
+    selectedLabel.textContent = file.path.split('/').at(-1);
+    selectedLabel.title = file.path;
     code.textContent = '';
     sourceContent = null;
     copyButton.disabled = true;
     metadata.textContent = '';
     status.textContent = mode === 'source' ? 'Lecture du fichier…' : 'Lecture des deux versions…';
+    status.dataset.state = 'loading';
     viewer.setAttribute('aria-busy', 'true');
     retry.hidden = true;
     pre.hidden = true;
@@ -424,14 +490,17 @@ export function createSourceView({
         readVerified(revision, file.current, signal),
         mode === 'diff' ? readVerified(previousRevision, file.previous, signal) : null,
       ]);
-      if (destroyed || currentRequest !== requestNumber) return;
+      if (destroyed || currentRequest !== requestNumber) return false;
       if (mode === 'source') renderSource(result);
       else renderDifference(before, result);
+      return true;
     } catch (error) {
-      if (destroyed || currentRequest !== requestNumber) return;
+      if (destroyed || currentRequest !== requestNumber) return false;
       code.textContent = '';
       status.textContent = error.message || 'Lecture du fichier indisponible.';
+      status.dataset.state = 'error';
       retry.hidden = false;
+      return false;
     } finally {
       if (!destroyed && currentRequest === requestNumber) viewer.setAttribute('aria-busy', 'false');
     }
@@ -509,11 +578,26 @@ export function createSourceView({
   copyButton.addEventListener('click', copySource);
 
   return {
+    async selectFile(path, line, { draft } = {}) {
+      if (draft) {
+        if (!(await openEditor(path, true))) return false;
+        return editor.selectFile(path, line);
+      }
+      if (draft !== false && !editing.hidden && editor?.getBaseRevision() === revision?.id)
+        return editor.selectFile(path, line);
+      const file = files.find((entry) => entry.path === path);
+      if (!file) return false;
+      readSurface();
+      if (!(await openFile(file))) return false;
+      if (line) codeSurface.focus({ line });
+      return true;
+    },
     async showRevision(
       next,
       { previousRevision: previous = null, activeRevision = next?.id } = {},
     ) {
       if (destroyed) return;
+      if (revision?.id !== next?.id && !editing.hidden) readSurface();
       heading.textContent =
         next?.scope === 'runtime'
           ? 'Sources du backend local DevMethod'
@@ -575,6 +659,7 @@ export function createSourceView({
       navigation.append(fileTree(files));
       const first =
         files.find((file) => file.path === previousPath) ||
+        files.find((file) => /(?:components|features)\/.*\.tsx$/.test(file.path)) ||
         files.find((file) => file.path === 'index.html') ||
         files[0];
       await openFile(first);

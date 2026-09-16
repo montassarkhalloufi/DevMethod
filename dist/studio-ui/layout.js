@@ -48,11 +48,11 @@ function o(e, r) {
 		e.addEventListener(t, n), l.push(() => e.removeEventListener(t, n));
 	}
 	function _() {
-		let e = r.getComputedStyle(o), t = (o.clientWidth || r.innerWidth) - (Number.parseFloat(e.paddingLeft) || 0) - (Number.parseFloat(e.paddingRight) || 0) - 2 * (Number.parseFloat(e.columnGap) || 8) - 8;
+		let t = ["code", "checks"].includes(e.body.dataset.activePanel || ""), n = t ? 240 : 300, i = r.getComputedStyle(o), a = (o.clientWidth || r.innerWidth) - (Number.parseFloat(i.paddingLeft) || 0) - (Number.parseFloat(i.paddingRight) || 0) - 2 * (Number.parseFloat(i.columnGap) || 8) - 8;
 		return {
-			min: 300,
-			max: Math.max(300, Math.min(720, t - 420)),
-			default: Math.max(300, t * .3)
+			min: n,
+			max: Math.max(n, Math.min(720, a - 420)),
+			default: t ? 260 : Math.max(n, a * .3)
 		};
 	}
 	function v() {

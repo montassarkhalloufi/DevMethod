@@ -1,0 +1,34 @@
+{
+  "recordedAt": "2026-09-17",
+  "scope": "Real Chrome/CUA editor journey on isolated copied project, observed during this mission",
+  "workspace": "/private/tmp/devmethod-editor-technical-qa",
+  "url": "http://127.0.0.1:4350/",
+  "baseRevision": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+  "adoptedRevision": "cb98b65d-926c-4ce5-b882-e5bb44374c5a",
+  "editedFile": "src/features/workshops/components/Registrations.tsx",
+  "observations": [
+    "Invalid TypeScript entered through Monaco produced 13 actual diagnostics and disabled adoption.",
+    "Corrected code was saved and React/TypeScript compiled automatically.",
+    "Compiled draft iframe displayed Mes inscriptions · vérification éditeur.",
+    "Saved draft analysis used a separate synthetic revision/fingerprint and no inherited base proofs.",
+    "Explicit adoption created cb98b65d; ordinary interactive application displayed the changed title."
+  ],
+  "dataSHA256BeforeAndAfter": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+  "userProject": {
+    "url": "http://127.0.0.1:4346/",
+    "activeRevisionUnchanged": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+    "dataSHA256Unchanged": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "mode": "delegated",
+    "modeTestIncident": "A click during the zero-width Focus layout defect selected DevAuto. The original Autonome mode was restored through UI; history retained, responsibility overrides unchanged.",
+    "composerCharactersPreserved": 192
+  },
+  "negativeFindingsFixed": [
+    "Adoption previously left an older proposal comparison selected; onApplied now suspends comparison before refreshing.",
+    "Technical Focus placed content in a zero-width first grid column; grid now uses a single visible column."
+  ],
+  "limits": [
+    "No claim of functional correctness based only on compilation.",
+    "This test changes only an isolated local project and does not deploy it.",
+    "The compiler uses the controlled React profile, not arbitrary backend scripts."
+  ]
+}
