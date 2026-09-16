@@ -61,6 +61,7 @@ try {
   }
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
   assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.5.0');
+  run(process.execPath, ['evaluation/maintenance-fixtures/scripts/verify.mjs'], pkg);
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
   assert.match(call(['--help']), /Markdown PLAN\/tickets and legacy missions/);
   assert.ok(fs.existsSync(path.join(pkg, 'dist/closure.js')));

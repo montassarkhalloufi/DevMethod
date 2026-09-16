@@ -23,3 +23,7 @@ Record procedure, available mechanism, observed behavior and measured benefit se
 Prefer ordinary tests where equally effective. No lab expansion without a new falsifiable hypothesis. One repetition per arm is a bounded exploratory comparison, not a general causal estimate. Stop on a protocol failure, unresolved native consumption, exhausted fixed budget, or evidence that the simpler option is sufficient. A limitation suspends only dependent work. Preserve failures and not-run slots.
 
 Current procedural capabilities already cover selective resumption, requirement reassessment and inline Quick fixes. New instructions are not justified merely by their omission in one execution. Research comments supply scenarios, not proof of present competitor defects. Current competitor release versions are checked before comparative statements; no native competitor superiority claim is planned.
+
+## Recorded outcome
+
+[Results and decisions](RESULTS.md) record the failed readiness admission and six unexecuted comparisons. Useful local instrument corrections and calibrated fixtures are delivered; the method-value objective remains indeterminate. [Review](REVIEW.md) and the dated [checkpoint](REPRISE.md) identify evidence boundaries and the stopped campaign. No candidate C or method-rule expansion is justified by this tranche.

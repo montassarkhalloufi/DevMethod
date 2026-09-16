@@ -1,0 +1,7 @@
+# Portable setup for the public derivative
+
+Use `node portable/setup.mjs /absolute/extracted-suite CASE /absolute/new-worker` under Node 24.18.0. CASE is resume-filter, title-policy or trim-boundary. The destination parent must exist and the destination must not exist. `setup.mjs` and `test-adoption.mjs` are byte-identical to the separately tested private companion. The public portable manifest and resume bundle are new derivations. Other two bundles are byte-identical originals.
+
+This restores each public baseline HEAD/index, then preserves the supplied exact prior dirty diff and status. The resume HEAD differs from its private original because its committed evidence command executable was anonymized; see ../provenance/derivation.json. No fixture input, assertion, outcome or source/checker pin was otherwise edited. Never admit a destination after a setup failure. The helper's freezeSha256 describes this public subset, not the original complete population.
+
+`node portable/test-adoption.mjs /absolute/extracted-suite /absolute/new-output.json` checks all three restorations plus refusal of an existing destination and a tampered CSS input. It does not run a model. The historical suite setup.mjs can reconstruct its tree and diff but changes HEAD when .git is absent; use this companion for exact public state. This companion measures protocol adoption only; it demonstrates no DevMethod benefit.
