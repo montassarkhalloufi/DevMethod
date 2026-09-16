@@ -73,6 +73,42 @@ test('delegated completion activates real revision but creates no successful che
   validateStudioState(state);
 });
 
+test('automatic adoption replaces the prior manual active-version decision without inventing user approval', () => {
+  const state = createInitialStudioState();
+  ready(state, 'manual-version');
+  activateRevision(state, { id: 'manual-version', reason: 'Ancienne version essayée' });
+  const previous = state.decisions.find((entry) => entry.topic === 'Version active');
+  const userDecisions = state.decisions.filter((entry) => entry.source === 'user').length;
+  updateProject(state, {
+    ...state.project,
+    delegation: { structure: 'agent', visual: 'agent', adoption: 'agent' },
+  });
+  const job = queueRequest(state, { request: 'Ajouter une liste d’attente' });
+  claimJob(state, { worker: 'agent' });
+  finishJob(state, {
+    jobId: job.id,
+    revision: {
+      ...revision('automatic-version', job.id),
+      title: 'Version avec liste d’attente',
+    },
+  });
+
+  assert.equal(state.activeRevision, 'automatic-version');
+  const active = state.decisions.filter(
+    (entry) => entry.topic === 'Version active' && entry.status === 'active',
+  );
+  assert.equal(active.length, 1);
+  assert.equal(active[0].choice, 'Version avec liste d’attente');
+  assert.equal(active[0].source, 'agent');
+  assert.match(active[0].reason, /délégation/);
+  assert.equal(previous.status, 'superseded');
+  assert.equal(previous.source, 'user');
+  assert.equal(previous.reason, 'Ancienne version essayée');
+  assert.equal(state.decisions.filter((entry) => entry.source === 'user').length, userDecisions);
+  assert.deepEqual(state.checks, []);
+  validateStudioState(state);
+});
+
 test('cancelled work cannot finish or fail late; only one worker owns a running job', () => {
   const state = createInitialStudioState();
   const job = queueRequest(state, { request: 'Créer les ateliers' });

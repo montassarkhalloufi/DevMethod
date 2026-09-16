@@ -1,3 +1,5 @@
+import { createCodeSurface } from './code-widget.js';
+
 function node(document, tag, text, className) {
   const element = document.createElement(tag);
   if (text !== undefined) element.textContent = text;
@@ -44,6 +46,7 @@ export function createCodeEditor({
   onCorrection,
   storage = document.defaultView?.localStorage,
   debounceMs = 700,
+  loadWidget,
 }) {
   const make = (tag, text, className) => node(document, tag, text, className);
   const title = make('h2', 'Éditer le code');
@@ -89,7 +92,8 @@ export function createCodeEditor({
   input.setAttribute('aria-label', 'Code source modifiable');
   const position = make('p', '', 'editor-position');
   const fileMessage = make('p', '', 'editor-file-message');
-  editing.append(filename, fileMessage, input, position);
+  const codeHost = make('div', undefined, 'editor-monaco-host');
+  editing.append(filename, fileMessage, codeHost, input, position);
   const previewBox = make('section', undefined, 'editor-preview');
   const previewTitle = make('h3', 'Aperçu du brouillon');
   const previewNote = make('p', 'Il apparaîtra après une vérification réussie.');
@@ -121,13 +125,41 @@ export function createCodeEditor({
   const window = document.defaultView;
   let runtimeErrors = [];
   let observedBuild = null;
+  let diagnosticsVersion = null;
   let changingBase = false;
+  const codeSurface = createCodeSurface({
+    document,
+    host: codeHost,
+    fallback: input,
+    loadWidget,
+    onChange(value) {
+      input.value = value;
+      recordChange();
+    },
+    onSelection({ line, column, offset }) {
+      input.setSelectionRange(offset, offset);
+      position.textContent = `Ligne ${line} · Colonne ${column}`;
+    },
+    onSave: () => void flush(),
+  });
+  function syncCode() {
+    if (selected)
+      codeSurface.setDocument({ path: selected, value: input.value, readOnly: input.disabled });
+  }
   const key = () => 'devmethod-code-draft:' + revision;
   const changes = () =>
     [...contents]
       .filter(([path, content]) => acknowledged.get(path) !== content)
       .map(([path, content]) => ({ path, content }));
   const hasLocal = () => generation !== savedGeneration || changes().length > 0;
+  const previousControls = () => hasLocal() || diagnosticsVersion !== draft?.version;
+  function currentMarkers() {
+    if (previousControls()) return [];
+    return [
+      ...(draft.diagnostics || []),
+      ...(draft.builtVersion === draft.version ? runtimeErrors : []),
+    ];
+  }
   function say(message, error = false) {
     status.textContent = message;
     status.classList.toggle('error', error);
@@ -169,6 +201,7 @@ export function createCodeEditor({
         (file) =>
           file.path === selected && file.editable !== false && typeof file.content === 'string',
       );
+    syncCode();
   }
   function select(path) {
     selected = path;
@@ -182,6 +215,7 @@ export function createCodeEditor({
     for (const button of navigation.querySelectorAll('button'))
       button.setAttribute('aria-current', String(button.dataset.path === path));
     updatePosition();
+    syncCode();
   }
   function updatePosition() {
     const before = input.value.slice(0, input.selectionStart);
@@ -241,6 +275,7 @@ export function createCodeEditor({
           .slice(0, Math.max(0, (item.line || 1) - 1))
           .reduce((n, line) => n + line.length + 1, 0);
         input.setSelectionRange(start, start);
+        codeSurface.focus({ line: item.line || 1 });
         updatePosition();
       });
       card.append(jump);
@@ -252,7 +287,16 @@ export function createCodeEditor({
       runtimeErrors = [];
       observedBuild = draft.buildId;
     }
-    diagnostics.replaceChildren(make('h3', 'Ce que DevMethod peut constater'));
+    const stale = previousControls();
+    diagnostics.dataset.stale = String(stale);
+    diagnostics.replaceChildren(
+      make(
+        'h3',
+        stale
+          ? 'Contrôles précédents — modifications à vérifier'
+          : 'Ce que DevMethod peut constater',
+      ),
+    );
     for (const item of [...(draft.diagnostics || []), ...runtimeErrors])
       diagnostics.append(signalCard(item));
     const changed = draft.changedPaths || [];
@@ -279,19 +323,23 @@ export function createCodeEditor({
       frame.hidden = true;
     }
     renderPreviewStatus();
+    codeSurface.setDiagnostics(currentMarkers());
   }
   function renderPreviewStatus() {
     if (!draft.buildId)
       previewNote.textContent = 'Aucun aperçu valide du brouillon pour le moment.';
     else if (draft.builtVersion === draft.version && !hasLocal())
       previewNote.textContent =
-        'Aperçu après contrôle de syntaxe. À essayer ; données d’essai uniquement.';
+        draft.verificationProtocol === 'react-strict-v1'
+          ? 'React compilé · TypeScript strict vérifié. Parcours à essayer ; données d’essai uniquement.'
+          : 'Aperçu après contrôle de syntaxe. À essayer ; données d’essai uniquement.';
     else
       previewNote.textContent =
         'Dernier aperçu valide conservé ; il ne représente pas les dernières modifications.';
   }
   function install(next, preserve = false) {
     draft = next;
+    diagnosticsVersion = next.version;
     acknowledged = new Map(
       next.files
         .filter((file) => typeof file.content === 'string')
@@ -343,6 +391,7 @@ export function createCodeEditor({
       const next = await api.build({ version: draft.version, baseRevision: draft.baseRevision });
       if (destroyed) return;
       draft = next;
+      diagnosticsVersion = next.version;
       renderSignals();
       const errors = next.diagnostics?.filter((entry) => entry.severity === 'error').length || 0;
       say(
@@ -365,17 +414,19 @@ export function createCodeEditor({
     clearTimeout(timer);
     timer = setTimeout(() => void flush(), debounceMs);
   }
-  input.addEventListener('input', () => {
+  function recordChange() {
     contents.set(selected, input.value);
     generation++;
     persistLocal();
+    renderSignals();
     controls();
     updatePosition();
     say('Modifications locales — enregistrement en attente.');
     if (draft?.buildId)
       previewNote.textContent = 'Dernier aperçu valide ; actualisation en attente.';
     if (auto.checked) schedule();
-  });
+  }
+  input.addEventListener('input', recordChange);
   input.addEventListener('click', updatePosition);
   input.addEventListener('keyup', updatePosition);
   input.addEventListener('keydown', (event) => {
@@ -438,7 +489,7 @@ export function createCodeEditor({
       )
       .join('\n');
     onCorrection?.(
-      `Examiner mon brouillon de code basé sur ${draft.baseRevision}. Il n’est pas encore adopté.\nSignaux observés :\n${issues || 'Aucun défaut automatique établi : examiner le changement par rapport au besoin.'}\nFichiers concernés : ${(draft.changedPaths || []).join(', ')}\nCritères à préserver : ${(draft.criteriaToReview || []).map((c) => (typeof c === 'string' ? c : c.text)).join('; ')}\nExtrait actuel de ${selected} :\n${(contents.get(selected) || '').slice(0, 8000)}\nProposer une correction bornée, en expliquant ce qui est constaté et ce qui reste une hypothèse.`,
+      `Examiner mon brouillon de code basé sur ${draft.baseRevision}. Il n’est pas encore adopté.\n${previousControls() ? 'Signaux des contrôles précédents — modifications à revérifier' : 'Signaux observés'} :\n${issues || 'Aucun défaut automatique établi : examiner le changement par rapport au besoin.'}\nFichiers concernés : ${(draft.changedPaths || []).join(', ')}\nCritères à préserver : ${(draft.criteriaToReview || []).map((c) => (typeof c === 'string' ? c : c.text)).join('; ')}\nExtrait actuel de ${selected} :\n${(contents.get(selected) || '').slice(0, 8000)}\nProposer une correction bornée, en expliquant ce qui est constaté et ce qui reste une hypothèse.`,
     );
     say('Correction préparée dans la demande. Examinez-la avant de l’envoyer.');
   });
@@ -575,6 +626,7 @@ export function createCodeEditor({
           if (changes().length) {
             generation++;
             renderFiles();
+            renderSignals();
             say('Modifications locales récupérées. Vérifiez-les avant de les enregistrer.');
           } else say('Brouillon ouvert. Modifiez un fichier pour voir son effet.');
         } catch {
@@ -596,6 +648,7 @@ export function createCodeEditor({
       clearTimeout(timer);
       window?.removeEventListener('beforeunload', preventLoss);
       window?.removeEventListener('message', runtimeSignal);
+      codeSurface.dispose();
       root.replaceChildren();
     },
   };

@@ -1,5 +1,11 @@
 # Reprendre Studio — checkpoint du 16 septembre 2026
 
+**Évolution suivante :** [Studio React typé et éditeur multicolore](REACT-CHECKPOINT.md).
+Le bilan historique ci-dessous conserve la livraison HTML/JS de la PR #37 ; ne pas attribuer
+ses preuves à la nouvelle tranche React sans consulter son checkpoint. La référence M
+bleu nuit/ardoise est désormais validée dans [STUDIO-DESIGN.md](STUDIO-DESIGN.md) ; elle remplace
+l’attente de choix sur L mentionnée dans ce bilan antérieur.
+
 État : parcours Les Ateliers et transfert métier réalisés ; éditeur implémenté, 21 tests
 ciblés réussis et parcours navigateur édition, erreurs, récupération et adoption enregistré.
 La suite locale rapporte 472/472 tests réussis ; lint, format et smoke global du paquet local

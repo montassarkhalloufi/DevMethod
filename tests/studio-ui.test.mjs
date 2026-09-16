@@ -20,14 +20,15 @@ const revision = (id) => ({
   createdAt: '2026-09-16T10:00:00Z',
 });
 
-async function fixture(t, customize = () => {}) {
+async function fixture(t, customize = () => {}, hash = '') {
   let state = createInitialStudioState();
   state.project.idea = 'Conserver mes lectures';
   customize(state);
-  const dom = new JSDOM(html, { url: 'http://127.0.0.1:4330/' });
+  const dom = new JSDOM(html, { url: 'http://127.0.0.1:4330/' + hash });
   const calls = [];
   const runtime = {
     previewOrigin: 'http://127.0.0.1:4331',
+    comparisonPreviewOrigin: 'http://127.0.0.1:4332',
     agent: { automatic: false },
     planApproved: false,
   };
@@ -82,6 +83,105 @@ test('polling preserves edits, focus, open context and a live preview without re
   assert.equal(f.dom.window.document.activeElement.id, 'request');
   assert.equal(f.el('preview').contentWindow, iframeWindow);
   assert.equal(f.el('context').querySelector('details').open, true);
+});
+
+test('comparison labels, source and iframe follow the candidate identity on the read-only origin', async (t) => {
+  const f = await fixture(t, (state) => {
+    state.revisions = [revision('current'), revision('candidate')];
+    state.activeRevision = 'current';
+    state.proposals = [
+      {
+        id: 'change',
+        topic: 'Inscription',
+        stage: 'visual',
+        question: 'Quel rendu ?',
+        baseRevision: 'current',
+        selectedOptionId: 'form',
+        resolution: null,
+        options: [
+          {
+            id: 'form',
+            title: 'Formulaire',
+            consequences: ['Saisie directement visible.'],
+            preview: {
+              kind: 'revision',
+              status: 'implemented',
+              revisionId: 'candidate',
+              route: '/?form=join',
+              element: { selector: '#form', text: 'Formulaire' },
+            },
+          },
+        ],
+      },
+    ];
+  });
+  assert.equal(f.el('preview-version').value, 'candidate');
+  assert.match(f.el('preview-status').textContent, /Proposition non appliquée.*candidate/);
+  assert.match(
+    f.el('preview').src,
+    /^http:\/\/127\.0\.0\.1:4332\/revisions\/candidate\/index.html\?form=join$/,
+  );
+  assert.match(f.el('preview-data-note').textContent, /lecture seule/);
+  f.el('tab-code').click();
+  await setImmediate();
+  assert.match(f.el('source-view').textContent, /candidate/);
+  f.el('tab-product').click();
+  f.el('comparison-before').click();
+  assert.equal(f.el('preview-version').value, 'current');
+  assert.match(f.el('preview-status').textContent, /Version appliquée.*current/);
+  assert.match(f.el('preview').src, /:4332\/revisions\/current\//);
+  assert.equal(f.state().activeRevision, 'current');
+  f.input('request', 'Une saisie à conserver pendant la comparaison');
+  f.el('comparison-toggle').click();
+  assert.match(f.el('preview').src, /:4331\/revisions\/current\//);
+  assert.equal(f.el('preview-version').disabled, false);
+  assert.match(f.el('comparison-status').textContent, /Application interactive.*saisies/);
+  assert.equal(f.el('comparison-toggle').textContent, 'Comparer');
+  assert.equal(f.state().proposals[0].resolution, null);
+  assert.equal(f.state().proposals[0].selectedOptionId, 'form');
+  await f.app.refresh();
+  assert.match(f.el('preview').src, /:4331\/revisions\/current\//);
+  assert.equal(f.el('request').value, 'Une saisie à conserver pendant la comparaison');
+  f.el('comparison-toggle').click();
+  f.el('comparison-proposal').click();
+  assert.match(f.el('preview').src, /:4332\/revisions\/candidate\//);
+  f.dom.window.document.querySelector('[data-action="preview"][data-id="current"]').click();
+  assert.match(f.el('preview').src, /:4331\/revisions\/current\//);
+  await f.app.refresh();
+  assert.match(f.el('preview').src, /:4331\/revisions\/current\//);
+  assert.equal(f.el('preview-version').value, 'current');
+  assert.equal(f.el('request').value, 'Une saisie à conserver pendant la comparaison');
+  assert.deepEqual(f.calls, []);
+});
+
+test('visual directions use exclusive radios but persist only after explicit validation with a reason', async (t) => {
+  const f = await fixture(t, (state) => {
+    state.designs = ['agenda', 'catalogue'].map((id) => ({
+      id,
+      file: id + '.png',
+      title: id,
+      description: 'Direction réelle ' + id,
+    }));
+    state.selectedDesignId = 'agenda';
+  });
+  assert.equal(f.el('design-agenda').type, 'radio');
+  assert.equal(f.el('design-agenda').checked, true);
+  f.el('design-catalogue').click();
+  assert.equal(f.el('design-catalogue').checked, true);
+  assert.equal(f.el('design-agenda').checked, false);
+  assert.equal(f.state().selectedDesignId, 'agenda');
+  assert.equal(f.calls.length, 0);
+  assert.equal(f.el('design-form').hidden, false);
+  f.input('design-reason', 'Les images aident à découvrir les ateliers.');
+  await f.app.refresh();
+  assert.equal(f.el('design-catalogue').checked, true);
+  assert.equal(f.el('design-reason').value, 'Les images aident à découvrir les ateliers.');
+  await f.submit('design-form');
+  assert.deepEqual(f.calls.at(-1).input, {
+    id: 'catalogue',
+    reason: 'Les images aident à découvrir les ateliers.',
+  });
+  assert.equal(f.calls.at(-1).route, 'design');
 });
 
 test('a conflict retains the draft, refreshes the version and never resubmits the request automatically', async (t) => {
@@ -201,6 +301,10 @@ test('a connected runner stopped by its budget is visibly suspended, not describ
   };
   await f.app.refresh();
   assert.match(f.el('agent-status').textContent, /connecté · appels suspendus/);
+  assert.equal(f.el('agent-status').closest('summary')?.parentElement.open, false);
+  assert.equal(f.el('draft-status').closest('details'), null);
+  f.input('request', 'Conserver cette demande inachevée');
+  assert.match(f.el('draft-status').textContent, /modifié/);
   assert.match(f.el('agent-description').textContent, /Limite de budget atteinte/);
   assert.doesNotMatch(f.el('agent-description').textContent, /ne lance pas un agent/);
 });
@@ -307,11 +411,13 @@ test('method surfaces keep the intended result visible and distinguish delegatio
       approval: { recorded: { structure: false, visual: true } },
     }),
   );
-  const choices = root.querySelectorAll('.policy-choice');
-  assert.match(choices[0].textContent, /Délégué/);
-  assert.equal(choices[0].querySelector('.policy-agreement'), null);
-  assert.match(choices[1].querySelector('.policy-agreement').textContent, /Accord explicite/);
-  assert.equal(choices[2].querySelector('.policy-agreement'), null);
+  const choices = root.querySelectorAll('.responsibility-role');
+  assert.equal(choices.length, 3);
+  assert.equal(choices[0].querySelector('.agent-badge').textContent, 'Agent');
+  assert.equal(choices[1].querySelector('.person-badge').textContent, 'Vous');
+  assert.equal(choices[2].querySelector('.person-badge').textContent, 'Vous');
+  assert.doesNotMatch(root.textContent, /Accord explicite enregistré/);
+  assert.match(root.querySelector('details').textContent, /ne vaut pas validation humaine/);
 });
 
 test('evidence dock excludes checks from other revisions and exposes interrupted work and unknown costs', (t) => {
@@ -482,4 +588,102 @@ test('the recent request flow keeps three compact excerpts and exposes every ful
   assert.equal(disclosure.open, false);
   assert.ok(disclosure.textContent.includes(state.jobs[4].request));
   assert.ok(disclosure.textContent.includes(state.jobs[4].summary));
+});
+
+test('a conception deep link opens its workspace and leaving for Code survives a new load', async (t) => {
+  const withRevision = (state) => {
+    state.revisions = [revision('v1')];
+    state.activeRevision = 'v1';
+    state.draft = 'Une demande non envoyée';
+  };
+  const f = await fixture(t, withRevision, '#journey-frame');
+  assert.equal(f.el('tab-journey').getAttribute('aria-selected'), 'true');
+  assert.equal(f.el('preview-version').hidden, true);
+  f.el('tab-code').click();
+  assert.equal(f.dom.window.location.hash, '#code');
+  assert.equal(f.el('request').value, 'Une demande non envoyée');
+  f.el('tab-checks').click();
+  assert.equal(f.dom.window.location.hash, '#checks');
+  f.dom.window.history.back();
+  for (let i = 0; i < 50 && f.el('tab-code').getAttribute('aria-selected') !== 'true'; i++)
+    await new Promise((resolve) => f.dom.window.setTimeout(resolve, 5));
+  assert.equal(f.el('tab-code').getAttribute('aria-selected'), 'true');
+  f.el('tab-journey').click();
+  assert.equal(f.dom.window.location.hash, '#journey-frame');
+  assert.equal(f.calls.length, 0);
+  const reloaded = await fixture(t, withRevision, '#code');
+  assert.equal(reloaded.el('tab-code').getAttribute('aria-selected'), 'true');
+  assert.equal(reloaded.el('product').hidden, true);
+  assert.equal(reloaded.calls.length, 0);
+});
+
+test('displayed proofs and local scenarios follow the comparison without recording a decision or moving focus', async (t) => {
+  const f = await fixture(t, (state) => {
+    state.revisions = [revision('applied'), revision('candidate')];
+    state.activeRevision = 'applied';
+    state.checks = [
+      { revisionId: 'applied', status: 'passed', kind: 'command', label: 'Only applied' },
+    ];
+    state.proposals = [
+      {
+        id: 'choice',
+        stage: 'visual',
+        question: 'Comparer les rendus',
+        baseRevision: 'applied',
+        selectedOptionId: 'candidate',
+        resolution: null,
+        options: [
+          {
+            id: 'candidate',
+            title: 'Rendu réalisé',
+            consequences: [],
+            preview: { kind: 'revision', status: 'implemented', revisionId: 'candidate' },
+          },
+          {
+            id: 'image',
+            title: 'Maquette',
+            consequences: [],
+            preview: { kind: 'image', referenceId: 'mock.png' },
+          },
+        ],
+      },
+    ];
+  });
+  assert.match(f.el('evidence-dock').textContent, /Aucun contrôle enregistré sur candidat/);
+  assert.match(f.el('checks-list').textContent, /Proposition non appliquée/);
+  assert.doesNotMatch(f.el('checks-list').textContent, /Only applied/);
+  assert.match(f.el('open-preview').href, /:4331\/revisions\/candidate\//);
+  const scenario = f.el('preview-scenario');
+  scenario.focus();
+  scenario.value = 'image';
+  scenario.dispatchEvent(new f.dom.window.Event('change', { bubbles: true }));
+  assert.equal(f.dom.window.document.activeElement, scenario);
+  assert.equal(f.el('proposal-image').hidden, false);
+  assert.match(f.el('evidence-dock').textContent, /Simulation visuelle/);
+  assert.match(f.el('preview-status').textContent, /Simulation visuelle/);
+  assert.doesNotMatch(
+    f.el('checks-list').textContent,
+    /Only applied|Une application reste à produire/,
+  );
+  assert.equal(f.el('open-preview').hidden, true);
+  f.el('tab-code').click();
+  await f.app.refresh();
+  assert.equal(f.el('proposal-comparison').hidden, true);
+  f.el('tab-product').click();
+  assert.equal(f.el('open-preview').hidden, true);
+  assert.equal(scenario.value, 'image');
+  assert.equal(f.state().proposals[0].selectedOptionId, 'candidate');
+  assert.equal(f.state().activeRevision, 'applied');
+  assert.deepEqual(f.calls, []);
+  f.el('comparison-before').click();
+  assert.match(f.el('evidence-dock').textContent, /Version appliquée/);
+  assert.match(f.el('checks-list').textContent, /Only applied/);
+  f.state().activeRevision = 'candidate';
+  f.state().version++;
+  await f.app.refresh();
+  scenario.value = 'candidate';
+  scenario.dispatchEvent(new f.dom.window.Event('change', { bubbles: true }));
+  assert.match(f.el('evidence-dock').textContent, /Version appliquée/);
+  assert.doesNotMatch(f.el('evidence-dock').textContent, /Proposition non appliquée/);
+  assert.match(f.el('evidence-dock').textContent, /Agent.*accord encore attendu/);
 });

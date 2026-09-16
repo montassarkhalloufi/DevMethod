@@ -1,0 +1,29 @@
+{
+  "codePanelHeight": 452.8835144042969,
+  "codePanelScrollTop": 0,
+  "date": "2026-09-16",
+  "file": "src/features/workshops/components/WorkshopCard.tsx",
+  "hostHeight": 215.3408966064453,
+  "language": "typescript",
+  "origin": "http://127.0.0.1:4342",
+  "pageOverflow": false,
+  "revision": "Les Ateliers React · édition et reprise · b61b1ac4-63a2-4354-9676-69c2c4e925d3",
+  "status": "0 diagnostic(s) local(aux) · syntaxe du fichier, hors typage complet et tests du projet.",
+  "tokenColors": [
+    "rgb(212, 212, 212)",
+    "rgb(86, 156, 214)",
+    "rgb(255, 215, 0)",
+    "rgb(206, 145, 120)",
+    "rgb(220, 220, 220)",
+    "rgb(61, 201, 176)"
+  ],
+  "treeHeight": 351.3707275390625,
+  "treeScrollHeight": 1133,
+  "viewport": {
+    "height": 762,
+    "width": 1562
+  },
+  "visible": true,
+  "visibleLineNumbers": 10,
+  "console": []
+}

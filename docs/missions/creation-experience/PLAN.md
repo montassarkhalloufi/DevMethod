@@ -4,12 +4,29 @@ Statut : implémentation et essais en cours. Aucune supériorité annoncée. La 
 couvre les choix réversibles, le code local, les tests, les commits et une PR brouillon.
 Fusion, déploiement public, publication npm, achat, télémétrie et contact externe exclus.
 
+## Tranche en cours : espaces avant réalisation
+
+Reprise du 16 septembre après `23b7a34` : le retour utilisateur montre que la longue vue
+Parcours ne rend pas Discovery, Cadrage et Design assez accessibles. Périmètre prêt :
+un espace actif à la fois, navigation persistée dans l’URL, résultat/périmètre/exclusions/
+critères du cadrage, quatre jalons visuels et ouverture du prototype réellement lié.
+Réutiliser la composition bleu nuit/violet et les contrats existants. La conversation,
+le brouillon, les décisions et leurs autorisations restent conservés.
+
+Réussite : accès direct à chaque phase après rechargement, navigation clavier/mobile,
+distinction direction/master/écrans/prototype, ouverture sans adoption de la version liée,
+aucune validation ou génération sur simple navigation. Les demandes préparées restent des
+brouillons ; aucun nouvel appel fournisseur. Les sources/observations d’exploration sans
+contrat actuel restent explicitement manquantes. Cette tranche n’établit pas l’automatisation
+complète du parcours. Vérifications : interactions React, raccord shell, navigateur réel,
+qualité et tests du dépôt. Référence : `design-to-code/references/visual-creation.md`.
+
 ## Besoin et acquis
 
 La personne veut exprimer une idée, examiner ou déléguer ses choix, essayer le vrai
 logiciel, le modifier depuis l’usage puis le reprendre. Les captures Lovable fournies
 montrent cette continuité, pas une autorisation de copier son identité ou Deskeo.
-La composition du shell et ses validations successives sont conservées dans [STUDIO-DESIGN.md](STUDIO-DESIGN.md). La palette Olive a été rouverte après un défaut de distinction des blocs observé par l’utilisateur.
+La composition du shell et ses validations successives sont conservées dans [STUDIO-DESIGN.md](STUDIO-DESIGN.md). La palette Olive a été rouverte après un défaut de distinction des blocs observé par l’utilisateur ; la référence M bleu nuit/ardoise a ensuite été explicitement validée. La tranche React et ses limites sont suivies dans [REACT-CHECKPOINT.md](REACT-CHECKPOINT.md).
 
 [Capacités existantes et limites](evidence/acquis.md), [Bolt/Lovable/Replit](evidence/builders-a.md),
 [v0/Base44/Dyad](evidence/builders-b.md). Ces recherches documentaires ne sont pas des essais
@@ -80,3 +97,15 @@ L’export exclut token de contrôle, credentials globaux, journaux fournisseur 
 La portabilité du contrat et des fichiers ne prouve pas la portabilité d’exécution des agents.
 Seul l’adaptateur réellement essayé sera annoncé comme essayé. La génération d’images est une
 capacité de l’hôte de cette mission, pas un service fourni automatiquement par le CLI Studio.
+
+## Recadrage visuel « gg » — suite autorisée de la tranche
+
+Le retour utilisateur précise la hiérarchie de l’existant, sans changement de méthode ni de
+contrat métier : responsabilités distinctes des accords, couleurs sémantiques, commandes
+regroupées, preuves de la version affichée, comparaison manifestement non modifiable.
+La sélection locale d’un scénario n’altère ni la décision ni les inscriptions. La réalisation
+comprend la correction des défilements et l’alignement des réglages lors du redimensionnement.
+Critères : pas de débordement aux tailles testées, accès à la saisie, navigation clavier,
+aucun contrôle attribué à une autre version, comparaison bloquant réellement l’écriture,
+export incluant son garde. Vérification agent et captures ne valent pas validation humaine.
+Budget fournisseur inchangé et clos ; cette correction utilise uniquement l’ingénierie hôte.

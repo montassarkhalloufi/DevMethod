@@ -1,12 +1,144 @@
 import { compareLineSources } from './source-diff.js';
 import { createCodeEditor } from './source-editor.js';
+import { createCodeSurface } from './code-widget.js';
 
-async function readSource({ revisionId, path, signal }) {
+async function readSource({ revisionId, path, signal, scope }) {
   const query = new URLSearchParams({ revision: revisionId, path });
-  const response = await fetch('/api/source?' + query, { signal });
+  if (scope) query.set('scope', scope);
+  const response = await fetch('/api/source?' + query, {
+    signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+  });
   const result = await response.json();
   if (!response.ok) throw new Error(result.error || 'Lecture du fichier indisponible.');
   return result;
+}
+
+async function readServices({ revisionId, signal }) {
+  const query = new URLSearchParams(revisionId ? { revision: revisionId } : {});
+  const response = await fetch('/api/runtime/services?' + query, {
+    signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error || 'État des services indisponible.');
+  return result;
+}
+
+function describeServices(document, result) {
+  const details = document.createElement('details');
+  details.className = 'source-runtime-status';
+  const summary = document.createElement('summary');
+  const failed = result.services.filter((service) => service.health.status !== 'healthy').length;
+  summary.textContent = `Services locaux : ${failed ? `${failed} état(s) à examiner` : 'réponses reçues'} · voir les limites et le projet`;
+  details.append(summary);
+  const list = document.createElement('ul');
+  for (const service of result.services) {
+    const item = document.createElement('li');
+    const health = service.health;
+    const labels = {
+      healthy: 'stockage joignable',
+      timeout: 'délai dépassé — état indéterminé',
+      unreachable: 'connexion indisponible',
+      error: 'réponse en erreur',
+      not_checked: 'non démarré',
+    };
+    item.textContent = `${service.name} — ${labels[health.status] || 'état inconnu'}. ${health.error?.message || ''}`;
+    if (health.observedAt)
+      item.textContent += ` Observé à ${health.observedAt} (${health.elapsedMs} ms).`;
+    list.append(item);
+  }
+  for (const limitation of result.limitations) {
+    const item = document.createElement('li');
+    item.textContent = limitation;
+    list.append(item);
+  }
+  details.append(list);
+  if (result.project) {
+    const label = document.createElement('p');
+    label.textContent = `Projet déclaré : ${result.project.topology === 'monolith' ? 'monolithe' : 'services'} · version ${result.project.revisionId}.`;
+    details.append(label);
+    for (const service of result.project.services) {
+      const item = document.createElement('p');
+      item.textContent = `${service.name} (${service.runtime}) · ${service.root} · ${service.files.length} fichier(s) de cette version · non connecté. ${service.reason}`;
+      details.append(item);
+    }
+  } else {
+    const label = document.createElement('p');
+    label.textContent =
+      'Aucun manifeste devmethod.project.json dans cette version. Le runtime local reste distinct d’un backend métier du projet.';
+    details.append(label);
+  }
+  return details;
+}
+
+function createRuntimeBrowser({ document, root, loadServices, loadSource, copyText }) {
+  const refresh = document.createElement('button');
+  refresh.type = 'button';
+  refresh.textContent = 'Actualiser les services';
+  const status = document.createElement('p');
+  status.className = 'source-runtime-limit';
+  status.setAttribute('role', 'status');
+  const details = document.createElement('div');
+  details.className = 'source-runtime-details';
+  const toolbar = document.createElement('div');
+  toolbar.className = 'source-runtime-toolbar';
+  toolbar.append(refresh, details);
+  const sourceRoot = document.createElement('div');
+  sourceRoot.className = 'source-runtime-code';
+  root.append(toolbar, status, sourceRoot);
+  const source = createSourceView({
+    document,
+    root: sourceRoot,
+    loadSource,
+    copyText,
+    includeRuntime: false,
+  });
+  let pending;
+  let serial = 0;
+  let revisionId;
+  let destroyed = false;
+  async function load(nextId) {
+    revisionId = nextId;
+    pending?.abort();
+    pending = new AbortController();
+    const request = ++serial;
+    status.textContent = 'Lecture des services réellement démarrés…';
+    refresh.disabled = true;
+    try {
+      const result = await loadServices({ revisionId, signal: pending.signal });
+      if (destroyed || request !== serial) return;
+      if (result.sources?.scope !== 'runtime' || !Array.isArray(result.services))
+        throw new Error('Le catalogue reçu ne décrit pas le runtime attendu.');
+      details.replaceChildren(describeServices(document, result));
+      await source.showRevision(result.sources);
+      if (destroyed || request !== serial) return;
+      status.textContent =
+        'Backend embarqué en lecture seule ; les services du projet sont des déclarations, pas des processus lancés.';
+    } catch (error) {
+      if (destroyed || request !== serial) return;
+      status.textContent = `État non vérifié : ${error.message || 'lecture interrompue'}`;
+      details.replaceChildren();
+      await source.showRevision(null);
+    } finally {
+      if (!destroyed && request === serial) refresh.disabled = false;
+    }
+  }
+  refresh.addEventListener('click', () => {
+    void load(revisionId);
+  });
+  return {
+    load,
+    cancel() {
+      serial++;
+      pending?.abort();
+      refresh.disabled = false;
+    },
+    destroy() {
+      destroyed = true;
+      serial++;
+      pending?.abort();
+      source.destroy();
+    },
+  };
 }
 
 // Read-only presentation of an actual revision manifest and its verified source.
@@ -26,6 +158,8 @@ export function createSourceView({
   onApplied,
   onCorrection,
   editorApi,
+  loadServices = readServices,
+  includeRuntime = true,
 }) {
   const element = (tag, text, className) => {
     const node = document.createElement(tag);
@@ -58,6 +192,10 @@ export function createSourceView({
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
   const metadata = element('p', '', 'source-metadata');
+  const sourceDetails = element('details', undefined, 'source-details');
+  sourceDetails.append(element('summary', 'Version et fichier'), revisionLabel, hint, metadata);
+  const readingHeader = element('div', undefined, 'source-reading-header');
+  readingHeader.append(heading, sourceDetails);
   const pre = element('pre', undefined, 'source-content');
   pre.tabIndex = 0;
   pre.setAttribute('aria-label', 'Contenu du fichier en lecture seule');
@@ -67,18 +205,36 @@ export function createSourceView({
   retry.type = 'button';
   retry.hidden = true;
   const viewer = element('section', undefined, 'source-viewer');
-  viewer.append(selectedLabel, actions, status, metadata, pre, retry);
+  const codeHost = element('div', undefined, 'source-monaco-host');
+  const fileToolbar = element('div', undefined, 'source-file-toolbar');
+  fileToolbar.append(selectedLabel, actions);
+  viewer.append(fileToolbar, status, codeHost, pre, retry);
+  const codeSurface = createCodeSurface({ document, host: codeHost, fallback: pre });
   const body = element('div', undefined, 'source-body');
   body.append(navigation, viewer);
-  const reading = element('div');
-  reading.append(heading, revisionLabel, hint, body);
+  const reading = element('div', undefined, 'source-reading');
+  reading.append(readingHeader, body);
   const editing = element('div');
   editing.hidden = true;
   const back = element('button', '← Consulter la version et ses différences', 'source-editor-back');
   back.type = 'button';
   const editorRoot = element('div');
   editing.append(back, editorRoot);
-  root.replaceChildren(reading, editing);
+  const runtimeRoot = element('div', undefined, 'source-runtime');
+  runtimeRoot.hidden = true;
+  const sectionButtons = element('div', undefined, 'source-actions source-sections');
+  const applicationButton = element('button', 'Application');
+  const runtimeButton = element('button', 'Backend et services');
+  applicationButton.type = runtimeButton.type = 'button';
+  applicationButton.setAttribute('aria-pressed', 'true');
+  runtimeButton.setAttribute('aria-pressed', 'false');
+  sectionButtons.append(applicationButton, runtimeButton);
+  root.replaceChildren(
+    ...(includeRuntime ? [sectionButtons] : []),
+    reading,
+    editing,
+    ...(includeRuntime ? [runtimeRoot] : []),
+  );
   let revision = null;
   let previousRevision = null;
   let mode = 'source';
@@ -90,6 +246,31 @@ export function createSourceView({
   let destroyed = false;
   let sourceContent = null;
   let editor = null;
+  let runtimeBrowser = null;
+  let runtimeVisible = false;
+  applicationButton.addEventListener('click', () => {
+    runtimeVisible = false;
+    runtimeBrowser?.cancel();
+    reading.hidden = false;
+    runtimeRoot.hidden = true;
+    applicationButton.setAttribute('aria-pressed', 'true');
+    runtimeButton.setAttribute('aria-pressed', 'false');
+  });
+  runtimeButton.addEventListener('click', () => {
+    runtimeVisible = true;
+    reading.hidden = editing.hidden = true;
+    runtimeRoot.hidden = false;
+    applicationButton.setAttribute('aria-pressed', 'false');
+    runtimeButton.setAttribute('aria-pressed', 'true');
+    runtimeBrowser ??= createRuntimeBrowser({
+      document,
+      root: runtimeRoot,
+      loadServices,
+      loadSource,
+      copyText,
+    });
+    void runtimeBrowser.load(revision?.id);
+  });
   editButton.addEventListener('click', () => {
     if (!revision) return;
     reading.hidden = true;
@@ -134,7 +315,12 @@ export function createSourceView({
 
   async function readVerified(owner, file, signal) {
     if (!file) return null;
-    const result = await loadSource({ revisionId: owner.id, path: file.path, signal });
+    const result = await loadSource({
+      revisionId: owner.id,
+      path: file.path,
+      signal,
+      ...(owner.scope ? { scope: owner.scope } : {}),
+    });
     validateResponse(result, file, owner.id);
     return result;
   }
@@ -154,6 +340,7 @@ export function createSourceView({
       copyButton.disabled = !copyText;
       copyButton.textContent = result.truncated ? 'Copier l’extrait' : 'Copier le contenu';
       pre.hidden = false;
+      codeSurface.setDocument({ path: result.path, value: result.content, readOnly: true });
       status.textContent = result.truncated
         ? 'Aperçu limité : une partie du fichier est affichée. L’export conserve le fichier complet.'
         : 'Fichier de la version chargé. Lecture seule.';
@@ -198,6 +385,12 @@ export function createSourceView({
       code.append(line);
     }
     pre.hidden = false;
+    codeSurface.setDocument({
+      path: selectedPath,
+      value: after?.content || '',
+      original: before?.content || '',
+      readOnly: true,
+    });
   }
 
   async function openFile(file) {
@@ -215,6 +408,7 @@ export function createSourceView({
     viewer.setAttribute('aria-busy', 'true');
     retry.hidden = true;
     pre.hidden = true;
+    codeSurface.clear();
     pre.setAttribute(
       'aria-label',
       mode === 'source'
@@ -320,6 +514,14 @@ export function createSourceView({
       { previousRevision: previous = null, activeRevision = next?.id } = {},
     ) {
       if (destroyed) return;
+      heading.textContent =
+        next?.scope === 'runtime'
+          ? 'Sources du backend local DevMethod'
+          : 'Code de votre application';
+      hint.textContent =
+        next?.scope === 'runtime'
+          ? next.provenance
+          : 'Lecture seule · Les fichiers appartiennent à la version affichée.';
       editButton.disabled = !next || next.id !== activeRevision;
       editButton.title =
         next?.id === activeRevision
@@ -342,6 +544,7 @@ export function createSourceView({
       requestNumber++;
       pending?.abort();
       revision = next ? structuredClone(next) : null;
+      if (runtimeVisible) void runtimeBrowser.load(revision?.id);
       previousRevision = next && previous ? structuredClone(previous) : null;
       if (!previousRevision) mode = 'source';
       compareButton.disabled = !previousRevision;
@@ -358,6 +561,7 @@ export function createSourceView({
       metadata.textContent = '';
       retry.hidden = true;
       pre.hidden = true;
+      codeSurface.clear();
       viewer.setAttribute('aria-busy', 'false');
       navigation.replaceChildren();
       if (!revision || !files.length) {
@@ -384,6 +588,8 @@ export function createSourceView({
       compareButton.removeEventListener('click', showDifference);
       copyButton.removeEventListener('click', copySource);
       editor?.destroy();
+      runtimeBrowser?.destroy();
+      codeSurface.dispose();
       root.replaceChildren();
     },
   };

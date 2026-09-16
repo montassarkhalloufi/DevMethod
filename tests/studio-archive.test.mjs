@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { archiveFiles, restoreArchive } from '../scripts/studio/archive.mjs';
 import { exportProject } from '../scripts/studio/bundle.mjs';
 import { createStudioStore } from '../scripts/studio/store.mjs';
@@ -29,7 +30,7 @@ function checksum(block) {
   );
 }
 
-test('portable export restores code, current data and decisions without runtime credentials', (t) => {
+test('portable export restores code, current data and decisions without runtime credentials', async (t) => {
   const root = fixture(t),
     store = createStudioStore(path.join(root, 'source'));
   t.after(() => store.close());
@@ -69,6 +70,8 @@ test('portable export restores code, current data and decisions without runtime 
     data: { loans: ['Objet conservé'] },
   });
   assert.match(fs.readFileSync(path.join(target, 'launch.mjs'), 'utf8'), /createPreview/);
+  const runtime = await import(pathToFileURL(path.join(target, 'runtime/preview.mjs')).href);
+  assert.equal(typeof runtime.createPreview, 'function');
   assert.equal(fs.existsSync(path.join(target, '.devmethod/runtime.json')), false);
   assert.equal(
     JSON.parse(fs.readFileSync(path.join(target, '.devmethod/agent.json'))).unknownUsage,

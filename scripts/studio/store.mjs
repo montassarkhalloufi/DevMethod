@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { interruptRunningJobs, validateStudioState } from './domain.mjs';
+import { validateProposalTransition } from './proposals.mjs';
+import { validateDesignJourneyTransition } from './design-journey.mjs';
 
 export { validateStudioState } from './domain.mjs';
 
@@ -123,6 +125,8 @@ function checkDecisionTransition(previous, next) {
 }
 
 function validateTransition(previous, next) {
+  validateProposalTransition(previous, next);
+  validateDesignJourneyTransition(previous, next);
   for (const key of ['references', 'designs', 'revisions', 'checks', 'events'])
     preserved(previous[key], next[key], key);
   preserved(previous.decisions, next.decisions, 'Décisions', checkDecisionTransition);

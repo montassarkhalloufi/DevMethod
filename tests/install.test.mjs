@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { commandSkills } from '../dist/commands.js';
 import { initialize, tools, modules } from '../dist/init.js';
+import { localMarkdownFileExists } from '../scripts/markdown-links.mjs';
 
 function fixture(t) {
   const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'devmethod-'));
@@ -150,7 +151,7 @@ for (const tool of Object.keys(tools))
         .matchAll(/\]\(([^)\s]+)\)/g)) {
         if (/^[a-z]+:|^#/.test(target)) continue;
         assert.ok(
-          fs.existsSync(path.resolve(destination, path.dirname(file), target.split('#')[0])),
+          localMarkdownFileExists(path.join(destination, file), target.split('#')[0]),
           `${file}: ${target}`,
         );
       }

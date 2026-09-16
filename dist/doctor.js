@@ -3,6 +3,7 @@ import path from 'node:path';
 import { tools, modules, templates } from './init.js';
 import { commandSkills } from './commands.js';
 import { isReviewRuntimePath } from './review-runtime.js';
+import { isVercelResource } from './skill-resources.js';
 import { parseJson, checkPath, stat, hashFileSha256, MAX_MANIFEST_BYTES } from './filesystem.js';
 function object(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -24,7 +25,8 @@ function isSkillFile(parts, name) {
         (parts.length >= 5 &&
             ['assets', 'references'].includes(parts[3] ?? '') &&
             name.endsWith('.md')) ||
-        isReviewRuntimePath(parts));
+        isReviewRuntimePath(parts) ||
+        isVercelResource(parts[2] ?? '', parts.slice(3).join('/')));
 }
 function validateManifestPaths(manifest) {
     const root = tools[manifest.tool];

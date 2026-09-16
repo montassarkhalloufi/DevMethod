@@ -109,6 +109,8 @@ export const mimeType = (file) =>
     '.jpeg': 'image/jpeg',
     '.webp': 'image/webp',
     '.svg': 'image/svg+xml',
+    '.ttf': 'font/ttf',
+    '.woff2': 'font/woff2',
     '.txt': 'text/plain; charset=utf-8',
     '.md': 'text/plain; charset=utf-8',
   })[path.extname(file)] ?? 'application/octet-stream';

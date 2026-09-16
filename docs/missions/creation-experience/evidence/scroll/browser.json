@@ -1,0 +1,57 @@
+{
+  "date": "2026-09-16",
+  "scope": "Right-column scrolling when criteria, backend services and source metadata are expanded",
+  "method": "Chrome, dedicated verification tab, real UI clicks and wheel scroll; read-only DOM geometry measurements",
+  "workspace": "http://127.0.0.1:4346/",
+  "before": {
+    "viewportCssPixels": [1309, 727],
+    "workspaceOverflowY": "hidden",
+    "codePanelHeight": 119,
+    "sourceBodyHeight": 0,
+    "defect": "Expanded criteria reduced the code panel to 119 px and the source body to 0 px; the entire right column could not scroll."
+  },
+  "after": {
+    "viewportCssPixels": [1309, 727],
+    "workspaceOverflowY": "auto",
+    "workspaceHeight": 645,
+    "workspaceScrollHeight": 1556,
+    "sourceBodyHeight": 300,
+    "monacoHeight": 216,
+    "wheelScrollTop": [335, 911],
+    "conversationScrollTop": [0, 0],
+    "conversationTop": [72, 72],
+    "documentScrollTop": [0, 0],
+    "horizontalDocumentOverflow": false,
+    "result": "Wheel scrolling revealed the source code, diagnostics and all three evidence rows without moving the conversation.",
+    "screenshot": "backend-open-scrolled.png"
+  },
+  "expandedCode": {
+    "viewportCssPixels": [1309, 727],
+    "workspaceHeight": 711,
+    "workspaceScrollHeight": 711,
+    "monacoHeight": 218,
+    "horizontalDocumentOverflow": false,
+    "state": "Source details and services retracted; expand then return controls exercised."
+  },
+  "preview": {
+    "viewportCssPixels": [1309, 727],
+    "iframeHeight": 248,
+    "horizontalDocumentOverflow": false,
+    "result": "Switching from Code back to the live comparison retained the application iframe."
+  },
+  "mobile": {
+    "viewportCssPixels": [390, 840],
+    "horizontalDocumentOverflow": false,
+    "documentScrollHeightAllDetailsOpen": 3487,
+    "documentScrollTopAfterWheel": 2195,
+    "monacoHeight": 258,
+    "result": "The page kept its natural mobile scroll; the source and evidence could be passed with wheel scrolling."
+  },
+  "limitations": [
+    "Single Chrome engine; not an assistive-technology audit.",
+    "Browser observations establish geometry and scrolling, not pixel-level fidelity or human usability.",
+    "Desktop minimum work-area height can move the evidence footer below the fold; the right column now makes it reachable.",
+    "No project data, delegation, proposal or source content was changed by these checks."
+  ],
+  "cleanup": "Temporary viewport override reset after verification."
+}

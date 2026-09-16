@@ -1,4 +1,17 @@
 import { createHash, randomUUID } from 'node:crypto';
+import {
+  createProposal,
+  pendingProposalOption,
+  prepareProposalApproval,
+  validateProposals,
+} from './proposals.mjs';
+import { designJourneyView, validateDesignJourney } from './design-journey.mjs';
+export {
+  setDesignMaster,
+  approveDesignMaster,
+  addDesignScreen,
+  linkDesignPrototype,
+} from './design-journey.mjs';
 
 const terminal = new Set(['ready', 'failed', 'cancelled', 'interrupted']);
 const jobStatuses = ['queued', 'running', ...terminal];
@@ -201,7 +214,11 @@ function validateJob(job, revisionIds) {
 }
 
 function validateRevision(revision, jobs) {
-  shape(revision, ['id', 'jobId', 'title', 'summary', 'createdAt', 'files'], 'Révision');
+  shape(
+    revision,
+    ['id', 'jobId', 'title', 'summary', 'createdAt', 'files', 'compilation'],
+    'Révision',
+  );
   identifier(revision.id);
   identifier(revision.jobId);
   requireValue(
@@ -211,13 +228,23 @@ function validateRevision(revision, jobs) {
   text(revision.title, 'Titre de révision', 200, false);
   text(revision.summary, 'Résumé de révision', 10000);
   date(revision.createdAt);
-  unique(revision.files, 'Fichiers', 'path');
-  requireValue(
-    revision.files.length > 0 && revision.files.length <= 256,
-    'Nombre de fichiers invalide.',
-  );
+  validateFileManifest(revision.files);
+  if (revision.compilation !== undefined) {
+    const build = revision.compilation;
+    shape(build, ['profile', 'protocol', 'files'], 'Compilation');
+    requireValue(
+      build.profile === 'react-ts' && build.protocol === 'react-strict-v1',
+      'Profil de compilation invalide.',
+    );
+    validateFileManifest(build.files);
+  }
+}
+
+function validateFileManifest(files) {
+  unique(files, 'Fichiers', 'path');
+  requireValue(files.length > 0 && files.length <= 256, 'Nombre de fichiers invalide.');
   let bytes = 0;
-  for (const file of revision.files) {
+  for (const file of files) {
     shape(file, ['path', 'sha256', 'bytes'], 'Fichier');
     relativeFile(file.path);
     requireValue(
@@ -231,7 +258,7 @@ function validateRevision(revision, jobs) {
     bytes += file.bytes;
   }
   requireValue(
-    bytes <= 32 * 1024 * 1024 && revision.files.some((file) => file.path === 'index.html'),
+    bytes <= 32 * 1024 * 1024 && files.some((file) => file.path === 'index.html'),
     'Application absente ou supérieure à 32 Mio.',
   );
 }
@@ -275,6 +302,8 @@ export function validateStudioState(state) {
       'activeRevision',
       'checks',
       'events',
+      'proposals',
+      'designJourney',
     ],
     'État',
   );
@@ -320,6 +349,8 @@ export function validateStudioState(state) {
     'Plusieurs révisions pour une demande.',
   );
   for (const check of state.checks) validateCheck(check, revisionIds);
+  validateProposals(state);
+  validateDesignJourney(state);
   for (const entry of state.events) {
     shape(entry, ['id', 'type', 'text', 'createdAt'], 'Événement');
     identifier(entry.id);
@@ -337,6 +368,57 @@ export function updateProject(state, project) {
   if (project.delegation === undefined && previousDelegation !== undefined)
     state.project.delegation = structuredClone(previousDelegation);
   event(state, 'project', 'Intention et délégation enregistrées.');
+}
+export function proposeDecision(state, input, { actor = 'agent' } = {}) {
+  const proposal = createProposal(state, input, actor);
+  (state.proposals ??= []).push(proposal);
+  event(
+    state,
+    'proposal',
+    'Une question et ses alternatives sont disponibles ; aucun choix approuvé.',
+  );
+  return proposal;
+}
+export function selectProposalOption(state, input) {
+  shape(input, ['proposalId', 'optionId'], 'Sélection de proposition');
+  const { proposal, option } = pendingProposalOption(state, input);
+  proposal.selectedOptionId = option.id;
+  event(
+    state,
+    'proposal-selected',
+    'Option sélectionnée pour examen, sans approbation ni adoption.',
+  );
+  return proposal;
+}
+export function approveProposal(state, input, { actor = 'user' } = {}) {
+  const next = structuredClone(state);
+  const delegation = effectiveDelegation(state);
+  const { proposal, resolution, decision } = prepareProposalApproval(next, input, {
+    actor,
+    delegation,
+  });
+  appendDecisions(next, [decision]);
+  proposal.resolution = resolution;
+  if (
+    proposal.stage === 'implementation' &&
+    actor === 'user' &&
+    delegation.structure === 'user' &&
+    hasApprovedPlan(state) &&
+    !hasApprovedPlan(next)
+  )
+    approvePlan(next, {
+      reason: `Le cadrage déjà approuvé est conservé avec le choix explicite de la proposition ${proposal.id}.`,
+    });
+  event(
+    next,
+    'proposal-approved',
+    'Choix enregistré ; aucune version activée et aucune vérification inventée.',
+  );
+  validateStudioState(next);
+  state.decisions = next.decisions;
+  state.proposals = next.proposals;
+  state.events = next.events;
+  return proposal;
 }
 export function setDraft(state, { text: value }) {
   text(value, 'Brouillon', 20000);
@@ -411,12 +493,22 @@ function appendDecisions(state, decisions) {
   }
 }
 
-function validateCompletion(state, job, { revision, brief, decisions, designs, summary }) {
+function validateCompletion(
+  state,
+  job,
+  { revision, brief, decisions, designs, proposals, summary },
+) {
   if (job.baseRevision !== state.activeRevision)
     reject('La révision active a changé ; résultat périmé refusé.', 409);
   if (summary !== undefined) text(summary, 'Résumé', 10000);
   if (brief !== undefined) validateBrief(brief);
-  if (revision === undefined && brief === undefined && !decisions?.length && !designs?.length)
+  if (
+    revision === undefined &&
+    brief === undefined &&
+    !decisions?.length &&
+    !designs?.length &&
+    !proposals?.length
+  )
     reject('Le résultat ne contient ni application, ni cadrage, ni décisions, ni design.');
   unique(decisions ?? [], 'Décisions reçues');
   for (const decision of decisions ?? []) {
@@ -446,12 +538,33 @@ function validateCompletion(state, job, { revision, brief, decisions, designs, s
     );
     validateApprovedCompletion(state, { brief, decisions });
   }
+  return completedProposals(state, { revision, brief, decisions, proposals });
+}
+
+function completedProposals(state, { revision, brief, decisions, proposals = [] }) {
+  collection(proposals, 'Propositions reçues', 20);
+  const result = structuredClone(state);
+  if (brief !== undefined) result.brief = structuredClone(brief);
+  appendDecisions(result, decisions ?? []);
+  if (revision !== undefined) {
+    result.revisions.push(structuredClone(revision));
+    if (effectiveDelegation(state).adoption === 'agent') result.activeRevision = revision.id;
+  }
+  const created = [];
+  for (const input of proposals) {
+    const proposal = createProposal(result, input, 'agent');
+    (result.proposals ??= []).push(proposal);
+    created.push(proposal);
+  }
+  return created;
 }
 
 function validateApprovedCompletion(state, { brief, decisions }) {
-  if (!hasApprovedPlan(state))
+  const approval = planApprovalStatus(state);
+  if (!approval.planApproved)
     reject(
-      'Les choix réservés à l’utilisateur doivent être approuvés avant de livrer du code.',
+      approval.visualBlock?.message ??
+        'Les choix réservés à l’utilisateur doivent être approuvés avant de livrer du code.',
       409,
     );
   const proposed = structuredClone(state);
@@ -466,7 +579,7 @@ function validateApprovedCompletion(state, { brief, decisions }) {
 
 export function finishJob(state, completion) {
   const job = runningJob(state, completion.jobId);
-  validateCompletion(state, job, completion);
+  const proposals = validateCompletion(state, job, completion);
   const {
     revision,
     brief,
@@ -477,6 +590,7 @@ export function finishJob(state, completion) {
   if (brief !== undefined) state.brief = structuredClone(brief);
   appendDecisions(state, decisions ?? []);
   state.designs.push(...structuredClone(designs ?? []));
+  if (proposals.length) (state.proposals ??= []).push(...proposals);
   if (revision !== undefined) state.revisions.push(structuredClone(revision));
   job.status = 'ready';
   job.finishedAt = now();
@@ -484,6 +598,16 @@ export function finishJob(state, completion) {
   event(state, 'ready', 'Résultat disponible ; les vérifications restent distinctes.');
   if (revision !== undefined && effectiveDelegation(state).adoption === 'agent') {
     state.activeRevision = revision.id;
+    appendDecisions(state, [
+      {
+        id: randomUUID(),
+        topic: 'Version active',
+        choice: revision.title,
+        reason: 'Adoption automatique dans le cadre de la délégation enregistrée.',
+        source: 'agent',
+        status: 'active',
+      },
+    ]);
     event(state, 'activated', 'Révision activée dans le cadre de la délégation.');
   }
 }
@@ -566,6 +690,43 @@ function hasUserApproval(state, topic, choice) {
   );
 }
 
+function masterApprovalBlock(state) {
+  if (state.designJourney === undefined) return null;
+  const { master, stale, approved } = designJourneyView(state);
+  if (!master)
+    return {
+      kind: 'master-missing',
+      masterId: null,
+      message:
+        'Préparez puis approuvez le master détaillé de la direction courante avant la réalisation.',
+    };
+  if (stale)
+    return {
+      kind: 'master-stale',
+      masterId: master.id,
+      message:
+        'Le master appartient à une autre direction ; préparez et approuvez un nouveau master.',
+    };
+  if (!approved)
+    return {
+      kind: 'master-unapproved',
+      masterId: master.id,
+      message: 'Le master détaillé courant attend sa propre validation avant la réalisation.',
+    };
+  return null;
+}
+
+function visualApprovalBlock(state, delegation, recorded) {
+  const masterBlock = masterApprovalBlock(state);
+  if (masterBlock) return masterBlock;
+  if (delegation.visual === 'agent' || recorded.visual) return null;
+  return {
+    kind: 'direction',
+    masterId: null,
+    message: 'Choisissez et approuvez une direction visuelle avant la réalisation.',
+  };
+}
+
 export function planApprovalStatus(state) {
   const delegation = effectiveDelegation(state);
   const recorded = {
@@ -577,13 +738,15 @@ export function planApprovalStatus(state) {
     ),
   };
   const structureApproved = delegation.structure === 'agent' || recorded.structure;
-  const visualApproved = delegation.visual === 'agent' || recorded.visual;
+  const visualBlock = visualApprovalBlock(state, delegation, recorded);
+  const visualApproved = visualBlock === null;
   const missing = [];
   if (!structureApproved) missing.push('structure');
   if (!visualApproved) missing.push('visual');
   return {
     structureApproved,
     visualApproved,
+    visualBlock,
     planApproved: missing.length === 0,
     missing,
     recorded,
@@ -596,10 +759,8 @@ export function hasApprovedPlan(state) {
 
 export function approvePlan(state, { reason }) {
   text(reason, 'Raison', 4000);
-  requireValue(
-    planApprovalStatus(state).visualApproved,
-    'Choisissez et approuvez une direction visuelle avant de valider le cadrage.',
-  );
+  const approval = planApprovalStatus(state);
+  requireValue(approval.visualApproved, approval.visualBlock?.message);
   requireValue(
     state.project.idea.trim().length > 0 &&
       state.brief.outcome.trim().length > 0 &&

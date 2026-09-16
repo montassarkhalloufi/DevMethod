@@ -1,3 +1,5 @@
+import { presentation } from './version-presentation.js';
+
 export function createViews(document) {
   function node(tag, text = '', className = '') {
     const result = document.createElement(tag);
@@ -20,6 +22,37 @@ export function createViews(document) {
   }
   const empty = (text) => node('p', text, 'empty-copy');
   const badge = (text, style = '') => node('span', text, 'badge ' + style);
+  function icon(kind) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    for (const [key, value] of Object.entries({
+      viewBox: '0 0 24 24',
+      width: '22',
+      height: '22',
+      fill: 'none',
+      stroke: 'currentColor',
+      'stroke-width': '1.7',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'aria-hidden': 'true',
+    }))
+      svg.setAttribute(key, value);
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute(
+      'd',
+      {
+        version: 'M12 2 3 7v10l9 5 9-5V7ZM3 7l9 5 9-5M12 12v10M7 4.8l10 5.5',
+        proposal:
+          'M7 5a2 2 0 1 0 0 .01M17 17a2 2 0 1 0 0 .01M7 17a2 2 0 1 0 0 .01M7 7v8M7 8c0 5 10 0 10 7',
+        visual: 'M3 3h18v18H3ZM3 16l6-6 5 5 3-3 4 4M16 7h.01',
+        success: 'M21 12a9 9 0 1 1-3-6.7M7 12l3 3 9-10',
+        failed: 'M12 3 2 21h20ZM12 9v5m0 3v.01',
+        unverified: 'M12 3a9 9 0 1 0 .01 0M12 8v5m0 3v.01',
+        muted: 'M12 3a9 9 0 1 0 .01 0M12 7v6l4 2',
+      }[kind],
+    );
+    svg.append(path);
+    return svg;
+  }
   const list = (items) =>
     group(
       'ul',
@@ -89,13 +122,16 @@ export function createViews(document) {
     const status = { active: 'Actuel', superseded: 'Remplacé', hypothesis: 'Hypothèse' }[
       item.status
     ];
-    return group('article', 'decision', [
+    const card = group('article', 'decision', [
       node('h4', item.topic),
       badge(status),
       node('p', item.choice),
       node('p', item.reason, 'muted'),
       node('small', item.source === 'user' ? 'Choix de la personne' : 'Proposition de l’agent'),
     ]);
+    card.dataset.status = item.status;
+    card.dataset.scrollKey = 'decision:' + item.id;
+    return card;
   }
   function references(state) {
     return state.references.map((ref) => {
@@ -126,15 +162,22 @@ export function createViews(document) {
       image.src = '/references/' + encodeURIComponent(design.file);
       image.alt = 'Proposition visuelle : ' + design.title;
       image.loading = 'lazy';
-      const button = action(
-        selected ? 'Direction sélectionnée' : 'Choisir cette direction',
-        'design',
-        design.id,
-      );
-      button.setAttribute('aria-pressed', String(selected));
-      const details = [image, node('h3', design.title), node('p', design.description), button];
+      const choice = node('input');
+      choice.type = 'radio';
+      choice.name = 'design-option';
+      choice.id = 'design-' + design.id;
+      choice.value = design.id;
+      choice.checked = selected;
+      choice.dataset.action = 'design';
+      choice.dataset.id = design.id;
+      const label = node('label', '', 'design-choice');
+      label.htmlFor = choice.id;
+      label.append(choice, node('span', design.title));
+      const details = [image, label, node('p', design.description)];
       if (state.selectedDesignId === design.id) details.push(badge('Choix enregistré', 'success'));
-      return group('article', 'design-card' + (selected ? ' selected' : ''), details);
+      const card = group('article', 'design-card' + (selected ? ' selected' : ''), details);
+      card.dataset.scrollKey = 'design:' + design.id;
+      return card;
     });
   }
   function jobs(state) {
@@ -195,7 +238,9 @@ export function createViews(document) {
             node('pre', detail.join('\n')),
           ]),
         );
-        return group('article', 'job-card', parts);
+        const card = group('article', 'job-card', parts);
+        card.dataset.scrollKey = 'job:' + job.id;
+        return card;
       });
     return [
       ...cards.slice(0, 3),
@@ -267,7 +312,7 @@ export function createViews(document) {
   function cap(state) {
     const criteria = state.brief.criteria;
     return [
-      node('p', 'LE CAP DU PROJET', 'eyebrow'),
+      node('p', 'Objectif', 'eyebrow'),
       node(
         'h2',
         state.brief.outcome || 'Précisons le résultat que votre app doit rendre possible.',
@@ -275,7 +320,7 @@ export function createViews(document) {
       criteria.length
         ? list(criteria.slice(0, 2).map((item) => item.text))
         : empty('Les critères de réussite restent à définir.'),
-      disclosure('Périmètre et critères conservés', [
+      disclosure('Voir les critères', [
         node('h3', 'Dans cette version'),
         state.brief.scope.length ? list(state.brief.scope) : empty('Périmètre encore ouvert.'),
         node('h3', 'Ce que nous ne faisons pas'),
@@ -294,26 +339,35 @@ export function createViews(document) {
         visual: 'agent',
         adoption: state.project.mode === 'guided' ? 'user' : 'agent',
       };
-    const recorded = runtime?.approval?.recorded || {};
     return [
-      node('h3', 'Qui décide ?'),
-      ...Object.entries({
-        structure: 'Cadrage et technique',
-        visual: 'Direction visuelle',
-        adoption: 'Adoption du résultat',
-      }).map(([key, label]) => {
-        const delegated = delegation[key] === 'agent';
-        const parts = [
-          node('strong', label),
-          node('span', delegated ? 'Délégué à l’agent' : 'Votre validation'),
-        ];
-        if (recorded[key])
-          parts.push(node('small', 'Accord explicite enregistré', 'policy-agreement'));
-        else if (!delegated && key !== 'adoption')
-          parts.push(node('small', 'Accord actuel à recueillir', 'muted'));
-        return group('div', 'policy-choice', parts);
-      }),
+      group(
+        'div',
+        'responsibility-rows',
+        Object.entries({
+          structure: 'Produit et architecture',
+          visual: 'Validation visuelle',
+          adoption: 'Application d’une version',
+        }).map(([key, label]) =>
+          group('div', 'responsibility-role', [
+            group('span', 'responsibility-title', [
+              icon(key === 'visual' ? 'visual' : key === 'adoption' ? 'version' : 'proposal'),
+              node('span', label),
+            ]),
+            badge(
+              delegation[key] === 'agent' ? 'Agent' : 'Vous',
+              delegation[key] === 'agent' ? 'agent-badge' : 'person-badge',
+            ),
+          ]),
+        ),
+      ),
       disclosure('Comprendre la délégation', [
+        node(
+          'p',
+          'Réalisation technique : agent. ' +
+            (runtime?.agent?.automatic
+              ? 'Exécution automatique connectée.'
+              : 'Prise en charge par votre agent hôte ; pas de lancement automatique.'),
+        ),
         node(
           'p',
           'La délégation autorise l’agent à choisir ; elle ne vaut pas validation humaine.',
@@ -326,7 +380,7 @@ export function createViews(document) {
     const latest = state.jobs.at(-1);
     const signals = [];
     if (failed.length)
-      signals.push(`${failed.length} contrôle(s) échoué(s) sur la version active.`);
+      signals.push(`${failed.length} contrôle(s) échoué(s) sur la version affichée.`);
     if (latest && ['failed', 'interrupted'].includes(latest.status))
       signals.push(
         `Dernière demande ${latest.status === 'failed' ? 'en échec' : 'interrompue'} : ${latest.error || 'consultez son résultat dans le fil.'}`,
@@ -347,21 +401,21 @@ export function createViews(document) {
     if (checks.length) return badge('Contrôles enregistrés · couverture à établir', 'unverified');
     return badge('Non vérifié sur cette version', 'unverified');
   }
-  function evidence(state, runtime) {
-    const active = state.revisions.find((revision) => revision.id === state.activeRevision);
-    const checks = active ? state.checks.filter((item) => item.revisionId === active.id) : [];
+  function evidence(state, runtime, shown = presentation(state)) {
+    const active = state.revisions.find((revision) => revision.id === shown.displayed.revisionId);
+    const checks = shown.checks.items;
     const passed = checks.filter((item) => item.status === 'passed');
     const failed = checks.filter((item) => item.status === 'failed');
     const agent = runtime?.agent;
     const signals = evidenceSignals(state, agent, failed);
     const parts = [
-      node('h3', active ? 'Version active · ' + active.title : 'Aucune version active'),
+      node('h3', shown.displayed.label),
       ...(active ? [verificationBadge(checks, failed)] : []),
       node(
         'p',
         active
           ? `${passed.length} contrôle(s) passé(s) · ${failed.length} échoué(s)`
-          : 'Une application reste à produire.',
+          : 'Aucun contrôle de fonctionnement attribuable à cet aperçu.',
         'evidence-summary',
       ),
       node(
@@ -382,9 +436,7 @@ export function createViews(document) {
     parts.push(
       disclosure(
         'Preuves de cette version',
-        checks.length
-          ? checks.map(check)
-          : [empty('Aucune preuve enregistrée pour la version active.')],
+        checks.length ? checks.map(check) : [empty('Aucune preuve enregistrée pour cet aperçu.')],
       ),
       disclosure('Ce qui reste à établir', [
         empty(
@@ -395,7 +447,68 @@ export function createViews(document) {
     return parts;
   }
   function flowDecisions(state) {
-    return state.decisions.slice(-3).map(decision);
+    return [
+      disclosure(
+        'Décisions précédentes · ' + state.decisions.length,
+        state.decisions.slice().reverse().map(decision),
+      ),
+    ];
+  }
+  function evidenceDock(state, shown = presentation(state)) {
+    const { displayed, checks, visual } = shown;
+    const status =
+      checks.status === 'passed' ? 'success' : checks.status === 'failed' ? 'failed' : 'unverified';
+    const identity = displayed.revisionId?.slice(0, 8) || displayed.referenceId || 'Aucune version';
+    const visualStatus = visual.status === 'accepted' ? 'success' : 'unverified';
+    return [
+      group('div', 'evidence-row', [
+        group('div', 'evidence-kind', [icon('version'), node('strong', displayed.label)]),
+        node('span', identity + ' · affichée', 'muted'),
+      ]),
+      group('div', 'evidence-row', [
+        group('div', 'evidence-kind', [icon(status), node('strong', 'Contrôles enregistrés')]),
+        node('span', checks.label, 'evidence-result ' + status),
+        action('Détails →', 'checks', '', 'text-button'),
+      ]),
+      group('div', 'evidence-row', [
+        group('div', 'evidence-kind', [
+          icon('visual'),
+          node('strong', 'Validation visuelle'),
+          badge(
+            visual.responsibilityLabel,
+            visual.responsibility === 'agent' ? 'agent-badge' : 'person-badge',
+          ),
+        ]),
+        node('span', visual.label, 'evidence-result ' + visualStatus),
+      ]),
+      node('small', 'La délégation ne vaut pas validation.', 'muted'),
+    ];
+  }
+  function latestResult(state) {
+    const job = state.jobs.at(-1);
+    if (!job) return [];
+    const revision = state.revisions.findLast((item) => item.jobId === job.id);
+    const labels = {
+      ready: 'Résultat disponible',
+      queued: 'Demande enregistrée',
+      running: 'Réalisation en cours',
+      failed: 'Échec',
+      interrupted: 'Interrompue',
+      cancelled: 'Annulée',
+    };
+    const style = ['failed', 'interrupted'].includes(job.status)
+      ? 'semantic-error'
+      : job.status === 'ready'
+        ? 'semantic-agent'
+        : 'semantic-warning';
+    return [
+      node('strong', labels[job.status], style),
+      node('p', excerpt(job.summary || job.error || job.request, 180)),
+      ...(revision
+        ? [action('Examiner le résultat →', 'preview', revision.id, 'result-action')]
+        : []),
+      action('Voir la demande complète', 'activity', '', 'text-button'),
+    ];
   }
   return {
     context,
@@ -408,6 +521,8 @@ export function createViews(document) {
     policy,
     evidence,
     flowDecisions,
+    evidenceDock,
+    latestResult,
   };
 }
 

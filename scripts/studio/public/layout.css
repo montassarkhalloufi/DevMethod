@@ -1,0 +1,130 @@
+.conversation-resizer {
+  display: none;
+}
+#expand-workspace {
+  flex: none;
+}
+.conversation-resizer:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.layout-resizing,
+.layout-resizing * {
+  cursor: col-resize !important;
+  user-select: none;
+}
+.layout-resizing iframe {
+  pointer-events: none;
+}
+@media (min-width: 901px) {
+  .studio-layout {
+    grid-template-columns: var(--conversation-width, 30%) 8px minmax(0, 1fr);
+    column-gap: 8px;
+  }
+  .conversation-resizer {
+    display: block;
+    min-width: 8px;
+    cursor: col-resize;
+    touch-action: none;
+    border-radius: 6px;
+    position: relative;
+    outline-offset: 0;
+  }
+  .conversation-resizer::before {
+    content: '';
+    position: absolute;
+    inset: 35% 3px;
+    border-radius: 2px;
+    background: var(--control-border, #627593);
+  }
+  .conversation-resizer:hover::before,
+  .conversation-resizer:focus-visible::before {
+    background: var(--accent);
+    inset-block: 25%;
+  }
+  .conversation {
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
+    scroll-padding-block: 12px 45dvh;
+  }
+  #discussion > .introduction {
+    max-height: none;
+    overflow: visible;
+  }
+  #discussion > .activity-panel[open] {
+    flex: 1 0 300px;
+    height: 300px;
+    min-height: 300px;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+  #discussion > .activity-panel[open] .conversation-flow {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  #discussion > #active-decision {
+    flex: 1 0 320px;
+    min-height: 320px;
+  }
+  #discussion > .request-panel {
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+    max-height: 45dvh;
+    overflow-y: auto;
+  }
+  #workspace {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
+  }
+  #workspace > .project-cap,
+  #workspace > .evidence-dock {
+    flex: 0 0 auto;
+  }
+  #workspace > .workbench {
+    flex: 1 0 auto;
+    min-height: 440px;
+  }
+  .conversation-flow,
+  .workbench > [role='tabpanel'] {
+    overscroll-behavior: contain;
+    overflow-anchor: none;
+  }
+}
+body.studio-expanded {
+  overflow: hidden;
+}
+body.studio-expanded #notice {
+  z-index: 60;
+}
+.workspace-expanded #workspace {
+  position: fixed;
+  z-index: 50;
+  inset: 8px;
+  padding: 8px;
+  background: var(--canvas, #0b1220);
+  overflow: auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+.workspace-expanded .conversation-resizer {
+  visibility: hidden;
+}
+@media (max-width: 900px) {
+  .workspace-expanded .workbench {
+    min-height: 0;
+  }
+  .workspace-expanded .preview-stage,
+  .workspace-expanded .preview-stage iframe {
+    min-height: 0;
+  }
+  .workspace-expanded .workbench > [role='tabpanel'] {
+    overflow: auto;
+  }
+}
