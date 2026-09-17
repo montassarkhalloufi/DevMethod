@@ -43,7 +43,8 @@ libère son propre verrou.
 ## Frontières et limites
 
 Le serveur écoute sur `127.0.0.1`. Le Host est strict et les mutations exigent l’Origin
-exacte, un corps JSON de 64 Kio maximum et un schéma fermé. Les chemins fournis sont
+exacte et un schéma fermé. Le corps JSON est limité à 64 Kio hors création enrichie,
+bornée à 12 Mio pour ses pièces jointes. Les chemins fournis sont
 absolus et les liens symboliques refusés. Les messages d’erreur ne reprennent pas les
 contenus natifs susceptibles de contenir des chemins ou secrets. L’import réutilise ses
 contrôles, exclusions et limites existants ; aucun script source n’est exécuté.
@@ -65,3 +66,47 @@ la bibliothèque bornée nécessiteraient de réexaminer cette décision.
 Les contrats sont exercés par `studio-home-store.test.mjs`, `studio-home-server.test.mjs`,
 `studio-home-cli.test.mjs` et `studio-home-ui.test.mjs`. Les résultats datés restent dans
 les enregistrements de vérification du chantier ; cet ADR ne tient pas de compteur de tests.
+
+## Extension du 17 septembre — idée, options et inspirations
+
+L’utilisateur a précisé que l’entrée devait être compétitive avec Bolt et Lovable,
+centrée sur le besoin et accompagnée d’une galerie vivante. Le nom devient facultatif ;
+un objet `launch` optionnel conserve le type, l’action initiale, la direction visuelle,
+les intentions de services et les références. Les clients historiques sans `launch`
+gardent leur comportement. Les champs et limites sont contrôlés avant toute écriture ;
+la demande composée est bornée à 20 000 caractères. Quatre fichiers de 2 Mio au plus
+sont validés, nommés par UUID et copiés sans exécution dans le workspace créé.
+
+Une création enrichie publie sa première demande une seule fois. Le reçu existant couvre
+le contenu normalisé et les références ; un rejeu identique après redémarrage retrouve
+le projet et le même job. Une erreur avant publication nettoie uniquement le nouveau
+dossier possédé. La limite de transaction face à un crash brutal décrite plus haut reste
+applicable. Le mode Plan est une instruction initiale explicite ; il ne crée pas un
+verrou permanent empêchant une nouvelle demande de réalisation.
+
+Les inspirations sont des démonstrations locales interactives. Réutiliser une inspiration
+prépare le brief et le style ; cela ne prétend pas importer ses sources. Le catalogue de
+services n’est chargé qu’à l’ouverture des options correspondantes. Ni la galerie ni les
+préférences n’accordent une autorisation externe ou ne lancent un fournisseur.
+
+## Extension du 17 septembre — aperçus réels des projets
+
+Les cartes récentes affichent les fichiers de la version active, ou de la dernière candidate
+quand aucune version n’est active. Un serveur loopback distinct sert uniquement des fichiers
+vérifiés contre le manifeste et leur empreinte. Les états vide, sources sans runtime et artefact
+indisponible sont explicites. Consulter la bibliothèque n’ouvre pas tous les Studios et ne
+consomme pas leurs verrous. Les iframes sont montées près de la zone visible et redimensionnées
+à partir d’un viewport fixe ; elles sont non interactives, sandboxées sans `allow-same-origin`.
+
+Pour les applications utilisant le contrat local `/api/data`, le document reçoit un instantané
+en lecture seule des données sauvegardées valides, au plus 1 Mio. Un adaptateur `fetch` local
+retourne cet instantané pour GET et refuse les mutations ; aucune donnée n’est créée ou
+réinitialisée. Les autres API ne sont pas simulées. Une application dépendant d’API externes
+peut donc ne pas produire une vignette complète. Le réseau `connect-src`, les formulaires et
+les frames imbriquées sont bloqués. Cette politique ne prétend pas neutraliser toute navigation
+possible d’un document arbitraire ; l’origine et le sandbox séparent l’application du shell.
+
+Une capture d’image préalable introduirait un navigateur de rendu et son cycle de vie. Un port
+par projet ajouterait des serveurs au volume de la bibliothèque. L’origine de lecture commune,
+avec snapshot propre à chaque document et aucun endpoint global de données, suffit à la
+bibliothèque locale bornée. Un hébergement public nécessiterait une isolation réexaminée.

@@ -1,4 +1,4 @@
-# Outils de diagnostic et services applicatifs
+# Connexions MCP, outils de diagnostic et services applicatifs
 
 Studio propose des options par capacité. Les diagnostics produisent des preuves qui
 peuvent alimenter une demande de correction ; les services applicatifs préparent une
@@ -16,6 +16,40 @@ Les sources officielles sont accessibles depuis chaque option : [ESLint](https:/
 [Appwrite](https://appwrite.io/docs/) ou un backend existant pour les services ;
 [Keycloak](https://www.keycloak.org/documentation) et [Auth0](https://auth0.com/docs) pour
 l’identité. Le catalogue ne remplace pas le choix architectural du projet.
+
+## Serveurs MCP de l’espace
+
+Depuis l’accueil : Outils → Serveurs MCP de l’espace. Notion, Linear et Sentry proposent
+un démarrage OAuth réel ; un serveur personnalisé accepte OAuth, Bearer ou aucun secret.
+L’autorisation du fournisseur reste une étape explicite. Le statut connecté apparaît
+seulement après initialisation et découverte des outils. « Utiliser pour ce projet »
+active une connexion dans le prompt, sans la copier ni la connecter à nouveau.
+
+Ces connexions sont communes aux projets ouverts depuis cette bibliothèque. Les credentials
+restent dans son dossier privé `.mcp-private` (0700, fichier 0600), hors du projet et de
+ses exports. Déconnecter efface les credentials locaux ; la révocation du consentement
+s’effectue auprès du fournisseur. Après redémarrage, reconnecter ou actualiser vérifie
+l’accès avant de retrouver le statut connecté.
+
+Le pont hôte peut lire les outils ou les appeler pendant une demande en cours :
+
+```sh
+devmethod studio mcp tools --workspace /chemin/projet --file outils.json
+devmethod studio mcp call --workspace /chemin/projet --file appel.json
+```
+
+`outils.json` contient `jobId`, `connectionId` et éventuellement `toolName` pour consulter
+son schéma. `appel.json` contient `jobId`, `connectionId`, `toolName` et `arguments`.
+Le CLI utilise l’authentification worker locale. Une connexion doit être sélectionnée lors
+de la prise en charge et rester sélectionnée/active. L’outil, sa version et le schéma des
+arguments sont vérifiés. Une sélection n’autorise pas toute écriture externe : l’agent
+respecte la demande utilisateur et les consentements nécessaires.
+
+Le runner natif isolé n’a pas accès à ces connexions. Un Studio ouvert directement sans
+l’accueil indique l’indisponibilité du gestionnaire partagé. OAuth exige un fournisseur
+compatible avec les métadonnées et l’enregistrement dynamique pris en charge ; aucun client
+privé préenregistré n’est deviné. Les limites sont 32 connexions, 200 outils par connexion,
+12 connexions sélectionnées. Voir [ADR 024](ADR-024-workspace-mcp.md).
 
 ## Catalogue par besoin
 
@@ -58,7 +92,8 @@ entrées génériques de diagnostic ont un usage distinct et exigent un ticket d
 La couverture exécutable de Studio reste la même pour toutes ces offres : enregistrer
 des références, recevoir un probe, préparer une demande versionnée, puis recevoir les
 résultats de contrôle via le bridge diagnostic. Il n’y a ni SDK de ces fournisseurs,
-ni connexion OAuth, ni exécution distante incorporée à cette extension du catalogue.
+ni connexion OAuth applicative, ni exécution distante incorporée à cette extension du catalogue.
+Le gestionnaire MCP d’espace ci-dessus possède son propre contrat de connexion, distinct.
 L’accès d’un agent à Gmail, Notion ou MCP ne configure pas les accès de l’application
 déployée ; l’adaptateur et ses secrets runtime restent à réaliser et à vérifier.
 

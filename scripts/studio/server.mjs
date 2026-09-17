@@ -15,6 +15,9 @@ import { getRuntimeServices } from './backend-runtime.mjs';
 import { createEditor } from './editor.mjs';
 import { progressLimits } from './progress.mjs';
 import { readConnectorsRoute, writeConnectorsRoute } from './connector-routes.mjs';
+import { createMcpBroker } from './mcp-broker.mjs';
+import { mcpBrokerRoute } from './mcp-broker-routes.mjs';
+import { createMcpRoutes } from './mcp-routes.mjs';
 
 const widgetRoot = fileURLToPath(new URL('../../dist/studio-ui', import.meta.url));
 const publicRoot = fileURLToPath(new URL('./public', import.meta.url));
@@ -354,12 +357,14 @@ export async function startStudio({
   previewPort = 0,
   agent = null,
   homeUrl,
+  mcpManager,
 }) {
   const packageRoot = fileURLToPath(new URL('../../', import.meta.url));
   if (path.resolve(workspace) === path.resolve(packageRoot))
     throw new Error('Choisissez un dossier dédié au produit, distinct du dépôt DevMethod.');
   const store = createStudioStore(workspace),
-    jobs = createJobs(store),
+    mcpBroker = createMcpBroker({ store, manager: mcpManager }),
+    jobs = createJobs(store, { mcpContext: mcpBroker.claimContext }),
     token = randomUUID();
   let url, previewOrigin, editorPreviewOrigin, comparisonPreviewOrigin, runner;
   let editor;
@@ -388,6 +393,8 @@ export async function startStudio({
         localImport: true,
         connectorBridge: true,
         directConnectors: false,
+        mcpHostBridge: Boolean(mcpManager),
+        mcpNativeRunner: false,
         localData: true,
         auth: false,
         deployment: false,
@@ -428,11 +435,21 @@ export async function startStudio({
     tools: projectTools(store, editor),
     wake: () => runner?.wake(),
   };
+  const globalMcpRoutes = createMcpRoutes(mcpManager, () => url);
   const server = http.createServer(async (request, response) => {
     try {
       if (request.headers.host !== new URL(url).host)
         return send(response, 403, { error: 'Hôte non autorisé.' });
       const requestUrl = new URL(request.url, url);
+      if (
+        await mcpBrokerRoute(requestUrl, request, response, {
+          broker: mcpBroker,
+          origin: url,
+          worker: authorized(request, token),
+        })
+      )
+        return;
+      if (await globalMcpRoutes(request, response, requestUrl)) return;
       if (request.method === 'GET' && readConnectorsRoute(requestUrl, response, store)) return;
       if (
         request.method === 'POST' &&
@@ -477,6 +494,7 @@ export async function startStudio({
     jobs,
     runtime,
     async close() {
+      mcpBroker.close();
       await runner?.close();
       await Promise.all([server, preview, editorPreview, comparisonPreview].map(closeServer));
       fs.rmSync(safeFile(store.root, '.devmethod/runtime.json'), { force: true });

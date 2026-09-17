@@ -22,7 +22,8 @@ devmethod studio
 ```
 
 Le terminal affiche l’adresse de l’accueil local, par défaut `http://127.0.0.1:4330/`.
-L’accueil propose **Nouveau**, **Importer** et **Reprendre**. Son registre est conservé dans
+L’accueil propose de décrire une idée, **Importer un projet** ou **Reprendre un projet**.
+Son registre est conservé dans
 `~/.devmethod/studio-home` ; choisir une autre bibliothèque avec :
 
 ```sh
@@ -34,6 +35,24 @@ bibliothèque. Importer copie un dossier source local dans un autre dossier gér
 conserve l’original ; les [limites d’import](STUDIO-IMPORT.md) restent applicables.
 Reprendre retrouve les projets du registre ou ajoute un workspace Studio existant par
 son chemin absolu. Aucun balayage du disque ni réinitialisation du projet courant n’a lieu.
+
+Le composeur démarre depuis le besoin, avec un nom facultatif dans les options. Choisir
+Site web, Application, Prototype ou Présentation web précise le brief. **Construire**
+prépare une demande de réalisation soumise aux accords du projet ; **Planifier** demande
+une analyse et des étapes, sans code avant une nouvelle demande explicite. Dans les deux
+cas, la première demande est enregistrée et attend la prise en charge de l’agent hôte.
+
+Les options conservent une direction visuelle, jusqu’à 12 services souhaités, cinq liens
+HTTP(S) et quatre fichiers PNG/JPEG/WebP/TXT/Markdown de 2 Mio chacun. Les références
+sont copiées dans le projet ; les liens ne sont pas consultés automatiquement. Choisir
+un service ne le connecte pas. Une erreur d’ouverture conserve le projet déjà créé et
+permet de réessayer sans créer une seconde demande.
+
+La galerie propose six inspirations interactives : portfolio, tableau de bord, boutique,
+rendez-vous, kanban et présentation. Recherche, filtres et aperçus servent à essayer une
+idée avec des données fictives. **Utiliser cette idée** ajoute son brief et sa direction
+visuelle au composeur, en conservant le texte déjà saisi. Ce choix n’importe pas les
+sources d’une application terminée.
 
 Chaque projet ouvert utilise sa propre session et ses ports locaux attribués automatiquement.
 Revenir à l’accueil puis reprendre le même projet réutilise sa session. Le lien **Accueil**
@@ -385,3 +404,23 @@ L’utilisateur a validé la maquette M bleu nuit et son brief pour le shell, en
 la composition K. La réalisation et les essais navigateur sont consignés dans la
 [revue de disposition](missions/creation-experience/evidence/react-studio/LAYOUT-REVIEW.md).
 Ce choix reste distinct du design Agenda de l’application Les Ateliers et des preuves de compilation.
+
+## Aperçus et connexions depuis l’accueil
+
+Les projets récents montrent leur version active réelle, sinon leur dernière candidate.
+Les projets sans version ou sans runtime compatible le signalent. Les vignettes sont
+chargées à proximité de la zone visible, isolées et non interactives ; ouvrir une carte
+reprend le Studio. Les données locales sauvegardées peuvent alimenter un instantané de
+lecture. Les API externes et les chemins fabriqués dans du JavaScript libre ne sont pas
+simulés : certains projets importés peuvent avoir un aperçu incomplet.
+
+Le compositeur conserve son contour lumineux et propose des exemples qui s’écrivent puis
+s’effacent. Les exemples s’arrêtent au focus, restent des placeholders et n’ajoutent rien
+à la demande. Le mouvement réduit du système désactive les deux animations.
+
+« Serveurs MCP de l’espace » gère de vraies connexions réutilisables et sélectionnables
+dans le prompt. « API et services du projet » précise les intégrations souhaitées pour
+l’application. Cette distinction concerne les usages et les identités, pas une règle
+selon laquelle tout MCP serait nécessairement global. Les connexions du créateur ne
+deviennent pas celles des utilisateurs finaux de l’application. Voir
+[les contrats et limites](STUDIO-CONNECTORS.md) et [la décision](ADR-024-workspace-mcp.md).

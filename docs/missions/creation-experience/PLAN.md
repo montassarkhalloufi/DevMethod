@@ -6,6 +6,28 @@ Statut : implémentation et essais en cours. Aucune supériorité annoncée. La 
 couvre les choix réversibles, le code local, les tests, les commits et une PR brouillon.
 Fusion, déploiement public, publication npm, achat, télémétrie et contact externe exclus.
 
+## Extension réalisée : compositeur, galerie, aperçus et MCP réels
+
+Demandes successives du 17 septembre : idée centrale, références et choix progressifs,
+galerie interactive, aperçu des projets générés, bouton Connecter effectif et distinction
+explicite MCP d’espace/API du projet. Les exemples animés et le contour lumineux sont
+conservés ensemble selon le dernier retour utilisateur. Les captures Codex Plugins/Skills
+servent de référence d’organisation ; aucune installation de plugin ou marketplace de
+skills n’est déduite de ces images.
+
+Décisions déléguées : extension [ADR 023](../../ADR-023-studio-home.md) et
+[ADR 024](../../ADR-024-workspace-mcp.md). Critères : lancement idempotent depuis l’idée,
+références bornées et brouillon préservé ; inspirations réellement interactives ; fichiers
+réels dans les cartes ; statut MCP issu du protocole, credentials hors projet, sélection
+visible et appel hôte limité au job courant. Les API applicatives et l’identité App user
+restent des intégrations à réaliser par projet. Le runner natif garde son isolation.
+
+Les observations [Bolt](evidence/lovable-connectors/BOLT-CONNECTIONS.md), la couverture
+[du catalogue](evidence/lovable-connectors/CONNECTION-COVERAGE.md) et le
+[contrat du pont natif](evidence/lovable-connectors/NATIVE-CONNECTION-DESIGN.md) distinguent
+fixtures, échanges de protocole locaux et comptes fournisseurs réellement essayés.
+Résultats finaux et captures : [recette de l’accueil enrichi](evidence/home-composer/RESULTS.md).
+
 ## Tranche réalisée : accueil et bibliothèque locale
 
 Demande du 17 septembre : arriver sur un écran permettant de créer, importer ou reprendre

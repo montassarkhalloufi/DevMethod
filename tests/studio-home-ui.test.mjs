@@ -12,6 +12,7 @@ const bundle = await build({
   format: 'iife',
   globalName: 'HomeTest',
   jsx: 'automatic',
+  loader: { '.css': 'empty', '.svg': 'dataurl' },
   define: { 'process.env.NODE_ENV': '"test"' },
 });
 const reply = (value, ok = true) => ({ ok, json: async () => value });
@@ -49,6 +50,7 @@ function fixture(t, fetcher) {
   };
   const calls = [];
   dom.window.fetch = async (url, init) => {
+    if (url === '/api/mcp') return reply({ presets: [], connections: [], supported: true });
     const input = init.body ? JSON.parse(init.body) : undefined;
     calls.push({ url, init, input });
     return fetcher(url, input, init);
@@ -65,11 +67,18 @@ function fixture(t, fetcher) {
   return { dom, document: dom.window.document, navigations, calls, handle };
 }
 
-const button = (f, label) =>
-  [...f.document.querySelectorAll('button')].find((node) =>
-    (node.getAttribute('aria-label') || node.textContent).includes(label),
+const button = (f, label) => {
+  const nodes = [...f.document.querySelectorAll('button')];
+  const text = (node) => (node.getAttribute('aria-label') || node.textContent).trim();
+  return (
+    nodes.find((node) => text(node) === label) || nodes.find((node) => text(node).includes(label))
   );
-const dialog = (f) => f.document.querySelector('dialog');
+};
+const dialog = (f) => f.document.querySelector('dialog.home-dialog');
+const compose = (f) =>
+  f.document
+    .querySelector('.idea-composer')
+    .dispatchEvent(new f.dom.window.Event('submit', { bubbles: true, cancelable: true }));
 const submit = (f) =>
   dialog(f)
     .querySelector('form')
@@ -94,11 +103,13 @@ async function launch(f, label) {
   return trigger;
 }
 
-test('empty home offers three starts and one native dialog with keyboard focus and absolute-path validation', async (t) => {
+test('empty home offers the idea composer and optional native import dialog with keyboard focus and absolute-path validation', async (t) => {
   const f = fixture(t, async () => catalog());
   await until(() => f.document.body.textContent.includes('Votre prochain projet commence ici'));
-  assert.equal(f.document.querySelectorAll('.home-entry').length, 3);
-  assert.equal(f.document.querySelectorAll('dialog').length, 1);
+  assert.ok(f.document.querySelector('.idea-composer textarea'));
+  assert.ok(button(f, 'Importer un projet'));
+  assert.ok(button(f, 'Reprendre un projet'));
+  assert.equal(f.document.querySelectorAll('dialog[open]').length, 0);
   assert.equal(dialog(f).open, false);
   const trigger = await launch(f, 'Reprendre un projet');
   const workspace = f.document.querySelector('[name="workspace"]');
@@ -160,18 +171,15 @@ test('new project creation and session opening are sequential and double submiss
       });
     return reply({ project: created, url: 'http://127.0.0.1:4388/?session=local' });
   });
-  await launch(f, 'Créer un projet');
-  type(f, 'name', ' Mon carnet ');
+  await until(() => f.document.querySelector('.idea-composer'));
   type(f, 'idea', ' Garder mes lectures. ');
-  submit(f);
-  submit(f);
+  compose(f);
+  compose(f);
   await until(() => release);
   assert.equal(f.calls.filter((call) => call.url.endsWith('/projects')).length, 1);
-  assert.equal(button(f, 'Préparation…').disabled, true);
+  assert.equal(button(f, 'Préparation du projet…').disabled, true);
   assert.equal(f.calls.filter((call) => call.url.endsWith('/open')).length, 0);
-  const cancel = new f.dom.window.Event('cancel', { cancelable: true });
-  dialog(f).dispatchEvent(cancel);
-  assert.equal(cancel.defaultPrevented, true);
+  assert.equal(f.document.querySelector('[name=idea]').disabled, true);
   release(reply({ project: created }));
   await until(() => f.navigations.length === 1);
   assert.equal(f.navigations[0], 'http://127.0.0.1:4388/?session=local#journey-foundation');
@@ -184,7 +192,9 @@ test('new project creation and session opening are sequential and double submiss
     writes[0].input.requestId,
     /^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89ab][a-f\d]{3}-[a-f\d]{12}$/,
   );
-  assert.equal(writes[0].input.name, 'Mon carnet');
+  assert.equal(writes[0].input.name, undefined);
+  assert.equal(writes[0].input.launch.action, 'build');
+  assert.equal(writes[0].input.launch.projectType, 'website');
   assert.equal(writes[0].input.idea, 'Garder mes lectures.');
   assert.deepEqual(writes[1].input, { id: 'p1' });
   assert.ok(
@@ -226,23 +236,23 @@ test('an uncertain creation retry reuses its UUID and edited input gets a new re
     if (url === '/api/home') return catalog();
     throw new Error('Connexion interrompue. Réessayez.');
   });
-  await launch(f, 'Créer un projet');
-  type(f, 'name', 'Projet A');
+  await until(() => f.document.querySelector('.idea-composer'));
   type(f, 'idea', 'Une idée');
-  submit(f);
-  await until(() => dialog(f).querySelector('[role="alert"]'));
-  assert.equal(f.document.querySelector('[name="name"]').value, 'Projet A');
-  submit(f);
+  compose(f);
+  await until(() => f.document.querySelector('.composer-error'));
+  assert.equal(f.document.querySelector('[name="idea"]').value, 'Une idée');
+  assert.equal(leavingHomeWouldWarn(f), true);
+  compose(f);
   await until(
     () =>
       f.calls.filter((call) => call.input).length === 2 &&
-      dialog(f).querySelector('[role="alert"]'),
+      f.document.querySelector('.composer-error'),
   );
   await setTimeout(10);
   let writes = f.calls.filter((call) => call.input);
   assert.equal(writes[0].input.requestId, writes[1].input.requestId);
-  type(f, 'name', 'Projet B');
-  submit(f);
+  type(f, 'idea', 'Une autre idée');
+  compose(f);
   await until(() => f.calls.filter((call) => call.input).length === 3);
   writes = f.calls.filter((call) => call.input);
   assert.notEqual(writes[1].input.requestId, writes[2].input.requestId);
@@ -277,10 +287,9 @@ test('late initial loading cannot hide a project created while the catalogue was
     if (url.endsWith('/projects')) return reply({ project: project() });
     throw new Error('Ouverture interrompue.');
   });
-  await launch(f, 'Créer un projet');
-  type(f, 'name', 'Mon carnet');
+  await until(() => f.document.querySelector('.idea-composer'));
   type(f, 'idea', 'Une idée');
-  submit(f);
+  compose(f);
   await until(() => f.document.querySelector('.home-project'));
   resolveList(catalog());
   await setTimeout(30);
@@ -308,4 +317,153 @@ test('opening rejects foreign, credentialed, non-http or unexpected session dest
       assert.equal(button(f, 'Ouvrir Mon carnet').disabled, false);
     });
   }
+});
+
+function leavingHomeWouldWarn(f) {
+  const event = new f.dom.window.Event('beforeunload', { cancelable: true });
+  f.dom.window.dispatchEvent(event);
+  return event.defaultPrevented;
+}
+
+test('opening a recent project confirms an unsent idea before starting any request and cancellation keeps it editable', async (t) => {
+  const f = fixture(t, async (url) => {
+    if (url === '/api/home') return catalog([project('other', { name: 'Autre projet' })]);
+    if (url === '/api/home/open')
+      return reply({ project: project('other'), url: 'http://127.0.0.1:4331' });
+    throw new Error('Unexpected request');
+  });
+  await until(() => button(f, 'Ouvrir Autre projet'));
+  type(f, 'idea', 'Mon idée encore en cours');
+  await until(() => leavingHomeWouldWarn(f));
+  const origin = button(f, 'Ouvrir Autre projet');
+  origin.focus();
+  origin.click();
+  await until(() => button(f, 'Garder mon idée'));
+  assert.equal(f.calls.filter((call) => call.url === '/api/home/open').length, 0);
+  assert.equal(f.document.querySelectorAll('dialog[open]').length, 1);
+  assert.equal(f.document.activeElement, button(f, 'Garder mon idée'));
+  button(f, 'Garder mon idée').click();
+  await until(() => !dialog(f).open);
+  assert.equal(f.document.activeElement, origin);
+  assert.equal(f.document.querySelector('[name="idea"]').value, 'Mon idée encore en cours');
+  assert.equal(f.document.querySelector('[name="idea"]').disabled, false);
+  assert.equal(leavingHomeWouldWarn(f), true);
+  origin.click();
+  await until(() => button(f, 'Ouvrir quand même'));
+  const confirm = button(f, 'Ouvrir quand même');
+  confirm.click();
+  confirm.click();
+  await until(() => f.navigations.length === 1);
+  assert.equal(f.calls.filter((call) => call.url === '/api/home/open').length, 1);
+  assert.equal(leavingHomeWouldWarn(f), false);
+});
+
+for (const entry of [
+  { label: 'Importer un projet', field: 'source', value: '/Users/test/sources' },
+  {
+    label: 'Ouvrir un autre dossier Studio',
+    field: 'workspace',
+    value: '/Users/test/autre-studio',
+  },
+]) {
+  test(`${entry.label} confirms departure inside the same dialog and Escape keeps both drafts`, async (t) => {
+    const f = fixture(t, async () => catalog());
+    await until(() => f.document.querySelector('[name="idea"]'));
+    type(f, 'idea', 'Un projet à ne pas perdre');
+    await setTimeout(10);
+    await launch(f, entry.label);
+    type(f, entry.field, entry.value);
+    await setTimeout(10);
+    submit(f);
+    await until(() => button(f, 'Garder mon idée'));
+    assert.equal(f.calls.filter((call) => call.init.method === 'POST').length, 0);
+    assert.equal(f.document.querySelectorAll('dialog[open]').length, 1);
+    const cancel = new f.dom.window.Event('cancel', { cancelable: true });
+    dialog(f).dispatchEvent(cancel);
+    if (!cancel.defaultPrevented) dialog(f).close();
+    await until(() => !button(f, 'Garder mon idée'));
+    assert.equal(dialog(f).open, true);
+    assert.equal(f.document.querySelector(`[name="${entry.field}"]`).value, entry.value);
+    assert.equal(f.document.querySelector('[name="idea"]').value, 'Un projet à ne pas perdre');
+    assert.equal(f.document.querySelector('[name="idea"]').disabled, false);
+    button(f, 'Retour').click();
+    await until(() => !dialog(f).open);
+    assert.equal(button(f, 'Garder mon idée'), undefined);
+    assert.equal(leavingHomeWouldWarn(f), true);
+  });
+}
+
+test('own creation protects the unsaved idea until POST confirmation and preserves the saved marker after an opening failure', async (t) => {
+  let finishCreate;
+  let finishOpen;
+  const f = fixture(t, async (url) => {
+    if (url === '/api/home') return catalog([project('other', { name: 'Autre projet' })]);
+    if (url === '/api/home/projects')
+      return new Promise((resolve) => {
+        finishCreate = resolve;
+      });
+    if (url === '/api/home/open')
+      return new Promise((resolve) => {
+        finishOpen = resolve;
+      });
+    throw new Error('Unexpected request');
+  });
+  await until(() => f.document.querySelector('[name="idea"]'));
+  type(f, 'idea', 'Une idée sauvegardée après confirmation');
+  await until(() => leavingHomeWouldWarn(f));
+  compose(f);
+  await until(() => finishCreate && f.document.querySelector('[name="idea"]').disabled);
+  assert.equal(leavingHomeWouldWarn(f), true);
+  assert.equal(button(f, 'Garder mon idée'), undefined);
+  finishCreate(reply({ project: project('created') }));
+  await until(() => finishOpen);
+  assert.equal(leavingHomeWouldWarn(f), false);
+  finishOpen(reply({ error: 'Session indisponible' }, false));
+  await until(() => !f.document.querySelector('[name="idea"]').disabled);
+  assert.equal(leavingHomeWouldWarn(f), false);
+  button(f, 'Ouvrir Autre projet').click();
+  await until(() => f.calls.filter((call) => call.url === '/api/home/open').length === 2);
+  assert.equal(button(f, 'Garder mon idée'), undefined);
+});
+
+test('a failed approved departure restores the unsaved guard and the next departure asks again', async (t) => {
+  const f = fixture(t, async (url) =>
+    url === '/api/home'
+      ? catalog([project('other', { name: 'Autre projet' })])
+      : reply({ error: 'Impossible d’ouvrir la session' }, false),
+  );
+  await until(() => button(f, 'Ouvrir Autre projet'));
+  type(f, 'idea', 'Mon idée reste ici');
+  await until(() => leavingHomeWouldWarn(f));
+  button(f, 'Ouvrir Autre projet').click();
+  await until(() => button(f, 'Ouvrir quand même'));
+  button(f, 'Ouvrir quand même').click();
+  await until(
+    () =>
+      f.document.querySelector('[role="alert"]') &&
+      !f.document.querySelector('[name="idea"]').disabled,
+  );
+  assert.equal(leavingHomeWouldWarn(f), true);
+  assert.equal(f.document.querySelector('[name="idea"]').value, 'Mon idée reste ici');
+  button(f, 'Ouvrir Autre projet').click();
+  await until(() => button(f, 'Garder mon idée'));
+  assert.equal(f.calls.filter((call) => call.url === '/api/home/open').length, 1);
+});
+
+test('closing ordinary composer options preserves the idea without asking to leave it', async (t) => {
+  const f = fixture(t, async () => catalog());
+  await until(() => f.document.querySelector('[name="idea"]'));
+  type(f, 'idea', 'Une idée toujours en préparation');
+  await until(() => leavingHomeWouldWarn(f));
+  const trigger = button(f, 'Ajouter des références');
+  trigger.focus();
+  trigger.click();
+  await until(() => f.document.querySelector('.composer-options-dialog').open);
+  button(f, 'Terminé').click();
+  await until(() => !f.document.querySelector('.composer-options-dialog').open);
+  assert.equal(dialog(f).open, false);
+  assert.equal(button(f, 'Garder mon idée'), undefined);
+  assert.equal(f.document.querySelector('[name="idea"]').value, 'Une idée toujours en préparation');
+  assert.equal(f.document.activeElement, trigger);
+  assert.equal(f.calls.filter((call) => call.init.method === 'POST').length, 0);
 });

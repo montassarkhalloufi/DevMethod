@@ -5,6 +5,11 @@ import { body, send, sameOrigin } from './http.mjs';
 import { safeFile, mimeType } from './files.mjs';
 import { startStudio } from './server.mjs';
 import { createHomeStore, homeError } from './home-store.mjs';
+import { homeLaunchCatalog, homeLaunchLimits } from './home-launch.mjs';
+import { createHomePreview } from './home-preview.mjs';
+import { createMcpManager } from './mcp-manager.mjs';
+import { createMcpRoutes } from './mcp-routes.mjs';
+import { validateMcpSelection } from './mcp-selection.mjs';
 
 const publicRoot = fileURLToPath(new URL('./public/', import.meta.url));
 const widgetRoot = fileURLToPath(new URL('../../dist/studio-ui/', import.meta.url));
@@ -15,7 +20,7 @@ const closeServer = (server) =>
   });
 
 function publicError(error) {
-  if (error.homeSafe) return { status: error.status, message: error.message };
+  if (error.homeSafe || error.mcpSafe) return { status: error.status, message: error.message };
   if (/verrouill|verrouillé/.test(error.message))
     return {
       status: 409,
@@ -35,12 +40,30 @@ function publicError(error) {
 }
 
 export async function startStudioHome({ directory, port = 4330 }) {
-  const store = createHomeStore(directory),
+  let mcpManager;
+  const store = createHomeStore(directory, {
+      resolveMcpSelection: (ids) => validateMcpSelection(ids, mcpManager),
+    }),
     sessions = new Map();
   let url,
+    previewOrigin,
     closing = false,
     closingTask,
     mutations = Promise.resolve();
+  try {
+    mcpManager = createMcpManager({
+      directory: safeFile(store.root, '.mcp-private'),
+      getOrigin: () => url,
+    });
+  } catch (error) {
+    await store.close();
+    throw error;
+  }
+  const mcpRoutes = createMcpRoutes(mcpManager, () => url);
+  const preview = createHomePreview({
+    getProject: (id) => store.read().projects.find((project) => project.id === id),
+    getHomeOrigin: () => url,
+  });
   const serialize = (action) => {
     if (closing) throw homeError('Cet accueil est en cours de fermeture.', 409);
     const task = mutations.then(action);
@@ -65,6 +88,7 @@ export async function startStudioHome({ directory, port = 4330 }) {
         previewPort: 0,
         agent: null,
         homeUrl: url,
+        mcpManager,
       });
       sessions.set(project.id, studio);
     }
@@ -79,7 +103,8 @@ export async function startStudioHome({ directory, port = 4330 }) {
       : safeFile(publicRoot, relative);
     response.setHeader(
       'Content-Security-Policy',
-      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'",
+      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; frame-src " +
+        previewOrigin,
     );
     send(response, 200, fs.readFileSync(file), mimeType(file));
   }
@@ -88,8 +113,20 @@ export async function startStudioHome({ directory, port = 4330 }) {
     try {
       if (request.headers.host !== new URL(url).host) throw homeError('Hôte non autorisé.', 403);
       const requestUrl = new URL(request.url, url);
+      if (await mcpRoutes(request, response, requestUrl)) return;
       if (request.method === 'GET') {
-        if (requestUrl.pathname === '/api/home') return send(response, 200, store.read());
+        if (requestUrl.pathname === '/api/home') {
+          const report = store.read();
+          return send(response, 200, {
+            ...report,
+            projects: report.projects.map((project) => ({
+              ...project,
+              preview: preview.describe(project),
+            })),
+          });
+        }
+        if (requestUrl.pathname === '/api/home/catalog')
+          return send(response, 200, homeLaunchCatalog());
         if (requestUrl.pathname.startsWith('/api/')) throw homeError('Route inconnue.', 404);
         return asset(requestUrl, response);
       }
@@ -102,7 +139,10 @@ export async function startStudioHome({ directory, port = 4330 }) {
       };
       const action = actions[requestUrl.pathname];
       if (!action) throw homeError('Route inconnue.', 404);
-      const input = await body(request, 65536);
+      const input = await body(
+        request,
+        requestUrl.pathname === '/api/home/projects' ? homeLaunchLimits.bodyBytes : 65536,
+      );
       send(response, 200, await serialize(() => action(input)));
     } catch (error) {
       const failure = publicError(error);
@@ -110,6 +150,14 @@ export async function startStudioHome({ directory, port = 4330 }) {
     }
   });
   try {
+    await new Promise((resolve, reject) => {
+      preview.server.once('error', reject);
+      preview.server.listen(0, '127.0.0.1', () => {
+        preview.server.removeListener('error', reject);
+        resolve();
+      });
+    });
+    previewOrigin = 'http://127.0.0.1:' + preview.server.address().port;
     await new Promise((resolve, reject) => {
       server.once('error', reject);
       server.listen(port, '127.0.0.1', () => {
@@ -119,7 +167,8 @@ export async function startStudioHome({ directory, port = 4330 }) {
     });
     url = 'http://127.0.0.1:' + server.address().port;
   } catch (error) {
-    await closeServer(server);
+    await Promise.all([server, preview.server].map(closeServer));
+    await mcpManager.close();
     await store.close();
     throw error;
   }
@@ -128,8 +177,9 @@ export async function startStudioHome({ directory, port = 4330 }) {
     close() {
       closingTask ??= (async () => {
         closing = true;
-        await closeServer(server);
+        await Promise.all([server, preview.server].map(closeServer));
         await mutations;
+        await mcpManager.close();
         const results = await Promise.allSettled(
           [...sessions.values()].map((studio) => studio.close()),
         );

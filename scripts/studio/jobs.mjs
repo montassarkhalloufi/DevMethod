@@ -56,7 +56,7 @@ function prepareRevision(before, job, input, files, compilation) {
   return revision;
 }
 
-export function createJobs(store) {
+export function createJobs(store, { mcpContext } = {}) {
   const mutate = (fn) => store.commit(store.read().version, fn);
   const progress = createJobProgress(store);
 
@@ -67,6 +67,12 @@ export function createJobs(store) {
     });
     if (!job) return { state, job: null };
     const workDirectory = safeFile(store.root, `work/${job.id}/app`);
+    let mcp = {
+      supported: false,
+      nativeRunner: false,
+      execution: 'manual-host-only',
+      connections: [],
+    };
     try {
       fs.mkdirSync(workDirectory, { recursive: true });
       const keyFile = safeFile(store.root, `.devmethod/job-keys/${job.id}.txt`);
@@ -75,6 +81,7 @@ export function createJobs(store) {
       const base = state.revisions.find((r) => r.id === job.baseRevision);
       if (base)
         copyFiles(safeFile(store.root, `revisions/${base.id}/app`), workDirectory, base.files);
+      if (mcpContext) mcp = mcpContext(job.id);
     } catch (error) {
       mutate((draft) => domain.failJob(draft, { jobId: job.id, error: error.message }));
       throw error;
@@ -90,6 +97,7 @@ export function createJobs(store) {
       selectedDesignId: state.selectedDesignId,
       designs: state.designs,
       references: state.references,
+      mcp,
       request: job.request,
       element: job.element,
       ...(state.import ? { import: state.import } : {}),

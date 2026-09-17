@@ -1,27 +1,13 @@
 import { useRef, useState } from 'react';
-import type { HomeOptions, ProjectKind } from '../model/contracts';
+import type { HomeOptions, HomeProject, ProjectInput, ProjectKind } from '../model/contracts';
 import { useHome } from '../hooks/useHome';
+import { useIdeaComposer } from '../hooks/useIdeaComposer';
 import { HomeIcon } from './HomeIcon';
 import { ProjectDialog } from './ProjectDialog';
 import { RecentProjects } from './RecentProjects';
-
-const actions: { kind: ProjectKind; title: string; description: string }[] = [
-  {
-    kind: 'new',
-    title: 'Créer un projet',
-    description: 'Donnez forme à une idée, du premier choix à la réalisation.',
-  },
-  {
-    kind: 'imported',
-    title: 'Importer un projet',
-    description: 'Partez de vos sources et construisez la suite avec leur contexte.',
-  },
-  {
-    kind: 'existing',
-    title: 'Reprendre un projet',
-    description: 'Retrouvez votre espace de travail et poursuivez là où vous en étiez.',
-  },
-];
+import { IdeaComposer } from './IdeaComposer';
+import { StarterGallery } from './StarterGallery';
+import type { StarterSeed } from '../model/starters';
 
 export function HomeView(options: HomeOptions) {
   const home = useHome(options);
@@ -31,10 +17,49 @@ export function HomeView(options: HomeOptions) {
   });
   const trigger = useRef<HTMLButtonElement | null>(null);
   const search = useRef<HTMLInputElement>(null);
-  const busy = home.operation.phase !== 'idle';
+  const [seed, setSeed] = useState<(StarterSeed & { id: number }) | undefined>();
+  const [operationSource, setOperationSource] = useState<'composer' | 'project'>('composer');
+  const [departure, setDeparture] = useState<ProjectInput | HomeProject | null>(null);
+  const externalRun = useRef(false);
+  const composerOperation =
+    operationSource === 'composer'
+      ? home.operation
+      : { phase: home.operation.phase, project: null, error: '' };
+  const composer = useIdeaComposer({
+    operation: composerOperation,
+    onSubmit: (input, onSaved) => {
+      setOperationSource('composer');
+      void home.run(input, onSaved);
+    },
+    onEdit: home.clearOperation,
+    seed,
+  });
+  const busy = composer.busy;
+  async function openExternal(input: ProjectInput | HomeProject) {
+    if (busy || externalRun.current) return;
+    externalRun.current = true;
+    setDeparture(null);
+    composer.approveDeparture();
+    setOperationSource('project');
+    const navigating = await home.run(input);
+    externalRun.current = false;
+    if (!navigating) composer.cancelDeparture();
+  }
+  function requestExternal(input: ProjectInput | HomeProject) {
+    if (busy || externalRun.current) return;
+    if (composer.hasUnsavedContent) {
+      if (!dialog.open) trigger.current = document.activeElement as HTMLButtonElement | null;
+      setDeparture(input);
+    } else void openExternal(input);
+  }
+  function cancelDeparture() {
+    setDeparture(null);
+    if (!dialog.open) trigger.current?.focus();
+  }
   function show(kind: ProjectKind, origin: HTMLButtonElement) {
     if (busy) return;
     trigger.current = origin;
+    setOperationSource('project');
     home.clearOperation();
     setDialog({ open: true, kind });
   }
@@ -57,60 +82,54 @@ export function HomeView(options: HomeOptions) {
             DevMethod <small>Studio</small>
           </span>
         </a>
-        <span className="home-local">
-          <span aria-hidden="true" />
-          Votre espace local
-        </span>
+        <nav className="home-nav" aria-label="Accueil">
+          <a href="#home-recents-title">Mes projets</a>
+          <a href="#home-inspirations">Galerie</a>
+          <span className="home-local">
+            <span aria-hidden="true" /> Espace local
+          </span>
+        </nav>
       </header>
       <main id="home-main">
         <section className="home-hero" aria-labelledby="home-title">
-          <span className="home-eyebrow">Une idée, un projet, une prochaine étape</span>
+          <span className="home-eyebrow">L’espace où vos idées prennent forme</span>
           <h1 id="home-title">
-            Quel projet allons-nous
-            <br className="home-title-break" /> faire avancer ?
+            Que voulez-vous <span>créer ?</span>
           </h1>
           <p>
-            Commencez avec une idée ou avec ce qui existe déjà.
-            <br className="home-title-break" /> Gardez le fil, les choix et les preuves au même
-            endroit.
+            Un site, une application, une nouvelle façon de travailler.
+            <br className="home-title-break" /> Décrivez votre idée et construisons la suite.
           </p>
-          <div className="home-entry-grid">
-            {actions.map((action) => (
-              <button
-                type="button"
-                className={`home-entry home-entry-${action.kind}`}
-                key={action.kind}
-                disabled={busy}
-                onClick={(event) => {
-                  if (action.kind === 'existing' && home.projects.length && search.current) {
-                    search.current.scrollIntoView?.({ block: 'center' });
-                    search.current.focus();
-                  } else show(action.kind, event.currentTarget);
-                }}
-              >
-                <span className="home-entry-icon">
-                  <HomeIcon kind={action.kind} />
-                </span>
-                <strong>{action.title}</strong>
-                <span className="home-entry-description">{action.description}</span>
-                <span className="home-entry-link">
-                  {action.kind === 'new'
-                    ? 'Partir de mon idée'
-                    : action.kind === 'imported'
-                      ? 'Choisir mes sources'
-                      : 'Retrouver mon projet'}{' '}
-                  <span aria-hidden="true">→</span>
-                </span>
-              </button>
-            ))}
+          <IdeaComposer operation={composerOperation} composer={composer} />
+          <div className="home-start-alternatives">
+            <span>Ou partez de l’existant</span>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={(event) => show('imported', event.currentTarget)}
+            >
+              <HomeIcon kind="imported" /> Importer un projet
+            </button>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={(event) => {
+                if (home.projects.length && search.current) {
+                  search.current.scrollIntoView?.({ block: 'center' });
+                  search.current.focus();
+                } else show('existing', event.currentTarget);
+              }}
+            >
+              <HomeIcon kind="existing" /> Reprendre un projet
+            </button>
           </div>
         </section>
-        {!dialog.open && home.operation.error ? (
+        {!dialog.open && operationSource === 'project' && home.operation.error ? (
           <p role="alert" className="home-error">
-            {home.operation.error} Réessayez l’ouverture depuis la liste.
+            {home.operation.error}
           </p>
         ) : null}
-        {!dialog.open && busy ? (
+        {!dialog.open && operationSource === 'project' && busy ? (
           <p role="status" className="home-opening">
             Ouverture de « {home.operation.project?.name} »…
           </p>
@@ -122,18 +141,32 @@ export function HomeView(options: HomeOptions) {
           busy={busy}
           searchRef={search}
           onRefresh={() => void home.refresh()}
-          onOpen={(project) => void home.run(project)}
+          onOpen={requestExternal}
           onOther={(origin) => show('existing', origin)}
         />
+        <div id="home-inspirations">
+          <StarterGallery
+            onChoose={(chosen) => {
+              home.clearOperation();
+              setSeed((current) => ({ ...chosen, id: (current?.id ?? 0) + 1 }));
+            }}
+          />
+        </div>
       </main>
       <footer className="home-footer">
-        Vos projets restent sur cet ordinateur. Vous choisissez quand lancer un agent.
+        Votre espace de création. Vos projets et leurs références restent sur cet ordinateur.
       </footer>
       <ProjectDialog
         {...dialog}
+        open={dialog.open || Boolean(departure)}
+        departure={
+          departure
+            ? { onCancel: cancelDeparture, onConfirm: () => void openExternal(departure) }
+            : undefined
+        }
         operation={home.operation}
         onDismiss={dismiss}
-        onSubmit={(input) => void home.run(input)}
+        onSubmit={requestExternal}
         onEdit={home.clearOperation}
       />
     </div>

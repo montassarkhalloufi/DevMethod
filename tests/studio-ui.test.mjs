@@ -20,7 +20,7 @@ const revision = (id) => ({
   createdAt: '2026-09-16T10:00:00Z',
 });
 
-async function fixture(t, customize = () => {}, hash = '') {
+async function fixture(t, customize = () => {}, hash = '', options = {}) {
   let state = createInitialStudioState();
   state.project.idea = 'Conserver mes lectures';
   customize(state);
@@ -45,7 +45,13 @@ async function fixture(t, customize = () => {}, hash = '') {
       return { state: structuredClone(state) };
     },
   };
-  const app = mountStudio({ document: dom.window.document, window: dom.window, api, pollMs: 0 });
+  const app = mountStudio({
+    document: dom.window.document,
+    window: dom.window,
+    api,
+    pollMs: 0,
+    ...options,
+  });
   t.after(() => {
     app.destroy();
     dom.window.close();
@@ -746,4 +752,45 @@ test('displayed proofs and local scenarios follow the comparison without recordi
   assert.match(f.el('evidence-dock').textContent, /Version appliquée/);
   assert.doesNotMatch(f.el('evidence-dock').textContent, /Proposition non appliquée/);
   assert.match(f.el('evidence-dock').textContent, /Agent.*accord encore attendu/);
+});
+
+test('sending a request waits for the MCP selection write and rejects duplicate sends while it settles', async (t) => {
+  let finish;
+  const ready = new Promise((resolve) => {
+    finish = resolve;
+  });
+  const f = await fixture(t, undefined, '', {
+    loadMcpWidget: async () => ({
+      mountMcpWidget: () => ({ prepareRequest: () => ready, dispose() {} }),
+    }),
+  });
+  f.input('request', 'Utiliser le contexte documentaire');
+  const send = () =>
+    f
+      .el('request-form')
+      .dispatchEvent(new f.dom.window.Event('submit', { bubbles: true, cancelable: true }));
+  send();
+  send();
+  await setImmediate();
+  assert.equal(f.calls.filter((call) => call.route === 'requests').length, 0);
+  assert.equal(f.el('send-request').disabled, true);
+  finish(true);
+  await setImmediate();
+  await f.app.settled();
+  assert.equal(f.calls.filter((call) => call.route === 'requests').length, 1);
+  assert.equal(f.el('request').value, '');
+});
+
+test('a failed MCP selection save preserves the request without dispatching it', async (t) => {
+  const f = await fixture(t, undefined, '', {
+    loadMcpWidget: async () => ({
+      mountMcpWidget: () => ({ prepareRequest: async () => false, dispose() {} }),
+    }),
+  });
+  f.input('request', 'Conserver cette demande');
+  await f.submit('request-form');
+  assert.equal(f.calls.filter((call) => call.route === 'requests').length, 0);
+  assert.equal(f.el('request').value, 'Conserver cette demande');
+  assert.match(f.el('notice').textContent, /sélection des outils MCP/);
+  assert.equal(f.el('send-request').disabled, false);
 });

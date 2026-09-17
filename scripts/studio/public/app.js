@@ -7,6 +7,7 @@ import { renderComparison, comparisonURL } from './comparison-view.js';
 import { createTechnicalWorkspace } from './technical-workspace.js';
 import { createProgressController } from './progress-controller.js';
 import { createConnectorsController } from './connectors-controller.js';
+import { createMcpSelectionController } from './mcp-selection.js';
 
 function renderHomeLink(document, homeUrl) {
   const link = document.getElementById('studio-home-link');
@@ -38,10 +39,12 @@ export function mountStudio({
   window,
   api = createStudioApi(),
   pollMs = 2000,
+  loadMcpWidget,
   navigate = (url) => window.location.assign(url),
 }) {
   const el = (id) => document.getElementById(id);
   const views = createViews(document);
+  const mcpSelection = createMcpSelectionController({ document, loadWidget: loadMcpWidget });
   let technicalWorkspace;
   const sourceView = createSourceView({
     document,
@@ -95,6 +98,7 @@ export function mountStudio({
   let draftDirty = false;
   let draftTimer;
   let returningHome = false;
+  let submittingRequest = false;
   let previewId = null;
   let displayedRevisionId = null;
   let frameOrigin = null;
@@ -631,8 +635,10 @@ export function mountStudio({
   }
   async function sendRequest(event) {
     event.preventDefault();
+    if (submittingRequest) return;
     window.clearTimeout(draftTimer);
     const request = el('request').value;
+    const element = selectedElement;
     if (!request.trim()) return;
     if (projectDirty) {
       notice('Gardez d’abord votre idée et votre mode pour les joindre à la demande.', true);
@@ -642,15 +648,34 @@ export function mountStudio({
       return;
     }
     el('send-request').disabled = true;
-    await change('requests', { request, element: selectedElement }, () => {
-      draftDirty = el('request').value !== request;
-      if (!draftDirty) {
-        el('request').value = '';
-        clearElement();
+    submittingRequest = true;
+    try {
+      const ready = await mcpSelection.prepareRequest();
+      if (disposed) return;
+      if (!ready) {
+        notice(
+          'La sélection des outils MCP n’est pas enregistrée. Réessayez dans les outils du projet.',
+          true,
+        );
+        return;
       }
-      el('draft-status').textContent = draftDirty ? 'Brouillon modifié…' : 'Demande enregistrée.';
-    });
-    el('send-request').disabled = false;
+      if (projectDirty) {
+        notice('Enregistrez les réglages du projet avant d’envoyer la demande.', true);
+        openProjectSettings();
+        return;
+      }
+      await change('requests', { request, element }, () => {
+        draftDirty = el('request').value !== request;
+        if (!draftDirty) {
+          el('request').value = '';
+          clearElement();
+        }
+        el('draft-status').textContent = draftDirty ? 'Brouillon modifié…' : 'Demande enregistrée.';
+      });
+    } finally {
+      submittingRequest = false;
+      el('send-request').disabled = false;
+    }
     if (draftDirty) markDraftDirty();
   }
   function clearElement() {
@@ -930,6 +955,7 @@ export function mountStudio({
       proposalController.dispose();
       progressController.dispose();
       connectorsController.dispose();
+      mcpSelection.dispose();
       journeyWidget?.dispose();
       technicalWorkspace.destroy();
       window.clearInterval(interval);

@@ -1,5 +1,4 @@
 import { connectorIconSource } from './connector-icon-sources';
-import './connector-icon.css';
 
 type ConnectorIconProps = {
   optionId: string;

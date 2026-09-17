@@ -24,6 +24,7 @@ export function ProjectDialog({
   onDismiss,
   onSubmit,
   onEdit,
+  departure,
 }: {
   open: boolean;
   kind: ProjectKind;
@@ -31,6 +32,7 @@ export function ProjectDialog({
   onDismiss(): void;
   onSubmit(input: ProjectInput): void;
   onEdit(): void;
+  departure?: { onConfirm(): void; onCancel(): void };
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const form = useRef<HTMLFormElement>(null);
@@ -45,13 +47,17 @@ export function ProjectDialog({
   } | null>(null);
   const validation = formError?.kind === kind ? formError.error : null;
   const busy = operation.phase !== 'idle';
+  const confirmingDeparture = Boolean(departure);
   useEffect(() => {
     const node = dialog.current;
-    if (open && node && !node.open) {
-      node.showModal();
-      node.querySelector<HTMLInputElement>('input')?.focus();
+    if (open && node) {
+      const wasOpen = node.open;
+      if (!wasOpen) node.showModal();
+      if (confirmingDeparture) node.querySelector<HTMLButtonElement>('[data-keep-idea]')?.focus();
+      else if (wasOpen) node.querySelector<HTMLButtonElement>('button[type="submit"]')?.focus();
+      else node.querySelector<HTMLInputElement>('input')?.focus();
     } else if (!open && node?.open) node.close();
-  }, [open]);
+  }, [open, confirmingDeparture]);
   function edit(field: keyof ReturnType<typeof emptyFields>, value: string) {
     setDrafts((current) => ({ ...current, [kind]: { ...current[kind], [field]: value } }));
     setFormError(null);
@@ -65,23 +71,46 @@ export function ProjectDialog({
       aria-labelledby="home-dialog-title"
       aria-describedby="home-dialog-description"
       onCancel={(event) => {
-        if (busy) event.preventDefault();
+        if (departure) {
+          event.preventDefault();
+          departure.onCancel();
+        } else if (busy) event.preventDefault();
       }}
       onClose={onDismiss}
     >
       <div className="home-dialog-heading">
         <span className="home-eyebrow">Votre point de départ</span>
-        <button type="button" aria-label="Fermer" disabled={busy} onClick={onDismiss}>
+        <button
+          type="button"
+          aria-label="Fermer"
+          disabled={busy}
+          onClick={departure?.onCancel || onDismiss}
+        >
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <h2 id="home-dialog-title">{titles[kind]}</h2>
-      <p id="home-dialog-description">{descriptions[kind]}</p>
+      <h2 id="home-dialog-title">{departure ? 'Quitter cette idée ?' : titles[kind]}</h2>
+      <p id="home-dialog-description">
+        {departure
+          ? 'Votre idée et ses références ne sont pas encore enregistrées. Si vous ouvrez un autre projet, elles seront perdues.'
+          : descriptions[kind]}
+      </p>
+      {departure ? (
+        <div className="home-dialog-actions">
+          <button type="button" data-keep-idea onClick={departure.onCancel}>
+            Garder mon idée
+          </button>
+          <button type="button" className="primary" onClick={departure.onConfirm}>
+            Ouvrir quand même
+          </button>
+        </div>
+      ) : null}
       <form
         ref={form}
+        hidden={confirmingDeparture}
         onSubmit={(event) => {
           event.preventDefault();
-          if (busy) return;
+          if (busy || departure) return;
           const input = projectInput(kind, event.currentTarget);
           const error = validateProjectInput(input);
           setFormError({ kind, error });

@@ -32,6 +32,7 @@ export default defineConfig({
         'progress-widget': fileURLToPath(new URL('./src/progress-widget.tsx', import.meta.url)),
         'connectors-widget': fileURLToPath(new URL('./src/connectors-widget.tsx', import.meta.url)),
         'home-widget': fileURLToPath(new URL('./src/home-widget.tsx', import.meta.url)),
+        'mcp-widget': fileURLToPath(new URL('./src/mcp-widget.tsx', import.meta.url)),
       },
       formats: ['es'],
       fileName: (_format, entryName) => entryName + '.js',

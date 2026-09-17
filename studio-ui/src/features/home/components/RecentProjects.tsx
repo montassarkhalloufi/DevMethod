@@ -3,6 +3,7 @@ import type { RefObject } from 'react';
 import type { HomeProject } from '../model/contracts';
 import { kindLabels, projectDate, projectSearch } from '../model/home';
 import { HomeIcon } from './HomeIcon';
+import { RecentProjectPreview } from './RecentProjectPreview';
 
 export function RecentProjects({
   projects,
@@ -83,7 +84,8 @@ export function RecentProjects({
       ) : null}
       <ul className="home-project-list">
         {visible.map((project) => (
-          <li key={project.id}>
+          <li key={project.id} className="home-project-card">
+            <RecentProjectPreview project={project} />
             <button
               type="button"
               className="home-project"
@@ -91,23 +93,20 @@ export function RecentProjects({
               onClick={() => onOpen(project)}
               aria-label={`Ouvrir ${project.name}`}
             >
-              <span className="home-project-icon">
-                <HomeIcon kind="folder" />
-              </span>
               <span className="home-project-copy">
                 <strong>{project.name}</strong>
                 <span className="home-project-path" title={project.workspace}>
                   {project.workspace}
                 </span>
               </span>
+              <span className="home-project-arrow" aria-hidden="true">
+                ↗
+              </span>
               <span className="home-project-meta">
                 <span>{kindLabels[project.kind]}</span>
                 <time dateTime={project.lastOpenedAt || project.createdAt}>
                   {projectDate(project)}
                 </time>
-              </span>
-              <span className="home-project-arrow" aria-hidden="true">
-                →
               </span>
             </button>
           </li>

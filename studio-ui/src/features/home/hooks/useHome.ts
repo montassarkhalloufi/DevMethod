@@ -78,6 +78,7 @@ export function useHome({ navigate }: HomeOptions) {
     remember(opened);
     if (navigate) navigate(url);
     else window.location.assign(url);
+    return true;
   }
   async function prepareProject(input: ProjectInput, controller: AbortController) {
     const key = JSON.stringify(input);
@@ -97,24 +98,29 @@ export function useHome({ navigate }: HomeOptions) {
     remember(project);
     return project;
   }
-  async function run(input: ProjectInput | HomeProject) {
-    if (mutation.current) return;
+  async function run(input: ProjectInput | HomeProject, onPrepared?: () => void) {
+    if (mutation.current) return false;
     const controller = new AbortController();
     mutation.current = controller;
     let project: HomeProject | null = 'id' in input ? input : null;
+    let navigating = false;
     setOperation({ phase: project ? 'opening' : 'creating', project, error: '' });
     try {
-      if (!('id' in input)) project = await prepareProject(input, controller);
-      if (project) await openProject(project, controller, !('id' in input));
+      if (!('id' in input)) {
+        project = await prepareProject(input, controller);
+        if (project) onPrepared?.();
+      }
+      if (project) navigating = Boolean(await openProject(project, controller, !('id' in input)));
     } catch (cause) {
       if (!controller.signal.aborted)
         setOperation({ phase: 'idle', project, error: errorText(cause) });
     } finally {
       if (!controller.signal.aborted) {
         mutation.current = null;
-        setOperation((current) => ({ ...current, phase: 'idle' }));
+        if (!navigating) setOperation((current) => ({ ...current, phase: 'idle' }));
       }
     }
+    return navigating;
   }
   function clearOperation() {
     if (!mutation.current) setOperation({ phase: 'idle', project: null, error: '' });

@@ -6,6 +6,7 @@ import { restoreArchive } from './archive.mjs';
 import { initializeReactExample } from './react-example.mjs';
 import { initializeExample } from './example.mjs';
 import { progressLimits } from './progress.mjs';
+import { mcpWorkerRequest, readWorkerJSON } from './mcp-cli.mjs';
 
 function argumentsFor(args) {
   const options = {},
@@ -46,7 +47,18 @@ function argumentsFor(args) {
       throw new Error('Option invalide : ' + value);
     options[value.slice(2)] = args[++index];
   }
-  return { options, command: positional[0] ?? (options.workspace ? 'serve' : 'home') };
+  return { options, command: studioCommand(positional, options) };
+}
+
+function studioCommand(positional, options) {
+  if (positional[0] === 'mcp' && !options.help) {
+    if (positional.length !== 2 || !['tools', 'call'].includes(positional[1]))
+      throw new Error(
+        'Commande MCP : devmethod studio mcp tools|call --workspace /projet --file payload.json.',
+      );
+    return 'mcp-' + positional[1];
+  }
+  return positional[0] ?? (options.workspace ? 'serve' : 'home');
 }
 
 function keepStudioOpen(studio) {
@@ -83,6 +95,9 @@ export async function runStudioCli(args) {
     if (options.help) {
       console.log(
         'devmethod studio [home|serve|import|example|status|claim|progress|finish|fail|check|connectors|connector-probe|connector-result|restore|example-react] [--workspace /dossier]\nAccueil : devmethod studio ; créer, importer ou reprendre un projet.\nhome : [--workspace /bibliothèque] [--port 4330] ; bibliothèque par défaut ~/.devmethod/studio-home.\nImport : --source /projet/existant --workspace /dossier/vide/distinct [--dry-run] ; copie locale sans exécuter de scripts ni installer de dépendances.\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nprogress/finish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nconnectors : lecture des connexions ; connector-probe/connector-result : --file payload.json (64 Kio maximum).\nprogress : {jobId,eventId,event} ; événement plan ou action pendant la mission, déclaration distincte des preuves.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
+      );
+      console.log(
+        'mcp tools|call : --workspace /projet --file payload.json (64 Kio maximum), pont hôte manuel uniquement. tools : {jobId,connectionId,toolName?} ; call : {jobId,connectionId,toolName,arguments}. Connexion sélectionnée et mission active requises.',
       );
       return;
     }
@@ -166,13 +181,13 @@ async function workerCommand(command, options) {
     progress: progressLimits.inputBytes,
     'connector-probe': 65536,
     'connector-result': 65536,
+    'mcp-tools': 65536,
+    'mcp-call': 65536,
   }[command];
   if (maximum && !options.file) throw new Error(`${command} nécessite --file payload.json.`);
   if (maximum && fs.statSync(options.file).size > maximum)
     throw new Error(`Le fichier ${command} dépasse ${maximum} octets.`);
-  const runtime = JSON.parse(
-    fs.readFileSync(path.join(options.workspace, '.devmethod/runtime.json'), 'utf8'),
-  );
+  const runtime = readWorkerJSON(path.join(options.workspace, '.devmethod/runtime.json'), command);
   const routes = {
     status: '/api/state',
     claim: '/api/jobs/claim',
@@ -180,6 +195,8 @@ async function workerCommand(command, options) {
     connectors: '/api/connectors',
     'connector-probe': '/api/connectors/probe',
     'connector-result': '/api/connectors/results',
+    'mcp-tools': '/api/mcp/tools',
+    'mcp-call': '/api/mcp/call',
     finish: '/api/jobs/finish',
     fail: '/api/jobs/fail',
     check: '/api/checks',
@@ -189,17 +206,24 @@ async function workerCommand(command, options) {
     command === 'claim'
       ? { worker: options.worker ?? 'Agent hôte' }
       : options.file
-        ? JSON.parse(fs.readFileSync(options.file, 'utf8'))
+        ? readWorkerJSON(options.file, command)
         : {};
+  const mcp = ['mcp-tools', 'mcp-call'].includes(command)
+    ? mcpWorkerRequest(command, input, runtime)
+    : null;
   const response = await fetch(
-    runtime.url + routes[command],
-    ['status', 'connectors'].includes(command)
-      ? {}
-      : {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + runtime.token },
-          body: JSON.stringify(input),
-        },
+    mcp?.url ?? runtime.url + routes[command],
+    mcp?.init ??
+      (['status', 'connectors'].includes(command)
+        ? {}
+        : {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + runtime.token,
+            },
+            body: JSON.stringify(input),
+          }),
   );
   const result = await response.json();
   if (!response.ok) throw new Error(result.error);

@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { assertRealDirectory, atomicJSON, safeFile, digest } from './files.mjs';
 import { createStudioStore, validateStudioState } from './store.mjs';
 import { importProject } from './import.mjs';
+import { prepareHomeLaunch, writeHomeLaunchReferences, applyHomeLaunch } from './home-launch.mjs';
 
 export const homeLimits = Object.freeze({ projects: 200 });
 const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
@@ -54,7 +55,7 @@ function regularJSON(file, maximum) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
-function inspectExisting(workspace) {
+export function readHomeProjectState(workspace) {
   const root = assertRealDirectory(workspace);
   const file = safeFile(root, '.devmethod/studio.json');
   requireValue(
@@ -120,7 +121,7 @@ function validateRegistry(value) {
 }
 
 function requestFields(input) {
-  shape(input, ['requestId', 'kind', 'name', 'idea', 'source', 'workspace']);
+  shape(input, ['requestId', 'kind', 'name', 'idea', 'source', 'workspace', 'launch']);
   requireValue(
     typeof input.requestId === 'string' && uuid.test(input.requestId) && kinds.includes(input.kind),
     'Identifiant de demande ou type de projet invalide.',
@@ -138,10 +139,20 @@ function requestFields(input) {
   );
   if (input.source !== undefined) result.source = workspacePath(input.source);
   if (input.workspace !== undefined) result.workspace = workspacePath(input.workspace);
-  return result;
+  let launch = null;
+  if (input.launch !== undefined) {
+    requireValue(
+      input.kind === 'new',
+      'Le lancement initial concerne uniquement un nouveau projet.',
+    );
+    launch = prepareHomeLaunch(input.launch, result.idea);
+    result.launch = launch.launch;
+    result.name ??= launch.name;
+  }
+  return { fields: result, launch };
 }
 
-export function createHomeStore(directory) {
+export function createHomeStore(directory, { resolveMcpSelection = () => [] } = {}) {
   const root = assertRealDirectory(directory);
   fs.mkdirSync(root, { recursive: true });
   const file = safeFile(root, 'home.json'),
@@ -195,7 +206,7 @@ export function createHomeStore(directory) {
   };
 
   async function create(input) {
-    const fields = requestFields(input),
+    const { fields, launch } = requestFields(input),
       fingerprint = digest(JSON.stringify(fields));
     return serialize(async () => {
       const receipt = data.receipts.find((entry) => entry.requestId === fields.requestId);
@@ -206,6 +217,16 @@ export function createHomeStore(directory) {
           409,
         );
         return structuredClone(data.projects.find((entry) => entry.id === receipt.projectId));
+      }
+      let prepared = launch;
+      if (launch?.launch.mcpConnectionIds?.length) {
+        const mcpConnections = resolveMcpSelection(launch.launch.mcpConnectionIds);
+        requireValue(
+          mcpConnections.length === launch.launch.mcpConnectionIds.length,
+          'Reconnectez les services MCP sélectionnés avant le lancement.',
+          409,
+        );
+        prepared = prepareHomeLaunch(launch.launch, fields.idea, { mcpConnections });
       }
       requireValue(
         data.projects.length < homeLimits.projects,
@@ -223,7 +244,7 @@ export function createHomeStore(directory) {
       let created = false;
       try {
         if (fields.kind === 'existing') {
-          const state = inspectExisting(workspace);
+          const state = readHomeProjectState(workspace);
           name ??= state.project.name || path.basename(workspace);
         } else if (fields.kind === 'imported') {
           await importProject({ source: fields.source, workspace });
@@ -238,17 +259,24 @@ export function createHomeStore(directory) {
               store.close();
             }
           }
-          name ??= inspectExisting(workspace).project.name;
+          name ??= readHomeProjectState(workspace).project.name;
         } else {
           fs.mkdirSync(path.dirname(workspace), { recursive: true });
           fs.mkdirSync(workspace);
           created = true;
           const store = createStudioStore(workspace);
           try {
+            const references = prepared ? writeHomeLaunchReferences(workspace, prepared) : [];
             store.commit(store.read().version, (state) => {
               state.project.name = name || 'Nouveau projet';
               state.project.idea = fields.idea || '';
+              if (prepared) applyHomeLaunch(state, prepared, references);
             });
+            if (prepared?.launch.mcpConnectionIds?.length)
+              atomicJSON(safeFile(workspace, '.devmethod/mcp-selection.json'), {
+                format: 1,
+                connectionIds: prepared.launch.mcpConnectionIds,
+              });
           } finally {
             store.close();
           }
@@ -287,7 +315,7 @@ export function createHomeStore(directory) {
       requireValue(typeof id === 'string' && uuid.test(id), 'Identifiant de projet invalide.');
       const project = data.projects.find((entry) => entry.id === id);
       requireValue(project, 'Projet absent de cet accueil.', 404);
-      inspectExisting(project.workspace);
+      readHomeProjectState(project.workspace);
       return structuredClone(project);
     },
     opened(id) {
