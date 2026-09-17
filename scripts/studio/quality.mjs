@@ -4,6 +4,10 @@ import { recordCheck } from './domain.mjs';
 import { projectCapabilities, qualityCatalog, qualityCategories } from './quality-catalog.mjs';
 import { qualityAdapters } from './quality-adapters.mjs';
 import { qualitySnapshot, readQualityRuns, writeQualityRun } from './quality-storage.mjs';
+import { connectorOffers } from './connectors-catalog.mjs';
+import { storeExternalQualityResult } from './quality-external.mjs';
+import { readProjectConnectors, connectorInterfaceFingerprint } from './connectors.mjs';
+import { businessCriteriaFingerprint } from './quality-criteria.mjs';
 
 const activeRuns = new WeakMap();
 const environment = `Node ${process.versions.node} · ${process.platform}/${process.arch} · TypeScript ${ts.version}`;
@@ -20,7 +24,23 @@ function revisionFrom(store, revisionId) {
   return { state, revision };
 }
 
-function runEvidence(run, snapshot, selectedId, active) {
+function providerChanged(run, connections) {
+  if (!run.provider) return false;
+  const current = connections.find((connection) => connection.id === run.provider.connectionId);
+  return (
+    !current ||
+    current.version !== run.provider.connectionVersion ||
+    current.optionId !== run.provider.optionId ||
+    !current.probe ||
+    current.probe.tool.name !== run.tool ||
+    current.probe.tool.version !== run.toolVersion ||
+    (run.source?.kind === 'host-mcp' &&
+      connectorInterfaceFingerprint(current.probe, run.source.toolName) !==
+        run.provider.interfaceFingerprint)
+  );
+}
+
+function runEvidence(run, snapshot, selectedId, active, connections, criteriaFingerprint) {
   const interrupted = run.status === 'running' && !active?.has(run.id);
   return {
     ...run,
@@ -31,7 +51,11 @@ function runEvidence(run, snapshot, selectedId, active) {
     freshness:
       run.revisionId !== selectedId
         ? 'obsolete'
-        : snapshot.issue || run.fingerprint !== snapshot.fingerprint
+        : snapshot.issue ||
+            run.fingerprint !== snapshot.fingerprint ||
+            (run.checkId === 'business-journey' &&
+              run.businessCriteria?.fingerprint !== criteriaFingerprint) ||
+            providerChanged(run, connections)
           ? 'reevaluate'
           : 'current',
   };
@@ -59,6 +83,7 @@ function catalogueRow(definition, capabilities, snapshot, evidence) {
     freshness: evidence?.freshness ?? (snapshot.issue ? 'reevaluate' : 'current'),
     canRun: applicable && definition.execution === 'studio' && !snapshot.issue,
     evidence: evidence ?? null,
+    offers: connectorOffers(definition.id),
   };
 }
 
@@ -115,7 +140,18 @@ export function readProjectQuality(store, revisionId, analysis) {
     snapshot = qualitySnapshot(store, revision);
   const runs = readQualityRuns(store),
     active = activeRuns.get(store);
-  const normalized = runs.map((run) => runEvidence(run, snapshot, revision.id, active));
+  let connections = [];
+  if (runs.some((run) => run.provider)) {
+    try {
+      connections = readProjectConnectors(store).connections;
+    } catch {
+      /* Unavailable configuration invalidates dependent evidence only. */
+    }
+  }
+  const criteriaFingerprint = businessCriteriaFingerprint(state);
+  const normalized = runs.map((run) =>
+    runEvidence(run, snapshot, revision.id, active, connections, criteriaFingerprint),
+  );
   const capabilities = projectCapabilities(revision, snapshot.sources);
   const checks = qualityCatalog.map((definition) =>
     catalogueRow(
@@ -172,6 +208,7 @@ function finishRun(store, run, result, snapshot) {
     ? 'Fichiers modifiés pendant le contrôle ; résultat à réévaluer, aucune réussite enregistrée.'
     : result.observed;
   run.findings = result.findings.slice(0, 100);
+  if (result.metrics) run.metrics = result.metrics;
   run.limits = [
     ...(result.limits ?? []),
     ...(result.findings.length > 100
@@ -250,4 +287,9 @@ export async function runProjectQuality(store, revisionId, checkId) {
     active.delete(run.id);
   }
   return readProjectQuality(store, revision.id);
+}
+
+export function importExternalQualityResult(store, input) {
+  const run = storeExternalQualityResult(store, input);
+  return readProjectQuality(store, run.revisionId);
 }

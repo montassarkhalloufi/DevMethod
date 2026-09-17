@@ -19,6 +19,10 @@ function argumentsFor(args) {
       options.help = true;
       continue;
     }
+    if (value === '--dry-run') {
+      options.dryRun = true;
+      continue;
+    }
     if (value === '--delegate-technical') {
       options.delegateTechnical = true;
       continue;
@@ -26,6 +30,7 @@ function argumentsFor(args) {
     if (
       ![
         '--workspace',
+        '--source',
         '--port',
         '--preview-port',
         '--agent',
@@ -48,14 +53,31 @@ export async function runStudioCli(args) {
     const { options, command } = argumentsFor(args);
     if (options.help) {
       console.log(
-        'devmethod studio [serve|example|status|claim|progress|finish|fail|check|restore|example-react] --workspace /dossier\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nprogress/finish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nprogress : {jobId,eventId,event} ; événement plan ou action pendant la mission, déclaration distincte des preuves.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
+        'devmethod studio [serve|import|example|status|claim|progress|finish|fail|check|connectors|connector-probe|connector-result|restore|example-react] --workspace /dossier\nImport : --source /projet/existant --workspace /dossier/vide/distinct [--dry-run] ; copie locale sans exécuter de scripts ni installer de dépendances.\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nprogress/finish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nconnectors : lecture des connexions ; connector-probe/connector-result : --file payload.json (64 Kio maximum).\nprogress : {jobId,eventId,event} ; événement plan ou action pendant la mission, déclaration distincte des preuves.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
       );
       return;
     }
     if (!options.workspace || !path.isAbsolute(options.workspace))
       throw new Error('--workspace doit désigner un dossier absolu dédié.');
+    if (command !== 'import' && (options.source || options.dryRun))
+      throw new Error('--source et --dry-run sont réservés à import.');
     if (options.delegateTechnical && command !== 'example-react')
       throw new Error('--delegate-technical est réservé à example-react, dans une nouvelle copie.');
+    if (command === 'import') {
+      const { importProject } = await import('./import.mjs');
+      console.log(
+        JSON.stringify(
+          await importProject({
+            source: options.source,
+            workspace: options.workspace,
+            dryRun: options.dryRun,
+          }),
+          null,
+          2,
+        ),
+      );
+      return;
+    }
     if (command === 'example') {
       console.log(
         'Exemple Les Ateliers restauré : ' + initializeExample(options.workspace) + ' fichiers.',
@@ -111,10 +133,14 @@ export async function runStudioCli(args) {
 }
 
 async function workerCommand(command, options) {
-  if (command === 'progress' && !options.file)
-    throw new Error('progress nécessite --file payload.json.');
-  if (command === 'progress' && fs.statSync(options.file).size > progressLimits.inputBytes)
-    throw new Error('Le fichier de progression dépasse 32 Kio.');
+  const maximum = {
+    progress: progressLimits.inputBytes,
+    'connector-probe': 65536,
+    'connector-result': 65536,
+  }[command];
+  if (maximum && !options.file) throw new Error(`${command} nécessite --file payload.json.`);
+  if (maximum && fs.statSync(options.file).size > maximum)
+    throw new Error(`Le fichier ${command} dépasse ${maximum} octets.`);
   const runtime = JSON.parse(
     fs.readFileSync(path.join(options.workspace, '.devmethod/runtime.json'), 'utf8'),
   );
@@ -122,6 +148,9 @@ async function workerCommand(command, options) {
     status: '/api/state',
     claim: '/api/jobs/claim',
     progress: '/api/jobs/progress',
+    connectors: '/api/connectors',
+    'connector-probe': '/api/connectors/probe',
+    'connector-result': '/api/connectors/results',
     finish: '/api/jobs/finish',
     fail: '/api/jobs/fail',
     check: '/api/checks',
@@ -135,7 +164,7 @@ async function workerCommand(command, options) {
         : {};
   const response = await fetch(
     runtime.url + routes[command],
-    command === 'status'
+    ['status', 'connectors'].includes(command)
       ? {}
       : {
           method: 'POST',

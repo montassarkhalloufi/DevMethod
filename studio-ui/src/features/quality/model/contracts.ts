@@ -13,10 +13,20 @@ export interface QualityEvidence {
   finishedAt: string | null;
   durationMs: number | null;
   tool: string;
+  toolVersion?: string;
+  source?: { kind: 'host-local' | 'host-api' | 'host-mcp'; toolName?: string };
+  provider?: {
+    connectionId: string;
+    optionId: string;
+    connectionVersion: number;
+    probeId: string;
+    attestation: 'host-bridge';
+  };
+  metrics?: Record<string, number>;
   environment: string;
   expected: string;
   observed: string;
-  findings: { source: SourceRef; message: string }[];
+  findings: { source?: SourceRef; target?: string; message: string }[];
   limits: string[];
   events: { label: string; at: string }[];
 }
@@ -53,6 +63,7 @@ export interface QualityOptions {
   onOpenSource: (path: string, line?: number, revisionId?: string) => void;
   onStateChanged?: () => void;
   onPrepareRequest?: (request: QualityRequest) => void;
+  onOpenConnectors?: (checkId?: string) => void;
 }
 export interface QualityRequest {
   kind: 'fix' | 'connect';

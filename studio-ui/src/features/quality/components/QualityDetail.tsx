@@ -30,6 +30,23 @@ function EvidenceMetadata({ check, revisionId }: { check: QualityCheck; revision
         <dt>Environnement</dt>
         <dd>{evidence?.environment ?? 'Aucune exécution'}</dd>
       </div>
+      {evidence?.provider ? (
+        <div>
+          <dt>Provenance du rapport</dt>
+          <dd>
+            {evidence.tool} {evidence.toolVersion} · {evidence.source?.kind} · connexion{' '}
+            {evidence.provider.connectionId}. Rapport reçu de l’agent hôte.
+          </dd>
+        </div>
+      ) : null}
+      {evidence?.metrics
+        ? Object.entries(evidence.metrics).map(([name, value]) => (
+            <div key={name}>
+              <dt>{name}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))
+        : null}
       {evidence?.fingerprint ? (
         <div>
           <dt>Empreinte du périmètre</dt>
@@ -85,6 +102,7 @@ export function QualityDetail({
   onRun,
   onOpenSource,
   onPrepareRequest,
+  onOpenConnectors,
 }: {
   check: QualityCheck;
   detailRef: Ref<HTMLElement>;
@@ -93,6 +111,7 @@ export function QualityDetail({
   onRun(id: string): void;
   onOpenSource: QualityOptions['onOpenSource'];
   onPrepareRequest: QualityOptions['onPrepareRequest'];
+  onOpenConnectors?: QualityOptions['onOpenConnectors'];
 }) {
   const evidence = check.evidence;
   return (
@@ -122,22 +141,31 @@ export function QualityDetail({
       {evidence?.findings.length ? (
         <ul className="quality-findings">
           {evidence.findings.map((finding, index) => (
-            <li key={`${finding.source.path}:${index}`}>
-              <button
-                type="button"
-                onClick={() =>
-                  onOpenSource(finding.source.path, finding.source.line, evidence.revisionId)
-                }
-              >
-                {finding.source.path}
-                {finding.source.line ? `:${finding.source.line}` : ''} ↗
-              </button>
+            <li key={`${finding.source?.path || finding.target || 'diagnostic'}:${index}`}>
+              {finding.source ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    onOpenSource(finding.source!.path, finding.source!.line, evidence.revisionId)
+                  }
+                >
+                  {finding.source.path}
+                  {finding.source.line ? `:${finding.source.line}` : ''} ↗
+                </button>
+              ) : (
+                <span>{finding.target || 'Constat sans fichier associé'}</span>
+              )}
               <p>{finding.message}</p>
             </li>
           ))}
         </ul>
       ) : null}
       <ExecutionAction check={check} runningId={runningId} onRun={onRun} />
+      {check.execution === 'external' && onOpenConnectors ? (
+        <button type="button" onClick={() => onOpenConnectors(check.id)}>
+          Choisir un outil ou un connecteur →
+        </button>
+      ) : null}
       {onPrepareRequest && (check.status === 'failed' || check.status === 'blocked') ? (
         <div className="quality-next-step">
           <button
@@ -147,7 +175,7 @@ export function QualityDetail({
             onClick={() => onPrepareRequest(prepareQualityRequest(check, report))}
           >
             {checkStatus(check) === 'configure'
-              ? 'Connecter ce contrôle'
+              ? 'Préparer le raccordement de ce contrôle'
               : 'Préparer une correction'}
           </button>
           <p>

@@ -43,6 +43,7 @@ export function QualityTable({
         <tbody>
           {checks.map((check) => {
             const status = runningId === check.id ? 'running' : checkStatus(check);
+            const reported = check.evidence?.provider ? check.evidence : null;
             return (
               <tr
                 key={check.id}
@@ -65,7 +66,11 @@ export function QualityTable({
                   {categories.find((category) => category.id === check.category)?.label ??
                     check.category}
                 </td>
-                <td className="quality-method">{check.tool}</td>
+                <td className="quality-method">
+                  {reported
+                    ? `${reported.tool}${reported.toolVersion ? ` ${reported.toolVersion}` : ''} · rapport de l’hôte`
+                    : check.tool}
+                </td>
                 <td>
                   <span
                     className={`quality-status quality-status-${check.freshness === 'current' ? status : 'blocked'}`}

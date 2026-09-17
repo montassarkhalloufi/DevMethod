@@ -6,7 +6,7 @@ export interface ProjectWidgetOptions {
   activeRevisionId: string | null;
   sourceHost: HTMLElement;
   selectedPath: string | null;
-  revisions?: { id: string; title: string }[];
+  revisions?: { id: string; title: string; origin?: { kind: 'import' } }[];
   onSelectVersion?(id: string): void;
   checks: { id: string; revisionId: string; status: string; label: string }[];
   decisions: { id: string; topic: string; choice: string; reason: string; status: string }[];

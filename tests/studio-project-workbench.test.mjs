@@ -115,6 +115,78 @@ function workbenchProps(f, overrides = {}) {
   };
 }
 
+test('an imported baseline is a reference in the code selector and context, even when active', async (t) => {
+  const f = fixture(t);
+  const props = workbenchProps(f, {
+    revisionId: 'baseline',
+    activeRevisionId: 'baseline',
+    revisions: [
+      { id: 'baseline', title: 'Sources importées', origin: { kind: 'import' } },
+      { id: 'delivered', title: 'Évolution livrée' },
+    ],
+    onSelectVersion: () => {},
+    checks: [],
+  });
+  f.dom.window.renderWorkbench(props);
+  await until(() => f.document.querySelector('select[aria-label="Version du code"]'));
+  const baselineLabel = () => f.document.querySelector('option[value="baseline"]').textContent;
+  const context = () => f.document.querySelector('.project-context-muted').textContent;
+  assert.match(baselineLabel(), /Référence importée/);
+  assert.doesNotMatch(baselineLabel(), /Appliquée/);
+  assert.equal(context(), 'Référence importée');
+
+  f.document.querySelector('input[type="checkbox"]').click();
+  await until(() => context().includes('Brouillon enregistré'));
+  assert.match(context(), /non appliqué/);
+  assert.match(baselineLabel(), /Référence importée/);
+
+  f.dom.window.renderWorkbench({ ...props, activeRevisionId: 'delivered' });
+  await until(() => context() === 'Référence importée');
+  assert.doesNotMatch(baselineLabel(), /Appliquée/);
+  assert.match(f.document.querySelector('option[value="delivered"]').textContent, /Appliquée/);
+
+  f.dom.window.renderWorkbench({
+    ...props,
+    revisionId: 'delivered',
+    activeRevisionId: 'delivered',
+  });
+  await until(
+    () => f.document.querySelector('select[aria-label="Version du code"]').value === 'delivered',
+  );
+  // Draft selection remains the user's choice when the selected version becomes active.
+  assert.match(context(), /Brouillon enregistré/);
+  f.document.querySelector('input[type="checkbox"]').click();
+  await until(() => context() === 'Appliquée');
+});
+
+test('the code footer links all quality results without treating historical checks as a complete total', async (t) => {
+  const f = fixture(t);
+  let opened = 0;
+  const props = workbenchProps(f, { checks: [], onShowChecks: () => opened++ });
+  f.dom.window.renderWorkbench(props);
+  await until(() => f.requests.length === 1);
+  f.resolve(0, model('active'));
+  await until(() =>
+    f.document.querySelector('.project-analysis-line').textContent.includes('analyse terminée'),
+  );
+  const footer = f.document.querySelector('.project-results');
+  assert.match(
+    footer.querySelector('summary').textContent,
+    /Consulter les résultats et les preuves/,
+  );
+  assert.doesNotMatch(
+    footer.textContent,
+    /\d+ réussies|\d+ échouées|Aucun contrôle enregistré pour cette version/,
+  );
+  assert.match(footer.textContent, /Aucun contrôle historique transmis/);
+  footer.querySelector('button').click();
+  assert.equal(opened, 1);
+
+  f.dom.window.renderWorkbench({ ...props, checks: workbenchProps(f).checks });
+  await until(() => footer.textContent.includes('Preuve de la version appliquée'));
+  assert.doesNotMatch(footer.querySelector('summary').textContent, /\d+ réussies|\d+ échouées/);
+});
+
 test('a delayed model response cannot replace a newer selected revision', async (t) => {
   const f = fixture(t);
   f.dom.window.renderHook({ revisionId: 'a', baseRevisionId: null, draft: false });
@@ -339,7 +411,10 @@ test('an integrity error preserves same-scope controls but cannot redisplay a pr
   assert.equal(f.document.activeElement, search);
   assert.equal(group.value, 'feature');
   assert.match(f.document.querySelector('.project-analysis-line').textContent, /non actualisée/);
-  assert.match(f.document.querySelector('.project-results').textContent, /Vérifications masquées/);
+  assert.match(
+    f.document.querySelector('.project-results').textContent,
+    /Contrôles historiques masqués/,
+  );
   assert.doesNotMatch(
     f.document.querySelector('.project-results').textContent,
     /Preuve de la version appliquée|réussies/,

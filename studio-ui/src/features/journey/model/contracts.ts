@@ -36,6 +36,22 @@ export interface DesignJourney {
   prototypes: { id: string; masterId: string; revisionId: string }[];
 }
 export interface JourneyState {
+  import?: {
+    format: 1;
+    baselineRevision: string;
+    source: { name: string; importedAt: string; fingerprint: string };
+    inventory: { included: number; bytes: number; excluded: { path: string; reason: string }[] };
+    context: {
+      facts: {
+        kind: string;
+        label: string;
+        value: string;
+        provenance: { kind: string; path: string; sha256: string };
+      }[];
+      unknowns: string[];
+      analysis: { status: string; protocol: string; stack: string[]; issues: unknown[] };
+    };
+  };
   project: {
     name: string;
     idea: string;
@@ -68,6 +84,7 @@ export interface JourneyOptions {
   onApproveMaster?: (masterId: string) => Promise<void>;
   onChooseDirection?: (designId: string) => Promise<void>;
   onOpenPrototype?: (revisionId: string) => void;
+  onOpenSource?: (path: string, revisionId: string) => void;
 }
 export interface JourneyHandle {
   update(options: JourneyOptions): void;

@@ -133,6 +133,30 @@ test('filters and counters describe the displayed scope; a real failure opens it
   assert.match(f.document.querySelector('.quality-detail').textContent, /Outil absent/);
 });
 
+test('external evidence identifies the reported tool and version without claiming the whole planned method ran', async (t) => {
+  const value = report();
+  const external = value.checks[0];
+  external.tool = 'Node --check / parseur TypeScript installé';
+  external.evidence.tool = 'Node.js --check';
+  external.evidence.toolVersion = '24.10.0';
+  external.evidence.provider = {
+    connectionId: 'node-local',
+    optionId: 'node-check',
+    connectionVersion: 1,
+    probeId: 'probe-node',
+    attestation: 'host-bridge',
+  };
+  external.evidence.source = { kind: 'host-local' };
+  const f = await fixture(t, async () => response(value));
+  await until(() => f.document.querySelectorAll('tbody tr').length === 3);
+  const methods = [...f.document.querySelectorAll('tbody .quality-method')];
+  assert.match(methods[0].textContent, /Node\.js --check 24\.10\.0/);
+  assert.match(methods[0].textContent, /rapport de l’hôte/);
+  assert.doesNotMatch(methods[0].textContent, /TypeScript/);
+  assert.equal(methods[1].textContent, value.checks[1].tool);
+  assert.equal(methods[2].textContent, value.checks[2].tool);
+});
+
 test('refresh hides old successes until a current report is read, including after an integrity error', async (t) => {
   let reads = 0,
     finishRefresh;
@@ -352,7 +376,8 @@ test('failure and tool configuration prepare contextual DevMethod requests witho
     .click();
   await until(
     () =>
-      f.document.querySelector('[data-quality-prepare]')?.textContent === 'Connecter ce contrôle',
+      f.document.querySelector('[data-quality-prepare]')?.textContent ===
+      'Préparer le raccordement de ce contrôle',
   );
   assert.match(f.document.querySelector('.quality-table').textContent, /Connexion nécessaire/);
   assert.equal(f.document.querySelector('.quality-summary-failed strong').textContent, '0');

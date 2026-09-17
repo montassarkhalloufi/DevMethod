@@ -1,4 +1,5 @@
 import type { JourneyOptions, JourneyState, StageSummary } from '../model/contracts';
+import { ProjectOrigin } from './ProjectOrigin';
 
 function BriefList({ title, items, empty }: { title: string; items: string[]; empty: string }) {
   return (
@@ -74,13 +75,18 @@ export function StageWorkspace({
   stage,
   state,
   prepare,
+  onOpenSource,
 }: {
   stage: StageSummary;
   state: JourneyState;
   prepare: JourneyOptions['onRequest'];
+  onOpenSource?: JourneyOptions['onOpenSource'];
 }) {
   return (
     <>
+      {stage.id === 'foundation' ? (
+        <ProjectOrigin state={state} onOpenSource={onOpenSource} />
+      ) : null}
       {stage.id === 'frame' ? (
         <FrameWorkspace brief={state.brief} />
       ) : (

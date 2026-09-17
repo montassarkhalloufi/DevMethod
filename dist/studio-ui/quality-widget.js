@@ -214,7 +214,7 @@ function y({ checks: e, selectedId: t, runningId: n, categories: r, onSelect: i 
 					})
 				] }) }),
 				/* @__PURE__ */ (0, v.jsx)("tbody", { children: e.map((e) => {
-					let s = n === e.id ? "running" : o(e);
+					let s = n === e.id ? "running" : o(e), l = e.evidence?.provider ? e.evidence : null;
 					return /* @__PURE__ */ (0, v.jsxs)("tr", {
 						className: t === e.id ? `is-selected quality-row-${s}` : void 0,
 						children: [
@@ -234,7 +234,7 @@ function y({ checks: e, selectedId: t, runningId: n, categories: r, onSelect: i 
 							/* @__PURE__ */ (0, v.jsx)("td", { children: r.find((t) => t.id === e.category)?.label ?? e.category }),
 							/* @__PURE__ */ (0, v.jsx)("td", {
 								className: "quality-method",
-								children: e.tool
+								children: l ? `${l.tool}${l.toolVersion ? ` ${l.toolVersion}` : ""} · rapport de l’hôte` : e.tool
 							}),
 							/* @__PURE__ */ (0, v.jsxs)("td", { children: [/* @__PURE__ */ (0, v.jsx)("span", {
 								className: `quality-status quality-status-${e.freshness === "current" ? s : "blocked"}`,
@@ -278,7 +278,7 @@ function b(e, t) {
 			`Résultat observé : ${n?.observed || e.reason || "Aucune exécution."}`,
 			`Outil : ${n?.tool ?? e.tool}.`,
 			n ? `Preuve : ${n.id} · ${n.finishedAt ?? n.startedAt} · empreinte ${n.fingerprint ?? "non enregistrée"}.` : "Aucune preuve de réussite enregistrée.",
-			...(n?.findings ?? []).slice(0, 10).map((e) => `${e.source.path}${e.source.line ? `:${e.source.line}` : ""} — ${e.message}`),
+			...(n?.findings ?? []).slice(0, 10).map((e) => `${e.source ? `${e.source.path}${e.source.line ? `:${e.source.line}` : ""}` : e.target || "Constat"} — ${e.message}`),
 			e.nextAction ? `Prérequis : ${e.nextAction}` : "",
 			...(n?.limits ?? []).map((e) => `Limite : ${e}`),
 			i === "connect" ? "Examiner les outils et accès déjà disponibles. Proposer puis raccorder le contrôle adapté au projet, avec exécution bornée et preuve sur sa version exacte. Ne pas déduire de résultat avant son exécution ; aucune installation, dépense ou action externe implicite." : "Réexaminer la preuve et la version actuelle avant toute correction. Préserver les données et décisions, corriger le périmètre affecté, puis relancer les vérifications pertinentes sur la nouvelle version. Une preuve ancienne ne valide jamais la nouvelle version."
@@ -303,6 +303,18 @@ function x({ check: e, revisionId: t }) {
 				f(n?.durationMs)
 			] })] }),
 			/* @__PURE__ */ (0, v.jsxs)("div", { children: [/* @__PURE__ */ (0, v.jsx)("dt", { children: "Environnement" }), /* @__PURE__ */ (0, v.jsx)("dd", { children: n?.environment ?? "Aucune exécution" })] }),
+			n?.provider ? /* @__PURE__ */ (0, v.jsxs)("div", { children: [/* @__PURE__ */ (0, v.jsx)("dt", { children: "Provenance du rapport" }), /* @__PURE__ */ (0, v.jsxs)("dd", { children: [
+				n.tool,
+				" ",
+				n.toolVersion,
+				" · ",
+				n.source?.kind,
+				" · connexion",
+				" ",
+				n.provider.connectionId,
+				". Rapport reçu de l’agent hôte."
+			] })] }) : null,
+			n?.metrics ? Object.entries(n.metrics).map(([e, t]) => /* @__PURE__ */ (0, v.jsxs)("div", { children: [/* @__PURE__ */ (0, v.jsx)("dt", { children: e }), /* @__PURE__ */ (0, v.jsx)("dd", { children: t })] }, e)) : null,
 			n?.fingerprint ? /* @__PURE__ */ (0, v.jsxs)("div", { children: [/* @__PURE__ */ (0, v.jsx)("dt", { children: "Empreinte du périmètre" }), /* @__PURE__ */ (0, v.jsx)("dd", {
 				title: n.fingerprint,
 				children: n.fingerprint.slice(0, 16)
@@ -333,8 +345,8 @@ function S({ check: e, runningId: t, onRun: n }) {
 		}) : null
 	});
 }
-function C({ check: e, detailRef: t, report: n, runningId: r, onRun: i, onOpenSource: s, onPrepareRequest: c }) {
-	let l = e.evidence;
+function C({ check: e, detailRef: t, report: n, runningId: r, onRun: i, onOpenSource: s, onPrepareRequest: c, onOpenConnectors: l }) {
+	let u = e.evidence;
 	return /* @__PURE__ */ (0, v.jsxs)("section", {
 		ref: t,
 		tabIndex: -1,
@@ -350,33 +362,38 @@ function C({ check: e, detailRef: t, report: n, runningId: r, onRun: i, onOpenSo
 			})] }),
 			/* @__PURE__ */ (0, v.jsxs)("div", {
 				className: "quality-expectation",
-				children: [/* @__PURE__ */ (0, v.jsx)("strong", { children: "Attendu" }), /* @__PURE__ */ (0, v.jsx)("p", { children: l?.expected ?? e.objective })]
+				children: [/* @__PURE__ */ (0, v.jsx)("strong", { children: "Attendu" }), /* @__PURE__ */ (0, v.jsx)("p", { children: u?.expected ?? e.objective })]
 			}),
 			/* @__PURE__ */ (0, v.jsxs)("div", {
 				className: "quality-observation",
-				children: [/* @__PURE__ */ (0, v.jsx)("strong", { children: l ? "Observé" : "État du contrôle" }), /* @__PURE__ */ (0, v.jsx)("p", { children: l?.observed || e.reason || "Ce contrôle n’a pas encore été exécuté." })]
+				children: [/* @__PURE__ */ (0, v.jsx)("strong", { children: u ? "Observé" : "État du contrôle" }), /* @__PURE__ */ (0, v.jsx)("p", { children: u?.observed || e.reason || "Ce contrôle n’a pas encore été exécuté." })]
 			}),
 			/* @__PURE__ */ (0, v.jsx)(x, {
 				check: e,
 				revisionId: n.revisionId
 			}),
-			l?.findings.length ? /* @__PURE__ */ (0, v.jsx)("ul", {
+			u?.findings.length ? /* @__PURE__ */ (0, v.jsx)("ul", {
 				className: "quality-findings",
-				children: l.findings.map((e, t) => /* @__PURE__ */ (0, v.jsxs)("li", { children: [/* @__PURE__ */ (0, v.jsxs)("button", {
+				children: u.findings.map((e, t) => /* @__PURE__ */ (0, v.jsxs)("li", { children: [e.source ? /* @__PURE__ */ (0, v.jsxs)("button", {
 					type: "button",
-					onClick: () => s(e.source.path, e.source.line, l.revisionId),
+					onClick: () => s(e.source.path, e.source.line, u.revisionId),
 					children: [
 						e.source.path,
 						e.source.line ? `:${e.source.line}` : "",
 						" ↗"
 					]
-				}), /* @__PURE__ */ (0, v.jsx)("p", { children: e.message })] }, `${e.source.path}:${t}`))
+				}) : /* @__PURE__ */ (0, v.jsx)("span", { children: e.target || "Constat sans fichier associé" }), /* @__PURE__ */ (0, v.jsx)("p", { children: e.message })] }, `${e.source?.path || e.target || "diagnostic"}:${t}`))
 			}) : null,
 			/* @__PURE__ */ (0, v.jsx)(S, {
 				check: e,
 				runningId: r,
 				onRun: i
 			}),
+			e.execution === "external" && l ? /* @__PURE__ */ (0, v.jsx)("button", {
+				type: "button",
+				onClick: () => l(e.id),
+				children: "Choisir un outil ou un connecteur →"
+			}) : null,
 			c && (e.status === "failed" || e.status === "blocked") ? /* @__PURE__ */ (0, v.jsxs)("div", {
 				className: "quality-next-step",
 				children: [/* @__PURE__ */ (0, v.jsx)("button", {
@@ -384,7 +401,7 @@ function C({ check: e, detailRef: t, report: n, runningId: r, onRun: i, onOpenSo
 					"data-quality-prepare": "",
 					disabled: r !== null,
 					onClick: () => c(b(e, n)),
-					children: o(e) === "configure" ? "Connecter ce contrôle" : "Préparer une correction"
+					children: o(e) === "configure" ? "Préparer le raccordement de ce contrôle" : "Préparer une correction"
 				}), /* @__PURE__ */ (0, v.jsx)("p", { children: "Prépare une demande DevMethod avec la version et les constats. Vous pourrez la compléter avant de l’envoyer." })]
 			}) : null,
 			e.nextAction ? /* @__PURE__ */ (0, v.jsxs)("div", {
@@ -399,9 +416,9 @@ function C({ check: e, detailRef: t, report: n, runningId: r, onRun: i, onOpenSo
 					] })
 				]
 			}) : null,
-			l?.limits.length ? /* @__PURE__ */ (0, v.jsxs)("details", {
+			u?.limits.length ? /* @__PURE__ */ (0, v.jsxs)("details", {
 				className: "quality-limits",
-				children: [/* @__PURE__ */ (0, v.jsx)("summary", { children: "Portée et limites du contrôle" }), /* @__PURE__ */ (0, v.jsx)("ul", { children: l.limits.map((e) => /* @__PURE__ */ (0, v.jsx)("li", { children: e }, e)) })]
+				children: [/* @__PURE__ */ (0, v.jsx)("summary", { children: "Portée et limites du contrôle" }), /* @__PURE__ */ (0, v.jsx)("ul", { children: u.limits.map((e) => /* @__PURE__ */ (0, v.jsx)("li", { children: e }, e)) })]
 			}) : null
 		]
 	});
@@ -461,7 +478,7 @@ function T({ check: e, report: t, onOpenSource: n }) {
 		}), r.length ? /* @__PURE__ */ (0, v.jsxs)(v.Fragment, { children: [
 			/* @__PURE__ */ (0, v.jsx)("p", {
 				className: "quality-note",
-				children: "Événements réellement enregistrés par l’analyseur. Aucune exécution métier n’est déduite."
+				children: e.evidence?.provider ? "Événements du rapport transmis par l’agent hôte. La réception du rapport ne constitue pas une vérification indépendante de son contenu." : "Événements réellement enregistrés par l’analyseur. Aucune exécution métier n’est déduite."
 			}),
 			/* @__PURE__ */ (0, v.jsx)("ol", {
 				className: "quality-run-events",
@@ -565,22 +582,30 @@ function D(e) {
 					"."
 				] })] }), /* @__PURE__ */ (0, v.jsxs)("div", {
 					className: "quality-heading-actions",
-					children: [/* @__PURE__ */ (0, v.jsxs)("button", {
-						type: "button",
-						"data-quality-run-all": "",
-						onClick: () => void f(),
-						disabled: i !== null || !s(t.checks).length,
-						children: [
-							"Exécuter les contrôles disponibles (",
-							s(t.checks).length,
-							")"
-						]
-					}), /* @__PURE__ */ (0, v.jsx)("button", {
-						type: "button",
-						onClick: m,
-						disabled: i !== null,
-						children: "Actualiser"
-					})]
+					children: [
+						e.onOpenConnectors ? /* @__PURE__ */ (0, v.jsx)("button", {
+							type: "button",
+							onClick: () => e.onOpenConnectors?.(),
+							children: "Outils et connecteurs"
+						}) : null,
+						/* @__PURE__ */ (0, v.jsxs)("button", {
+							type: "button",
+							"data-quality-run-all": "",
+							onClick: () => void f(),
+							disabled: i !== null || !s(t.checks).length,
+							children: [
+								"Exécuter les contrôles disponibles (",
+								s(t.checks).length,
+								")"
+							]
+						}),
+						/* @__PURE__ */ (0, v.jsx)("button", {
+							type: "button",
+							onClick: m,
+							disabled: i !== null,
+							children: "Actualiser"
+						})
+					]
 				})]
 			}),
 			o ? /* @__PURE__ */ (0, v.jsx)(E, {
@@ -715,7 +740,8 @@ function D(e) {
 					runningId: i,
 					onRun: (e) => void c(e),
 					onOpenSource: e.onOpenSource,
-					onPrepareRequest: e.onPrepareRequest
+					onPrepareRequest: e.onPrepareRequest,
+					onOpenConnectors: e.onOpenConnectors
 				}), /* @__PURE__ */ (0, v.jsx)(T, {
 					check: M,
 					report: t,

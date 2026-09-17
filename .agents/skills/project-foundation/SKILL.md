@@ -7,6 +7,10 @@ description: Start or resume the DevMethod workflow for a project or requested c
 
 Establish durable working context from the actual project. This kit is a reusable method, not an authority above the project's own instructions. Read only the relevant modules.
 
+## Choose the entry from the project's state
+
+For a new product, start from the supplied need and use the relevant exploration/framing path below. For an existing product without DevMethod context, apply [adopt an existing project](references/existing-project.md): reconstruct only useful missing context from identified sources, preserve the working system and accepted contracts, then join the same delivery path at the first unresolved dependency. Missing kit documents do not make an existing product a blank slate. If its current context already supports the requested change, resume directly without repeating adoption.
+
 ## Start or resume
 
 1. Read `CONTRIBUTING.md` when present, applicable instructions, work status, manifests/lockfiles, and referenced decisions. Inspect provided sources before selecting a stack. Do not read secrets.

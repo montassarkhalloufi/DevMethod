@@ -15,8 +15,16 @@ export function JourneyView(options: JourneyOptions) {
     <div className="journey-view">
       <header className="journey-heading">
         <p className="eyebrow">CONCEPTION DU PRODUIT</p>
-        <h2>De l’idée au premier usage</h2>
-        <p>Explorez, cadrez et concevez ici. Retrouvez chaque choix lorsque le produit évolue.</p>
+        <h2>
+          {options.state.import
+            ? 'Reprendre et faire évoluer le projet'
+            : 'De l’idée au premier usage'}
+        </h2>
+        <p>
+          {options.state.import
+            ? 'Retrouvez les sources, les acquis et les inconnues avant de préparer la prochaine évolution.'
+            : 'Explorez, cadrez et concevez ici. Retrouvez chaque choix lorsque le produit évolue.'}
+        </p>
       </header>
       <nav className="journey-navigation" aria-label="Espaces de conception">
         <ol>
@@ -60,7 +68,12 @@ export function JourneyView(options: JourneyOptions) {
             navigation={navigation}
           />
         ) : (
-          <StageWorkspace stage={current} state={options.state} prepare={actions.prepare} />
+          <StageWorkspace
+            stage={current}
+            state={options.state}
+            prepare={actions.prepare}
+            onOpenSource={options.onOpenSource}
+          />
         )}
       </section>
       <p className="journey-action-note">

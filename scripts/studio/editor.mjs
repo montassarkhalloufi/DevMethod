@@ -6,10 +6,12 @@ import { readSource } from './source.mjs';
 import * as domain from './domain.mjs';
 import { compileSource } from './profile.mjs';
 import { checkJavaScript } from './verify.mjs';
+import { sourceOnlyProtocol } from './import-contract.mjs';
 
 const maxText = 256 * 1024;
 const verificationProtocol = 'node-stdin-v1';
-const knownProtocol = (value) => [verificationProtocol, 'react-strict-v1'].includes(value);
+const knownProtocol = (value) =>
+  [verificationProtocol, 'react-strict-v1', sourceOnlyProtocol].includes(value);
 const fail = (message, status = 400) => {
   throw Object.assign(new Error(message), { status });
 };
@@ -193,6 +195,38 @@ async function inspectBuild(root, files) {
   return diagnostics;
 }
 
+async function inspectSnapshot(target, files, sourceOnly) {
+  if (sourceOnly && !files.length)
+    return {
+      compiled: null,
+      diagnostics: [
+        diagnostic(
+          'error',
+          '',
+          'Un snapshot de sources ne peut pas être vide.',
+          'Conserver au moins un fichier avant enregistrement.',
+        ),
+      ],
+    };
+  if (sourceOnly)
+    return {
+      compiled: null,
+      diagnostics: [
+        diagnostic(
+          'info',
+          '',
+          'Snapshot de sources enregistré ; aucun test, compilation ou script du projet exécuté.',
+          'Relire les modifications et approuver le cadrage avant adoption ; aperçu indisponible pour ce profil.',
+        ),
+      ],
+    };
+  const compiled = await compileSource(target, files);
+  return {
+    compiled,
+    diagnostics: compiled ? compiled.diagnostics : await inspectBuild(target, files),
+  };
+}
+
 export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
   const file = safeFile(store.root, '.devmethod/editor.json');
   const previewWorkspace = safeFile(store.root, '.devmethod/editor-preview');
@@ -233,9 +267,13 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
   }
 
   function view(draft) {
-    const previewPath = draft.buildId ? `/builds/${draft.buildId}/` : null;
+    const sourceOnly =
+      store.read().revisions.find((revision) => revision.id === draft.baseRevision)?.profile ===
+      'source-only';
+    const previewPath = draft.buildId && !sourceOnly ? `/builds/${draft.buildId}/` : null;
     return {
       ...draft,
+      sourceOnly,
       builtVersion: knownProtocol(draft.verificationProtocol) ? draft.builtVersion : null,
       builds: undefined,
       changes: undefined,
@@ -244,10 +282,14 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
       previewUrl: previewPath && getPreviewOrigin() ? getPreviewOrigin() + previewPath : null,
       changedPaths: draft.changes.map((c) => c.path),
       criteriaToReview: store.read().brief.criteria,
-      limits: [
-        'Données d’essai isolées et conservées entre aperçus.',
-        'Contrôles statiques seulement ; la fidélité au besoin reste à examiner.',
-      ],
+      limits: sourceOnly
+        ? [
+            'Sources importées : snapshots éditables uniquement ; aucun contrôle exécuté, aperçu et compilation indisponibles pour ce profil.',
+          ]
+        : [
+            'Données d’essai isolées et conservées entre aperçus.',
+            'Contrôles statiques seulement ; la fidélité au besoin reste à examiner.',
+          ],
     };
   }
 
@@ -324,8 +366,8 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
       copyFiles(source.root, target, source.revision.files);
       writeChanges(target, draft.changes);
       const files = fileManifest(target),
-        compiled = await compileSource(target, files),
-        diagnostics = compiled ? compiled.diagnostics : await inspectBuild(target, files);
+        sourceOnly = source.revision.profile === 'source-only',
+        { compiled, diagnostics } = await inspectSnapshot(target, files, sourceOnly);
       const compilation = compiled?.ok
         ? { profile: 'react-ts', protocol: compiled.protocol, files: compiled.files }
         : null;
@@ -336,8 +378,18 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
         if (!draft.builds.length) cloneData();
         next.buildId = id;
         next.builtVersion = draft.version;
-        next.verificationProtocol = compilation?.protocol ?? verificationProtocol;
-        next.builds = [...draft.builds, { id, files, ...(compilation ? { compilation } : {}) }];
+        next.verificationProtocol = sourceOnly
+          ? sourceOnlyProtocol
+          : (compilation?.protocol ?? verificationProtocol);
+        next.builds = [
+          ...draft.builds,
+          {
+            id,
+            files,
+            ...(sourceOnly ? { profile: 'source-only' } : {}),
+            ...(compilation ? { compilation } : {}),
+          },
+        ];
         retained = true;
       }
       atomicJSON(file, next);
@@ -352,23 +404,27 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
     let adoptionError = null;
     try {
       result.state = store.commit(store.read().version, (state) => {
-        domain.recordCheck(state, {
-          revisionId: result.revision.id,
-          label:
-            draft.verificationProtocol === 'react-strict-v1'
-              ? 'Édition : TypeScript strict et compilation React — comportement non évalué'
-              : 'Édition : syntaxe JavaScript et JSON — comportement non évalué',
-          status: 'passed',
-          kind: 'command',
-          command:
-            draft.verificationProtocol === 'react-strict-v1'
-              ? 'react-strict-v1'
-              : 'node --input-type=module --check (stdin: octets exacts de chaque .js/.mjs) ; node --input-type=commonjs --check (stdin: octets exacts de chaque .cjs) ; borne globale 10s ; JSON.parse (fichiers JSON)',
-          output: JSON.stringify(draft.diagnostics).slice(0, 16000),
-        });
+        if (draft.verificationProtocol !== sourceOnlyProtocol)
+          domain.recordCheck(state, {
+            revisionId: result.revision.id,
+            label:
+              draft.verificationProtocol === 'react-strict-v1'
+                ? 'Édition : TypeScript strict et compilation React — comportement non évalué'
+                : 'Édition : syntaxe JavaScript et JSON — comportement non évalué',
+            status: 'passed',
+            kind: 'command',
+            command:
+              draft.verificationProtocol === 'react-strict-v1'
+                ? 'react-strict-v1'
+                : 'node --input-type=module --check (stdin: octets exacts de chaque .js/.mjs) ; node --input-type=commonjs --check (stdin: octets exacts de chaque .cjs) ; borne globale 10s ; JSON.parse (fichiers JSON)',
+            output: JSON.stringify(draft.diagnostics).slice(0, 16000),
+          });
         domain.activateRevision(state, {
           id: result.revision.id,
-          reason: 'Adoption explicite du build vérifié dans l’éditeur.',
+          reason:
+            draft.verificationProtocol === sourceOnlyProtocol
+              ? 'Adoption explicite du snapshot de sources dans l’éditeur ; aucun contrôle exécuté.'
+              : 'Adoption explicite du build vérifié dans l’éditeur.',
         });
       });
     } catch (error) {
@@ -385,7 +441,10 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
   function apply(input) {
     const draft = current(input),
       state = store.read();
-    if (!domain.hasApprovedPlan(state))
+    const sourceOnly =
+      state.revisions.find((revision) => revision.id === draft.baseRevision)?.profile ===
+      'source-only';
+    if (!sourceOnly && !domain.hasApprovedPlan(state))
       fail('Les choix réservés doivent être approuvés avant adoption du code.', 409);
     if (state.jobs.some((j) => j.status === 'queued' || j.status === 'running'))
       fail('Terminez ou annulez la demande en cours avant adoption manuelle.', 409);
@@ -426,7 +485,7 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
       result = jobs.finish({
         jobId: claim.job.id,
         title: input.title,
-        summary: `Édition utilisateur ; ${draft.changes.length} fichier(s) modifié(s). Contrôles statiques uniquement.`,
+        summary: `Édition utilisateur ; ${draft.changes.length} fichier(s) modifié(s). ${sourceOnly ? 'Snapshot de sources ; aucun contrôle exécuté.' : 'Contrôles statiques uniquement.'}`,
       });
     } catch (error) {
       jobs.fail({ jobId: claim.job.id, error: error.message });
@@ -450,6 +509,8 @@ export function createEditor({ store, jobs, getPreviewOrigin = () => null }) {
 
   function finishAdoption(result, draft) {
     result = adoption(result, draft);
+    if (draft.verificationProtocol === sourceOnlyProtocol && !result.activated)
+      return { ...result, draft: view(draft) };
     const next = {
       ...draft,
       version: draft.version + 1,

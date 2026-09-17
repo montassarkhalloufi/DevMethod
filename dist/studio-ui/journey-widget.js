@@ -6,8 +6,8 @@ function a(e) {
 		id: "foundation",
 		title: "Comprendre le projet",
 		purpose: "Retrouver l’intention, les acquis et ce que vous déléguez.",
-		status: e.project.idea ? "Intention enregistrée" : "À préciser",
-		facts: [e.project.idea || "Décrivez votre idée dans la discussion.", ...e.project.constraints],
+		status: e.import ? "Référence importée · contexte à examiner" : e.project.idea ? "Intention enregistrée" : "À préciser",
+		facts: [e.project.idea || (e.import ? "Précisez l’objectif de la prochaine évolution dans la discussion." : "Décrivez votre idée dans la discussion."), ...e.project.constraints],
 		request: "Reprends le contexte et les acquis du projet, ses références et les décisions déléguées. Signale seulement les informations qui manquent pour avancer, sans répéter les questions déjà résolues."
 	};
 }
@@ -399,8 +399,118 @@ function D(e) {
 	});
 }
 //#endregion
+//#region studio-ui/src/features/journey/components/ProjectOrigin.tsx
+var O = (e) => `'${e.replaceAll("'", "'\\''")}'`;
+function k() {
+	let [e, t] = (0, h.useState)("/chemin/du-projet"), [n, r] = (0, h.useState)("/chemin/du-studio"), i = `devmethod studio import --source ${O(e)} --workspace ${O(n)}`;
+	return /* @__PURE__ */ (0, x.jsxs)("details", {
+		className: "journey-import-guide",
+		children: [
+			/* @__PURE__ */ (0, x.jsx)("summary", { children: "Reprendre un projet existant sans DevMethod" }),
+			/* @__PURE__ */ (0, x.jsx)("p", { children: "Inspectez un dossier local ou un dépôt déjà cloné, puis conservez sa référence initiale dans un nouvel espace Studio. Cette opération se lance dans le terminal ; le dossier source reste intact." }),
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "journey-brief-columns",
+				children: [/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Dossier source", /* @__PURE__ */ (0, x.jsx)("input", {
+					value: e,
+					onChange: (e) => t(e.target.value)
+				})] }), /* @__PURE__ */ (0, x.jsxs)("label", { children: ["Nouveau dossier Studio, distinct et vide", /* @__PURE__ */ (0, x.jsx)("input", {
+					value: n,
+					onChange: (e) => r(e.target.value)
+				})] })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("ol", { children: [/* @__PURE__ */ (0, x.jsxs)("li", { children: ["Inspecter les fichiers retenus, exclusions et capacités :", /* @__PURE__ */ (0, x.jsxs)("pre", { children: [i, " --dry-run"] })] }), /* @__PURE__ */ (0, x.jsxs)("li", { children: ["Importer puis ouvrir le nouvel espace :", /* @__PURE__ */ (0, x.jsxs)("pre", { children: [
+				i,
+				"\n",
+				"devmethod studio serve --workspace ",
+				O(n)
+			] })] })] }),
+			/* @__PURE__ */ (0, x.jsx)("p", {
+				className: "journey-action-note",
+				children: "Aucun script du projet n’est exécuté à l’import. L’analyse distingue les informations détectées, déclarées et inconnues. Un projet importable n’est pas nécessairement exécutable dans l’aperçu Studio."
+			})
+		]
+	});
+}
+function A({ state: e, onOpenSource: t }) {
+	let n = e.import;
+	return n ? /* @__PURE__ */ (0, x.jsxs)("section", {
+		className: "journey-origin",
+		"aria-labelledby": "project-origin-title",
+		children: [
+			/* @__PURE__ */ (0, x.jsxs)("h4", {
+				id: "project-origin-title",
+				children: ["Projet repris · ", n.source.name]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("p", { children: [
+				n.inventory.included,
+				" fichiers conservés · référence",
+				" ",
+				n.baselineRevision.slice(0, 8),
+				" · import du",
+				" ",
+				new Date(n.source.importedAt).toLocaleString("fr-FR"),
+				"."
+			] }),
+			/* @__PURE__ */ (0, x.jsx)("p", {
+				className: "journey-action-note",
+				children: "Cet état décrit les sources au moment de l’import. Il ne constitue ni une validation du produit ni une exécution de ses commandes."
+			}),
+			/* @__PURE__ */ (0, x.jsx)("div", {
+				className: "journey-origin-facts",
+				children: n.context.facts.map((e, r) => /* @__PURE__ */ (0, x.jsxs)("article", { children: [
+					/* @__PURE__ */ (0, x.jsx)("strong", { children: e.label }),
+					/* @__PURE__ */ (0, x.jsx)("p", { children: e.value }),
+					/* @__PURE__ */ (0, x.jsxs)("small", { children: [
+						e.provenance.kind === "declared" ? "Déclaré dans le projet" : "Détecté dans les sources",
+						" ",
+						"·",
+						" "
+					] }),
+					t ? /* @__PURE__ */ (0, x.jsxs)("button", {
+						type: "button",
+						onClick: () => t(e.provenance.path, n.baselineRevision),
+						children: [e.provenance.path, " ↗"]
+					}) : /* @__PURE__ */ (0, x.jsx)("code", { children: e.provenance.path })
+				] }, `${e.provenance.path}:${r}`))
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("details", {
+				open: !0,
+				children: [/* @__PURE__ */ (0, x.jsx)("summary", { children: "Ce qui reste à établir" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: n.context.unknowns.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("details", { children: [
+				/* @__PURE__ */ (0, x.jsxs)("summary", { children: [
+					"Périmètre de l’import · ",
+					n.inventory.excluded.length,
+					" exclusions"
+				] }),
+				/* @__PURE__ */ (0, x.jsxs)("p", { children: ["Empreinte de la référence : ", /* @__PURE__ */ (0, x.jsx)("code", { children: n.source.fingerprint })] }),
+				/* @__PURE__ */ (0, x.jsxs)("p", { children: [
+					"Analyse : ",
+					n.context.analysis.status,
+					" ·",
+					" ",
+					n.context.analysis.stack.join(", ") || "Stack non identifiée",
+					"."
+				] }),
+				/* @__PURE__ */ (0, x.jsx)("ul", { children: n.inventory.excluded.map((e) => /* @__PURE__ */ (0, x.jsxs)("li", { children: [
+					/* @__PURE__ */ (0, x.jsx)("code", { children: e.path }),
+					" — ",
+					e.reason
+				] }, e.path)) })
+			] })
+		]
+	}) : /* @__PURE__ */ (0, x.jsxs)("section", {
+		className: "journey-origin",
+		children: [
+			/* @__PURE__ */ (0, x.jsx)("h4", { children: "Deux points de départ" }),
+			/* @__PURE__ */ (0, x.jsxs)("p", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Créer de zéro :" }), " décrivez votre idée ; le cadrage, la conception et la réalisation s’appuieront sur vos choix."] }),
+			/* @__PURE__ */ (0, x.jsx)(k, {})
+		]
+	});
+}
+//#endregion
 //#region studio-ui/src/features/journey/components/StageWorkspace.tsx
-function O({ title: e, items: t, empty: n }) {
+function j({ title: e, items: t, empty: n }) {
 	return /* @__PURE__ */ (0, x.jsxs)("section", {
 		className: "journey-brief-section",
 		children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: e }), t.length > 0 ? /* @__PURE__ */ (0, x.jsx)("ul", {
@@ -412,7 +522,7 @@ function O({ title: e, items: t, empty: n }) {
 		})]
 	});
 }
-function k({ brief: e }) {
+function M({ brief: e }) {
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "journey-brief",
 		children: [
@@ -422,17 +532,17 @@ function k({ brief: e }) {
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "journey-brief-columns",
-				children: [/* @__PURE__ */ (0, x.jsx)(O, {
+				children: [/* @__PURE__ */ (0, x.jsx)(j, {
 					title: "Dans le périmètre",
 					items: e.scope,
 					empty: "Le périmètre reste à préciser."
-				}), /* @__PURE__ */ (0, x.jsx)(O, {
+				}), /* @__PURE__ */ (0, x.jsx)(j, {
 					title: "Hors périmètre",
 					items: e.excluded,
 					empty: "Les exclusions restent à préciser."
 				})]
 			}),
-			/* @__PURE__ */ (0, x.jsx)(O, {
+			/* @__PURE__ */ (0, x.jsx)(j, {
 				title: "Comment juger le résultat",
 				items: e.criteria.map((e) => e.text),
 				empty: "Aucun critère observable enregistré."
@@ -444,7 +554,7 @@ function k({ brief: e }) {
 		]
 	});
 }
-function A({ references: e }) {
+function N({ references: e }) {
 	return /* @__PURE__ */ (0, x.jsxs)("section", {
 		className: "journey-brief-section",
 		children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Références conservées" }), e.length > 0 ? /* @__PURE__ */ (0, x.jsx)("ul", {
@@ -461,13 +571,17 @@ function A({ references: e }) {
 		})]
 	});
 }
-function j({ stage: e, state: t, prepare: n }) {
+function P({ stage: e, state: t, prepare: n, onOpenSource: r }) {
 	return /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
-		e.id === "frame" ? /* @__PURE__ */ (0, x.jsx)(k, { brief: t.brief }) : /* @__PURE__ */ (0, x.jsx)("ul", {
+		e.id === "foundation" ? /* @__PURE__ */ (0, x.jsx)(A, {
+			state: t,
+			onOpenSource: r
+		}) : null,
+		e.id === "frame" ? /* @__PURE__ */ (0, x.jsx)(M, { brief: t.brief }) : /* @__PURE__ */ (0, x.jsx)("ul", {
 			className: "journey-facts",
 			children: e.facts.map((t, n) => /* @__PURE__ */ (0, x.jsx)("li", { children: t }, `${e.id}-${n}`))
 		}),
-		e.id === "foundation" ? /* @__PURE__ */ (0, x.jsx)(A, { references: t.references }) : null,
+		e.id === "foundation" ? /* @__PURE__ */ (0, x.jsx)(N, { references: t.references }) : null,
 		e.id === "exploration" ? /* @__PURE__ */ (0, x.jsx)("p", {
 			className: "journey-action-note",
 			children: "Un choix actif n’est pas une preuve ; les hypothèses restent à éprouver. Les sources, observations et résultats d’expériences ne disposent pas encore d’un espace structuré ici."
@@ -485,7 +599,7 @@ function j({ stage: e, state: t, prepare: n }) {
 }
 //#endregion
 //#region studio-ui/src/features/journey/components/JourneyView.tsx
-function M(e) {
+function F(e) {
 	let t = u(e.state), n = g(e), r = b(), i = t.find((e) => e.id === r.stage);
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "journey-view",
@@ -497,8 +611,8 @@ function M(e) {
 						className: "eyebrow",
 						children: "CONCEPTION DU PRODUIT"
 					}),
-					/* @__PURE__ */ (0, x.jsx)("h2", { children: "De l’idée au premier usage" }),
-					/* @__PURE__ */ (0, x.jsx)("p", { children: "Explorez, cadrez et concevez ici. Retrouvez chaque choix lorsque le produit évolue." })
+					/* @__PURE__ */ (0, x.jsx)("h2", { children: e.state.import ? "Reprendre et faire évoluer le projet" : "De l’idée au premier usage" }),
+					/* @__PURE__ */ (0, x.jsx)("p", { children: e.state.import ? "Retrouvez les sources, les acquis et les inconnues avant de préparer la prochaine évolution." : "Explorez, cadrez et concevez ici. Retrouvez chaque choix lorsque le produit évolue." })
 				]
 			}),
 			/* @__PURE__ */ (0, x.jsx)("nav", {
@@ -549,10 +663,11 @@ function M(e) {
 						prepare: n.prepare,
 						openPrototype: e.onOpenPrototype,
 						navigation: r
-					}) : /* @__PURE__ */ (0, x.jsx)(j, {
+					}) : /* @__PURE__ */ (0, x.jsx)(P, {
 						stage: i,
 						state: e.state,
-						prepare: n.prepare
+						prepare: n.prepare,
+						onOpenSource: e.onOpenSource
 					})
 				]
 			}),
@@ -565,9 +680,9 @@ function M(e) {
 }
 //#endregion
 //#region studio-ui/src/journey-widget.tsx
-function N(e, t) {
+function I(e, t) {
 	let n = (0, r.createRoot)(e), i = !1, a = (e) => {
-		i || n.render(/* @__PURE__ */ (0, x.jsx)(M, { ...e }));
+		i || n.render(/* @__PURE__ */ (0, x.jsx)(F, { ...e }));
 	};
 	return a(t), {
 		update: a,
@@ -577,4 +692,4 @@ function N(e, t) {
 	};
 }
 //#endregion
-export { N as mountJourneyWidget };
+export { I as mountJourneyWidget };

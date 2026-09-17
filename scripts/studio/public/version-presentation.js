@@ -97,7 +97,7 @@ function displayedVersion(state, target, proposal, before) {
     revisionId: revision.id,
     referenceId: null,
     title: revision.title,
-    label: `${labels[status]} · ${revision.title}`,
+    label: `${revision.origin?.kind === 'import' ? 'Référence importée' : labels[status]} · ${revision.title}`,
   };
 }
 
@@ -113,12 +113,12 @@ function checksForDisplay(state, displayed) {
   const observations = items.filter((entry) => entry.kind === 'agent-observation').length;
   /** @type {CheckPresentation['status']} */
   let status = 'not-applicable';
-  let label = 'Aucun contrôle de fonctionnement attribuable à cet aperçu';
+  let label = 'Aucun contrôle de livraison attribuable à cet aperçu';
   if (displayed.revisionId) {
     status = failed ? 'failed' : items.length ? 'passed' : 'unverified';
     label = items.length
-      ? `${passed} contrôle(s) passé(s), ${failed} échec(s) sur ${displayed.revisionId.slice(0, 8)} · couverture à établir`
-      : `Aucun contrôle enregistré sur ${displayed.revisionId.slice(0, 8)}`;
+      ? `${passed} contrôle(s) de livraison passé(s), ${failed} échec(s) sur ${displayed.revisionId.slice(0, 8)} · couverture à établir`
+      : `Aucun contrôle de livraison enregistré sur ${displayed.revisionId.slice(0, 8)}`;
   }
   return {
     revisionId: displayed.revisionId,
@@ -224,7 +224,11 @@ export function presentation(state, options = {}) {
   return {
     displayed,
     active: active
-      ? { revisionId: active.id, title: active.title, label: `Version appliquée · ${active.title}` }
+      ? {
+          revisionId: active.id,
+          title: active.title,
+          label: `${active.origin?.kind === 'import' ? 'Référence importée' : 'Version appliquée'} · ${active.title}`,
+        }
       : null,
     proposal: related
       ? {

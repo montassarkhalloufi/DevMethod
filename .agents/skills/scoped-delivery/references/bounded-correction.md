@@ -13,6 +13,8 @@ Retain the observed result and relevant command/artifact, the affected criterion
 
 For example, a reservation test failing on duplicate allocation justifies inspecting the transaction and exercising a controlled concurrent request. A second identical failure after no relevant change supplies no new evidence. If the environment cannot run that scenario, record it as blocked rather than interpreting a passing unit suite as proof of concurrency safety.
 
+For tool/service feedback, identify whether the failure belongs to invocation/configuration, access, transport, the external operation or the application contract before changing product code. Keep the source revision, capability/interface version and relevant nonsecret environment identity with the original observation and recheck. A changed adapter, permission scope or service contract invalidates its dependent evidence; retain independent results and reopen an accepted choice only when the new constraint warrants it. Never overwrite the earlier failure with a later success or silently promote a reported result to an executed check.
+
 ## Learn at the right owner
 
 Distinguish a local implementation defect, missing reusable guidance and an applicable rule that was not followed. Fix the local defect; change the canonical guidance only when the observed failure supports a transferable decision. For an ignored rule, investigate its activation or verification before adding another instruction. Keep the lesson with existing evidence and add a meaningful failure scenario when useful; every bug need not produce a new rule or record.

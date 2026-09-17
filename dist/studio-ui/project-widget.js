@@ -705,8 +705,9 @@ function H({ revisionId: e, activeRevisionId: t, revisions: n, onSelectVersion: 
 			value: e.id,
 			children: [
 				e.id.slice(0, 8),
-				" · ",
-				e.id === t ? "Appliquée · " : "",
+				" ·",
+				" ",
+				e.origin?.kind === "import" ? "Référence importée · " : e.id === t ? "Appliquée · " : "",
 				e.title
 			]
 		}, e.id))
@@ -715,8 +716,8 @@ function H({ revisionId: e, activeRevisionId: t, revisions: n, onSelectVersion: 
 //#endregion
 //#region studio-ui/src/features/project/components/ProjectWorkbench.tsx
 var U = (0, i.lazy)(() => import("./ArchitectureView-BNuLi3C-.js").then((e) => ({ default: e.ArchitectureView }))), W = (0, i.lazy)(() => import("./FlowView-yFu7Q8N-.js").then((e) => ({ default: e.FlowView }))), G = (0, i.lazy)(() => import("./ImpactView-nO-JJW_f.js").then((e) => ({ default: e.ImpactView })));
-function K(e, t, n) {
-	return e ? "Brouillon enregistré · non appliqué" : t === n ? "Appliquée" : "Consultation";
+function K(e, t, n, r) {
+	return e ? "Brouillon enregistré · non appliqué" : r === "import" ? "Référence importée" : t === n ? "Appliquée" : "Consultation";
 }
 function q(e, t, n, r) {
 	return e ? r ? "Nouvelle analyse en cours · dernière analyse affichée, à actualiser." : "Analyse des sources…" : t ? t + (r ? " Dernière analyse conservée, non actualisée." : "") : n ? `${n.files.length} fichiers · ${n.elements.length} éléments · ${n.status === "complete" ? "analyse terminée" : "analyse partielle"}` : "Aucune version à analyser.";
@@ -759,7 +760,7 @@ function Y(e) {
 					}),
 					/* @__PURE__ */ (0, _.jsx)("span", {
 						className: "project-context-muted",
-						children: K(p, e.revisionId, e.activeRevisionId)
+						children: K(p, e.revisionId, e.activeRevisionId, e.revisions?.find((t) => t.id === e.revisionId)?.origin?.kind)
 					})
 				] }), /* @__PURE__ */ (0, _.jsxs)("div", { children: [
 					/* @__PURE__ */ (0, _.jsxs)("details", {
@@ -910,11 +911,10 @@ function Y(e) {
 				children: [
 					/* @__PURE__ */ (0, _.jsxs)("summary", { children: [
 						/* @__PURE__ */ (0, _.jsx)(y, { name: "check" }),
-						S ? "Vérifications masquées · analyse en attente ou indisponible" : `Vérifications de cette version · ${C.filter((e) => e.status === "passed").length} réussies · ${C.filter((e) => e.status === "failed").length} échouées`,
-						" ",
-						/* @__PURE__ */ (0, _.jsx)("span", { children: "Ouvrir les résultats" })
+						"Vérifications de cette version · ",
+						/* @__PURE__ */ (0, _.jsx)("span", { children: "Consulter les résultats et les preuves" })
 					] }),
-					/* @__PURE__ */ (0, _.jsx)("p", { children: "Ces résultats couvrent uniquement les contrôles exécutés, pas toute l’application." }),
+					/* @__PURE__ */ (0, _.jsx)("p", { children: "Contrôles historiques transmis à cet espace. Le panneau Qualité rassemble les résultats et les rapports reçus de l’hôte ; ils ne valident pas toute l’application." }),
 					C.map((e) => /* @__PURE__ */ (0, _.jsxs)("p", {
 						className: e.status === "failed" ? "project-caution" : "",
 						children: [
@@ -923,7 +923,7 @@ function Y(e) {
 							e.label
 						]
 					}, e.id)),
-					S ? /* @__PURE__ */ (0, _.jsx)("p", { children: "Les résultats seront rapprochés de la version quand son analyse sera disponible." }) : !C.length && /* @__PURE__ */ (0, _.jsx)("p", { children: "Aucun contrôle enregistré pour cette version." }),
+					S ? /* @__PURE__ */ (0, _.jsx)("p", { children: "Contrôles historiques masqués · analyse en attente ou indisponible. Ils seront rapprochés de la version quand son analyse sera disponible." }) : !C.length && /* @__PURE__ */ (0, _.jsx)("p", { children: "Aucun contrôle historique transmis à cet espace." }),
 					/* @__PURE__ */ (0, _.jsx)("button", {
 						onClick: () => e.onShowChecks(),
 						children: "Consulter les preuves et les outils →"

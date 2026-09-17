@@ -13,8 +13,14 @@ const FlowView = lazy(() => import('./FlowView').then((module) => ({ default: mo
 const ImpactView = lazy(() =>
   import('./ImpactView').then((module) => ({ default: module.ImpactView })),
 );
-function versionStatus(draft: boolean, revision: string | null, active: string | null) {
+function versionStatus(
+  draft: boolean,
+  revision: string | null,
+  active: string | null,
+  origin?: 'import',
+) {
   if (draft) return 'Brouillon enregistré · non appliqué';
+  if (origin === 'import') return 'Référence importée';
   return revision === active ? 'Appliquée' : 'Consultation';
 }
 function analysisStatus(
@@ -91,7 +97,12 @@ export function ProjectWorkbench(props: ProjectWidgetOptions) {
             onSelectVersion={props.onSelectVersion}
           />
           <span className="project-context-muted">
-            {versionStatus(effectiveDraft, props.revisionId, props.activeRevisionId)}
+            {versionStatus(
+              effectiveDraft,
+              props.revisionId,
+              props.activeRevisionId,
+              props.revisions?.find((revision) => revision.id === props.revisionId)?.origin?.kind,
+            )}
           </span>
         </span>
         <div>
@@ -246,21 +257,24 @@ export function ProjectWorkbench(props: ProjectWidgetOptions) {
       <details className="project-results">
         <summary>
           <ProjectIcon name="check" />
-          {checksUnavailable
-            ? 'Vérifications masquées · analyse en attente ou indisponible'
-            : `Vérifications de cette version · ${checks.filter((check) => check.status === 'passed').length} réussies · ${checks.filter((check) => check.status === 'failed').length} échouées`}{' '}
-          <span>Ouvrir les résultats</span>
+          Vérifications de cette version · <span>Consulter les résultats et les preuves</span>
         </summary>
-        <p>Ces résultats couvrent uniquement les contrôles exécutés, pas toute l’application.</p>
+        <p>
+          Contrôles historiques transmis à cet espace. Le panneau Qualité rassemble les résultats et
+          les rapports reçus de l’hôte ; ils ne valident pas toute l’application.
+        </p>
         {checks.map((check) => (
           <p key={check.id} className={check.status === 'failed' ? 'project-caution' : ''}>
             {check.status === 'passed' ? '✓' : '×'} {check.label}
           </p>
         ))}
         {checksUnavailable ? (
-          <p>Les résultats seront rapprochés de la version quand son analyse sera disponible.</p>
+          <p>
+            Contrôles historiques masqués · analyse en attente ou indisponible. Ils seront
+            rapprochés de la version quand son analyse sera disponible.
+          </p>
         ) : (
-          !checks.length && <p>Aucun contrôle enregistré pour cette version.</p>
+          !checks.length && <p>Aucun contrôle historique transmis à cet espace.</p>
         )}
         <button onClick={() => props.onShowChecks()}>Consulter les preuves et les outils →</button>
       </details>

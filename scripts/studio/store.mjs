@@ -125,6 +125,7 @@ function checkDecisionTransition(previous, next) {
 }
 
 function validateTransition(previous, next) {
+  if (previous.import !== undefined) unchanged(previous.import, next.import, 'Provenance importée');
   validateProposalTransition(previous, next);
   validateDesignJourneyTransition(previous, next);
   for (const key of ['references', 'designs', 'revisions', 'checks', 'events'])

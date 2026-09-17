@@ -203,6 +203,33 @@ export function createCodeEditor({
     }
   }
   function controls() {
+    const sourceOnly = draft?.sourceOnly;
+    auto.setAttribute(
+      'aria-label',
+      sourceOnly ? 'Enregistrement automatique des sources' : 'Aperçu automatique',
+    );
+    check.textContent = sourceOnly ? 'Enregistrer un snapshot' : 'Vérifier';
+    check.setAttribute(
+      'aria-label',
+      sourceOnly ? 'Enregistrer un snapshot des sources' : 'Vérifier et actualiser',
+    );
+    check.title = sourceOnly
+      ? 'Enregistrer les sources, sans compilation ni exécution'
+      : 'Enregistrer, vérifier et actualiser le brouillon';
+    adopt.textContent = sourceOnly ? 'Créer une version' : 'Adopter';
+    adopt.setAttribute(
+      'aria-label',
+      sourceOnly ? 'Créer une version des sources' : 'Adopter cette version',
+    );
+    adopt.title = sourceOnly
+      ? 'Créer une version des sources ; elle devient active si le plan est approuvé'
+      : 'Adopter cette version vérifiée';
+    note.textContent = sourceOnly
+      ? 'Sources uniquement. Le runtime de ce projet reste à raccorder ; aucune compilation ni exécution des scripts.'
+      : 'Aperçu sur une copie des données. Adopter transfère uniquement le code.';
+    autoLabel.title = sourceOnly
+      ? 'Enregistrer automatiquement les modifications des sources'
+      : 'Enregistrer et compiler automatiquement les modifications';
     check.disabled = !draft || busy || conflicted;
     adopt.disabled =
       !draft ||
@@ -221,25 +248,25 @@ export function createCodeEditor({
     reload.hidden = !conflicted;
     if (conflicted || (!rebase.hidden && !more.open)) more.open = true;
     reload.disabled = busy;
-    input.disabled =
-      changingBase ||
-      !draft?.files.some(
-        (file) =>
-          file.path === selected && file.editable !== false && typeof file.content === 'string',
-      );
+    updateFileAvailability();
     syncCode();
+  }
+  function updateFileAvailability() {
+    const file = draft?.files.find((entry) => entry.path === selected);
+    const editable = file?.editable !== false && typeof file?.content === 'string';
+    input.disabled = changingBase || !editable;
+    fileMessage.textContent =
+      file && !editable
+        ? 'Ce fichier est binaire ou dépasse la taille éditable. L’export conserve son contenu complet.'
+        : '';
   }
   function select(path) {
     onSelect?.(path);
     selected = path;
-    const file = draft.files.find((entry) => entry.path === path);
     filename.textContent = path?.split('/').at(-1) || 'Aucun fichier';
     filename.title = path || '';
-    input.disabled = changingBase || file?.editable === false || typeof file?.content !== 'string';
+    updateFileAvailability();
     input.value = contents.get(path) ?? '';
-    fileMessage.textContent = input.disabled
-      ? 'Ce fichier est binaire ou dépasse la taille éditable. L’export conserve son contenu complet.'
-      : '';
     for (const button of navigation.querySelectorAll('button'))
       button.setAttribute('aria-current', String(button.dataset.path === path));
     updatePosition();
@@ -363,6 +390,12 @@ export function createCodeEditor({
     codeSurface.setDiagnostics(currentMarkers());
   }
   function renderPreviewStatus() {
+    if (draft.sourceOnly) {
+      previewNote.textContent = draft.buildId
+        ? 'Snapshot des sources conservé · aucune compilation ni vérification fonctionnelle.'
+        : 'Aperçu indisponible pour cette stack. Les sources restent modifiables et exportables.';
+      return;
+    }
     if (!draft.buildId)
       previewNote.textContent = 'Aucun aperçu valide du brouillon pour le moment.';
     else if (draft.builtVersion === draft.version && !hasLocal())
@@ -425,7 +458,11 @@ export function createCodeEditor({
         document.dispatchEvent(new window.Event('studio:editor-saved'));
       }
       if (generation !== editGeneration) return;
-      say('Vérification du code et préparation de l’aperçu…');
+      say(
+        draft.sourceOnly
+          ? 'Enregistrement du snapshot des sources…'
+          : 'Vérification du code et préparation de l’aperçu…',
+      );
       const next = await api.build({ version: draft.version, baseRevision: draft.baseRevision });
       if (destroyed) return;
       draft = next;
@@ -435,7 +472,9 @@ export function createCodeEditor({
       say(
         errors
           ? `${errors} erreur(s) détectée(s). Le dernier aperçu valide est conservé.`
-          : 'Brouillon enregistré. Contrôles exécutés ; le résultat fonctionnel reste à vérifier.',
+          : next.sourceOnly
+            ? 'Snapshot des sources enregistré. Aucune compilation ni exécution de contrôle.'
+            : 'Brouillon enregistré. Contrôles exécutés ; le résultat fonctionnel reste à vérifier.',
         Boolean(errors),
       );
     } catch (error) {
@@ -682,7 +721,12 @@ export function createCodeEditor({
             renderFiles();
             renderSignals();
             say('Modifications locales récupérées. Vérifiez-les avant de les enregistrer.');
-          } else say('Brouillon ouvert. Modifiez un fichier pour voir son effet.');
+          } else
+            say(
+              next.sourceOnly
+                ? 'Sources ouvertes. Modifiez puis enregistrez une copie ; aperçu indisponible pour cette stack.'
+                : 'Brouillon ouvert. Modifiez un fichier pour voir son effet.',
+            );
         } catch {
           say('La copie locale est illisible ; le brouillon serveur reste disponible.', true);
         }

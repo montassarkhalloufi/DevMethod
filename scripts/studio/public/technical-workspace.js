@@ -8,6 +8,7 @@ export function createTechnicalWorkspace({
   comparisonBase,
   showVersion,
   onPrepareRequest,
+  onOpenConnectors,
 }) {
   let state,
     revisionId,
@@ -105,6 +106,7 @@ export function createTechnicalWorkspace({
       revisionId,
       onOpenSource: openSource,
       onStateChanged: refresh,
+      onOpenConnectors,
       onPrepareRequest: (request) => {
         focused = false;
         document.body.classList.remove('technical-focus');

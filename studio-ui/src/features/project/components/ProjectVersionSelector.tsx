@@ -23,7 +23,12 @@ export function ProjectVersionSelector({
     >
       {revisions.map((revision) => (
         <option key={revision.id} value={revision.id}>
-          {revision.id.slice(0, 8)} · {revision.id === activeRevisionId ? 'Appliquée · ' : ''}
+          {revision.id.slice(0, 8)} ·{' '}
+          {revision.origin?.kind === 'import'
+            ? 'Référence importée · '
+            : revision.id === activeRevisionId
+              ? 'Appliquée · '
+              : ''}
           {revision.title}
         </option>
       ))}

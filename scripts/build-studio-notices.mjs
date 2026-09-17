@@ -35,5 +35,8 @@ for (const name of ['monaco-editor', 'react', 'react-dom', 'scheduler', 'dompuri
 }
 fs.writeFileSync(
   new URL('../dist/studio-ui/THIRD_PARTY_NOTICES.txt', import.meta.url),
-  notices.join('\n'),
+  [
+    ...notices,
+    fs.readFileSync(new URL('../docs/CONNECTOR-ICON-NOTICES.txt', import.meta.url), 'utf8'),
+  ].join('\n'),
 );

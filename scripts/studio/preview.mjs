@@ -112,11 +112,18 @@ export function createPreview({
       const revision = state.revisions.find((r) => r.id === id);
       if (!revision)
         return send(response, 404, 'Aucune version d’application disponible.', 'text/plain');
+      if (revision.profile === 'source-only')
+        return send(
+          response,
+          501,
+          'Sources importées disponibles dans Code. Aucun aperçu ni runtime compatible n’est configuré pour ce projet ; aucun script n’a été exécuté.',
+          'text/plain',
+        );
       const relative = match
         ? match[2] || 'index.html'
         : url.pathname === '/'
           ? 'index.html'
-          : url.pathname.slice(1);
+          : decodeURIComponent(url.pathname.slice(1));
       const expected = (revision.compilation?.files ?? revision.files).find(
         (f) => f.path === relative,
       );

@@ -3,6 +3,7 @@
 Complete from source material during first startup; keep unknowns explicit. This profile is a template, not an already accepted decision.
 
 - Project / alias:
+- Entry: new product / existing project / resumption; inspected source revision and relevant local changes:
 - User objective and success criterion:
 - Phase / authorized scope / exclusions:
 - Foundational constraints: skills, operator time, hosting, fixed budget, variable cost, deadline, preferences.
@@ -13,6 +14,7 @@ Complete from source material during first startup; keep unknowns explicit. This
 - Execution bounds and observed drift (existing budget/stop rule; evidence link and affected scope when a stop is needed, no invented confidence score):
 - Ticket source / readiness criteria:
 - Canonical mission / plan / evidence locations (reuse existing conventions; links only, no copied status):
+- Reconstructed context / source and authority links / material unknowns or contradictions:
 - Approved UI reference (screen, version, viewport, states):
 - Canonical code (repository, branch, inspected commit):
 - Effective stack (runtime, frameworks, package manager, lockfile versions):
@@ -21,6 +23,7 @@ Complete from source material during first startup; keep unknowns explicit. This
 - Critical journeys / risks to verify:
 - Personal data, purposes, approved retention:
 - Integrations and contracts; do not enter any secret value:
+- Relevant agent/check capabilities and application services (separate consumers); actual availability, selected decision and prerequisite/evidence links:
 - Rendering by surface: public static/ISR/SSR, interactive, private; as needed.
 - Applicable CI policy, budget, and authorizations:
 - Required skills + local path + provenance:

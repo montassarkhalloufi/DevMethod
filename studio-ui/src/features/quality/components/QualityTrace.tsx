@@ -87,8 +87,9 @@ export function QualityTrace({
       {events.length ? (
         <>
           <p className="quality-note">
-            Événements réellement enregistrés par l’analyseur. Aucune exécution métier n’est
-            déduite.
+            {check.evidence?.provider
+              ? 'Événements du rapport transmis par l’agent hôte. La réception du rapport ne constitue pas une vérification indépendante de son contenu.'
+              : 'Événements réellement enregistrés par l’analyseur. Aucune exécution métier n’est déduite.'}
           </p>
           <ol className="quality-run-events">
             {events.map((event, index) => (

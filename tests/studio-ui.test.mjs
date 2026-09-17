@@ -349,6 +349,21 @@ test('first use keeps the idea composer open, then a saved project collapses wit
   assert.equal(f.dom.window.document.activeElement.id, 'idea');
 });
 
+test('an imported project keeps optional context compact until explicitly adjusted', async (t) => {
+  const f = await fixture(t, (state) => {
+    state.project.idea = '';
+    state.import = { baselineRevision: 'imported', source: { name: 'Existing' } };
+  });
+  assert.equal(f.el('project-form').hidden, true);
+  assert.equal(f.el('edit-project').hidden, false);
+  assert.match(f.el('project-idea-summary').textContent, /Projet importé/);
+  f.el('edit-project').click();
+  assert.equal(f.el('project-form').hidden, false);
+  f.input('idea', 'Préserver le service existant');
+  await f.app.refresh();
+  assert.equal(f.el('idea').value, 'Préserver le service existant');
+});
+
 test('an existing project is compact and its open edits survive polling and a save conflict', async (t) => {
   const f = await fixture(t);
   assert.equal(f.el('project-form').hidden, true);
@@ -635,6 +650,30 @@ test('a conception deep link opens its workspace and leaving for Code survives a
   assert.equal(reloaded.calls.length, 0);
 });
 
+test('preview scopes legacy check counts to delivery and links the complete verification workspace', async (t) => {
+  const f = await fixture(t, (state) => {
+    state.revisions = [revision('imported-baseline')];
+    state.activeRevision = 'imported-baseline';
+  });
+  const dock = f.el('evidence-dock');
+  assert.match(dock.textContent, /Contrôles de livraison/);
+  assert.match(dock.textContent, /Aucun contrôle de livraison enregistré sur imported/);
+  assert.doesNotMatch(dock.textContent, /Aucun contrôle enregistré|Non vérifié sur cette version/);
+  const results = dock.querySelector('[data-action="checks"]');
+  assert.match(results.textContent, /Consulter les résultats et les preuves/);
+  results.click();
+  assert.equal(f.el('tab-checks').getAttribute('aria-selected'), 'true');
+  f.state().checks = [
+    { revisionId: 'imported-baseline', status: 'failed', kind: 'command', label: 'Syntaxe' },
+  ];
+  f.state().version++;
+  await f.app.refresh();
+  assert.match(dock.textContent, /0 contrôle\(s\) de livraison passé\(s\), 1 échec\(s\)/);
+  assert.ok(dock.querySelector('.evidence-result.failed'));
+  assert.match(f.el('checks-list').textContent, /Syntaxe/);
+  assert.deepEqual(f.calls, []);
+});
+
 test('displayed proofs and local scenarios follow the comparison without recording a decision or moving focus', async (t) => {
   const f = await fixture(t, (state) => {
     state.revisions = [revision('applied'), revision('candidate')];
@@ -667,7 +706,10 @@ test('displayed proofs and local scenarios follow the comparison without recordi
       },
     ];
   });
-  assert.match(f.el('evidence-dock').textContent, /Aucun contrôle enregistré sur candidat/);
+  assert.match(
+    f.el('evidence-dock').textContent,
+    /Aucun contrôle de livraison enregistré sur candidat/,
+  );
   assert.match(f.el('checks-list').textContent, /Proposition non appliquée/);
   assert.doesNotMatch(f.el('checks-list').textContent, /Only applied/);
   assert.match(f.el('open-preview').href, /:4331\/revisions\/candidate\//);

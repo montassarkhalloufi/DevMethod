@@ -278,14 +278,24 @@ export function createViews(document) {
       const parts = [
         group('div', 'version-heading', [
           node('h3', revision.title),
-          badge(active ? 'Active' : 'Disponible'),
+          badge(
+            revision.origin?.kind === 'import'
+              ? 'Référence importée'
+              : active
+                ? 'Active'
+                : 'Disponible',
+          ),
           ...(!checks.length ? [badge('Non vérifiée', 'unverified')] : []),
         ]),
         node('p', revision.summary),
         node('time', date(revision.createdAt)),
         group('div', 'version-actions', [
           action(
-            previewId === revision.id ? 'Dans l’aperçu' : 'Essayer cette version',
+            revision.profile === 'source-only'
+              ? 'Consulter cette version'
+              : previewId === revision.id
+                ? 'Dans l’aperçu'
+                : 'Essayer cette version',
             'preview',
             revision.id,
           ),
@@ -468,9 +478,9 @@ export function createViews(document) {
         node('span', identity + ' · affichée', 'muted'),
       ]),
       group('div', 'evidence-row', [
-        group('div', 'evidence-kind', [icon(status), node('strong', 'Contrôles enregistrés')]),
+        group('div', 'evidence-kind', [icon(status), node('strong', 'Contrôles de livraison')]),
         node('span', checks.label, 'evidence-result ' + status),
-        action('Détails →', 'checks', '', 'text-button'),
+        action('Consulter les résultats et les preuves →', 'checks', '', 'text-button'),
       ]),
       group('div', 'evidence-row', [
         group('div', 'evidence-kind', [

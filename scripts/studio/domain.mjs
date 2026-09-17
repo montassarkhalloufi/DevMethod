@@ -6,6 +6,8 @@ import {
   validateProposals,
 } from './proposals.mjs';
 import { designJourneyView, validateDesignJourney } from './design-journey.mjs';
+import { validRelativePath } from './import-paths.mjs';
+import { validateImportRecord } from './import-contract.mjs';
 export {
   setDesignMaster,
   approveDesignMaster,
@@ -94,11 +96,7 @@ function unique(records, label, field = 'id') {
 
 function relativeFile(value) {
   text(value, 'Chemin', 512, false);
-  requireValue(
-    !value.includes('\\') &&
-      value.split('/').every((part) => part !== '.' && part !== '..' && /^[\w. -]+$/.test(part)),
-    'Chemin relatif invalide.',
-  );
+  requireValue(validRelativePath(value), 'Chemin relatif invalide.');
 }
 
 function find(records, id, label) {
@@ -216,19 +214,33 @@ function validateJob(job, revisionIds) {
 function validateRevision(revision, jobs) {
   shape(
     revision,
-    ['id', 'jobId', 'title', 'summary', 'createdAt', 'files', 'compilation'],
+    ['id', 'jobId', 'title', 'summary', 'createdAt', 'files', 'compilation', 'origin', 'profile'],
     'Révision',
   );
   identifier(revision.id);
-  identifier(revision.jobId);
+  if (revision.origin !== undefined) {
+    shape(revision.origin, ['kind'], 'Origine de révision');
+    requireValue(
+      revision.origin.kind === 'import' && revision.jobId === undefined,
+      'Baseline importée sans demande artificielle requise.',
+    );
+  } else {
+    identifier(revision.jobId);
+    requireValue(
+      jobs.some((job) => job.id === revision.jobId && job.status === 'ready'),
+      'Révision sans demande terminée.',
+    );
+  }
+  if (revision.profile !== undefined)
+    oneOf(revision.profile, ['static', 'source-only'], 'Profil de révision');
   requireValue(
-    jobs.some((job) => job.id === revision.jobId && job.status === 'ready'),
-    'Révision sans demande terminée.',
+    revision.profile !== 'source-only' || revision.compilation === undefined,
+    'Un snapshot source-only ne contient pas de compilation.',
   );
   text(revision.title, 'Titre de révision', 200, false);
   text(revision.summary, 'Résumé de révision', 10000);
   date(revision.createdAt);
-  validateFileManifest(revision.files);
+  validateFileManifest(revision.files, revision.profile !== 'source-only');
   if (revision.compilation !== undefined) {
     const build = revision.compilation;
     shape(build, ['profile', 'protocol', 'files'], 'Compilation');
@@ -240,7 +252,7 @@ function validateRevision(revision, jobs) {
   }
 }
 
-function validateFileManifest(files) {
+function validateFileManifest(files, application = true) {
   unique(files, 'Fichiers', 'path');
   requireValue(files.length > 0 && files.length <= 256, 'Nombre de fichiers invalide.');
   let bytes = 0;
@@ -258,7 +270,7 @@ function validateFileManifest(files) {
     bytes += file.bytes;
   }
   requireValue(
-    bytes <= 32 * 1024 * 1024 && files.some((file) => file.path === 'index.html'),
+    bytes <= 32 * 1024 * 1024 && (!application || files.some((file) => file.path === 'index.html')),
     'Application absente ou supérieure à 32 Mio.',
   );
 }
@@ -304,6 +316,7 @@ export function validateStudioState(state) {
       'events',
       'proposals',
       'designJourney',
+      'import',
     ],
     'État',
   );
@@ -344,8 +357,19 @@ export function validateStudioState(state) {
     'Plusieurs demandes en cours.',
   );
   for (const revision of state.revisions) validateRevision(revision, state.jobs);
+  if (state.import !== undefined) validateImportRecord(state.import, state.revisions);
   requireValue(
-    new Set(state.revisions.map((rev) => rev.jobId)).size === state.revisions.length,
+    state.revisions.filter((revision) => revision.origin).length === (state.import ? 1 : 0),
+    'Origine importée incohérente.',
+  );
+  requireValue(
+    !state.revisions.some((revision) => revision.profile === 'source-only') ||
+      state.import !== undefined,
+    'Un snapshot source-only nécessite une reprise importée.',
+  );
+  requireValue(
+    new Set(state.revisions.filter((rev) => !rev.origin).map((rev) => rev.jobId)).size ===
+      state.revisions.filter((rev) => !rev.origin).length,
     'Plusieurs révisions pour une demande.',
   );
   for (const check of state.checks) validateCheck(check, revisionIds);
@@ -536,7 +560,8 @@ function validateCompletion(
       revision.jobId === job.id && !state.revisions.some((old) => old.id === revision.id),
       'Révision reçue incohérente.',
     );
-    validateApprovedCompletion(state, { brief, decisions });
+    if (!(state.import && revision.profile === 'source-only'))
+      validateApprovedCompletion(state, { brief, decisions });
   }
   return completedProposals(state, { revision, brief, decisions, proposals });
 }
@@ -548,7 +573,8 @@ function completedProposals(state, { revision, brief, decisions, proposals = [] 
   appendDecisions(result, decisions ?? []);
   if (revision !== undefined) {
     result.revisions.push(structuredClone(revision));
-    if (effectiveDelegation(state).adoption === 'agent') result.activeRevision = revision.id;
+    if (revision.profile !== 'source-only' && effectiveDelegation(state).adoption === 'agent')
+      result.activeRevision = revision.id;
   }
   const created = [];
   for (const input of proposals) {
@@ -596,7 +622,11 @@ export function finishJob(state, completion) {
   job.finishedAt = now();
   job.summary = summary;
   event(state, 'ready', 'Résultat disponible ; les vérifications restent distinctes.');
-  if (revision !== undefined && effectiveDelegation(state).adoption === 'agent') {
+  if (
+    revision !== undefined &&
+    revision.profile !== 'source-only' &&
+    effectiveDelegation(state).adoption === 'agent'
+  ) {
     state.activeRevision = revision.id;
     appendDecisions(state, [
       {
@@ -783,6 +813,11 @@ export function approvePlan(state, { reason }) {
 export function activateRevision(state, { id, reason }) {
   const revision = find(state.revisions, id, 'Révision');
   text(reason, 'Raison', 4000);
+  if (revision.profile === 'source-only' && !revision.origin && !hasApprovedPlan(state))
+    reject(
+      'Approuvez le cadrage avant d’adopter cette évolution importée ; le snapshot reste disponible.',
+      409,
+    );
   state.activeRevision = id;
   appendDecisions(state, [
     {

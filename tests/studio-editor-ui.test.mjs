@@ -44,6 +44,79 @@ function setup(t, api, options = {}) {
   return { dom, root, editor, input, button, type };
 }
 
+test('source-only snapshots never announce executed controls or a runnable preview', async (t) => {
+  const extra = { sourceOnly: true, verificationProtocol: 'source-snapshot-v1' };
+  const { editor, type, root, button } = setup(t, {
+    read: async () => draft('original', 1, extra),
+    save: async (payload) => draft(payload.changes[0].content, 2, extra),
+    build: async () =>
+      draft('updated', 2, {
+        ...extra,
+        buildId: 'snapshot',
+        builtVersion: 2,
+        changedPaths: ['app.js'],
+      }),
+  });
+  await editor.open('base');
+  type('updated');
+  await editor.flush();
+  assert.match(root.querySelector('[role=status]').textContent, /Snapshot des sources enregistré/);
+  assert.doesNotMatch(root.querySelector('[role=status]').textContent, /Contrôles exécutés/);
+  assert.equal(root.querySelector('iframe').getAttribute('src'), null);
+  assert.equal(button('Créer une version des sources').disabled, false);
+});
+
+test('creating a source-only candidate keeps valid text distinct from the temporary editing lock', async (t) => {
+  const files = [
+    { path: 'README.md', content: '# Updated project\n', editable: true },
+    { path: 'asset.bin', editable: false },
+  ];
+  let finishApplied;
+  const { editor, input, root, button } = setup(
+    t,
+    {
+      read: async () =>
+        draft('', 2, {
+          sourceOnly: true,
+          files,
+          buildId: 'snapshot',
+          builtVersion: 2,
+          changedPaths: ['README.md'],
+        }),
+      apply: async () => ({
+        activated: false,
+        adoptionError: 'Le plan doit être approuvé.',
+        state: { activeRevision: 'base' },
+        draft: draft('', 3, { sourceOnly: true, files, baseRevision: 'candidate' }),
+      }),
+    },
+    {
+      onApplied: () =>
+        new Promise((resolve) => {
+          finishApplied = resolve;
+        }),
+    },
+  );
+  const fileMessage = root.querySelector('.editor-file-message');
+  await editor.open('base', 'asset.bin');
+  assert.equal(input.disabled, true);
+  assert.match(fileMessage.textContent, /binaire ou dépasse la taille éditable/);
+  editor.selectFile('README.md');
+  assert.equal(input.disabled, false);
+  assert.equal(fileMessage.textContent, '');
+  button('Créer une version des sources').click();
+  await setImmediate();
+  assert.equal(editor.getBaseRevision(), 'candidate');
+  assert.equal(input.disabled, true, 'the transition stays locked until the application refresh');
+  assert.equal(input.value, files[0].content);
+  assert.equal(fileMessage.textContent, '', 'a temporary lock must not label text as binary');
+  finishApplied();
+  await setImmediate();
+  assert.equal(input.disabled, false);
+  assert.equal(fileMessage.textContent, '');
+  assert.match(root.querySelector('[role=status]').textContent, /Version créée sans adoption/);
+});
+
 test('code changes survive a save in flight and only the newest acknowledged text becomes buildable', async (t) => {
   let release;
   const saved = [],

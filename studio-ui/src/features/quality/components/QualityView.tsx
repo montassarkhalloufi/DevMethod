@@ -60,6 +60,11 @@ export function QualityView(options: QualityOptions) {
           </p>
         </div>
         <div className="quality-heading-actions">
+          {options.onOpenConnectors ? (
+            <button type="button" onClick={() => options.onOpenConnectors?.()}>
+              Outils et connecteurs
+            </button>
+          ) : null}
           <button
             type="button"
             data-quality-run-all=""
@@ -169,6 +174,7 @@ export function QualityView(options: QualityOptions) {
             onRun={(id) => void run(id)}
             onOpenSource={options.onOpenSource}
             onPrepareRequest={options.onPrepareRequest}
+            onOpenConnectors={options.onOpenConnectors}
           />
           <QualityTrace check={selected} report={report} onOpenSource={options.onOpenSource} />
         </div>

@@ -6,6 +6,16 @@ Statut : implémentation et essais en cours. Aucune supériorité annoncée. La 
 couvre les choix réversibles, le code local, les tests, les commits et une PR brouillon.
 Fusion, déploiement public, publication npm, achat, télémétrie et contact externe exclus.
 
+## Tranche réalisée : reprise de projets et outils à la demande
+
+Demandes du 17 septembre : nouveau projet ou reprise d’un dépôt sans DevMethod, contexte retrouvé dans ses sources, outils ouverts de diagnostic et services applicatifs au choix. Les références Lovable précisent une navigation catalogue → fiche → configuration, avec icônes, recherche et catégories dans une fenêtre dédiée. Conserver la composition bleu nuit du Studio et le brouillon utilisateur ; les fonctions facultatives restent à la demande.
+
+Décisions : [import par copie et contexte sourcé](../../ADR-021-import-existing-project.md), [catalogue et pont avec l’agent hôte](../../ADR-022-connectors-host-bridge.md). La délégation couvre ces choix réversibles et leur validation locale. L’intégration effective d’un service, ses accès et ses écritures externes restent distincts de son inscription au catalogue.
+
+Critères : ADOPT-1 original préservé et exclusions explicites ; ADOPT-2 référence importée, faits sourcés et inconnues sans validation inventée ; ADOPT-3 édition/version/export des sources même sans runtime compatible ; CONNECT-1 choix de fournisseurs pour plusieurs familles et options locales/API/MCP ; CONNECT-2 configuration, disponibilité, contrôle et intégration distingués ; CONNECT-3 résultats liés à l’outil, la révision et, pour le métier, aux critères exacts ; UI-1 catalogue progressif, icônes locales, mobile, clavier, défilement et absence de superposition.
+
+[Résultats, captures et limites de cette tranche](evidence/adoption-connectors/RESULTS.md). Aucun nouvel appel de modèle produit ni fournisseur externe n’est nécessaire à sa validation. Un contrôle syntaxique réel Node via le pont hôte vérifie le trajet du résultat ; il ne valide pas les autres fournisseurs du catalogue.
+
 ## Tranche terminée : plan et avancement visibles
 
 Après le chantier méthode `b8724c1`, demande utilisateur du 17 septembre : afficher en direct le plan et le journal d’actions, avec références Bolt comme exemple d’interaction, sans copier leur identité. [Décision technique](../../ADR-020-live-job-progress.md) sous la délégation existante : journal borné par demande et actualisation automatique, agents réellement connectés seulement, aucune relance fournisseur.

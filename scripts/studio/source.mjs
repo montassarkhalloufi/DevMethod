@@ -7,7 +7,13 @@ import { validateProjectManifest } from './profile.mjs';
 const maxTextBytes = 256 * 1024;
 const invalid = (message, status = 400) => Object.assign(new Error(message), { status });
 const runtimeRoot = path.dirname(fileURLToPath(import.meta.url));
-const runtimePaths = ['preview.mjs', 'files.mjs', 'http.mjs', 'public/comparison-guard.js'];
+const runtimePaths = [
+  'preview.mjs',
+  'files.mjs',
+  'import-paths.mjs',
+  'http.mjs',
+  'public/comparison-guard.js',
+];
 
 function runtimeSnapshot() {
   const entries = runtimePaths.map((relative) => {

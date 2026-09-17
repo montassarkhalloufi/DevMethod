@@ -2461,6 +2461,55 @@ summary,
   max-width: 1080px;
   margin: auto;
 }
+.journey-origin {
+  margin-block: 16px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--canvas);
+}
+.journey-origin h4 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+.journey-origin-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.journey-origin-facts article {
+  border-left: 2px solid var(--agent);
+  padding-left: 12px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.journey-origin-facts p {
+  margin: 6px 0;
+}
+.journey-origin-facts button {
+  font-size: 12px;
+  color: var(--agent);
+}
+.journey-origin code {
+  overflow-wrap: anywhere;
+}
+.journey-import-guide label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.journey-import-guide input {
+  width: 100%;
+  min-width: 0;
+}
+.journey-import-guide pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--surface);
+  padding: 12px;
+  font-size: 12px;
+}
 .journey-heading h2 {
   margin: 5px 0 8px;
   font-size: 24px;

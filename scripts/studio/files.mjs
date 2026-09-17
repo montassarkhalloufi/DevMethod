@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
+import { validRelativePath } from './import-paths.mjs';
 
 export const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
@@ -31,14 +32,7 @@ export function assertRealDirectory(directory) {
 }
 
 export function safeFile(root, relative) {
-  if (
-    typeof relative !== 'string' ||
-    !relative ||
-    relative.includes('\\') ||
-    relative.startsWith('/') ||
-    relative.split('/').some((p) => !p || p === '.' || p === '..' || !/^[\w. -]+$/.test(p))
-  )
-    throw new Error('Chemin de fichier invalide.');
+  if (!validRelativePath(relative)) throw new Error('Chemin de fichier invalide.');
   let current = assertRealDirectory(root);
   for (const part of relative.split('/')) {
     current = path.join(current, part);

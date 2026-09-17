@@ -14,6 +14,7 @@ import { readSource, readRuntimeSource, readProjectServices } from './source.mjs
 import { getRuntimeServices } from './backend-runtime.mjs';
 import { createEditor } from './editor.mjs';
 import { progressLimits } from './progress.mjs';
+import { readConnectorsRoute, writeConnectorsRoute } from './connector-routes.mjs';
 
 const widgetRoot = fileURLToPath(new URL('../../dist/studio-ui', import.meta.url));
 const publicRoot = fileURLToPath(new URL('./public', import.meta.url));
@@ -373,6 +374,13 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
       capabilities: {
         staticApps: true,
         reactTypeScript: true,
+        projectPreview:
+          Boolean(state.activeRevision) &&
+          state.revisions.find((revision) => revision.id === state.activeRevision)?.profile !==
+            'source-only',
+        localImport: true,
+        connectorBridge: true,
+        directConnectors: false,
         localData: true,
         auth: false,
         deployment: false,
@@ -418,6 +426,18 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
       if (request.headers.host !== new URL(url).host)
         return send(response, 403, { error: 'Hôte non autorisé.' });
       const requestUrl = new URL(request.url, url);
+      if (request.method === 'GET' && readConnectorsRoute(requestUrl, response, store)) return;
+      if (
+        request.method === 'POST' &&
+        (await writeConnectorsRoute(
+          requestUrl,
+          request,
+          response,
+          context,
+          authorized(request, runtime().token),
+        ))
+      )
+        return;
       if (request.method === 'GET') return await getRoute(requestUrl, response, context);
       if (request.method === 'POST') return await postRoute(requestUrl, request, response, context);
       send(response, 405, { error: 'Méthode non autorisée.' });

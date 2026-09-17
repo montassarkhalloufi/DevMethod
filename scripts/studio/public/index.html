@@ -172,6 +172,15 @@
           <option value="delegated">Autonome</option>
         </select>
       </label>
+      <button
+        id="open-connectors"
+        type="button"
+        title="Outils et services"
+        aria-label="Outils et services"
+        aria-haspopup="dialog"
+      >
+        <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-code" /></svg>
+      </button>
       <a class="button-link export-project" href="/api/export" download=""
         ><svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-upload" /></svg
         ><span class="export-label">Exporter</span></a
@@ -564,6 +573,14 @@
                 sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"
                 hidden=""
               ></iframe>
+              <div id="source-only-preview" class="preview-empty" hidden="">
+                <h3>Sources importées · aperçu à raccorder</h3>
+                <p>
+                  Ce projet peut être parcouru et modifié dans Code. Sa stack n’est pas exécutée par
+                  le runtime actuel du Studio. Aucun script du projet n’a été lancé à l’import.
+                </p>
+                <a href="#code" class="button-link">Parcourir les sources →</a>
+              </div>
             </div>
             <details class="preview-note">
               <summary>Données partagées entre versions</summary>
@@ -660,5 +677,14 @@
         ></section>
       </main>
     </div>
+    <dialog id="connectors-dialog" class="connectors-dialog" aria-labelledby="connectors-title">
+      <header class="connectors-dialog-header">
+        <h2 id="connectors-title">Outils et services</h2>
+        <button id="close-connectors" type="button" aria-label="Fermer les outils et services">
+          Fermer ×
+        </button>
+      </header>
+      <div id="connectors-host"></div>
+    </dialog>
   </body>
 </html>

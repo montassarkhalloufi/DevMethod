@@ -7,6 +7,12 @@ Elle ne fournit ni authentification, ni hébergement public, ni paiement, ni gé
 d’images intégrée. Les références visuelles peuvent être importées. L’agent hôte peut
 produire des images lorsqu’il dispose de cette capacité ; le CLI Studio ne la crée pas.
 
+Un projet existant peut être [importé par copie](STUDIO-IMPORT.md), avec un contexte
+sourcé, une référence conservée et une édition des sources même sans runtime compatible.
+Le [catalogue Outils et services](STUDIO-CONNECTORS.md) permet de choisir et configurer
+des outils de contrôle ou des services applicatifs, puis de préparer leur usage par l’agent
+hôte. Il ne les installe ni ne les connecte automatiquement.
+
 ## Démarrer
 
 Node.js 22+ est requis. Depuis une installation DevMethod :
@@ -239,6 +245,9 @@ devmethod studio check --workspace /chemin/absolu/mon-produit --file /chemin/che
 relatives au workspace ; modifier uniquement le staging de cette demande. L’agent doit
 conserver le design choisi, explorer les incertitudes utiles, exécuter ses vérifications et
 rapporter leurs limites. Le bridge ne lance pas de processus fournisseur à sa place.
+
+Le [plan et le journal d’actions](STUDIO-PROGRESS.md) peuvent être publiés au fil du travail
+et repris après rechargement. Seuls les événements réellement transmis sont affichés.
 
 Exemple de remise d’une application dont `app/index.html` et ses fichiers existent réellement :
 

@@ -107,7 +107,9 @@ function validateRun(run) {
     throw new Error('Collections du journal qualité invalides.');
   if (
     run.findings.some(
-      (item) => typeof item.message !== 'string' || typeof item.source?.path !== 'string',
+      (item) =>
+        typeof item.message !== 'string' ||
+        (typeof item.source?.path !== 'string' && typeof item.target !== 'string'),
     )
   )
     throw new Error('Diagnostic qualité invalide.');

@@ -26,6 +26,8 @@ Reuse an existing ticket or adapt the scoped-delivery slice when that module is 
 
 Inspect the actual entry points, manifests, tests, applicable instructions, and accepted decisions for the affected area. Reuse current conventions. Record only missing context that changes future decisions; cite source paths and inspected revision. Do not create a complete repository inventory for a local bug fix. If documents and code disagree, describe that conflict and resolve only what the requested change depends on.
 
+If an existing project has no usable DevMethod context, apply [existing-project adoption](existing-project.md) to reconstruct that context proportionately. Missing method files do not require product rediscovery, architectural replacement or a larger delivery path by themselves.
+
 ## Context and resumption
 
 Load the current slice, its relevant decisions and the module needed for this step. Open deeper references when their condition applies. A handoff records the code revision, dirty files, evidence references, unresolved assumptions and exact next action. On resume, inspect changed files and dependencies before reusing evidence; a stale checkpoint is a clue, not current truth. Measure token use only when the host exposes it; otherwise record it as unavailable.

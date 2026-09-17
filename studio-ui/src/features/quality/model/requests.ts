@@ -21,7 +21,7 @@ export function prepareQualityRequest(check: QualityCheck, report: QualityReport
       .slice(0, 10)
       .map(
         (finding) =>
-          `${finding.source.path}${finding.source.line ? `:${finding.source.line}` : ''} — ${finding.message}`,
+          `${finding.source ? `${finding.source.path}${finding.source.line ? `:${finding.source.line}` : ''}` : finding.target || 'Constat'} — ${finding.message}`,
       ),
     check.nextAction ? `Prérequis : ${check.nextAction}` : '',
     ...(evidence?.limits ?? []).map((limit) => `Limite : ${limit}`),

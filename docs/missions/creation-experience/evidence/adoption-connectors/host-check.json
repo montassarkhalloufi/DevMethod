@@ -1,0 +1,71 @@
+{
+  "observedAt": "2026-09-17T08:57:46.354Z",
+  "workspaceName": "devmethod-import-connectors-qa",
+  "bridge": "CLI worker-authenticated probe and result; same-origin local HTTP configuration and execution ticket",
+  "revisionId": "6a5dd6c2-89eb-4100-a4fc-498f1399a000",
+  "activeRevision": "6a5dd6c2-89eb-4100-a4fc-498f1399a000",
+  "fingerprint": "ff4b2ee54be37dfaf1e02af6b7c7489a0cccc8d4bc1993194503db509810367d",
+  "source": {
+    "path": "server/mail.js",
+    "sha256": "3d0c719484eac6f398c93ef753225095db2a7106734892825346bf9b3db30dd5"
+  },
+  "tool": {
+    "name": "Node.js",
+    "version": "v24.18.0"
+  },
+  "probe": {
+    "connectionId": "node-check-local",
+    "connectionVersion": 1,
+    "eventId": "probe-node-real-1789635465563",
+    "status": "available",
+    "tool": {
+      "name": "Node.js",
+      "version": "v24.18.0"
+    },
+    "capabilities": [
+      "code-quality"
+    ],
+    "observedAt": "2026-09-17T08:57:45.563Z",
+    "summary": "Version de Node.js observée réellement par node --version sur cet hôte. Capacité d’analyse syntaxique locale uniquement ; aucun contrôle du projet exécuté par ce probe."
+  },
+  "result": {
+    "runId": "2ab0d78b-c04b-4532-9244-099bb2e392bd",
+    "connectionId": "node-check-local",
+    "revisionId": "6a5dd6c2-89eb-4100-a4fc-498f1399a000",
+    "fingerprint": "ff4b2ee54be37dfaf1e02af6b7c7489a0cccc8d4bc1993194503db509810367d",
+    "tool": {
+      "name": "Node.js",
+      "version": "v24.18.0"
+    },
+    "source": {
+      "kind": "host-local"
+    },
+    "startedAt": "2026-09-17T08:57:45.671Z",
+    "finishedAt": "2026-09-17T08:57:45.961Z",
+    "status": "passed",
+    "observed": "Node.js a accepté la syntaxe de server/mail.js (node --check, code de sortie 0). Cela ne valide aucun comportement applicatif.",
+    "findings": [],
+    "metrics": {
+      "filesChecked": 1,
+      "exitCode": 0,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    "limits": [
+      "Analyse syntaxique du seul fichier server/mail.js avec node --check.",
+      "Aucun fichier TypeScript ou TSX analysé et aucune vérification de types.",
+      "Aucun test métier, test de mail, serveur, script package.json ou intégration fournisseur exécuté."
+    ]
+  },
+  "invariants": {
+    "sourceManifestVerifiedBeforeAndAfter": true,
+    "coreStudioStateUnchanged": true,
+    "jobsBefore": 0,
+    "jobsAfter": 0
+  },
+  "scope": [
+    "Analyse syntaxique du seul fichier server/mail.js avec node --check.",
+    "Aucun fichier TypeScript ou TSX analysé et aucune vérification de types.",
+    "Aucun test métier, test de mail, serveur, script package.json ou intégration fournisseur exécuté."
+  ]
+}

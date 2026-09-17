@@ -8,9 +8,16 @@ function foundation(state: JourneyState): StageSummary {
     id: 'foundation',
     title: 'Comprendre le projet',
     purpose: 'Retrouver l’intention, les acquis et ce que vous déléguez.',
-    status: state.project.idea ? 'Intention enregistrée' : 'À préciser',
+    status: state.import
+      ? 'Référence importée · contexte à examiner'
+      : state.project.idea
+        ? 'Intention enregistrée'
+        : 'À préciser',
     facts: [
-      state.project.idea || 'Décrivez votre idée dans la discussion.',
+      state.project.idea ||
+        (state.import
+          ? 'Précisez l’objectif de la prochaine évolution dans la discussion.'
+          : 'Décrivez votre idée dans la discussion.'),
       ...state.project.constraints,
     ],
     request:

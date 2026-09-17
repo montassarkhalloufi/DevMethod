@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { safeFile, assertRealDirectory } from './files.mjs';
 
-function portablePath(name) {
+export function portableArchivePath(name) {
   if (Buffer.byteLength(name) <= 100) return { name, prefix: '' };
   for (let split = name.lastIndexOf('/'); split > 0; split = name.lastIndexOf('/', split - 1)) {
     const prefix = name.slice(0, split),
@@ -15,7 +15,7 @@ function portablePath(name) {
 }
 
 function header(relative, size) {
-  const { name, prefix } = portablePath(relative);
+  const { name, prefix } = portableArchivePath(relative);
   const block = Buffer.alloc(512);
   block.write(name, 0, 100);
   block.write('0000644\0', 100);

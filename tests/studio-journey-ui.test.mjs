@@ -56,6 +56,7 @@ async function mount(t, state, onApproveMaster, onChooseDirection, extra = {}) {
     onApproveMaster,
     onChooseDirection,
     onOpenPrototype: extra.onOpenPrototype,
+    onOpenSource: extra.onOpenSource,
   };
   const handle = dom.window.JourneyWidget.mountJourneyWidget(
     dom.window.document.getElementById('root'),
@@ -77,6 +78,59 @@ async function navigate(f, hash) {
 function button(document, label) {
   return [...document.querySelectorAll('button')].find((node) => node.textContent === label);
 }
+
+test('foundation offers greenfield and existing-project entry without importing on navigation', async (t) => {
+  const f = await mount(t, createInitialStudioState(), undefined, undefined, {
+    url: 'http://localhost/#journey-foundation',
+  });
+  assert.match(f.document.body.textContent, /Deux points de départ/);
+  assert.match(f.document.body.textContent, /Créer de zéro/);
+  assert.match(f.document.body.textContent, /devmethod studio import --source/);
+  assert.match(f.document.body.textContent, /--dry-run/);
+  assert.equal(f.requests.length, 0);
+});
+
+test('imported foundation exposes provenance and unknowns and opens the original baseline source', async (t) => {
+  const state = createInitialStudioState();
+  state.import = {
+    format: 1,
+    baselineRevision: 'baseline-1',
+    source: {
+      name: 'Produit existant',
+      importedAt: '2026-09-17T10:00:00Z',
+      fingerprint: 'a'.repeat(64),
+    },
+    inventory: {
+      included: 3,
+      bytes: 1200,
+      excluded: [{ path: '.env', reason: 'Configuration sensible exclue' }],
+    },
+    context: {
+      facts: [
+        {
+          kind: 'command',
+          label: 'Commande déclarée, non exécutée',
+          value: 'npm run test',
+          provenance: { kind: 'declared', path: 'package.json', sha256: 'b'.repeat(64) },
+        },
+      ],
+      unknowns: ['Aucune exécution du produit observée.'],
+      analysis: { status: 'partial', protocol: 'test', stack: ['React'], issues: [] },
+    },
+  };
+  const opened = [];
+  const f = await mount(t, state, undefined, undefined, {
+    url: 'http://localhost/#journey-foundation',
+    onOpenSource: (...args) => opened.push(args),
+  });
+  assert.match(f.document.body.textContent, /Projet repris · Produit existant/);
+  assert.match(f.document.body.textContent, /Aucune exécution du produit observée/);
+  assert.match(f.document.body.textContent, /Déclaré dans le projet/);
+  button(f.document, 'package.json ↗').click();
+  assert.deepEqual(opened, [['package.json', 'baseline-1']]);
+  assert.equal(f.requests.length, 0);
+  assert.doesNotMatch(f.document.body.textContent, /Tous les contrôles réussis/);
+});
 
 test('three directions and a selection do not imply a validated detailed master', async (t) => {
   const f = await mount(t, stateWithDirections());

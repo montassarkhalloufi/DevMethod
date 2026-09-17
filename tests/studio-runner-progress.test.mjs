@@ -250,7 +250,8 @@ test(
     const result = await runProcess({
       directory: f.directory,
       prompt: 'Local fixture',
-      timeoutMs: 1000,
+      // This checks failure precedence, allowing process startup under a parallel test load.
+      timeoutMs: 5000,
       signal: f.controller.signal,
       executable,
       onEvent: (event) => events.push(event.type),

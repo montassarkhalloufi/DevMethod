@@ -6,6 +6,7 @@ import { createProposalController } from './proposal-controller.js';
 import { renderComparison, comparisonURL } from './comparison-view.js';
 import { createTechnicalWorkspace } from './technical-workspace.js';
 import { createProgressController } from './progress-controller.js';
+import { createConnectorsController } from './connectors-controller.js';
 
 export function mountStudio({ document, window, api = createStudioApi(), pollMs = 2000 }) {
   const el = (id) => document.getElementById(id);
@@ -37,8 +38,15 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     comparisonBase,
     showVersion,
     onPrepareRequest: ({ prompt }) => prepareCorrection(prompt),
+    onOpenConnectors: (checkId) => connectorsController.open(checkId),
   });
   const options = { signal: controller.signal };
+  const connectorsController = createConnectorsController({
+    document,
+    onPrepareRequest: ({ prompt }) => prepareCorrection(prompt),
+  });
+  el('open-connectors')?.addEventListener('click', () => connectorsController.open(), options);
+  el('close-connectors')?.addEventListener('click', () => connectorsController.close(), options);
   const progressController = createProgressController({
     document,
     api,
@@ -144,6 +152,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     const props = {
       state,
       onRequest: prepareStage,
+      onOpenSource: (path, revisionId) => technicalWorkspace.openDeliveredFile(revisionId, path),
       onOpenPrototype: (id) => {
         showVersion(id);
         openPanel('product', 'push');
@@ -250,13 +259,19 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     projectPresentation();
   }
   function projectPresentation() {
-    const saved = Boolean(state.project.idea.trim());
+    const saved = Boolean(state.project.idea.trim() || state.import);
     editingProject ??= !saved;
     el('project').classList.toggle('compact', !editingProject);
     el('project-form').hidden = !editingProject;
     el('project-intro').hidden = !editingProject;
     el('project-summary').hidden = editingProject;
-    el('project-idea-summary').textContent = state.project.idea;
+    el('project-idea-summary').textContent =
+      state.project.idea || 'Projet importé · précisez l’objectif de la prochaine évolution.';
+    if (state.import) {
+      el('project-intro').textContent =
+        'Conservez les acquis du projet et précisez la prochaine évolution.';
+      el('save-project').textContent = 'Enregistrer le contexte';
+    }
     el('project-mode').textContent = { guided: 'Guidé', devauto: 'DevAuto', delegated: 'Autonome' }[
       state.project.mode
     ];
@@ -278,6 +293,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     });
     const shownId = comparison ? comparison.revisionId || null : previewId;
     displayedRevisionId = shownId;
+    connectorsController.update(shownId);
     updateEvidence();
     updatePreviewControls(comparison);
     const revision = state.revisions.find((rev) => rev.id === shownId);
@@ -297,6 +313,20 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     el('open-preview').hidden = !revision || activePanel !== 'product';
     el('inspect-element').disabled = !revision;
     updateSource();
+    if (revision?.profile === 'source-only') {
+      el('preview').hidden = true;
+      el('preview').removeAttribute('src');
+      el('preview-empty').hidden = true;
+      el('source-only-preview').hidden = false;
+      el('open-preview').hidden = true;
+      el('inspect-element').disabled = true;
+      el('comparison-status').textContent =
+        'Sources consultables · environnement d’exécution à raccorder';
+      el('preview-data-note').parentElement.hidden = true;
+      previewTarget = null;
+      return;
+    }
+    el('source-only-preview').hidden = true;
     if (comparison && comparison.kind !== 'revision') {
       previewTarget = null;
       return;
@@ -820,6 +850,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       sourceView.destroy();
       proposalController.dispose();
       progressController.dispose();
+      connectorsController.dispose();
       journeyWidget?.dispose();
       technicalWorkspace.destroy();
       window.clearInterval(interval);

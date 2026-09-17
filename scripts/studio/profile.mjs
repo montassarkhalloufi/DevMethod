@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { safeFile, fileManifest } from './files.mjs';
+import { validRelativePath } from './import-paths.mjs';
 
 const projectManifestPath = 'devmethod.project.json';
 
@@ -40,11 +41,7 @@ export function validateProjectManifest(value) {
     if (
       typeof service.root !== 'string' ||
       service.root.length > 240 ||
-      (service.root !== '.' &&
-        (!service.root ||
-          service.root
-            .split('/')
-            .some((part) => !part || part === '.' || part === '..' || !/^[\w. -]+$/.test(part))))
+      (service.root !== '.' && !validRelativePath(service.root))
     )
       throw new Error('La racine d’un service doit être un chemin relatif sûr.');
   }
