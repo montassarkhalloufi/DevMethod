@@ -67,34 +67,136 @@ var o = {
 	backend: "Backend",
 	shared: "Partagé",
 	infrastructure: "Infrastructure",
-	unclassified: "Non classé"
+	unclassified: "Autres fichiers"
 };
-function s(e, t, n) {
-	let r = /* @__PURE__ */ new Map();
-	for (let i of e) {
-		if (!i.path.toLocaleLowerCase().includes(n.toLocaleLowerCase())) continue;
-		let e = t === "layer" ? o[i.layer] : i.feature || "Sans fonctionnalité identifiée", a = r.get(e);
-		a || (a = {
-			name: e,
-			path: e,
+function s(e, t) {
+	return t === "files" ? "" : t === "layer" ? o[e.layer] : e.feature || "Sans fonctionnalité identifiée";
+}
+function c(e, t, n) {
+	let r = t.path.split("/");
+	for (let [i, a] of r.entries()) {
+		let o = r.slice(0, i + 1).join("/"), s = e.find((e) => e.name === a);
+		s || (s = {
+			name: a,
+			path: n + o,
+			sourcePath: o,
 			children: []
-		}, r.set(e, a));
-		let s = a.children, c = i.path.split("/");
-		c.forEach((t, n) => {
-			let r = c.slice(0, n + 1).join("/"), a = s.find((e) => e.name === t);
-			a || (a = {
-				name: t,
-				path: e + ":" + r,
-				children: []
-			}, s.push(a)), n === c.length - 1 && (a.file = i), s = a.children;
-		});
+		}, e.push(s)), i === r.length - 1 && (s.file = t), e = s.children;
 	}
-	let i = Object.values(o);
-	return [...r.values()].sort((e, n) => t === "layer" ? i.indexOf(e.name) - i.indexOf(n.name) : e.name.localeCompare(n.name));
+}
+function l(e) {
+	e.sort((e, t) => Number(!!e.file) - Number(!!t.file) || e.name.localeCompare(t.name, "fr", {
+		numeric: !0,
+		sensitivity: "base"
+	}));
+	for (let t of e) l(t.children);
+	return e;
+}
+function u(e, t, n) {
+	let r = [], i = /* @__PURE__ */ new Map(), a = n.trim().toLocaleLowerCase();
+	for (let n of e) {
+		if (!n.path.toLocaleLowerCase().includes(a)) continue;
+		let e = s(n, t);
+		if (!e) {
+			c(r, n, "");
+			continue;
+		}
+		let o = i.get(e);
+		o || (o = {
+			name: e,
+			path: e + ":",
+			sourcePath: e,
+			children: []
+		}, i.set(e, o)), c(o.children, n, e + ":");
+	}
+	if (t === "files") return l(r);
+	let u = l([...i.values()]);
+	if (t !== "layer") return u;
+	let d = Object.values(o);
+	return u.sort((e, t) => d.indexOf(e.name) - d.indexOf(t.name));
+}
+function d(e, t) {
+	let n = s(e, t), r = n ? n + ":" : "", i = e.path.split("/"), a = i.slice(0, -1).map((e, t) => r + i.slice(0, t + 1).join("/"));
+	return n ? [r, ...a] : a;
+}
+var f = {
+	kind: "file",
+	label: "",
+	description: "Fichier"
+}, p = {
+	kind: "config",
+	label: "⚙",
+	description: "Configuration"
+}, m = {
+	ts: {
+		kind: "typescript",
+		label: "TS",
+		description: "TypeScript"
+	},
+	tsx: {
+		kind: "react",
+		label: "TSX",
+		description: "React / TypeScript"
+	},
+	js: {
+		kind: "javascript",
+		label: "JS",
+		description: "JavaScript"
+	},
+	jsx: {
+		kind: "react",
+		label: "JSX",
+		description: "React / JavaScript"
+	},
+	json: {
+		kind: "json",
+		label: "{}",
+		description: "JSON"
+	},
+	css: {
+		kind: "css",
+		label: "#",
+		description: "CSS"
+	},
+	scss: {
+		kind: "css",
+		label: "#",
+		description: "SCSS"
+	},
+	md: {
+		kind: "markdown",
+		label: "MD",
+		description: "Markdown"
+	},
+	html: {
+		kind: "html",
+		label: "<>",
+		description: "HTML"
+	},
+	yaml: {
+		kind: "yaml",
+		label: "YML",
+		description: "YAML"
+	},
+	config: p,
+	file: f
+}, h = {
+	mts: "ts",
+	cts: "ts",
+	mjs: "js",
+	cjs: "js",
+	jsonc: "json",
+	yml: "yaml",
+	mdx: "md",
+	htm: "html"
+};
+function g(e) {
+	let t = e.path.split("/").at(-1)?.toLowerCase() || "", n = t.split(".").at(-1) || "";
+	return /^(dockerfile|makefile|\.env(?:\..*)?|\.gitignore|\.npmrc|\.editorconfig)$/.test(t) ? p : m[h[n] || n] || f;
 }
 //#endregion
 //#region studio-ui/src/features/project/components/ProjectIcon.tsx
-var c = n(), l = {
+var _ = n(), v = {
 	file: "M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6",
 	folder: "M3 7h18v13H3zM3 7V4h6l2 3",
 	code: "m8 6-5 6 5 6m8-12 5 6-5 6m-3-15-2 18",
@@ -105,8 +207,8 @@ var c = n(), l = {
 	check: "m5 12 4 4L19 6",
 	eye: "M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12m7 0a3 3 0 1 0 6 0 3 3 0 1 0-6 0"
 };
-function u({ name: e = "file" }) {
-	return /* @__PURE__ */ (0, c.jsx)("svg", {
+function y({ name: e = "file" }) {
+	return /* @__PURE__ */ (0, _.jsx)("svg", {
 		className: "project-icon",
 		viewBox: "0 0 24 24",
 		fill: "none",
@@ -115,83 +217,258 @@ function u({ name: e = "file" }) {
 		strokeLinecap: "round",
 		strokeLinejoin: "round",
 		"aria-hidden": "true",
-		children: /* @__PURE__ */ (0, c.jsx)("path", { d: l[e] || l.file })
+		children: /* @__PURE__ */ (0, _.jsx)("path", { d: v[e] || v.file })
+	});
+}
+//#endregion
+//#region studio-ui/src/features/project/hooks/useExplorerWidth.ts
+var b = "devmethod.studio.explorer-width.v1", x = 160, S = 420, C = 260;
+function w() {
+	try {
+		let e = JSON.parse(localStorage.getItem("devmethod.studio.explorer-width.v1") || "null");
+		if (typeof e == "object" && e && "version" in e && e.version === 1 && "width" in e && typeof e.width == "number" && Number.isFinite(e.width)) return Math.min(S, Math.max(x, e.width));
+	} catch {}
+	return 230;
+}
+function T(e) {
+	try {
+		localStorage.setItem(b, JSON.stringify({
+			version: 1,
+			width: e
+		}));
+	} catch {}
+}
+function E(e) {
+	let [t] = (0, i.useState)(w), n = (0, i.useRef)(t), r = (0, i.useRef)(null), a = (0, i.useRef)(null), o = (0, i.useRef)({
+		width: n.current,
+		maximum: S,
+		enabled: !0
+	}), [s, c] = (0, i.useState)(o.current);
+	function l(e) {
+		let t = Math.min(o.current.maximum, Math.max(x, Math.round(e))), n = {
+			...o.current,
+			width: t
+		};
+		return o.current = n, r.current?.style.setProperty("--explorer-width", t + "px"), c(n), t;
+	}
+	function u(e) {
+		n.current = l(e), T(n.current);
+	}
+	(0, i.useEffect)(() => {
+		let t = e.current?.closest(".project-files-layout");
+		if (!t) return;
+		r.current = t;
+		function i() {
+			let e = t.getBoundingClientRect().width;
+			if (e <= 0) return;
+			let r = e >= 420 && window.innerWidth > 650, i = Math.max(x, Math.min(S, e - C)), s = a.current ? o.current.width : n.current, l = Math.min(i, Math.max(x, s));
+			o.current = {
+				width: l,
+				maximum: i,
+				enabled: r
+			}, t.style.setProperty("--explorer-width", l + "px"), t.dataset.explorerStacked = String(!r), c((e) => e.width === l && e.maximum === i && e.enabled === r ? e : o.current);
+		}
+		i();
+		let s = typeof ResizeObserver > "u" ? null : new ResizeObserver(i);
+		return s?.observe(t), window.addEventListener("resize", i), () => {
+			s?.disconnect(), window.removeEventListener("resize", i);
+			let e = a.current;
+			e?.target.hasPointerCapture?.(e.pointerId) && e.target.releasePointerCapture(e.pointerId), a.current = null, delete t.dataset.explorerResizing, delete t.dataset.explorerStacked, t.style.removeProperty("--explorer-width"), r.current = null;
+		};
+	}, [e]);
+	function d(e) {
+		e.button === 0 && o.current.enabled && (e.preventDefault(), e.currentTarget.focus(), e.currentTarget.setPointerCapture?.(e.pointerId), a.current = {
+			pointerId: e.pointerId,
+			startX: e.clientX,
+			startWidth: o.current.width,
+			target: e.currentTarget
+		}, r.current && (r.current.dataset.explorerResizing = "true"));
+	}
+	function f(e) {
+		let t = a.current;
+		t && t.pointerId === e.pointerId && l(t.startWidth + e.clientX - t.startX);
+	}
+	function p(e, t) {
+		let n = a.current;
+		n && n.pointerId === e.pointerId && (a.current = null, t ? l(n.startWidth) : u(o.current.width), r.current && delete r.current.dataset.explorerResizing, e.currentTarget.hasPointerCapture?.(e.pointerId) && e.currentTarget.releasePointerCapture(e.pointerId));
+	}
+	function m(e) {
+		let t = {
+			ArrowLeft: -(e.shiftKey ? 40 : 16),
+			ArrowRight: e.shiftKey ? 40 : 16
+		}, n = o.current.width + (t[e.key] || 0);
+		if (e.key === "Home") n = x;
+		else if (e.key === "End") n = o.current.maximum;
+		else if (e.key === "Enter") n = 230;
+		else if (!(e.key in t)) return;
+		e.preventDefault(), u(n);
+	}
+	return {
+		state: s,
+		onPointerDown: d,
+		onPointerMove: f,
+		onPointerUp: (e) => p(e, !1),
+		onPointerCancel: (e) => p(e, !0),
+		onKeyDown: m,
+		reset: () => u(230)
+	};
+}
+//#endregion
+//#region studio-ui/src/features/project/components/ExplorerResizer.tsx
+function D({ explorer: e }) {
+	let t = E(e);
+	return /* @__PURE__ */ (0, _.jsx)("div", {
+		className: "explorer-resizer",
+		role: "separator",
+		"aria-label": "Largeur de l’explorateur",
+		"aria-orientation": "vertical",
+		"aria-valuemin": 160,
+		"aria-valuemax": Math.round(t.state.maximum),
+		"aria-valuenow": t.state.width,
+		"aria-valuetext": `${t.state.width} pixels`,
+		tabIndex: t.state.enabled ? 0 : -1,
+		hidden: !t.state.enabled,
+		title: "Glissez pour redimensionner · flèches gauche/droite · Entrée ou double-clic pour réinitialiser",
+		onPointerDown: t.onPointerDown,
+		onPointerMove: t.onPointerMove,
+		onPointerUp: t.onPointerUp,
+		onPointerCancel: t.onPointerCancel,
+		onLostPointerCapture: t.onPointerUp,
+		onKeyDown: t.onKeyDown,
+		onDoubleClick: t.reset
 	});
 }
 //#endregion
 //#region studio-ui/src/features/project/components/FileExplorer.tsx
-function d({ items: e, selected: t, onSelect: n }) {
-	return /* @__PURE__ */ (0, c.jsx)("ul", { children: e.map((e) => /* @__PURE__ */ (0, c.jsx)("li", { children: e.file ? /* @__PURE__ */ (0, c.jsxs)("button", {
+function O({ file: e, name: t, selected: n, onSelect: r }) {
+	let i = g(e);
+	return /* @__PURE__ */ (0, _.jsxs)("button", {
 		type: "button",
 		className: "project-file",
-		"aria-current": t === e.file.path ? "true" : void 0,
-		title: e.file.path,
-		onClick: () => n(e.file.path),
-		children: [/* @__PURE__ */ (0, c.jsx)("span", {
-			className: "file-glyph language-" + e.file.language.toLowerCase(),
+		"aria-current": n === e.path ? "true" : void 0,
+		"aria-label": `${t} · ${i.description}`,
+		title: e.path,
+		onClick: () => r(e.path),
+		children: [/* @__PURE__ */ (0, _.jsx)("span", {
+			className: "file-glyph file-kind-" + i.kind,
 			"aria-hidden": "true",
-			children: ["typescript", "TS"].includes(e.file.language) ? "TS" : ["typescriptreact", "TSX"].includes(e.file.language) ? "TSX" : /* @__PURE__ */ (0, c.jsx)(u, {})
-		}), /* @__PURE__ */ (0, c.jsx)("span", { children: e.name })]
-	}) : /* @__PURE__ */ (0, c.jsxs)("details", {
-		open: !0,
-		children: [/* @__PURE__ */ (0, c.jsxs)("summary", { children: [/* @__PURE__ */ (0, c.jsx)(u, { name: "folder" }), e.name] }), /* @__PURE__ */ (0, c.jsx)(d, {
+			children: i.label || /* @__PURE__ */ (0, _.jsx)(y, {})
+		}), /* @__PURE__ */ (0, _.jsx)("span", {
+			className: "project-tree-name",
+			children: t
+		})]
+	});
+}
+function k({ items: e, selected: t, onSelect: n, closed: r, onToggle: i }) {
+	return /* @__PURE__ */ (0, _.jsx)("ul", { children: e.map((e) => /* @__PURE__ */ (0, _.jsx)("li", { children: e.file ? /* @__PURE__ */ (0, _.jsx)(O, {
+		file: e.file,
+		name: e.name,
+		selected: t,
+		onSelect: n
+	}) : /* @__PURE__ */ (0, _.jsxs)("details", {
+		open: !r.has(e.path),
+		onToggle: (t) => i(e.path, t.currentTarget.open),
+		children: [/* @__PURE__ */ (0, _.jsxs)("summary", {
+			title: e.sourcePath,
+			children: [/* @__PURE__ */ (0, _.jsx)(y, { name: "folder" }), /* @__PURE__ */ (0, _.jsx)("span", {
+				className: "project-tree-name",
+				children: e.name
+			})]
+		}), /* @__PURE__ */ (0, _.jsx)(k, {
 			items: e.children,
 			selected: t,
-			onSelect: n
+			onSelect: n,
+			closed: r,
+			onToggle: i
 		})]
 	}) }, e.path)) });
 }
-function f({ analysis: e, selected: t, onSelect: n }) {
-	let [r, a] = (0, i.useState)(""), [o, l] = (0, i.useState)("layer"), f = s(e.files, o, r);
-	return /* @__PURE__ */ (0, c.jsxs)("nav", {
+function A(e, t, n) {
+	if (e.has(t) !== n) return e;
+	let r = new Set(e);
+	return n ? r.delete(t) : r.add(t), r;
+}
+function j({ analysis: e, selected: t, onSelect: n }) {
+	let r = (0, i.useRef)(null), [a, o] = (0, i.useState)(""), [s, c] = (0, i.useState)("files"), [l, f] = (0, i.useState)(() => /* @__PURE__ */ new Set()), [p, m] = (0, i.useState)(() => /* @__PURE__ */ new Set()), h = u(e.files, s, a);
+	function g(t) {
+		let r = e.files.find((e) => e.path === t);
+		r && f((e) => {
+			let t = d(r, s);
+			return t.some((t) => e.has(t)) ? new Set([...e].filter((e) => !t.includes(e))) : e;
+		}), n(t);
+	}
+	let v = a.trim() ? m : f;
+	return /* @__PURE__ */ (0, _.jsxs)("nav", {
+		ref: r,
 		className: "project-explorer",
 		"aria-label": "Explorateur du projet",
 		children: [
-			/* @__PURE__ */ (0, c.jsxs)("div", {
+			/* @__PURE__ */ (0, _.jsxs)("div", {
 				className: "explorer-tools",
-				children: [/* @__PURE__ */ (0, c.jsxs)("label", {
-					className: "project-search",
-					children: [/* @__PURE__ */ (0, c.jsx)(u, { name: "search" }), /* @__PURE__ */ (0, c.jsx)("input", {
-						"aria-label": "Rechercher un fichier",
-						placeholder: "Rechercher un fichier…",
-						value: r,
-						onChange: (e) => a(e.target.value)
-					})]
-				}), /* @__PURE__ */ (0, c.jsxs)("select", {
-					"aria-label": "Organisation des fichiers",
-					value: o,
-					onChange: (e) => l(e.target.value),
-					children: [/* @__PURE__ */ (0, c.jsx)("option", {
-						value: "layer",
-						children: "Par couche"
-					}), /* @__PURE__ */ (0, c.jsx)("option", {
-						value: "feature",
-						children: "Par fonctionnalité"
-					})]
-				})]
+				children: [
+					/* @__PURE__ */ (0, _.jsx)("span", {
+						className: "explorer-heading",
+						children: "Explorateur"
+					}),
+					/* @__PURE__ */ (0, _.jsxs)("label", {
+						className: "project-search",
+						children: [/* @__PURE__ */ (0, _.jsx)(y, { name: "search" }), /* @__PURE__ */ (0, _.jsx)("input", {
+							"aria-label": "Rechercher un fichier",
+							placeholder: "Rechercher un fichier…",
+							value: a,
+							onChange: (e) => {
+								o(e.target.value), m(/* @__PURE__ */ new Set());
+							}
+						})]
+					}),
+					/* @__PURE__ */ (0, _.jsxs)("select", {
+						"aria-label": "Organisation des fichiers",
+						value: s,
+						onChange: (e) => c(e.target.value),
+						children: [
+							/* @__PURE__ */ (0, _.jsx)("option", {
+								value: "files",
+								children: "Dossiers du projet"
+							}),
+							/* @__PURE__ */ (0, _.jsx)("option", {
+								value: "layer",
+								children: "Regrouper par couche"
+							}),
+							/* @__PURE__ */ (0, _.jsx)("option", {
+								value: "feature",
+								children: "Regrouper par fonctionnalité"
+							})
+						]
+					})
+				]
 			}),
-			/* @__PURE__ */ (0, c.jsxs)("div", {
+			/* @__PURE__ */ (0, _.jsxs)("div", {
 				className: "project-file-tree",
-				children: [/* @__PURE__ */ (0, c.jsx)(d, {
-					items: f,
+				children: [/* @__PURE__ */ (0, _.jsx)(k, {
+					items: h,
 					selected: t,
-					onSelect: n
-				}), !f.length && /* @__PURE__ */ (0, c.jsx)("p", { children: "Aucun fichier correspondant." })]
+					onSelect: g,
+					closed: a.trim() ? p : l,
+					onToggle: (e, t) => v((n) => A(n, e, t))
+				}), !h.length && /* @__PURE__ */ (0, _.jsx)("p", { children: "Aucun fichier correspondant." })]
 			}),
-			/* @__PURE__ */ (0, c.jsxs)("p", {
+			/* @__PURE__ */ (0, _.jsxs)("p", {
 				className: "explorer-note",
 				children: [
 					e.files.length,
-					" fichiers · classement logique",
-					!e.backendDetected && /* @__PURE__ */ (0, c.jsxs)(c.Fragment, { children: [/* @__PURE__ */ (0, c.jsx)("br", {}), "Aucun backend détecté dans ces sources."] })
+					" fichiers ·",
+					" ",
+					s === "files" ? "dossiers du projet" : "classement logique",
+					!e.backendDetected && /* @__PURE__ */ (0, _.jsxs)(_.Fragment, { children: [/* @__PURE__ */ (0, _.jsx)("br", {}), "Aucun backend détecté dans ces sources."] })
 				]
-			})
+			}),
+			/* @__PURE__ */ (0, _.jsx)(D, { explorer: r })
 		]
 	});
 }
 //#endregion
 //#region studio-ui/src/features/project/components/ProjectInspector.tsx
-var p = {
+var M = {
 	feature: "Fonctionnalité",
 	role: "Rôle",
 	language: "Langage",
@@ -202,46 +479,46 @@ var p = {
 	path: "Chemin",
 	framework: "Framework",
 	resource: "Ressource"
-}, m = {
+}, N = {
 	detected: "Détecté dans le code",
 	declared: "Déclaré",
 	observed: "Observé en exécution",
 	inferred: "Supposé"
 };
-function h({ sources: e, onOpenSource: t }) {
-	return /* @__PURE__ */ (0, c.jsx)("div", {
+function P({ sources: e, onOpenSource: t }) {
+	return /* @__PURE__ */ (0, _.jsx)("div", {
 		className: "inspector-sources",
-		children: e.map((e, n) => /* @__PURE__ */ (0, c.jsxs)("button", {
+		children: e.map((e, n) => /* @__PURE__ */ (0, _.jsxs)("button", {
 			onClick: () => t(e.path, e.line),
 			children: [
-				/* @__PURE__ */ (0, c.jsx)(u, {}),
+				/* @__PURE__ */ (0, _.jsx)(y, {}),
 				e.path,
 				e.line ? ":" + e.line : ""
 			]
 		}, e.path + n))
 	});
 }
-function g({ entries: e, onOpenSource: t }) {
-	return /* @__PURE__ */ (0, c.jsx)(c.Fragment, { children: e.map((e, n) => /* @__PURE__ */ (0, c.jsxs)("div", {
+function F({ entries: e, onOpenSource: t }) {
+	return /* @__PURE__ */ (0, _.jsx)(_.Fragment, { children: e.map((e, n) => /* @__PURE__ */ (0, _.jsxs)("div", {
 		className: "inspector-provenance",
 		children: [
-			/* @__PURE__ */ (0, c.jsx)("span", {
+			/* @__PURE__ */ (0, _.jsx)("span", {
 				className: "provenance-tag provenance-" + e.kind,
-				children: m[e.kind]
+				children: N[e.kind]
 			}),
-			/* @__PURE__ */ (0, c.jsx)("p", { children: e.method }),
-			/* @__PURE__ */ (0, c.jsx)(h, {
+			/* @__PURE__ */ (0, _.jsx)("p", { children: e.method }),
+			/* @__PURE__ */ (0, _.jsx)(P, {
 				sources: e.sources,
 				onOpenSource: t
 			}),
-			e.limitation && /* @__PURE__ */ (0, c.jsx)("p", {
+			e.limitation && /* @__PURE__ */ (0, _.jsx)("p", {
 				className: "project-caution",
 				children: e.limitation
 			})
 		]
 	}, n)) });
 }
-function _(e, t, n) {
+function I(e, t, n) {
 	let r = e.relations.find((e) => e.id === t), i = e.elements.find((e) => e.id === t) || (t ? void 0 : e.elements.find((e) => e.sources.some((e) => e.path === n))), a = t ? void 0 : e.files.find((e) => e.path === n), o = i?.sources || (a ? [{ path: a.path }] : []), s = i ? e.relations.filter((e) => e.source === i.id || e.target === i.id) : [], c = new Set(s.flatMap((e) => [e.source, e.target]));
 	return {
 		relation: r,
@@ -253,17 +530,17 @@ function _(e, t, n) {
 		tests: e.elements.filter((e) => e.type === "test" && c.has(e.id))
 	};
 }
-function v({ revisionId: e, onClose: t }) {
-	return /* @__PURE__ */ (0, c.jsxs)("aside", {
+function L({ revisionId: e, onClose: t }) {
+	return /* @__PURE__ */ (0, _.jsxs)("aside", {
 		className: "project-inspector",
 		"aria-label": "Inspection du projet",
 		children: [
-			/* @__PURE__ */ (0, c.jsxs)("div", {
+			/* @__PURE__ */ (0, _.jsxs)("div", {
 				className: "inspector-heading",
 				children: [
-					/* @__PURE__ */ (0, c.jsx)(u, {}),
-					/* @__PURE__ */ (0, c.jsx)("h3", { children: "Élément absent de cette version" }),
-					/* @__PURE__ */ (0, c.jsx)("button", {
+					/* @__PURE__ */ (0, _.jsx)(y, {}),
+					/* @__PURE__ */ (0, _.jsx)("h3", { children: "Élément absent de cette version" }),
+					/* @__PURE__ */ (0, _.jsx)("button", {
 						onClick: t,
 						"aria-label": "Fermer l’inspecteur",
 						title: "Fermer l’inspecteur",
@@ -271,39 +548,39 @@ function v({ revisionId: e, onClose: t }) {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, c.jsxs)("p", { children: [
+			/* @__PURE__ */ (0, _.jsxs)("p", { children: [
 				"L’élément ou la connexion sélectionné n’existe pas dans l’analyse de la version",
 				" ",
 				e.slice(0, 8),
 				". Il peut avoir été supprimé ou ne plus être résolu."
 			] }),
-			/* @__PURE__ */ (0, c.jsx)("p", { children: "Aucun autre fichier n’est substitué à cette sélection. Consultez la version précédente depuis l’historique pour retrouver ses sources." })
+			/* @__PURE__ */ (0, _.jsx)("p", { children: "Aucun autre fichier n’est substitué à cette sélection. Consultez la version précédente depuis l’historique pour retrouver ses sources." })
 		]
 	});
 }
-function y(e, t, n) {
+function R(e, t, n) {
 	return !(!e || t || n);
 }
-function b({ analysis: e, selectedId: t, selectedPath: n, onSelect: r, onClose: i, onView: a, onOpenSource: o, onShowChecks: s }) {
-	let { relation: l, element: d, file: f, selectedSources: m, connected: b, contracts: C, tests: w } = _(e, t, n);
-	if (y(t, d, l)) return /* @__PURE__ */ (0, c.jsx)(v, {
+function z({ analysis: e, selectedId: t, selectedPath: n, onSelect: r, onClose: i, onView: a, onOpenSource: o, onShowChecks: s }) {
+	let { relation: c, element: l, file: u, selectedSources: d, connected: f, contracts: p, tests: m } = I(e, t, n);
+	if (R(t, l, c)) return /* @__PURE__ */ (0, _.jsx)(L, {
 		revisionId: e.revisionId,
 		onClose: i
 	});
-	let T = (e) => /* @__PURE__ */ (0, c.jsx)("button", {
+	let h = (e) => /* @__PURE__ */ (0, _.jsx)("button", {
 		onClick: () => r(e.id),
 		children: e.label
 	}, e.id);
-	return /* @__PURE__ */ (0, c.jsxs)("aside", {
+	return /* @__PURE__ */ (0, _.jsxs)("aside", {
 		className: "project-inspector",
 		"aria-label": "Inspection du projet",
 		children: [
-			/* @__PURE__ */ (0, c.jsxs)("div", {
+			/* @__PURE__ */ (0, _.jsxs)("div", {
 				className: "inspector-heading",
 				children: [
-					/* @__PURE__ */ (0, c.jsx)(u, { name: l ? "graph" : "file" }),
-					/* @__PURE__ */ (0, c.jsx)("h3", { children: l?.label || d?.label || f?.path.split("/").at(-1) || "Inspection" }),
-					/* @__PURE__ */ (0, c.jsx)("button", {
+					/* @__PURE__ */ (0, _.jsx)(y, { name: c ? "graph" : "file" }),
+					/* @__PURE__ */ (0, _.jsx)("h3", { children: c?.label || l?.label || u?.path.split("/").at(-1) || "Inspection" }),
+					/* @__PURE__ */ (0, _.jsx)("button", {
 						onClick: i,
 						"aria-label": "Fermer l’inspecteur",
 						title: "Fermer l’inspecteur",
@@ -311,77 +588,77 @@ function b({ analysis: e, selectedId: t, selectedPath: n, onSelect: r, onClose: 
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, c.jsx)("p", { children: d?.details.role || d?.description || f?.role || "Sélectionnez un fichier, un élément ou une connexion." }),
-			l ? /* @__PURE__ */ (0, c.jsx)(x, {
-				relation: l,
+			/* @__PURE__ */ (0, _.jsx)("p", { children: l?.details.role || l?.description || u?.role || "Sélectionnez un fichier, un élément ou une connexion." }),
+			c ? /* @__PURE__ */ (0, _.jsx)(B, {
+				relation: c,
 				analysis: e,
 				onSelect: r,
 				onOpenSource: o
-			}) : /* @__PURE__ */ (0, c.jsxs)(c.Fragment, { children: [
-				/* @__PURE__ */ (0, c.jsx)("h4", { children: "Fichier source" }),
-				/* @__PURE__ */ (0, c.jsx)(h, {
-					sources: m,
+			}) : /* @__PURE__ */ (0, _.jsxs)(_.Fragment, { children: [
+				/* @__PURE__ */ (0, _.jsx)("h4", { children: "Fichier source" }),
+				/* @__PURE__ */ (0, _.jsx)(P, {
+					sources: d,
 					onOpenSource: o
 				}),
-				d && /* @__PURE__ */ (0, c.jsxs)(c.Fragment, { children: [
-					/* @__PURE__ */ (0, c.jsxs)("details", { children: [/* @__PURE__ */ (0, c.jsx)("summary", { children: "Fonctions, interactions et métadonnées" }), Object.keys(d.details).length ? /* @__PURE__ */ (0, c.jsx)("dl", { children: Object.entries(d.details).filter(([e]) => e !== "sha256").map(([e, t]) => /* @__PURE__ */ (0, c.jsxs)("div", { children: [/* @__PURE__ */ (0, c.jsx)("dt", { children: p[e] || e }), /* @__PURE__ */ (0, c.jsx)("dd", { children: t })] }, e)) }) : /* @__PURE__ */ (0, c.jsx)("p", { children: "Entrées et sorties non résolues par cet extracteur." })] }),
-					/* @__PURE__ */ (0, c.jsx)("h4", { children: "Connexions et dépendances" }),
-					b.length ? /* @__PURE__ */ (0, c.jsx)("div", {
+				l && /* @__PURE__ */ (0, _.jsxs)(_.Fragment, { children: [
+					/* @__PURE__ */ (0, _.jsxs)("details", { children: [/* @__PURE__ */ (0, _.jsx)("summary", { children: "Fonctions, interactions et métadonnées" }), Object.keys(l.details).length ? /* @__PURE__ */ (0, _.jsx)("dl", { children: Object.entries(l.details).filter(([e]) => e !== "sha256").map(([e, t]) => /* @__PURE__ */ (0, _.jsxs)("div", { children: [/* @__PURE__ */ (0, _.jsx)("dt", { children: M[e] || e }), /* @__PURE__ */ (0, _.jsx)("dd", { children: t })] }, e)) }) : /* @__PURE__ */ (0, _.jsx)("p", { children: "Entrées et sorties non résolues par cet extracteur." })] }),
+					/* @__PURE__ */ (0, _.jsx)("h4", { children: "Connexions et dépendances" }),
+					f.length ? /* @__PURE__ */ (0, _.jsx)("div", {
 						className: "inspector-connections",
-						children: b.map((t) => /* @__PURE__ */ (0, c.jsxs)("button", {
+						children: f.map((t) => /* @__PURE__ */ (0, _.jsxs)("button", {
 							onClick: () => r(t.id),
 							children: [
-								/* @__PURE__ */ (0, c.jsx)("span", { children: t.kind }),
+								/* @__PURE__ */ (0, _.jsx)("span", { children: t.kind }),
 								" ",
-								t.source === d.id ? "→ " : "← ",
-								e.elements.find((e) => e.id === (t.source === d.id ? t.target : t.source))?.label || t.label
+								t.source === l.id ? "→ " : "← ",
+								e.elements.find((e) => e.id === (t.source === l.id ? t.target : t.source))?.label || t.label
 							]
 						}, t.id))
-					}) : /* @__PURE__ */ (0, c.jsx)("p", { children: "Aucune connexion résolue ; cela ne prouve pas l’absence de dépendance." })
+					}) : /* @__PURE__ */ (0, _.jsx)("p", { children: "Aucune connexion résolue ; cela ne prouve pas l’absence de dépendance." })
 				] }),
-				/* @__PURE__ */ (0, c.jsxs)("div", {
+				/* @__PURE__ */ (0, _.jsxs)("div", {
 					className: "inspector-actions",
-					children: [/* @__PURE__ */ (0, c.jsxs)("button", {
+					children: [/* @__PURE__ */ (0, _.jsxs)("button", {
 						onClick: () => a("flows"),
 						children: [
-							/* @__PURE__ */ (0, c.jsx)(u, { name: "graph" }),
+							/* @__PURE__ */ (0, _.jsx)(y, { name: "graph" }),
 							"Voir le flux ",
-							/* @__PURE__ */ (0, c.jsx)("span", { children: "→" })
+							/* @__PURE__ */ (0, _.jsx)("span", { children: "→" })
 						]
-					}), /* @__PURE__ */ (0, c.jsxs)("button", {
+					}), /* @__PURE__ */ (0, _.jsxs)("button", {
 						onClick: () => a("impact"),
 						children: [
-							/* @__PURE__ */ (0, c.jsx)(u, { name: "code" }),
+							/* @__PURE__ */ (0, _.jsx)(y, { name: "code" }),
 							"Voir l’impact ",
-							/* @__PURE__ */ (0, c.jsx)("span", { children: "→" })
+							/* @__PURE__ */ (0, _.jsx)("span", { children: "→" })
 						]
 					})]
 				}),
-				/* @__PURE__ */ (0, c.jsxs)("details", { children: [/* @__PURE__ */ (0, c.jsxs)("summary", { children: ["Contrats associés · ", C.length] }), C.length ? C.map(T) : /* @__PURE__ */ (0, c.jsx)("p", { children: "Aucun contrat directement lié détecté." })] }),
-				/* @__PURE__ */ (0, c.jsxs)("details", {
+				/* @__PURE__ */ (0, _.jsxs)("details", { children: [/* @__PURE__ */ (0, _.jsxs)("summary", { children: ["Contrats associés · ", p.length] }), p.length ? p.map(h) : /* @__PURE__ */ (0, _.jsx)("p", { children: "Aucun contrat directement lié détecté." })] }),
+				/* @__PURE__ */ (0, _.jsxs)("details", {
 					open: !0,
 					children: [
-						/* @__PURE__ */ (0, c.jsxs)("summary", { children: ["Tests associés · ", w.length] }),
-						w.length ? /* @__PURE__ */ (0, c.jsxs)(c.Fragment, { children: [/* @__PURE__ */ (0, c.jsx)("p", { children: "Association par une relation d’import ou de test détectée ; aucun succès déduit." }), w.map(T)] }) : /* @__PURE__ */ (0, c.jsx)("p", { children: "Aucune association directe détectée." }),
-						/* @__PURE__ */ (0, c.jsx)("button", {
-							onClick: () => s(m[0]?.path),
+						/* @__PURE__ */ (0, _.jsxs)("summary", { children: ["Tests associés · ", m.length] }),
+						m.length ? /* @__PURE__ */ (0, _.jsxs)(_.Fragment, { children: [/* @__PURE__ */ (0, _.jsx)("p", { children: "Association par une relation d’import ou de test détectée ; aucun succès déduit." }), m.map(h)] }) : /* @__PURE__ */ (0, _.jsx)("p", { children: "Aucune association directe détectée." }),
+						/* @__PURE__ */ (0, _.jsx)("button", {
+							onClick: () => s(d[0]?.path),
 							children: "Consulter les vérifications →"
 						})
 					]
 				}),
-				/* @__PURE__ */ (0, c.jsxs)("details", { children: [
-					/* @__PURE__ */ (0, c.jsx)("summary", { children: "Provenance et fraîcheur" }),
-					d ? /* @__PURE__ */ (0, c.jsx)(g, {
-						entries: d.provenance,
+				/* @__PURE__ */ (0, _.jsxs)("details", { children: [
+					/* @__PURE__ */ (0, _.jsx)("summary", { children: "Provenance et fraîcheur" }),
+					l ? /* @__PURE__ */ (0, _.jsx)(F, {
+						entries: l.provenance,
 						onOpenSource: o
-					}) : /* @__PURE__ */ (0, c.jsx)("p", { children: "Fichier présent dans le manifeste vérifié de cette version." }),
-					/* @__PURE__ */ (0, c.jsxs)("p", { children: ["Runtime : ", S(d)] }),
-					d?.details.sha256 && /* @__PURE__ */ (0, c.jsxs)("p", { children: ["Empreinte du fichier : ", /* @__PURE__ */ (0, c.jsx)("code", { children: d.details.sha256 })] }),
-					/* @__PURE__ */ (0, c.jsxs)("p", { children: [
+					}) : /* @__PURE__ */ (0, _.jsx)("p", { children: "Fichier présent dans le manifeste vérifié de cette version." }),
+					/* @__PURE__ */ (0, _.jsxs)("p", { children: ["Runtime : ", V(l)] }),
+					l?.details.sha256 && /* @__PURE__ */ (0, _.jsxs)("p", { children: ["Empreinte du fichier : ", /* @__PURE__ */ (0, _.jsx)("code", { children: l.details.sha256 })] }),
+					/* @__PURE__ */ (0, _.jsxs)("p", { children: [
 						"Version ",
 						e.revisionId.slice(0, 8),
 						e.localChanges ? " + brouillon local" : "",
-						/* @__PURE__ */ (0, c.jsx)("br", {}),
+						/* @__PURE__ */ (0, _.jsx)("br", {}),
 						new Date(e.analyzedAt).toLocaleString("fr-FR")
 					] })
 				] })
@@ -389,42 +666,42 @@ function b({ analysis: e, selectedId: t, selectedPath: n, onSelect: r, onClose: 
 		]
 	});
 }
-function x({ relation: e, analysis: t, onSelect: n, onOpenSource: r }) {
-	return /* @__PURE__ */ (0, c.jsxs)(c.Fragment, { children: [
-		/* @__PURE__ */ (0, c.jsxs)("p", {
+function B({ relation: e, analysis: t, onSelect: n, onOpenSource: r }) {
+	return /* @__PURE__ */ (0, _.jsxs)(_.Fragment, { children: [
+		/* @__PURE__ */ (0, _.jsxs)("p", {
 			className: "provenance-tag",
 			children: ["Relation · ", e.kind]
 		}),
-		/* @__PURE__ */ (0, c.jsx)("div", {
+		/* @__PURE__ */ (0, _.jsx)("div", {
 			className: "inspector-connections",
-			children: [e.source, e.target].map((e, r) => /* @__PURE__ */ (0, c.jsxs)("button", {
+			children: [e.source, e.target].map((e, r) => /* @__PURE__ */ (0, _.jsxs)("button", {
 				onClick: () => n(e),
 				children: [r ? "Vers : " : "Depuis : ", t.elements.find((t) => t.id === e)?.label || e]
 			}, e + r))
 		}),
-		/* @__PURE__ */ (0, c.jsx)("h4", { children: "Provenance" }),
-		/* @__PURE__ */ (0, c.jsx)(g, {
+		/* @__PURE__ */ (0, _.jsx)("h4", { children: "Provenance" }),
+		/* @__PURE__ */ (0, _.jsx)(F, {
 			entries: e.provenance,
 			onOpenSource: r
 		}),
-		/* @__PURE__ */ (0, c.jsx)("p", {
+		/* @__PURE__ */ (0, _.jsx)("p", {
 			className: "project-caution",
 			children: "Une connexion dans le code ne prouve pas son bon fonctionnement en exécution."
 		})
 	] });
 }
-function S(e) {
+function V(e) {
 	return e?.runtime === "observed" ? "observation disponible, voir la preuve" : "non observé";
 }
 //#endregion
 //#region studio-ui/src/features/project/components/ProjectVersionSelector.tsx
-function C({ revisionId: e, activeRevisionId: t, revisions: n, onSelectVersion: r }) {
-	return !n?.length || !r ? /* @__PURE__ */ (0, c.jsxs)("strong", { children: ["Version · ", e?.slice(0, 8) || "aucune"] }) : /* @__PURE__ */ (0, c.jsx)("select", {
+function H({ revisionId: e, activeRevisionId: t, revisions: n, onSelectVersion: r }) {
+	return !n?.length || !r ? /* @__PURE__ */ (0, _.jsxs)("strong", { children: ["Version · ", e?.slice(0, 8) || "aucune"] }) : /* @__PURE__ */ (0, _.jsx)("select", {
 		className: "project-version-select",
 		"aria-label": "Version du code",
 		value: e || "",
 		onChange: (e) => r(e.target.value),
-		children: n.map((e) => /* @__PURE__ */ (0, c.jsxs)("option", {
+		children: n.map((e) => /* @__PURE__ */ (0, _.jsxs)("option", {
 			value: e.id,
 			children: [
 				e.id.slice(0, 8),
@@ -437,120 +714,120 @@ function C({ revisionId: e, activeRevisionId: t, revisions: n, onSelectVersion: 
 }
 //#endregion
 //#region studio-ui/src/features/project/components/ProjectWorkbench.tsx
-var w = (0, i.lazy)(() => import("./ArchitectureView-BNuLi3C-.js").then((e) => ({ default: e.ArchitectureView }))), T = (0, i.lazy)(() => import("./FlowView-yFu7Q8N-.js").then((e) => ({ default: e.FlowView }))), E = (0, i.lazy)(() => import("./ImpactView-nO-JJW_f.js").then((e) => ({ default: e.ImpactView })));
-function D(e, t, n) {
+var U = (0, i.lazy)(() => import("./ArchitectureView-BNuLi3C-.js").then((e) => ({ default: e.ArchitectureView }))), W = (0, i.lazy)(() => import("./FlowView-yFu7Q8N-.js").then((e) => ({ default: e.FlowView }))), G = (0, i.lazy)(() => import("./ImpactView-nO-JJW_f.js").then((e) => ({ default: e.ImpactView })));
+function K(e, t, n) {
 	return e ? "Brouillon enregistré · non appliqué" : t === n ? "Appliquée" : "Consultation";
 }
-function O(e, t, n, r) {
+function q(e, t, n, r) {
 	return e ? r ? "Nouvelle analyse en cours · dernière analyse affichée, à actualiser." : "Analyse des sources…" : t ? t + (r ? " Dernière analyse conservée, non actualisée." : "") : n ? `${n.files.length} fichiers · ${n.elements.length} éléments · ${n.status === "complete" ? "analyse terminée" : "analyse partielle"}` : "Aucune version à analyser.";
 }
-function k({ host: e }) {
+function J({ host: e }) {
 	let t = (0, i.useCallback)((t) => {
 		t && t.append(e);
 	}, [e]);
-	return /* @__PURE__ */ (0, c.jsx)("div", {
+	return /* @__PURE__ */ (0, _.jsx)("div", {
 		className: "project-source-slot",
 		ref: t
 	});
 }
-function A(e) {
-	let [t, n] = (0, i.useState)(e.view || "files"), [r, o] = (0, i.useState)(!1), [s, l] = (0, i.useState)(null), [d, p] = (0, i.useState)(!0), m = r && e.revisionId === e.activeRevisionId, { model: h, loading: g, error: _, stale: v, refresh: y } = a(e.revisionId, e.previousRevisionId, m), x = h?.analysis, S = g || !!_ || !x, A = S ? [] : e.checks.filter((e) => e.revisionId === x.revisionId), j = (e) => {
-		l(e), p(!!e);
-	}, M = (t, r) => {
-		n("files"), l(null), e.onOpenSource(t, r, { draft: m });
-	}, N = h ? {
-		model: h,
+function Y(e) {
+	let [t, n] = (0, i.useState)(e.view || "files"), [r, o] = (0, i.useState)(!1), [s, c] = (0, i.useState)(null), [l, u] = (0, i.useState)(!0), d = r && e.revisionId === e.activeRevisionId, { model: f, loading: p, error: m, stale: h, refresh: g } = a(e.revisionId, e.previousRevisionId, d), v = f?.analysis, b = p || !!m || !v, x = b ? [] : e.checks.filter((e) => e.revisionId === v.revisionId), S = (e) => {
+		c(e), u(!!e);
+	}, C = (t, r) => {
+		n("files"), c(null), e.onOpenSource(t, r, { draft: d });
+	}, w = f ? {
+		model: f,
 		selectedId: s,
-		onSelect: j,
-		onOpenSource: M,
+		onSelect: S,
+		onOpenSource: C,
 		onShowChecks: e.onShowChecks
 	} : null;
-	return /* @__PURE__ */ (0, c.jsxs)("div", {
+	return /* @__PURE__ */ (0, _.jsxs)("div", {
 		className: "project-workspace",
 		children: [
-			/* @__PURE__ */ (0, c.jsxs)("header", {
+			/* @__PURE__ */ (0, _.jsxs)("header", {
 				className: "project-context-bar",
-				children: [/* @__PURE__ */ (0, c.jsxs)("span", { children: [
-					/* @__PURE__ */ (0, c.jsx)(u, { name: "graph" }),
-					/* @__PURE__ */ (0, c.jsx)(C, {
+				children: [/* @__PURE__ */ (0, _.jsxs)("span", { children: [
+					/* @__PURE__ */ (0, _.jsx)(y, { name: "graph" }),
+					/* @__PURE__ */ (0, _.jsx)(H, {
 						revisionId: e.revisionId,
 						activeRevisionId: e.activeRevisionId,
 						revisions: e.revisions,
 						onSelectVersion: e.onSelectVersion
 					}),
-					/* @__PURE__ */ (0, c.jsx)("span", {
+					/* @__PURE__ */ (0, _.jsx)("span", {
 						className: "project-context-muted",
-						children: D(m, e.revisionId, e.activeRevisionId)
+						children: K(d, e.revisionId, e.activeRevisionId)
 					})
-				] }), /* @__PURE__ */ (0, c.jsxs)("div", { children: [
-					/* @__PURE__ */ (0, c.jsxs)("details", {
+				] }), /* @__PURE__ */ (0, _.jsxs)("div", { children: [
+					/* @__PURE__ */ (0, _.jsxs)("details", {
 						className: "project-analysis-menu",
-						children: [/* @__PURE__ */ (0, c.jsx)("summary", { children: g ? "Analyse en cours…" : _ ? "Analyse indisponible" : v ? "À actualiser" : `${x?.files.length || 0} fichiers` }), /* @__PURE__ */ (0, c.jsxs)("div", {
+						children: [/* @__PURE__ */ (0, _.jsx)("summary", { children: p ? "Analyse en cours…" : m ? "Analyse indisponible" : h ? "À actualiser" : `${v?.files.length || 0} fichiers` }), /* @__PURE__ */ (0, _.jsxs)("div", {
 							className: "project-analysis-line",
 							children: [
-								/* @__PURE__ */ (0, c.jsx)("span", {
+								/* @__PURE__ */ (0, _.jsx)("span", {
 									role: "status",
-									children: O(g, _, x, v)
+									children: q(p, m, v, h)
 								}),
-								/* @__PURE__ */ (0, c.jsxs)("label", { children: [/* @__PURE__ */ (0, c.jsx)("input", {
+								/* @__PURE__ */ (0, _.jsxs)("label", { children: [/* @__PURE__ */ (0, _.jsx)("input", {
 									type: "checkbox",
-									checked: m,
+									checked: d,
 									onChange: (e) => o(e.target.checked),
 									disabled: !e.revisionId || e.revisionId !== e.activeRevisionId
 								}), "Inclure le brouillon enregistré"] }),
-								x && /* @__PURE__ */ (0, c.jsxs)("details", {
+								v && /* @__PURE__ */ (0, _.jsxs)("details", {
 									className: "project-analysis-details",
 									children: [
-										/* @__PURE__ */ (0, c.jsx)("summary", { children: "Périmètre, limites et décisions de conception" }),
-										/* @__PURE__ */ (0, c.jsxs)("p", { children: [
-											x.scope,
+										/* @__PURE__ */ (0, _.jsx)("summary", { children: "Périmètre, limites et décisions de conception" }),
+										/* @__PURE__ */ (0, _.jsxs)("p", { children: [
+											v.scope,
 											" · ",
-											x.environment,
+											v.environment,
 											" ·",
 											" ",
-											new Date(x.analyzedAt).toLocaleString("fr-FR")
+											new Date(v.analyzedAt).toLocaleString("fr-FR")
 										] }),
-										x.limits.map((e, t) => /* @__PURE__ */ (0, c.jsx)("p", { children: e }, t)),
-										x.issues.map((e, t) => /* @__PURE__ */ (0, c.jsxs)("p", { children: [
+										v.limits.map((e, t) => /* @__PURE__ */ (0, _.jsx)("p", { children: e }, t)),
+										v.issues.map((e, t) => /* @__PURE__ */ (0, _.jsxs)("p", { children: [
 											e.extractor,
 											" · ",
 											e.path,
 											" · ",
 											e.message
 										] }, t)),
-										e.decisions.filter((e) => e.status !== "superseded").map((e) => /* @__PURE__ */ (0, c.jsxs)("p", { children: [
-											/* @__PURE__ */ (0, c.jsx)("strong", { children: e.topic }),
+										e.decisions.filter((e) => e.status !== "superseded").map((e) => /* @__PURE__ */ (0, _.jsxs)("p", { children: [
+											/* @__PURE__ */ (0, _.jsx)("strong", { children: e.topic }),
 											" : ",
 											e.choice,
-											/* @__PURE__ */ (0, c.jsx)("br", {}),
+											/* @__PURE__ */ (0, _.jsx)("br", {}),
 											e.reason
 										] }, e.id)),
-										/* @__PURE__ */ (0, c.jsx)("p", { children: "Les choix de conception sont déclaratifs ; leur conformité au code demande une vérification." })
+										/* @__PURE__ */ (0, _.jsx)("p", { children: "Les choix de conception sont déclaratifs ; leur conformité au code demande une vérification." })
 									]
 								})
 							]
 						})]
 					}),
-					e.focused && e.pendingDecision && /* @__PURE__ */ (0, c.jsx)("button", {
+					e.focused && e.pendingDecision && /* @__PURE__ */ (0, _.jsx)("button", {
 						className: "project-caution",
 						onClick: e.onReviewDecision,
 						title: e.pendingDecision,
 						children: "Décision à examiner"
 					}),
-					/* @__PURE__ */ (0, c.jsxs)("button", {
+					/* @__PURE__ */ (0, _.jsxs)("button", {
 						"aria-pressed": e.focused,
 						onClick: e.onFocus,
-						children: [/* @__PURE__ */ (0, c.jsx)(u, { name: "eye" }), "Focus technique"]
+						children: [/* @__PURE__ */ (0, _.jsx)(y, { name: "eye" }), "Focus technique"]
 					}),
-					/* @__PURE__ */ (0, c.jsx)("button", {
+					/* @__PURE__ */ (0, _.jsx)("button", {
 						onClick: e.onExpand,
 						"aria-label": "Agrandir l’espace technique",
 						title: "Agrandir l’espace technique",
-						children: /* @__PURE__ */ (0, c.jsx)(u, { name: "focus" })
+						children: /* @__PURE__ */ (0, _.jsx)(y, { name: "focus" })
 					})
 				] })]
 			}),
-			/* @__PURE__ */ (0, c.jsxs)("nav", {
+			/* @__PURE__ */ (0, _.jsxs)("nav", {
 				className: "project-subnav",
 				"aria-label": "Vues du code",
 				children: [
@@ -559,84 +836,84 @@ function A(e) {
 						["architecture", "Architecture"],
 						["flows", "Flux"],
 						["impact", "Impact"]
-					].map(([e, r]) => /* @__PURE__ */ (0, c.jsx)("button", {
+					].map(([e, r]) => /* @__PURE__ */ (0, _.jsx)("button", {
 						"aria-current": t === e ? "page" : void 0,
 						onClick: () => n(e),
 						children: r
 					}, e)),
-					/* @__PURE__ */ (0, c.jsx)("span", { className: "subnav-spacer" }),
-					/* @__PURE__ */ (0, c.jsx)("button", {
-						onClick: () => p((e) => !e),
-						"aria-pressed": d,
+					/* @__PURE__ */ (0, _.jsx)("span", { className: "subnav-spacer" }),
+					/* @__PURE__ */ (0, _.jsx)("button", {
+						onClick: () => u((e) => !e),
+						"aria-pressed": l,
 						title: "Afficher ou masquer l’inspection",
 						children: "Inspecteur"
 					}),
-					/* @__PURE__ */ (0, c.jsx)("button", {
-						onClick: y,
+					/* @__PURE__ */ (0, _.jsx)("button", {
+						onClick: g,
 						"aria-label": "Reconstruire l’analyse",
 						title: "Reconstruire l’analyse",
-						children: /* @__PURE__ */ (0, c.jsx)(u, { name: "refresh" })
+						children: /* @__PURE__ */ (0, _.jsx)(y, { name: "refresh" })
 					})
 				]
 			}),
-			_ && /* @__PURE__ */ (0, c.jsxs)("p", {
+			m && /* @__PURE__ */ (0, _.jsxs)("p", {
 				className: "project-caution",
 				children: [
 					"L’analyse n’est pas disponible. L’éditeur reste accessible.",
 					" ",
-					/* @__PURE__ */ (0, c.jsx)("button", {
-						onClick: y,
+					/* @__PURE__ */ (0, _.jsx)("button", {
+						onClick: g,
 						children: "Réessayer"
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, c.jsxs)("div", {
-				className: "project-main-grid" + (d && x ? " with-inspector" : ""),
-				children: [/* @__PURE__ */ (0, c.jsxs)("div", {
+			/* @__PURE__ */ (0, _.jsxs)("div", {
+				className: "project-main-grid" + (l && v ? " with-inspector" : ""),
+				children: [/* @__PURE__ */ (0, _.jsxs)("div", {
 					className: "project-center",
-					children: [/* @__PURE__ */ (0, c.jsxs)("div", {
+					children: [/* @__PURE__ */ (0, _.jsxs)("div", {
 						className: "project-files-layout",
 						hidden: t !== "files",
-						children: [x && /* @__PURE__ */ (0, c.jsx)(f, {
-							analysis: x,
+						children: [v && /* @__PURE__ */ (0, _.jsx)(j, {
+							analysis: v,
 							selected: e.selectedPath,
 							onSelect: (t) => {
-								l(null), e.onOpenSource(t, void 0, { draft: m });
+								c(null), e.onOpenSource(t, void 0, { draft: d });
 							}
-						}), /* @__PURE__ */ (0, c.jsx)(k, { host: e.sourceHost })]
-					}), /* @__PURE__ */ (0, c.jsxs)(i.Suspense, {
-						fallback: /* @__PURE__ */ (0, c.jsx)("p", {
+						}), /* @__PURE__ */ (0, _.jsx)(J, { host: e.sourceHost })]
+					}), /* @__PURE__ */ (0, _.jsxs)(i.Suspense, {
+						fallback: /* @__PURE__ */ (0, _.jsx)("p", {
 							role: "status",
 							children: "Chargement de cette vue…"
 						}),
 						children: [
-							N && t === "architecture" && /* @__PURE__ */ (0, c.jsx)(w, { ...N }),
-							N && t === "flows" && /* @__PURE__ */ (0, c.jsx)(T, { ...N }),
-							N && t === "impact" && /* @__PURE__ */ (0, c.jsx)(E, { ...N })
+							w && t === "architecture" && /* @__PURE__ */ (0, _.jsx)(U, { ...w }),
+							w && t === "flows" && /* @__PURE__ */ (0, _.jsx)(W, { ...w }),
+							w && t === "impact" && /* @__PURE__ */ (0, _.jsx)(G, { ...w })
 						]
 					})]
-				}), d && x && /* @__PURE__ */ (0, c.jsx)(b, {
-					analysis: x,
+				}), l && v && /* @__PURE__ */ (0, _.jsx)(z, {
+					analysis: v,
 					selectedId: s,
 					selectedPath: e.selectedPath,
-					onSelect: j,
-					onClose: () => p(!1),
+					onSelect: S,
+					onClose: () => u(!1),
 					onView: n,
-					onOpenSource: M,
+					onOpenSource: C,
 					onShowChecks: e.onShowChecks
 				})]
 			}),
-			/* @__PURE__ */ (0, c.jsxs)("details", {
+			/* @__PURE__ */ (0, _.jsxs)("details", {
 				className: "project-results",
 				children: [
-					/* @__PURE__ */ (0, c.jsxs)("summary", { children: [
-						/* @__PURE__ */ (0, c.jsx)(u, { name: "check" }),
-						S ? "Vérifications masquées · analyse en attente ou indisponible" : `Vérifications de cette version · ${A.filter((e) => e.status === "passed").length} réussies · ${A.filter((e) => e.status === "failed").length} échouées`,
+					/* @__PURE__ */ (0, _.jsxs)("summary", { children: [
+						/* @__PURE__ */ (0, _.jsx)(y, { name: "check" }),
+						b ? "Vérifications masquées · analyse en attente ou indisponible" : `Vérifications de cette version · ${x.filter((e) => e.status === "passed").length} réussies · ${x.filter((e) => e.status === "failed").length} échouées`,
 						" ",
-						/* @__PURE__ */ (0, c.jsx)("span", { children: "Ouvrir les résultats" })
+						/* @__PURE__ */ (0, _.jsx)("span", { children: "Ouvrir les résultats" })
 					] }),
-					/* @__PURE__ */ (0, c.jsx)("p", { children: "Ces résultats couvrent uniquement les contrôles exécutés, pas toute l’application." }),
-					A.map((e) => /* @__PURE__ */ (0, c.jsxs)("p", {
+					/* @__PURE__ */ (0, _.jsx)("p", { children: "Ces résultats couvrent uniquement les contrôles exécutés, pas toute l’application." }),
+					x.map((e) => /* @__PURE__ */ (0, _.jsxs)("p", {
 						className: e.status === "failed" ? "project-caution" : "",
 						children: [
 							e.status === "passed" ? "✓" : "×",
@@ -644,8 +921,8 @@ function A(e) {
 							e.label
 						]
 					}, e.id)),
-					S ? /* @__PURE__ */ (0, c.jsx)("p", { children: "Les résultats seront rapprochés de la version quand son analyse sera disponible." }) : !A.length && /* @__PURE__ */ (0, c.jsx)("p", { children: "Aucun contrôle enregistré pour cette version." }),
-					/* @__PURE__ */ (0, c.jsx)("button", {
+					b ? /* @__PURE__ */ (0, _.jsx)("p", { children: "Les résultats seront rapprochés de la version quand son analyse sera disponible." }) : !x.length && /* @__PURE__ */ (0, _.jsx)("p", { children: "Aucun contrôle enregistré pour cette version." }),
+					/* @__PURE__ */ (0, _.jsx)("button", {
 						onClick: () => e.onShowChecks(),
 						children: "Consulter les preuves et les outils →"
 					})
@@ -656,12 +933,12 @@ function A(e) {
 }
 //#endregion
 //#region studio-ui/src/project-widget.tsx
-function j(e, t) {
-	let n = (0, r.createRoot)(e), i = (e) => n.render(/* @__PURE__ */ (0, c.jsx)(A, { ...e }, e.view || "files"));
+function X(e, t) {
+	let n = (0, r.createRoot)(e), i = (e) => n.render(/* @__PURE__ */ (0, _.jsx)(Y, { ...e }, e.view || "files"));
 	return i(t), {
 		update: i,
 		dispose: () => n.unmount()
 	};
 }
 //#endregion
-export { j as mountProjectWidget };
+export { X as mountProjectWidget };

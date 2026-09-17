@@ -2,6 +2,65 @@ import { compareLineSources } from './source-diff.js';
 import { createCodeEditor } from './source-editor.js';
 import { createCodeSurface } from './code-widget.js';
 
+function bindSourceMenus(document, topbar) {
+  const selector = 'details.source-menu, details.editor-more';
+  const menus = () => [...topbar.querySelectorAll(selector)];
+  const window = document.defaultView;
+  const listeners = [];
+  function listen(target, name, callback, capture = false) {
+    target?.addEventListener(name, callback, capture);
+    listeners.push(() => target?.removeEventListener(name, callback, capture));
+  }
+  function closeOthers(current) {
+    for (const menu of menus()) if (menu !== current) menu.open = false;
+  }
+  function sizeMenu(menu) {
+    const bottom = menu.querySelector('summary').getBoundingClientRect().bottom;
+    menu.style.setProperty(
+      '--source-menu-available-height',
+      `${Math.max(80, (window?.innerHeight || 800) - bottom - 12)}px`,
+    );
+  }
+  function dismiss(event) {
+    const current = menus().find((menu) => menu.contains(event.target));
+    closeOthers(current);
+    if (current) sizeMenu(current);
+  }
+  listen(document, 'pointerdown', dismiss);
+  listen(document, 'click', dismiss);
+  listen(document, 'focusin', dismiss);
+  // Capture also covers the nested runtime source toolbar and programmatic openings.
+  listen(
+    document,
+    'toggle',
+    (event) => {
+      const menu = event.target;
+      if (!menu.matches?.(selector) || !menu.open) return;
+      closeOthers(menu);
+      if (topbar.contains(menu)) sizeMenu(menu);
+    },
+    true,
+  );
+  listen(
+    topbar,
+    'keydown',
+    (event) => {
+      if (event.key !== 'Escape' || event.defaultPrevented) return;
+      const menu = menus().find((item) => item.open && item.contains(event.target));
+      if (!menu) return;
+      event.preventDefault();
+      event.stopPropagation();
+      menu.open = false;
+      menu.querySelector('summary').focus({ preventScroll: true });
+    },
+    true,
+  );
+  listen(window, 'resize', () => {
+    for (const menu of menus()) if (menu.open) sizeMenu(menu);
+  });
+  return () => listeners.forEach((dispose) => dispose());
+}
+
 async function readSource({ revisionId, path, signal, scope }) {
   const query = new URLSearchParams({ revision: revisionId, path });
   if (scope) query.set('scope', scope);
@@ -253,12 +312,7 @@ export function createSourceView({
   const topbar = element('div', undefined, 'source-topbar');
   topbar.append(fileToolbar, editorControls, sectionMenu);
   root.replaceChildren(topbar, reading, editing, ...(includeRuntime ? [runtimeRoot] : []));
-  sectionMenu.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      sectionMenu.open = false;
-      sectionSummary.focus();
-    }
-  });
+  const disposeMenus = bindSourceMenus(document, topbar);
   let revision = null;
   let previousRevision = null;
   let mode = 'source';
@@ -666,6 +720,7 @@ export function createSourceView({
     },
     destroy() {
       destroyed = true;
+      disposeMenus();
       requestNumber++;
       pending?.abort();
       retry.removeEventListener('click', retryRead);

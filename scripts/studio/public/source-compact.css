@@ -1,4 +1,18 @@
 /* Code commands occupy one row; durable source and Monaco keep the remaining space. */
+#source-view {
+  isolation: isolate;
+}
+/* Monaco's sticky lines, suggestions and context widgets stay below Studio commands.
+   Runtime sources have their own toolbar, below the parent surface menu. */
+#source-view .source-reading,
+#source-view .source-editing,
+#source-view .source-runtime,
+#source-view .source-monaco-host,
+#source-view .editor-monaco-host {
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+}
 #source-view .source-topbar {
   display: flex;
   align-items: center;
@@ -71,6 +85,9 @@
   cursor: pointer;
   color: #cad3e2;
 }
+#source-view .source-topbar > .source-menu {
+  margin-left: auto;
+}
 #source-view .source-menu-actions,
 #source-view .editor-more-actions {
   position: absolute;
@@ -78,7 +95,7 @@
   display: grid;
   z-index: 10;
   width: min(280px, calc(100vw - 48px));
-  max-height: min(400px, 60dvh);
+  max-height: min(400px, 60dvh, var(--source-menu-available-height, 400px));
   overflow: auto;
   overscroll-behavior: contain;
   padding: 10px;

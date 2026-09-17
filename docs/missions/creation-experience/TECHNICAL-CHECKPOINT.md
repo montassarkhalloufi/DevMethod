@@ -75,3 +75,23 @@ node scripts/studio.mjs serve --workspace /private/tmp/devmethod-reframe-demo --
 ```
 
 Vérifier d’abord le serveur existant et son verrou ; aucun second écrivain. Ne pas ajouter `--agent codex`. Aucune fusion, publication npm ou mise en ligne n’est comprise dans cette livraison.
+
+## Finitions des panneaux — 17 septembre 2026
+
+Les dossiers physiques sont désormais la vue par défaut de l’explorateur. Les classements par couche et fonctionnalité restent optionnels. Le tri place les dossiers avant les fichiers ; chaque niveau ajoute 16 px, avec colonnes chevron/icône/libellé alignées, types de fichiers identifiés et chemin complet en infobulle. La recherche ne détruit pas les replis de l’arbre.
+
+La bordure explorateur/code est redimensionnable à la souris et au clavier (flèches, Maj, Début/Fin, réinitialisation par Entrée ou double-clic). Sa largeur est mémorisée localement, bornée entre 160 et 420 px et contrainte pour laisser au moins 260 px au code. Aux petits écrans, les zones s’empilent et la poignée disparaît.
+
+À gauche, l’historique et la saisie disposent de poignées de hauteur et de boutons −/réinitialiser/+. Leurs préférences sont locales. Le contenu défile dans une zone distincte du formulaire : agrandir le message ne recouvre plus l’historique. La carte de décision laisse le défilement rejoindre sa colonne après son propre contenu. Le mobile conserve le défilement de page et les commandes par bouton.
+
+Les menus source isolent désormais leur empilement de Monaco. Ouvrir un menu ferme le précédent ; un clic extérieur ou Échap le ferme, avec retour du focus au déclencheur pour Échap. Les menus longs restent défilables.
+
+Vérification sur la copie isolée du port 4354 : glisser réel de l’explorateur de 230 à 360 px, bornes clavier 160/420, conservation après rechargement à 364 px, recherche puis retour aux 25 fichiers, indentation mesurée proche de 16 px. Le message a été agrandi par glisser de 52 à 152 px et conservé au rechargement. La colonne gauche a défilé jusqu’à 488 px depuis la carte, sans recouvrir le formulaire. À 390 px, aucune largeur de page excédentaire et poignée d’explorateur masquée. Les menus passent au premier plan ; fermeture exclusive et Échap vérifiés. Aucune écriture métier effectuée pendant ces essais.
+
+- [Capture de l’explorateur redimensionnable](evidence/technical/explorer-resizable.png)
+- [Capture du menu source](evidence/technical/source-menu-layer.png)
+- [Mesures navigateur](evidence/technical/panel-polish-browser.json)
+
+La suite complète finale passe **702/702 tests** ; typage, build, ESLint et Prettier passent. Le premier lancement sandboxé de la suite a échoué sur les serveurs HTTP locaux (`listen EPERM`) ; l’exécution autorisée avec sockets locales a réussi. La revue indépendante a trouvé le piège de molette de la carte de décision, corrigé puis revérifié dans le navigateur. Le smoke test de paquet du checkpoint précédent n’a pas été répété pour cette tranche UI.
+
+Le raccord d’outils libres a été étudié, sans installation ni nouvel adaptateur dans cette tranche. Priorités proposées : ESLint contrôlé pour les diagnostics, dependency-cruiser pour cycles et frontières, Knip pour les éléments inutilisés, OSV Scanner pour les vulnérabilités connues. Leurs résultats doivent être rattachés à l’empreinte/version contrôlée, à l’outil et sa configuration, puis alimenter une demande de correction et une nouvelle exécution. Les coûts réels nécessitent des mesures fournisseur/runtime ; ils ne se déduisent pas du graphe de dépendances.

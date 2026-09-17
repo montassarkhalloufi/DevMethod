@@ -1,3 +1,5 @@
+import { mountDiscussionSizing } from './discussion-sizing.ts';
+
 const widthKey = 'devmethod:studio:conversation-width:v1';
 const minimumConversation = 300;
 const minimumWorkspace = 420;
@@ -81,6 +83,7 @@ export function mountStudioLayout(document: Document, window: Window) {
   const separator = document.getElementById('conversation-resizer');
   const expand = document.getElementById('expand-workspace');
   if (!layout || !separator || !expand) return { destroy() {} };
+  const discussionSizing = mountDiscussionSizing(document, window);
   const disposers: (() => void)[] = [];
   let preference = readWidth(window);
   let currentWidth = minimumConversation;
@@ -235,6 +238,7 @@ export function mountStudioLayout(document: Document, window: Window) {
   resize();
   return {
     destroy() {
+      discussionSizing.destroy();
       stopDrag();
       if (expanded) toggleExpanded();
       for (const dispose of disposers) dispose();

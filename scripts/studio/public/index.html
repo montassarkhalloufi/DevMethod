@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/technical.css" />
     <link rel="stylesheet" href="/source-compact.css" />
     <link rel="stylesheet" href="/shell-navigation.css" />
+    <link rel="stylesheet" href="/discussion-sizing.css" />
     <script type="module" src="/app.js"></script>
     <script type="module" src="/studio-ui/layout.js"></script>
   </head>
@@ -182,195 +183,204 @@
     </nav>
     <div class="studio-layout">
       <aside id="discussion" class="conversation" aria-label="Le fil du projet" tabindex="-1">
-        <section class="technical-assistant">
-          <h2>Assistant</h2>
-          <p class="muted">Objectif du projet</p>
-          <p id="technical-objective"></p>
-        </section>
-        <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
-        <section
-          id="responsibilities"
-          class="policy-panel"
-          aria-labelledby="responsibilities-title"
-        >
-          <div class="section-heading">
-            <h2 id="responsibilities-title" class="responsibility-title">
-              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-users" /></svg
-              >Responsabilités
-            </h2>
-            <button id="adjust-policy" type="button" class="text-button">Ajuster</button>
-          </div>
-          <div id="policy"></div>
-        </section>
-        <section id="project" class="panel introduction" aria-labelledby="project-title">
-          <div class="section-heading">
-            <div>
-              <p id="project-eyebrow" class="eyebrow">VOTRE ESPACE DE CRÉATION</p>
-              <h1 id="project-title">Qu’aimeriez-vous créer ?</h1>
+        <div class="discussion-content" data-scroll-region="discussion">
+          <section class="technical-assistant">
+            <h2>Assistant</h2>
+            <p class="muted">Objectif du projet</p>
+            <p id="technical-objective"></p>
+          </section>
+          <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
+          <section
+            id="responsibilities"
+            class="policy-panel"
+            aria-labelledby="responsibilities-title"
+          >
+            <div class="section-heading">
+              <h2 id="responsibilities-title" class="responsibility-title">
+                <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-users" /></svg
+                >Responsabilités
+              </h2>
+              <button id="adjust-policy" type="button" class="text-button">Ajuster</button>
             </div>
-            <div class="project-heading-actions">
-              <button
-                id="edit-project"
-                type="button"
-                aria-expanded="true"
-                aria-controls="project-form"
-                hidden=""
-              >
-                Ajuster le projet</button
-              ><button id="refresh" class="quiet" type="button">Actualiser</button>
+            <div id="policy"></div>
+          </section>
+          <section id="project" class="panel introduction" aria-labelledby="project-title">
+            <div class="section-heading">
+              <div>
+                <p id="project-eyebrow" class="eyebrow">VOTRE ESPACE DE CRÉATION</p>
+                <h1 id="project-title">Qu’aimeriez-vous créer ?</h1>
+              </div>
+              <div class="project-heading-actions">
+                <button
+                  id="edit-project"
+                  type="button"
+                  aria-expanded="true"
+                  aria-controls="project-form"
+                  hidden=""
+                >
+                  Ajuster le projet</button
+                ><button id="refresh" class="quiet" type="button">Actualiser</button>
+              </div>
             </div>
-          </div>
 
-          <p id="project-intro" class="intro-copy">
-            Une idée, un besoin quotidien, une référence. Nous gardons le fil jusqu’à une app que
-            vous pouvez essayer.
-          </p>
-          <form id="project-form">
-            <label class="sr-only" for="idea">Votre idée et le résultat attendu</label>
-            <textarea
-              id="idea"
-              rows="3"
-              maxlength="20000"
-              required=""
-              placeholder="J’aimerais une app pour… Elle aiderait… à…"
-            ></textarea>
-            <div class="project-options">
-              <details id="project-details">
-                <summary>Nom et contraintes</summary>
-                <div class="detail-fields">
-                  <label for="project-name">Nom du projet <span>(facultatif)</span></label
-                  ><input id="project-name" maxlength="200" placeholder="Mon projet" /><label
-                    for="constraints"
-                    >Ce qu’il faut garder <span>(une contrainte par ligne)</span></label
-                  ><textarea
-                    id="constraints"
-                    rows="2"
-                    placeholder="Un usage sur mobile, mes données existantes…"
-                  ></textarea>
+            <p id="project-intro" class="intro-copy">
+              Une idée, un besoin quotidien, une référence. Nous gardons le fil jusqu’à une app que
+              vous pouvez essayer.
+            </p>
+            <form id="project-form">
+              <label class="sr-only" for="idea">Votre idée et le résultat attendu</label>
+              <textarea
+                id="idea"
+                rows="3"
+                maxlength="20000"
+                required=""
+                placeholder="J’aimerais une app pour… Elle aiderait… à…"
+              ></textarea>
+              <div class="project-options">
+                <details id="project-details">
+                  <summary>Nom et contraintes</summary>
+                  <div class="detail-fields">
+                    <label for="project-name">Nom du projet <span>(facultatif)</span></label
+                    ><input id="project-name" maxlength="200" placeholder="Mon projet" /><label
+                      for="constraints"
+                      >Ce qu’il faut garder <span>(une contrainte par ligne)</span></label
+                    ><textarea
+                      id="constraints"
+                      rows="2"
+                      placeholder="Un usage sur mobile, mes données existantes…"
+                    ></textarea>
+                  </div>
+                </details>
+                <label class="reference-upload" for="reference-file"
+                  >＋ Ajouter une référence<input
+                    id="reference-file"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,text/plain,text/markdown,.md"
+                /></label>
+              </div>
+
+              <details class="delegation-settings">
+                <summary>Qui prend les décisions ?</summary>
+                <p class="muted">
+                  Ces réglages précisent le mode. Une délégation ne remplace pas votre accord
+                  explicite.
+                </p>
+                <div class="delegation-fields">
+                  <div class="delegation-field">
+                    <label for="delegate-structure">Produit et architecture</label
+                    ><select id="delegate-structure">
+                      <option value="user">Moi, avec validation</option>
+                      <option value="agent">L’agent, par délégation</option>
+                    </select>
+                  </div>
+                  <div class="delegation-field">
+                    <label for="delegate-visual">Validation visuelle</label
+                    ><select id="delegate-visual">
+                      <option value="user">Moi, avec validation</option>
+                      <option value="agent">L’agent, par délégation</option>
+                    </select>
+                  </div>
+                  <div class="delegation-field">
+                    <label for="delegate-adoption">Application d’une version</label
+                    ><select id="delegate-adoption">
+                      <option value="user">Moi, avec validation</option>
+                      <option value="agent">L’agent, par délégation</option>
+                    </select>
+                  </div>
                 </div>
               </details>
-              <label class="reference-upload" for="reference-file"
-                >＋ Ajouter une référence<input
-                  id="reference-file"
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp,text/plain,text/markdown,.md"
-              /></label>
-            </div>
-
-            <details class="delegation-settings">
-              <summary>Qui prend les décisions ?</summary>
-              <p class="muted">
-                Ces réglages précisent le mode. Une délégation ne remplace pas votre accord
-                explicite.
-              </p>
-              <div class="delegation-fields">
-                <div class="delegation-field">
-                  <label for="delegate-structure">Produit et architecture</label
-                  ><select id="delegate-structure">
-                    <option value="user">Moi, avec validation</option>
-                    <option value="agent">L’agent, par délégation</option>
-                  </select>
-                </div>
-                <div class="delegation-field">
-                  <label for="delegate-visual">Validation visuelle</label
-                  ><select id="delegate-visual">
-                    <option value="user">Moi, avec validation</option>
-                    <option value="agent">L’agent, par délégation</option>
-                  </select>
-                </div>
-                <div class="delegation-field">
-                  <label for="delegate-adoption">Application d’une version</label
-                  ><select id="delegate-adoption">
-                    <option value="user">Moi, avec validation</option>
-                    <option value="agent">L’agent, par délégation</option>
-                  </select>
-                </div>
+              <div class="form-footer">
+                <span id="project-save-status" class="muted"
+                  >Le projet est conservé dans cet espace local.</span
+                ><button id="save-project" class="primary" type="submit">
+                  Garder cette idée <span aria-hidden="true">→</span>
+                </button>
               </div>
-            </details>
-            <div class="form-footer">
-              <span id="project-save-status" class="muted"
-                >Le projet est conservé dans cet espace local.</span
-              ><button id="save-project" class="primary" type="submit">
-                Garder cette idée <span aria-hidden="true">→</span>
-              </button>
-            </div>
-          </form>
+            </form>
 
-          <details class="project-context">
-            <summary>Contexte et références</summary>
-            <div id="project-summary" class="project-summary" hidden="">
-              <p id="project-idea-summary"></p>
-              <span id="project-mode" class="badge"></span
-              ><span id="project-unsaved" class="muted" hidden=""
-                >Modifications non enregistrées</span
-              >
-            </div>
-            <div id="references" class="references" aria-label="Références du projet"></div>
+            <details class="project-context">
+              <summary>Contexte et références</summary>
+              <div id="project-summary" class="project-summary" hidden="">
+                <p id="project-idea-summary"></p>
+                <span id="project-mode" class="badge"></span
+                ><span id="project-unsaved" class="muted" hidden=""
+                  >Modifications non enregistrées</span
+                >
+              </div>
+              <div id="references" class="references" aria-label="Références du projet"></div>
+            </details>
+          </section>
+          <div id="decision-request" class="decision-request" hidden="">
+            <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-user" /></svg>
+            <p id="decision-request-text"></p>
+          </div>
+          <section
+            id="active-decision"
+            aria-label="La décision à prendre"
+            tabindex="-1"
+            hidden=""
+          ></section>
+          <section class="technical-decision" id="technical-decision" hidden>
+            <span>Décision à examiner</span>
+            <h3 id="technical-decision-title"></h3>
+            <p id="technical-decision-state"></p>
+            <button type="button" data-action="review-decision">Ouvrir la décision →</button>
+          </section>
+          <section
+            id="latest-result"
+            class="latest-result"
+            hidden=""
+            aria-label="Dernier résultat"
+          ></section>
+          <details id="preserve-constraints" class="preserve-constraints" hidden="">
+            <summary>
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-lock" /></svg>À
+              préserver <span id="preserve-summary" class="preserve-summary"></span>
+            </summary>
+            <div id="preserve-constraints-content"></div>
           </details>
-        </section>
-        <div id="decision-request" class="decision-request" hidden="">
-          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-user" /></svg>
-          <p id="decision-request-text"></p>
+          <details id="activity" class="activity-panel" data-size-region="activity">
+            <summary>
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
+              >Activité précédente
+            </summary>
+            <div class="conversation-flow" id="conversation-flow" data-scroll-region="conversation">
+              <div id="jobs" class="jobs" aria-label="Demandes et résultats"></div>
+              <section
+                id="directions"
+                class="panel flow-directions"
+                aria-labelledby="directions-title"
+              >
+                <div class="section-heading">
+                  <div>
+                    <p class="eyebrow">DONNER UNE DIRECTION</p>
+                    <h2 id="directions-title">Des choix que vous pouvez voir</h2>
+                  </div>
+                </div>
+                <div id="designs" class="design-grid"></div>
+                <form id="design-form" hidden="">
+                  <label for="design-reason">Ce qui vous plaît dans cette direction</label
+                  ><textarea
+                    id="design-reason"
+                    rows="2"
+                    maxlength="4000"
+                    placeholder="Ce que je souhaite garder…"
+                  ></textarea
+                  ><button id="choose-design" class="primary" type="submit">
+                    Valider ce choix
+                  </button>
+                </form>
+              </section>
+              <div id="flow-decisions" class="flow-decisions" aria-label="Décisions récentes"></div>
+            </div>
+          </details>
         </div>
         <section
-          id="active-decision"
-          aria-label="La décision à prendre"
-          tabindex="-1"
-          hidden=""
-        ></section>
-        <section class="technical-decision" id="technical-decision" hidden>
-          <span>Décision à examiner</span>
-          <h3 id="technical-decision-title"></h3>
-          <p id="technical-decision-state"></p>
-          <button type="button" data-action="review-decision">Ouvrir la décision →</button>
-        </section>
-        <section
-          id="latest-result"
-          class="latest-result"
-          hidden=""
-          aria-label="Dernier résultat"
-        ></section>
-        <details id="preserve-constraints" class="preserve-constraints" hidden="">
-          <summary>
-            <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-lock" /></svg>À
-            préserver <span id="preserve-summary" class="preserve-summary"></span>
-          </summary>
-          <div id="preserve-constraints-content"></div>
-        </details>
-        <details id="activity" class="activity-panel">
-          <summary>
-            <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
-            >Activité précédente
-          </summary>
-          <div class="conversation-flow" id="conversation-flow" data-scroll-region="conversation">
-            <div id="jobs" class="jobs" aria-label="Demandes et résultats"></div>
-            <section
-              id="directions"
-              class="panel flow-directions"
-              aria-labelledby="directions-title"
-            >
-              <div class="section-heading">
-                <div>
-                  <p class="eyebrow">DONNER UNE DIRECTION</p>
-                  <h2 id="directions-title">Des choix que vous pouvez voir</h2>
-                </div>
-              </div>
-              <div id="designs" class="design-grid"></div>
-              <form id="design-form" hidden="">
-                <label for="design-reason">Ce qui vous plaît dans cette direction</label
-                ><textarea
-                  id="design-reason"
-                  rows="2"
-                  maxlength="4000"
-                  placeholder="Ce que je souhaite garder…"
-                ></textarea
-                ><button id="choose-design" class="primary" type="submit">Valider ce choix</button>
-              </form>
-            </section>
-            <div id="flow-decisions" class="flow-decisions" aria-label="Décisions récentes"></div>
-          </div>
-        </details>
-        <section class="panel request-panel" aria-labelledby="request-title">
+          id="message-panel"
+          class="panel request-panel"
+          aria-labelledby="request-title"
+          data-size-region="message"
+        >
           <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
           <h2 id="request-title" class="sr-only">Faire évoluer le projet</h2>
           <details class="agent-connection">
