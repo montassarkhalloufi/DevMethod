@@ -6,6 +6,7 @@ import {
   validateProposals,
 } from './proposals.mjs';
 import { designJourneyView, validateDesignJourney } from './design-journey.mjs';
+import { prepareConnectorGuides, validateConnectorGuideSnapshots } from './connector-guides.mjs';
 import { validRelativePath } from './import-paths.mjs';
 import { validateImportRecord } from './import-contract.mjs';
 export {
@@ -188,10 +189,12 @@ function validateJob(job, revisionIds) {
       'finishedAt',
       'summary',
       'error',
+      'connectorGuides',
     ],
     'Demande',
   );
   identifier(job.id);
+  if (job.connectorGuides !== undefined) validateConnectorGuideSnapshots(job.connectorGuides);
   text(job.request, 'Demande', 20000, false);
   validateElement(job.element);
   requireValue(
@@ -304,6 +307,7 @@ export function validateStudioState(state) {
       'version',
       'project',
       'draft',
+      'draftConnectorGuides',
       'references',
       'brief',
       'decisions',
@@ -326,6 +330,15 @@ export function validateStudioState(state) {
   );
   validateProject(state.project);
   text(state.draft, 'Brouillon', 20000);
+  if (state.draftConnectorGuides !== undefined) {
+    const canonical = prepareConnectorGuides(state.draftConnectorGuides).map(
+      (entry) => entry.input,
+    );
+    requireValue(
+      JSON.stringify(canonical) === JSON.stringify(state.draftConnectorGuides),
+      'Parcours du brouillon non canoniques.',
+    );
+  }
   validateBrief(state.brief);
   for (const key of ['references', 'decisions', 'designs', 'jobs', 'revisions', 'checks'])
     unique(state[key], key);
@@ -444,17 +457,24 @@ export function approveProposal(state, input, { actor = 'user' } = {}) {
   state.events = next.events;
   return proposal;
 }
-export function setDraft(state, { text: value }) {
+export function setDraft(state, { text: value, connectorGuides }) {
   text(value, 'Brouillon', 20000);
+  const guides =
+    connectorGuides === undefined
+      ? undefined
+      : prepareConnectorGuides(connectorGuides).map((entry) => entry.input);
   state.draft = value;
+  if (guides !== undefined) state.draftConnectorGuides = guides;
 }
-export function queueRequest(state, { request, element = null }) {
+export function queueRequest(state, { request, element = null, connectorGuides }) {
   text(request, 'Demande', 20000, false);
   validateElement(element);
+  const preparations = prepareConnectorGuides(connectorGuides);
   const job = {
     id: randomUUID(),
     request,
     element: structuredClone(element),
+    ...(preparations.length ? { connectorGuides: preparations } : {}),
     baseRevision: state.activeRevision,
     status: 'queued',
     worker: null,
@@ -462,6 +482,7 @@ export function queueRequest(state, { request, element = null }) {
   };
   state.jobs.push(job);
   state.draft = '';
+  if (state.draftConnectorGuides !== undefined) state.draftConnectorGuides = [];
   event(state, 'queued', 'Demande enregistrée, en attente d’un agent.');
   return job;
 }

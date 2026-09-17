@@ -1,7 +1,12 @@
 import { useRef, useState } from 'react';
 import { ConnectorIcon } from '../../connectors';
 import type { McpConnectionsController } from '../hooks/useMcpConnections';
-import { mcpConnectionInput, mcpStatusLabels, reconnectMcpInput } from '../model/mcp';
+import {
+  mcpConnectionInput,
+  mcpDisplayName,
+  mcpStatusLabels,
+  reconnectMcpInput,
+} from '../model/mcp';
 import type { McpAuth, McpConnection } from '../model/mcp';
 
 function ConnectionRow({
@@ -28,7 +33,7 @@ function ConnectionRow({
           size={32}
         />
         <div>
-          <strong>{connection.name}</strong>
+          <strong>{mcpDisplayName(connection)}</strong>
           <span className={`mcp-status mcp-status-${connection.status}`}>
             {mcpStatusLabels[connection.status]}
             {available
@@ -248,11 +253,13 @@ export function McpConnectionsPanel({
   controller,
   selectedIds,
   onToggle,
+  onConfigureGuide,
   disabled = false,
 }: {
   controller: McpConnectionsController;
   selectedIds: string[];
   onToggle(id: string): void;
+  onConfigureGuide?(optionId: string): void;
   disabled?: boolean;
 }) {
   const [search, setSearch] = useState('');
@@ -343,12 +350,20 @@ export function McpConnectionsPanel({
             type="button"
             key={preset.id}
             disabled={disabled || !controller.supported || Boolean(controller.active)}
-            onClick={() => void controller.connect({ provider: preset.id })}
+            onClick={() =>
+              onConfigureGuide && ['notion', 'linear'].includes(preset.id)
+                ? onConfigureGuide(preset.id)
+                : void controller.connect({ provider: preset.id })
+            }
           >
             <ConnectorIcon optionId={preset.id} size={28} />
             <span>
               {preset.name}
-              <small>Connecter avec OAuth</small>
+              <small>
+                {onConfigureGuide && ['notion', 'linear'].includes(preset.id)
+                  ? 'Choisir l’usage et connecter'
+                  : 'Connecter avec OAuth'}
+              </small>
             </span>
           </button>
         ))}

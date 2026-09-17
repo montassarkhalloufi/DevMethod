@@ -98,6 +98,9 @@ export function createJobs(store, { mcpContext } = {}) {
       designs: state.designs,
       references: state.references,
       mcp,
+      connectorGuides: structuredClone(job.connectorGuides ?? []),
+      connectorGuideInstructions:
+        'Connector guides are validated integration intentions, not connected accounts or permissions. Implement or plan only within the user’s request. Explain prerequisites, respect separate bot/user identities and requested scopes, use secret references only, and obtain authorization before external actions. MCP access is provided separately by the manual host bridge; app-user OAuth/runtime integration is not supplied by a guide.',
       request: job.request,
       element: job.element,
       ...(state.import ? { import: state.import } : {}),

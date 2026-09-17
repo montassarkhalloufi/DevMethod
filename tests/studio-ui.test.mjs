@@ -791,6 +791,72 @@ test('a failed MCP selection save preserves the request without dispatching it',
   await f.submit('request-form');
   assert.equal(f.calls.filter((call) => call.route === 'requests').length, 0);
   assert.equal(f.el('request').value, 'Conserver cette demande');
-  assert.match(f.el('notice').textContent, /sélection des outils MCP/);
+  assert.match(f.el('notice').textContent, /préparations modifiées.*outils MCP/);
   assert.equal(f.el('send-request').disabled, false);
+});
+
+test('guided context survives draft save and is sent structurally with the request', async (t) => {
+  const input = {
+    optionId: 'linear',
+    guideVersion: 1,
+    flowId: 'linear-read',
+    answers: { resources: ['issues'] },
+  };
+  let guides = [input];
+  const cleared = [];
+  const f = await fixture(t, undefined, '', {
+    loadMcpWidget: async () => ({
+      mountMcpWidget: () => ({
+        prepareRequest: async () => true,
+        requestGuides: () => guides,
+        clearGuides(sent) {
+          cleared.push(sent);
+          guides = [];
+        },
+        dispose() {},
+      }),
+    }),
+  });
+  f.input('request', 'Consulter les tickets du projet');
+  f.el('save-draft').click();
+  await f.app.settled();
+  assert.deepEqual(f.calls.find((call) => call.route === 'draft').input.connectorGuides, [input]);
+  await f.submit('request-form');
+  assert.deepEqual(f.calls.find((call) => call.route === 'requests').input.connectorGuides, [
+    input,
+  ]);
+  assert.deepEqual(cleared, [[input]]);
+});
+
+test('saving text before the MCP widget loads retains restored guided context', async (t) => {
+  let finishLoad;
+  const input = {
+    optionId: 'linear',
+    guideVersion: 1,
+    flowId: 'linear-read',
+    answers: { resources: ['issues'] },
+  };
+  const f = await fixture(
+    t,
+    (state) => {
+      state.draftConnectorGuides = [input];
+    },
+    '',
+    {
+      loadMcpWidget: () =>
+        new Promise((resolve) => {
+          finishLoad = resolve;
+        }),
+    },
+  );
+  f.input('request', 'Modifier le texte avant chargement des outils');
+  f.el('save-draft').click();
+  await f.app.settled();
+  assert.deepEqual(f.calls.find((call) => call.route === 'draft').input.connectorGuides, [input]);
+  const restored = [];
+  finishLoad({
+    mountMcpWidget: () => ({ restoreGuides: (values) => restored.push(values), dispose() {} }),
+  });
+  await setImmediate();
+  assert.deepEqual(restored.at(-1), [input]);
 });

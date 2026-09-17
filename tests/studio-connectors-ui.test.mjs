@@ -5,6 +5,7 @@ import test from 'node:test';
 import { build } from 'esbuild';
 import { JSDOM } from 'jsdom';
 import { connectorCapabilities, connectorOptions } from '../scripts/studio/connectors-catalog.mjs';
+import { prepareConnectorGuide, readConnectorGuides } from '../scripts/studio/connector-guides.mjs';
 
 const bundle = await build({
   entryPoints: [path.resolve('studio-ui/src/connectors-widget.tsx')],
@@ -85,7 +86,9 @@ function fixture(t, fetcher, extra = {}) {
 }
 
 const button = (f, label) =>
-  [...f.document.querySelectorAll('button')].find((node) => node.textContent.includes(label));
+  [...f.document.querySelectorAll('button')].find(
+    (node) => !node.closest('[hidden]') && node.textContent.includes(label),
+  );
 
 const activeOption = (f) => f.document.querySelector('.connector-detail h3')?.textContent;
 const optionTitle = (id) => connectorOptions.find((item) => item.id === id).title;
@@ -99,6 +102,129 @@ function searchFor(f, value) {
   );
   input.dispatchEvent(new f.dom.window.Event('input', { bubbles: true }));
 }
+
+function editProfile(f, value) {
+  const input = f.document.querySelector('input[placeholder="host:mon-profil"]');
+  Object.getOwnPropertyDescriptor(f.dom.window.HTMLInputElement.prototype, 'value').set.call(
+    input,
+    value,
+  );
+  input.dispatchEvent(new f.dom.window.Event('input', { bubbles: true }));
+}
+
+test('unsaved connection fields survive returning to the catalogue and reopening the provider', async (t) => {
+  const f = fixture(t, async () => reply(report('r1', [configured('postgresql')])));
+  await until(() => cards(f).length);
+  button(f, 'PostgreSQL').click();
+  await until(() => f.document.querySelector('form'));
+  editProfile(f, 'host:my-project');
+  await until(
+    () =>
+      f.document.querySelector('input[placeholder="host:mon-profil"]').value === 'host:my-project',
+  );
+  button(f, 'Retour au catalogue').click();
+  await until(() => !f.document.querySelector('.connector-detail'));
+  button(f, 'PostgreSQL').click();
+  await until(() => f.document.querySelector('form'));
+  assert.equal(
+    f.document.querySelector('input[placeholder="host:mon-profil"]').value,
+    'host:my-project',
+  );
+});
+
+test('saving locks the submitted fields and restores editing after the saved version arrives', async (t) => {
+  let release;
+  let connection = configured('postgresql');
+  const f = fixture(t, async (_url, init) => {
+    if (init?.method === 'POST')
+      return new Promise((resolve) => {
+        release = resolve;
+      });
+    return reply(report('r1', [connection]));
+  });
+  await until(() => cards(f).length);
+  button(f, 'PostgreSQL').click();
+  await until(() => f.document.querySelector('form'));
+  editProfile(f, 'host:saved');
+  await setTimeout(5);
+  f.document
+    .querySelector('form')
+    .dispatchEvent(new f.dom.window.Event('submit', { bubbles: true, cancelable: true }));
+  await until(() => release);
+  assert.equal(f.document.querySelector('input[placeholder="host:mon-profil"]').disabled, true);
+  assert.equal(f.document.querySelector('form textarea').disabled, true);
+  connection = { ...connection, version: 2, profileRef: 'host:saved' };
+  release(reply(report('r1', [connection])));
+  await until(() => !f.document.querySelector('input[placeholder="host:mon-profil"]').disabled);
+  assert.equal(
+    f.document.querySelector('input[placeholder="host:mon-profil"]').value,
+    'host:saved',
+  );
+});
+
+test('Slack guide is saved with configuration, survives a failed save, and forwards the structured server preparation', async (t) => {
+  const posts = [];
+  let connection;
+  let failSave = true;
+  const f = fixture(t, async (url, init) => {
+    if (url === '/api/connectors/guides') return reply(readConnectorGuides());
+    if (init?.method === 'POST') {
+      const input = JSON.parse(init.body);
+      posts.push({ url, input });
+      if (url.endsWith('/guides/prepare')) return reply(prepareConnectorGuide(input));
+      if (url.endsWith('/configure')) {
+        if (failSave) {
+          failSave = false;
+          return reply({ error: 'Stockage temporairement indisponible.' }, false);
+        }
+        connection = { ...configured('slack'), guide: input.guide };
+        return reply(report('r1', [connection]));
+      }
+      return reply({
+        prompt: 'Intégration Slack, sans action externe automatique.',
+        connectorGuides: [connection.guide],
+      });
+    }
+    return reply(report('r1', connection ? [connection] : []));
+  });
+  await until(() => cards(f).length);
+  button(f, 'Slack').click();
+  await until(() => button(f, 'Préciser la configuration'));
+  const choose = (label) => {
+    const option = [...f.document.querySelectorAll('.connector-guide label')].find(
+      (item) => item.querySelector('strong')?.textContent === label,
+    );
+    assert.ok(option);
+    option.querySelector('input').click();
+  };
+  choose('Un bot pour l’application');
+  await until(() => !button(f, 'Préciser la configuration').disabled);
+  button(f, 'Préciser la configuration').click();
+  await until(() => button(f, 'Vérifier la préparation'));
+  choose('Envoyer des messages');
+  await setTimeout(5);
+  choose('Canaux privés choisis');
+  await until(() => !button(f, 'Vérifier la préparation').disabled);
+  assert.equal(button(f, 'Enregistrer la configuration').disabled, true);
+  button(f, 'Vérifier la préparation').click();
+  await until(() => !button(f, 'Enregistrer la configuration').disabled);
+  button(f, 'Enregistrer la configuration').click();
+  await until(() => f.document.querySelector('[role="alert"]'));
+  assert.match(f.document.querySelector('[role="alert"]').textContent, /Stockage/);
+  assert.ok(f.document.querySelector('.connector-guide-summary'));
+  button(f, 'Enregistrer la configuration').click();
+  await until(() => button(f, 'Préparer l’intégration'));
+  assert.equal(posts.filter((post) => post.url.endsWith('/configure')).length, 2);
+  assert.equal(connection.guide.answers.audience, 'selected-private-channels');
+  assert.equal(button(f, 'Préparer l’intégration').disabled, false);
+  button(f, 'Préparer l’intégration').click();
+  await until(() => f.requests.length === 1);
+  assert.equal(f.requests[0].connectorGuides[0].flowId, 'slack-bot');
+  assert.match(f.requests[0].prompt, /sans action externe/);
+  editProfile(f, 'host:another-account');
+  await until(() => button(f, 'Préparer l’intégration').disabled);
+  assert.match(f.document.body.textContent, /Enregistrez les réglages/);
+});
 
 test('catalog offers multiple application providers without claiming connection or execution', async (t) => {
   const calls = [];

@@ -1,6 +1,8 @@
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import type { HomeOperation, HomeProjectType, ProjectInput } from '../model/contracts';
 import { useMcpConnections } from '../../mcp';
+import type { GuidePreparation } from '../../connectors';
+import { useComposerGuides } from './useComposerGuides';
 import {
   applyComposerSeed,
   attachmentMime,
@@ -78,13 +80,22 @@ export function useIdeaComposer({
     (id) => selectMcp(id, false),
   );
   const busy = reading || operation.phase !== 'idle';
+  const guides = useComposerGuides({
+    busy,
+    selected: content.draft.connectorGuides,
+    onApply: addGuide,
+    onEdit,
+  });
   const notifySeedEdit = useEffectEvent(onEdit);
   const hasUnsavedContent =
-    reading || (hasComposerContent(content.draft) && content.draft !== savedDraft);
+    reading ||
+    guides.hasPendingDraft ||
+    (hasComposerContent(content.draft) && content.draft !== savedDraft);
   const warnBeforeLeaving = useEffectEvent((event: BeforeUnloadEvent) => {
     if (departureApproved.current) return;
     if (
       !readingRequest.current &&
+      !guides.hasPendingDraft &&
       (!hasComposerContent(content.draft) || content.draft === saved.current)
     )
       return;
@@ -211,6 +222,10 @@ export function useIdeaComposer({
   function submit() {
     if (busy || readingRequest.current || submitting.current) return;
     try {
+      if (guides.hasPendingSelection)
+        throw new Error(
+          'Validez puis ajoutez à nouveau le guide modifié, ou retirez-le de votre demande.',
+        );
       if (
         content.draft.mcpConnectionIds.some(
           (id) =>
@@ -246,10 +261,49 @@ export function useIdeaComposer({
     }
     update((draft) => ({
       ...draft,
+      connectorGuides: selected
+        ? draft.connectorGuides.filter((guide) => guide.optionId !== id)
+        : draft.connectorGuides,
       connectors: selected
         ? draft.connectors.filter((item) => item !== id)
         : [...draft.connectors, id],
     }));
+    if (selected) guides.forget(id);
+  }
+  function addGuide(preparation: GuidePreparation, application: boolean) {
+    if (busy || readingRequest.current) return false;
+    const id = preparation.input.optionId;
+    if (
+      (!content.draft.connectorGuides.some((guide) => guide.optionId === id) &&
+        content.draft.connectorGuides.length >= 12) ||
+      (application &&
+        !content.draft.connectors.includes(id) &&
+        content.draft.connectors.length >= composerLimits.connectors)
+    ) {
+      setError('Vous pouvez préparer au maximum 12 outils ou services.');
+      return false;
+    }
+    update((draft) => ({
+      ...draft,
+      connectorGuides: [
+        ...draft.connectorGuides.filter((guide) => guide.optionId !== id),
+        structuredClone(preparation.input),
+      ],
+      connectors:
+        application && !draft.connectors.includes(id)
+          ? [...draft.connectors, id]
+          : draft.connectors,
+    }));
+    return true;
+  }
+  function removeGuide(id: string) {
+    if (busy || readingRequest.current) return;
+    update((draft) => ({
+      ...draft,
+      connectorGuides: draft.connectorGuides.filter((guide) => guide.optionId !== id),
+      connectors: draft.connectors.filter((optionId) => optionId !== id),
+    }));
+    guides.forget(id);
   }
   function selectMcp(id: string, enabled: boolean) {
     if (enabled && content.draft.mcpConnectionIds.includes(id)) return;
@@ -266,6 +320,17 @@ export function useIdeaComposer({
   }
   return {
     mcp,
+    linearAccessWarning:
+      content.draft.connectorGuides.some((guide) => guide.flowId === 'linear-read') &&
+      mcp.connections.some(
+        (connection) =>
+          connection.provider === 'linear' &&
+          connection.url === 'https://mcp.linear.app/mcp' &&
+          connection.status === 'connected' &&
+          content.draft.mcpConnectionIds.includes(connection.id),
+      ),
+    guides,
+    removeGuide,
     toggleMcp: (id: string) => selectMcp(id, !content.draft.mcpConnectionIds.includes(id)),
     hasUnsavedContent,
     approveDeparture: () => {

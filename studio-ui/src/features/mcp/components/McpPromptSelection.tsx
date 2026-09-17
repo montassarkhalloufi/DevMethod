@@ -1,5 +1,6 @@
 import { ConnectorIcon } from '../../connectors';
 import type { McpConnection } from '../model/mcp';
+import { mcpDisplayName } from '../model/mcp';
 
 export function McpPromptSelection({
   connections,
@@ -25,18 +26,18 @@ export function McpPromptSelection({
           type="button"
           className={`mcp-prompt-chip${connection.status === 'connected' ? '' : ' mcp-prompt-chip-unavailable'}`}
           aria-pressed={selectedIds.includes(connection.id)}
-          aria-label={`Utiliser ${connection.name} pour ce projet`}
+          aria-label={`Utiliser ${mcpDisplayName(connection)} pour ce projet`}
           disabled={
             disabled || (connection.status !== 'connected' && !selectedIds.includes(connection.id))
           }
           onClick={() => onToggle(connection.id)}
-          title={`${connection.name} · ${connection.status === 'connected' ? `${connection.tools.length} outils disponibles` : 'À reconnecter'}`}
+          title={`${mcpDisplayName(connection)} · ${connection.status === 'connected' ? `${connection.tools.length} outils disponibles` : 'À reconnecter'}`}
         >
           <ConnectorIcon
             optionId={connection.provider === 'custom' ? 'application-mcp' : connection.provider}
             size={18}
           />
-          <span>{connection.name}</span>
+          <span>{mcpDisplayName(connection)}</span>
           <small>{connection.status === 'connected' ? 'Connecté' : 'À reconnecter'}</small>
         </button>
       ))}

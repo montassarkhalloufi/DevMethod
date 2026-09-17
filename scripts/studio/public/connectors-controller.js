@@ -11,8 +11,9 @@ export function createConnectorsController({ document, onPrepareRequest }) {
       revisionId,
       checkId,
       onPrepareRequest(request) {
+        if (onPrepareRequest(request) === false) return false;
         dialog.close();
-        onPrepareRequest(request);
+        return true;
       },
     };
   }

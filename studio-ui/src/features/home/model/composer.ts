@@ -1,4 +1,5 @@
 import type { HomeOperation, HomeProjectType, ProjectInput } from './contracts';
+import type { GuideInput } from '../../connectors';
 
 export type ComposerSection = 'references' | 'design' | 'tools' | 'project';
 export interface ComposerSeed {
@@ -19,6 +20,7 @@ export interface ComposerDraft {
   projectType: HomeProjectType;
   design: string;
   connectors: string[];
+  connectorGuides: GuideInput[];
   mcpConnectionIds: string[];
   links: string[];
   attachments: ComposerAttachment[];
@@ -92,6 +94,7 @@ export function emptyComposer(): ComposerDraft {
     projectType: 'website',
     design: '',
     connectors: [],
+    connectorGuides: [],
     mcpConnectionIds: [],
     links: [],
     attachments: [],
@@ -104,6 +107,7 @@ export function hasComposerContent(draft: ComposerDraft) {
     draft.name.trim() ||
     draft.design.trim() ||
     draft.connectors.length ||
+    draft.connectorGuides.length ||
     draft.mcpConnectionIds.length ||
     draft.links.length ||
     draft.attachments.length,
@@ -182,6 +186,9 @@ export function composerInput(draft: ComposerDraft): ProjectInput {
       projectType: draft.projectType,
       design: draft.design.trim(),
       connectors: [...draft.connectors],
+      ...(draft.connectorGuides.length
+        ? { connectorGuides: structuredClone(draft.connectorGuides) }
+        : {}),
       mcpConnectionIds: [...draft.mcpConnectionIds],
       links: [...draft.links],
       attachments: [...draft.attachments],

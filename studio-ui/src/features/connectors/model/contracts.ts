@@ -1,3 +1,5 @@
+import type { GuideInput } from './guides';
+
 export interface ConnectorOption {
   id: string;
   title: string;
@@ -19,6 +21,7 @@ export interface ConnectorConnection {
   version: number;
   status: 'configured' | 'attested' | 'failed';
   configuredAt: string;
+  guide?: GuideInput;
   probe: null | {
     id: string;
     status: 'available' | 'failed';
@@ -48,7 +51,7 @@ export interface ConnectorReport {
 export interface ConnectorWidgetOptions {
   revisionId: string | null;
   checkId?: string;
-  onPrepareRequest: (request: { prompt: string }) => void;
+  onPrepareRequest: (request: { prompt: string; connectorGuides?: GuideInput[] }) => boolean | void;
 }
 export interface ConnectorHandle {
   update(options: ConnectorWidgetOptions): void;

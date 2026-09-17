@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { safeFile } from './files.mjs';
+import { prepareConnectorGuides, connectorGuideInstructions } from './connector-guides.mjs';
 import { queueRequest } from './domain.mjs';
 import { connectorOptions, connectorCapabilities } from './connectors-catalog.mjs';
 import { mcpId } from './mcp-contract.mjs';
@@ -180,9 +181,19 @@ function constraintsFor(launch, mcpConnections) {
 export function prepareHomeLaunch(input, idea, { mcpConnections = [] } = {}) {
   shape(
     input,
-    ['action', 'projectType', 'design', 'connectors', 'links', 'attachments', 'mcpConnectionIds'],
+    [
+      'action',
+      'projectType',
+      'design',
+      'connectors',
+      'links',
+      'attachments',
+      'mcpConnectionIds',
+      'connectorGuides',
+    ],
     'Lancement',
   );
+  const guidePreparations = prepareConnectorGuides(input.connectorGuides);
   const projectIdea = text(idea, homeLaunchLimits.idea, 'Idée de lancement', false, true);
   requireValue(
     ['plan', 'build'].includes(input.action) &&
@@ -191,6 +202,9 @@ export function prepareHomeLaunch(input, idea, { mcpConnections = [] } = {}) {
     'Action ou type de projet inconnu.',
   );
   const launch = {
+    ...(guidePreparations.length
+      ? { connectorGuides: guidePreparations.map((entry) => entry.input) }
+      : {}),
     action: input.action,
     projectType: input.projectType,
     design: text(
@@ -238,7 +252,10 @@ export function prepareHomeLaunch(input, idea, { mcpConnections = [] } = {}) {
   );
   // Preserve receipt fingerprints for launches saved before MCP selection existed.
   if (!launch.mcpConnectionIds.length) delete launch.mcpConnectionIds;
-  const constraints = constraintsFor(launch, mcpConnections);
+  const constraints = [
+    ...constraintsFor(launch, mcpConnections),
+    ...connectorGuideInstructions(guidePreparations),
+  ];
   const request = [
     launch.action === 'plan'
       ? 'Planifier ce projet uniquement. Examiner le besoin, les options et les étapes ; ne créer ni modifier de code applicatif avant une nouvelle demande explicite de l’utilisateur.'
@@ -284,5 +301,8 @@ export function writeHomeLaunchReferences(workspace, prepared) {
 export function applyHomeLaunch(state, prepared, references) {
   state.project.constraints = prepared.constraints;
   state.references.push(...references);
-  queueRequest(state, { request: prepared.request });
+  queueRequest(state, {
+    request: prepared.request,
+    connectorGuides: prepared.launch.connectorGuides,
+  });
 }

@@ -1,3 +1,4 @@
+import { connectorGuideRoute } from './connector-guide-routes.mjs';
 import fs from 'node:fs';
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
@@ -113,6 +114,7 @@ export async function startStudioHome({ directory, port = 4330 }) {
     try {
       if (request.headers.host !== new URL(url).host) throw homeError('Hôte non autorisé.', 403);
       const requestUrl = new URL(request.url, url);
+      if (await connectorGuideRoute(request, response, requestUrl, url)) return;
       if (await mcpRoutes(request, response, requestUrl)) return;
       if (request.method === 'GET') {
         if (requestUrl.pathname === '/api/home') {

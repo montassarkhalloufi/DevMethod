@@ -83,12 +83,20 @@ export function connectionInput(input, connections) {
   const preset = mcpPresets.find((entry) => entry.id === input.provider);
   mcpRequire(preset || input.provider === 'custom', 'Fournisseur MCP inconnu.');
   if (input.id !== undefined) mcpRequire(mcpId(input.id), 'Identifiant MCP invalide.');
+  const requestedURL = input.url ?? preset?.url;
   const prior = input.id
     ? connections.find((entry) => entry.id === input.id)
-    : connections.find((entry) => preset && entry.provider === preset.id);
+    : connections.find(
+        (entry) => preset && entry.provider === preset.id && entry.url === requestedURL,
+      );
   if (input.id) mcpRequire(prior, 'Connexion MCP absente.', 404);
+  const endpoint =
+    input.url ?? (prior?.provider === preset?.id ? prior?.url : undefined) ?? preset?.url;
+  const official =
+    endpoint === preset?.url ||
+    (preset?.id === 'linear' && endpoint === 'https://mcp.linear.app/mcp/readonly');
   mcpRequire(
-    !preset || (input.url === undefined && (input.auth === undefined || input.auth === 'oauth')),
+    !preset || (official && (input.auth === undefined || input.auth === 'oauth')),
     'Ce fournisseur utilise son endpoint OAuth officiel.',
   );
   const auth = input.auth ?? 'oauth';
@@ -101,7 +109,7 @@ export function connectionInput(input, connections) {
     id: prior?.id ?? randomUUID(),
     provider: input.provider,
     name: mcpText(input.name ?? preset?.name, 100),
-    url: mcpURL(preset?.url ?? input.url).href,
+    url: mcpURL(preset ? endpoint : input.url).href,
     auth,
   };
   const reuse = prior && ['provider', 'url', 'auth'].every((key) => prior[key] === config[key]);

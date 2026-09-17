@@ -107,7 +107,7 @@ const allowedTransitions = {
 };
 
 function checkJobTransition(previous, next) {
-  for (const key of ['id', 'request', 'element', 'baseRevision', 'createdAt'])
+  for (const key of ['id', 'request', 'element', 'baseRevision', 'createdAt', 'connectorGuides'])
     unchanged(previous[key], next[key], `Champ ${key} de demande`);
   if (!allowedTransitions[previous.status].includes(next.status))
     reject('Transition de demande invalide.');

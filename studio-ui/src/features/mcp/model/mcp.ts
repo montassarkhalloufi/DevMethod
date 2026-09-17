@@ -31,11 +31,17 @@ export interface McpConnectInput {
   bearerToken?: string;
 }
 
+export function mcpDisplayName(connection: McpConnection) {
+  if (connection.provider !== 'linear') return connection.name;
+  return `${connection.name} · ${connection.url === 'https://mcp.linear.app/mcp/readonly' ? 'lecture seule' : 'accès standard'}`;
+}
+
 export function reconnectMcpInput(connection: McpConnection): McpConnectInput {
   return {
     id: connection.id,
     provider: connection.provider,
     auth: connection.auth,
+    ...(connection.provider === 'linear' ? { url: connection.url } : {}),
     ...(connection.provider === 'custom' ? { name: connection.name, url: connection.url } : {}),
   };
 }

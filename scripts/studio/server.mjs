@@ -1,3 +1,4 @@
+import { connectorGuideRoute } from './connector-guide-routes.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
@@ -441,6 +442,7 @@ export async function startStudio({
       if (request.headers.host !== new URL(url).host)
         return send(response, 403, { error: 'Hôte non autorisé.' });
       const requestUrl = new URL(request.url, url);
+      if (await connectorGuideRoute(request, response, requestUrl, url)) return;
       if (
         await mcpBrokerRoute(requestUrl, request, response, {
           broker: mcpBroker,

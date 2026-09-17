@@ -4,9 +4,13 @@ import { preferredConnector } from '../model/catalog';
 import { useConnectors } from '../hooks/useConnectors';
 import { ConnectionDetail } from './ConnectionDetail';
 import { ConnectorCatalog } from './ConnectorCatalog';
+import { useConnectorDrafts } from '../hooks/useConnectorDrafts';
+import { useProjectGuide } from '../hooks/useProjectGuide';
+import { ProjectConnectorGuide } from './ProjectConnectorGuide';
 
 export function ConnectorsView(options: ConnectorWidgetOptions) {
   const { report, error, busy, action, refresh } = useConnectors(options.revisionId);
+  const drafts = useConnectorDrafts(options.checkId);
   const [navigation, setNavigation] = useState<{
     detail: string | null | undefined;
     lastSelected: string | null;
@@ -22,6 +26,8 @@ export function ConnectorsView(options: ConnectorWidgetOptions) {
       : report.catalog.options.find((item) => item.id === navigation.detail));
   const connection = report?.connections.find((item) => item.optionId === active?.id);
   const activeId = active?.id;
+  const draft = active ? drafts.get(active, connection) : null;
+  const guide = useProjectGuide(activeId, draft?.guide);
   useLayoutEffect(() => {
     if (!activeId && restoringFocus.current) {
       restoringFocus.current = false;
@@ -32,6 +38,7 @@ export function ConnectorsView(options: ConnectorWidgetOptions) {
     }
   }, [activeId]);
   function backToCatalog() {
+    guide.request.reset();
     restoringFocus.current = true;
     setNavigation({ detail: null, lastSelected: active?.id || navigation.lastSelected });
   }
@@ -65,7 +72,7 @@ export function ConnectorsView(options: ConnectorWidgetOptions) {
           }}
         />
       </div>
-      {active ? (
+      {active && draft ? (
         <div className="connector-detail-page">
           <button
             type="button"
@@ -76,13 +83,25 @@ export function ConnectorsView(options: ConnectorWidgetOptions) {
             ← Retour au catalogue
           </button>
           <ConnectionDetail
-            key={active.id + ':' + (connection?.version || 0)}
+            key={active.id}
             {...options}
             option={active}
             connection={connection}
             busy={busy}
             action={action}
             refresh={refresh}
+            draft={draft}
+            onDraft={(patch) => drafts.update(active.id, draft, patch)}
+            onSaved={(submitted, version) => drafts.saved(active.id, submitted, version)}
+            guideReady={guide.ready}
+            guidePanel={
+              <ProjectConnectorGuide
+                controller={guide}
+                input={draft.guide}
+                busy={busy}
+                onChange={(input) => drafts.update(active.id, draft, { guide: input })}
+              />
+            }
           />
         </div>
       ) : null}

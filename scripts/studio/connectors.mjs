@@ -1,3 +1,4 @@
+import { prepareConnectorGuide, connectorGuideInstructions } from './connector-guides.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { atomicJSON, digest, safeFile } from './files.mjs';
@@ -35,6 +36,19 @@ function optionFrom(id) {
   return option;
 }
 
+function applicationGuide(input, option) {
+  if (input.guide === undefined) return {};
+  const preparation = prepareConnectorGuide(input.guide);
+  if (
+    option.purpose !== 'application' ||
+    option.transport !== 'api' ||
+    preparation.input.optionId !== option.id ||
+    preparation.nativeConnection !== null
+  )
+    rejectConnector('Ce parcours ne correspond pas à une intégration API applicative.');
+  return { guide: preparation.input };
+}
+
 function configureFields(input) {
   const option = optionFrom(input.optionId);
   if (input.purpose !== option.purpose) rejectConnector('Usage incompatible avec ce connecteur.');
@@ -56,6 +70,7 @@ function configureFields(input) {
     purpose: option.purpose,
     profileRef,
     secretRefs: refs,
+    ...applicationGuide(input, option),
   };
 }
 
@@ -91,7 +106,17 @@ function storedProbe(probe, option) {
 function storedConnection(entry) {
   connectorObject(
     entry,
-    ['id', 'optionId', 'purpose', 'profileRef', 'secretRefs', 'version', 'configuredAt', 'probe'],
+    [
+      'id',
+      'optionId',
+      'purpose',
+      'profileRef',
+      'secretRefs',
+      'version',
+      'configuredAt',
+      'probe',
+      'guide',
+    ],
     'Connecteur',
   );
   configureFields(entry);
@@ -168,7 +193,7 @@ export function configureProjectConnector(store, input) {
   connectorPayload(input);
   connectorObject(
     input,
-    ['id', 'optionId', 'purpose', 'profileRef', 'secretRefs', 'expectedVersion'],
+    ['id', 'optionId', 'purpose', 'profileRef', 'secretRefs', 'expectedVersion', 'guide'],
     'Configuration',
   );
   const fields = configureFields(input),
@@ -180,6 +205,9 @@ export function configureProjectConnector(store, input) {
     rejectConnector('Limite de connecteurs atteinte.', 429);
   const next = {
     ...fields,
+    ...(input.guide === undefined && current?.optionId === fields.optionId && current.guide
+      ? { guide: current.guide }
+      : {}),
     version: (current?.version ?? 0) + 1,
     configuredAt: new Date().toISOString(),
     probe: null,
@@ -334,9 +362,11 @@ export function prepareConnectorIntegration(store, input) {
     rejectConnector('Connecteur applicatif attendu.');
   const option = optionFrom(connection.optionId);
   connectorMember(input.capability, option.capabilities, 'Capacité');
+  const guide = connection.guide ? prepareConnectorGuide(connection.guide) : null;
   const title = `Préparer l’intégration : ${option.title}`;
   const prompt = [
     title,
+    ...connectorGuideInstructions(guide ? [guide] : []),
     `Capacité : ${input.capability}. Version : ${snapshot.revision.id}. Empreinte : ${snapshot.fingerprint}.`,
     `Connecteur : ${connection.id}, configuration ${connection.version}. État : ${publicConnection(connection).status}. Documentation : ${option.docs}.`,
     'Examiner les dépendances et services existants, proposer les changements et les contrôles utiles, puis respecter la délégation et les décisions du projet.',
@@ -351,6 +381,7 @@ export function prepareConnectorIntegration(store, input) {
     revisionId: snapshot.revision.id,
     connectionId: connection.id,
     capability: input.capability,
+    ...(guide ? { connectorGuides: [guide.input] } : {}),
   };
 }
 

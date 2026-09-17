@@ -1,4 +1,4 @@
-> Mise à jour du 17 septembre : [espace technique, architecture, vérifications et défilement](TECHNICAL-CHECKPOINT.md), [accueil/composer livré](evidence/home-composer/RESULTS.md), puis [huit scénarios connecteurs Lovable et cadre d’intégration](evidence/lovable-connectors/SCENARIOS.md). Cette dernière tranche est une recherche et une préparation d’implémentation, sans nouveau runtime livré. Les preuves historiques ci-dessous gardent leur périmètre d’origine.
+> Mise à jour du 17 septembre : [espace technique, architecture, vérifications et défilement](TECHNICAL-CHECKPOINT.md), [accueil/composer livré](evidence/home-composer/RESULTS.md), puis [huit scénarios connecteurs Lovable et cadre d’intégration](evidence/lovable-connectors/SCENARIOS.md). Le « go » suivant a livré les [guides Slack/Notion/Linear et leur contexte structuré](evidence/guided-connectors/RESULTS.md) ; les parcours concurrentiels précédents restent des observations séparées. Les preuves historiques ci-dessous gardent leur périmètre d’origine.
 
 # Reprendre Studio — checkpoint du 16 septembre 2026
 

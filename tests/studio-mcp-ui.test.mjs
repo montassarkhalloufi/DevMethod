@@ -4,6 +4,7 @@ import test from 'node:test';
 import { setTimeout } from 'node:timers/promises';
 import { build } from 'esbuild';
 import { JSDOM } from 'jsdom';
+import { readConnectorGuides, prepareConnectorGuide } from '../scripts/studio/connector-guides.mjs';
 
 const entries = await Promise.all(
   ['home-widget', 'mcp-widget'].map((entry) =>
@@ -94,6 +95,8 @@ function fixture(t, handler, { studio = false, popupBlocked = false } = {}) {
   w.fetch = async (url, init) => {
     const input = init.body ? JSON.parse(init.body) : undefined;
     calls.push({ url, init, input });
+    if (url === '/api/connectors/guides') return reply(readConnectorGuides());
+    if (url === '/api/connectors/guides/prepare') return reply(prepareConnectorGuide(input));
     if (url === '/api/home') return reply({ projects: [], limits: { projects: 200 } });
     if (url === '/api/home/catalog') return reply({ options: [], capabilities: [] });
     return handler(url, input, init);
@@ -141,6 +144,25 @@ async function manage(f) {
 const preset = (f) => f.document.querySelector('.mcp-preset-grid button');
 const mcpCheckbox = (f) => f.document.querySelector('[name="mcp-connection"]');
 
+async function connectNotion(f) {
+  preset(f).click();
+  await until(() => f.document.querySelector('.connector-guide-choice input'));
+  assert.equal(f.calls.filter((call) => call.url === '/api/mcp/connect').length, 0);
+  f.document.querySelector('.connector-guide-choice input').click();
+  await until(() => !button(f, 'Préciser la configuration →').disabled);
+  button(f, 'Préciser la configuration →').click();
+  await until(() => f.document.querySelector('.connector-guide-question input[type="checkbox"]'));
+  f.document.querySelector('.connector-guide-question input[type="checkbox"]').click();
+  await until(() => !button(f, 'Vérifier la préparation →').disabled);
+  button(f, 'Vérifier la préparation →').click();
+  await until(() => button(f, 'Connecter Notion'));
+  button(f, 'Connecter Notion').click();
+  f.document.querySelector('.connector-guide-steps button').click();
+  await until(() => button(f, '← Retour au catalogue'));
+  button(f, '← Retour au catalogue').click();
+  await until(() => preset(f));
+}
+
 test('OAuth opens from the user gesture, waits for real tool discovery and forwards the selected connection id', async (t) => {
   let authorized = false;
   let finishConnect;
@@ -166,7 +188,7 @@ test('OAuth opens from the user gesture, waits for real tool discovery and forwa
   });
   await manage(f);
   await until(() => preset(f));
-  preset(f).click();
+  await connectNotion(f);
   assert.equal(f.popups.length, 1);
   assert.equal(f.popups[0].initial, 'about:blank');
   assert.equal(f.popups[0].opener, null);
@@ -204,7 +226,7 @@ test('blocked OAuth popup does not start a server connection', async (t) => {
   const f = fixture(t, async () => reply(index()), { popupBlocked: true });
   await manage(f);
   await until(() => preset(f));
-  preset(f).click();
+  await connectNotion(f);
   await until(() => f.document.querySelector('.mcp-connection-error'));
   assert.match(
     f.document.querySelector('.mcp-connection-error').textContent,
@@ -225,7 +247,7 @@ test('unsafe authorization destination is rejected and no selected connection is
   );
   await manage(f);
   await until(() => preset(f));
-  preset(f).click();
+  await connectNotion(f);
   await until(() => f.document.querySelector('.mcp-connection-error'));
   assert.equal(f.popups[0].locations.length, 0);
   assert.equal(f.popups[0].closed, true);
@@ -292,7 +314,7 @@ test('cancelling OAuth disconnects the pending server and ignores a late connect
   });
   await manage(f);
   await until(() => preset(f));
-  preset(f).click();
+  await connectNotion(f);
   await until(() => finishPoll);
   button(f, 'Annuler la connexion').click();
   await until(() => f.document.querySelector('.mcp-status')?.textContent === 'Déconnecté');
@@ -386,4 +408,64 @@ test('reconnecting a custom server retains its endpoint and name required by the
     name: custom.name,
     url: custom.url,
   });
+});
+
+const notionGuideInput = {
+  optionId: 'notion',
+  guideVersion: 1,
+  flowId: 'notion-context',
+  answers: { actions: ['read-content'] },
+};
+test('project restores prepared context before mount and preserves edits made during dispatch', async (t) => {
+  const f = fixture(
+    t,
+    async (url) =>
+      url === '/api/mcp'
+        ? reply(index())
+        : reply({ supported: true, nativeRunner: false, connectionIds: [] }),
+    { studio: true },
+  );
+  f.widget.restoreGuides([notionGuideInput]);
+  await until(() => f.document.querySelector('.connector-guide-chips'));
+  assert.deepEqual(JSON.parse(JSON.stringify(f.widget.requestGuides())), [notionGuideInput]);
+  const sent = f.widget.requestGuides();
+  const changed = { ...notionGuideInput, answers: { actions: ['prepare-changes'] } };
+  assert.equal(f.widget.addGuides([changed]), true);
+  f.widget.clearGuides(sent);
+  assert.deepEqual(JSON.parse(JSON.stringify(f.widget.requestGuides())), [changed]);
+});
+
+test('project rechecks a changed guide after waiting for selection persistence', async (t) => {
+  let finish;
+  const f = fixture(
+    t,
+    async (url, input) => {
+      if (url === '/api/mcp') return reply(index([connection()]));
+      if (url === '/api/mcp/selection' && !input)
+        return reply({ supported: true, nativeRunner: false, connectionIds: [] });
+      return new Promise((resolve) => {
+        finish = () =>
+          resolve(reply({ supported: true, nativeRunner: false, connectionIds: ['connection-1'] }));
+      });
+    },
+    { studio: true },
+  );
+  await until(
+    () =>
+      button(f, 'Utiliser Notion équipe pour ce projet') &&
+      !button(f, 'Utiliser Notion équipe pour ce projet').disabled,
+  );
+  f.widget.addGuides([notionGuideInput]);
+  await until(() => f.document.querySelector('.connector-guide-chips'));
+  button(f, 'Utiliser Notion équipe pour ce projet').click();
+  await until(() => finish);
+  const pending = f.widget.prepareRequest();
+  f.document.querySelector('.connector-guide-chips button').click();
+  await until(() => f.document.querySelector('.connector-guide-question input[type="checkbox"]'));
+  const inputs = f.document.querySelectorAll('.connector-guide-question input[type="checkbox"]');
+  inputs[1].click();
+  await until(() => f.document.body.textContent.includes('Des réponses ont changé'));
+  finish();
+  assert.equal(await pending, false);
+  assert.deepEqual(JSON.parse(JSON.stringify(f.widget.requestGuides())), [notionGuideInput]);
 });

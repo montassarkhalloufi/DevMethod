@@ -1,13 +1,25 @@
 import { ConnectorIcon } from '../../connectors';
 import type { IdeaComposerController } from '../hooks/useIdeaComposer';
 
-export function ComposerPreferences({ composer }: { composer: IdeaComposerController }) {
+export function ComposerPreferences({
+  composer,
+  onConfigureGuide,
+}: {
+  composer: IdeaComposerController;
+  onConfigureGuide(optionId: string, button: HTMLButtonElement): void;
+}) {
   const { draft } = composer;
   function remove(action: () => void) {
     action();
     composer.textarea.current?.focus();
   }
-  if (!draft.design && !draft.connectors.length && !draft.links.length && !draft.attachments.length)
+  if (
+    !draft.design &&
+    !draft.connectors.length &&
+    !draft.connectorGuides.length &&
+    !draft.links.length &&
+    !draft.attachments.length
+  )
     return null;
   return (
     <div className="composer-preferences" aria-label="Préférences ajoutées">
@@ -26,17 +38,70 @@ export function ComposerPreferences({ composer }: { composer: IdeaComposerContro
           </button>
         </span>
       ) : null}
-      {draft.connectors.map((id) => {
-        const title = composer.catalog?.options.find((tool) => tool.id === id)?.title || id;
+      {draft.connectors
+        .filter((id) => !draft.connectorGuides.some((guide) => guide.optionId === id))
+        .map((id) => {
+          const title = composer.catalog?.options.find((tool) => tool.id === id)?.title || id;
+          return (
+            <span className="composer-chip" key={id}>
+              <ConnectorIcon optionId={id} size={18} />
+              {composer.guides.guides.some((guide) => guide.optionId === id) ? (
+                <button
+                  type="button"
+                  className="composer-chip-configure"
+                  disabled={composer.busy}
+                  aria-label={`Configurer ${title}`}
+                  onClick={(event) => onConfigureGuide(id, event.currentTarget)}
+                >
+                  {title}
+                </button>
+              ) : (
+                <span className="composer-chip-label">{title}</span>
+              )}
+              <button
+                type="button"
+                disabled={composer.busy}
+                aria-label={`Retirer ${title}`}
+                onClick={() => remove(() => composer.toggleConnector(id))}
+              >
+                ×
+              </button>
+            </span>
+          );
+        })}
+      {draft.connectorGuides.map((input) => {
+        const definition = composer.guides.guides.find(
+          (guide) => guide.optionId === input.optionId,
+        );
+        const title = definition?.title || input.optionId;
+        const flow = definition?.flows.find((item) => item.id === input.flowId);
+        const native = composer.guides.preparationFor(input.optionId)?.nativeConnection;
+        const connected =
+          native &&
+          composer.mcp.connections.some(
+            (connection) =>
+              connection.provider === native.providerId &&
+              connection.url === native.url &&
+              connection.status === 'connected',
+          );
         return (
-          <span className="composer-chip" key={id}>
-            <ConnectorIcon optionId={id} size={18} />
-            <span className="composer-chip-label">{title}</span>
+          <span className="composer-chip composer-guide-chip" key={'guide:' + input.optionId}>
+            <ConnectorIcon optionId={input.optionId} size={18} />
+            <button
+              type="button"
+              className="composer-chip-configure"
+              disabled={composer.busy}
+              aria-label={`Configurer ${title}`}
+              title={flow?.title}
+              onClick={(event) => onConfigureGuide(input.optionId, event.currentTarget)}
+            >
+              {title} · {connected ? 'MCP connecté' : 'À connecter'}
+            </button>
             <button
               type="button"
               disabled={composer.busy}
               aria-label={`Retirer ${title}`}
-              onClick={() => remove(() => composer.toggleConnector(id))}
+              onClick={() => remove(() => composer.removeGuide(input.optionId))}
             >
               ×
             </button>

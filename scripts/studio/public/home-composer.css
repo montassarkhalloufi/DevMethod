@@ -286,6 +286,53 @@
   background: #ffffff13;
 }
 
+.composer-chip .composer-chip-configure {
+  flex: 0 1 auto;
+  min-width: 0;
+  padding: 2px 4px;
+  overflow-wrap: anywhere;
+  text-align: left;
+  font-size: 11px;
+}
+
+.composer-tool-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 5px;
+}
+
+.composer-tool-card .composer-tool-option {
+  flex: 1;
+}
+
+.composer-tool-configure {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #455776;
+  border-radius: 8px;
+  background: #1d2b43;
+  color: #e2ddf8;
+  font-size: 12px;
+}
+
+.composer-tool-configure:hover:not(:disabled) {
+  border-color: #a58bdf;
+  background: #2a2a46;
+}
+
+.composer-guide-connect {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #455776;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+
+.composer-guide-connect p {
+  line-height: 1.6;
+}
+
 .composer-options-dialog {
   width: min(800px, calc(100vw - 40px));
   max-width: none;
@@ -411,7 +458,7 @@
   font-weight: 400;
 }
 
-.composer-options-pane input:not([type='checkbox']):not([type='file']),
+.composer-options-pane input:not([type='checkbox']):not([type='radio']):not([type='file']),
 .composer-options-pane textarea,
 .composer-options-pane select {
   width: 100%;

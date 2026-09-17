@@ -62,13 +62,17 @@ async function until(predicate) {
   assert.ok(predicate(), 'Expected composer state not reached');
 }
 
-function fixture(t, { fetcher = async () => reply(catalog), reader } = {}) {
+function fixture(
+  t,
+  { fetcher = async () => reply(catalog), reader, guides = [], mcpConnections = [] } = {},
+) {
   const dom = new JSDOM('<div id="root"></div>', {
     url: 'http://127.0.0.1:4330/',
     runScripts: 'outside-only',
     pretendToBeVisual: true,
   });
   const { window } = dom;
+  window.structuredClone = structuredClone;
   window.HTMLDialogElement.prototype.showModal = function () {
     this.setAttribute('open', '');
   };
@@ -80,7 +84,8 @@ function fixture(t, { fetcher = async () => reply(catalog), reader } = {}) {
   const calls = [];
   window.fetch = (url, init) => {
     if (url === '/api/mcp')
-      return Promise.resolve(reply({ presets: [], connections: [], supported: true }));
+      return Promise.resolve(reply({ presets: [], connections: mcpConnections, supported: true }));
+    if (url === '/api/connectors/guides') return Promise.resolve(reply({ guides }));
     calls.push({ url, init });
     return fetcher(url, init);
   };
@@ -121,6 +126,465 @@ function button(f, label, scope = f.document) {
 
 const dialog = (f) => f.document.querySelector('dialog');
 const idea = (f) => f.document.querySelector('[name="idea"]');
+
+const slackGuide = {
+  optionId: 'slack',
+  guideVersion: 1,
+  title: 'Slack',
+  description: 'Préparer un partage manuel.',
+  flows: [
+    {
+      id: 'slack-bot',
+      title: 'Bot de l’application',
+      description: 'Publier avec le bot.',
+      usage: 'application',
+      identity: 'bot',
+      transport: 'api',
+      questions: [
+        {
+          id: 'channelAccess',
+          title: 'Canaux concernés',
+          options: [
+            { id: 'joined-channels', title: 'Canaux où le bot est membre' },
+            { id: 'public-channels', title: 'Tous les canaux publics' },
+          ],
+        },
+      ],
+    },
+  ],
+  sources: [],
+};
+const guidedCatalog = {
+  ...catalog,
+  options: [
+    ...catalog.options,
+    { id: 'slack', title: 'Slack', description: 'Messages de projet', capabilities: ['messaging'] },
+  ],
+};
+const notionGuide = {
+  ...slackGuide,
+  optionId: 'notion',
+  title: 'Notion',
+  flows: [
+    {
+      ...slackGuide.flows[0],
+      id: 'notion-context',
+      title: 'Contexte de l’assistant',
+      usage: 'assistant',
+      transport: 'mcp',
+      questions: [],
+    },
+  ],
+};
+const notionCatalog = {
+  ...catalog,
+  options: [
+    { id: 'notion', title: 'Notion', description: 'Documentation', capabilities: ['content'] },
+  ],
+};
+
+test('a service guide opens from the catalogue without submitting or changing the brief', async (t) => {
+  const f = fixture(t, { guides: [slackGuide], fetcher: async () => reply(guidedCatalog) });
+  await until(() => idea(f));
+  type(f, '[name="idea"]', 'Le brief original');
+  await openOptions(f, 'tools');
+  await until(() => button(f, 'Configurer Slack', dialog(f)));
+  button(f, 'Configurer Slack', dialog(f)).click();
+  await until(() => dialog(f).textContent.includes('Bot de l’application'));
+  assert.equal(idea(f).value, 'Le brief original');
+  assert.equal(f.submissions.length, 0);
+  assert.equal(f.calls.filter((call) => call.init?.method === 'POST').length, 0);
+  f.update({ operation: { ...idle, phase: 'creating' } });
+  await until(() => dialog(f).querySelector('.connector-guide-question')?.disabled);
+  submit(f);
+  assert.equal(f.submissions.length, 0);
+});
+
+const preparedGuide = (input) => ({
+  input,
+  setupFingerprint: 'a'.repeat(64),
+  title: 'Partage manuel préparé',
+  summary: ['Envoyer le résumé avec un bot.'],
+  permissions: [{ scope: 'chat:write', reason: 'Publier le résumé choisi.' }],
+  prerequisites: ['Autoriser un compte Slack.'],
+  access: 'not-connected',
+  nativeConnection: null,
+});
+
+function chooseGuide(f, title) {
+  const label = [...dialog(f).querySelectorAll('.connector-guide-choice')].find((node) =>
+    node.textContent.includes(title),
+  );
+  assert.ok(label, `Missing guide choice: ${title}`);
+  label.querySelector('input').click();
+}
+
+const guideStep = (f, title) =>
+  [...dialog(f).querySelectorAll('.connector-guide-steps button')].find((node) =>
+    node.textContent.endsWith(title),
+  );
+
+async function answerSlackGuide(f) {
+  await openOptions(f, 'tools');
+  await until(() => button(f, 'Configurer Slack', dialog(f)));
+  button(f, 'Configurer Slack', dialog(f)).click();
+  await until(() => dialog(f).querySelector('.connector-guide-choice'));
+  chooseGuide(f, 'Bot de l’application');
+  await until(() => !button(f, 'Préciser la configuration →').disabled);
+  button(f, 'Préciser la configuration →').click();
+  await until(() => dialog(f).textContent.includes('Canaux concernés'));
+  chooseGuide(f, 'Canaux où le bot est membre');
+  await until(() => !button(f, 'Vérifier la préparation →').disabled);
+}
+
+async function closeOptions(f) {
+  button(f, 'Fermer les options').click();
+  await until(() => !dialog(f).open);
+}
+
+function guideFetcher(url, init) {
+  return Promise.resolve(
+    reply(url.endsWith('/prepare') ? preparedGuide(JSON.parse(init.body)) : guidedCatalog),
+  );
+}
+
+test('validated guide answers survive catalogue and dialog navigation, reopen from a chip, and reach the exact launch once', async (t) => {
+  const f = fixture(t, { guides: [slackGuide], fetcher: guideFetcher });
+  await until(() => idea(f));
+  type(f, '[name="idea"]', 'Mon brief intact');
+  await answerSlackGuide(f);
+  guideStep(f, 'Usage').click();
+  await until(() => button(f, '← Retour au catalogue'));
+  button(f, '← Retour au catalogue').click();
+  await until(() => !dialog(f).querySelector('.connector-guide'));
+  button(f, 'Configurer Slack', dialog(f)).click();
+  await until(() => dialog(f).querySelector('.connector-guide-question input:checked'));
+  assert.match(
+    dialog(f).querySelector('.connector-guide-question input:checked').closest('label').textContent,
+    /Canaux où le bot est membre/,
+  );
+  await closeOptions(f);
+  await openOptions(f, 'tools');
+  assert.ok(dialog(f).querySelector('.connector-guide-question input:checked'));
+  button(f, 'Vérifier la préparation →').click();
+  await until(() => button(f, 'Ajouter à ma demande'));
+  assert.equal(f.submissions.length, 0);
+  const expected = {
+    optionId: 'slack',
+    guideVersion: 1,
+    flowId: 'slack-bot',
+    answers: { channelAccess: 'joined-channels' },
+  };
+  assert.deepEqual(
+    JSON.parse(f.calls.find((call) => call.init?.method === 'POST').init.body),
+    expected,
+  );
+  button(f, 'Ajouter à ma demande').click();
+  await until(() => f.document.querySelector('.composer-guide-chip'));
+  assert.match(f.document.querySelector('.composer-guide-chip').textContent, /Slack · À connecter/);
+  await closeOptions(f);
+  button(f, 'Configurer Slack').click();
+  await until(() => dialog(f).open && button(f, 'Ajouter à ma demande'));
+  assert.match(dialog(f).textContent, /Envoyer le résumé avec un bot/);
+  await closeOptions(f);
+  assert.equal(idea(f).value, 'Mon brief intact');
+  submit(f);
+  assert.equal(f.submissions.length, 1);
+  assert.deepEqual(f.submissions[0].launch, {
+    action: 'build',
+    projectType: 'website',
+    design: '',
+    connectors: ['slack'],
+    connectorGuides: [expected],
+    mcpConnectionIds: [],
+    links: [],
+    attachments: [],
+  });
+  assert.equal(f.calls.filter((call) => call.init?.method === 'POST').length, 1);
+  button(f, 'Retirer Slack').click();
+  await until(() => !f.document.querySelector('.composer-guide-chip'));
+  submit(f);
+  assert.deepEqual(f.submissions[1].launch.connectors, []);
+  assert.equal(f.submissions[1].launch.connectorGuides, undefined);
+});
+
+test('guide preparation errors retain answers and an edited selected guide must be confirmed again before launch', async (t) => {
+  let fail = true;
+  const f = fixture(t, {
+    guides: [slackGuide],
+    fetcher: async (url, init) => {
+      if (url.endsWith('/prepare') && fail)
+        return reply({ error: 'Préparation indisponible, réessayez.' }, false);
+      return guideFetcher(url, init);
+    },
+  });
+  await until(() => idea(f));
+  type(f, '[name="idea"]', 'Préserver le brief et les réponses');
+  await answerSlackGuide(f);
+  button(f, 'Vérifier la préparation →').click();
+  await until(() => button(f, 'Réessayer la préparation'));
+  assert.match(dialog(f).querySelector('[role="alert"]').textContent, /indisponible/);
+  assert.equal(f.submissions.length, 0);
+  fail = false;
+  button(f, 'Réessayer la préparation').click();
+  await until(() => button(f, 'Ajouter à ma demande'));
+  button(f, 'Ajouter à ma demande').click();
+  await until(() => f.document.querySelector('.composer-guide-chip'));
+  await closeOptions(f);
+  button(f, 'Configurer Slack').click();
+  await until(() => dialog(f).open && guideStep(f, 'Configuration'));
+  guideStep(f, 'Configuration').click();
+  await until(() => dialog(f).textContent.includes('Canaux concernés'));
+  chooseGuide(f, 'Tous les canaux publics');
+  await closeOptions(f);
+  submit(f);
+  await until(() => f.document.querySelector('.composer-error'));
+  assert.equal(f.submissions.length, 0);
+  assert.match(f.document.querySelector('.composer-error').textContent, /guide modifié/);
+  assert.equal(idea(f).value, 'Préserver le brief et les réponses');
+  button(f, 'Retirer Slack').click();
+  await until(() => !f.document.querySelector('.composer-guide-chip'));
+  submit(f);
+  assert.equal(f.submissions.length, 1);
+  assert.equal(f.submissions[0].launch.connectorGuides, undefined);
+});
+
+test('an assistant guide is separate from application services and adding it makes no MCP or business request', async (t) => {
+  const f = fixture(t, {
+    guides: [notionGuide],
+    fetcher: async (url, init) =>
+      reply(url.endsWith('/prepare') ? preparedGuide(JSON.parse(init.body)) : notionCatalog),
+  });
+  await until(() => idea(f));
+  type(f, '[name="idea"]', 'Consulter le contexte');
+  await openOptions(f, 'tools');
+  await until(() => button(f, 'Configurer Notion', dialog(f)));
+  button(f, 'Configurer Notion', dialog(f)).click();
+  await until(() => dialog(f).querySelector('.connector-guide-choice'));
+  chooseGuide(f, 'Contexte de l’assistant');
+  await until(() => !button(f, 'Préciser la configuration →').disabled);
+  button(f, 'Préciser la configuration →').click();
+  await until(() => button(f, 'Vérifier la préparation →'));
+  button(f, 'Vérifier la préparation →').click();
+  await until(() => button(f, 'Ajouter à ma demande'));
+  button(f, 'Ajouter à ma demande').click();
+  await until(() => f.document.querySelector('.composer-guide-chip'));
+  await closeOptions(f);
+  submit(f);
+  assert.deepEqual(f.submissions[0].launch.connectors, []);
+  assert.deepEqual(f.submissions[0].launch.mcpConnectionIds, []);
+  assert.deepEqual(f.submissions[0].launch.connectorGuides, [
+    { optionId: 'notion', guideVersion: 1, flowId: 'notion-context', answers: {} },
+  ]);
+  assert.deepEqual(
+    f.calls.filter((call) => call.init?.method === 'POST').map((call) => call.url),
+    ['/api/connectors/guides/prepare'],
+  );
+});
+
+async function prepareNotionGuide(f) {
+  await until(() => idea(f));
+  type(f, '[name="idea"]', 'Consulter le contexte sans changer mon brief');
+  await openOptions(f, 'tools');
+  await until(() => button(f, 'Configurer Notion', dialog(f)));
+  button(f, 'Configurer Notion', dialog(f)).click();
+  await until(() => dialog(f).querySelector('.connector-guide-choice'));
+  chooseGuide(f, 'Contexte de l’assistant');
+  await until(() => !button(f, 'Préciser la configuration →').disabled);
+  button(f, 'Préciser la configuration →').click();
+  await until(() => button(f, 'Vérifier la préparation →'));
+  button(f, 'Vérifier la préparation →').click();
+  await until(() => button(f, 'Connecter Notion', dialog(f)));
+}
+
+test('a prepared MCP guide invokes the native endpoint only on Connect and shows its returned status without losing the brief', async (t) => {
+  let finishConnection;
+  const connection = {
+    id: 'c81791bd-28d5-4ef7-9764-2993f7d61614',
+    name: 'Notion test UI',
+    provider: 'notion',
+    url: 'https://mcp.notion.com/mcp',
+    auth: 'oauth',
+    status: 'connected',
+    tools: [{ name: 'search' }],
+  };
+  const f = fixture(t, {
+    guides: [notionGuide],
+    fetcher: async (url, init) => {
+      if (url === '/api/mcp/connect')
+        return new Promise((resolve) => {
+          finishConnection = () => resolve(reply({ connection }));
+        });
+      return reply(
+        url.endsWith('/prepare')
+          ? {
+              ...preparedGuide(JSON.parse(init.body)),
+              nativeConnection: { providerId: 'notion', url: 'https://mcp.notion.com/mcp' },
+            }
+          : notionCatalog,
+      );
+    },
+  });
+  const popup = {
+    opener: f.window,
+    closed: false,
+    document: { title: '', body: { textContent: '' } },
+    close() {
+      this.closed = true;
+    },
+  };
+  let opened = 0;
+  f.window.open = () => {
+    opened++;
+    return popup;
+  };
+  await prepareNotionGuide(f);
+  assert.equal(opened, 0);
+  button(f, 'Connecter Notion', dialog(f)).click();
+  await until(
+    () =>
+      finishConnection &&
+      dialog(f)
+        .querySelector('.composer-guide-connect')
+        .textContent.includes('Connexion MCP en cours'),
+  );
+  assert.equal(button(f, 'Connecter Notion', dialog(f)).disabled, true);
+  assert.deepEqual(JSON.parse(f.calls.find((call) => call.url === '/api/mcp/connect').init.body), {
+    provider: 'notion',
+  });
+  finishConnection();
+  await until(() =>
+    dialog(f)
+      .querySelector('.composer-guide-connect')
+      .textContent.includes('Connecté · 1 outils découverts'),
+  );
+  assert.equal(opened, 1);
+  assert.equal(popup.closed, true);
+  assert.equal(f.submissions.length, 0);
+  button(f, 'Ajouter à ma demande').click();
+  await until(() => f.document.querySelector('.composer-guide-chip'));
+  assert.match(f.document.querySelector('.composer-guide-chip').textContent, /MCP connecté/);
+  await closeOptions(f);
+  submit(f);
+  assert.deepEqual(f.submissions[0].launch.mcpConnectionIds, [connection.id]);
+  assert.deepEqual(f.submissions[0].launch.connectors, []);
+  assert.equal(f.submissions[0].idea, 'Consulter le contexte sans changer mon brief');
+});
+
+test('an unsupported native target is reported safely without opening OAuth or submitting the project', async (t) => {
+  const f = fixture(t, {
+    guides: [notionGuide],
+    fetcher: async (url, init) =>
+      reply(
+        url.endsWith('/prepare')
+          ? {
+              ...preparedGuide(JSON.parse(init.body)),
+              nativeConnection: { providerId: 'notion', url: 'https://invalid.example/mcp' },
+            }
+          : notionCatalog,
+      ),
+  });
+  let opened = 0;
+  f.window.open = () => {
+    opened++;
+    return null;
+  };
+  await prepareNotionGuide(f);
+  button(f, 'Connecter Notion', dialog(f)).click();
+  await until(() => dialog(f).querySelector('.composer-guide-connect [role="alert"]'));
+  assert.match(
+    dialog(f).querySelector('.composer-guide-connect [role="alert"]').textContent,
+    /prise en charge/,
+  );
+  assert.equal(opened, 0);
+  assert.equal(
+    f.calls.some((call) => call.url === '/api/mcp/connect'),
+    false,
+  );
+  assert.equal(f.submissions.length, 0);
+  assert.equal(idea(f).value, 'Consulter le contexte sans changer mon brief');
+});
+
+test('a read-only Linear guide warns about a selected standard connection until the user explicitly removes it', async (t) => {
+  const linearGuide = {
+    ...notionGuide,
+    optionId: 'linear',
+    title: 'Linear',
+    flows: [{ ...notionGuide.flows[0], id: 'linear-read', title: 'Consultation en lecture seule' }],
+  };
+  const linear = (id, url) => ({
+    id,
+    provider: 'linear',
+    name: 'Linear',
+    auth: 'oauth',
+    status: 'connected',
+    url,
+    tools: [{ name: 'search' }],
+  });
+  const connections = [
+    linear('a4d6a057-7e0a-4a45-ae13-aec64273a7cd', 'https://mcp.linear.app/mcp'),
+    linear('c68c6142-a6ba-4fd6-b6b9-2f5a6aa4d10b', 'https://mcp.linear.app/mcp/readonly'),
+  ];
+  const f = fixture(t, {
+    guides: [linearGuide],
+    mcpConnections: connections,
+    fetcher: async (url, init) =>
+      reply(
+        url.endsWith('/prepare')
+          ? {
+              ...preparedGuide(JSON.parse(init.body)),
+              nativeConnection: { providerId: 'linear', url: connections[1].url },
+            }
+          : {
+              ...catalog,
+              options: [
+                {
+                  id: 'linear',
+                  title: 'Linear',
+                  description: 'Suivi des demandes',
+                  capabilities: ['productivity'],
+                },
+              ],
+            },
+      ),
+  });
+  await until(() => f.document.querySelectorAll('.mcp-prompt-chip').length === 2);
+  const chips = () => [...f.document.querySelectorAll('.mcp-prompt-chip')];
+  chips()[0].click();
+  chips()[1].click();
+  await until(() => chips().every((chip) => chip.getAttribute('aria-pressed') === 'true'));
+  type(f, '[name="idea"]', 'Consulter les demandes Linear');
+  await openOptions(f, 'tools');
+  await until(() => button(f, 'Configurer Linear', dialog(f)));
+  button(f, 'Configurer Linear', dialog(f)).click();
+  await until(() => dialog(f).querySelector('.connector-guide-choice'));
+  chooseGuide(f, 'Consultation en lecture seule');
+  await until(() => !button(f, 'Préciser la configuration →').disabled);
+  button(f, 'Préciser la configuration →').click();
+  await until(() => button(f, 'Vérifier la préparation →'));
+  button(f, 'Vérifier la préparation →').click();
+  await until(() => button(f, 'Ajouter à ma demande'));
+  button(f, 'Ajouter à ma demande').click();
+  await until(() =>
+    f.document.body.textContent.includes(
+      'Une connexion Linear avec accès standard est aussi sélectionnée.',
+    ),
+  );
+  await closeOptions(f);
+  assert.equal(chips()[0].getAttribute('aria-pressed'), 'true');
+  assert.equal(chips()[1].getAttribute('aria-pressed'), 'true');
+  chips()[0].click();
+  await until(
+    () =>
+      !f.document.body.textContent.includes(
+        'Une connexion Linear avec accès standard est aussi sélectionnée.',
+      ),
+  );
+  assert.equal(chips()[1].getAttribute('aria-pressed'), 'true');
+  submit(f);
+  assert.deepEqual(f.submissions[0].launch.mcpConnectionIds, [connections[1].id]);
+  assert.equal(f.submissions[0].launch.connectorGuides[0].flowId, 'linear-read');
+});
 
 function type(f, selector, value) {
   const node = f.document.querySelector(selector);

@@ -24,6 +24,7 @@ export function IdeaComposer(props: IdeaComposerProps) {
   const trigger = useRef<HTMLButtonElement | null>(null);
   function section(value: ComposerSection) {
     setOptions({ open: true, section: value });
+    if (value === 'tools') composer.guides.load();
     if (value === 'tools' && !composer.catalog && !composer.catalogLoading)
       void composer.loadCatalog();
   }
@@ -70,7 +71,13 @@ export function IdeaComposer(props: IdeaComposerProps) {
           aria-invalid={Boolean(composer.error) || undefined}
           aria-describedby="composer-help"
         />
-        <ComposerPreferences composer={composer} />
+        <ComposerPreferences
+          composer={composer}
+          onConfigureGuide={(optionId, button) => {
+            composer.guides.open(optionId);
+            show('tools', button);
+          }}
+        />
         <div className="composer-toolbar">
           <div className="composer-option-actions">
             <button
@@ -134,6 +141,12 @@ export function IdeaComposer(props: IdeaComposerProps) {
         onManage={(button) => show('tools', button)}
         disabled={composer.busy}
       />
+      {composer.linearAccessWarning ? (
+        <p role="alert" className="composer-error">
+          Une connexion Linear avec accès standard est aussi sélectionnée. Retirez-la pour limiter
+          les outils du projet à la lecture seule.
+        </p>
+      ) : null}
       <div className="composer-type-pills" role="group" aria-label="Type de projet">
         {projectTypes.map((type) => (
           <button

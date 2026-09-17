@@ -16,6 +16,7 @@ export interface LaunchInput {
   design?: string;
   connectors: string[];
   mcpConnectionIds: string[];
+  connectorGuides?: GuideInput[];
   links: string[];
   attachments: { name: string; mime: string; base64: string }[];
 }
@@ -60,3 +61,4 @@ export interface FieldError {
   field: keyof ProjectFields;
   message: string;
 }
+import type { GuideInput } from '../../connectors';

@@ -44,7 +44,11 @@ export function mountStudio({
 }) {
   const el = (id) => document.getElementById(id);
   const views = createViews(document);
-  const mcpSelection = createMcpSelectionController({ document, loadWidget: loadMcpWidget });
+  const mcpSelection = createMcpSelectionController({
+    document,
+    loadWidget: loadMcpWidget,
+    onGuidesChange: markDraftDirty,
+  });
   let technicalWorkspace;
   const sourceView = createSourceView({
     document,
@@ -77,7 +81,7 @@ export function mountStudio({
   const options = { signal: controller.signal };
   const connectorsController = createConnectorsController({
     document,
-    onPrepareRequest: ({ prompt }) => prepareCorrection(prompt),
+    onPrepareRequest: ({ prompt, connectorGuides }) => prepareCorrection(prompt, connectorGuides),
   });
   el('open-connectors')?.addEventListener('click', () => connectorsController.open(), options);
   el('close-connectors')?.addEventListener('click', () => connectorsController.close(), options);
@@ -168,20 +172,28 @@ export function mountStudio({
     markDraftDirty();
     el('request').focus();
   }
-  function prepareCorrection(message) {
+  function prepareCorrection(message, connectorGuides) {
     const existing = el('request').value;
     if (existing.length + message.length + 2 > 20000) {
       notice(
         'La demande existante est trop longue pour ajouter le diagnostic. Votre texte est conservé.',
         true,
       );
-      return;
+      return false;
+    }
+    if (connectorGuides?.length && !mcpSelection.addGuides(connectorGuides)) {
+      notice(
+        'La préparation ne peut pas être ajoutée. Réessayez lorsque les outils du prompt sont chargés.',
+        true,
+      );
+      return false;
     }
     technicalWorkspace?.revealConversation();
     el('request').value = existing ? existing + '\n\n' + message : message;
     markDraftDirty();
     el('request').focus();
     notice('Diagnostic ajouté à votre demande. Vous pouvez le compléter puis l’envoyer.');
+    return true;
   }
   function updateJourney() {
     if (!state || activePanel !== 'journey') return;
@@ -286,7 +298,10 @@ export function mountStudio({
       for (const [key, value] of Object.entries(effectiveDelegation()))
         el('delegate-' + key).value = value;
     }
-    if (!draftDirty) el('request').value = state.draft;
+    if (!draftDirty) {
+      el('request').value = state.draft;
+      void mcpSelection.restoreGuides(state.draftConnectorGuides ?? []);
+    }
     el('project-title').textContent =
       state.project.name ||
       (state.project.idea.trim() ? 'Votre projet' : 'Qu’aimeriez-vous créer ?');
@@ -586,8 +601,11 @@ export function mountStudio({
     window.clearTimeout(draftTimer);
     if (!draftDirty) return writes;
     const text = el('request').value;
-    return change('draft', { text }, () => {
-      draftDirty = el('request').value !== text;
+    const connectorGuides = mcpSelection.requestGuides();
+    return change('draft', { text, connectorGuides }, () => {
+      draftDirty =
+        el('request').value !== text ||
+        JSON.stringify(mcpSelection.requestGuides()) !== JSON.stringify(connectorGuides);
       el('draft-status').textContent = draftDirty ? 'Brouillon modifié…' : 'Brouillon enregistré.';
     });
   }
@@ -654,7 +672,7 @@ export function mountStudio({
       if (disposed) return;
       if (!ready) {
         notice(
-          'La sélection des outils MCP n’est pas enregistrée. Réessayez dans les outils du projet.',
+          'Vérifiez les préparations modifiées et l’enregistrement des outils MCP dans le prompt.',
           true,
         );
         return;
@@ -664,14 +682,23 @@ export function mountStudio({
         openProjectSettings();
         return;
       }
-      await change('requests', { request, element }, () => {
-        draftDirty = el('request').value !== request;
-        if (!draftDirty) {
-          el('request').value = '';
-          clearElement();
-        }
-        el('draft-status').textContent = draftDirty ? 'Brouillon modifié…' : 'Demande enregistrée.';
-      });
+      const connectorGuides = mcpSelection.requestGuides();
+      await change(
+        'requests',
+        { request, element, ...(connectorGuides.length ? { connectorGuides } : {}) },
+        () => {
+          mcpSelection.clearGuides(connectorGuides);
+          const textChanged = el('request').value !== request;
+          draftDirty = textChanged || mcpSelection.requestGuides().length > 0;
+          if (!textChanged) {
+            el('request').value = '';
+            clearElement();
+          }
+          el('draft-status').textContent = draftDirty
+            ? 'Brouillon modifié…'
+            : 'Demande enregistrée.';
+        },
+      );
     } finally {
       submittingRequest = false;
       el('send-request').disabled = false;
