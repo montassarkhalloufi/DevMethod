@@ -1,5 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { createMcpStore } from './mcp-store.mjs';
+import { createMcpPolicies } from './mcp-policy.mjs';
 import { createMcpOAuth } from './mcp-oauth.mjs';
 import { performMcpSession } from './mcp-client.mjs';
 import {
@@ -44,6 +45,7 @@ export function createMcpManager({
     mcpRequire(entry, 'Connexion MCP absente.', 404);
     return entry;
   };
+  const policies = createMcpPolicies(store.root, entryFor);
 
   function admit(entry, prior) {
     entries.set(entry.id, entry);
@@ -150,6 +152,7 @@ export function createMcpManager({
       assertCurrent(entry, operation);
       entry.tools = result.tools;
       entry.status = 'connected';
+      policies.reconcile(entry.id);
       entry.connectedAt = new Date(now()).toISOString();
       delete entry.error;
       save();
@@ -158,6 +161,7 @@ export function createMcpManager({
         ...(options.call ? { result: result.result } : {}),
       };
     } catch (error) {
+      if (error.mcpAdmission) throw error;
       if (operations.get(entry.id) !== operation || closed)
         throw mcpError('Opération MCP annulée.', 409, 'cancelled');
       if (operation.authorizationUrl && !operation.controller.signal.aborted)
@@ -304,7 +308,7 @@ export function createMcpManager({
     return structuredClone(entry.tools);
   }
 
-  function invoke(id, name, args, { signal } = {}) {
+  function invoke(id, name, args, { signal, beforeCall } = {}) {
     const tool = getTools(id).find((entry) => entry.name === name),
       entry = entryFor(id);
     mcpRequire(
@@ -328,6 +332,13 @@ export function createMcpManager({
           args,
           fingerprint: tool.inputSchemaFingerprint,
           outputFingerprint: tool.outputSchemaFingerprint,
+          beforeCall() {
+            try {
+              beforeCall?.();
+            } catch (error) {
+              throw Object.assign(error, { mcpAdmission: true });
+            }
+          },
         },
       }),
     )
@@ -350,6 +361,9 @@ export function createMcpManager({
     disconnect,
     completeAuthorization,
     getTools,
+    policy: policies.read,
+    setPolicy: policies.update,
+    permission: policies.permission,
     invoke,
     async close() {
       closed = true;

@@ -5,7 +5,9 @@ export function readWorkerJSON(file, command) {
   try {
     return JSON.parse(fs.readFileSync(file, 'utf8'));
   } catch (error) {
-    if (['mcp-tools', 'mcp-call'].includes(command))
+    if (
+      ['mcp-tools', 'mcp-call', 'mcp-actions', 'guide-request', 'guide-responses'].includes(command)
+    )
       throw new Error('Fichier JSON local du pont MCP illisible ; aucun contenu affiché.', {
         cause: error,
       });
@@ -15,15 +17,29 @@ export function readWorkerJSON(file, command) {
 
 export function mcpWorkerRequest(command, input, runtime) {
   const headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + runtime.token };
-  if (command === 'mcp-call')
+  if (['mcp-call', 'guide-request'].includes(command))
     return {
-      url: runtime.url + '/api/mcp/call',
+      url:
+        runtime.url +
+        (command === 'mcp-call' ? '/api/mcp/call' : '/api/connectors/interactions/request'),
       init: { method: 'POST', headers, body: JSON.stringify(input) },
     };
-  mcpShape(input, ['jobId', 'connectionId', 'toolName']);
+  const keys =
+    command === 'mcp-actions'
+      ? ['jobId', 'requestId']
+      : command === 'guide-responses'
+        ? ['jobId']
+        : ['jobId', 'connectionId', 'toolName'];
+  mcpShape(input, keys);
   mcpRequire(
     Object.values(input).every((value) => typeof value === 'string'),
     'Paramètres MCP invalides.',
   );
-  return { url: runtime.url + '/api/mcp/tools?' + new URLSearchParams(input), init: { headers } };
+  const route =
+    command === 'mcp-actions'
+      ? '/api/mcp/actions'
+      : command === 'guide-responses'
+        ? '/api/connectors/interactions'
+        : '/api/mcp/tools';
+  return { url: runtime.url + route + '?' + new URLSearchParams(input), init: { headers } };
 }

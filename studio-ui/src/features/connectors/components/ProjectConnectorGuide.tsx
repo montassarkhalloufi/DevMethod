@@ -1,17 +1,20 @@
 import type { useProjectGuide } from '../hooks/useProjectGuide';
 import type { GuideInput } from '../model/guides';
 import { ConnectorGuide } from './ConnectorGuide';
+import type { useGuideDrafts } from '../hooks/useGuideDrafts';
 
 export function ProjectConnectorGuide({
   controller,
   input,
   busy,
   onChange,
+  persistence,
 }: {
   controller: ReturnType<typeof useProjectGuide>;
   input: GuideInput | null;
   busy: boolean;
   onChange(input: GuideInput): void;
+  persistence: ReturnType<typeof useGuideDrafts>;
 }) {
   if (!controller.enabled) return null;
   const { catalog, request, definition, confirmed } = controller;
@@ -41,7 +44,17 @@ export function ProjectConnectorGuide({
             onChange(value);
           }}
           onPrepare={(value) => void controller.prepare(value)}
+          step={persistence.drafts[definition.optionId]?.step}
+          onStepChange={(step) => persistence.edit(definition.optionId, input, step)}
         />
+      ) : null}
+      {persistence.error ? (
+        <p role="alert">
+          {persistence.error}{' '}
+          <button type="button" onClick={() => void persistence.retry()}>
+            Réessayer l’enregistrement
+          </button>
+        </p>
       ) : null}
       {input && !confirmed ? (
         <p className="connector-note">

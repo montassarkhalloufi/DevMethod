@@ -41,9 +41,11 @@ function fixture(t, options = {}) {
   const calls = [];
   let implementation = async () => ({ content: [{ type: 'text', text: 'Local mock result' }] });
   const manager = {
+    permission: () => 'allow',
     list: () => ({ connections: structuredClone(entries) }),
     getTools: (id) => structuredClone(entries.find((entry) => entry.id === id).tools),
     invoke: async (...args) => {
+      args[3].beforeCall();
       calls.push(args);
       return implementation(...args);
     },
@@ -129,7 +131,14 @@ test('claim persists exact selected permissions; host can discover schemas and i
     {
       id: f.id,
       version: 1,
-      tools: [{ name: 'demo.search', inputSchemaFingerprint: makeTool().inputSchemaFingerprint }],
+      tools: [
+        {
+          name: 'demo.search',
+          inputSchemaFingerprint: makeTool().inputSchemaFingerprint,
+          contractFingerprint: digest(JSON.stringify([makeTool().inputSchemaFingerprint, null])),
+          permission: 'allow',
+        },
+      ],
     },
   ]);
 });
@@ -217,10 +226,16 @@ test('in-flight results are withheld after deselection and calls are serialized 
   );
   const pending = f.broker.call(request(job.id, f.id));
   await started;
-  await assert.rejects(f.broker.call(request(job.id, f.id)), { status: 409, code: 'busy' });
+  await assert.rejects(f.broker.call({ ...request(job.id, f.id), requestId: randomUUID() }), {
+    status: 409,
+    code: 'busy',
+  });
   f.broker.select({ connectionIds: [] });
   release({ content: [{ type: 'text', text: 'Late private content' }] });
-  await assert.rejects(pending, { status: 403, code: 'not-selected' });
+  const late = await pending;
+  assert.equal(late.status, 'unknown');
+  assert.equal(late.error.code, 'not-selected');
+  assert.equal(late.result, undefined);
   assert.equal(f.calls.length, 1);
 });
 
@@ -237,12 +252,15 @@ test('MCP isError remains a tool failure; unsafe thrown errors and oversized out
   f.implementation(async () => {
     throw new Error('provider-token-MUST-NOT-LEAK');
   });
-  await assert.rejects(
-    f.broker.call(valid),
-    (error) => error.status === 502 && !error.message.includes('MUST-NOT-LEAK'),
-  );
+  const failed = await f.broker.call({ ...valid, requestId: randomUUID() });
+  assert.equal(failed.status, 'unknown');
+  assert.equal(failed.error.code, 'call-failed');
+  assert.equal(JSON.stringify(failed).includes('MUST-NOT-LEAK'), false);
   f.implementation(async () => ({ content: [{ type: 'text', text: 'x'.repeat(262145) }] }));
-  await assert.rejects(f.broker.call(valid), { status: 413 });
+  const oversized = await f.broker.call({ ...valid, requestId: randomUUID() });
+  assert.equal(oversized.status, 'unknown');
+  assert.equal(oversized.error.code, 'payload-limit');
+  assert.equal(oversized.result, undefined);
   assert.equal(f.store.read().checks.length, 0);
 });
 
@@ -256,10 +274,10 @@ test('timeout aborts once, does not retry, and reports unknown external effects'
         signal.addEventListener('abort', () => reject(new Error('aborted')), { once: true }),
       ),
   );
-  await assert.rejects(
-    f.broker.call(request(job.id, f.id)),
-    (error) => error.status === 504 && /effet externe.*inconnu/.test(error.message),
-  );
+  const result = await f.broker.call(request(job.id, f.id));
+  assert.equal(result.status, 'unknown');
+  assert.equal(result.error.code, 'call-timeout');
+  assert.match(result.error.message, /effet externe.*inconnu/);
   assert.equal(f.calls.length, 1);
   assert.equal(f.calls[0][3].signal.aborted, true);
 });

@@ -82,7 +82,23 @@ function fixture(
   };
   if (reader) window.FileReader = reader;
   const calls = [];
+  const savedGuides = new Map();
   window.fetch = (url, init) => {
+    if (url === '/api/connectors/guide-drafts') {
+      const scopeId = 'home:' + 'a'.repeat(24);
+      if (!init?.body)
+        return Promise.resolve(reply({ scopeId, drafts: [...savedGuides.values()] }));
+      const input = JSON.parse(init.body);
+      const draft = {
+        optionId: input.optionId,
+        input: input.input,
+        step: input.step,
+        version: (savedGuides.get(input.optionId)?.version ?? 0) + 1,
+        updatedAt: new Date().toISOString(),
+      };
+      savedGuides.set(input.optionId, draft);
+      return Promise.resolve(reply({ scopeId, draft }));
+    }
     if (url === '/api/mcp')
       return Promise.resolve(reply({ presets: [], connections: mcpConnections, supported: true }));
     if (url === '/api/connectors/guides') return Promise.resolve(reply({ guides }));
@@ -259,6 +275,18 @@ test('validated guide answers survive catalogue and dialog navigation, reopen fr
   await until(() => !dialog(f).querySelector('.connector-guide'));
   button(f, 'Configurer Slack', dialog(f)).click();
   await until(() => dialog(f).querySelector('.connector-guide-question input:checked'));
+  assert.equal(
+    guideStep(f, 'Usage').getAttribute('aria-current'),
+    'step',
+    'the explicitly chosen wizard step is restored',
+  );
+  guideStep(f, 'Configuration').click();
+  await until(() =>
+    dialog(f)
+      .querySelector('.connector-guide-question input:checked')
+      ?.closest('label')
+      .textContent.includes('Canaux'),
+  );
   assert.match(
     dialog(f).querySelector('.connector-guide-question input:checked').closest('label').textContent,
     /Canaux où le bot est membre/,

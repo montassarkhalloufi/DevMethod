@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { GuidePreparation } from '../../connectors';
-import { guidedMcpInput } from '../../mcp';
+import { guidedMcpInput, McpCredentialForm } from '../../mcp';
 import type { IdeaComposerController } from '../hooks/useIdeaComposer';
 
 export function ComposerGuideConnection({
@@ -34,9 +34,17 @@ export function ComposerGuideConnection({
         L’ajout à la demande prépare le travail. La connexion autorise séparément l’accès de
         l’assistant.
       </p>
-      <button type="button" disabled={composer.busy || Boolean(active)} onClick={connect}>
-        {connection?.status === 'connected' ? 'Reconnecter' : 'Connecter'} {title}
-      </button>
+      {native?.providerId === 'github' ? (
+        <McpCredentialForm
+          input={guidedMcpInput(preparation)}
+          controller={composer.mcp}
+          disabled={composer.busy}
+        />
+      ) : (
+        <button type="button" disabled={composer.busy || Boolean(active)} onClick={connect}>
+          {connection?.status === 'connected' ? 'Reconnecter' : 'Connecter'} {title}
+        </button>
+      )}
       {active ? (
         <p role="status">
           {active.authorizing

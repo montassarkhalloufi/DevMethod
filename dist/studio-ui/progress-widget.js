@@ -1,30 +1,32 @@
 import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
+import { a as r } from "./useMcpSelection-BrYUToXT.js";
+import { n as i, t as a } from "./mcp-BH8zszrc.js";
 //#region studio-ui/src/features/progress/hooks/useJobProgress.ts
-var r = e(), i = t();
-function a(e, t, n = 2e3) {
-	let [r, a] = (0, i.useState)(null), [o, s] = (0, i.useState)(""), [c, l] = (0, i.useState)(0);
-	return (0, i.useEffect)(() => {
-		let r = !1, i, o, c = !1, l = async () => {
+var o = e(), s = t();
+function c(e, t, n = 2e3) {
+	let [r, i] = (0, s.useState)(null), [a, o] = (0, s.useState)(""), [c, l] = (0, s.useState)(0);
+	return (0, s.useEffect)(() => {
+		let r = !1, a, s, c = !1, l = async () => {
 			if (r || c) return;
-			c = !0, o = new AbortController();
-			let u = setTimeout(() => o?.abort(), 1e4);
+			c = !0, s = new AbortController();
+			let u = setTimeout(() => s?.abort(), 1e4);
 			try {
-				let n = await t(e.id, o.signal);
+				let n = await t(e.id, s.signal);
 				if (r) return;
 				if (n.jobId !== e.id) throw Error("La réponse concerne une autre demande.");
-				a((e) => e?.jobId === n.jobId && e.sequence > n.sequence ? e : n), s("");
+				i((e) => e?.jobId === n.jobId && e.sequence > n.sequence ? e : n), o("");
 			} catch {
-				r || s("Actualisation interrompue. Le dernier état reçu est conservé.");
+				r || o("Actualisation interrompue. Le dernier état reçu est conservé.");
 			} finally {
-				clearTimeout(u), c = !1, !r && n > 0 && ["queued", "running"].includes(e.status) && (i = setTimeout(() => {
+				clearTimeout(u), c = !1, !r && n > 0 && ["queued", "running"].includes(e.status) && (a = setTimeout(() => {
 					document.hidden || l();
 				}, n));
 			}
 		}, u = () => {
-			document.hidden || (clearTimeout(i), l());
+			document.hidden || (clearTimeout(a), l());
 		};
 		return document.addEventListener("visibilitychange", u), l(), () => {
-			r = !0, clearTimeout(i), o?.abort(), document.removeEventListener("visibilitychange", u);
+			r = !0, clearTimeout(a), s?.abort(), document.removeEventListener("visibilitychange", u);
 		};
 	}, [
 		e.id,
@@ -34,110 +36,110 @@ function a(e, t, n = 2e3) {
 		c
 	]), {
 		snapshot: r,
-		error: o,
+		error: a,
 		retry: () => l((e) => e + 1)
 	};
 }
 //#endregion
 //#region studio-ui/src/features/progress/components/ProgressView.tsx
-var o = n(), s = {
+var l = n(), u = {
 	queued: "En attente de prise en charge",
 	running: "Prise en charge confirmée",
 	ready: "Résultat disponible",
 	failed: "Échec de la demande",
 	cancelled: "Demande annulée",
 	interrupted: "Demande interrompue"
-}, c = {
+}, d = {
 	read: "Lecture",
 	write: "Modification",
 	command: "Commande",
 	search: "Recherche",
 	check: "Contrôle",
 	message: "Information"
-}, l = new Intl.DateTimeFormat("fr", {
+}, f = new Intl.DateTimeFormat("fr", {
 	hour: "2-digit",
 	minute: "2-digit",
 	second: "2-digit"
 });
-function u(e) {
+function p(e) {
 	let t = new Date(e);
-	return Number.isNaN(t.getTime()) ? "Date inconnue" : l.format(t);
+	return Number.isNaN(t.getTime()) ? "Date inconnue" : f.format(t);
 }
-function d({ status: e }) {
-	return /* @__PURE__ */ (0, o.jsx)("span", {
+function m({ status: e }) {
+	return /* @__PURE__ */ (0, l.jsx)("span", {
 		className: "progress-state-icon state-" + e,
 		"aria-hidden": "true",
 		children: e === "completed" ? "✓" : e === "failed" || e === "blocked" ? "!" : e === "running" ? "◷" : "○"
 	});
 }
-function f({ snapshot: e, status: t }) {
-	let [n, r] = (0, i.useState)(t === "running"), a = e.plan;
-	if (!a) return /* @__PURE__ */ (0, o.jsx)("p", {
+function h({ snapshot: e, status: t }) {
+	let [n, r] = (0, s.useState)(t === "running"), i = e.plan;
+	if (!i) return /* @__PURE__ */ (0, l.jsx)("p", {
 		className: "progress-empty",
 		children: "Aucun plan transmis. Les étapes apparaîtront quand l’agent les publiera."
 	});
-	let s = a.steps.filter((e) => e.status === "completed").length, c = {
+	let a = i.steps.filter((e) => e.status === "completed").length, o = {
 		pending: "À faire",
 		running: t === "running" ? "En cours" : "Non terminée",
 		completed: "Terminée",
 		blocked: "Bloquée"
 	};
-	return /* @__PURE__ */ (0, o.jsxs)("details", {
+	return /* @__PURE__ */ (0, l.jsxs)("details", {
 		className: "progress-plan",
 		open: n,
 		onToggle: (e) => r(e.currentTarget.open),
 		children: [
-			/* @__PURE__ */ (0, o.jsxs)("summary", { children: [/* @__PURE__ */ (0, o.jsx)("span", { children: "Plan" }), /* @__PURE__ */ (0, o.jsxs)("span", {
+			/* @__PURE__ */ (0, l.jsxs)("summary", { children: [/* @__PURE__ */ (0, l.jsx)("span", { children: "Plan" }), /* @__PURE__ */ (0, l.jsxs)("span", {
 				className: "progress-count",
 				children: [
-					s,
+					a,
 					"/",
-					a.steps.length,
+					i.steps.length,
 					" terminées"
 				]
 			})] }),
-			/* @__PURE__ */ (0, o.jsx)("p", {
+			/* @__PURE__ */ (0, l.jsx)("p", {
 				className: "progress-plan-title",
-				children: a.title
+				children: i.title
 			}),
-			/* @__PURE__ */ (0, o.jsx)("ol", { children: a.steps.map((e) => /* @__PURE__ */ (0, o.jsxs)("li", {
+			/* @__PURE__ */ (0, l.jsx)("ol", { children: i.steps.map((e) => /* @__PURE__ */ (0, l.jsxs)("li", {
 				className: "progress-step step-" + e.status,
-				children: [/* @__PURE__ */ (0, o.jsx)(d, { status: e.status === "running" && t !== "running" ? "pending" : e.status }), /* @__PURE__ */ (0, o.jsxs)("span", { children: [e.title, /* @__PURE__ */ (0, o.jsx)("small", { children: c[e.status] })] })]
+				children: [/* @__PURE__ */ (0, l.jsx)(m, { status: e.status === "running" && t !== "running" ? "pending" : e.status }), /* @__PURE__ */ (0, l.jsxs)("span", { children: [e.title, /* @__PURE__ */ (0, l.jsx)("small", { children: o[e.status] })] })]
 			}, e.id)) }),
-			/* @__PURE__ */ (0, o.jsx)("p", {
+			/* @__PURE__ */ (0, l.jsx)("p", {
 				className: "progress-note",
 				children: "Avancement déclaré par l’agent. Les preuves restent dans Vérifications."
 			})
 		]
 	});
 }
-function p({ action: e, status: t, canOpen: n, onOpen: r }) {
+function g({ action: e, status: t, canOpen: n, onOpen: r }) {
 	let i = e.status === "failed" ? "Échec" : e.status === "completed" ? "Terminée" : t === "running" ? "En cours" : "Sans résultat final";
-	return /* @__PURE__ */ (0, o.jsxs)("li", {
+	return /* @__PURE__ */ (0, l.jsxs)("li", {
 		className: "progress-action",
-		children: [/* @__PURE__ */ (0, o.jsx)(d, { status: e.status === "running" && t !== "running" ? "pending" : e.status }), /* @__PURE__ */ (0, o.jsxs)("div", { children: [
-			/* @__PURE__ */ (0, o.jsxs)("span", {
+		children: [/* @__PURE__ */ (0, l.jsx)(m, { status: e.status === "running" && t !== "running" ? "pending" : e.status }), /* @__PURE__ */ (0, l.jsxs)("div", { children: [
+			/* @__PURE__ */ (0, l.jsxs)("span", {
 				className: "progress-action-kind",
 				children: [
-					c[e.kind],
+					d[e.kind],
 					" · ",
 					i
 				]
 			}),
-			/* @__PURE__ */ (0, o.jsx)("span", {
+			/* @__PURE__ */ (0, l.jsx)("span", {
 				className: "progress-action-label",
 				children: e.label
 			}),
-			e.path ? /* @__PURE__ */ (0, o.jsx)("code", {
+			e.path ? /* @__PURE__ */ (0, l.jsx)("code", {
 				title: e.path,
 				children: e.path
 			}) : null,
-			/* @__PURE__ */ (0, o.jsxs)("div", {
+			/* @__PURE__ */ (0, l.jsxs)("div", {
 				className: "progress-action-meta",
-				children: [/* @__PURE__ */ (0, o.jsx)("time", {
+				children: [/* @__PURE__ */ (0, l.jsx)("time", {
 					dateTime: e.at,
-					children: u(e.at)
-				}), n ? /* @__PURE__ */ (0, o.jsx)("button", {
+					children: p(e.at)
+				}), n ? /* @__PURE__ */ (0, l.jsx)("button", {
 					type: "button",
 					onClick: r,
 					title: "Voir ce fichier dans la version livrée",
@@ -147,128 +149,129 @@ function p({ action: e, status: t, canOpen: n, onOpen: r }) {
 		] })]
 	});
 }
-function m({ snapshot: e, job: t, revisions: n, onOpenFile: r }) {
-	let [a, s] = (0, i.useState)(12), c = e.actions.slice(-a), l = n.slice().reverse().find((e) => e.jobId === t.id);
-	return /* @__PURE__ */ (0, o.jsxs)("details", {
+function _({ snapshot: e, job: t, revisions: n, onOpenFile: r }) {
+	let [i, a] = (0, s.useState)(12), o = e.actions.slice(-i), c = n.slice().reverse().find((e) => e.jobId === t.id);
+	return /* @__PURE__ */ (0, l.jsxs)("details", {
 		className: "progress-actions",
-		children: [/* @__PURE__ */ (0, o.jsxs)("summary", { children: [/* @__PURE__ */ (0, o.jsx)("span", { children: "Journal des actions" }), /* @__PURE__ */ (0, o.jsxs)("span", {
+		children: [/* @__PURE__ */ (0, l.jsxs)("summary", { children: [/* @__PURE__ */ (0, l.jsx)("span", { children: "Journal des actions" }), /* @__PURE__ */ (0, l.jsxs)("span", {
 			className: "progress-count",
 			children: [e.truncated ? "Dernières " : "", e.actions.length]
-		})] }), e.actions.length ? /* @__PURE__ */ (0, o.jsxs)(o.Fragment, { children: [
-			e.actions.length > a ? /* @__PURE__ */ (0, o.jsx)("button", {
+		})] }), e.actions.length ? /* @__PURE__ */ (0, l.jsxs)(l.Fragment, { children: [
+			e.actions.length > i ? /* @__PURE__ */ (0, l.jsx)("button", {
 				className: "progress-earlier",
 				type: "button",
-				onClick: () => s((e) => e + 20),
+				onClick: () => a((e) => e + 20),
 				children: "Voir les actions précédentes"
 			}) : null,
-			/* @__PURE__ */ (0, o.jsx)("ol", { children: c.map((n) => /* @__PURE__ */ (0, o.jsx)(p, {
+			/* @__PURE__ */ (0, l.jsx)("ol", { children: o.map((n) => /* @__PURE__ */ (0, l.jsx)(g, {
 				action: n,
 				status: e.status,
-				canOpen: !!(n.path && l?.files.some((e) => e.path === n.path)),
+				canOpen: !!(n.path && c?.files.some((e) => e.path === n.path)),
 				onOpen: () => n.path && r(t.id, n.path)
 			}, n.id)) }),
-			e.truncated ? /* @__PURE__ */ (0, o.jsx)("p", {
+			e.truncated ? /* @__PURE__ */ (0, l.jsx)("p", {
 				className: "progress-note",
 				children: "Le journal est limité aux 200 dernières actions."
 			}) : null
-		] }) : /* @__PURE__ */ (0, o.jsx)("p", {
+		] }) : /* @__PURE__ */ (0, l.jsx)("p", {
 			className: "progress-empty",
 			children: "Aucune action transmise pour cette demande."
 		})]
 	});
 }
-function h(e, t) {
+function v(e, t) {
 	return ["queued", "running"].includes(e.status) ? t?.status ?? e.status : e.status;
 }
-function g({ job: e, ...t }) {
-	let { snapshot: n, error: r, retry: i } = a(e, t.loadProgress, t.pollMs), c = n?.jobId === e.id ? n : null, l = h(e, c), p = c?.plan?.steps.find((e) => e.status === "running");
-	return /* @__PURE__ */ (0, o.jsxs)("div", {
+function y({ job: e, ...t }) {
+	let { snapshot: n, error: r, retry: i } = c(e, t.loadProgress, t.pollMs), a = n?.jobId === e.id ? n : null, o = v(e, a), s = a?.plan?.steps.find((e) => e.status === "running");
+	return /* @__PURE__ */ (0, l.jsxs)("div", {
 		className: "progress-job",
 		children: [
-			/* @__PURE__ */ (0, o.jsx)("p", {
+			/* @__PURE__ */ (0, l.jsx)("p", {
 				className: "progress-request",
 				title: e.request,
 				children: e.request
 			}),
-			/* @__PURE__ */ (0, o.jsx)("div", {
-				className: "progress-job-status status-" + l,
+			/* @__PURE__ */ (0, l.jsx)("div", {
+				className: "progress-job-status status-" + o,
 				role: "status",
-				children: s[l]
+				children: u[o]
 			}),
-			e.worker ? /* @__PURE__ */ (0, o.jsxs)("p", {
+			e.worker ? /* @__PURE__ */ (0, l.jsxs)("p", {
 				className: "progress-worker",
 				children: ["Agent · ", e.worker]
 			}) : null,
-			l === "queued" ? /* @__PURE__ */ (0, o.jsx)("p", {
+			o === "queued" ? /* @__PURE__ */ (0, l.jsx)("p", {
 				className: "progress-empty",
 				children: "La demande attend un agent. Aucune exécution n’a commencé."
 			}) : null,
-			r ? /* @__PURE__ */ (0, o.jsxs)("div", {
+			r ? /* @__PURE__ */ (0, l.jsxs)("div", {
 				className: "progress-error",
 				role: "status",
-				children: [/* @__PURE__ */ (0, o.jsx)("p", { children: r }), /* @__PURE__ */ (0, o.jsx)("button", {
+				children: [/* @__PURE__ */ (0, l.jsx)("p", { children: r }), /* @__PURE__ */ (0, l.jsx)("button", {
 					type: "button",
 					onClick: i,
 					children: "Réessayer"
 				})]
 			}) : null,
-			c ? /* @__PURE__ */ (0, o.jsxs)(o.Fragment, { children: [
-				p && l === "running" ? /* @__PURE__ */ (0, o.jsxs)("p", {
+			a ? /* @__PURE__ */ (0, l.jsxs)(l.Fragment, { children: [
+				s && o === "running" ? /* @__PURE__ */ (0, l.jsxs)("p", {
 					className: "progress-current",
-					children: [/* @__PURE__ */ (0, o.jsx)(d, { status: "running" }), /* @__PURE__ */ (0, o.jsx)("span", { children: p.title })]
+					children: [/* @__PURE__ */ (0, l.jsx)(m, { status: "running" }), /* @__PURE__ */ (0, l.jsx)("span", { children: s.title })]
 				}) : null,
-				/* @__PURE__ */ (0, o.jsx)(f, {
-					snapshot: c,
-					status: l
+				/* @__PURE__ */ (0, l.jsx)(h, {
+					snapshot: a,
+					status: o
 				}),
-				/* @__PURE__ */ (0, o.jsx)(m, {
+				/* @__PURE__ */ (0, l.jsx)(_, {
 					snapshot: {
-						...c,
-						status: l
+						...a,
+						status: o
 					},
 					job: e,
 					revisions: t.revisions,
 					onOpenFile: t.onOpenFile
 				}),
-				/* @__PURE__ */ (0, o.jsxs)("p", {
+				/* @__PURE__ */ (0, l.jsxs)("p", {
 					className: "progress-received",
-					children: [c.updatedAt ? /* @__PURE__ */ (0, o.jsxs)(o.Fragment, { children: ["Dernier événement : ", /* @__PURE__ */ (0, o.jsx)("time", {
-						dateTime: c.updatedAt,
-						children: u(c.updatedAt)
-					})] }) : "Aucun événement reçu.", !r && l === "running" ? " · Actualisation automatique" : ""]
+					children: [a.updatedAt ? /* @__PURE__ */ (0, l.jsxs)(l.Fragment, { children: ["Dernier événement : ", /* @__PURE__ */ (0, l.jsx)("time", {
+						dateTime: a.updatedAt,
+						children: p(a.updatedAt)
+					})] }) : "Aucun événement reçu.", !r && o === "running" ? " · Actualisation automatique" : ""]
 				})
-			] }) : r ? null : /* @__PURE__ */ (0, o.jsx)("p", {
+			] }) : r ? null : /* @__PURE__ */ (0, l.jsx)("p", {
 				className: "progress-empty",
 				children: "Lecture de l’avancement…"
 			})
 		]
 	});
 }
-function _(e) {
-	let [t, n] = (0, i.useState)(null), r = e.jobs.find((e) => e.id === t) ?? e.jobs.find((e) => e.status === "running") ?? e.jobs.find((e) => e.status === "queued") ?? e.jobs.at(-1);
-	return r ? /* @__PURE__ */ (0, o.jsxs)("section", {
+function b(e) {
+	let [t, n] = (0, s.useState)(null), r = e.jobs.find((e) => e.id === t) ?? e.jobs.find((e) => e.status === "running") ?? e.jobs.find((e) => e.status === "queued") ?? e.jobs.at(-1);
+	return r ? /* @__PURE__ */ (0, l.jsxs)("section", {
 		className: "job-progress-card",
 		"aria-label": "Plan et avancement",
 		children: [
-			/* @__PURE__ */ (0, o.jsxs)("div", {
+			/* @__PURE__ */ (0, l.jsxs)("div", {
 				className: "progress-heading",
-				children: [/* @__PURE__ */ (0, o.jsx)("h2", { children: "Plan et avancement" }), /* @__PURE__ */ (0, o.jsx)("span", {
+				children: [/* @__PURE__ */ (0, l.jsx)("h2", { children: "Plan et avancement" }), /* @__PURE__ */ (0, l.jsx)("span", {
 					className: "progress-agent-badge",
 					children: "Agent"
 				})]
 			}),
-			e.jobs.length > 1 ? /* @__PURE__ */ (0, o.jsxs)("label", {
+			e.jobs.length > 1 ? /* @__PURE__ */ (0, l.jsxs)("label", {
 				className: "progress-job-picker",
-				children: ["Demande suivie", /* @__PURE__ */ (0, o.jsx)("select", {
+				children: ["Demande suivie", /* @__PURE__ */ (0, l.jsx)("select", {
 					value: r.id,
 					onChange: (e) => n(e.target.value),
-					children: e.jobs.slice().reverse().map((e) => /* @__PURE__ */ (0, o.jsx)("option", {
+					children: e.jobs.slice().reverse().map((e) => /* @__PURE__ */ (0, l.jsx)("option", {
 						value: e.id,
 						children: e.request.length > 65 ? e.request.slice(0, 65) + "…" : e.request
 					}, e.id))
 				})]
 			}) : null,
-			/* @__PURE__ */ (0, o.jsx)(g, {
+			e.renderInteractions?.(r),
+			/* @__PURE__ */ (0, l.jsx)(y, {
 				job: r,
 				...e
 			}, r.id)
@@ -277,11 +280,23 @@ function _(e) {
 }
 //#endregion
 //#region studio-ui/src/progress-widget.tsx
-function v(e) {
-	let t = (0, r.createRoot)(e);
+function x(e) {
+	return /* @__PURE__ */ (0, l.jsxs)("div", { children: [/* @__PURE__ */ (0, l.jsx)(r, {
+		jobId: e.id,
+		renderConnection: (e) => /* @__PURE__ */ (0, l.jsx)(a, { preparation: e })
+	}), /* @__PURE__ */ (0, l.jsx)(i, {
+		jobId: e.id,
+		running: e.status === "running"
+	})] }, "interactions:" + e.id);
+}
+function S(e) {
+	let t = (0, o.createRoot)(e);
 	return {
 		update(e) {
-			t.render(/* @__PURE__ */ (0, o.jsx)(_, { ...e }));
+			t.render(/* @__PURE__ */ (0, l.jsx)(b, {
+				...e,
+				renderInteractions: x
+			}));
 		},
 		dispose() {
 			t.unmount();
@@ -289,4 +304,4 @@ function v(e) {
 	};
 }
 //#endregion
-export { v as mountProgressWidget };
+export { S as mountProgressWidget };

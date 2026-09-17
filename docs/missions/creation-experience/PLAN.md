@@ -195,3 +195,11 @@ Critères : pas de débordement aux tailles testées, accès à la saisie, navig
 aucun contrôle attribué à une autre version, comparaison bloquant réellement l’écriture,
 export incluant son garde. Vérification agent et captures ne valent pas validation humaine.
 Budget fournisseur inchangé et clos ; cette correction utilise uniquement l’ingénierie hôte.
+
+## Connecteurs : permissions et interactions — 2026-09-17
+
+Portée explicitement acceptée dans le plan utilisateur : fiches et permissions réellement
+appliquées au pont MCP, questionnaires persistants en conversation, GitHub MCP par PAT ciblé.
+Décision et contrat : [ADR 026](../../ADR-026-connector-permissions-and-interactions.md).
+Critères et preuves de la tranche : [registre de vérification](evidence/connector-permissions/RESULTS.md).
+Aucune extension à Stripe, Cloud, registres MCP ou OAuth des utilisateurs finaux.

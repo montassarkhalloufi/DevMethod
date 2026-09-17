@@ -43,7 +43,7 @@ for (const kind of ['home', 'project'])
     assert.equal(list.status, 200);
     assert.deepEqual(
       (await list.json()).guides.map((entry) => entry.optionId),
-      ['slack', 'notion', 'linear'],
+      ['slack', 'notion', 'linear', 'github-mcp'],
     );
     const prepared = await post(f.url, '/api/connectors/guides/prepare', input);
     assert.equal(prepared.status, 200);

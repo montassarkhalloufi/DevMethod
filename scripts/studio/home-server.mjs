@@ -1,3 +1,6 @@
+import { readMcpUsage } from './mcp-usage.mjs';
+import { createConnectorGuideDrafts } from './connector-interactions-drafts.mjs';
+import { connectorInteractionRoute } from './connector-interactions-routes.mjs';
 import { connectorGuideRoute } from './connector-guide-routes.mjs';
 import fs from 'node:fs';
 import http from 'node:http';
@@ -45,7 +48,8 @@ export async function startStudioHome({ directory, port = 4330 }) {
   const store = createHomeStore(directory, {
       resolveMcpSelection: (ids) => validateMcpSelection(ids, mcpManager),
     }),
-    sessions = new Map();
+    sessions = new Map(),
+    guideDrafts = createConnectorGuideDrafts(store.root, { scope: 'home' });
   let url,
     previewOrigin,
     closing = false,
@@ -60,7 +64,8 @@ export async function startStudioHome({ directory, port = 4330 }) {
     await store.close();
     throw error;
   }
-  const mcpRoutes = createMcpRoutes(mcpManager, () => url);
+  const mcpUsage = (connectionId) => readMcpUsage(store.read().projects, connectionId);
+  const mcpRoutes = createMcpRoutes(mcpManager, () => url, { getUsage: mcpUsage });
   const preview = createHomePreview({
     getProject: (id) => store.read().projects.find((project) => project.id === id),
     getHomeOrigin: () => url,
@@ -90,6 +95,7 @@ export async function startStudioHome({ directory, port = 4330 }) {
         agent: null,
         homeUrl: url,
         mcpManager,
+        mcpUsage,
       });
       sessions.set(project.id, studio);
     }
@@ -115,6 +121,14 @@ export async function startStudioHome({ directory, port = 4330 }) {
       if (request.headers.host !== new URL(url).host) throw homeError('Hôte non autorisé.', 403);
       const requestUrl = new URL(request.url, url);
       if (await connectorGuideRoute(request, response, requestUrl, url)) return;
+      if (
+        await connectorInteractionRoute(request, response, requestUrl, {
+          origin: url,
+          worker: false,
+          drafts: guideDrafts,
+        })
+      )
+        return;
       if (await mcpRoutes(request, response, requestUrl)) return;
       if (request.method === 'GET') {
         if (requestUrl.pathname === '/api/home') {

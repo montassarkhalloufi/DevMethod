@@ -40,7 +40,18 @@ export function ComposerGuide({ composer }: { composer: IdeaComposerController }
         applyLabel="Ajouter à ma demande"
         onBack={guide.back}
         disabled={composer.busy}
+        step={guide.step}
+        onStepChange={guide.setStep}
       />
+      {guide.persistence.error ? (
+        <p role="alert">
+          {guide.persistence.error}{' '}
+          <button type="button" onClick={() => void guide.persistence.retry()}>
+            Réessayer l’enregistrement
+          </button>
+        </p>
+      ) : null}
+      {guide.persistence.saving ? <p role="status">Enregistrement des réponses…</p> : null}
       {guide.preparation?.nativeConnection ? (
         <ComposerGuideConnection
           key={guide.preparation.setupFingerprint}

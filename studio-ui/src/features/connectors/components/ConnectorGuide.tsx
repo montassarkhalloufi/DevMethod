@@ -16,6 +16,8 @@ export interface ConnectorGuideProps {
   onApply?(preparation: GuidePreparation): void;
   applyLabel?: string;
   onBack?(): void;
+  step?: number;
+  onStepChange?(step: number): void;
 }
 
 function GuideQuestionChoices({
@@ -123,6 +125,8 @@ export function ConnectorGuide({
   onApply,
   applyLabel = 'Utiliser cette préparation',
   onBack,
+  step: controlledStep,
+  onStepChange,
 }: ConnectorGuideProps) {
   const {
     input,
@@ -144,6 +148,8 @@ export function ConnectorGuide({
     disabled,
     onChange,
     onPrepare,
+    step: controlledStep,
+    onStepChange,
   });
   return (
     <section className="connector-guide" aria-labelledby={headingId}>

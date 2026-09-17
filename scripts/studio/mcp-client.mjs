@@ -75,6 +75,7 @@ export async function performMcpSession({ entry, provider, operation, now, code,
       422,
       'unsupported-tool',
     );
+    call.beforeCall?.();
     const result = await client.callTool({ name: call.name, arguments: call.args }, undefined, {
       signal,
       timeout: 15000,

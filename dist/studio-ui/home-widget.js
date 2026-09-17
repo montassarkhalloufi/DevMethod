@@ -1,13 +1,14 @@
 import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
-import { a as r, i, n as a, r as o, t as s } from "./ConnectorGuide-B-paXMRz.js";
-import { i as c, n as l, r as u, t as d } from "./guided-mcp-DfE0F9Ab.js";
+import { c as r, i, n as a, r as o, s } from "./useMcpSelection-BrYUToXT.js";
+import { a as c, n as l, o as u, r as d, t as f, u as p } from "./ConnectorGuide-lY7QqwYz.js";
+import "./mcp-BH8zszrc.js";
 //#region studio-ui/src/features/home/model/home.ts
-var f = t(), p = e(), m = {
+var m = t(), h = e(), g = {
 	new: "Nouveau projet",
 	imported: "Sources importées",
 	existing: "Projet Studio"
 };
-function h(e) {
+function _(e) {
 	let t = e;
 	if (!t || ![
 		"new",
@@ -21,7 +22,7 @@ function h(e) {
 	].every((e) => typeof e == "string" && e.length > 0) || t.lastOpenedAt !== null && typeof t.lastOpenedAt != "string") throw Error("La réponse du projet est illisible. Actualisez pour vérifier son état.");
 	return t;
 }
-function g(e, t) {
+function v(e, t) {
 	let n = new FormData(t), r = (e) => String(n.get(e) || "").trim();
 	return e === "new" ? {
 		kind: e,
@@ -36,12 +37,12 @@ function g(e, t) {
 		source: r("source")
 	};
 }
-function _(e) {
+function y(e) {
 	return e.startsWith("/") || /^[a-z]:[\\/]/i.test(e);
 }
-function v(e) {
+function b(e) {
 	let t = e.kind === "existing" ? "workspace" : "source", n = e[t];
-	return n !== void 0 && !_(n) ? {
+	return n !== void 0 && !y(n) ? {
 		field: t,
 		message: "Indiquez un chemin absolu, par exemple /Users/vous/mon-projet."
 	} : e.kind === "new" && !e.name ? {
@@ -52,25 +53,25 @@ function v(e) {
 		message: "Décrivez ce que vous voulez faire avancer."
 	} : null;
 }
-function y(e, t) {
+function x(e, t) {
 	return t.phase === "opening" ? "Ouverture…" : t.phase === "creating" ? e === "imported" ? "Importation…" : "Préparation…" : t.project ? "Réessayer l’ouverture" : {
 		new: "Créer et ouvrir",
 		imported: "Importer et ouvrir",
 		existing: "Reprendre ce projet"
 	}[e];
 }
-function b(e, t) {
+function S(e, t) {
 	let n = (e) => e.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLocaleLowerCase("fr-FR");
 	return n(`${e.name} ${e.workspace}`).includes(n(t.trim()));
 }
-function x(e) {
+function C(e) {
 	return [...e].sort((e, t) => Date.parse(t.lastOpenedAt || t.createdAt) - Date.parse(e.lastOpenedAt || e.createdAt));
 }
-function S(e) {
+function w(e) {
 	let t = new Date(e.lastOpenedAt || e.createdAt);
 	return Number.isNaN(t.getTime()) ? "Date non disponible" : new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium" }).format(t);
 }
-function C(e, t) {
+function T(e, t) {
 	if (typeof e != "string") throw Error("L’adresse locale du projet est absente.");
 	let n = new URL(e);
 	if (n.protocol !== "http:" || ![
@@ -82,7 +83,7 @@ function C(e, t) {
 }
 //#endregion
 //#region studio-ui/src/features/home/hooks/useHome.ts
-async function w(e, t, n) {
+async function E(e, t, n) {
 	let r = await fetch("/api/home" + e, {
 		...n === void 0 ? { cache: "no-store" } : {
 			method: "POST",
@@ -95,56 +96,56 @@ async function w(e, t, n) {
 	if (!r.ok) throw Error(i.error || "Le service local ne répond pas. Réessayez dans un instant.");
 	return i;
 }
-var T = (e) => e instanceof Error ? e.message : "Action non confirmée. Vous pouvez réessayer.";
-function E({ navigate: e }) {
-	let [t, n] = (0, f.useState)([]), [r, i] = (0, f.useState)(!0), [a, o] = (0, f.useState)(""), [s, c] = (0, f.useState)({
+var D = (e) => e instanceof Error ? e.message : "Action non confirmée. Vous pouvez réessayer.";
+function O({ navigate: e }) {
+	let [t, n] = (0, m.useState)([]), [r, i] = (0, m.useState)(!0), [a, o] = (0, m.useState)(""), [s, c] = (0, m.useState)({
 		phase: "idle",
 		project: null,
 		error: ""
-	}), l = (0, f.useRef)(null), u = (0, f.useRef)(null), d = (0, f.useRef)(/* @__PURE__ */ new Map()), p = (0, f.useCallback)(async () => {
+	}), l = (0, m.useRef)(null), u = (0, m.useRef)(null), d = (0, m.useRef)(/* @__PURE__ */ new Map()), f = (0, m.useCallback)(async () => {
 		l.current?.abort();
 		let e = new AbortController();
 		l.current = e, i(!0), o("");
 		try {
-			let t = await w("", e.signal);
+			let t = await E("", e.signal);
 			if (e.signal.aborted) return;
 			if (!Array.isArray(t.projects)) throw Error("La liste des projets est illisible.");
-			n(x(t.projects.map(h)));
+			n(C(t.projects.map(_)));
 		} catch (t) {
-			e.signal.aborted || o(T(t));
+			e.signal.aborted || o(D(t));
 		} finally {
 			e.signal.aborted || i(!1);
 		}
 	}, []);
-	(0, f.useEffect)(() => (p(), () => {
+	(0, m.useEffect)(() => (f(), () => {
 		l.current?.abort(), u.current?.abort();
-	}), [p]);
-	function m(e) {
-		l.current?.abort(), i(!1), n((t) => x([e, ...t.filter((t) => t.id !== e.id)]));
+	}), [f]);
+	function p(e) {
+		l.current?.abort(), i(!1), n((t) => C([e, ...t.filter((t) => t.id !== e.id)]));
 	}
-	async function g(t, n, r) {
+	async function h(t, n, r) {
 		c({
 			phase: "opening",
 			project: t,
 			error: ""
 		});
-		let i = await w("/open", n.signal, { id: t.id });
+		let i = await E("/open", n.signal, { id: t.id });
 		if (n.signal.aborted) return;
-		let a = h(i.project);
+		let a = _(i.project);
 		if (a.id !== t.id) throw Error("La session renvoyée appartient à un autre projet.");
-		let o = C(i.url, r ? t.kind : void 0);
-		return m(a), e ? e(o) : window.location.assign(o), !0;
+		let o = T(i.url, r ? t.kind : void 0);
+		return p(a), e ? e(o) : window.location.assign(o), !0;
 	}
-	async function _(e, t) {
+	async function g(e, t) {
 		let n = JSON.stringify(e), r = d.current.get(n);
 		if (r || (r = { requestId: crypto.randomUUID() }, d.current.set(n, r)), r.project) return r.project;
-		let i = await w("/projects", t.signal, {
+		let i = await E("/projects", t.signal, {
 			requestId: r.requestId,
 			...e
 		});
 		if (t.signal.aborted) return null;
-		let a = h(i.project);
-		return r.project = a, m(a), a;
+		let a = _(i.project);
+		return r.project = a, p(a), a;
 	}
 	async function v(e, t) {
 		if (u.current) return !1;
@@ -157,12 +158,12 @@ function E({ navigate: e }) {
 			error: ""
 		});
 		try {
-			"id" in e || (r = await _(e, n), r && t?.()), r && (i = !!await g(r, n, !("id" in e)));
+			"id" in e || (r = await g(e, n), r && t?.()), r && (i = !!await h(r, n, !("id" in e)));
 		} catch (e) {
 			n.signal.aborted || c({
 				phase: "idle",
 				project: r,
-				error: T(e)
+				error: D(e)
 			});
 		} finally {
 			n.signal.aborted || (u.current = null, i || c((e) => ({
@@ -184,39 +185,45 @@ function E({ navigate: e }) {
 		loading: r,
 		loadError: a,
 		operation: s,
-		refresh: p,
+		refresh: f,
 		run: v,
 		clearOperation: y
 	};
 }
 //#endregion
 //#region studio-ui/src/features/home/hooks/useComposerGuides.ts
-var D = (e, t) => r(e) === r(t);
+var k = (e, t) => u(e) === u(t);
 function ee({ busy: e, selected: t, onApply: n, onEdit: r }) {
-	let [i, s] = (0, f.useState)(!1), c = o({ enabled: i }), l = a(), [u, d] = (0, f.useState)(null), [p, m] = (0, f.useState)({}), h = c.guides.find((e) => e.optionId === u) ?? null, g = u ? p[u] : void 0;
-	function _(t) {
-		e || (s(!0), l.reset(), d(t));
+	let [i, a] = (0, m.useState)(!1), o = c({ enabled: i }), s = l({ enabled: i }), u = d(), [f, p] = (0, m.useState)(null), [h, g] = (0, m.useState)({}), _ = o.guides.find((e) => e.optionId === f) ?? null, v = {
+		...Object.fromEntries(Object.values(s.drafts).filter((e) => e.input !== null).map((e) => [e.optionId, {
+			input: e.input,
+			preparation: null
+		}])),
+		...h
+	}, y = f ? v[f] : void 0;
+	function b(t) {
+		e || (a(!0), u.reset(), p(t));
 	}
-	function v(t) {
-		e || (l.reset(), m((e) => ({
+	function x(t) {
+		e || (u.reset(), g((e) => ({
 			...e,
 			[t.optionId]: {
 				input: t,
 				preparation: null
 			}
-		})), r());
+		})), s.edit(t.optionId, t, s.drafts[t.optionId]?.step ?? 0), r());
 	}
-	async function y(t) {
+	async function S(t) {
 		if (e) return;
-		m((e) => ({
+		g((e) => ({
 			...e,
 			[t.optionId]: {
 				input: t,
 				preparation: null
 			}
 		}));
-		let n = await l.prepare(t);
-		n && m((e) => D(e[t.optionId]?.input, t) ? {
+		let n = await u.prepare(t);
+		n && g((e) => k(e[t.optionId]?.input, t) ? {
 			...e,
 			[t.optionId]: {
 				input: n.input,
@@ -224,52 +231,57 @@ function ee({ busy: e, selected: t, onApply: n, onEdit: r }) {
 			}
 		} : e);
 	}
-	function b(t) {
-		if (e || g?.preparation !== t) return;
-		let r = h?.flows.find((e) => e.id === t.input.flowId);
-		r && n(t, r.usage !== "assistant") && d(null);
+	function C(t) {
+		if (e || y?.preparation !== t) return;
+		let r = _?.flows.find((e) => e.id === t.input.flowId);
+		r && n(t, r.usage !== "assistant") && p(null);
 	}
-	function x(e) {
-		l.reset(), m((t) => {
+	function w(e) {
+		u.reset(), s.clear(e), g((t) => {
 			let n = { ...t };
 			return delete n[e], n;
 		});
 	}
 	return {
-		...c,
-		activeId: u,
-		definition: h,
-		input: g?.input ?? null,
-		preparation: g?.preparation ?? null,
-		preparationFor: (e) => p[e]?.preparation ?? null,
-		preparing: l.loading,
-		preparationError: l.error,
-		hasPendingDraft: Object.values(p).some(({ input: e }) => !D(e, t.find((t) => t.optionId === e.optionId))),
+		...o,
+		activeId: f,
+		definition: _,
+		input: y?.input ?? null,
+		preparation: y?.preparation ?? null,
+		preparationFor: (e) => h[e]?.preparation ?? null,
+		preparing: u.loading,
+		preparationError: u.error,
+		persistence: s,
+		step: f ? s.drafts[f]?.step : void 0,
+		setStep: (e) => {
+			f && s.edit(f, y?.input ?? null, e);
+		},
+		hasPendingDraft: Object.values(v).some(({ input: e }) => !k(e, t.find((t) => t.optionId === e.optionId))),
 		hasPendingSelection: t.some((e) => {
-			let t = p[e.optionId];
-			return t && !D(e, t.input);
+			let t = v[e.optionId];
+			return t && !k(e, t.input);
 		}),
-		open: _,
-		load: () => s(!0),
-		change: v,
-		prepare: y,
-		apply: b,
-		forget: x,
+		open: b,
+		load: () => a(!0),
+		change: x,
+		prepare: S,
+		apply: C,
+		forget: w,
 		back: () => {
-			l.reset(), d(null);
+			u.reset(), p(null);
 		}
 	};
 }
 //#endregion
 //#region studio-ui/src/features/home/model/composer.ts
-var O = {
+var A = {
 	idea: 16e3,
 	design: 2e3,
 	connectors: 12,
 	attachments: 4,
 	attachmentBytes: 2097152,
 	links: 5
-}, k = [
+}, j = [
 	{
 		id: "website",
 		label: "Site web",
@@ -290,7 +302,7 @@ var O = {
 		label: "Présentation web",
 		idea: "Créer une présentation web claire pour exposer un sujet, ses points essentiels et la prochaine étape attendue."
 	}
-], A = [
+], M = [
 	{
 		title: "Sobre et précis",
 		description: "Une composition épurée, une typographie lisible et des accents mesurés."
@@ -322,15 +334,15 @@ function te() {
 		attachments: []
 	};
 }
-function j(e) {
+function N(e) {
 	return !!(e.idea.trim() || e.name.trim() || e.design.trim() || e.connectors.length || e.connectorGuides.length || e.mcpConnectionIds.length || e.links.length || e.attachments.length);
 }
-function M(e, t) {
+function P(e, t) {
 	return t ? "Lecture des références…" : e.phase === "opening" ? "Ouverture du projet…" : e.phase === "creating" ? "Préparation du projet…" : e.project ? "Réessayer l’ouverture" : "Démarrer le projet";
 }
 function ne(e, t) {
 	let n = e.idea.trim() ? `${e.idea}\n\n${t.idea}` : t.idea;
-	return n.length > O.idea ? {
+	return n.length > A.idea ? {
 		draft: e,
 		error: "Cette inspiration dépasse la place disponible. Raccourcissez votre demande avant de l’ajouter."
 	} : {
@@ -354,7 +366,7 @@ function re(e) {
 	if (t.href.length > 2e3) throw Error("Ce lien dépasse 2 000 caractères.");
 	return t.href;
 }
-function N(e) {
+function F(e) {
 	let t = e.name.toLowerCase().split(".").at(-1), n = t === "md" ? "text/markdown" : e.type || (t === "txt" ? "text/plain" : "");
 	if (![
 		"image/png",
@@ -363,13 +375,13 @@ function N(e) {
 		"text/plain",
 		"text/markdown"
 	].includes(n)) throw Error("Choisissez une image PNG, JPEG ou WebP, ou un fichier .txt ou .md.");
-	if (!e.size || e.size > O.attachmentBytes) throw Error(`« ${e.name} » doit contenir entre 1 octet et 2 Mio.`);
+	if (!e.size || e.size > A.attachmentBytes) throw Error(`« ${e.name} » doit contenir entre 1 octet et 2 Mio.`);
 	if (!e.name.trim() || e.name.length > 256 || /[<>:"/\\|?*\p{Cc}]/u.test(e.name)) throw Error("Utilisez un nom de fichier simple, sans chemin ni caractères spéciaux (256 caractères maximum).");
 	return n;
 }
 function ie(e) {
 	if (!e.idea.trim()) throw Error("Décrivez votre idée pour démarrer le projet.");
-	if (e.idea.length > O.idea) throw Error("Votre demande dépasse 16 000 caractères. Raccourcissez-la avant de démarrer.");
+	if (e.idea.length > A.idea) throw Error("Votre demande dépasse 16 000 caractères. Raccourcissez-la avant de démarrer.");
 	return {
 		kind: "new",
 		...e.name.trim() ? { name: e.name.trim() } : {},
@@ -404,14 +416,14 @@ function ae(e) {
 		})
 	};
 }
-function P(e, t) {
+function I(e, t) {
 	let n = (e) => e.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLocaleLowerCase("fr-FR");
 	return n(`${e.title} ${e.description}`).includes(n(t.trim()));
 }
 //#endregion
 //#region studio-ui/src/features/home/hooks/useIdeaComposer.ts
 function oe(e, t) {
-	let n = N(e);
+	let n = F(e);
 	return new Promise((r, i) => {
 		let a = new FileReader(), o = () => a.abort(), s = () => t.removeEventListener("abort", o);
 		a.onload = () => {
@@ -429,42 +441,42 @@ function oe(e, t) {
 		}, t.addEventListener("abort", o, { once: !0 }), a.readAsDataURL(e), t.aborted && a.abort();
 	});
 }
-function F({ operation: e, onSubmit: t, onEdit: n, seed: r }) {
-	let [i, a] = (0, f.useState)({
+function L({ operation: e, onSubmit: t, onEdit: n, seed: i }) {
+	let [a, o] = (0, m.useState)({
 		draft: te(),
 		seedId: null,
 		seedError: ""
-	}), [o, s] = (0, f.useState)(""), [l, u] = (0, f.useState)(!1), [d, p] = (0, f.useState)(null), [m, h] = (0, f.useState)(!1), [g, _] = (0, f.useState)(""), [v, y] = (0, f.useState)(null), b = (0, f.useRef)(null), x = (0, f.useRef)(!1), S = (0, f.useRef)(null), C = (0, f.useRef)(null), w = (0, f.useRef)(!1), T = (0, f.useRef)(null), E = c((e) => K(e, !0), (e) => K(e, !1)), D = l || e.phase !== "idle", A = ee({
+	}), [s, c] = (0, m.useState)(""), [l, u] = (0, m.useState)(!1), [d, f] = (0, m.useState)(null), [p, h] = (0, m.useState)(!1), [g, _] = (0, m.useState)(""), [v, y] = (0, m.useState)(null), b = (0, m.useRef)(null), x = (0, m.useRef)(!1), S = (0, m.useRef)(null), C = (0, m.useRef)(null), w = (0, m.useRef)(!1), T = (0, m.useRef)(null), E = r((e) => K(e, !0), (e) => K(e, !1)), D = l || e.phase !== "idle", O = ee({
 		busy: D,
-		selected: i.draft.connectorGuides,
+		selected: a.draft.connectorGuides,
 		onApply: W,
 		onEdit: n
-	}), M = (0, f.useEffectEvent)(n), P = l || A.hasPendingDraft || j(i.draft) && i.draft !== v, F = (0, f.useEffectEvent)((e) => {
-		x.current || (S.current || A.hasPendingDraft || j(i.draft) && i.draft !== b.current) && (e.preventDefault(), e.returnValue = "");
+	}), k = (0, m.useEffectEvent)(n), M = l || O.hasPendingDraft || N(a.draft) && a.draft !== v, P = (0, m.useEffectEvent)((e) => {
+		x.current || (S.current || O.hasPendingDraft || N(a.draft) && a.draft !== b.current) && (e.preventDefault(), e.returnValue = "");
 	});
-	if ((0, f.useEffect)(() => {
-		let e = (e) => F(e);
+	if ((0, m.useEffect)(() => {
+		let e = (e) => P(e);
 		return window.addEventListener("beforeunload", e), () => window.removeEventListener("beforeunload", e);
-	}, []), r && r.id !== i.seedId && !D) {
-		let e = ne(i.draft, r);
-		a({
+	}, []), i && i.id !== a.seedId && !D) {
+		let e = ne(a.draft, i);
+		o({
 			draft: e.draft,
-			seedId: r.id,
+			seedId: i.id,
 			seedError: e.error
-		}), s("");
+		}), c("");
 	}
-	(0, f.useEffect)(() => {
-		i.seedId !== null && (M(), T.current?.focus(), T.current?.scrollIntoView?.({ block: "center" }));
-	}, [i.seedId]), (0, f.useEffect)(() => () => {
+	(0, m.useEffect)(() => {
+		a.seedId !== null && (k(), T.current?.focus(), T.current?.scrollIntoView?.({ block: "center" }));
+	}, [a.seedId]), (0, m.useEffect)(() => () => {
 		let e = S.current;
 		S.current = null, e?.abort(), C.current?.abort();
 	}, []);
 	function I(t) {
-		S.current || e.phase !== "idle" || (x.current = !1, a((e) => ({
+		S.current || e.phase !== "idle" || (x.current = !1, o((e) => ({
 			...e,
 			draft: t(e.draft),
 			seedError: ""
-		})), s(""), n());
+		})), c(""), n());
 	}
 	function L(e, t) {
 		I((n) => ({
@@ -476,32 +488,32 @@ function F({ operation: e, onSubmit: t, onEdit: n, seed: r }) {
 		I((t) => ({
 			...t,
 			projectType: e,
-			idea: t.idea.trim() ? t.idea : k.find((t) => t.id === e)?.idea || ""
+			idea: t.idea.trim() ? t.idea : j.find((t) => t.id === e)?.idea || ""
 		})), T.current?.focus();
 	}
 	function z(e) {
 		if (D || S.current) return !1;
 		try {
 			let t = re(e);
-			if (i.draft.links.includes(t)) throw Error("Cette référence est déjà ajoutée.");
-			if (i.draft.links.length >= O.links) throw Error("Vous pouvez ajouter au maximum 5 liens.");
+			if (a.draft.links.includes(t)) throw Error("Cette référence est déjà ajoutée.");
+			if (a.draft.links.length >= A.links) throw Error("Vous pouvez ajouter au maximum 5 liens.");
 			return I((e) => ({
 				...e,
 				links: [...e.links, t]
 			})), !0;
 		} catch (e) {
-			return s(e instanceof Error ? e.message : "Lien invalide."), !1;
+			return c(e instanceof Error ? e.message : "Lien invalide."), !1;
 		}
 	}
 	async function B(t) {
 		if (!t.length || S.current || e.phase !== "idle") return;
 		let r = new AbortController();
 		try {
-			if (i.draft.attachments.length + t.length > O.attachments) throw Error("Vous pouvez joindre au maximum 4 fichiers.");
-			t.forEach(N), S.current = r, u(!0), s("");
+			if (a.draft.attachments.length + t.length > A.attachments) throw Error("Vous pouvez joindre au maximum 4 fichiers.");
+			t.forEach(F), S.current = r, u(!0), c("");
 			let e = await Promise.all(t.map((e) => oe(e, r.signal)));
 			if (r.signal.aborted) return;
-			a((t) => ({
+			o((t) => ({
 				...t,
 				draft: {
 					...t.draft,
@@ -510,7 +522,7 @@ function F({ operation: e, onSubmit: t, onEdit: n, seed: r }) {
 				seedError: ""
 			})), n();
 		} catch (e) {
-			r.signal.aborted || s(e instanceof Error ? e.message : "Lecture des fichiers impossible."), r.abort();
+			r.signal.aborted || c(e instanceof Error ? e.message : "Lecture des fichiers impossible."), r.abort();
 		} finally {
 			S.current === r && (S.current = null, u(!1));
 		}
@@ -527,7 +539,7 @@ function F({ operation: e, onSubmit: t, onEdit: n, seed: r }) {
 			}), n = await t.json();
 			if (e.signal.aborted) return;
 			if (!t.ok) throw Error("Le catalogue est indisponible. Réessayez dans un instant.");
-			p(ae(n));
+			f(ae(n));
 		} catch (t) {
 			e.signal.aborted || _(t instanceof Error ? t.message : "Chargement impossible.");
 		} finally {
@@ -536,37 +548,37 @@ function F({ operation: e, onSubmit: t, onEdit: n, seed: r }) {
 	}
 	function H() {
 		if (!(D || S.current || w.current)) try {
-			if (A.hasPendingSelection) throw Error("Validez puis ajoutez à nouveau le guide modifié, ou retirez-le de votre demande.");
-			if (i.draft.mcpConnectionIds.some((e) => !E.connections.some((t) => t.id === e && t.status === "connected"))) throw Error("Reconnectez les serveurs MCP sélectionnés ou retirez-les de ce projet.");
-			let e = ie(i.draft);
-			w.current = !0, s("");
-			let n = i.draft;
+			if (O.hasPendingSelection) throw Error("Validez puis ajoutez à nouveau le guide modifié, ou retirez-le de votre demande.");
+			if (a.draft.mcpConnectionIds.some((e) => !E.connections.some((t) => t.id === e && t.status === "connected"))) throw Error("Reconnectez les serveurs MCP sélectionnés ou retirez-les de ce projet.");
+			let e = ie(a.draft);
+			w.current = !0, c("");
+			let n = a.draft;
 			t(e, () => {
 				b.current = n, y(n);
 			}), queueMicrotask(() => {
 				w.current = !1;
 			});
 		} catch (e) {
-			w.current = !1, s(e instanceof Error ? e.message : "Complétez votre demande."), T.current?.focus();
+			w.current = !1, c(e instanceof Error ? e.message : "Complétez votre demande."), T.current?.focus();
 		}
 	}
 	function U(e) {
 		if (D || S.current) return;
-		let t = i.draft.connectors.includes(e);
-		if (!t && i.draft.connectors.length >= O.connectors) {
-			s("Vous pouvez proposer au maximum 12 outils ou services.");
+		let t = a.draft.connectors.includes(e);
+		if (!t && a.draft.connectors.length >= A.connectors) {
+			c("Vous pouvez proposer au maximum 12 outils ou services.");
 			return;
 		}
 		I((n) => ({
 			...n,
 			connectorGuides: t ? n.connectorGuides.filter((t) => t.optionId !== e) : n.connectorGuides,
 			connectors: t ? n.connectors.filter((t) => t !== e) : [...n.connectors, e]
-		})), t && A.forget(e);
+		})), t && O.forget(e);
 	}
 	function W(e, t) {
 		if (D || S.current) return !1;
 		let n = e.input.optionId;
-		return !i.draft.connectorGuides.some((e) => e.optionId === n) && i.draft.connectorGuides.length >= 12 || t && !i.draft.connectors.includes(n) && i.draft.connectors.length >= O.connectors ? (s("Vous pouvez préparer au maximum 12 outils ou services."), !1) : (I((r) => ({
+		return !a.draft.connectorGuides.some((e) => e.optionId === n) && a.draft.connectorGuides.length >= 12 || t && !a.draft.connectors.includes(n) && a.draft.connectors.length >= A.connectors ? (c("Vous pouvez préparer au maximum 12 outils ou services."), !1) : (I((r) => ({
 			...r,
 			connectorGuides: [...r.connectorGuides.filter((e) => e.optionId !== n), structuredClone(e.input)],
 			connectors: t && !r.connectors.includes(n) ? [...r.connectors, n] : r.connectors
@@ -577,12 +589,12 @@ function F({ operation: e, onSubmit: t, onEdit: n, seed: r }) {
 			...t,
 			connectorGuides: t.connectorGuides.filter((t) => t.optionId !== e),
 			connectors: t.connectors.filter((t) => t !== e)
-		})), A.forget(e));
+		})), O.forget(e));
 	}
 	function K(e, t) {
-		if (!(t && i.draft.mcpConnectionIds.includes(e))) {
-			if (t && i.draft.mcpConnectionIds.length >= 12) {
-				s("Vous pouvez utiliser au maximum 12 serveurs MCP pour ce projet.");
+		if (!(t && a.draft.mcpConnectionIds.includes(e))) {
+			if (t && a.draft.mcpConnectionIds.length >= 12) {
+				c("Vous pouvez utiliser au maximum 12 serveurs MCP pour ce projet.");
 				return;
 			}
 			I((n) => ({
@@ -593,24 +605,24 @@ function F({ operation: e, onSubmit: t, onEdit: n, seed: r }) {
 	}
 	return {
 		mcp: E,
-		linearAccessWarning: i.draft.connectorGuides.some((e) => e.flowId === "linear-read") && E.connections.some((e) => e.provider === "linear" && e.url === "https://mcp.linear.app/mcp" && e.status === "connected" && i.draft.mcpConnectionIds.includes(e.id)),
-		guides: A,
+		linearAccessWarning: a.draft.connectorGuides.some((e) => e.flowId === "linear-read") && E.connections.some((e) => e.provider === "linear" && e.url === "https://mcp.linear.app/mcp" && e.status === "connected" && a.draft.mcpConnectionIds.includes(e.id)),
+		guides: O,
 		removeGuide: G,
-		toggleMcp: (e) => K(e, !i.draft.mcpConnectionIds.includes(e)),
-		hasUnsavedContent: P,
+		toggleMcp: (e) => K(e, !a.draft.mcpConnectionIds.includes(e)),
+		hasUnsavedContent: M,
 		approveDeparture: () => {
 			x.current = !0;
 		},
 		cancelDeparture: () => {
 			x.current = !1;
 		},
-		draft: i.draft,
-		error: o || i.seedError,
+		draft: a.draft,
+		error: s || a.seedError,
 		busy: D,
 		reading: l,
 		textarea: T,
 		catalog: d,
-		catalogLoading: m,
+		catalogLoading: p,
 		catalogError: g,
 		loadCatalog: V,
 		submit: H,
@@ -631,9 +643,9 @@ function F({ operation: e, onSubmit: t, onEdit: n, seed: r }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/HomeIcon.tsx
-var I = n();
-function L({ kind: e }) {
-	return /* @__PURE__ */ (0, I.jsx)("svg", {
+var R = n();
+function z({ kind: e }) {
+	return /* @__PURE__ */ (0, R.jsx)("svg", {
 		width: "24",
 		height: "24",
 		viewBox: "0 0 24 24",
@@ -643,7 +655,7 @@ function L({ kind: e }) {
 		strokeLinecap: "round",
 		strokeLinejoin: "round",
 		"aria-hidden": "true",
-		children: /* @__PURE__ */ (0, I.jsx)("path", { d: {
+		children: /* @__PURE__ */ (0, R.jsx)("path", { d: {
 			new: "M12 5v14M5 12h14",
 			imported: "M12 3v12m-4-4 4 4 4-4M4 15v6h16v-6",
 			existing: "M3 10a9 9 0 1 1 2 8M3 4v6h6M12 7v5l3 2",
@@ -653,7 +665,7 @@ function L({ kind: e }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/ProjectFormFields.tsx
-function R({ kind: e, values: t, validation: n, onEdit: r }) {
+function B({ kind: e, values: t, validation: n, onEdit: r }) {
 	let i = e === "existing" ? "workspace" : "source";
 	function a(e) {
 		let t = n?.field === e;
@@ -662,10 +674,10 @@ function R({ kind: e, values: t, validation: n, onEdit: r }) {
 			"aria-describedby": t ? "home-form-error" : void 0
 		};
 	}
-	return /* @__PURE__ */ (0, I.jsxs)(I.Fragment, { children: [e === "existing" ? null : /* @__PURE__ */ (0, I.jsxs)("label", { children: [/* @__PURE__ */ (0, I.jsxs)("span", {
+	return /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [e === "existing" ? null : /* @__PURE__ */ (0, R.jsxs)("label", { children: [/* @__PURE__ */ (0, R.jsxs)("span", {
 		className: "home-field-label",
-		children: ["Nom du projet ", e === "imported" ? /* @__PURE__ */ (0, I.jsx)("small", { children: "· facultatif" }) : null]
-	}), /* @__PURE__ */ (0, I.jsx)("input", {
+		children: ["Nom du projet ", e === "imported" ? /* @__PURE__ */ (0, R.jsx)("small", { children: "· facultatif" }) : null]
+	}), /* @__PURE__ */ (0, R.jsx)("input", {
 		name: "name",
 		autoComplete: "off",
 		required: e === "new",
@@ -674,7 +686,7 @@ function R({ kind: e, values: t, validation: n, onEdit: r }) {
 		onChange: (e) => r("name", e.target.value),
 		placeholder: "Par exemple, Mon carnet de lectures…",
 		...a("name")
-	})] }), e === "new" ? /* @__PURE__ */ (0, I.jsxs)("label", { children: ["Que souhaitez-vous créer ?", /* @__PURE__ */ (0, I.jsx)("textarea", {
+	})] }), e === "new" ? /* @__PURE__ */ (0, R.jsxs)("label", { children: ["Que souhaitez-vous créer ?", /* @__PURE__ */ (0, R.jsx)("textarea", {
 		name: "idea",
 		autoComplete: "off",
 		required: !0,
@@ -684,9 +696,9 @@ function R({ kind: e, values: t, validation: n, onEdit: r }) {
 		onChange: (e) => r("idea", e.target.value),
 		placeholder: "Une application pour…",
 		...a("idea")
-	})] }) : /* @__PURE__ */ (0, I.jsxs)("label", { children: [
+	})] }) : /* @__PURE__ */ (0, R.jsxs)("label", { children: [
 		e === "existing" ? "Dossier du projet Studio" : "Dossier des sources",
-		/* @__PURE__ */ (0, I.jsx)("input", {
+		/* @__PURE__ */ (0, R.jsx)("input", {
 			name: i,
 			autoComplete: "off",
 			autoCapitalize: "off",
@@ -698,7 +710,7 @@ function R({ kind: e, values: t, validation: n, onEdit: r }) {
 			...a(i),
 			"aria-describedby": n?.field === i ? "home-form-error" : "home-path-help"
 		}),
-		/* @__PURE__ */ (0, I.jsx)("small", {
+		/* @__PURE__ */ (0, R.jsx)("small", {
 			id: "home-path-help",
 			children: "Chemin absolu d’un dossier sur cet ordinateur."
 		})
@@ -706,44 +718,44 @@ function R({ kind: e, values: t, validation: n, onEdit: r }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/ProjectDialog.tsx
-var z = {
+var V = {
 	new: "Créer un projet",
 	imported: "Importer un projet",
 	existing: "Reprendre un projet"
-}, B = {
+}, H = {
 	new: "Une idée suffit pour commencer. Nous préciserons ensemble le résultat à obtenir.",
 	imported: "Partez de vos sources actuelles. DevMethod en crée une copie et préserve le dossier original.",
 	existing: "Retrouvez un projet déjà utilisé dans DevMethod Studio, avec son contexte et ses versions."
-}, V = () => ({
+}, U = () => ({
 	name: "",
 	idea: "",
 	source: "",
 	workspace: ""
 });
-function H({ open: e, kind: t, operation: n, onDismiss: r, onSubmit: i, onEdit: a, departure: o }) {
-	let s = (0, f.useRef)(null), c = (0, f.useRef)(null), [l, u] = (0, f.useState)({
-		new: V(),
-		imported: V(),
-		existing: V()
-	}), [d, p] = (0, f.useState)(null), m = d?.kind === t ? d.error : null, h = n.phase !== "idle", _ = !!o;
-	(0, f.useEffect)(() => {
+function W({ open: e, kind: t, operation: n, onDismiss: r, onSubmit: i, onEdit: a, departure: o }) {
+	let s = (0, m.useRef)(null), c = (0, m.useRef)(null), [l, u] = (0, m.useState)({
+		new: U(),
+		imported: U(),
+		existing: U()
+	}), [d, f] = (0, m.useState)(null), p = d?.kind === t ? d.error : null, h = n.phase !== "idle", g = !!o;
+	(0, m.useEffect)(() => {
 		let t = s.current;
 		if (e && t) {
 			let e = t.open;
-			e || t.showModal(), _ ? t.querySelector("[data-keep-idea]")?.focus() : e ? t.querySelector("button[type=\"submit\"]")?.focus() : t.querySelector("input")?.focus();
+			e || t.showModal(), g ? t.querySelector("[data-keep-idea]")?.focus() : e ? t.querySelector("button[type=\"submit\"]")?.focus() : t.querySelector("input")?.focus();
 		} else !e && t?.open && t.close();
-	}, [e, _]);
-	function b(e, n) {
+	}, [e, g]);
+	function _(e, n) {
 		u((r) => ({
 			...r,
 			[t]: {
 				...r[t],
 				[e]: n
 			}
-		})), p(null), a();
+		})), f(null), a();
 	}
-	let x = y(t, n);
-	return /* @__PURE__ */ (0, I.jsxs)("dialog", {
+	let y = x(t, n);
+	return /* @__PURE__ */ (0, R.jsxs)("dialog", {
 		ref: s,
 		className: "home-dialog",
 		"aria-labelledby": "home-dialog-title",
@@ -753,51 +765,51 @@ function H({ open: e, kind: t, operation: n, onDismiss: r, onSubmit: i, onEdit: 
 		},
 		onClose: r,
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "home-dialog-heading",
-				children: [/* @__PURE__ */ (0, I.jsx)("span", {
+				children: [/* @__PURE__ */ (0, R.jsx)("span", {
 					className: "home-eyebrow",
 					children: "Votre point de départ"
-				}), /* @__PURE__ */ (0, I.jsx)("button", {
+				}), /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					"aria-label": "Fermer",
 					disabled: h,
 					onClick: o?.onCancel || r,
-					children: /* @__PURE__ */ (0, I.jsx)("span", {
+					children: /* @__PURE__ */ (0, R.jsx)("span", {
 						"aria-hidden": "true",
 						children: "×"
 					})
 				})]
 			}),
-			/* @__PURE__ */ (0, I.jsx)("h2", {
+			/* @__PURE__ */ (0, R.jsx)("h2", {
 				id: "home-dialog-title",
-				children: o ? "Quitter cette idée ?" : z[t]
+				children: o ? "Quitter cette idée ?" : V[t]
 			}),
-			/* @__PURE__ */ (0, I.jsx)("p", {
+			/* @__PURE__ */ (0, R.jsx)("p", {
 				id: "home-dialog-description",
-				children: o ? "Votre idée et ses références ne sont pas encore enregistrées. Si vous ouvrez un autre projet, elles seront perdues." : B[t]
+				children: o ? "Votre idée et ses références ne sont pas encore enregistrées. Si vous ouvrez un autre projet, elles seront perdues." : H[t]
 			}),
-			o ? /* @__PURE__ */ (0, I.jsxs)("div", {
+			o ? /* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "home-dialog-actions",
-				children: [/* @__PURE__ */ (0, I.jsx)("button", {
+				children: [/* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					"data-keep-idea": !0,
 					onClick: o.onCancel,
 					children: "Garder mon idée"
-				}), /* @__PURE__ */ (0, I.jsx)("button", {
+				}), /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					className: "primary",
 					onClick: o.onConfirm,
 					children: "Ouvrir quand même"
 				})]
 			}) : null,
-			/* @__PURE__ */ (0, I.jsxs)("form", {
+			/* @__PURE__ */ (0, R.jsxs)("form", {
 				ref: c,
-				hidden: _,
+				hidden: g,
 				onSubmit: (e) => {
 					if (e.preventDefault(), h || o) return;
-					let n = g(t, e.currentTarget), r = v(n);
-					if (p({
+					let n = v(t, e.currentTarget), r = b(n);
+					if (f({
 						kind: t,
 						error: r
 					}), r) {
@@ -806,26 +818,26 @@ function H({ open: e, kind: t, operation: n, onDismiss: r, onSubmit: i, onEdit: 
 					} else i(n);
 				},
 				children: [
-					/* @__PURE__ */ (0, I.jsx)("fieldset", {
+					/* @__PURE__ */ (0, R.jsx)("fieldset", {
 						disabled: h,
-						children: /* @__PURE__ */ (0, I.jsx)(R, {
+						children: /* @__PURE__ */ (0, R.jsx)(B, {
 							kind: t,
 							values: l[t],
-							validation: m,
-							onEdit: b
+							validation: p,
+							onEdit: _
 						})
 					}),
-					/* @__PURE__ */ (0, I.jsx)("p", {
+					/* @__PURE__ */ (0, R.jsx)("p", {
 						className: "home-form-note",
 						children: "Aucun agent ni script du projet n’est lancé automatiquement."
 					}),
-					m ? /* @__PURE__ */ (0, I.jsx)("p", {
+					p ? /* @__PURE__ */ (0, R.jsx)("p", {
 						id: "home-form-error",
 						role: "alert",
 						className: "home-error",
-						children: m.message
+						children: p.message
 					}) : null,
-					n.project ? /* @__PURE__ */ (0, I.jsxs)("p", {
+					n.project ? /* @__PURE__ */ (0, R.jsxs)("p", {
 						className: "home-saved",
 						role: "status",
 						children: [
@@ -836,32 +848,32 @@ function H({ open: e, kind: t, operation: n, onDismiss: r, onSubmit: i, onEdit: 
 							n.error ? "Vous pouvez réessayer son ouverture." : "Ouverture du Studio…"
 						]
 					}) : null,
-					n.error ? /* @__PURE__ */ (0, I.jsx)("p", {
+					n.error ? /* @__PURE__ */ (0, R.jsx)("p", {
 						role: "alert",
 						className: "home-error",
 						children: n.error
 					}) : null,
-					/* @__PURE__ */ (0, I.jsxs)("div", {
+					/* @__PURE__ */ (0, R.jsxs)("div", {
 						className: "home-dialog-actions",
-						children: [/* @__PURE__ */ (0, I.jsx)("button", {
+						children: [/* @__PURE__ */ (0, R.jsx)("button", {
 							type: "button",
 							disabled: h,
 							onClick: r,
 							children: "Retour"
-						}), /* @__PURE__ */ (0, I.jsxs)("button", {
+						}), /* @__PURE__ */ (0, R.jsxs)("button", {
 							type: "submit",
 							className: "primary",
 							disabled: h,
-							children: [h ? /* @__PURE__ */ (0, I.jsx)("span", {
+							children: [h ? /* @__PURE__ */ (0, R.jsx)("span", {
 								className: "home-spinner",
 								"aria-hidden": "true"
-							}) : null, x]
+							}) : null, y]
 						})]
 					}),
-					/* @__PURE__ */ (0, I.jsx)("p", {
+					/* @__PURE__ */ (0, R.jsx)("p", {
 						className: "home-sr",
 						role: "status",
-						children: h ? x : ""
+						children: h ? y : ""
 					})
 				]
 			})
@@ -870,12 +882,12 @@ function H({ open: e, kind: t, operation: n, onDismiss: r, onSubmit: i, onEdit: 
 }
 //#endregion
 //#region studio-ui/src/features/home/hooks/usePreviewViewport.ts
-function U() {
-	let e = (0, f.useRef)(null), [t, n] = (0, f.useState)({
+function G() {
+	let e = (0, m.useRef)(null), [t, n] = (0, m.useState)({
 		visible: !1,
 		width: 0
 	});
-	return (0, f.useEffect)(() => {
+	return (0, m.useEffect)(() => {
 		let t = e.current;
 		if (!t) return;
 		let r = () => {
@@ -907,7 +919,7 @@ function U() {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/RecentProjectPreview.tsx
-function W(e) {
+function K(e) {
 	if (e.preview?.status !== "ready") return null;
 	try {
 		let t = new URL(e.preview.url), n = `/projects/${encodeURIComponent(e.id)}/revisions/${encodeURIComponent(e.preview.revisionId)}/index.html`;
@@ -920,40 +932,40 @@ function W(e) {
 		return null;
 	}
 }
-function G({ title: e, detail: t }) {
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+function q({ title: e, detail: t }) {
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "home-preview-placeholder",
 		children: [
-			/* @__PURE__ */ (0, I.jsx)("span", {
+			/* @__PURE__ */ (0, R.jsx)("span", {
 				className: "home-preview-symbol",
 				"aria-hidden": "true",
-				children: /* @__PURE__ */ (0, I.jsx)(L, { kind: "folder" })
+				children: /* @__PURE__ */ (0, R.jsx)(z, { kind: "folder" })
 			}),
-			/* @__PURE__ */ (0, I.jsx)("span", {
+			/* @__PURE__ */ (0, R.jsx)("span", {
 				className: "home-preview-title",
 				children: e
 			}),
-			/* @__PURE__ */ (0, I.jsx)("span", {
+			/* @__PURE__ */ (0, R.jsx)("span", {
 				className: "home-preview-detail",
 				children: t
 			})
 		]
 	});
 }
-function K({ url: e, width: t, name: n }) {
-	let [r, i] = (0, f.useState)("loading");
-	return (0, f.useEffect)(() => {
+function se({ url: e, width: t, name: n }) {
+	let [r, i] = (0, m.useState)("loading");
+	return (0, m.useEffect)(() => {
 		if (r !== "loading") return;
 		let e = window.setTimeout(() => i("failed"), 2e4);
 		return () => window.clearTimeout(e);
-	}, [r]), r === "failed" ? /* @__PURE__ */ (0, I.jsx)(G, {
+	}, [r]), r === "failed" ? /* @__PURE__ */ (0, R.jsx)(q, {
 		title: "Aperçu indisponible",
 		detail: "Le chargement n’a pas abouti. Ouvrez le projet pour le consulter."
-	}) : /* @__PURE__ */ (0, I.jsxs)(I.Fragment, { children: [/* @__PURE__ */ (0, I.jsx)("div", {
+	}) : /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [/* @__PURE__ */ (0, R.jsx)("div", {
 		className: "home-preview-frame",
 		"aria-hidden": "true",
 		inert: !0,
-		children: /* @__PURE__ */ (0, I.jsx)("iframe", {
+		children: /* @__PURE__ */ (0, R.jsx)("iframe", {
 			title: `Aperçu de ${n}`,
 			src: e,
 			sandbox: "allow-scripts",
@@ -967,36 +979,36 @@ function K({ url: e, width: t, name: n }) {
 			onLoad: () => i((e) => e === "failed" ? e : "displayed"),
 			onErrorCapture: () => i("failed")
 		})
-	}), r === "loading" ? /* @__PURE__ */ (0, I.jsxs)("div", {
+	}), r === "loading" ? /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "home-preview-loading",
-		children: [/* @__PURE__ */ (0, I.jsx)("span", {
+		children: [/* @__PURE__ */ (0, R.jsx)("span", {
 			className: "home-spinner",
 			"aria-hidden": "true"
 		}), " Chargement de l’aperçu…"]
 	}) : null] });
 }
-function se({ project: e }) {
-	let t = U(), n = e.preview, r = W(e), i;
-	return i = n?.status === "empty" ? /* @__PURE__ */ (0, I.jsx)(G, {
+function ce({ project: e }) {
+	let t = G(), n = e.preview, r = K(e), i;
+	return i = n?.status === "empty" ? /* @__PURE__ */ (0, R.jsx)(q, {
 		title: "Votre idée prend forme",
 		detail: "Aucune version générée pour le moment."
-	}) : n?.status === "unavailable" && n.reason === "source-only" ? /* @__PURE__ */ (0, I.jsx)(G, {
+	}) : n?.status === "unavailable" && n.reason === "source-only" ? /* @__PURE__ */ (0, R.jsx)(q, {
 		title: "Sources sans aperçu",
 		detail: "Le projet reste consultable dans Studio."
-	}) : r ? t.visible && t.width > 0 ? /* @__PURE__ */ (0, I.jsx)(K, {
+	}) : r ? t.visible && t.width > 0 ? /* @__PURE__ */ (0, R.jsx)(se, {
 		url: r,
 		width: t.width,
 		name: e.name
-	}, r) : /* @__PURE__ */ (0, I.jsx)(G, {
+	}, r) : /* @__PURE__ */ (0, R.jsx)(q, {
 		title: "Aperçu du projet",
 		detail: "Il se charge lorsque cette carte est visible."
-	}) : /* @__PURE__ */ (0, I.jsx)(G, {
+	}) : /* @__PURE__ */ (0, R.jsx)(q, {
 		title: "Aperçu indisponible",
 		detail: "Ouvrez le projet pour retrouver son contexte."
-	}), /* @__PURE__ */ (0, I.jsxs)("div", {
+	}), /* @__PURE__ */ (0, R.jsxs)("div", {
 		ref: t.container,
 		className: "home-project-preview",
-		children: [i, r && n?.status === "ready" ? /* @__PURE__ */ (0, I.jsx)("span", {
+		children: [i, r && n?.status === "ready" ? /* @__PURE__ */ (0, R.jsx)("span", {
 			className: "home-preview-version",
 			children: n.selection === "active" ? "Version active" : "Version proposée"
 		}) : null]
@@ -1004,18 +1016,18 @@ function se({ project: e }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/RecentProjects.tsx
-function ce({ projects: e, loading: t, error: n, busy: r, searchRef: i, onRefresh: a, onOpen: o, onOther: s }) {
-	let [c, l] = (0, f.useState)(""), u = e.filter((e) => b(e, c));
-	return /* @__PURE__ */ (0, I.jsxs)("section", {
+function le({ projects: e, loading: t, error: n, busy: r, searchRef: i, onRefresh: a, onOpen: o, onOther: s }) {
+	let [c, l] = (0, m.useState)(""), u = e.filter((e) => S(e, c));
+	return /* @__PURE__ */ (0, R.jsxs)("section", {
 		className: "home-recents",
 		"aria-labelledby": "home-recents-title",
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "home-section-heading",
-				children: [/* @__PURE__ */ (0, I.jsxs)("div", { children: [/* @__PURE__ */ (0, I.jsx)("h2", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [/* @__PURE__ */ (0, R.jsx)("h2", {
 					id: "home-recents-title",
 					children: "Vos projets récents"
-				}), /* @__PURE__ */ (0, I.jsx)("p", { children: "Retrouvez votre contexte, vos décisions et vos versions." })] }), /* @__PURE__ */ (0, I.jsx)("button", {
+				}), /* @__PURE__ */ (0, R.jsx)("p", { children: "Retrouvez votre contexte, vos décisions et vos versions." })] }), /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					className: "home-refresh",
 					disabled: t || r,
@@ -1023,12 +1035,12 @@ function ce({ projects: e, loading: t, error: n, busy: r, searchRef: i, onRefres
 					children: t ? "Actualisation…" : "Actualiser"
 				})]
 			}),
-			e.length ? /* @__PURE__ */ (0, I.jsxs)("label", {
+			e.length ? /* @__PURE__ */ (0, R.jsxs)("label", {
 				className: "home-search",
-				children: [/* @__PURE__ */ (0, I.jsx)("span", {
+				children: [/* @__PURE__ */ (0, R.jsx)("span", {
 					className: "home-sr",
 					children: "Rechercher un projet"
-				}), /* @__PURE__ */ (0, I.jsx)("input", {
+				}), /* @__PURE__ */ (0, R.jsx)("input", {
 					ref: i,
 					type: "search",
 					name: "project-search",
@@ -1038,7 +1050,7 @@ function ce({ projects: e, loading: t, error: n, busy: r, searchRef: i, onRefres
 					placeholder: "Rechercher un projet…"
 				})]
 			}) : null,
-			n ? /* @__PURE__ */ (0, I.jsxs)("p", {
+			n ? /* @__PURE__ */ (0, R.jsxs)("p", {
 				role: "alert",
 				className: "home-error",
 				children: [
@@ -1048,65 +1060,65 @@ function ce({ projects: e, loading: t, error: n, busy: r, searchRef: i, onRefres
 					"Actualisez pour réessayer."
 				]
 			}) : null,
-			t && !e.length ? /* @__PURE__ */ (0, I.jsx)("p", {
+			t && !e.length ? /* @__PURE__ */ (0, R.jsx)("p", {
 				className: "home-empty",
 				role: "status",
 				children: "Lecture de vos projets…"
 			}) : null,
-			!t && !n && !e.length ? /* @__PURE__ */ (0, I.jsxs)("div", {
+			!t && !n && !e.length ? /* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "home-empty",
 				children: [
-					/* @__PURE__ */ (0, I.jsx)(L, { kind: "folder" }),
-					/* @__PURE__ */ (0, I.jsx)("h3", { children: "Votre prochain projet commence ici" }),
-					/* @__PURE__ */ (0, I.jsx)("p", { children: "Créez un projet ou importez vos sources. Ils apparaîtront ici pour les retrouver facilement." })
+					/* @__PURE__ */ (0, R.jsx)(z, { kind: "folder" }),
+					/* @__PURE__ */ (0, R.jsx)("h3", { children: "Votre prochain projet commence ici" }),
+					/* @__PURE__ */ (0, R.jsx)("p", { children: "Créez un projet ou importez vos sources. Ils apparaîtront ici pour les retrouver facilement." })
 				]
 			}) : null,
-			e.length && !u.length ? /* @__PURE__ */ (0, I.jsx)("p", {
+			e.length && !u.length ? /* @__PURE__ */ (0, R.jsx)("p", {
 				className: "home-empty",
 				role: "status",
 				children: "Aucun projet ne correspond à cette recherche."
 			}) : null,
-			/* @__PURE__ */ (0, I.jsx)("ul", {
+			/* @__PURE__ */ (0, R.jsx)("ul", {
 				className: "home-project-list",
-				children: u.map((e) => /* @__PURE__ */ (0, I.jsxs)("li", {
+				children: u.map((e) => /* @__PURE__ */ (0, R.jsxs)("li", {
 					className: "home-project-card",
-					children: [/* @__PURE__ */ (0, I.jsx)(se, { project: e }), /* @__PURE__ */ (0, I.jsxs)("button", {
+					children: [/* @__PURE__ */ (0, R.jsx)(ce, { project: e }), /* @__PURE__ */ (0, R.jsxs)("button", {
 						type: "button",
 						className: "home-project",
 						disabled: r,
 						onClick: () => o(e),
 						"aria-label": `Ouvrir ${e.name}`,
 						children: [
-							/* @__PURE__ */ (0, I.jsxs)("span", {
+							/* @__PURE__ */ (0, R.jsxs)("span", {
 								className: "home-project-copy",
-								children: [/* @__PURE__ */ (0, I.jsx)("strong", { children: e.name }), /* @__PURE__ */ (0, I.jsx)("span", {
+								children: [/* @__PURE__ */ (0, R.jsx)("strong", { children: e.name }), /* @__PURE__ */ (0, R.jsx)("span", {
 									className: "home-project-path",
 									title: e.workspace,
 									children: e.workspace
 								})]
 							}),
-							/* @__PURE__ */ (0, I.jsx)("span", {
+							/* @__PURE__ */ (0, R.jsx)("span", {
 								className: "home-project-arrow",
 								"aria-hidden": "true",
 								children: "↗"
 							}),
-							/* @__PURE__ */ (0, I.jsxs)("span", {
+							/* @__PURE__ */ (0, R.jsxs)("span", {
 								className: "home-project-meta",
-								children: [/* @__PURE__ */ (0, I.jsx)("span", { children: m[e.kind] }), /* @__PURE__ */ (0, I.jsx)("time", {
+								children: [/* @__PURE__ */ (0, R.jsx)("span", { children: g[e.kind] }), /* @__PURE__ */ (0, R.jsx)("time", {
 									dateTime: e.lastOpenedAt || e.createdAt,
-									children: S(e)
+									children: w(e)
 								})]
 							})
 						]
 					})]
 				}, e.id))
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("button", {
+			/* @__PURE__ */ (0, R.jsxs)("button", {
 				type: "button",
 				className: "home-other",
 				disabled: r,
 				onClick: (e) => s(e.currentTarget),
-				children: ["Ouvrir un autre dossier Studio ", /* @__PURE__ */ (0, I.jsx)("span", {
+				children: ["Ouvrir un autre dossier Studio ", /* @__PURE__ */ (0, R.jsx)("span", {
 					"aria-hidden": "true",
 					children: "↗"
 				})]
@@ -1116,17 +1128,17 @@ function ce({ projects: e, loading: t, error: n, busy: r, searchRef: i, onRefres
 }
 //#endregion
 //#region studio-ui/src/features/home/components/ComposerReferences.tsx
-function le({ composer: e }) {
-	let [t, n] = (0, f.useState)(""), r = (0, f.useRef)(null), i = (0, f.useRef)(null), a = (0, f.useRef)(null);
+function ue({ composer: e }) {
+	let [t, n] = (0, m.useState)(""), r = (0, m.useRef)(null), i = (0, m.useRef)(null), a = (0, m.useRef)(null);
 	function o() {
 		e.addLink(t) && n(""), r.current?.focus();
 	}
-	return /* @__PURE__ */ (0, I.jsxs)(I.Fragment, { children: [
-		/* @__PURE__ */ (0, I.jsx)("p", {
+	return /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [
+		/* @__PURE__ */ (0, R.jsx)("p", {
 			className: "composer-option-intro",
 			children: "Montrez ce qui vous inspire : un écran, un document ou un site à étudier."
 		}),
-		/* @__PURE__ */ (0, I.jsx)("input", {
+		/* @__PURE__ */ (0, R.jsx)("input", {
 			ref: i,
 			className: "composer-file-input",
 			type: "file",
@@ -1139,27 +1151,27 @@ function le({ composer: e }) {
 				t.currentTarget.value = "", e.addFiles(n);
 			}
 		}),
-		/* @__PURE__ */ (0, I.jsxs)("button", {
+		/* @__PURE__ */ (0, R.jsxs)("button", {
 			ref: a,
 			type: "button",
 			className: "composer-file-drop",
-			disabled: e.busy || e.draft.attachments.length >= O.attachments,
+			disabled: e.busy || e.draft.attachments.length >= A.attachments,
 			onClick: () => i.current?.click(),
 			children: [
-				/* @__PURE__ */ (0, I.jsx)("span", {
+				/* @__PURE__ */ (0, R.jsx)("span", {
 					className: "composer-upload-mark",
 					"aria-hidden": "true",
 					children: "↑"
 				}),
-				/* @__PURE__ */ (0, I.jsx)("strong", { children: e.reading ? "Lecture des fichiers…" : "Ajouter des fichiers" }),
-				/* @__PURE__ */ (0, I.jsx)("span", { children: "PNG, JPEG, WebP, TXT ou Markdown" }),
-				/* @__PURE__ */ (0, I.jsx)("small", { children: "4 fichiers maximum · 2 Mio par fichier" })
+				/* @__PURE__ */ (0, R.jsx)("strong", { children: e.reading ? "Lecture des fichiers…" : "Ajouter des fichiers" }),
+				/* @__PURE__ */ (0, R.jsx)("span", { children: "PNG, JPEG, WebP, TXT ou Markdown" }),
+				/* @__PURE__ */ (0, R.jsx)("small", { children: "4 fichiers maximum · 2 Mio par fichier" })
 			]
 		}),
-		e.draft.attachments.length ? /* @__PURE__ */ (0, I.jsx)("ul", {
+		e.draft.attachments.length ? /* @__PURE__ */ (0, R.jsx)("ul", {
 			className: "composer-reference-list",
 			"aria-label": "Fichiers joints",
-			children: e.draft.attachments.map((t, n) => /* @__PURE__ */ (0, I.jsxs)("li", { children: [/* @__PURE__ */ (0, I.jsxs)("span", { children: [/* @__PURE__ */ (0, I.jsx)("strong", { children: t.name }), /* @__PURE__ */ (0, I.jsx)("small", { children: t.mime.startsWith("image/") ? "Image de référence" : "Document de référence" })] }), /* @__PURE__ */ (0, I.jsx)("button", {
+			children: e.draft.attachments.map((t, n) => /* @__PURE__ */ (0, R.jsxs)("li", { children: [/* @__PURE__ */ (0, R.jsxs)("span", { children: [/* @__PURE__ */ (0, R.jsx)("strong", { children: t.name }), /* @__PURE__ */ (0, R.jsx)("small", { children: t.mime.startsWith("image/") ? "Image de référence" : "Document de référence" })] }), /* @__PURE__ */ (0, R.jsx)("button", {
 				type: "button",
 				className: "composer-remove",
 				disabled: e.busy,
@@ -1170,14 +1182,14 @@ function le({ composer: e }) {
 				children: "×"
 			})] }, `${n}:${t.name}`))
 		}) : null,
-		/* @__PURE__ */ (0, I.jsx)("label", {
+		/* @__PURE__ */ (0, R.jsx)("label", {
 			className: "composer-field",
 			htmlFor: "composer-reference-link",
 			children: "Un lien de référence"
 		}),
-		/* @__PURE__ */ (0, I.jsxs)("div", {
+		/* @__PURE__ */ (0, R.jsxs)("div", {
 			className: "composer-link-entry",
-			children: [/* @__PURE__ */ (0, I.jsx)("input", {
+			children: [/* @__PURE__ */ (0, R.jsx)("input", {
 				ref: r,
 				id: "composer-reference-link",
 				type: "url",
@@ -1192,21 +1204,21 @@ function le({ composer: e }) {
 					e.key === "Enter" && (e.preventDefault(), o());
 				},
 				placeholder: "https://un-site-qui-vous-inspire.fr…"
-			}), /* @__PURE__ */ (0, I.jsx)("button", {
+			}), /* @__PURE__ */ (0, R.jsx)("button", {
 				type: "button",
 				disabled: e.busy,
 				onClick: o,
 				children: "Ajouter"
 			})]
 		}),
-		e.draft.links.length ? /* @__PURE__ */ (0, I.jsx)("ul", {
+		e.draft.links.length ? /* @__PURE__ */ (0, R.jsx)("ul", {
 			className: "composer-reference-list",
 			"aria-label": "Liens de référence",
-			children: e.draft.links.map((t, n) => /* @__PURE__ */ (0, I.jsxs)("li", { children: [/* @__PURE__ */ (0, I.jsx)("span", {
+			children: e.draft.links.map((t, n) => /* @__PURE__ */ (0, R.jsxs)("li", { children: [/* @__PURE__ */ (0, R.jsx)("span", {
 				className: "composer-reference-url",
 				title: t,
 				children: t
-			}), /* @__PURE__ */ (0, I.jsx)("button", {
+			}), /* @__PURE__ */ (0, R.jsx)("button", {
 				type: "button",
 				className: "composer-remove",
 				disabled: e.busy,
@@ -1217,7 +1229,7 @@ function le({ composer: e }) {
 				children: "×"
 			})] }, t))
 		}) : null,
-		/* @__PURE__ */ (0, I.jsx)("p", {
+		/* @__PURE__ */ (0, R.jsx)("p", {
 			className: "composer-option-note",
 			children: "5 liens maximum. Ils seront transmis comme références ; aucun site n’est consulté automatiquement."
 		})
@@ -1225,48 +1237,52 @@ function le({ composer: e }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/ComposerGuideConnection.tsx
-function ue({ composer: e, preparation: t, title: n }) {
-	let [r, i] = (0, f.useState)(""), a = t.nativeConnection, o = e.mcp.connections.find((e) => e.provider === a?.providerId && e.url === a?.url), s = e.mcp.active;
-	function c() {
+function de({ composer: e, preparation: t, title: n }) {
+	let [r, i] = (0, m.useState)(""), o = t.nativeConnection, c = e.mcp.connections.find((e) => e.provider === o?.providerId && e.url === o?.url), l = e.mcp.active;
+	function u() {
 		i("");
 		try {
-			e.mcp.connect(d(t));
+			e.mcp.connect(a(t));
 		} catch {
 			i("Cette préparation ne propose pas de connexion MCP prise en charge. Revenez aux outils pour choisir un serveur.");
 		}
 	}
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "composer-guide-connect",
 		children: [
-			/* @__PURE__ */ (0, I.jsx)("p", { children: "L’ajout à la demande prépare le travail. La connexion autorise séparément l’accès de l’assistant." }),
-			/* @__PURE__ */ (0, I.jsxs)("button", {
+			/* @__PURE__ */ (0, R.jsx)("p", { children: "L’ajout à la demande prépare le travail. La connexion autorise séparément l’accès de l’assistant." }),
+			o?.providerId === "github" ? /* @__PURE__ */ (0, R.jsx)(s, {
+				input: a(t),
+				controller: e.mcp,
+				disabled: e.busy
+			}) : /* @__PURE__ */ (0, R.jsxs)("button", {
 				type: "button",
-				disabled: e.busy || !!s,
-				onClick: c,
+				disabled: e.busy || !!l,
+				onClick: u,
 				children: [
-					o?.status === "connected" ? "Reconnecter" : "Connecter",
+					c?.status === "connected" ? "Reconnecter" : "Connecter",
 					" ",
 					n
 				]
 			}),
-			s ? /* @__PURE__ */ (0, I.jsx)("p", {
+			l ? /* @__PURE__ */ (0, R.jsx)("p", {
 				role: "status",
-				children: s.authorizing ? "Autorisation attendue dans la fenêtre du fournisseur…" : "Connexion MCP en cours…"
+				children: l.authorizing ? "Autorisation attendue dans la fenêtre du fournisseur…" : "Connexion MCP en cours…"
 			}) : null,
-			o?.status === "connected" ? /* @__PURE__ */ (0, I.jsxs)("p", {
+			c?.status === "connected" ? /* @__PURE__ */ (0, R.jsxs)("p", {
 				role: "status",
 				children: [
 					"Connecté · ",
-					o.tools.length,
+					c.tools.length,
 					" outils découverts. L’usage dans l’application reste distinct."
 				]
 			}) : null,
-			s?.id ? /* @__PURE__ */ (0, I.jsx)("button", {
+			l?.id ? /* @__PURE__ */ (0, R.jsx)("button", {
 				type: "button",
-				onClick: () => void e.mcp.change(s.id, "disconnect"),
+				onClick: () => void e.mcp.change(l.id, "disconnect"),
 				children: "Annuler la connexion"
 			}) : null,
-			r || e.mcp.error ? /* @__PURE__ */ (0, I.jsx)("p", {
+			r || e.mcp.error ? /* @__PURE__ */ (0, R.jsx)("p", {
 				role: "alert",
 				children: r || e.mcp.error
 			}) : null
@@ -1275,40 +1291,61 @@ function ue({ composer: e, preparation: t, title: n }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/ComposerGuide.tsx
-function de({ composer: e }) {
+function fe({ composer: e }) {
 	let t = e.guides;
-	return t.definition ? /* @__PURE__ */ (0, I.jsxs)("div", {
+	return t.definition ? /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "composer-service-guide",
-		children: [/* @__PURE__ */ (0, I.jsx)(s, {
-			definition: t.definition,
-			draft: t.input,
-			preparation: t.preparation,
-			preparing: t.preparing,
-			error: t.preparationError,
-			onChange: t.change,
-			onPrepare: (e) => void t.prepare(e),
-			onApply: t.apply,
-			applyLabel: "Ajouter à ma demande",
-			onBack: t.back,
-			disabled: e.busy
-		}, t.definition.optionId), t.preparation?.nativeConnection ? /* @__PURE__ */ (0, I.jsx)(ue, {
-			composer: e,
-			preparation: t.preparation,
-			title: t.definition.title
-		}, t.preparation.setupFingerprint) : null]
-	}) : /* @__PURE__ */ (0, I.jsxs)("section", {
+		children: [
+			/* @__PURE__ */ (0, R.jsx)(f, {
+				definition: t.definition,
+				draft: t.input,
+				preparation: t.preparation,
+				preparing: t.preparing,
+				error: t.preparationError,
+				onChange: t.change,
+				onPrepare: (e) => void t.prepare(e),
+				onApply: t.apply,
+				applyLabel: "Ajouter à ma demande",
+				onBack: t.back,
+				disabled: e.busy,
+				step: t.step,
+				onStepChange: t.setStep
+			}, t.definition.optionId),
+			t.persistence.error ? /* @__PURE__ */ (0, R.jsxs)("p", {
+				role: "alert",
+				children: [
+					t.persistence.error,
+					" ",
+					/* @__PURE__ */ (0, R.jsx)("button", {
+						type: "button",
+						onClick: () => void t.persistence.retry(),
+						children: "Réessayer l’enregistrement"
+					})
+				]
+			}) : null,
+			t.persistence.saving ? /* @__PURE__ */ (0, R.jsx)("p", {
+				role: "status",
+				children: "Enregistrement des réponses…"
+			}) : null,
+			t.preparation?.nativeConnection ? /* @__PURE__ */ (0, R.jsx)(de, {
+				composer: e,
+				preparation: t.preparation,
+				title: t.definition.title
+			}, t.preparation.setupFingerprint) : null
+		]
+	}) : /* @__PURE__ */ (0, R.jsxs)("section", {
 		"aria-label": "Guide du service",
 		children: [
-			/* @__PURE__ */ (0, I.jsx)("button", {
+			/* @__PURE__ */ (0, R.jsx)("button", {
 				type: "button",
 				onClick: t.back,
 				children: "Retour aux outils"
 			}),
-			/* @__PURE__ */ (0, I.jsx)("p", {
+			/* @__PURE__ */ (0, R.jsx)("p", {
 				role: t.error ? "alert" : "status",
 				children: t.error || (t.loading ? "Chargement du guide…" : "Ce guide est indisponible. Réessayez son chargement.")
 			}),
-			/* @__PURE__ */ (0, I.jsx)("button", {
+			/* @__PURE__ */ (0, R.jsx)("button", {
 				type: "button",
 				disabled: t.loading || e.busy,
 				onClick: () => void t.refresh(),
@@ -1319,54 +1356,54 @@ function de({ composer: e }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/ComposerTools.tsx
-function fe({ composer: e }) {
-	let [t, n] = (0, f.useState)(""), [r, a] = (0, f.useState)("all"), o = (0, f.useRef)(null), s = (0, f.useRef)(null), c = (0, f.useRef)(null), l = e.guides.activeId;
-	(0, f.useEffect)(() => {
+function pe({ composer: e }) {
+	let [t, n] = (0, m.useState)(""), [r, a] = (0, m.useState)("all"), o = (0, m.useRef)(null), s = (0, m.useRef)(null), c = (0, m.useRef)(null), l = e.guides.activeId;
+	(0, m.useEffect)(() => {
 		!l && c.current && (o.current ?? s.current)?.focus(), c.current = l;
 	}, [l]);
-	function d(t) {
+	function u(t) {
 		document.activeElement instanceof HTMLButtonElement && (o.current = document.activeElement), e.guides.open(t);
 	}
-	let p = e.catalog, m = (p?.options || []).filter((e) => P(e, t)), h = m.filter((e) => r === "all" || e.capabilities.includes(r));
-	return /* @__PURE__ */ (0, I.jsxs)(I.Fragment, { children: [l ? /* @__PURE__ */ (0, I.jsx)(de, { composer: e }, l) : null, /* @__PURE__ */ (0, I.jsxs)("div", {
+	let d = e.catalog, f = (d?.options || []).filter((e) => I(e, t)), h = f.filter((e) => r === "all" || e.capabilities.includes(r));
+	return /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [l ? /* @__PURE__ */ (0, R.jsx)(fe, { composer: e }, l) : null, /* @__PURE__ */ (0, R.jsxs)("div", {
 		hidden: !!l,
-		children: [/* @__PURE__ */ (0, I.jsx)(u, {
+		children: [/* @__PURE__ */ (0, R.jsx)(i, {
 			controller: e.mcp,
 			selectedIds: e.draft.mcpConnectionIds,
 			onToggle: e.toggleMcp,
 			disabled: e.busy,
-			onConfigureGuide: d
-		}), /* @__PURE__ */ (0, I.jsxs)("section", {
+			onConfigureGuide: u
+		}), /* @__PURE__ */ (0, R.jsxs)("section", {
 			className: "composer-application-services",
 			"aria-label": "API et services du projet",
 			children: [
-				/* @__PURE__ */ (0, I.jsx)("h3", {
+				/* @__PURE__ */ (0, R.jsx)("h3", {
 					ref: s,
 					tabIndex: -1,
 					children: "API et services du projet"
 				}),
-				/* @__PURE__ */ (0, I.jsx)("p", {
+				/* @__PURE__ */ (0, R.jsx)("p", {
 					className: "composer-option-intro",
 					children: "Proposez les services que vous souhaitez utiliser. L’agent vérifiera leur intérêt et leur accès avec vous."
 				}),
-				e.guides.error ? /* @__PURE__ */ (0, I.jsxs)("div", {
+				e.guides.error ? /* @__PURE__ */ (0, R.jsxs)("div", {
 					className: "composer-catalog-error",
-					children: [/* @__PURE__ */ (0, I.jsx)("p", {
+					children: [/* @__PURE__ */ (0, R.jsx)("p", {
 						role: "alert",
 						children: e.guides.error
-					}), /* @__PURE__ */ (0, I.jsx)("button", {
+					}), /* @__PURE__ */ (0, R.jsx)("button", {
 						type: "button",
 						disabled: e.busy || e.guides.loading,
 						onClick: e.guides.refresh,
 						children: "Réessayer les guides"
 					})]
 				}) : null,
-				/* @__PURE__ */ (0, I.jsxs)("div", {
+				/* @__PURE__ */ (0, R.jsxs)("div", {
 					className: "composer-tool-filters",
-					children: [/* @__PURE__ */ (0, I.jsxs)("label", { children: [/* @__PURE__ */ (0, I.jsx)("span", {
+					children: [/* @__PURE__ */ (0, R.jsxs)("label", { children: [/* @__PURE__ */ (0, R.jsx)("span", {
 						className: "home-sr",
 						children: "Rechercher un outil ou un service"
-					}), /* @__PURE__ */ (0, I.jsx)("input", {
+					}), /* @__PURE__ */ (0, R.jsx)("input", {
 						type: "search",
 						name: "composer-tool-search",
 						autoComplete: "off",
@@ -1374,50 +1411,50 @@ function fe({ composer: e }) {
 						onChange: (e) => n(e.target.value),
 						placeholder: "Rechercher un outil ou un service…",
 						disabled: e.busy
-					})] }), /* @__PURE__ */ (0, I.jsxs)("label", { children: [/* @__PURE__ */ (0, I.jsx)("span", {
+					})] }), /* @__PURE__ */ (0, R.jsxs)("label", { children: [/* @__PURE__ */ (0, R.jsx)("span", {
 						className: "home-sr",
 						children: "Catégorie des outils"
-					}), /* @__PURE__ */ (0, I.jsxs)("select", {
+					}), /* @__PURE__ */ (0, R.jsxs)("select", {
 						value: r,
 						onChange: (e) => a(e.target.value),
 						disabled: e.busy,
 						"aria-label": "Catégorie des outils",
-						children: [/* @__PURE__ */ (0, I.jsxs)("option", {
+						children: [/* @__PURE__ */ (0, R.jsxs)("option", {
 							value: "all",
 							children: [
 								"Toutes les catégories (",
-								m.length,
+								f.length,
 								")"
 							]
-						}), (p?.capabilities || []).map((e) => /* @__PURE__ */ (0, I.jsxs)("option", {
+						}), (d?.capabilities || []).map((e) => /* @__PURE__ */ (0, R.jsxs)("option", {
 							value: e.id,
 							children: [
 								e.title,
 								" (",
-								m.filter((t) => t.capabilities.includes(e.id)).length,
+								f.filter((t) => t.capabilities.includes(e.id)).length,
 								")"
 							]
 						}, e.id))]
 					})] })]
 				}),
-				e.catalogLoading ? /* @__PURE__ */ (0, I.jsx)("p", {
+				e.catalogLoading ? /* @__PURE__ */ (0, R.jsx)("p", {
 					className: "composer-option-note",
 					role: "status",
 					children: "Chargement du catalogue…"
 				}) : null,
-				e.catalogError ? /* @__PURE__ */ (0, I.jsxs)("div", {
+				e.catalogError ? /* @__PURE__ */ (0, R.jsxs)("div", {
 					className: "composer-catalog-error",
-					children: [/* @__PURE__ */ (0, I.jsx)("p", {
+					children: [/* @__PURE__ */ (0, R.jsx)("p", {
 						role: "alert",
 						children: e.catalogError
-					}), /* @__PURE__ */ (0, I.jsx)("button", {
+					}), /* @__PURE__ */ (0, R.jsx)("button", {
 						type: "button",
 						onClick: () => void e.loadCatalog(),
 						disabled: e.catalogLoading || e.busy,
 						children: "Réessayer le catalogue"
 					})]
 				}) : null,
-				/* @__PURE__ */ (0, I.jsxs)("div", {
+				/* @__PURE__ */ (0, R.jsxs)("div", {
 					className: "composer-tool-count",
 					role: "status",
 					children: [
@@ -1427,14 +1464,14 @@ function fe({ composer: e }) {
 						" · 12 maximum"
 					]
 				}),
-				/* @__PURE__ */ (0, I.jsx)("div", {
+				/* @__PURE__ */ (0, R.jsx)("div", {
 					className: "composer-tool-grid",
-					children: h.map((t) => /* @__PURE__ */ (0, I.jsxs)("div", {
+					children: h.map((t) => /* @__PURE__ */ (0, R.jsxs)("div", {
 						className: "composer-tool-card",
-						children: [/* @__PURE__ */ (0, I.jsxs)("label", {
+						children: [/* @__PURE__ */ (0, R.jsxs)("label", {
 							className: "composer-tool-option",
 							children: [
-								/* @__PURE__ */ (0, I.jsx)("input", {
+								/* @__PURE__ */ (0, R.jsx)("input", {
 									type: "checkbox",
 									name: "preferred-connector",
 									value: t.id,
@@ -1442,26 +1479,26 @@ function fe({ composer: e }) {
 									disabled: e.busy,
 									onChange: () => e.toggleConnector(t.id)
 								}),
-								/* @__PURE__ */ (0, I.jsx)(i, {
+								/* @__PURE__ */ (0, R.jsx)(p, {
 									optionId: t.id,
 									size: 28
 								}),
-								/* @__PURE__ */ (0, I.jsxs)("span", { children: [/* @__PURE__ */ (0, I.jsx)("strong", { children: t.title }), /* @__PURE__ */ (0, I.jsx)("small", { children: t.description })] })
+								/* @__PURE__ */ (0, R.jsxs)("span", { children: [/* @__PURE__ */ (0, R.jsx)("strong", { children: t.title }), /* @__PURE__ */ (0, R.jsx)("small", { children: t.description })] })
 							]
-						}), e.guides.guides.some((e) => e.optionId === t.id) ? /* @__PURE__ */ (0, I.jsxs)("button", {
+						}), e.guides.guides.some((e) => e.optionId === t.id) ? /* @__PURE__ */ (0, R.jsxs)("button", {
 							type: "button",
 							className: "composer-tool-configure",
 							disabled: e.busy,
-							onClick: () => d(t.id),
+							onClick: () => u(t.id),
 							children: ["Configurer ", t.title]
 						}) : null]
 					}, t.id))
 				}),
-				p && !h.length ? /* @__PURE__ */ (0, I.jsx)("p", {
+				d && !h.length ? /* @__PURE__ */ (0, R.jsx)("p", {
 					className: "composer-option-note",
 					children: "Aucun outil ne correspond à ce filtre."
 				}) : null,
-				/* @__PURE__ */ (0, I.jsx)("p", {
+				/* @__PURE__ */ (0, R.jsx)("p", {
 					className: "composer-option-note",
 					children: "Une préférence ne configure aucune connexion et n’accorde aucun accès à vos comptes."
 				})
@@ -1471,7 +1508,7 @@ function fe({ composer: e }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/ComposerOptions.tsx
-var pe = [
+var me = [
 	{
 		id: "references",
 		label: "Références"
@@ -1489,28 +1526,28 @@ var pe = [
 		label: "Projet"
 	}
 ];
-function me({ open: e, section: t, composer: n, onSection: r, onDismiss: i }) {
-	let a = (0, f.useRef)(null), o = (0, f.useRef)(null);
-	return (0, f.useEffect)(() => {
+function he({ open: e, section: t, composer: n, onSection: r, onDismiss: i }) {
+	let a = (0, m.useRef)(null), o = (0, m.useRef)(null);
+	return (0, m.useEffect)(() => {
 		let t = a.current;
 		e && t && !t.open ? (t.showModal(), o.current?.focus()) : !e && t?.open && t.close();
-	}, [e]), /* @__PURE__ */ (0, I.jsxs)("dialog", {
+	}, [e]), /* @__PURE__ */ (0, R.jsxs)("dialog", {
 		ref: a,
 		className: "composer-options-dialog",
 		"aria-labelledby": "composer-options-title",
 		onClose: i,
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("header", {
+			/* @__PURE__ */ (0, R.jsxs)("header", {
 				className: "composer-options-header",
-				children: [/* @__PURE__ */ (0, I.jsxs)("div", { children: [/* @__PURE__ */ (0, I.jsx)("span", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [/* @__PURE__ */ (0, R.jsx)("span", {
 					className: "home-eyebrow",
 					children: "Donnez une direction à votre idée"
-				}), /* @__PURE__ */ (0, I.jsx)("h2", {
+				}), /* @__PURE__ */ (0, R.jsx)("h2", {
 					ref: o,
 					tabIndex: -1,
 					id: "composer-options-title",
 					children: "Préparer mon projet"
-				})] }), /* @__PURE__ */ (0, I.jsx)("button", {
+				})] }), /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					className: "composer-close",
 					"aria-label": "Fermer les options",
@@ -1518,10 +1555,10 @@ function me({ open: e, section: t, composer: n, onSection: r, onDismiss: i }) {
 					children: "×"
 				})]
 			}),
-			/* @__PURE__ */ (0, I.jsx)("nav", {
+			/* @__PURE__ */ (0, R.jsx)("nav", {
 				className: "composer-options-nav",
 				"aria-label": "Options du projet",
-				children: pe.map((e) => /* @__PURE__ */ (0, I.jsx)("button", {
+				children: me.map((e) => /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					"aria-pressed": t === e.id,
 					onClick: () => r(e.id),
@@ -1529,93 +1566,93 @@ function me({ open: e, section: t, composer: n, onSection: r, onDismiss: i }) {
 					children: e.label
 				}, e.id))
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "composer-options-body",
 				children: [
-					/* @__PURE__ */ (0, I.jsx)("section", {
+					/* @__PURE__ */ (0, R.jsx)("section", {
 						className: "composer-options-pane",
 						hidden: t !== "references",
 						"aria-label": "Références du projet",
-						children: /* @__PURE__ */ (0, I.jsx)(le, { composer: n })
+						children: /* @__PURE__ */ (0, R.jsx)(ue, { composer: n })
 					}),
-					/* @__PURE__ */ (0, I.jsxs)("section", {
+					/* @__PURE__ */ (0, R.jsxs)("section", {
 						className: "composer-options-pane",
 						hidden: t !== "design",
 						"aria-label": "Direction visuelle",
 						children: [
-							/* @__PURE__ */ (0, I.jsx)("p", {
+							/* @__PURE__ */ (0, R.jsx)("p", {
 								className: "composer-option-intro",
 								children: "Indiquez une ambiance, des couleurs ou une manière de présenter le contenu."
 							}),
-							/* @__PURE__ */ (0, I.jsx)("div", {
+							/* @__PURE__ */ (0, R.jsx)("div", {
 								className: "composer-style-grid",
-								children: A.map((e, t) => {
+								children: M.map((e, t) => {
 									let r = `${e.title}. ${e.description}`;
-									return /* @__PURE__ */ (0, I.jsxs)("button", {
+									return /* @__PURE__ */ (0, R.jsxs)("button", {
 										className: `composer-style composer-style-${t}`,
 										type: "button",
 										"aria-pressed": n.draft.design === r,
 										onClick: () => n.setField("design", r),
 										disabled: n.busy,
 										children: [
-											/* @__PURE__ */ (0, I.jsxs)("span", {
+											/* @__PURE__ */ (0, R.jsxs)("span", {
 												className: "composer-style-swatch",
 												"aria-hidden": "true",
 												children: [
-													/* @__PURE__ */ (0, I.jsx)("i", {}),
-													/* @__PURE__ */ (0, I.jsx)("i", {}),
-													/* @__PURE__ */ (0, I.jsx)("i", {})
+													/* @__PURE__ */ (0, R.jsx)("i", {}),
+													/* @__PURE__ */ (0, R.jsx)("i", {}),
+													/* @__PURE__ */ (0, R.jsx)("i", {})
 												]
 											}),
-											/* @__PURE__ */ (0, I.jsx)("strong", { children: e.title }),
-											/* @__PURE__ */ (0, I.jsx)("small", { children: e.description })
+											/* @__PURE__ */ (0, R.jsx)("strong", { children: e.title }),
+											/* @__PURE__ */ (0, R.jsx)("small", { children: e.description })
 										]
 									}, e.title);
 								})
 							}),
-							/* @__PURE__ */ (0, I.jsx)("label", {
+							/* @__PURE__ */ (0, R.jsx)("label", {
 								className: "composer-field",
 								htmlFor: "composer-design",
 								children: "Votre direction visuelle"
 							}),
-							/* @__PURE__ */ (0, I.jsx)("textarea", {
+							/* @__PURE__ */ (0, R.jsx)("textarea", {
 								id: "composer-design",
 								name: "design",
 								autoComplete: "off",
 								rows: 3,
-								maxLength: O.design,
+								maxLength: A.design,
 								value: n.draft.design,
 								onChange: (e) => n.setField("design", e.target.value),
 								placeholder: "Par exemple, une interface lumineuse et éditoriale, avec des accents verts…",
 								disabled: n.busy
 							}),
-							/* @__PURE__ */ (0, I.jsx)("p", {
+							/* @__PURE__ */ (0, R.jsx)("p", {
 								className: "composer-option-note",
 								children: "Ces pistes donnent une intention de style. Aucun kit de design n’est installé."
 							})
 						]
 					}),
-					/* @__PURE__ */ (0, I.jsx)("section", {
+					/* @__PURE__ */ (0, R.jsx)("section", {
 						className: "composer-options-pane",
 						hidden: t !== "tools",
 						"aria-label": "Outils proposés",
-						children: /* @__PURE__ */ (0, I.jsx)(fe, { composer: n })
+						children: /* @__PURE__ */ (0, R.jsx)(pe, { composer: n })
 					}),
-					/* @__PURE__ */ (0, I.jsxs)("section", {
+					/* @__PURE__ */ (0, R.jsxs)("section", {
 						className: "composer-options-pane",
 						hidden: t !== "project",
 						"aria-label": "Nom du projet",
 						children: [
-							/* @__PURE__ */ (0, I.jsx)("p", {
+							/* @__PURE__ */ (0, R.jsx)("p", {
 								className: "composer-option-intro",
 								children: "Vous pourrez faire évoluer ces informations dans le projet."
 							}),
-							/* @__PURE__ */ (0, I.jsxs)("label", {
+							/* @__PURE__ */ (0, R.jsxs)("label", {
 								className: "composer-field",
 								htmlFor: "composer-project-name",
-								children: ["Nom du projet ", /* @__PURE__ */ (0, I.jsx)("span", { children: "· facultatif" })]
+								children: ["Nom du projet ", /* @__PURE__ */ (0, R.jsx)("span", { children: "· facultatif" })]
 							}),
-							/* @__PURE__ */ (0, I.jsx)("input", {
+							/* @__PURE__ */ (0, R.jsx)("input", {
 								id: "composer-project-name",
 								name: "project-name",
 								autoComplete: "off",
@@ -1625,22 +1662,22 @@ function me({ open: e, section: t, composer: n, onSection: r, onDismiss: i }) {
 								placeholder: "Donnez un nom à votre idée…",
 								disabled: n.busy
 							}),
-							/* @__PURE__ */ (0, I.jsx)("p", {
+							/* @__PURE__ */ (0, R.jsx)("p", {
 								className: "composer-option-note",
 								children: "Vous pouvez laisser ce champ vide pour commencer avec un nom par défaut."
 							})
 						]
 					}),
-					n.error ? /* @__PURE__ */ (0, I.jsx)("p", {
+					n.error ? /* @__PURE__ */ (0, R.jsx)("p", {
 						role: "alert",
 						className: "composer-error",
 						children: n.error
 					}) : null
 				]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("footer", {
+			/* @__PURE__ */ (0, R.jsxs)("footer", {
 				className: "composer-options-footer",
-				children: [/* @__PURE__ */ (0, I.jsx)("span", { children: n.reading ? "Lecture des fichiers…" : "Vos choix restent modifiables." }), /* @__PURE__ */ (0, I.jsx)("button", {
+				children: [/* @__PURE__ */ (0, R.jsx)("span", { children: n.reading ? "Lecture des fichiers…" : "Vos choix restent modifiables." }), /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					className: "primary",
 					onClick: i,
@@ -1652,22 +1689,22 @@ function me({ open: e, section: t, composer: n, onSection: r, onDismiss: i }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/ComposerPreferences.tsx
-function he({ composer: e, onConfigureGuide: t }) {
+function ge({ composer: e, onConfigureGuide: t }) {
 	let { draft: n } = e;
 	function r(t) {
 		t(), e.textarea.current?.focus();
 	}
-	return !n.design && !n.connectors.length && !n.connectorGuides.length && !n.links.length && !n.attachments.length ? null : /* @__PURE__ */ (0, I.jsxs)("div", {
+	return !n.design && !n.connectors.length && !n.connectorGuides.length && !n.links.length && !n.attachments.length ? null : /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "composer-preferences",
 		"aria-label": "Préférences ajoutées",
 		children: [
-			n.design ? /* @__PURE__ */ (0, I.jsxs)("span", {
+			n.design ? /* @__PURE__ */ (0, R.jsxs)("span", {
 				className: "composer-chip",
-				children: [/* @__PURE__ */ (0, I.jsxs)("span", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("span", {
 					className: "composer-chip-label",
 					title: n.design,
 					children: ["Style : ", n.design.split(/[.\n]/)[0]]
-				}), /* @__PURE__ */ (0, I.jsx)("button", {
+				}), /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					disabled: e.busy,
 					"aria-label": "Retirer la direction visuelle",
@@ -1676,29 +1713,29 @@ function he({ composer: e, onConfigureGuide: t }) {
 				})]
 			}) : null,
 			n.connectors.filter((e) => !n.connectorGuides.some((t) => t.optionId === e)).map((n) => {
-				let a = e.catalog?.options.find((e) => e.id === n)?.title || n;
-				return /* @__PURE__ */ (0, I.jsxs)("span", {
+				let i = e.catalog?.options.find((e) => e.id === n)?.title || n;
+				return /* @__PURE__ */ (0, R.jsxs)("span", {
 					className: "composer-chip",
 					children: [
-						/* @__PURE__ */ (0, I.jsx)(i, {
+						/* @__PURE__ */ (0, R.jsx)(p, {
 							optionId: n,
 							size: 18
 						}),
-						e.guides.guides.some((e) => e.optionId === n) ? /* @__PURE__ */ (0, I.jsx)("button", {
+						e.guides.guides.some((e) => e.optionId === n) ? /* @__PURE__ */ (0, R.jsx)("button", {
 							type: "button",
 							className: "composer-chip-configure",
 							disabled: e.busy,
-							"aria-label": `Configurer ${a}`,
+							"aria-label": `Configurer ${i}`,
 							onClick: (e) => t(n, e.currentTarget),
-							children: a
-						}) : /* @__PURE__ */ (0, I.jsx)("span", {
+							children: i
+						}) : /* @__PURE__ */ (0, R.jsx)("span", {
 							className: "composer-chip-label",
-							children: a
+							children: i
 						}),
-						/* @__PURE__ */ (0, I.jsx)("button", {
+						/* @__PURE__ */ (0, R.jsx)("button", {
 							type: "button",
 							disabled: e.busy,
-							"aria-label": `Retirer ${a}`,
+							"aria-label": `Retirer ${i}`,
 							onClick: () => r(() => e.toggleConnector(n)),
 							children: "×"
 						})
@@ -1706,51 +1743,51 @@ function he({ composer: e, onConfigureGuide: t }) {
 				}, n);
 			}),
 			n.connectorGuides.map((n) => {
-				let a = e.guides.guides.find((e) => e.optionId === n.optionId), o = a?.title || n.optionId, s = a?.flows.find((e) => e.id === n.flowId), c = e.guides.preparationFor(n.optionId)?.nativeConnection, l = c && e.mcp.connections.some((e) => e.provider === c.providerId && e.url === c.url && e.status === "connected");
-				return /* @__PURE__ */ (0, I.jsxs)("span", {
+				let i = e.guides.guides.find((e) => e.optionId === n.optionId), a = i?.title || n.optionId, o = i?.flows.find((e) => e.id === n.flowId), s = e.guides.preparationFor(n.optionId)?.nativeConnection, c = s && e.mcp.connections.some((e) => e.provider === s.providerId && e.url === s.url && e.status === "connected");
+				return /* @__PURE__ */ (0, R.jsxs)("span", {
 					className: "composer-chip composer-guide-chip",
 					children: [
-						/* @__PURE__ */ (0, I.jsx)(i, {
+						/* @__PURE__ */ (0, R.jsx)(p, {
 							optionId: n.optionId,
 							size: 18
 						}),
-						/* @__PURE__ */ (0, I.jsxs)("button", {
+						/* @__PURE__ */ (0, R.jsxs)("button", {
 							type: "button",
 							className: "composer-chip-configure",
 							disabled: e.busy,
-							"aria-label": `Configurer ${o}`,
-							title: s?.title,
+							"aria-label": `Configurer ${a}`,
+							title: o?.title,
 							onClick: (e) => t(n.optionId, e.currentTarget),
 							children: [
-								o,
+								a,
 								" · ",
-								l ? "MCP connecté" : "À connecter"
+								c ? "MCP connecté" : "À connecter"
 							]
 						}),
-						/* @__PURE__ */ (0, I.jsx)("button", {
+						/* @__PURE__ */ (0, R.jsx)("button", {
 							type: "button",
 							disabled: e.busy,
-							"aria-label": `Retirer ${o}`,
+							"aria-label": `Retirer ${a}`,
 							onClick: () => r(() => e.removeGuide(n.optionId)),
 							children: "×"
 						})
 					]
 				}, "guide:" + n.optionId);
 			}),
-			n.attachments.map((t, n) => /* @__PURE__ */ (0, I.jsxs)("span", {
+			n.attachments.map((t, n) => /* @__PURE__ */ (0, R.jsxs)("span", {
 				className: "composer-chip",
 				children: [
-					/* @__PURE__ */ (0, I.jsx)("span", {
+					/* @__PURE__ */ (0, R.jsx)("span", {
 						className: "composer-chip-mark",
 						"aria-hidden": "true",
 						children: "↗"
 					}),
-					/* @__PURE__ */ (0, I.jsx)("span", {
+					/* @__PURE__ */ (0, R.jsx)("span", {
 						className: "composer-chip-label",
 						title: t.name,
 						children: t.name
 					}),
-					/* @__PURE__ */ (0, I.jsx)("button", {
+					/* @__PURE__ */ (0, R.jsx)("button", {
 						type: "button",
 						disabled: e.busy,
 						"aria-label": `Retirer le fichier ${t.name}`,
@@ -1759,20 +1796,20 @@ function he({ composer: e, onConfigureGuide: t }) {
 					})
 				]
 			}, `${n}:${t.name}`)),
-			n.links.map((t, n) => /* @__PURE__ */ (0, I.jsxs)("span", {
+			n.links.map((t, n) => /* @__PURE__ */ (0, R.jsxs)("span", {
 				className: "composer-chip",
 				children: [
-					/* @__PURE__ */ (0, I.jsx)("span", {
+					/* @__PURE__ */ (0, R.jsx)("span", {
 						className: "composer-chip-mark",
 						"aria-hidden": "true",
 						children: "↗"
 					}),
-					/* @__PURE__ */ (0, I.jsx)("span", {
+					/* @__PURE__ */ (0, R.jsx)("span", {
 						className: "composer-chip-label",
 						title: t,
 						children: new URL(t).hostname
 					}),
-					/* @__PURE__ */ (0, I.jsx)("button", {
+					/* @__PURE__ */ (0, R.jsx)("button", {
 						type: "button",
 						disabled: e.busy,
 						"aria-label": `Retirer le lien ${t}`,
@@ -1786,16 +1823,16 @@ function he({ composer: e, onConfigureGuide: t }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/hooks/useComposerPlaceholder.ts
-var q = [
+var J = [
 	"Une boutique pour mes créations, avec une collection à découvrir et un panier…",
 	"Une application pour réserver des ateliers et suivre les inscriptions…",
 	"Un tableau de bord qui rend les chiffres de mon activité faciles à comprendre…",
 	"Un portfolio qui raconte mon travail et donne envie de me contacter…",
 	"Un espace partagé pour transformer les idées de mon équipe en projets…"
-], ge = "Décrivez votre idée. À qui s’adresse-t-elle, et que doit-elle permettre de faire ?";
-function _e(e) {
-	let [t, n] = (0, f.useState)("Une boutique");
-	return (0, f.useEffect)(() => {
+], _e = "Décrivez votre idée. À qui s’adresse-t-elle, et que doit-elle permettre de faire ?";
+function ve(e) {
+	let [t, n] = (0, m.useState)("Une boutique");
+	return (0, m.useEffect)(() => {
 		if (!e) return;
 		let t = window.matchMedia?.("(prefers-reduced-motion: reduce)"), r, i = 0, a = 12, o = !1;
 		function s(e) {
@@ -1804,11 +1841,11 @@ function _e(e) {
 		function c() {
 			if (document.hidden) return;
 			if (t?.matches) {
-				n(q[0]);
+				n(J[0]);
 				return;
 			}
-			let e = q[i] ?? q[0];
-			a += o ? -1 : 1, n(e.slice(0, a)), a === e.length ? (o = !0, s(2300)) : a === 0 ? (o = !1, i = (i + 1) % q.length, s(350)) : s(o ? 18 : 48);
+			let e = J[i] ?? J[0];
+			a += o ? -1 : 1, n(e.slice(0, a)), a === e.length ? (o = !0, s(2300)) : a === 0 ? (o = !1, i = (i + 1) % J.length, s(350)) : s(o ? 18 : 48);
 		}
 		function l() {
 			clearTimeout(r), document.hidden || s(150);
@@ -1816,51 +1853,51 @@ function _e(e) {
 		return t?.addEventListener("change", l), document.addEventListener("visibilitychange", l), l(), () => {
 			clearTimeout(r), t?.removeEventListener("change", l), document.removeEventListener("visibilitychange", l);
 		};
-	}, [e]), e ? `Imaginez… ${t}` : ge;
+	}, [e]), e ? `Imaginez… ${t}` : _e;
 }
 //#endregion
 //#region studio-ui/src/features/home/components/IdeaComposer.tsx
-function ve(e) {
-	let { composer: t } = e, [n, r] = (0, f.useState)(!1), i = _e(!n && !t.draft.idea && !t.busy), [a, o] = (0, f.useState)({
+function ye(e) {
+	let { composer: t } = e, [n, r] = (0, m.useState)(!1), i = ve(!n && !t.draft.idea && !t.busy), [a, s] = (0, m.useState)({
 		open: !1,
 		section: "references"
-	}), s = (0, f.useRef)(null);
-	function c(e) {
-		o({
+	}), c = (0, m.useRef)(null);
+	function l(e) {
+		s({
 			open: !0,
 			section: e
 		}), e === "tools" && t.guides.load(), e === "tools" && !t.catalog && !t.catalogLoading && t.loadCatalog();
 	}
 	function u(e, t) {
-		s.current = t, c(e);
+		c.current = t, l(e);
 	}
 	function d() {
-		o((e) => ({
+		s((e) => ({
 			...e,
 			open: !1
-		})), s.current?.focus();
+		})), c.current?.focus();
 	}
-	let p = M(e.operation, t.reading);
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+	let f = P(e.operation, t.reading);
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "idea-composer-wrap",
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("form", {
+			/* @__PURE__ */ (0, R.jsxs)("form", {
 				className: "idea-composer",
 				onSubmit: (e) => {
 					e.preventDefault(), t.submit();
 				},
 				children: [
-					/* @__PURE__ */ (0, I.jsx)("label", {
+					/* @__PURE__ */ (0, R.jsx)("label", {
 						className: "home-sr",
 						htmlFor: "composer-idea",
 						children: "Décrivez votre idée"
 					}),
-					/* @__PURE__ */ (0, I.jsx)("textarea", {
+					/* @__PURE__ */ (0, R.jsx)("textarea", {
 						ref: t.textarea,
 						id: "composer-idea",
 						name: "idea",
 						rows: 4,
-						maxLength: O.idea,
+						maxLength: A.idea,
 						value: t.draft.idea,
 						autoComplete: "off",
 						placeholder: i,
@@ -1874,81 +1911,81 @@ function ve(e) {
 						"aria-invalid": !!t.error || void 0,
 						"aria-describedby": "composer-help"
 					}),
-					/* @__PURE__ */ (0, I.jsx)(he, {
+					/* @__PURE__ */ (0, R.jsx)(ge, {
 						composer: t,
 						onConfigureGuide: (e, n) => {
 							t.guides.open(e), u("tools", n);
 						}
 					}),
-					/* @__PURE__ */ (0, I.jsxs)("div", {
+					/* @__PURE__ */ (0, R.jsxs)("div", {
 						className: "composer-toolbar",
-						children: [/* @__PURE__ */ (0, I.jsxs)("div", {
+						children: [/* @__PURE__ */ (0, R.jsxs)("div", {
 							className: "composer-option-actions",
 							children: [
-								/* @__PURE__ */ (0, I.jsx)("button", {
+								/* @__PURE__ */ (0, R.jsx)("button", {
 									type: "button",
 									className: "composer-add",
 									disabled: t.busy,
 									"aria-label": "Ajouter des références",
 									title: "Ajouter des références",
 									onClick: (e) => u("references", e.currentTarget),
-									children: /* @__PURE__ */ (0, I.jsx)("span", {
+									children: /* @__PURE__ */ (0, R.jsx)("span", {
 										"aria-hidden": "true",
 										children: "+"
 									})
 								}),
-								/* @__PURE__ */ (0, I.jsxs)("button", {
+								/* @__PURE__ */ (0, R.jsxs)("button", {
 									type: "button",
 									disabled: t.busy,
 									onClick: (e) => u("design", e.currentTarget),
-									children: [/* @__PURE__ */ (0, I.jsx)("span", {
+									children: [/* @__PURE__ */ (0, R.jsx)("span", {
 										className: "composer-style-symbol",
 										"aria-hidden": "true",
 										children: "◒"
 									}), "Design"]
 								}),
-								/* @__PURE__ */ (0, I.jsxs)("button", {
+								/* @__PURE__ */ (0, R.jsxs)("button", {
 									type: "button",
 									disabled: t.busy,
 									onClick: (e) => u("tools", e.currentTarget),
-									children: [/* @__PURE__ */ (0, I.jsx)("span", {
+									children: [/* @__PURE__ */ (0, R.jsx)("span", {
 										className: "composer-tools-symbol",
 										"aria-hidden": "true",
 										children: "⌘"
 									}), "Outils"]
 								})
 							]
-						}), /* @__PURE__ */ (0, I.jsxs)("div", {
+						}), /* @__PURE__ */ (0, R.jsxs)("div", {
 							className: "composer-submit-actions",
-							children: [/* @__PURE__ */ (0, I.jsxs)("label", {
+							children: [/* @__PURE__ */ (0, R.jsxs)("label", {
 								className: "composer-mode",
-								children: [/* @__PURE__ */ (0, I.jsx)("span", {
+								children: [/* @__PURE__ */ (0, R.jsx)("span", {
 									className: "home-sr",
 									children: "Première étape"
-								}), /* @__PURE__ */ (0, I.jsxs)("select", {
+								}), /* @__PURE__ */ (0, R.jsxs)("select", {
 									name: "launch-action",
 									value: t.draft.action,
 									disabled: t.busy,
 									onChange: (e) => t.setField("action", e.target.value),
-									children: [/* @__PURE__ */ (0, I.jsx)("option", {
+									children: [/* @__PURE__ */ (0, R.jsx)("option", {
 										value: "build",
 										children: "Construire"
-									}), /* @__PURE__ */ (0, I.jsx)("option", {
+									}), /* @__PURE__ */ (0, R.jsx)("option", {
 										value: "plan",
 										children: "Planifier"
 									})]
 								})]
-							}), /* @__PURE__ */ (0, I.jsxs)("button", {
+							}), /* @__PURE__ */ (0, R.jsxs)("button", {
 								type: "submit",
 								className: "primary composer-start",
 								disabled: t.busy,
 								children: [
-									t.busy ? /* @__PURE__ */ (0, I.jsx)("span", {
+									t.busy ? /* @__PURE__ */ (0, R.jsx)("span", {
 										className: "home-spinner",
 										"aria-hidden": "true"
 									}) : null,
-									p,
-									/* @__PURE__ */ (0, I.jsx)("span", {
+									f,
+									/* @__PURE__ */ (0, R.jsx)("span", {
 										"aria-hidden": "true",
 										children: "↑"
 									})
@@ -1958,23 +1995,23 @@ function ve(e) {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, I.jsx)(l, {
+			/* @__PURE__ */ (0, R.jsx)(o, {
 				connections: t.mcp.connections,
 				selectedIds: t.draft.mcpConnectionIds,
 				onToggle: t.toggleMcp,
 				onManage: (e) => u("tools", e),
 				disabled: t.busy
 			}),
-			t.linearAccessWarning ? /* @__PURE__ */ (0, I.jsx)("p", {
+			t.linearAccessWarning ? /* @__PURE__ */ (0, R.jsx)("p", {
 				role: "alert",
 				className: "composer-error",
 				children: "Une connexion Linear avec accès standard est aussi sélectionnée. Retirez-la pour limiter les outils du projet à la lecture seule."
 			}) : null,
-			/* @__PURE__ */ (0, I.jsx)("div", {
+			/* @__PURE__ */ (0, R.jsx)("div", {
 				className: "composer-type-pills",
 				role: "group",
 				"aria-label": "Type de projet",
-				children: k.map((e) => /* @__PURE__ */ (0, I.jsx)("button", {
+				children: j.map((e) => /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					"aria-pressed": t.draft.projectType === e.id,
 					disabled: t.busy,
@@ -1982,12 +2019,12 @@ function ve(e) {
 					children: e.label
 				}, e.id))
 			}),
-			/* @__PURE__ */ (0, I.jsx)("p", {
+			/* @__PURE__ */ (0, R.jsx)("p", {
 				className: "composer-help",
 				id: "composer-help",
 				children: "La demande sera transmise à l’agent du projet. Elle attendra sa prise en charge."
 			}),
-			e.operation.project ? /* @__PURE__ */ (0, I.jsxs)("p", {
+			e.operation.project ? /* @__PURE__ */ (0, R.jsxs)("p", {
 				className: "composer-saved",
 				role: "status",
 				children: [
@@ -1998,20 +2035,20 @@ function ve(e) {
 					e.operation.error ? "Réessayez son ouverture ; votre projet est conservé." : "Ouverture du Studio…"
 				]
 			}) : null,
-			t.error || e.operation.error ? /* @__PURE__ */ (0, I.jsx)("p", {
+			t.error || e.operation.error ? /* @__PURE__ */ (0, R.jsx)("p", {
 				role: "alert",
 				className: "composer-error",
 				children: t.error || e.operation.error
 			}) : null,
-			/* @__PURE__ */ (0, I.jsx)("p", {
+			/* @__PURE__ */ (0, R.jsx)("p", {
 				role: "status",
 				className: "home-sr",
-				children: t.busy ? p : ""
+				children: t.busy ? f : ""
 			}),
-			/* @__PURE__ */ (0, I.jsx)(me, {
+			/* @__PURE__ */ (0, R.jsx)(he, {
 				...a,
 				composer: t,
-				onSection: c,
+				onSection: l,
 				onDismiss: d
 			})
 		]
@@ -2019,7 +2056,7 @@ function ve(e) {
 }
 //#endregion
 //#region studio-ui/src/features/home/model/starters.ts
-var ye = [
+var be = [
 	{
 		id: "all",
 		label: "Tout"
@@ -2040,7 +2077,7 @@ var ye = [
 		id: "slides",
 		label: "Présentations"
 	}
-], be = [
+], xe = [
 	{
 		id: "atelier",
 		title: "Atelier — Portfolio",
@@ -2114,59 +2151,59 @@ var ye = [
 		}
 	}
 ];
-function J(e) {
+function Y(e) {
 	return e.normalize("NFD").replace(/\p{M}/gu, "").toLocaleLowerCase("fr");
 }
-function xe(e, t) {
-	let n = J(e.trim()).split(/\s+/);
-	return be.filter((e) => {
-		let r = J(`${e.title} ${e.description} ${e.seed.idea}`);
+function Se(e, t) {
+	let n = Y(e.trim()).split(/\s+/);
+	return xe.filter((e) => {
+		let r = Y(`${e.title} ${e.description} ${e.seed.idea}`);
 		return (t === "all" || e.category === t) && n.every((e) => r.includes(e));
 	});
 }
 //#endregion
 //#region studio-ui/src/features/home/components/StarterGallery.tsx
-function Se() {
-	let [e, t] = (0, f.useState)("Tous");
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+function Ce() {
+	let [e, t] = (0, m.useState)("Tous");
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "sg-preview sg-atelier",
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-mini-nav",
-				children: [/* @__PURE__ */ (0, I.jsx)("b", { children: "atelier." }), /* @__PURE__ */ (0, I.jsx)("span", { children: "STUDIO INDÉPENDANT · DÉMO" })]
+				children: [/* @__PURE__ */ (0, R.jsx)("b", { children: "atelier." }), /* @__PURE__ */ (0, R.jsx)("span", { children: "STUDIO INDÉPENDANT · DÉMO" })]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-editorial-hero",
-				children: [/* @__PURE__ */ (0, I.jsxs)("h3", { children: [
+				children: [/* @__PURE__ */ (0, R.jsxs)("h3", { children: [
 					"Des idées",
-					/* @__PURE__ */ (0, I.jsx)("br", {}),
+					/* @__PURE__ */ (0, R.jsx)("br", {}),
 					"qui prennent ",
-					/* @__PURE__ */ (0, I.jsx)("em", { children: "forme." })
-				] }), /* @__PURE__ */ (0, I.jsxs)("div", {
+					/* @__PURE__ */ (0, R.jsx)("em", { children: "forme." })
+				] }), /* @__PURE__ */ (0, R.jsxs)("div", {
 					className: "sg-sculpture",
 					"aria-hidden": "true",
 					children: [
-						/* @__PURE__ */ (0, I.jsx)("i", {}),
-						/* @__PURE__ */ (0, I.jsx)("i", {}),
-						/* @__PURE__ */ (0, I.jsx)("i", {})
+						/* @__PURE__ */ (0, R.jsx)("i", {}),
+						/* @__PURE__ */ (0, R.jsx)("i", {}),
+						/* @__PURE__ */ (0, R.jsx)("i", {})
 					]
 				})]
 			}),
-			/* @__PURE__ */ (0, I.jsx)("div", {
+			/* @__PURE__ */ (0, R.jsx)("div", {
 				className: "sg-mini-controls",
 				"aria-label": "Discipline des projets",
 				children: [
 					"Tous",
 					"Identité",
 					"Édition"
-				].map((n) => /* @__PURE__ */ (0, I.jsx)("button", {
+				].map((n) => /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					"aria-pressed": e === n,
 					onClick: () => t(n),
 					children: n
 				}, n))
 			}),
-			/* @__PURE__ */ (0, I.jsx)("ul", {
+			/* @__PURE__ */ (0, R.jsx)("ul", {
 				className: "sg-portfolio-list",
 				"aria-label": "Projets démo",
 				children: [
@@ -2185,19 +2222,19 @@ function Se() {
 						category: "Identité",
 						tone: "lime"
 					}
-				].filter((t) => e === "Tous" || t.category === e).map((e) => /* @__PURE__ */ (0, I.jsxs)("li", { children: [
-					/* @__PURE__ */ (0, I.jsx)("span", {
+				].filter((t) => e === "Tous" || t.category === e).map((e) => /* @__PURE__ */ (0, R.jsxs)("li", { children: [
+					/* @__PURE__ */ (0, R.jsx)("span", {
 						className: `sg-project-art sg-art-${e.tone}`,
 						"aria-hidden": "true"
 					}),
-					/* @__PURE__ */ (0, I.jsx)("b", { children: e.name }),
-					/* @__PURE__ */ (0, I.jsx)("small", { children: e.category })
+					/* @__PURE__ */ (0, R.jsx)("b", { children: e.name }),
+					/* @__PURE__ */ (0, R.jsx)("small", { children: e.category })
 				] }, e.name))
 			})
 		]
 	});
 }
-var Y = {
+var X = {
 	week: {
 		label: "7 jours",
 		total: "1 284",
@@ -2227,101 +2264,101 @@ var Y = {
 		]
 	}
 };
-function Ce() {
-	let [e, t] = (0, f.useState)("week"), n = Y[e];
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+function we() {
+	let [e, t] = (0, m.useState)("week"), n = X[e];
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "sg-preview sg-pulse",
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-mini-nav",
-				children: [/* @__PURE__ */ (0, I.jsxs)("b", { children: [/* @__PURE__ */ (0, I.jsx)("span", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("b", { children: [/* @__PURE__ */ (0, R.jsx)("span", {
 					"aria-hidden": "true",
 					children: "◈"
-				}), " pulse"] }), /* @__PURE__ */ (0, I.jsx)("span", { children: "ESPACE DÉMO" })]
+				}), " pulse"] }), /* @__PURE__ */ (0, R.jsx)("span", { children: "ESPACE DÉMO" })]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-dashboard-heading",
-				children: [/* @__PURE__ */ (0, I.jsxs)("div", { children: [/* @__PURE__ */ (0, I.jsx)("small", { children: "VUE D’ENSEMBLE" }), /* @__PURE__ */ (0, I.jsx)("h3", { children: "Chaque signal compte." })] }), /* @__PURE__ */ (0, I.jsx)("div", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [/* @__PURE__ */ (0, R.jsx)("small", { children: "VUE D’ENSEMBLE" }), /* @__PURE__ */ (0, R.jsx)("h3", { children: "Chaque signal compte." })] }), /* @__PURE__ */ (0, R.jsx)("div", {
 					className: "sg-mini-controls",
 					"aria-label": "Période des données démo",
-					children: ["week", "month"].map((n) => /* @__PURE__ */ (0, I.jsx)("button", {
+					children: ["week", "month"].map((n) => /* @__PURE__ */ (0, R.jsx)("button", {
 						type: "button",
 						"aria-pressed": e === n,
 						onClick: () => t(n),
-						children: Y[n].label
+						children: X[n].label
 					}, n))
 				})]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-metrics",
-				children: [/* @__PURE__ */ (0, I.jsxs)("div", { children: [
-					/* @__PURE__ */ (0, I.jsxs)("span", { children: ["Visites · ", n.label] }),
-					/* @__PURE__ */ (0, I.jsx)("strong", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [
+					/* @__PURE__ */ (0, R.jsxs)("span", { children: ["Visites · ", n.label] }),
+					/* @__PURE__ */ (0, R.jsx)("strong", {
 						"aria-live": "polite",
 						children: n.total
 					}),
-					/* @__PURE__ */ (0, I.jsxs)("small", { children: [n.change, " · données fictives"] })
-				] }), /* @__PURE__ */ (0, I.jsxs)("div", { children: [
-					/* @__PURE__ */ (0, I.jsx)("span", { children: "Objectif de la démo" }),
-					/* @__PURE__ */ (0, I.jsxs)("strong", { children: ["78", /* @__PURE__ */ (0, I.jsx)("small", { children: " %" })] }),
-					/* @__PURE__ */ (0, I.jsx)("span", {
+					/* @__PURE__ */ (0, R.jsxs)("small", { children: [n.change, " · données fictives"] })
+				] }), /* @__PURE__ */ (0, R.jsxs)("div", { children: [
+					/* @__PURE__ */ (0, R.jsx)("span", { children: "Objectif de la démo" }),
+					/* @__PURE__ */ (0, R.jsxs)("strong", { children: ["78", /* @__PURE__ */ (0, R.jsx)("small", { children: " %" })] }),
+					/* @__PURE__ */ (0, R.jsx)("span", {
 						className: "sg-meter",
 						"aria-hidden": "true"
 					})
 				] })]
 			}),
-			/* @__PURE__ */ (0, I.jsx)("div", {
+			/* @__PURE__ */ (0, R.jsx)("div", {
 				className: "sg-chart",
 				role: "img",
 				"aria-label": `Tendance illustrative sur ${n.label}, ${n.total} visites fictives`,
-				children: n.bars.map((e, t) => /* @__PURE__ */ (0, I.jsx)("span", { style: { height: `${e}%` } }, t))
+				children: n.bars.map((e, t) => /* @__PURE__ */ (0, R.jsx)("span", { style: { height: `${e}%` } }, t))
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-chart-caption",
-				children: [/* @__PURE__ */ (0, I.jsx)("span", { children: "Début de période" }), /* @__PURE__ */ (0, I.jsx)("span", { children: "Aujourd’hui · démo" })]
+				children: [/* @__PURE__ */ (0, R.jsx)("span", { children: "Début de période" }), /* @__PURE__ */ (0, R.jsx)("span", { children: "Aujourd’hui · démo" })]
 			})
 		]
 	});
 }
-function we() {
-	let [e, t] = (0, f.useState)(0);
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+function Te() {
+	let [e, t] = (0, m.useState)(0);
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "sg-preview sg-rivage",
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-mini-nav",
-				children: [/* @__PURE__ */ (0, I.jsx)("b", { children: "RIVAGE" }), /* @__PURE__ */ (0, I.jsx)("span", { children: "OBJETS DU QUOTIDIEN · DÉMO" })]
+				children: [/* @__PURE__ */ (0, R.jsx)("b", { children: "RIVAGE" }), /* @__PURE__ */ (0, R.jsx)("span", { children: "OBJETS DU QUOTIDIEN · DÉMO" })]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-commerce-hero",
-				children: [/* @__PURE__ */ (0, I.jsxs)("div", { children: [
-					/* @__PURE__ */ (0, I.jsx)("small", { children: "LA COLLECTION CALME" }),
-					/* @__PURE__ */ (0, I.jsxs)("h3", { children: [
+				children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [
+					/* @__PURE__ */ (0, R.jsx)("small", { children: "LA COLLECTION CALME" }),
+					/* @__PURE__ */ (0, R.jsxs)("h3", { children: [
 						"Faire place",
-						/* @__PURE__ */ (0, I.jsx)("br", {}),
+						/* @__PURE__ */ (0, R.jsx)("br", {}),
 						"à l’essentiel."
 					] }),
-					/* @__PURE__ */ (0, I.jsxs)("p", { children: [
+					/* @__PURE__ */ (0, R.jsxs)("p", { children: [
 						"Des formes simples.",
-						/* @__PURE__ */ (0, I.jsx)("br", {}),
+						/* @__PURE__ */ (0, R.jsx)("br", {}),
 						"Des jours plus doux."
 					] })
-				] }), /* @__PURE__ */ (0, I.jsxs)("div", {
+				] }), /* @__PURE__ */ (0, R.jsxs)("div", {
 					className: "sg-vase-scene",
 					"aria-hidden": "true",
 					children: [
-						/* @__PURE__ */ (0, I.jsx)("i", { className: "sg-vase" }),
-						/* @__PURE__ */ (0, I.jsx)("i", { className: "sg-branch" }),
-						/* @__PURE__ */ (0, I.jsx)("i", { className: "sg-sun" })
+						/* @__PURE__ */ (0, R.jsx)("i", { className: "sg-vase" }),
+						/* @__PURE__ */ (0, R.jsx)("i", { className: "sg-branch" }),
+						/* @__PURE__ */ (0, R.jsx)("i", { className: "sg-sun" })
 					]
 				})]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-product",
 				children: [
-					/* @__PURE__ */ (0, I.jsxs)("div", { children: [/* @__PURE__ */ (0, I.jsx)("strong", { children: "Vase Sillage" }), /* @__PURE__ */ (0, I.jsx)("span", { children: "Grès naturel · objet fictif" })] }),
-					/* @__PURE__ */ (0, I.jsx)("b", { children: "48 €" }),
-					/* @__PURE__ */ (0, I.jsx)("button", {
+					/* @__PURE__ */ (0, R.jsxs)("div", { children: [/* @__PURE__ */ (0, R.jsx)("strong", { children: "Vase Sillage" }), /* @__PURE__ */ (0, R.jsx)("span", { children: "Grès naturel · objet fictif" })] }),
+					/* @__PURE__ */ (0, R.jsx)("b", { children: "48 €" }),
+					/* @__PURE__ */ (0, R.jsx)("button", {
 						type: "button",
 						onClick: () => t((e) => Math.min(9, e + 1)),
 						disabled: e === 9,
@@ -2329,9 +2366,9 @@ function we() {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-selection",
-				children: [/* @__PURE__ */ (0, I.jsxs)("p", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("p", {
 					role: "status",
 					children: [
 						"Sélection démo : ",
@@ -2340,7 +2377,7 @@ function we() {
 						e === 1 ? "objet" : "objets",
 						" · aucune commande"
 					]
-				}), /* @__PURE__ */ (0, I.jsx)("button", {
+				}), /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					disabled: e === 0,
 					onClick: () => t((e) => Math.max(0, e - 1)),
@@ -2350,46 +2387,46 @@ function we() {
 		]
 	});
 }
-function Te() {
-	let [e, t] = (0, f.useState)("Mardi"), [n, r] = (0, f.useState)(null);
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+function Ee() {
+	let [e, t] = (0, m.useState)("Mardi"), [n, r] = (0, m.useState)(null);
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "sg-preview sg-pause",
-		children: [/* @__PURE__ */ (0, I.jsxs)("div", {
+		children: [/* @__PURE__ */ (0, R.jsxs)("div", {
 			className: "sg-mini-nav",
-			children: [/* @__PURE__ */ (0, I.jsxs)("b", { children: ["pause", /* @__PURE__ */ (0, I.jsx)("span", {
+			children: [/* @__PURE__ */ (0, R.jsxs)("b", { children: ["pause", /* @__PURE__ */ (0, R.jsx)("span", {
 				"aria-hidden": "true",
 				children: " ✳"
-			})] }), /* @__PURE__ */ (0, I.jsx)("span", { children: "STUDIO BIEN-ÊTRE · DÉMO" })]
-		}), /* @__PURE__ */ (0, I.jsxs)("div", {
+			})] }), /* @__PURE__ */ (0, R.jsx)("span", { children: "STUDIO BIEN-ÊTRE · DÉMO" })]
+		}), /* @__PURE__ */ (0, R.jsxs)("div", {
 			className: "sg-booking-layout",
-			children: [/* @__PURE__ */ (0, I.jsxs)("div", { children: [
-				/* @__PURE__ */ (0, I.jsx)("span", {
+			children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [
+				/* @__PURE__ */ (0, R.jsx)("span", {
 					className: "sg-booking-flower",
 					"aria-hidden": "true",
 					children: "✳"
 				}),
-				/* @__PURE__ */ (0, I.jsxs)("h3", { children: [
+				/* @__PURE__ */ (0, R.jsxs)("h3", { children: [
 					"Un moment.",
-					/* @__PURE__ */ (0, I.jsx)("br", {}),
+					/* @__PURE__ */ (0, R.jsx)("br", {}),
 					"Juste pour vous."
 				] }),
-				/* @__PURE__ */ (0, I.jsxs)("p", { children: [
+				/* @__PURE__ */ (0, R.jsxs)("p", { children: [
 					"Séance découverte",
-					/* @__PURE__ */ (0, I.jsx)("br", {}),
-					/* @__PURE__ */ (0, I.jsx)("strong", { children: "45 minutes" })
+					/* @__PURE__ */ (0, R.jsx)("br", {}),
+					/* @__PURE__ */ (0, R.jsx)("strong", { children: "45 minutes" })
 				] })
-			] }), /* @__PURE__ */ (0, I.jsxs)("div", {
+			] }), /* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-booking-picker",
 				children: [
-					/* @__PURE__ */ (0, I.jsx)("h4", { children: "Votre prochain rendez-vous" }),
-					/* @__PURE__ */ (0, I.jsx)("div", {
+					/* @__PURE__ */ (0, R.jsx)("h4", { children: "Votre prochain rendez-vous" }),
+					/* @__PURE__ */ (0, R.jsx)("div", {
 						className: "sg-mini-controls",
 						"aria-label": "Jour de démonstration",
 						children: [
 							"Mardi",
 							"Mercredi",
 							"Jeudi"
-						].map((n) => /* @__PURE__ */ (0, I.jsx)("button", {
+						].map((n) => /* @__PURE__ */ (0, R.jsx)("button", {
 							type: "button",
 							"aria-pressed": e === n,
 							onClick: () => {
@@ -2398,8 +2435,8 @@ function Te() {
 							children: n
 						}, n))
 					}),
-					/* @__PURE__ */ (0, I.jsxs)("p", { children: ["Créneaux fictifs · ", e] }),
-					/* @__PURE__ */ (0, I.jsx)("div", {
+					/* @__PURE__ */ (0, R.jsxs)("p", { children: ["Créneaux fictifs · ", e] }),
+					/* @__PURE__ */ (0, R.jsx)("div", {
 						className: "sg-slots",
 						"aria-label": "Créneau de démonstration",
 						children: [
@@ -2407,87 +2444,87 @@ function Te() {
 							"11:30",
 							"14:00",
 							"16:30"
-						].map((e) => /* @__PURE__ */ (0, I.jsx)("button", {
+						].map((e) => /* @__PURE__ */ (0, R.jsx)("button", {
 							type: "button",
 							"aria-pressed": n === e,
 							onClick: () => r(e),
 							children: e
 						}, e))
 					}),
-					/* @__PURE__ */ (0, I.jsx)("p", {
+					/* @__PURE__ */ (0, R.jsx)("p", {
 						className: "sg-booking-result",
 						role: "status",
 						children: n ? `${e} à ${n} sélectionné dans la démo.` : "Choisissez un créneau pour essayer."
 					}),
-					/* @__PURE__ */ (0, I.jsx)("small", { children: "Aucune réservation envoyée." })
+					/* @__PURE__ */ (0, R.jsx)("small", { children: "Aucune réservation envoyée." })
 				]
 			})]
 		})]
 	});
 }
-function Ee() {
-	let [e, t] = (0, f.useState)(0), n = [
+function De() {
+	let [e, t] = (0, m.useState)(0), n = [
 		"À faire",
 		"En cours",
 		"Terminé"
 	];
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "sg-preview sg-collectif",
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-mini-nav",
-				children: [/* @__PURE__ */ (0, I.jsxs)("b", { children: ["collectif", /* @__PURE__ */ (0, I.jsx)("span", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("b", { children: ["collectif", /* @__PURE__ */ (0, R.jsx)("span", {
 					"aria-hidden": "true",
 					children: " ▪"
-				})] }), /* @__PURE__ */ (0, I.jsx)("span", { children: "TABLEAU DÉMO" })]
+				})] }), /* @__PURE__ */ (0, R.jsx)("span", { children: "TABLEAU DÉMO" })]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-board-heading",
-				children: [/* @__PURE__ */ (0, I.jsxs)("div", { children: [/* @__PURE__ */ (0, I.jsx)("small", { children: "NOTRE PROCHAIN CHAPITRE" }), /* @__PURE__ */ (0, I.jsx)("h3", { children: "Lancement du studio" })] }), /* @__PURE__ */ (0, I.jsxs)("span", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [/* @__PURE__ */ (0, R.jsx)("small", { children: "NOTRE PROCHAIN CHAPITRE" }), /* @__PURE__ */ (0, R.jsx)("h3", { children: "Lancement du studio" })] }), /* @__PURE__ */ (0, R.jsxs)("span", {
 					className: "sg-avatars",
 					"aria-hidden": "true",
 					children: [
-						/* @__PURE__ */ (0, I.jsx)("i", { children: "AM" }),
-						/* @__PURE__ */ (0, I.jsx)("i", { children: "JL" }),
-						/* @__PURE__ */ (0, I.jsx)("i", { children: "SO" })
+						/* @__PURE__ */ (0, R.jsx)("i", { children: "AM" }),
+						/* @__PURE__ */ (0, R.jsx)("i", { children: "JL" }),
+						/* @__PURE__ */ (0, R.jsx)("i", { children: "SO" })
 					]
 				})]
 			}),
-			/* @__PURE__ */ (0, I.jsx)("div", {
+			/* @__PURE__ */ (0, R.jsx)("div", {
 				className: "sg-board",
-				children: n.map((n, r) => /* @__PURE__ */ (0, I.jsxs)("section", {
+				children: n.map((n, r) => /* @__PURE__ */ (0, R.jsxs)("section", {
 					"aria-label": n,
-					children: [/* @__PURE__ */ (0, I.jsxs)("h4", { children: [
-						/* @__PURE__ */ (0, I.jsx)("span", {
+					children: [/* @__PURE__ */ (0, R.jsxs)("h4", { children: [
+						/* @__PURE__ */ (0, R.jsx)("span", {
 							"aria-hidden": "true",
 							children: "●"
 						}),
 						" ",
 						n
-					] }), e === r ? /* @__PURE__ */ (0, I.jsxs)("div", {
+					] }), e === r ? /* @__PURE__ */ (0, R.jsxs)("div", {
 						className: "sg-task",
 						children: [
-							/* @__PURE__ */ (0, I.jsx)("small", { children: "DESIGN" }),
-							/* @__PURE__ */ (0, I.jsx)("strong", { children: "Esquisser la page d’accueil" }),
-							/* @__PURE__ */ (0, I.jsx)("p", { children: "Clarifier le premier regard." }),
-							e < 2 ? /* @__PURE__ */ (0, I.jsx)("button", {
+							/* @__PURE__ */ (0, R.jsx)("small", { children: "DESIGN" }),
+							/* @__PURE__ */ (0, R.jsx)("strong", { children: "Esquisser la page d’accueil" }),
+							/* @__PURE__ */ (0, R.jsx)("p", { children: "Clarifier le premier regard." }),
+							e < 2 ? /* @__PURE__ */ (0, R.jsx)("button", {
 								type: "button",
 								onClick: () => t((e) => e + 1),
 								children: e === 0 ? "Commencer" : "Terminer"
-							}) : /* @__PURE__ */ (0, I.jsx)("span", { children: "Terminé dans la démo" })
+							}) : /* @__PURE__ */ (0, R.jsx)("span", { children: "Terminé dans la démo" })
 						]
-					}) : /* @__PURE__ */ (0, I.jsx)("p", {
+					}) : /* @__PURE__ */ (0, R.jsx)("p", {
 						className: "sg-column-empty",
 						children: "Place aux idées"
 					})]
 				}, n))
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-board-footer",
-				children: [/* @__PURE__ */ (0, I.jsxs)("p", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("p", {
 					role: "status",
 					children: ["Tâche démo : ", n[e]]
-				}), /* @__PURE__ */ (0, I.jsx)("button", {
+				}), /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					onClick: () => t(0),
 					disabled: e === 0,
@@ -2497,74 +2534,74 @@ function Ee() {
 		]
 	});
 }
-var X = [
+var Z = [
 	{
 		eyebrow: "01 / L’INTENTION",
-		title: /* @__PURE__ */ (0, I.jsxs)(I.Fragment, { children: [
+		title: /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [
 			"Moins de bruit.",
-			/* @__PURE__ */ (0, I.jsx)("br", {}),
-			/* @__PURE__ */ (0, I.jsx)("em", { children: "Plus d’idées." })
+			/* @__PURE__ */ (0, R.jsx)("br", {}),
+			/* @__PURE__ */ (0, R.jsx)("em", { children: "Plus d’idées." })
 		] }),
 		note: "Une autre façon de raconter ce qui compte."
 	},
 	{
 		eyebrow: "02 / LE CHEMIN",
-		title: /* @__PURE__ */ (0, I.jsxs)(I.Fragment, { children: [
+		title: /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [
 			"Voir plus clair.",
-			/* @__PURE__ */ (0, I.jsx)("br", {}),
-			/* @__PURE__ */ (0, I.jsx)("em", { children: "Faire ensemble." })
+			/* @__PURE__ */ (0, R.jsx)("br", {}),
+			/* @__PURE__ */ (0, R.jsx)("em", { children: "Faire ensemble." })
 		] }),
 		note: "Observer. Choisir. Donner forme."
 	},
 	{
 		eyebrow: "03 / LA SUITE",
-		title: /* @__PURE__ */ (0, I.jsxs)(I.Fragment, { children: [
+		title: /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [
 			"Une idée suffit.",
-			/* @__PURE__ */ (0, I.jsx)("br", {}),
-			/* @__PURE__ */ (0, I.jsx)("em", { children: "À vous la suite." })
+			/* @__PURE__ */ (0, R.jsx)("br", {}),
+			/* @__PURE__ */ (0, R.jsx)("em", { children: "À vous la suite." })
 		] }),
 		note: "Quel changement voulez-vous rendre possible ?"
 	}
 ];
-function De() {
-	let [e, t] = (0, f.useState)(0), n = X[e];
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+function Oe() {
+	let [e, t] = (0, m.useState)(0), n = Z[e];
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "sg-preview sg-perspective",
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-mini-nav",
-				children: [/* @__PURE__ */ (0, I.jsx)("b", { children: "perspective /" }), /* @__PURE__ */ (0, I.jsx)("span", { children: "PRÉSENTATION DÉMO" })]
+				children: [/* @__PURE__ */ (0, R.jsx)("b", { children: "perspective /" }), /* @__PURE__ */ (0, R.jsx)("span", { children: "PRÉSENTATION DÉMO" })]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-slide-body",
 				"aria-live": "polite",
 				children: [
-					/* @__PURE__ */ (0, I.jsx)("small", { children: n.eyebrow }),
-					/* @__PURE__ */ (0, I.jsx)("h3", { children: n.title }),
-					/* @__PURE__ */ (0, I.jsx)("p", { children: n.note }),
-					/* @__PURE__ */ (0, I.jsx)("span", {
+					/* @__PURE__ */ (0, R.jsx)("small", { children: n.eyebrow }),
+					/* @__PURE__ */ (0, R.jsx)("h3", { children: n.title }),
+					/* @__PURE__ */ (0, R.jsx)("p", { children: n.note }),
+					/* @__PURE__ */ (0, R.jsx)("span", {
 						className: "sg-slide-orbit",
 						"aria-hidden": "true"
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-slide-controls",
-				children: [/* @__PURE__ */ (0, I.jsxs)("span", { children: [
+				children: [/* @__PURE__ */ (0, R.jsxs)("span", { children: [
 					"Diapositive ",
 					e + 1,
 					" sur ",
-					X.length
-				] }), /* @__PURE__ */ (0, I.jsxs)("div", { children: [/* @__PURE__ */ (0, I.jsx)("button", {
+					Z.length
+				] }), /* @__PURE__ */ (0, R.jsxs)("div", { children: [/* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					"aria-label": "Diapositive précédente",
 					disabled: e === 0,
 					onClick: () => t((e) => e - 1),
 					children: "←"
-				}), /* @__PURE__ */ (0, I.jsx)("button", {
+				}), /* @__PURE__ */ (0, R.jsx)("button", {
 					type: "button",
 					"aria-label": "Diapositive suivante",
-					disabled: e === X.length - 1,
+					disabled: e === Z.length - 1,
 					onClick: () => t((e) => e + 1),
 					children: "→"
 				})] })]
@@ -2572,29 +2609,29 @@ function De() {
 		]
 	});
 }
-var Z = {
-	atelier: Se,
-	pulse: Ce,
-	rivage: we,
-	pause: Te,
-	collectif: Ee,
-	perspective: De
+var Q = {
+	atelier: Ce,
+	pulse: we,
+	rivage: Te,
+	pause: Ee,
+	collectif: De,
+	perspective: Oe
 };
-function Oe({ starter: e, onOpen: t }) {
-	let n = Z[e.id];
-	return /* @__PURE__ */ (0, I.jsxs)("article", {
+function ke({ starter: e, onOpen: t }) {
+	let n = Q[e.id];
+	return /* @__PURE__ */ (0, R.jsxs)("article", {
 		className: "sg-card",
-		children: [/* @__PURE__ */ (0, I.jsx)("div", {
+		children: [/* @__PURE__ */ (0, R.jsx)("div", {
 			className: "sg-thumbnail",
 			"aria-hidden": "true",
 			inert: !0,
-			children: /* @__PURE__ */ (0, I.jsx)(n, {})
-		}), /* @__PURE__ */ (0, I.jsxs)("button", {
+			children: /* @__PURE__ */ (0, R.jsx)(n, {})
+		}), /* @__PURE__ */ (0, R.jsxs)("button", {
 			type: "button",
 			className: "sg-card-open",
 			"aria-label": `Explorer ${e.title}`,
 			onClick: (n) => t(e, n.currentTarget),
-			children: [/* @__PURE__ */ (0, I.jsxs)("span", { children: [/* @__PURE__ */ (0, I.jsx)("strong", { children: e.title }), /* @__PURE__ */ (0, I.jsx)("small", { children: e.description })] }), /* @__PURE__ */ (0, I.jsx)("span", {
+			children: [/* @__PURE__ */ (0, R.jsxs)("span", { children: [/* @__PURE__ */ (0, R.jsx)("strong", { children: e.title }), /* @__PURE__ */ (0, R.jsx)("small", { children: e.description })] }), /* @__PURE__ */ (0, R.jsx)("span", {
 				className: "sg-card-arrow",
 				"aria-hidden": "true",
 				children: "↗"
@@ -2602,9 +2639,9 @@ function Oe({ starter: e, onOpen: t }) {
 		})]
 	});
 }
-function ke({ onChoose: e }) {
-	let [t, n] = (0, f.useState)(""), [r, i] = (0, f.useState)("all"), [a, o] = (0, f.useState)(null), s = (0, f.useRef)(null), c = (0, f.useRef)(null), l = (0, f.useRef)(null), u = (0, f.useId)(), d = (0, f.useId)(), p = (0, f.useId)(), m = xe(t, r), h = a ? Z[a.id] : null;
-	(0, f.useEffect)(() => {
+function Ae({ onChoose: e }) {
+	let [t, n] = (0, m.useState)(""), [r, i] = (0, m.useState)("all"), [a, o] = (0, m.useState)(null), s = (0, m.useRef)(null), c = (0, m.useRef)(null), l = (0, m.useRef)(null), u = (0, m.useId)(), d = (0, m.useId)(), f = (0, m.useId)(), p = Se(t, r), h = a ? Q[a.id] : null;
+	(0, m.useEffect)(() => {
 		if (!a || !s.current) return;
 		let e = s.current;
 		e.open || e.showModal(), e.querySelector(".sg-close")?.focus();
@@ -2620,34 +2657,34 @@ function ke({ onChoose: e }) {
 		let t = l.current;
 		l.current = null, o(null), c.current?.focus(), t && e(t);
 	}
-	return /* @__PURE__ */ (0, I.jsxs)("section", {
+	return /* @__PURE__ */ (0, R.jsxs)("section", {
 		className: "starter-gallery",
 		"aria-labelledby": u,
 		children: [
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-heading",
-				children: [/* @__PURE__ */ (0, I.jsxs)("div", { children: [
-					/* @__PURE__ */ (0, I.jsx)("span", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [
+					/* @__PURE__ */ (0, R.jsx)("span", {
 						className: "sg-eyebrow",
 						children: "POINTS DE DÉPART"
 					}),
-					/* @__PURE__ */ (0, I.jsx)("h2", {
+					/* @__PURE__ */ (0, R.jsx)("h2", {
 						id: u,
 						children: "Une inspiration, votre interprétation."
 					}),
-					/* @__PURE__ */ (0, I.jsx)("p", { children: "Explorez une idée en action, puis faites-en la vôtre." })
-				] }), /* @__PURE__ */ (0, I.jsxs)("label", {
+					/* @__PURE__ */ (0, R.jsx)("p", { children: "Explorez une idée en action, puis faites-en la vôtre." })
+				] }), /* @__PURE__ */ (0, R.jsxs)("label", {
 					className: "sg-search",
 					children: [
-						/* @__PURE__ */ (0, I.jsx)("span", {
+						/* @__PURE__ */ (0, R.jsx)("span", {
 							className: "sg-sr",
 							children: "Rechercher une inspiration"
 						}),
-						/* @__PURE__ */ (0, I.jsx)("span", {
+						/* @__PURE__ */ (0, R.jsx)("span", {
 							"aria-hidden": "true",
 							children: "⌕"
 						}),
-						/* @__PURE__ */ (0, I.jsx)("input", {
+						/* @__PURE__ */ (0, R.jsx)("input", {
 							type: "search",
 							name: "starter-search",
 							autoComplete: "off",
@@ -2658,39 +2695,39 @@ function ke({ onChoose: e }) {
 					]
 				})]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("div", {
+			/* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-toolbar",
-				children: [/* @__PURE__ */ (0, I.jsx)("div", {
+				children: [/* @__PURE__ */ (0, R.jsx)("div", {
 					className: "sg-filters",
 					"aria-label": "Catégories d’inspiration",
-					children: ye.map((e) => /* @__PURE__ */ (0, I.jsx)("button", {
+					children: be.map((e) => /* @__PURE__ */ (0, R.jsx)("button", {
 						type: "button",
 						"aria-pressed": r === e.id,
 						onClick: () => i(e.id),
 						children: e.label
 					}, e.id))
-				}), /* @__PURE__ */ (0, I.jsxs)("p", {
+				}), /* @__PURE__ */ (0, R.jsxs)("p", {
 					role: "status",
 					children: [
-						m.length,
+						p.length,
 						" ",
-						m.length === 1 ? "inspiration" : "inspirations"
+						p.length === 1 ? "inspiration" : "inspirations"
 					]
 				})]
 			}),
-			/* @__PURE__ */ (0, I.jsx)("div", {
+			/* @__PURE__ */ (0, R.jsx)("div", {
 				className: "sg-grid",
-				children: m.map((e) => /* @__PURE__ */ (0, I.jsx)(Oe, {
+				children: p.map((e) => /* @__PURE__ */ (0, R.jsx)(ke, {
 					starter: e,
 					onOpen: g
 				}, e.id))
 			}),
-			m.length === 0 ? /* @__PURE__ */ (0, I.jsxs)("div", {
+			p.length === 0 ? /* @__PURE__ */ (0, R.jsxs)("div", {
 				className: "sg-empty",
 				children: [
-					/* @__PURE__ */ (0, I.jsx)("h3", { children: "Aucune inspiration trouvée" }),
-					/* @__PURE__ */ (0, I.jsx)("p", { children: "Essayez un autre mot ou explorez toutes les catégories." }),
-					/* @__PURE__ */ (0, I.jsx)("button", {
+					/* @__PURE__ */ (0, R.jsx)("h3", { children: "Aucune inspiration trouvée" }),
+					/* @__PURE__ */ (0, R.jsx)("p", { children: "Essayez un autre mot ou explorez toutes les catégories." }),
+					/* @__PURE__ */ (0, R.jsx)("button", {
 						type: "button",
 						onClick: () => {
 							n(""), i("all");
@@ -2699,29 +2736,29 @@ function ke({ onChoose: e }) {
 					})
 				]
 			}) : null,
-			/* @__PURE__ */ (0, I.jsx)("p", {
+			/* @__PURE__ */ (0, R.jsx)("p", {
 				className: "sg-note",
 				children: "Aperçus interactifs avec données de démonstration. Votre choix prépare une idée à adapter, pas une application déjà construite."
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("dialog", {
+			/* @__PURE__ */ (0, R.jsxs)("dialog", {
 				ref: s,
 				className: "sg-dialog",
 				"aria-labelledby": d,
-				"aria-describedby": p,
+				"aria-describedby": f,
 				onClose: _,
 				onCancel: (e) => {
 					e.preventDefault(), s.current?.close();
 				},
 				children: [
-					/* @__PURE__ */ (0, I.jsxs)("header", {
+					/* @__PURE__ */ (0, R.jsxs)("header", {
 						className: "sg-dialog-heading",
-						children: [/* @__PURE__ */ (0, I.jsxs)("div", { children: [/* @__PURE__ */ (0, I.jsx)("span", {
+						children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [/* @__PURE__ */ (0, R.jsx)("span", {
 							className: "sg-eyebrow",
 							children: "EXPLORER UNE INSPIRATION"
-						}), /* @__PURE__ */ (0, I.jsx)("h2", {
+						}), /* @__PURE__ */ (0, R.jsx)("h2", {
 							id: d,
 							children: a?.title
-						})] }), /* @__PURE__ */ (0, I.jsx)("button", {
+						})] }), /* @__PURE__ */ (0, R.jsx)("button", {
 							className: "sg-close",
 							type: "button",
 							"aria-label": "Fermer l’aperçu",
@@ -2729,28 +2766,28 @@ function ke({ onChoose: e }) {
 							children: "×"
 						})]
 					}),
-					/* @__PURE__ */ (0, I.jsxs)("div", {
+					/* @__PURE__ */ (0, R.jsxs)("div", {
 						className: "sg-demo-note",
-						id: p,
-						children: [/* @__PURE__ */ (0, I.jsx)("span", { children: "Démo interactive" }), /* @__PURE__ */ (0, I.jsxs)("p", { children: [a?.interaction, " Les changements restent dans cet aperçu."] })]
+						id: f,
+						children: [/* @__PURE__ */ (0, R.jsx)("span", { children: "Démo interactive" }), /* @__PURE__ */ (0, R.jsxs)("p", { children: [a?.interaction, " Les changements restent dans cet aperçu."] })]
 					}),
-					/* @__PURE__ */ (0, I.jsx)("div", {
+					/* @__PURE__ */ (0, R.jsx)("div", {
 						className: "sg-live-preview",
-						children: h ? /* @__PURE__ */ (0, I.jsx)(h, {}, a?.id) : null
+						children: h ? /* @__PURE__ */ (0, R.jsx)(h, {}, a?.id) : null
 					}),
-					/* @__PURE__ */ (0, I.jsxs)("footer", {
+					/* @__PURE__ */ (0, R.jsxs)("footer", {
 						className: "sg-dialog-footer",
-						children: [/* @__PURE__ */ (0, I.jsxs)("p", { children: [
+						children: [/* @__PURE__ */ (0, R.jsxs)("p", { children: [
 							"Cette inspiration prépare votre brief et sa direction visuelle.",
-							/* @__PURE__ */ (0, I.jsx)("br", {}),
+							/* @__PURE__ */ (0, R.jsx)("br", {}),
 							"Aucun modèle source n’est importé."
-						] }), /* @__PURE__ */ (0, I.jsxs)("button", {
+						] }), /* @__PURE__ */ (0, R.jsxs)("button", {
 							type: "button",
 							className: "sg-use",
 							onClick: () => {
 								a && !l.current && (l.current = { ...a.seed }, s.current?.close());
 							},
-							children: ["Utiliser cette idée ", /* @__PURE__ */ (0, I.jsx)("span", {
+							children: ["Utiliser cette idée ", /* @__PURE__ */ (0, R.jsx)("span", {
 								"aria-hidden": "true",
 								children: "↗"
 							})]
@@ -2763,16 +2800,16 @@ function ke({ onChoose: e }) {
 }
 //#endregion
 //#region studio-ui/src/features/home/components/HomeView.tsx
-function Ae(e) {
-	let t = E(e), [n, r] = (0, f.useState)({
+function je(e) {
+	let t = O(e), [n, r] = (0, m.useState)({
 		open: !1,
 		kind: "new"
-	}), i = (0, f.useRef)(null), a = (0, f.useRef)(null), [o, s] = (0, f.useState)(), [c, l] = (0, f.useState)("composer"), [u, d] = (0, f.useState)(null), p = (0, f.useRef)(!1), m = c === "composer" ? t.operation : {
+	}), i = (0, m.useRef)(null), a = (0, m.useRef)(null), [o, s] = (0, m.useState)(), [c, l] = (0, m.useState)("composer"), [u, d] = (0, m.useState)(null), f = (0, m.useRef)(!1), p = c === "composer" ? t.operation : {
 		phase: t.operation.phase,
 		project: null,
 		error: ""
-	}, h = F({
-		operation: m,
+	}, h = L({
+		operation: p,
 		onSubmit: (e, n) => {
 			l("composer"), t.run(e, n);
 		},
@@ -2780,13 +2817,13 @@ function Ae(e) {
 		seed: o
 	}), g = h.busy;
 	async function _(e) {
-		if (g || p.current) return;
-		p.current = !0, d(null), h.approveDeparture(), l("project");
+		if (g || f.current) return;
+		f.current = !0, d(null), h.approveDeparture(), l("project");
 		let n = await t.run(e);
-		p.current = !1, n || h.cancelDeparture();
+		f.current = !1, n || h.cancelDeparture();
 	}
 	function v(e) {
-		g || p.current || (h.hasUnsavedContent ? (n.open || (i.current = document.activeElement), d(e)) : _(e));
+		g || f.current || (h.hasUnsavedContent ? (n.open || (i.current = document.activeElement), d(e)) : _(e));
 	}
 	function y() {
 		d(null), n.open || i.current?.focus();
@@ -2803,96 +2840,96 @@ function Ae(e) {
 			open: !1
 		})), i.current?.focus());
 	}
-	return /* @__PURE__ */ (0, I.jsxs)("div", {
+	return /* @__PURE__ */ (0, R.jsxs)("div", {
 		className: "home-shell",
 		children: [
-			/* @__PURE__ */ (0, I.jsx)("a", {
+			/* @__PURE__ */ (0, R.jsx)("a", {
 				className: "home-skip",
 				href: "#home-main",
 				children: "Aller aux projets"
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("header", {
+			/* @__PURE__ */ (0, R.jsxs)("header", {
 				className: "home-header",
-				children: [/* @__PURE__ */ (0, I.jsxs)("a", {
+				children: [/* @__PURE__ */ (0, R.jsxs)("a", {
 					className: "home-brand",
 					href: "/",
 					"aria-label": "DevMethod, accueil",
-					children: [/* @__PURE__ */ (0, I.jsxs)("span", {
+					children: [/* @__PURE__ */ (0, R.jsxs)("span", {
 						className: "home-mark",
 						"aria-hidden": "true",
-						children: ["D", /* @__PURE__ */ (0, I.jsx)("span", { children: "·" })]
-					}), /* @__PURE__ */ (0, I.jsxs)("span", { children: ["DevMethod ", /* @__PURE__ */ (0, I.jsx)("small", { children: "Studio" })] })]
-				}), /* @__PURE__ */ (0, I.jsxs)("nav", {
+						children: ["D", /* @__PURE__ */ (0, R.jsx)("span", { children: "·" })]
+					}), /* @__PURE__ */ (0, R.jsxs)("span", { children: ["DevMethod ", /* @__PURE__ */ (0, R.jsx)("small", { children: "Studio" })] })]
+				}), /* @__PURE__ */ (0, R.jsxs)("nav", {
 					className: "home-nav",
 					"aria-label": "Accueil",
 					children: [
-						/* @__PURE__ */ (0, I.jsx)("a", {
+						/* @__PURE__ */ (0, R.jsx)("a", {
 							href: "#home-recents-title",
 							children: "Mes projets"
 						}),
-						/* @__PURE__ */ (0, I.jsx)("a", {
+						/* @__PURE__ */ (0, R.jsx)("a", {
 							href: "#home-inspirations",
 							children: "Galerie"
 						}),
-						/* @__PURE__ */ (0, I.jsxs)("span", {
+						/* @__PURE__ */ (0, R.jsxs)("span", {
 							className: "home-local",
-							children: [/* @__PURE__ */ (0, I.jsx)("span", { "aria-hidden": "true" }), " Espace local"]
+							children: [/* @__PURE__ */ (0, R.jsx)("span", { "aria-hidden": "true" }), " Espace local"]
 						})
 					]
 				})]
 			}),
-			/* @__PURE__ */ (0, I.jsxs)("main", {
+			/* @__PURE__ */ (0, R.jsxs)("main", {
 				id: "home-main",
 				children: [
-					/* @__PURE__ */ (0, I.jsxs)("section", {
+					/* @__PURE__ */ (0, R.jsxs)("section", {
 						className: "home-hero",
 						"aria-labelledby": "home-title",
 						children: [
-							/* @__PURE__ */ (0, I.jsx)("span", {
+							/* @__PURE__ */ (0, R.jsx)("span", {
 								className: "home-eyebrow",
 								children: "L’espace où vos idées prennent forme"
 							}),
-							/* @__PURE__ */ (0, I.jsxs)("h1", {
+							/* @__PURE__ */ (0, R.jsxs)("h1", {
 								id: "home-title",
-								children: ["Que voulez-vous ", /* @__PURE__ */ (0, I.jsx)("span", { children: "créer ?" })]
+								children: ["Que voulez-vous ", /* @__PURE__ */ (0, R.jsx)("span", { children: "créer ?" })]
 							}),
-							/* @__PURE__ */ (0, I.jsxs)("p", { children: [
+							/* @__PURE__ */ (0, R.jsxs)("p", { children: [
 								"Un site, une application, une nouvelle façon de travailler.",
-								/* @__PURE__ */ (0, I.jsx)("br", { className: "home-title-break" }),
+								/* @__PURE__ */ (0, R.jsx)("br", { className: "home-title-break" }),
 								" Décrivez votre idée et construisons la suite."
 							] }),
-							/* @__PURE__ */ (0, I.jsx)(ve, {
-								operation: m,
+							/* @__PURE__ */ (0, R.jsx)(ye, {
+								operation: p,
 								composer: h
 							}),
-							/* @__PURE__ */ (0, I.jsxs)("div", {
+							/* @__PURE__ */ (0, R.jsxs)("div", {
 								className: "home-start-alternatives",
 								children: [
-									/* @__PURE__ */ (0, I.jsx)("span", { children: "Ou partez de l’existant" }),
-									/* @__PURE__ */ (0, I.jsxs)("button", {
+									/* @__PURE__ */ (0, R.jsx)("span", { children: "Ou partez de l’existant" }),
+									/* @__PURE__ */ (0, R.jsxs)("button", {
 										type: "button",
 										disabled: g,
 										onClick: (e) => b("imported", e.currentTarget),
-										children: [/* @__PURE__ */ (0, I.jsx)(L, { kind: "imported" }), " Importer un projet"]
+										children: [/* @__PURE__ */ (0, R.jsx)(z, { kind: "imported" }), " Importer un projet"]
 									}),
-									/* @__PURE__ */ (0, I.jsxs)("button", {
+									/* @__PURE__ */ (0, R.jsxs)("button", {
 										type: "button",
 										disabled: g,
 										onClick: (e) => {
 											t.projects.length && a.current ? (a.current.scrollIntoView?.({ block: "center" }), a.current.focus()) : b("existing", e.currentTarget);
 										},
-										children: [/* @__PURE__ */ (0, I.jsx)(L, { kind: "existing" }), " Reprendre un projet"]
+										children: [/* @__PURE__ */ (0, R.jsx)(z, { kind: "existing" }), " Reprendre un projet"]
 									})
 								]
 							})
 						]
 					}),
-					!n.open && c === "project" && t.operation.error ? /* @__PURE__ */ (0, I.jsx)("p", {
+					!n.open && c === "project" && t.operation.error ? /* @__PURE__ */ (0, R.jsx)("p", {
 						role: "alert",
 						className: "home-error",
 						children: t.operation.error
 					}) : null,
-					!n.open && c === "project" && g ? /* @__PURE__ */ (0, I.jsxs)("p", {
+					!n.open && c === "project" && g ? /* @__PURE__ */ (0, R.jsxs)("p", {
 						role: "status",
 						className: "home-opening",
 						children: [
@@ -2901,7 +2938,7 @@ function Ae(e) {
 							" »…"
 						]
 					}) : null,
-					/* @__PURE__ */ (0, I.jsx)(ce, {
+					/* @__PURE__ */ (0, R.jsx)(le, {
 						projects: t.projects,
 						loading: t.loading,
 						error: t.loadError,
@@ -2911,9 +2948,9 @@ function Ae(e) {
 						onOpen: v,
 						onOther: (e) => b("existing", e)
 					}),
-					/* @__PURE__ */ (0, I.jsx)("div", {
+					/* @__PURE__ */ (0, R.jsx)("div", {
 						id: "home-inspirations",
-						children: /* @__PURE__ */ (0, I.jsx)(ke, { onChoose: (e) => {
+						children: /* @__PURE__ */ (0, R.jsx)(Ae, { onChoose: (e) => {
 							t.clearOperation(), s((t) => ({
 								...e,
 								id: (t?.id ?? 0) + 1
@@ -2922,11 +2959,11 @@ function Ae(e) {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, I.jsx)("footer", {
+			/* @__PURE__ */ (0, R.jsx)("footer", {
 				className: "home-footer",
 				children: "Votre espace de création. Vos projets et leurs références restent sur cet ordinateur."
 			}),
-			/* @__PURE__ */ (0, I.jsx)(H, {
+			/* @__PURE__ */ (0, R.jsx)(W, {
 				...n,
 				open: n.open || !!u,
 				departure: u ? {
@@ -2943,11 +2980,11 @@ function Ae(e) {
 }
 //#endregion
 //#region studio-ui/src/home-widget.tsx
-function Q(e, t = {}) {
-	let n = (0, p.createRoot)(e);
-	return n.render(/* @__PURE__ */ (0, I.jsx)(Ae, { ...t })), { dispose: () => n.unmount() };
+function Me(e, t = {}) {
+	let n = (0, h.createRoot)(e);
+	return n.render(/* @__PURE__ */ (0, R.jsx)(je, { ...t })), { dispose: () => n.unmount() };
 }
 var $ = document.getElementById("studio-home");
-$ && Q($);
+$ && Me($);
 //#endregion
-export { Q as mountHomeWidget };
+export { Me as mountHomeWidget };

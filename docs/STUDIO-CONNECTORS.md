@@ -20,7 +20,8 @@ l’identité. Le catalogue ne remplace pas le choix architectural du projet.
 ## Serveurs MCP de l’espace
 
 Depuis l’accueil : Outils → Serveurs MCP de l’espace. Notion, Linear et Sentry proposent
-un démarrage OAuth réel ; un serveur personnalisé accepte OAuth, Bearer ou aucun secret.
+un démarrage OAuth réel ; GitHub pour l’assistant utilise un jeton personnel ciblé, avec
+un endpoint en lecture seule par défaut. Un serveur personnalisé accepte OAuth, Bearer ou aucun secret.
 L’autorisation du fournisseur reste une étape explicite. Le statut connecté apparaît
 seulement après initialisation et découverte des outils. « Utiliser pour ce projet »
 active une connexion dans le prompt, sans la copier ni la connecter à nouveau.
@@ -39,11 +40,27 @@ devmethod studio mcp call --workspace /chemin/projet --file appel.json
 ```
 
 `outils.json` contient `jobId`, `connectionId` et éventuellement `toolName` pour consulter
-son schéma. `appel.json` contient `jobId`, `connectionId`, `toolName` et `arguments`.
+son schéma. `appel.json` contient `requestId` (identifiant stable recommandé), `jobId`,
+`connectionId`, `toolName` et `arguments`. Une répétition identique restitue la même action.
 Le CLI utilise l’authentification worker locale. Une connexion doit être sélectionnée lors
 de la prise en charge et rester sélectionnée/active. L’outil, sa version et le schéma des
 arguments sont vérifiés. Une sélection n’autorise pas toute écriture externe : l’agent
 respecte la demande utilisateur et les consentements nécessaires.
+
+La fiche « Compte et permissions » applique trois règles : Autoriser, Demander (défaut),
+Interdire. Le pont retient la règle la plus restrictive entre le début de mission et
+l’état courant. Les outils nouveaux ou modifiés demandent un nouvel accord. Pour Demander,
+une carte affiche service, outil, destination et arguments ; seul le clic humain peut
+accorder cette action, dans les dix minutes. Un résultat inconnu après interruption ne
+se relance pas automatiquement. Les politiques ne contrôlent pas les outils externes
+appelés directement par l’agent hôte.
+
+Les guides Slack, Notion, Linear et GitHub conservent leurs étapes et réponses. L’agent
+peut demander un questionnaire connu avec `devmethod studio guide-request --workspace …
+--file demande.json`, puis lire les réponses avec `guide-responses`. Une préparation
+n’est jamais présentée comme une connexion. Les interactions restent séparées du
+contexte initial immuable, des propositions de design et du progrès déclaré. Voir les
+[contrats et limites de l’ADR 026](ADR-026-connector-permissions-and-interactions.md).
 
 Le runner natif isolé n’a pas accès à ces connexions. Un Studio ouvert directement sans
 l’accueil indique l’indisponibilité du gestionnaire partagé. OAuth exige un fournisseur

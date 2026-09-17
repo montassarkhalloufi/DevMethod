@@ -120,35 +120,38 @@ export function ConnectionDetail(props: Props) {
       {props.guidePanel}
       <ConfigurationConflict draft={draft} version={connection?.version || 0} />
       <form onSubmit={(event) => void configure(event)}>
-        <label>
-          Profil dans l’agent hôte{' '}
-          <input
-            value={profile}
-            onChange={(event) => onDraft({ profile: event.target.value })}
-            disabled={busy}
-            name="connector-profile"
-            autoComplete="off"
-            placeholder="host:mon-profil"
-            pattern="host:[A-Za-z0-9_.-]+"
-          />
-        </label>
-        <label>
-          Références des accès, une par ligne{' '}
-          <textarea
-            value={references}
-            onChange={(event) => onDraft({ references: event.target.value })}
-            disabled={busy}
-            name="connector-secret-references"
-            autoComplete="off"
-            spellCheck={false}
-            placeholder={'env:NOM_DE_VARIABLE\nhost:nom-du-secret'}
-            rows={2}
-          />
-        </label>
-        <p className="connector-note">
-          Indiquez les noms des accès conservés dans l’hôte. Ne collez aucune clé secrète.
-          Enregistrer ne connecte ni n’installe un service.
-        </p>
+        <details className="connector-advanced">
+          <summary>Configuration avancée</summary>
+          <label>
+            Profil dans l’agent hôte{' '}
+            <input
+              value={profile}
+              onChange={(event) => onDraft({ profile: event.target.value })}
+              disabled={busy}
+              name="connector-profile"
+              autoComplete="off"
+              placeholder="host:mon-profil"
+              pattern="host:[A-Za-z0-9_.-]+"
+            />
+          </label>
+          <label>
+            Références des accès, une par ligne{' '}
+            <textarea
+              value={references}
+              onChange={(event) => onDraft({ references: event.target.value })}
+              disabled={busy}
+              name="connector-secret-references"
+              autoComplete="off"
+              spellCheck={false}
+              placeholder={'env:NOM_DE_VARIABLE\nhost:nom-du-secret'}
+              rows={2}
+            />
+          </label>
+          <p className="connector-note">
+            Indiquez les noms des accès conservés dans l’hôte. Ne collez aucune clé secrète.
+            Enregistrer ne connecte ni n’installe un service.
+          </p>
+        </details>
         <button type="submit" disabled={busy || props.guideReady === false}>
           {connection ? 'Enregistrer les réglages' : 'Enregistrer la configuration'}
         </button>

@@ -402,3 +402,140 @@
     font-size: 16px;
   }
 }
+
+.mcp-connection-detail {
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 1px solid #40516b;
+}
+.mcp-permissions {
+  margin-top: 20px;
+}
+.mcp-permission-global,
+.mcp-permission-tools > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+}
+.mcp-permission-global {
+  align-items: center;
+}
+.mcp-permission-global select,
+.mcp-permission-tools select {
+  width: 140px;
+  flex: none;
+}
+.mcp-permission-tools {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  max-height: 420px;
+  overflow: auto;
+}
+.mcp-permission-tools > li {
+  padding: 14px 0;
+  border-top: 1px solid #354863;
+}
+.mcp-permission-tools > li > div {
+  min-width: 0;
+}
+.mcp-permission-tools strong {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.mcp-permission-tools small {
+  display: block;
+  font-size: 10px;
+  color: #aebed4;
+  overflow-wrap: anywhere;
+}
+.mcp-permission-tools p {
+  margin: 6px 0 0;
+  color: #aebed4;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.mcp-credential-form {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+.mcp-credential-form label {
+  display: grid;
+  gap: 8px;
+}
+.mcp-credential-form input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.mcp-action-cards {
+  display: grid;
+  gap: 12px;
+  margin: 14px 0;
+}
+.mcp-action-card {
+  padding: 16px;
+  background: #17253b;
+  border: 1px solid #58668a;
+  border-radius: 12px;
+  min-width: 0;
+}
+.mcp-action-card header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+.mcp-action-card header span {
+  font-size: 11px;
+  color: #d4c2fa;
+}
+.mcp-action-card h3 {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.mcp-action-card summary {
+  cursor: pointer;
+  font-size: 12px;
+}
+.mcp-action-card pre {
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  background: #0d192b;
+  padding: 12px;
+  border-radius: 8px;
+}
+.mcp-action-card p {
+  font-size: 12px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.connector-advanced {
+  margin: 12px 0;
+}
+.connector-advanced summary {
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+@media (max-width: 620px) {
+  .mcp-permission-tools > li {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .mcp-permission-tools label,
+  .mcp-permission-tools select {
+    width: 100%;
+  }
+  .mcp-permission-global {
+    flex-wrap: wrap;
+  }
+  .mcp-credential-form input {
+    font-size: 16px;
+  }
+}

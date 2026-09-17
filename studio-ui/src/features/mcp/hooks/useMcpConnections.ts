@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { mcpAuthorizationUrl, readMcpConnection, readMcpIndex } from '../model/mcp';
+import { notifyMcpChange, onMcpChange } from '../model/change-events';
 import type { McpConnection, McpConnectInput, McpIndex } from '../model/mcp';
 
 async function request(route: string, signal: AbortSignal, input?: object) {
@@ -61,13 +62,20 @@ export function useMcpConnections(
   const listing = useRef<AbortController | null>(null);
   const mutation = useRef<AbortController | null>(null);
   const popup = useRef<Window | null>(null);
+  const changeSource = useRef(Symbol());
+  const refreshQueued = useRef(false);
   const connected = useRef(onConnected);
   const disconnected = useRef(onDisconnected);
   useEffect(() => {
     connected.current = onConnected;
     disconnected.current = onDisconnected;
   }, [onConnected, onDisconnected]);
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (preserveError = false) => {
+    if (mutation.current) {
+      refreshQueued.current = true;
+      return;
+    }
+    refreshQueued.current = false;
     listing.current?.abort();
     const controller = new AbortController();
     listing.current = controller;
@@ -76,7 +84,7 @@ export function useMcpConnections(
       const value = readMcpIndex(await request('', controller.signal));
       if (!controller.signal.aborted) {
         setIndex(value);
-        setError('');
+        if (!preserveError) setError('');
       }
     } catch (cause) {
       if (!controller.signal.aborted)
@@ -86,13 +94,21 @@ export function useMcpConnections(
     }
   }, []);
   useEffect(() => {
+    const unsubscribe = onMcpChange('connections', changeSource.current, () => void refresh(true));
     void refresh();
     return () => {
+      unsubscribe();
       listing.current?.abort();
       mutation.current?.abort();
       popup.current?.close();
     };
   }, [refresh]);
+  function finishMutation(controller: AbortController) {
+    if (mutation.current !== controller) return;
+    mutation.current = null;
+    setActive(null);
+    if (refreshQueued.current && !controller.signal.aborted) void refresh(true);
+  }
   function remember(connection: McpConnection) {
     listing.current?.abort();
     setLoading(false);
@@ -100,6 +116,7 @@ export function useMcpConnections(
       ...current,
       connections: [...current.connections.filter((item) => item.id !== connection.id), connection],
     }));
+    notifyMcpChange('connections', changeSource.current);
   }
   async function poll(id: string, controller: AbortController) {
     const deadline = Date.now() + 10 * 60 * 1000;
@@ -113,6 +130,7 @@ export function useMcpConnections(
       if (connection?.status === 'connected') {
         popup.current?.close();
         connected.current(id);
+        notifyMcpChange('connections', changeSource.current);
         return;
       }
       if (!connection || ['error', 'disconnected'].includes(connection.status))
@@ -125,6 +143,8 @@ export function useMcpConnections(
     if (mutation.current) return;
     const controller = new AbortController();
     mutation.current = controller;
+    listing.current?.abort();
+    setLoading(false);
     setError('');
     setActive({ id: input.id || null, authorizing: false });
     try {
@@ -154,15 +174,14 @@ export function useMcpConnections(
       if (!controller.signal.aborted)
         setError(cause instanceof Error ? cause.message : 'Connexion MCP interrompue.');
     } finally {
-      if (mutation.current === controller) {
-        mutation.current = null;
-        setActive(null);
-      }
+      finishMutation(controller);
     }
   }
   async function change(id: string, action: 'refresh' | 'disconnect') {
     if (mutation.current && !(active?.id === id && action === 'disconnect')) return;
     mutation.current?.abort();
+    listing.current?.abort();
+    setLoading(false);
     popup.current?.close();
     const controller = new AbortController();
     mutation.current = controller;
@@ -182,10 +201,7 @@ export function useMcpConnections(
       if (!controller.signal.aborted)
         setError(cause instanceof Error ? cause.message : 'Mise à jour MCP impossible.');
     } finally {
-      if (mutation.current === controller) {
-        mutation.current = null;
-        setActive(null);
-      }
+      finishMutation(controller);
     }
   }
   return {

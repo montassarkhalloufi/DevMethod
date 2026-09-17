@@ -287,6 +287,7 @@ export function ProgressView(props: ProgressWidgetProps) {
           </select>
         </label>
       ) : null}
+      {props.renderInteractions?.(job)}
       <JobProgress key={job.id} job={job} {...props} />
     </section>
   );

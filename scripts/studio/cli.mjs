@@ -52,9 +52,9 @@ function argumentsFor(args) {
 
 function studioCommand(positional, options) {
   if (positional[0] === 'mcp' && !options.help) {
-    if (positional.length !== 2 || !['tools', 'call'].includes(positional[1]))
+    if (positional.length !== 2 || !['tools', 'call', 'actions'].includes(positional[1]))
       throw new Error(
-        'Commande MCP : devmethod studio mcp tools|call --workspace /projet --file payload.json.',
+        'Commande MCP : devmethod studio mcp tools|call|actions --workspace /projet --file payload.json.',
       );
     return 'mcp-' + positional[1];
   }
@@ -94,10 +94,10 @@ export async function runStudioCli(args) {
     const { options, command } = argumentsFor(args);
     if (options.help) {
       console.log(
-        'devmethod studio [home|serve|import|example|status|claim|progress|finish|fail|check|connectors|connector-probe|connector-result|restore|example-react] [--workspace /dossier]\nAccueil : devmethod studio ; créer, importer ou reprendre un projet.\nhome : [--workspace /bibliothèque] [--port 4330] ; bibliothèque par défaut ~/.devmethod/studio-home.\nImport : --source /projet/existant --workspace /dossier/vide/distinct [--dry-run] ; copie locale sans exécuter de scripts ni installer de dépendances.\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nprogress/finish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nconnectors : lecture des connexions ; connector-probe/connector-result : --file payload.json (64 Kio maximum).\nprogress : {jobId,eventId,event} ; événement plan ou action pendant la mission, déclaration distincte des preuves.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
+        'devmethod studio [home|serve|import|example|status|claim|progress|finish|fail|check|connectors|connector-probe|connector-result|guide-request|guide-responses|restore|example-react] [--workspace /dossier]\nAccueil : devmethod studio ; créer, importer ou reprendre un projet.\nhome : [--workspace /bibliothèque] [--port 4330] ; bibliothèque par défaut ~/.devmethod/studio-home.\nImport : --source /projet/existant --workspace /dossier/vide/distinct [--dry-run] ; copie locale sans exécuter de scripts ni installer de dépendances.\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nprogress/finish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nconnectors : lecture des connexions ; connector-probe/connector-result : --file payload.json (64 Kio maximum).\nprogress : {jobId,eventId,event} ; événement plan ou action pendant la mission, déclaration distincte des preuves.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
       );
       console.log(
-        'mcp tools|call : --workspace /projet --file payload.json (64 Kio maximum), pont hôte manuel uniquement. tools : {jobId,connectionId,toolName?} ; call : {jobId,connectionId,toolName,arguments}. Connexion sélectionnée et mission active requises.',
+        'mcp tools|call|actions : --workspace /projet --file payload.json (64 Kio maximum), pont hôte manuel uniquement. tools : {jobId,connectionId,toolName?} ; call : {requestId,jobId,connectionId,toolName,arguments} ; actions : {jobId?,requestId?}. Conservez requestId pour relire le résultat sans répéter l’action. Connexion sélectionnée et mission active requises.',
       );
       return;
     }
@@ -183,6 +183,9 @@ async function workerCommand(command, options) {
     'connector-result': 65536,
     'mcp-tools': 65536,
     'mcp-call': 65536,
+    'mcp-actions': 4096,
+    'guide-request': 65536,
+    'guide-responses': 4096,
   }[command];
   if (maximum && !options.file) throw new Error(`${command} nécessite --file payload.json.`);
   if (maximum && fs.statSync(options.file).size > maximum)
@@ -197,6 +200,9 @@ async function workerCommand(command, options) {
     'connector-result': '/api/connectors/results',
     'mcp-tools': '/api/mcp/tools',
     'mcp-call': '/api/mcp/call',
+    'mcp-actions': '/api/mcp/actions',
+    'guide-request': '/api/connectors/interactions/request',
+    'guide-responses': '/api/connectors/interactions',
     finish: '/api/jobs/finish',
     fail: '/api/jobs/fail',
     check: '/api/checks',
@@ -208,7 +214,9 @@ async function workerCommand(command, options) {
       : options.file
         ? readWorkerJSON(options.file, command)
         : {};
-  const mcp = ['mcp-tools', 'mcp-call'].includes(command)
+  const mcp = ['mcp-tools', 'mcp-call', 'mcp-actions', 'guide-request', 'guide-responses'].includes(
+    command,
+  )
     ? mcpWorkerRequest(command, input, runtime)
     : null;
   const response = await fetch(

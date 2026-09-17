@@ -1,3 +1,6 @@
+import { createConnectorInteractions } from './connector-interactions.mjs';
+import { createConnectorGuideDrafts } from './connector-interactions-drafts.mjs';
+import { connectorInteractionRoute } from './connector-interactions-routes.mjs';
 import { connectorGuideRoute } from './connector-guide-routes.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -359,12 +362,15 @@ export async function startStudio({
   agent = null,
   homeUrl,
   mcpManager,
+  mcpUsage,
 }) {
   const packageRoot = fileURLToPath(new URL('../../', import.meta.url));
   if (path.resolve(workspace) === path.resolve(packageRoot))
     throw new Error('Choisissez un dossier dédié au produit, distinct du dépôt DevMethod.');
   const store = createStudioStore(workspace),
     mcpBroker = createMcpBroker({ store, manager: mcpManager }),
+    interactions = createConnectorInteractions(store, { mcpManager }),
+    guideDrafts = createConnectorGuideDrafts(store.root, { scope: 'project' }),
     jobs = createJobs(store, { mcpContext: mcpBroker.claimContext }),
     token = randomUUID();
   let url, previewOrigin, editorPreviewOrigin, comparisonPreviewOrigin, runner;
@@ -436,13 +442,22 @@ export async function startStudio({
     tools: projectTools(store, editor),
     wake: () => runner?.wake(),
   };
-  const globalMcpRoutes = createMcpRoutes(mcpManager, () => url);
+  const globalMcpRoutes = createMcpRoutes(mcpManager, () => url, { getUsage: mcpUsage });
   const server = http.createServer(async (request, response) => {
     try {
       if (request.headers.host !== new URL(url).host)
         return send(response, 403, { error: 'Hôte non autorisé.' });
       const requestUrl = new URL(request.url, url);
       if (await connectorGuideRoute(request, response, requestUrl, url)) return;
+      if (
+        await connectorInteractionRoute(request, response, requestUrl, {
+          origin: url,
+          worker: authorized(request, token),
+          interactions,
+          drafts: guideDrafts,
+        })
+      )
+        return;
       if (
         await mcpBrokerRoute(requestUrl, request, response, {
           broker: mcpBroker,

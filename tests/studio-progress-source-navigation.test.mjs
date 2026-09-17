@@ -18,7 +18,7 @@ const bundle = await build({
   format: 'iife',
   globalName: 'NavigationTest',
   jsx: 'automatic',
-  loader: { '.css': 'empty' },
+  loader: { '.css': 'empty', '.svg': 'dataurl' },
   define: { 'process.env.NODE_ENV': '"test"' },
   plugins: [
     {
@@ -89,26 +89,33 @@ async function fixture(t, otherActive = false) {
   const { document } = dom.window;
   document.body.removeAttribute('data-studio');
   dom.window.structuredClone = structuredClone;
-  dom.window.fetch = async (url) => ({
-    ok: String(url).startsWith('/api/editor?'),
-    json: async () =>
-      String(url).startsWith('/api/editor?')
-        ? {
-            version: 1,
-            baseRevision: state.activeRevision,
-            files: files.map((file) => ({
-              path: file.path,
-              content: 'brouillon initial',
-              editable: true,
-            })),
-            diagnostics: [],
-            changedPaths: [],
-            criteriaToReview: [],
-            buildId: null,
-            builtVersion: null,
-          }
-        : { error: 'Analyse indisponible dans cette fixture de navigation' },
-  });
+  dom.window.fetch = async (url) => {
+    const route = new URL(url, dom.window.location.origin);
+    if (route.pathname === '/api/connectors/interactions')
+      return { ok: true, json: async () => ({ interactions: [] }) };
+    if (route.pathname === '/api/mcp/actions')
+      return { ok: true, json: async () => ({ actions: [] }) };
+    return {
+      ok: String(url).startsWith('/api/editor?'),
+      json: async () =>
+        String(url).startsWith('/api/editor?')
+          ? {
+              version: 1,
+              baseRevision: state.activeRevision,
+              files: files.map((file) => ({
+                path: file.path,
+                content: 'brouillon initial',
+                editable: true,
+              })),
+              diagnostics: [],
+              changedPaths: [],
+              criteriaToReview: [],
+              buildId: null,
+              builtVersion: null,
+            }
+          : { error: 'Analyse indisponible dans cette fixture de navigation' },
+    };
+  };
   dom.window.eval(bundle.outputFiles[0].text);
   const reads = [];
   const api = {

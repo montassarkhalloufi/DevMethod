@@ -16,7 +16,7 @@ const bundle = await build({
   format: 'iife',
   globalName: 'ProgressTest',
   jsx: 'automatic',
-  loader: { '.css': 'empty' },
+  loader: { '.css': 'empty', '.svg': 'dataurl' },
   define: { 'process.env.NODE_ENV': '"test"' },
 });
 
@@ -84,6 +84,16 @@ function fixture(t, overrides = {}, configure = () => {}) {
     runScripts: 'outside-only',
     pretendToBeVisual: true,
   });
+  const unexpectedRequests = [];
+  dom.window.fetch = async (url) => {
+    const route = new URL(url, dom.window.location.origin);
+    if (route.pathname === '/api/connectors/interactions')
+      return { ok: true, json: async () => ({ interactions: [] }) };
+    if (route.pathname === '/api/mcp/actions')
+      return { ok: true, json: async () => ({ actions: [] }) };
+    unexpectedRequests.push(String(url));
+    return { ok: false, json: async () => ({ error: 'Unexpected fixture request' }) };
+  };
   configure(dom.window);
   dom.window.eval(bundle.outputFiles[0].text);
   const requests = [],
@@ -107,6 +117,7 @@ function fixture(t, overrides = {}, configure = () => {}) {
   t.after(() => {
     handle.dispose();
     dom.window.close();
+    assert.deepEqual(unexpectedRequests, []);
   });
   return { dom, document: dom.window.document, handle, props, requests, files };
 }

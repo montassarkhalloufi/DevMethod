@@ -10,6 +10,8 @@ export function useConnectorGuide({
   disabled = false,
   onChange,
   onPrepare,
+  step: controlledStep,
+  onStepChange,
 }: {
   definition: GuideDefinition;
   draft: GuideInput | null;
@@ -18,6 +20,8 @@ export function useConnectorGuide({
   disabled?: boolean;
   onChange(input: GuideInput): void;
   onPrepare(input: GuideInput): void;
+  step?: number;
+  onStepChange?(step: number): void;
 }) {
   const input =
     draft?.optionId === definition.optionId && draft.guideVersion === definition.guideVersion
@@ -28,7 +32,12 @@ export function useConnectorGuide({
     preparation && input && guideInputKey(preparation.input) === guideInputKey(input)
       ? preparation
       : null;
-  const [step, setStep] = useState(confirmed ? 2 : flow ? 1 : 0);
+  const [localStep, setLocalStep] = useState(confirmed ? 2 : flow ? 1 : 0);
+  const step = controlledStep ?? localStep;
+  function setStep(value: number) {
+    if (onStepChange) onStepChange(value);
+    else setLocalStep(value);
+  }
   const heading = useRef<HTMLHeadingElement>(null);
   const headingId = useId();
   const locked = disabled || preparing;

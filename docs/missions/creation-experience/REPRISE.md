@@ -1,3 +1,5 @@
+> Livraison suivante : [permissions MCP, interactions persistantes et GitHub](evidence/connector-permissions/RESULTS.md). Le parcours demandé ensuite consiste à créer le site DevMethod depuis Studio et corriger les défauts observés.
+
 > Mise à jour du 17 septembre : [espace technique, architecture, vérifications et défilement](TECHNICAL-CHECKPOINT.md), [accueil/composer livré](evidence/home-composer/RESULTS.md), puis [huit scénarios connecteurs Lovable et cadre d’intégration](evidence/lovable-connectors/SCENARIOS.md). Le « go » suivant a livré les [guides Slack/Notion/Linear et leur contexte structuré](evidence/guided-connectors/RESULTS.md) ; les parcours concurrentiels précédents restent des observations séparées. Les preuves historiques ci-dessous gardent leur périmètre d’origine.
 
 # Reprendre Studio — checkpoint du 16 septembre 2026

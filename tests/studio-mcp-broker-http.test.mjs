@@ -6,6 +6,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import { randomUUID } from 'node:crypto';
 import { startStudio } from '../scripts/studio/server.mjs';
 import { createMcpManager } from '../scripts/studio/mcp-manager.mjs';
 import { queueRequest } from '../scripts/studio/domain.mjs';
@@ -47,6 +48,18 @@ async function fixture(t, connected = true) {
         })
       ).connection
     : undefined;
+  if (connection) {
+    const policy = manager.policy(connection.id);
+    manager.setPolicy({
+      connectionId: connection.id,
+      version: policy.version,
+      updates: policy.tools.map((tool) => ({
+        toolName: tool.name,
+        inputSchemaFingerprint: tool.inputSchemaFingerprint,
+        permission: 'allow',
+      })),
+    });
+  }
   studio = await startStudio({
     workspace: path.join(root, 'project'),
     port: 0,
@@ -121,7 +134,11 @@ test('real local MCP transport is callable from worker CLI only for the selected
   assert.equal(f.service.state.calls, 1);
   assert.deepEqual(f.studio.store.read(), before);
   f.service.state.toolError = true;
-  const refused = await f.post('/api/mcp/call', payload, f.worker());
+  const refused = await f.post(
+    '/api/mcp/call',
+    { ...payload, requestId: randomUUID() },
+    f.worker(),
+  );
   assert.equal(refused.status, 200);
   assert.equal(refused.body.isError, true);
   assert.equal(f.service.state.calls, 2);
@@ -148,10 +165,114 @@ test('real local MCP transport is callable from worker CLI only for the selected
   assert.equal(f.studio.store.read().revisions.length, 0);
 });
 
+test('HTTP policies and action approvals require the person; exact pending call runs only once after consent', async (t) => {
+  const f = await fixture(t),
+    url = f.studio.runtime().url;
+  const read = async (route, headers = {}) => {
+    const response = await fetch(url + route, { headers });
+    return { status: response.status, body: await response.json() };
+  };
+  const policyPath = '/api/mcp/policy?connectionId=' + f.connection.id;
+  const policy = await read(policyPath);
+  assert.equal(policy.status, 200);
+  const updates = policy.body.tools.map((tool) => ({
+    toolName: tool.name,
+    inputSchemaFingerprint: tool.inputSchemaFingerprint,
+    permission: 'ask',
+  }));
+  const change = { connectionId: f.connection.id, version: policy.body.version, updates };
+  assert.equal(
+    (await f.post('/api/mcp/policy', change, { ...f.worker(), Origin: url })).status,
+    403,
+  );
+  assert.equal(
+    (await f.post('/api/mcp/policy', change, { Origin: 'https://untrusted.invalid' })).status,
+    403,
+  );
+  assert.equal((await f.post('/api/mcp/policy', change)).status, 200);
+  assert.equal((await f.post('/api/mcp/policy', change)).status, 409);
+  await f.post('/api/mcp/selection', { connectionIds: [f.connection.id] });
+  queue(f.studio);
+  const { job } = f.studio.jobs.claim('manual host');
+  const payload = {
+    requestId: randomUUID(),
+    jobId: job.id,
+    connectionId: f.connection.id,
+    toolName: 'fixture.read',
+    arguments: { query: 'A private fixture query' },
+  };
+  const pending = await f.post('/api/mcp/call', payload, f.worker());
+  assert.equal(pending.status, 202);
+  assert.equal(pending.body.status, 'pending');
+  assert.equal(f.service.state.calls, 0);
+  const decision = { requestId: payload.requestId, decision: 'allow' };
+  assert.equal(
+    (await f.post('/api/mcp/actions/decide', decision, { ...f.worker(), Origin: url })).status,
+    403,
+  );
+  assert.equal(
+    (await f.post('/api/mcp/actions/decide', decision, { Origin: 'https://untrusted.invalid' }))
+      .status,
+    403,
+  );
+  const listing = await read('/api/mcp/actions?jobId=' + job.id);
+  assert.equal(listing.body.actions[0].requestId, payload.requestId);
+  assert.equal(
+    (
+      await read('/api/mcp/actions?requestId=' + payload.requestId, {
+        Origin: 'https://untrusted.invalid',
+      })
+    ).status,
+    403,
+  );
+  assert.equal((await f.post('/api/mcp/actions/decide', decision)).status, 202);
+  let result;
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    result = (await read('/api/mcp/actions?requestId=' + payload.requestId, f.worker())).body
+      .actions[0];
+    if (result.status !== 'executing') break;
+    await new Promise((resolve) => setTimeout(resolve, 10));
+  }
+  assert.equal(result.status, 'completed');
+  assert.equal(result.result.content[0].text, 'Fixture result');
+  assert.equal((await f.post('/api/mcp/actions/decide', decision)).body.status, 'completed');
+  assert.equal((await f.post('/api/mcp/call', payload, f.worker())).body.status, 'completed');
+  assert.equal(f.service.state.calls, 1);
+});
+
+test('workers cannot manage shared MCP connections even with the person’s Origin', async (t) => {
+  const f = await fixture(t);
+  const before = f.manager.list();
+  for (const route of ['connect', 'refresh', 'disconnect']) {
+    const response = await f.post(
+      '/api/mcp/' + route,
+      { id: f.connection.id },
+      { ...f.worker(), Origin: f.studio.runtime().url },
+    );
+    assert.equal(response.status, 403, route + ' must reject worker authority before validation');
+    assert.deepEqual(f.manager.list(), before);
+  }
+});
+
 test('project selection is same-origin user-only; tool calls require worker auth and reject late jobs/extra input', async (t) => {
   const f = await fixture(t),
     selection = { connectionIds: [f.connection.id] };
   assert.equal((await f.post('/api/mcp/selection', selection, f.worker())).status, 403);
+  assert.equal(
+    (
+      await f.post('/api/mcp/selection', selection, {
+        ...f.worker(),
+        Origin: f.studio.runtime().url,
+      })
+    ).status,
+    403,
+  );
+  assert.deepEqual(
+    (await fetch(f.studio.runtime().url + '/api/mcp/selection').then((result) => result.json()))
+      .connectionIds,
+    [],
+    'A worker token with a valid Origin cannot restore or change the person’s selection',
+  );
   assert.equal(
     (await f.post('/api/mcp/selection', selection, { Origin: 'https://untrusted.invalid' })).status,
     403,
@@ -197,6 +318,48 @@ test('project selection is same-origin user-only; tool calls require worker auth
   f.studio.jobs.fail({ jobId: job.id, error: 'Explicit test interruption' });
   assert.equal((await f.post('/api/mcp/call', payload, f.worker())).status, 409);
   assert.equal(f.service.state.calls, 0);
+});
+
+test('permission is checked again after provider discovery immediately before tools/call', async (t) => {
+  const f = await fixture(t);
+  await f.post('/api/mcp/selection', { connectionIds: [f.connection.id] });
+  queue(f.studio);
+  const { job } = f.studio.jobs.claim('manual host');
+  const invoke = f.manager.invoke,
+    listed = f.service.state.listed;
+  f.manager.invoke = (id, name, args, options) =>
+    invoke(id, name, args, {
+      ...options,
+      beforeCall() {
+        assert.ok(f.service.state.listed > listed);
+        const policy = f.manager.policy(id);
+        f.manager.setPolicy({
+          connectionId: id,
+          version: policy.version,
+          updates: policy.tools.map((tool) => ({
+            toolName: tool.name,
+            inputSchemaFingerprint: tool.inputSchemaFingerprint,
+            permission: 'deny',
+          })),
+        });
+        options.beforeCall();
+      },
+    });
+  const result = await f.post(
+    '/api/mcp/call',
+    {
+      requestId: randomUUID(),
+      jobId: job.id,
+      connectionId: f.connection.id,
+      toolName: 'fixture.read',
+      arguments: {},
+    },
+    f.worker(),
+  );
+  assert.equal(result.body.status, 'cancelled');
+  assert.equal(result.body.error.code, 'policy-denied');
+  assert.equal(f.service.state.calls, 0);
+  assert.equal(f.manager.list().connections[0].status, 'connected');
 });
 
 test('standalone project honestly reports unavailable MCP and CLI documents bounded manual commands', async (t) => {

@@ -9,5 +9,7 @@ export type {
 export { guideInputKey } from './model/guides';
 export { useConnectorGuides } from './hooks/useConnectorGuides';
 export { useGuidePreparation } from './hooks/useGuidePreparation';
+export { useGuideDrafts } from './hooks/useGuideDrafts';
 export { ConnectorGuide } from './components/ConnectorGuide';
 export type { ConnectorGuideProps } from './components/ConnectorGuide';
+export { ConnectorInteractions } from '../connector-interactions';

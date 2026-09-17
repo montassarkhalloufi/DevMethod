@@ -1,10 +1,16 @@
 import { useRef, useState } from 'react';
-import { guideInputKey, useConnectorGuides, useGuidePreparation } from '../../connectors';
+import {
+  guideInputKey,
+  useConnectorGuides,
+  useGuidePreparation,
+  useGuideDrafts,
+} from '../../connectors';
 import type { GuideInput, GuidePreparation } from '../../connectors';
 
 export function useProjectGuides(onChange?: (values: GuideInput[]) => void) {
   const catalog = useConnectorGuides();
   const validation = useGuidePreparation();
+  const persistence = useGuideDrafts();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [drafts, setDrafts] = useState<Record<string, GuideInput>>({});
   const [selected, setSelected] = useState<GuideInput[]>([]);
@@ -21,11 +27,15 @@ export function useProjectGuides(onChange?: (values: GuideInput[]) => void) {
   }
   const definition = catalog.guides.find((guide) => guide.optionId === activeId) ?? null;
   const input = activeId
-    ? (drafts[activeId] ?? selected.find((item) => item.optionId === activeId) ?? null)
+    ? (drafts[activeId] ??
+      persistence.drafts[activeId]?.input ??
+      selected.find((item) => item.optionId === activeId) ??
+      null)
     : null;
-  const pending = selected.some(
-    (item) => drafts[item.optionId] && guideInputKey(item) !== guideInputKey(drafts[item.optionId]),
-  );
+  const pending = selected.some((item) => {
+    const candidate = drafts[item.optionId] ?? persistence.drafts[item.optionId]?.input;
+    return candidate && guideInputKey(item) !== guideInputKey(candidate);
+  });
 
   function open(optionId: string) {
     validation.reset();
@@ -35,6 +45,7 @@ export function useProjectGuides(onChange?: (values: GuideInput[]) => void) {
   function change(value: GuideInput) {
     validation.reset();
     setAnswers({ ...current.current.drafts, [value.optionId]: value });
+    persistence.edit(value.optionId, value, persistence.drafts[value.optionId]?.step ?? 0);
   }
   function add(values: GuideInput[]) {
     const ids = new Set([...current.current.selected, ...values].map((item) => item.optionId));
@@ -75,15 +86,20 @@ export function useProjectGuides(onChange?: (values: GuideInput[]) => void) {
     activeId,
     requestGuides: () => current.current.selected,
     ready: () =>
-      !current.current.selected.some(
-        (item) =>
-          current.current.drafts[item.optionId] &&
-          guideInputKey(item) !== guideInputKey(current.current.drafts[item.optionId]),
-      ),
+      !current.current.selected.some((item) => {
+        const candidate =
+          current.current.drafts[item.optionId] ?? persistence.drafts[item.optionId]?.input;
+        return candidate && guideInputKey(item) !== guideInputKey(candidate);
+      }),
     restore: (values: GuideInput[]) => setChoices(values, false),
     preparation: validation.preparation,
     preparing: validation.loading,
     preparationError: validation.error,
+    persistence,
+    step: activeId ? persistence.drafts[activeId]?.step : undefined,
+    setStep: (step: number) => {
+      if (activeId) persistence.edit(activeId, input, step);
+    },
     prepare: validation.prepare,
     open,
     change,

@@ -1,7 +1,8 @@
 export type McpAuth = 'oauth' | 'bearer' | 'none';
-export type McpProvider = 'notion' | 'linear' | 'sentry' | 'custom';
+export type McpProvider = 'notion' | 'linear' | 'sentry' | 'github' | 'custom';
 export interface McpConnection {
   id: string;
+  version: number;
   name: string;
   provider: McpProvider;
   url: string;
@@ -14,7 +15,7 @@ export interface McpPreset {
   id: Exclude<McpProvider, 'custom'>;
   name: string;
   url: string;
-  auth: 'oauth';
+  auth: 'oauth' | 'bearer';
   docs: string;
 }
 export interface McpIndex {
@@ -32,8 +33,8 @@ export interface McpConnectInput {
 }
 
 export function mcpDisplayName(connection: McpConnection) {
-  if (connection.provider !== 'linear') return connection.name;
-  return `${connection.name} · ${connection.url === 'https://mcp.linear.app/mcp/readonly' ? 'lecture seule' : 'accès standard'}`;
+  if (!['linear', 'github'].includes(connection.provider)) return connection.name;
+  return `${connection.name} · ${connection.url.endsWith('/readonly') ? 'lecture seule' : 'accès standard'}`;
 }
 
 export function reconnectMcpInput(connection: McpConnection): McpConnectInput {
@@ -41,7 +42,7 @@ export function reconnectMcpInput(connection: McpConnection): McpConnectInput {
     id: connection.id,
     provider: connection.provider,
     auth: connection.auth,
-    ...(connection.provider === 'linear' ? { url: connection.url } : {}),
+    ...(['linear', 'github'].includes(connection.provider) ? { url: connection.url } : {}),
     ...(connection.provider === 'custom' ? { name: connection.name, url: connection.url } : {}),
   };
 }
@@ -50,8 +51,9 @@ export function readMcpConnection(value: unknown): McpConnection {
   const item = value as McpConnection | null;
   if (
     !item ||
+    (item.version !== undefined && (!Number.isSafeInteger(item.version) || item.version < 1)) ||
     ![item.id, item.name, item.url].every((v) => typeof v === 'string' && v.length) ||
-    !['notion', 'linear', 'sentry', 'custom'].includes(item.provider) ||
+    !['notion', 'linear', 'sentry', 'github', 'custom'].includes(item.provider) ||
     !['oauth', 'bearer', 'none'].includes(item.auth) ||
     !['disconnected', 'connecting', 'authorization-required', 'connected', 'error'].includes(
       item.status,
@@ -63,6 +65,7 @@ export function readMcpConnection(value: unknown): McpConnection {
   }
   return {
     id: item.id,
+    version: item.version ?? 1,
     name: item.name,
     provider: item.provider,
     url: item.url,
@@ -91,7 +94,8 @@ export function readMcpIndex(value: unknown): McpIndex {
   const presets = item.presets.filter(
     (preset) =>
       preset &&
-      ['notion', 'linear', 'sentry'].includes(preset.id) &&
+      ['notion', 'linear', 'sentry', 'github'].includes(preset.id) &&
+      preset.auth === (preset.id === 'github' ? 'bearer' : 'oauth') &&
       typeof preset.name === 'string' &&
       typeof preset.url === 'string',
   );

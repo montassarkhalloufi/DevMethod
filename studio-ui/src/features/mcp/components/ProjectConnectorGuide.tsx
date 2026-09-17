@@ -2,6 +2,7 @@ import { ConnectorGuide } from '../../connectors';
 import type { ProjectGuides } from '../hooks/useProjectGuides';
 import type { McpConnectionsController } from '../hooks/useMcpConnections';
 import { guidedMcpInput } from '../model/guided-mcp';
+import { McpCredentialForm } from './McpCredentialForm';
 
 export function ProjectConnectorGuide({
   guide,
@@ -31,6 +32,8 @@ export function ProjectConnectorGuide({
         key={guide.definition.optionId}
         definition={guide.definition}
         draft={guide.input}
+        step={guide.step}
+        onStepChange={guide.setStep}
         preparation={guide.preparation}
         preparing={guide.preparing}
         error={guide.preparationError}
@@ -40,20 +43,33 @@ export function ProjectConnectorGuide({
         applyLabel="Ajouter à ma demande"
         onBack={guide.back}
       />
+      {guide.persistence.saving ? <p role="status">Enregistrement des réponses…</p> : null}
+      {guide.persistence.error ? (
+        <p role="alert">
+          {guide.persistence.error}{' '}
+          <button type="button" onClick={guide.persistence.retry}>
+            Réessayer l’enregistrement
+          </button>
+        </p>
+      ) : null}
       {guide.preparation?.nativeConnection ? (
         <div className="connector-guide-connect">
           <p>
             La préparation décrit votre besoin. La connexion autorise séparément l’accès de
             l’assistant.
           </p>
-          <button
-            type="button"
-            className="primary"
-            disabled={Boolean(controller.active)}
-            onClick={() => void controller.connect(guidedMcpInput(guide.preparation!))}
-          >
-            Connecter {guide.definition.title}
-          </button>
+          {guide.preparation.nativeConnection.providerId === 'github' ? (
+            <McpCredentialForm input={guidedMcpInput(guide.preparation)} controller={controller} />
+          ) : (
+            <button
+              type="button"
+              className="primary"
+              disabled={Boolean(controller.active)}
+              onClick={() => void controller.connect(guidedMcpInput(guide.preparation!))}
+            >
+              Connecter {guide.definition.title}
+            </button>
+          )}
           {controller.active ? (
             <p role="status">
               Connexion en cours. Terminez l’autorisation dans la fenêtre ouverte.

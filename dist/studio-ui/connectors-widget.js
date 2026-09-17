@@ -1,8 +1,8 @@
 import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
-import { a as r, i, n as a, o, r as s, t as c } from "./ConnectorGuide-B-paXMRz.js";
+import { a as r, c as i, n as a, o, r as s, t as c, u as l } from "./ConnectorGuide-lY7QqwYz.js";
 //#region studio-ui/src/features/connectors/model/catalog.ts
-var l = t(), u = e();
-function d(e, t, n) {
+var u = t(), d = e();
+function f(e, t, n) {
 	let r = e.filter((e) => e.checkIds.includes(n || ""));
 	for (let e of ["attested", "configured"]) {
 		let n = r.find((n) => t.some((t) => t.optionId === n.id && t.status === e));
@@ -10,28 +10,28 @@ function d(e, t, n) {
 	}
 	return r.find((e) => e.transport === "local") || r[0];
 }
-function f(e) {
+function p(e) {
 	return e.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLocaleLowerCase("fr-FR");
 }
-function p(e) {
+function m(e) {
 	return e ? e.status === "attested" ? "Disponibilité attestée" : e.status === "failed" ? "Connexion à revoir" : "Configuré · à vérifier" : "À configurer";
 }
 //#endregion
 //#region studio-ui/src/features/connectors/hooks/useConnectors.ts
-async function m(e) {
+async function h(e) {
 	let t = await e.json();
 	if (!e.ok) throw Error(t.error || "Le service des connecteurs ne répond pas.");
 	return t;
 }
-function h(e) {
-	let [t, n] = (0, l.useState)(null), [r, i] = (0, l.useState)(""), [a, o] = (0, l.useState)(!1), [s, c] = (0, l.useState)(0), u = (0, l.useRef)(0), d = (0, l.useRef)(null);
-	(0, l.useEffect)(() => {
-		let t = new AbortController(), r = ++u.current;
+function g(e) {
+	let [t, n] = (0, u.useState)(null), [r, i] = (0, u.useState)(""), [a, o] = (0, u.useState)(!1), [s, c] = (0, u.useState)(0), l = (0, u.useRef)(0), d = (0, u.useRef)(null);
+	(0, u.useEffect)(() => {
+		let t = new AbortController(), r = ++l.current;
 		return i(""), o(!1), fetch("/api/connectors?" + new URLSearchParams(e ? { revision: e } : {}), {
 			signal: AbortSignal.any([t.signal, AbortSignal.timeout(15e3)]),
 			cache: "no-store"
-		}).then(m).then((i) => {
-			if (!(r !== u.current || t.signal.aborted)) {
+		}).then(h).then((i) => {
+			if (!(r !== l.current || t.signal.aborted)) {
 				if (i.schemaVersion !== 1 || !i.catalog || !Array.isArray(i.connections)) throw Error("Catalogue illisible. Aucun état de connexion confirmé.");
 				if (e !== null && i.revisionId !== e) throw Error("Le catalogue concerne une autre version.");
 				n({
@@ -40,29 +40,29 @@ function h(e) {
 				});
 			}
 		}).catch((e) => {
-			!t.signal.aborted && r === u.current && i(e instanceof Error ? e.message : "Chargement impossible.");
+			!t.signal.aborted && r === l.current && i(e instanceof Error ? e.message : "Chargement impossible.");
 		}), () => {
-			u.current = r + 1, t.abort(), d.current?.abort(), d.current = null;
+			l.current = r + 1, t.abort(), d.current?.abort(), d.current = null;
 		};
 	}, [e, s]);
 	async function f(e, t) {
 		if (d.current) return null;
 		let n = new AbortController();
 		d.current = n;
-		let r = u.current;
+		let r = l.current;
 		o(!0), i("");
 		try {
-			let i = await m(await fetch("/api/connectors/" + e, {
+			let i = await h(await fetch("/api/connectors/" + e, {
 				method: "POST",
 				headers: { "content-type": "application/json" },
 				body: JSON.stringify(t),
 				signal: AbortSignal.any([n.signal, AbortSignal.timeout(15e3)])
 			}));
-			return n.signal.aborted || r !== u.current ? null : i;
+			return n.signal.aborted || r !== l.current ? null : i;
 		} catch (e) {
-			return !n.signal.aborted && r === u.current && i(e instanceof Error ? e.message : "Action non confirmée. Actualisez pour vérifier."), null;
+			return !n.signal.aborted && r === l.current && i(e instanceof Error ? e.message : "Action non confirmée. Actualisez pour vérifier."), null;
 		} finally {
-			r === u.current && (d.current = null, o(!1));
+			r === l.current && (d.current = null, o(!1));
 		}
 	}
 	return {
@@ -75,11 +75,11 @@ function h(e) {
 }
 //#endregion
 //#region studio-ui/src/features/connectors/components/ConnectionDetail.tsx
-var g = n();
-function _(e) {
+var _ = n();
+function v(e) {
 	return e ? e.status === "failed" ? "Échec de la vérification de connexion" : e.status === "attested" ? "Disponibilité attestée par l’agent hôte" : "Configuré · connexion à vérifier" : "À configurer";
 }
-function v(e, t) {
+function y(e, t) {
 	return [
 		`Vérifier la disponibilité du connecteur ${t.title} pour ce projet.`,
 		`Connexion : ${e.id}, configuration ${e.version}. Profil : ${e.profileRef || "à préciser dans l’hôte"}.`,
@@ -88,18 +88,18 @@ function v(e, t) {
 		"Publier le résultat via le bridge worker POST /api/connectors/probe avec connectionId, connectionVersion, eventId unique, status available ou failed, tool {name, version}, capabilities, observedAt, summary et tools si MCP. Ne publier available qu’après une réponse réelle ; une configuration ne prouve pas la connexion. Aucune clé ni sortie sensible dans le rapport."
 	].join("\n");
 }
-function y({ draft: e, version: t }) {
-	return !e.dirty || e.baseVersion === t ? null : /* @__PURE__ */ (0, g.jsx)("p", {
+function b({ draft: e, version: t }) {
+	return !e.dirty || e.baseVersion === t ? null : /* @__PURE__ */ (0, _.jsx)("p", {
 		role: "alert",
 		className: "connector-error",
 		children: "La configuration a changé. Vos réponses sont conservées ; relisez la version enregistrée avant de les remplacer."
 	});
 }
-function b(e) {
-	let { option: t, connection: n, revisionId: r, busy: i, action: a, refresh: s, onPrepareRequest: c, draft: l, onDraft: u } = e, { profile: d, references: f, control: p, capability: m } = l;
+function x(e) {
+	let { option: t, connection: n, revisionId: r, busy: a, action: o, refresh: s, onPrepareRequest: c, draft: l, onDraft: u } = e, { profile: d, references: f, control: p, capability: m } = l;
 	async function h(r) {
-		if (r.preventDefault(), i || e.guideReady === !1) return;
-		let o = await a("configure", {
+		if (r.preventDefault(), a || e.guideReady === !1) return;
+		let i = await o("configure", {
 			id: n?.id || t.id,
 			optionId: t.id,
 			purpose: t.purpose,
@@ -108,103 +108,106 @@ function b(e) {
 			expectedVersion: l.baseVersion,
 			...l.guide ? { guide: l.guide } : {}
 		});
-		if (o && typeof o == "object" && "connections" in o && Array.isArray(o.connections)) {
-			let n = o.connections.find((e) => e.optionId === t.id);
+		if (i && typeof i == "object" && "connections" in i && Array.isArray(i.connections)) {
+			let n = i.connections.find((e) => e.optionId === t.id);
 			n && e.onSaved(l, n.version), s();
 		}
 	}
-	async function b() {
-		if (!n || !r || i || l.dirty) return;
-		let e = await a(t.purpose === "diagnostics" ? "executions" : "prepare", {
+	async function g() {
+		if (!n || !r || a || l.dirty) return;
+		let e = await o(t.purpose === "diagnostics" ? "executions" : "prepare", {
 			connectionId: n.id,
 			revisionId: r,
 			...t.purpose === "diagnostics" ? { checkId: p } : { capability: m }
 		});
 		e && typeof e == "object" && "prompt" in e && typeof e.prompt == "string" && c({
 			prompt: e.prompt,
-			..."connectorGuides" in e && Array.isArray(e.connectorGuides) ? { connectorGuides: e.connectorGuides.map(o) } : {}
+			..."connectorGuides" in e && Array.isArray(e.connectorGuides) ? { connectorGuides: e.connectorGuides.map(i) } : {}
 		});
 	}
-	return /* @__PURE__ */ (0, g.jsxs)("section", {
+	return /* @__PURE__ */ (0, _.jsxs)("section", {
 		className: "connector-detail",
 		"aria-label": `Configurer ${t.title}`,
 		children: [
-			/* @__PURE__ */ (0, g.jsx)("h3", { children: t.title }),
-			/* @__PURE__ */ (0, g.jsx)("p", {
+			/* @__PURE__ */ (0, _.jsx)("h3", { children: t.title }),
+			/* @__PURE__ */ (0, _.jsx)("p", {
 				className: `connector-state state-${n?.status || "proposed"}`,
-				children: _(n)
+				children: v(n)
 			}),
-			/* @__PURE__ */ (0, g.jsx)("p", { children: t.description }),
-			/* @__PURE__ */ (0, g.jsx)("p", {
+			/* @__PURE__ */ (0, _.jsx)("p", { children: t.description }),
+			/* @__PURE__ */ (0, _.jsx)("p", {
 				className: "connector-cost",
 				children: t.cost
 			}),
-			/* @__PURE__ */ (0, g.jsx)("a", {
+			/* @__PURE__ */ (0, _.jsx)("a", {
 				href: t.docs,
 				target: "_blank",
 				rel: "noopener noreferrer",
 				children: "Documentation officielle ↗"
 			}),
 			e.guidePanel,
-			/* @__PURE__ */ (0, g.jsx)(y, {
+			/* @__PURE__ */ (0, _.jsx)(b, {
 				draft: l,
 				version: n?.version || 0
 			}),
-			/* @__PURE__ */ (0, g.jsxs)("form", {
+			/* @__PURE__ */ (0, _.jsxs)("form", {
 				onSubmit: (e) => void h(e),
-				children: [
-					/* @__PURE__ */ (0, g.jsxs)("label", { children: [
-						"Profil dans l’agent hôte",
-						" ",
-						/* @__PURE__ */ (0, g.jsx)("input", {
-							value: d,
-							onChange: (e) => u({ profile: e.target.value }),
-							disabled: i,
-							name: "connector-profile",
-							autoComplete: "off",
-							placeholder: "host:mon-profil",
-							pattern: "host:[A-Za-z0-9_.-]+"
+				children: [/* @__PURE__ */ (0, _.jsxs)("details", {
+					className: "connector-advanced",
+					children: [
+						/* @__PURE__ */ (0, _.jsx)("summary", { children: "Configuration avancée" }),
+						/* @__PURE__ */ (0, _.jsxs)("label", { children: [
+							"Profil dans l’agent hôte",
+							" ",
+							/* @__PURE__ */ (0, _.jsx)("input", {
+								value: d,
+								onChange: (e) => u({ profile: e.target.value }),
+								disabled: a,
+								name: "connector-profile",
+								autoComplete: "off",
+								placeholder: "host:mon-profil",
+								pattern: "host:[A-Za-z0-9_.-]+"
+							})
+						] }),
+						/* @__PURE__ */ (0, _.jsxs)("label", { children: [
+							"Références des accès, une par ligne",
+							" ",
+							/* @__PURE__ */ (0, _.jsx)("textarea", {
+								value: f,
+								onChange: (e) => u({ references: e.target.value }),
+								disabled: a,
+								name: "connector-secret-references",
+								autoComplete: "off",
+								spellCheck: !1,
+								placeholder: "env:NOM_DE_VARIABLE\nhost:nom-du-secret",
+								rows: 2
+							})
+						] }),
+						/* @__PURE__ */ (0, _.jsx)("p", {
+							className: "connector-note",
+							children: "Indiquez les noms des accès conservés dans l’hôte. Ne collez aucune clé secrète. Enregistrer ne connecte ni n’installe un service."
 						})
-					] }),
-					/* @__PURE__ */ (0, g.jsxs)("label", { children: [
-						"Références des accès, une par ligne",
-						" ",
-						/* @__PURE__ */ (0, g.jsx)("textarea", {
-							value: f,
-							onChange: (e) => u({ references: e.target.value }),
-							disabled: i,
-							name: "connector-secret-references",
-							autoComplete: "off",
-							spellCheck: !1,
-							placeholder: "env:NOM_DE_VARIABLE\nhost:nom-du-secret",
-							rows: 2
-						})
-					] }),
-					/* @__PURE__ */ (0, g.jsx)("p", {
-						className: "connector-note",
-						children: "Indiquez les noms des accès conservés dans l’hôte. Ne collez aucune clé secrète. Enregistrer ne connecte ni n’installe un service."
-					}),
-					/* @__PURE__ */ (0, g.jsx)("button", {
-						type: "submit",
-						disabled: i || e.guideReady === !1,
-						children: n ? "Enregistrer les réglages" : "Enregistrer la configuration"
-					})
-				]
+					]
+				}), /* @__PURE__ */ (0, _.jsx)("button", {
+					type: "submit",
+					disabled: a || e.guideReady === !1,
+					children: n ? "Enregistrer les réglages" : "Enregistrer la configuration"
+				})]
 			}),
-			n ? /* @__PURE__ */ (0, g.jsxs)(g.Fragment, { children: [
-				l.dirty ? /* @__PURE__ */ (0, g.jsx)("p", {
+			n ? /* @__PURE__ */ (0, _.jsxs)(_.Fragment, { children: [
+				l.dirty ? /* @__PURE__ */ (0, _.jsx)("p", {
 					className: "connector-note",
 					children: "Enregistrez les réglages avant de préparer une demande avec cette configuration."
 				}) : null,
-				/* @__PURE__ */ (0, g.jsx)("button", {
+				/* @__PURE__ */ (0, _.jsx)("button", {
 					type: "button",
-					disabled: i || l.dirty,
-					onClick: () => c({ prompt: v(n, t) }),
+					disabled: a || l.dirty,
+					onClick: () => c({ prompt: y(n, t) }),
 					children: "Préparer la vérification de connexion →"
 				}),
-				n.probe ? /* @__PURE__ */ (0, g.jsxs)("div", {
+				n.probe ? /* @__PURE__ */ (0, _.jsxs)("div", {
 					className: "connector-probe",
-					children: [/* @__PURE__ */ (0, g.jsx)("p", { children: n.probe.summary }), /* @__PURE__ */ (0, g.jsxs)("small", { children: [
+					children: [/* @__PURE__ */ (0, _.jsx)("p", { children: n.probe.summary }), /* @__PURE__ */ (0, _.jsxs)("small", { children: [
 						n.probe.tool.name,
 						" · ",
 						n.probe.tool.version,
@@ -213,45 +216,45 @@ function b(e) {
 						new Date(n.probe.observedAt).toLocaleString("fr-FR")
 					] })]
 				}) : null,
-				t.purpose === "diagnostics" ? /* @__PURE__ */ (0, g.jsxs)("label", { children: ["Contrôle à exécuter", /* @__PURE__ */ (0, g.jsx)("select", {
+				t.purpose === "diagnostics" ? /* @__PURE__ */ (0, _.jsxs)("label", { children: ["Contrôle à exécuter", /* @__PURE__ */ (0, _.jsx)("select", {
 					value: p,
-					disabled: i,
+					disabled: a,
 					onChange: (e) => u({ control: e.target.value }),
-					children: t.checkIds.map((e) => /* @__PURE__ */ (0, g.jsx)("option", {
+					children: t.checkIds.map((e) => /* @__PURE__ */ (0, _.jsx)("option", {
 						value: e,
 						children: e
 					}, e))
-				})] }) : /* @__PURE__ */ (0, g.jsxs)("label", { children: ["Capacité à intégrer", /* @__PURE__ */ (0, g.jsx)("select", {
+				})] }) : /* @__PURE__ */ (0, _.jsxs)("label", { children: ["Capacité à intégrer", /* @__PURE__ */ (0, _.jsx)("select", {
 					value: m,
-					disabled: i,
+					disabled: a,
 					onChange: (e) => u({ capability: e.target.value }),
-					children: t.capabilities.map((e) => /* @__PURE__ */ (0, g.jsx)("option", {
+					children: t.capabilities.map((e) => /* @__PURE__ */ (0, _.jsx)("option", {
 						value: e,
 						children: e
 					}, e))
 				})] }),
-				/* @__PURE__ */ (0, g.jsx)("button", {
+				/* @__PURE__ */ (0, _.jsx)("button", {
 					type: "button",
 					className: "primary",
-					disabled: i || l.dirty || !r || t.purpose === "diagnostics" && (n.status !== "attested" || !p),
-					onClick: () => void b(),
+					disabled: a || l.dirty || !r || t.purpose === "diagnostics" && (n.status !== "attested" || !p),
+					onClick: () => void g(),
 					children: t.purpose === "diagnostics" ? "Préparer l’exécution avec l’agent hôte →" : "Préparer l’intégration au projet →"
 				}),
-				/* @__PURE__ */ (0, g.jsxs)("p", {
+				/* @__PURE__ */ (0, _.jsxs)("p", {
 					className: "connector-note",
 					children: [r ? `Version ciblée : ${r.slice(0, 8)}. ` : "Une version du projet est nécessaire. ", t.purpose === "diagnostics" ? "Le résultat reçu sera rattaché aux sources contrôlées." : "La demande prépare une évolution du code. Aucun service n’est provisionné et aucun e-mail n’est envoyé."]
 				})
 			] }) : null,
-			/* @__PURE__ */ (0, g.jsxs)("details", { children: [/* @__PURE__ */ (0, g.jsx)("summary", { children: "Portée et limites" }), /* @__PURE__ */ (0, g.jsx)("ul", { children: t.limits.map((e) => /* @__PURE__ */ (0, g.jsx)("li", { children: e }, e)) })] })
+			/* @__PURE__ */ (0, _.jsxs)("details", { children: [/* @__PURE__ */ (0, _.jsx)("summary", { children: "Portée et limites" }), /* @__PURE__ */ (0, _.jsx)("ul", { children: t.limits.map((e) => /* @__PURE__ */ (0, _.jsx)("li", { children: e }, e)) })] })
 		]
 	});
 }
 //#endregion
 //#region studio-ui/src/features/connectors/components/ConnectorCatalog.tsx
-function x({ report: e, contextual: t, selectedId: n, onOpen: r }) {
-	let [a, o] = (0, l.useState)(t ? "diagnostics" : "application"), [s, c] = (0, l.useState)("all"), [u, d] = (0, l.useState)(""), [m, h] = (0, l.useState)(!1);
+function S({ report: e, contextual: t, selectedId: n, onOpen: r }) {
+	let [i, a] = (0, u.useState)(t ? "diagnostics" : "application"), [o, s] = (0, u.useState)("all"), [c, d] = (0, u.useState)(""), [f, h] = (0, u.useState)(!1);
 	if (!e) return null;
-	let _ = new Map(e.connections.map((e) => [e.optionId, e])), v = e.catalog.capabilities.filter((e) => e.purpose === a), y = f(u.trim()), b = e.catalog.options.filter((e) => e.purpose === a && f(`${e.title} ${e.description} ${e.capabilities.join(" ")}`).includes(y)), x = b.filter((e) => _.has(e.id)).length, S = b.filter((e) => !m || _.has(e.id)), C = [{
+	let g = new Map(e.connections.map((e) => [e.optionId, e])), v = e.catalog.capabilities.filter((e) => e.purpose === i), y = p(c.trim()), b = e.catalog.options.filter((e) => e.purpose === i && p(`${e.title} ${e.description} ${e.capabilities.join(" ")}`).includes(y)), x = b.filter((e) => g.has(e.id)).length, S = b.filter((e) => !f || g.has(e.id)), C = [{
 		id: "all",
 		title: "Toutes les catégories",
 		count: S.length
@@ -259,63 +262,63 @@ function x({ report: e, contextual: t, selectedId: n, onOpen: r }) {
 		id: e.id,
 		title: e.title,
 		count: S.filter((t) => t.capabilities.includes(e.id)).length
-	}))], w = S.filter((e) => s === "all" || e.capabilities.includes(s));
-	return /* @__PURE__ */ (0, g.jsxs)("div", {
+	}))], w = S.filter((e) => o === "all" || e.capabilities.includes(o));
+	return /* @__PURE__ */ (0, _.jsxs)("div", {
 		className: "connector-catalog",
-		children: [/* @__PURE__ */ (0, g.jsxs)("div", {
+		children: [/* @__PURE__ */ (0, _.jsxs)("div", {
 			className: "connector-browse-toolbar",
-			children: [/* @__PURE__ */ (0, g.jsx)("nav", {
+			children: [/* @__PURE__ */ (0, _.jsx)("nav", {
 				className: "connector-purpose",
 				"aria-label": "Usage des connecteurs",
-				children: ["application", "diagnostics"].map((e) => /* @__PURE__ */ (0, g.jsx)("button", {
+				children: ["application", "diagnostics"].map((e) => /* @__PURE__ */ (0, _.jsx)("button", {
 					type: "button",
-					"aria-pressed": a === e,
+					"aria-pressed": i === e,
 					onClick: () => {
-						o(e), c("all");
+						a(e), s("all");
 					},
 					children: e === "application" ? "Services de l’application" : "Diagnostic et vérifications"
 				}, e))
-			}), /* @__PURE__ */ (0, g.jsxs)("label", {
+			}), /* @__PURE__ */ (0, _.jsxs)("label", {
 				className: "connector-search",
-				children: [/* @__PURE__ */ (0, g.jsx)("span", {
+				children: [/* @__PURE__ */ (0, _.jsx)("span", {
 					className: "connector-sr",
 					children: "Rechercher un outil ou un service"
-				}), /* @__PURE__ */ (0, g.jsx)("input", {
+				}), /* @__PURE__ */ (0, _.jsx)("input", {
 					type: "search",
 					name: "connector-search",
 					autoComplete: "off",
 					spellCheck: !1,
-					value: u,
+					value: c,
 					onChange: (e) => d(e.target.value),
 					placeholder: "Rechercher un outil ou un service…"
 				})]
 			})]
-		}), /* @__PURE__ */ (0, g.jsxs)("div", {
+		}), /* @__PURE__ */ (0, _.jsxs)("div", {
 			className: "connector-catalog-layout",
-			children: [/* @__PURE__ */ (0, g.jsxs)("nav", {
+			children: [/* @__PURE__ */ (0, _.jsxs)("nav", {
 				className: "connector-categories",
 				"aria-label": "Catégories des connecteurs",
-				children: [/* @__PURE__ */ (0, g.jsx)("span", {
+				children: [/* @__PURE__ */ (0, _.jsx)("span", {
 					className: "connector-section-label",
 					children: "Catégories"
-				}), C.map((e) => /* @__PURE__ */ (0, g.jsxs)("button", {
+				}), C.map((e) => /* @__PURE__ */ (0, _.jsxs)("button", {
 					type: "button",
-					"aria-pressed": s === e.id,
-					onClick: () => c(e.id),
-					children: [/* @__PURE__ */ (0, g.jsx)("span", { children: e.title }), /* @__PURE__ */ (0, g.jsx)("span", {
+					"aria-pressed": o === e.id,
+					onClick: () => s(e.id),
+					children: [/* @__PURE__ */ (0, _.jsx)("span", { children: e.title }), /* @__PURE__ */ (0, _.jsx)("span", {
 						className: "connector-count",
 						children: e.count
 					})]
 				}, e.id))]
-			}), /* @__PURE__ */ (0, g.jsxs)("div", {
+			}), /* @__PURE__ */ (0, _.jsxs)("div", {
 				className: "connector-catalog-main",
 				children: [
-					/* @__PURE__ */ (0, g.jsxs)("label", {
+					/* @__PURE__ */ (0, _.jsxs)("label", {
 						className: "connector-mobile-category",
-						children: ["Catégorie", /* @__PURE__ */ (0, g.jsx)("select", {
-							value: s,
-							onChange: (e) => c(e.target.value),
-							children: C.map((e) => /* @__PURE__ */ (0, g.jsxs)("option", {
+						children: ["Catégorie", /* @__PURE__ */ (0, _.jsx)("select", {
+							value: o,
+							onChange: (e) => s(e.target.value),
+							children: C.map((e) => /* @__PURE__ */ (0, _.jsxs)("option", {
 								value: e.id,
 								children: [
 									e.title,
@@ -326,23 +329,23 @@ function x({ report: e, contextual: t, selectedId: n, onOpen: r }) {
 							}, e.id))
 						})]
 					}),
-					/* @__PURE__ */ (0, g.jsxs)("div", {
+					/* @__PURE__ */ (0, _.jsxs)("div", {
 						className: "connector-results-toolbar",
-						children: [/* @__PURE__ */ (0, g.jsxs)("nav", {
+						children: [/* @__PURE__ */ (0, _.jsxs)("nav", {
 							className: "connector-filter-tabs",
 							"aria-label": "État de configuration",
-							children: [/* @__PURE__ */ (0, g.jsxs)("button", {
+							children: [/* @__PURE__ */ (0, _.jsxs)("button", {
 								type: "button",
-								"aria-pressed": !m,
+								"aria-pressed": !f,
 								onClick: () => h(!1),
-								children: ["Tous ", /* @__PURE__ */ (0, g.jsx)("span", { children: b.length })]
-							}), /* @__PURE__ */ (0, g.jsxs)("button", {
+								children: ["Tous ", /* @__PURE__ */ (0, _.jsx)("span", { children: b.length })]
+							}), /* @__PURE__ */ (0, _.jsxs)("button", {
 								type: "button",
-								"aria-pressed": m,
+								"aria-pressed": f,
 								onClick: () => h(!0),
-								children: ["Configurés ", /* @__PURE__ */ (0, g.jsx)("span", { children: x })]
+								children: ["Configurés ", /* @__PURE__ */ (0, _.jsx)("span", { children: x })]
 							})]
-						}), /* @__PURE__ */ (0, g.jsxs)("span", {
+						}), /* @__PURE__ */ (0, _.jsxs)("span", {
 							className: "connector-result-count",
 							role: "status",
 							children: [
@@ -352,43 +355,43 @@ function x({ report: e, contextual: t, selectedId: n, onOpen: r }) {
 							]
 						})]
 					}),
-					/* @__PURE__ */ (0, g.jsx)("div", {
+					/* @__PURE__ */ (0, _.jsx)("div", {
 						className: "connector-card-grid",
 						"aria-label": "Solutions proposées",
 						children: w.map((e) => {
-							let t = _.get(e.id);
-							return /* @__PURE__ */ (0, g.jsxs)("button", {
+							let t = g.get(e.id);
+							return /* @__PURE__ */ (0, _.jsxs)("button", {
 								className: "connector-card",
 								type: "button",
 								"aria-label": `Voir ${e.title}`,
 								"aria-current": n === e.id ? "true" : void 0,
 								onClick: (t) => r(e.id, t.currentTarget),
 								children: [
-									/* @__PURE__ */ (0, g.jsxs)("span", {
+									/* @__PURE__ */ (0, _.jsxs)("span", {
 										className: "connector-card-heading",
 										children: [
-											/* @__PURE__ */ (0, g.jsx)(i, { optionId: e.id }),
-											/* @__PURE__ */ (0, g.jsx)("span", {
+											/* @__PURE__ */ (0, _.jsx)(l, { optionId: e.id }),
+											/* @__PURE__ */ (0, _.jsx)("span", {
 												className: "connector-card-title",
 												children: e.title
 											}),
-											/* @__PURE__ */ (0, g.jsx)("span", {
+											/* @__PURE__ */ (0, _.jsx)("span", {
 												className: "connector-card-arrow",
 												"aria-hidden": "true",
 												children: "↗"
 											})
 										]
 									}),
-									/* @__PURE__ */ (0, g.jsx)("span", {
+									/* @__PURE__ */ (0, _.jsx)("span", {
 										className: "connector-card-description",
 										children: e.description
 									}),
-									/* @__PURE__ */ (0, g.jsxs)("span", {
+									/* @__PURE__ */ (0, _.jsxs)("span", {
 										className: "connector-card-footer",
-										children: [/* @__PURE__ */ (0, g.jsx)("span", {
+										children: [/* @__PURE__ */ (0, _.jsx)("span", {
 											className: `connector-state state-${t?.status || "proposed"}`,
-											children: p(t)
-										}), /* @__PURE__ */ (0, g.jsx)("span", {
+											children: m(t)
+										}), /* @__PURE__ */ (0, _.jsx)("span", {
 											className: "connector-transport",
 											children: e.transport === "local" ? "Local" : e.transport.toUpperCase()
 										})]
@@ -397,9 +400,9 @@ function x({ report: e, contextual: t, selectedId: n, onOpen: r }) {
 							}, e.id);
 						})
 					}),
-					w.length ? null : /* @__PURE__ */ (0, g.jsxs)("div", {
+					w.length ? null : /* @__PURE__ */ (0, _.jsxs)("div", {
 						className: "connector-empty",
-						children: [/* @__PURE__ */ (0, g.jsx)("strong", { children: "Aucune solution dans ce filtre" }), /* @__PURE__ */ (0, g.jsx)("p", { children: m ? "Aucun connecteur configuré ne correspond. Consultez Tous pour parcourir les options." : "Essayez une autre recherche ou une autre catégorie." })]
+						children: [/* @__PURE__ */ (0, _.jsx)("strong", { children: "Aucune solution dans ce filtre" }), /* @__PURE__ */ (0, _.jsx)("p", { children: f ? "Aucun connecteur configuré ne correspond. Consultez Tous pour parcourir les options." : "Essayez une autre recherche ou une autre catégorie." })]
 					})
 				]
 			})]
@@ -408,7 +411,7 @@ function x({ report: e, contextual: t, selectedId: n, onOpen: r }) {
 }
 //#endregion
 //#region studio-ui/src/features/connectors/hooks/useConnectorDrafts.ts
-function S(e, t, n) {
+function C(e, t, n) {
 	return {
 		profile: t?.profileRef || "",
 		references: t?.secretRefs.join("\n") || "",
@@ -419,50 +422,55 @@ function S(e, t, n) {
 		dirty: !1
 	};
 }
-function C(e) {
-	let [t, n] = (0, l.useState)({});
-	function r(n, r) {
-		let i = t[n.id];
-		return i && (i.dirty || i.baseVersion >= (r?.version || 0)) ? i : S(n, r, e);
+function w(e) {
+	let t = a(), [n, r] = (0, u.useState)({});
+	function i(r, i) {
+		let a = n[r.id], o = a && (a.dirty || a.baseVersion >= (i?.version || 0)) ? a : C(r, i, e), s = t.drafts[r.id]?.input;
+		return !o.dirty && s ? {
+			...o,
+			guide: s
+		} : o;
 	}
-	function i(e, t, r) {
-		let i = t.dirty || [
+	function o(e, n, i) {
+		i.guide !== void 0 && t.edit(e, i.guide, t.drafts[e]?.step ?? 0);
+		let a = n.dirty || [
 			"profile",
 			"references",
 			"guide"
-		].some((e) => e in r);
-		n((n) => ({
-			...n,
+		].some((e) => e in i);
+		r((t) => ({
+			...t,
 			[e]: {
-				...t,
-				...r,
-				dirty: i
+				...n,
+				...i,
+				dirty: a
 			}
 		}));
 	}
-	function a(e, t, r) {
-		n((n) => {
-			let i = n[e];
-			return i && i !== t ? n : {
-				...n,
+	function s(e, t, n) {
+		r((r) => {
+			let i = r[e];
+			return i && i !== t ? r : {
+				...r,
 				[e]: {
 					...t,
-					baseVersion: r,
+					baseVersion: n,
 					dirty: !1
 				}
 			};
 		});
 	}
 	return {
-		get: r,
-		update: i,
-		saved: a
+		get: i,
+		update: o,
+		saved: s,
+		persistence: t
 	};
 }
 //#endregion
 //#region studio-ui/src/features/connectors/hooks/useProjectGuide.ts
-function w(e, t) {
-	let [n, i] = (0, l.useState)({}), o = s({ enabled: e === "slack" }), c = a(), u = o.guides.find((t) => t.optionId === e), d = e ? n[e] : null, f = d && r(d.input) === r(t) ? d : null;
+function T(e, t) {
+	let [n, i] = (0, u.useState)({}), a = r({ enabled: e === "slack" }), c = s(), l = a.guides.find((t) => t.optionId === e), d = e ? n[e] : null, f = d && o(d.input) === o(t) ? d : null;
 	async function p(e) {
 		let t = await c.prepare(e);
 		t && i((n) => ({
@@ -472,9 +480,9 @@ function w(e, t) {
 	}
 	return {
 		enabled: e === "slack",
-		catalog: o,
+		catalog: a,
 		request: c,
-		definition: u,
+		definition: l,
 		confirmed: f,
 		ready: !t || !!f,
 		prepare: p
@@ -482,38 +490,52 @@ function w(e, t) {
 }
 //#endregion
 //#region studio-ui/src/features/connectors/components/ProjectConnectorGuide.tsx
-function T({ controller: e, input: t, busy: n, onChange: r }) {
+function E({ controller: e, input: t, busy: n, onChange: r, persistence: i }) {
 	if (!e.enabled) return null;
-	let { catalog: i, request: a, definition: o, confirmed: s } = e;
-	return /* @__PURE__ */ (0, g.jsxs)("div", {
+	let { catalog: a, request: o, definition: s, confirmed: l } = e;
+	return /* @__PURE__ */ (0, _.jsxs)("div", {
 		className: "connector-project-guide",
 		children: [
-			i.loading ? /* @__PURE__ */ (0, g.jsx)("p", {
+			a.loading ? /* @__PURE__ */ (0, _.jsx)("p", {
 				role: "status",
 				children: "Lecture du guide fournisseur…"
 			}) : null,
-			i.error ? /* @__PURE__ */ (0, g.jsxs)("div", { children: [/* @__PURE__ */ (0, g.jsx)("p", {
+			a.error ? /* @__PURE__ */ (0, _.jsxs)("div", { children: [/* @__PURE__ */ (0, _.jsx)("p", {
 				role: "alert",
 				className: "connector-error",
-				children: i.error
-			}), /* @__PURE__ */ (0, g.jsx)("button", {
+				children: a.error
+			}), /* @__PURE__ */ (0, _.jsx)("button", {
 				type: "button",
-				onClick: i.refresh,
+				onClick: a.refresh,
 				children: "Réessayer le guide"
 			})] }) : null,
-			o ? /* @__PURE__ */ (0, g.jsx)(c, {
-				definition: o,
+			s ? /* @__PURE__ */ (0, _.jsx)(c, {
+				definition: s,
 				draft: t,
-				preparation: s,
-				preparing: a.loading,
-				error: a.error,
+				preparation: l,
+				preparing: o.loading,
+				error: o.error,
 				disabled: n,
 				onChange: (e) => {
-					a.reset(), r(e);
+					o.reset(), r(e);
 				},
-				onPrepare: (t) => void e.prepare(t)
+				onPrepare: (t) => void e.prepare(t),
+				step: i.drafts[s.optionId]?.step,
+				onStepChange: (e) => i.edit(s.optionId, t, e)
 			}) : null,
-			t && !s ? /* @__PURE__ */ (0, g.jsx)("p", {
+			i.error ? /* @__PURE__ */ (0, _.jsxs)("p", {
+				role: "alert",
+				children: [
+					i.error,
+					" ",
+					/* @__PURE__ */ (0, _.jsx)("button", {
+						type: "button",
+						onClick: () => void i.retry(),
+						children: "Réessayer l’enregistrement"
+					})
+				]
+			}) : null,
+			t && !l ? /* @__PURE__ */ (0, _.jsx)("p", {
 				className: "connector-note",
 				children: "Vérifiez la préparation avant d’enregistrer ces réponses avec les réglages."
 			}) : null
@@ -522,29 +544,29 @@ function T({ controller: e, input: t, busy: n, onChange: r }) {
 }
 //#endregion
 //#region studio-ui/src/features/connectors/components/ConnectorsView.tsx
-function E(e) {
-	let { report: t, error: n, busy: r, action: i, refresh: a } = h(e.revisionId), o = C(e.checkId), [s, c] = (0, l.useState)({
+function D(e) {
+	let { report: t, error: n, busy: r, action: i, refresh: a } = g(e.revisionId), o = w(e.checkId), [s, c] = (0, u.useState)({
 		detail: e.checkId ? void 0 : null,
 		lastSelected: null
-	}), u = (0, l.useRef)(null), f = (0, l.useRef)(null), p = (0, l.useRef)(!1), m = (0, l.useCallback)((e) => e?.focus(), []), _ = t && (s.detail === void 0 ? d(t.catalog.options, t.connections, e.checkId) : t.catalog.options.find((e) => e.id === s.detail)), v = t?.connections.find((e) => e.optionId === _?.id), y = _?.id, S = _ ? o.get(_, v) : null, E = w(y, S?.guide);
-	(0, l.useLayoutEffect)(() => {
-		!y && p.current && (p.current = !1, (f.current?.isConnected ? f.current : u.current?.querySelector("input[type=\"search\"]"))?.focus());
+	}), l = (0, u.useRef)(null), d = (0, u.useRef)(null), p = (0, u.useRef)(!1), m = (0, u.useCallback)((e) => e?.focus(), []), h = t && (s.detail === void 0 ? f(t.catalog.options, t.connections, e.checkId) : t.catalog.options.find((e) => e.id === s.detail)), v = t?.connections.find((e) => e.optionId === h?.id), y = h?.id, b = h ? o.get(h, v) : null, C = T(y, b?.guide);
+	(0, u.useLayoutEffect)(() => {
+		!y && p.current && (p.current = !1, (d.current?.isConnected ? d.current : l.current?.querySelector("input[type=\"search\"]"))?.focus());
 	}, [y]);
 	function D() {
-		E.request.reset(), p.current = !0, c({
+		C.request.reset(), p.current = !0, c({
 			detail: null,
-			lastSelected: _?.id || s.lastSelected
+			lastSelected: h?.id || s.lastSelected
 		});
 	}
-	return /* @__PURE__ */ (0, g.jsxs)("div", {
+	return /* @__PURE__ */ (0, _.jsxs)("div", {
 		className: "connectors-view",
 		children: [
-			/* @__PURE__ */ (0, g.jsxs)("div", {
+			/* @__PURE__ */ (0, _.jsxs)("div", {
 				className: "connector-toolbar",
-				children: [/* @__PURE__ */ (0, g.jsx)("p", {
+				children: [/* @__PURE__ */ (0, _.jsx)("p", {
 					className: "connector-intro",
 					children: "Trouvez les services de votre application et les outils pour la vérifier. Configuration et disponibilité restent distinctes."
-				}), /* @__PURE__ */ (0, g.jsx)("button", {
+				}), /* @__PURE__ */ (0, _.jsx)("button", {
 					type: "button",
 					className: "connector-refresh",
 					onClick: a,
@@ -552,72 +574,73 @@ function E(e) {
 					children: "Actualiser les états"
 				})]
 			}),
-			n ? /* @__PURE__ */ (0, g.jsx)("p", {
+			n ? /* @__PURE__ */ (0, _.jsx)("p", {
 				role: "alert",
 				className: "connector-error",
 				children: n
 			}) : null,
-			t ? null : /* @__PURE__ */ (0, g.jsx)("p", {
+			t ? null : /* @__PURE__ */ (0, _.jsx)("p", {
 				role: "status",
 				children: n ? "Aucun état de connexion confirmé." : "Lecture du catalogue…"
 			}),
-			/* @__PURE__ */ (0, g.jsx)("div", {
-				ref: u,
-				hidden: !!_,
-				children: /* @__PURE__ */ (0, g.jsx)(x, {
+			/* @__PURE__ */ (0, _.jsx)("div", {
+				ref: l,
+				hidden: !!h,
+				children: /* @__PURE__ */ (0, _.jsx)(S, {
 					report: t,
 					contextual: !!e.checkId,
-					selectedId: _?.id || s.lastSelected,
+					selectedId: h?.id || s.lastSelected,
 					onOpen: (e, t) => {
-						f.current = t, c({
+						d.current = t, c({
 							detail: e,
 							lastSelected: e
 						});
 					}
 				})
 			}),
-			_ && S ? /* @__PURE__ */ (0, g.jsxs)("div", {
+			h && b ? /* @__PURE__ */ (0, _.jsxs)("div", {
 				className: "connector-detail-page",
-				children: [/* @__PURE__ */ (0, g.jsx)("button", {
+				children: [/* @__PURE__ */ (0, _.jsx)("button", {
 					type: "button",
 					className: "connector-back",
 					ref: m,
 					onClick: D,
 					children: "← Retour au catalogue"
-				}), /* @__PURE__ */ (0, g.jsx)(b, {
+				}), /* @__PURE__ */ (0, _.jsx)(x, {
 					...e,
-					option: _,
+					option: h,
 					connection: v,
 					busy: r,
 					action: i,
 					refresh: a,
-					draft: S,
-					onDraft: (e) => o.update(_.id, S, e),
-					onSaved: (e, t) => o.saved(_.id, e, t),
-					guideReady: E.ready,
-					guidePanel: /* @__PURE__ */ (0, g.jsx)(T, {
-						controller: E,
-						input: S.guide,
+					draft: b,
+					onDraft: (e) => o.update(h.id, b, e),
+					onSaved: (e, t) => o.saved(h.id, e, t),
+					guideReady: C.ready,
+					guidePanel: /* @__PURE__ */ (0, _.jsx)(E, {
+						controller: C,
+						persistence: o.persistence,
+						input: b.guide,
 						busy: r,
-						onChange: (e) => o.update(_.id, S, { guide: e })
+						onChange: (e) => o.update(h.id, b, { guide: e })
 					})
-				}, _.id)]
+				}, h.id)]
 			}) : null,
-			t ? /* @__PURE__ */ (0, g.jsxs)("details", {
+			t ? /* @__PURE__ */ (0, _.jsxs)("details", {
 				className: "connector-report-limits",
-				children: [/* @__PURE__ */ (0, g.jsx)("summary", { children: "Ce que DevMethod prend en charge" }), /* @__PURE__ */ (0, g.jsx)("ul", { children: t.limits.map((e) => /* @__PURE__ */ (0, g.jsx)("li", { children: e }, e)) })]
+				children: [/* @__PURE__ */ (0, _.jsx)("summary", { children: "Ce que DevMethod prend en charge" }), /* @__PURE__ */ (0, _.jsx)("ul", { children: t.limits.map((e) => /* @__PURE__ */ (0, _.jsx)("li", { children: e }, e)) })]
 			}) : null
 		]
 	});
 }
 //#endregion
 //#region studio-ui/src/connectors-widget.tsx
-function D(e, t) {
-	let n = (0, u.createRoot)(e), r = (e) => n.render(/* @__PURE__ */ (0, g.jsx)(E, { ...e }, e.checkId || "catalog"));
+function O(e, t) {
+	let n = (0, d.createRoot)(e), r = (e) => n.render(/* @__PURE__ */ (0, _.jsx)(D, { ...e }, e.checkId || "catalog"));
 	return r(t), {
 		update: r,
 		dispose: () => n.unmount()
 	};
 }
 //#endregion
-export { D as mountConnectorsWidget };
+export { O as mountConnectorsWidget };

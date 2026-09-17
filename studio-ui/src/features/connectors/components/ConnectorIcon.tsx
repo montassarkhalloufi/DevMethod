@@ -25,7 +25,7 @@ const initials: Readonly<Record<string, string>> = Object.freeze({
 });
 
 export function ConnectorIcon({ optionId, title, size = 32 }: ConnectorIconProps) {
-  const source = connectorIconSource(optionId);
+  const source = connectorIconSource(optionId === 'github-mcp' ? 'github' : optionId);
   const dimension = Number.isFinite(size) ? Math.min(96, Math.max(16, size)) : 32;
   const label = title?.trim() || undefined;
   const fallback = Object.hasOwn(initials, optionId)

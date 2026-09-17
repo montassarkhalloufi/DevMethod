@@ -539,7 +539,7 @@ export const connectorOptions = [
   ),
   option(
     'github',
-    'GitHub',
+    'GitHub · API de l’application',
     'application',
     ['version-control'],
     'api',

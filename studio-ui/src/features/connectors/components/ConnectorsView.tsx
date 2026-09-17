@@ -97,6 +97,7 @@ export function ConnectorsView(options: ConnectorWidgetOptions) {
             guidePanel={
               <ProjectConnectorGuide
                 controller={guide}
+                persistence={drafts.persistence}
                 input={draft.guide}
                 busy={busy}
                 onChange={(input) => drafts.update(active.id, draft, { guide: input })}

@@ -70,7 +70,22 @@ function fixture(t, fetcher, extra = {}) {
     runScripts: 'outside-only',
     pretendToBeVisual: true,
   });
-  dom.window.fetch = fetcher;
+  const savedGuides = new Map();
+  dom.window.fetch = (url, init) => {
+    if (url !== '/api/connectors/guide-drafts') return fetcher(url, init);
+    const scopeId = 'project:' + 'a'.repeat(24);
+    if (!init?.body) return Promise.resolve(reply({ scopeId, drafts: [...savedGuides.values()] }));
+    const input = JSON.parse(init.body);
+    const draft = {
+      optionId: input.optionId,
+      input: input.input,
+      step: input.step,
+      version: (savedGuides.get(input.optionId)?.version ?? 0) + 1,
+      updatedAt: new Date().toISOString(),
+    };
+    savedGuides.set(input.optionId, draft);
+    return Promise.resolve(reply({ scopeId, draft }));
+  };
   dom.window.eval(bundle.outputFiles[0].text + '\nwindow.ConnectorsTest = ConnectorsTest;');
   const requests = [];
   const props = { revisionId: 'r1', onPrepareRequest: (value) => requests.push(value), ...extra };

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { notifyMcpChange, onMcpChange } from '../model/change-events';
 
 interface Selection {
   supported: boolean;
@@ -44,13 +45,24 @@ export function useMcpSelection() {
   const write = useRef<AbortController | null>(null);
   const pending = useRef<Promise<unknown> | null>(null);
   const failure = useRef('');
-  const refresh = useCallback(() => {
+  const failedWrite = useRef(false);
+  const changeSource = useRef(Symbol());
+  const refreshQueued = useRef(false);
+  const refresh = useCallback((preserveWriteFailure = false) => {
+    if (write.current) {
+      refreshQueued.current = true;
+      return;
+    }
+    refreshQueued.current = false;
     read.current?.abort();
     const controller = new AbortController();
     read.current = controller;
     setLoading(true);
-    setError('');
-    failure.current = '';
+    if (!preserveWriteFailure || !failedWrite.current) {
+      setError('');
+      failure.current = '';
+      failedWrite.current = false;
+    }
     pending.current = requestSelection(controller.signal)
       .then((value) => {
         if (!controller.signal.aborted) setSelection(value);
@@ -66,8 +78,10 @@ export function useMcpSelection() {
       });
   }, []);
   useEffect(() => {
+    const unsubscribe = onMcpChange('selection', changeSource.current, () => refresh(true));
     refresh();
     return () => {
+      unsubscribe();
       read.current?.abort();
       write.current?.abort();
     };
@@ -92,12 +106,17 @@ export function useMcpSelection() {
     write.current = controller;
     setSaving(true);
     failure.current = '';
+    failedWrite.current = false;
     setError('');
     try {
       const value = await requestSelection(controller.signal, connectionIds);
-      if (!controller.signal.aborted) setSelection(value);
+      if (!controller.signal.aborted) {
+        setSelection(value);
+        notifyMcpChange('selection', changeSource.current);
+      }
     } catch (cause) {
       if (!controller.signal.aborted) {
+        failedWrite.current = true;
         failure.current = cause instanceof Error ? cause.message : 'Sélection non enregistrée.';
         setError(failure.current);
       }
@@ -105,6 +124,7 @@ export function useMcpSelection() {
       if (!controller.signal.aborted) {
         write.current = null;
         setSaving(false);
+        if (refreshQueued.current) refresh(true);
       }
     }
   }
@@ -125,9 +145,13 @@ export function useMcpSelection() {
       pending.current = operation;
       return operation;
     },
-    refresh,
+    refresh: () => refresh(),
     prepareRequest: async () => {
-      await pending.current;
+      let operation;
+      do {
+        operation = pending.current;
+        await operation;
+      } while (pending.current !== operation);
       return !failure.current;
     },
   };

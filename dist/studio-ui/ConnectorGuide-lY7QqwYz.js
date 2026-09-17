@@ -1,69 +1,9 @@
 import { r as e, t } from "./jsx-runtime-Bz8zB3tG.js";
-//#region studio-ui/src/features/connectors/model/guides.ts
-var n = e();
-function r(e) {
-	return !(!e || typeof e != "object" || Array.isArray(e));
-}
-var i = (e) => typeof e == "string", a = (e) => Array.isArray(e) && e.every(i), o = (e) => r(e) && i(e.id) && i(e.title), s = (e) => e.description === void 0 || i(e.description);
-function c(e) {
-	return r(e) && o(e) && s(e) && (e.multiple === void 0 || typeof e.multiple == "boolean") && Array.isArray(e.options) && e.options.length > 0 && e.options.every((e) => r(e) && o(e) && s(e));
-}
-function l(e) {
-	return r(e) && o(e) && i(e.description) && i(e.identity) && [
-		"application",
-		"assistant",
-		"app-user"
-	].includes(String(e.usage)) && ["api", "mcp"].includes(String(e.transport)) && Array.isArray(e.questions) && e.questions.every(c);
-}
-function u(e) {
-	if (!i(e)) return !1;
-	try {
-		let t = new URL(e);
-		return t.protocol === "https:" && !t.username && !t.password;
-	} catch {
-		return !1;
-	}
-}
-function d(e) {
-	if (!r(e) || !i(e.optionId) || e.guideVersion !== 1 || !i(e.flowId) || !r(e.answers) || !Object.values(e.answers).every((e) => i(e) || a(e))) throw Error("Les réponses du guide sont illisibles.");
-	return e;
-}
-function f(e) {
-	if (!r(e) || !Array.isArray(e.guides) || !e.guides.every((e) => r(e) && i(e.optionId) && e.guideVersion === 1 && i(e.title) && i(e.description) && Array.isArray(e.flows) && e.flows.length > 0 && e.flows.every(l) && Array.isArray(e.sources) && e.sources.every((e) => r(e) && i(e.title) && u(e.url)))) throw Error("Les guides sont illisibles. Actualisez pour réessayer.");
-	return e.guides;
-}
-function p(e) {
-	if (!r(e) || !i(e.setupFingerprint) || !/^[a-f0-9]{64}$/.test(e.setupFingerprint) || !i(e.title) || !a(e.summary) || !a(e.prerequisites) || e.access !== "not-connected" || !Array.isArray(e.permissions) || !e.permissions.every((e) => r(e) && i(e.scope) && i(e.reason)) || !(e.nativeConnection === null || r(e.nativeConnection) && i(e.nativeConnection.providerId) && u(e.nativeConnection.url))) throw Error("La préparation reçue est illisible. Aucun accès n’est confirmé.");
-	return d(e.input), e;
-}
-function m(e) {
-	return e ? JSON.stringify([
-		e.optionId,
-		e.guideVersion,
-		e.flowId,
-		Object.entries(e.answers).sort(([e], [t]) => e.localeCompare(t)).map(([e, t]) => [e, Array.isArray(t) ? [...t].sort() : t])
-	]) : "";
-}
-function h(e, t) {
-	return {
-		optionId: e.optionId,
-		guideVersion: e.guideVersion,
-		flowId: t,
-		answers: {}
-	};
-}
-function g(e, t) {
-	return e.questions.every((e) => {
-		let n = t.answers[e.id];
-		return e.multiple ? Array.isArray(n) && n.length > 0 : typeof n == "string" && n.length > 0;
-	});
-}
-//#endregion
 //#region studio-ui/src/features/connectors/assets/brands/brevo.svg
-var _ = t(), v = "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3ctitle%3eBrevo%3c/title%3e%3cpath%20d='M12%200A12%2012%200%200%200%200%2012a12%2012%200%200%200%2012%2012%2012%2012%200%200%200%2012-12A12%2012%200%200%200%2012%200zM7.2%204.8h5.747c2.34%200%203.895%201.406%203.895%203.516%200%201.022-.348%201.862-1.09%202.588C17.189%2011.812%2018%2013.22%2018%2014.785c0%202.86-2.64%205.016-6.164%205.016H7.199v-15zm2.085%201.952v5.537h.07c.233-.432.858-.796%202.249-1.226%202.039-.659%203.037-1.52%203.037-2.655%200-.998-.766-1.656-1.924-1.656H9.285zm4.87%205.266c-.766.385-1.67.748-2.76%201.11-1.229.387-2.11%201.386-2.11%202.407v2.315h2.365c2.387%200%204.149-1.34%204.149-3.155%200-1.067-.625-2.087-1.645-2.677z'/%3e%3c/svg%3e", y = "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3ctitle%3eNode.js%3c/title%3e%3cpath%20d='M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383%20c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076%20c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0%20L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392%20c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021%20c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921%20c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603%20v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z%20M19.099,13.993%20c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233%20c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081%20c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833%20c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402%20c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253%20c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z'/%3e%3c/svg%3e", b = Object.freeze({
-	brevo: v,
-	"node-test": y,
-	"node-check": y,
+var n = e(), r = t(), i = "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3ctitle%3eBrevo%3c/title%3e%3cpath%20d='M12%200A12%2012%200%200%200%200%2012a12%2012%200%200%200%2012%2012%2012%2012%200%200%200%2012-12A12%2012%200%200%200%2012%200zM7.2%204.8h5.747c2.34%200%203.895%201.406%203.895%203.516%200%201.022-.348%201.862-1.09%202.588C17.189%2011.812%2018%2013.22%2018%2014.785c0%202.86-2.64%205.016-6.164%205.016H7.199v-15zm2.085%201.952v5.537h.07c.233-.432.858-.796%202.249-1.226%202.039-.659%203.037-1.52%203.037-2.655%200-.998-.766-1.656-1.924-1.656H9.285zm4.87%205.266c-.766.385-1.67.748-2.76%201.11-1.229.387-2.11%201.386-2.11%202.407v2.315h2.365c2.387%200%204.149-1.34%204.149-3.155%200-1.067-.625-2.087-1.645-2.677z'/%3e%3c/svg%3e", a = "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3ctitle%3eNode.js%3c/title%3e%3cpath%20d='M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383%20c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076%20c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0%20L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392%20c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021%20c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921%20c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603%20v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z%20M19.099,13.993%20c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233%20c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081%20c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833%20c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402%20c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253%20c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z'/%3e%3c/svg%3e", o = Object.freeze({
+	brevo: i,
+	"node-test": a,
+	"node-check": a,
 	eslint: "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3ctitle%3eESLint%3c/title%3e%3cpath%20d='M7.257%209.132L11.816%206.5a.369.369%200%200%201%20.368%200l4.559%202.632a.369.369%200%200%201%20.184.32v5.263a.37.37%200%200%201-.184.319l-4.559%202.632a.369.369%200%200%201-.368%200l-4.559-2.632a.369.369%200%200%201-.184-.32V9.452a.37.37%200%200%201%20.184-.32M23.852%2011.53l-5.446-9.475c-.198-.343-.564-.596-.96-.596H6.555c-.396%200-.762.253-.96.596L.149%2011.509a1.127%201.127%200%200%200%200%201.117l5.447%209.398c.197.342.563.517.959.517h10.893c.395%200%20.76-.17.959-.512l5.446-9.413a1.069%201.069%200%200%200%200-1.086m-4.51%204.556a.4.4%200%200%201-.204.338L12.2%2020.426a.395.395%200%200%201-.392%200l-6.943-4.002a.4.4%200%200%201-.205-.338V8.08c0-.14.083-.269.204-.338L11.8%203.74c.12-.07.272-.07.392%200l6.943%204.003a.4.4%200%200%201%20.206.338z'/%3e%3c/svg%3e",
 	sentry: "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3ctitle%3eSentry%3c/title%3e%3cpath%20d='M13.91%202.505c-.873-1.448-2.972-1.448-3.844%200L6.904%207.92a15.478%2015.478%200%200%201%208.53%2012.811h-2.221A13.301%2013.301%200%200%200%205.784%209.814l-2.926%205.06a7.65%207.65%200%200%201%204.435%205.848H2.194a.365.365%200%200%201-.298-.534l1.413-2.402a5.16%205.16%200%200%200-1.614-.913L.296%2019.275a2.182%202.182%200%200%200%20.812%202.999%202.24%202.24%200%200%200%201.086.288h6.983a9.322%209.322%200%200%200-3.845-8.318l1.11-1.922a11.47%2011.47%200%200%201%204.95%2010.24h5.915a17.242%2017.242%200%200%200-7.885-15.28l2.244-3.845a.37.37%200%200%201%20.504-.13c.255.14%209.75%2016.708%209.928%2016.9a.365.365%200%200%201-.327.543h-2.287c.029.612.029%201.223%200%201.831h2.297a2.206%202.206%200%200%200%201.922-3.31z'/%3e%3c/svg%3e",
 	opentelemetry: "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3ctitle%3eOpenTelemetry%3c/title%3e%3cpath%20d='M12.6974%2013.1173c-1.0224%201.0224-1.0224%202.68%200%203.7024%201.0224%201.0224%202.68%201.0224%203.7024%200%201.0224-1.0223%201.0224-2.68%200-3.7024-1.0223-1.0223-2.68-1.0223-3.7024%200zm2.7677%202.7701c-.5063.5063-1.3267.5063-1.833%200s-.5063-1.3266%200-1.833c.5063-.5062%201.3267-.5062%201.833%200%20.5063.504.5063%201.3267%200%201.833zM16.356.2355l-1.6041%201.6042c-.314.314-.314.83%200%201.144L21.015%209.247c.314.314.83.314%201.144%200l1.6042-1.6041c.314-.314.314-.83%200-1.144L17.4976.2354c-.314-.314-.8276-.314-1.1416%200zM5.1173%2020.734c.2848-.2848.2848-.7497%200-1.0345l-.8155-.8155c-.2848-.2848-.7497-.2848-1.0345%200l-1.6845%201.6845-.0024.0024-.4625-.4625c-.2556-.2556-.6718-.2556-.925%200-.2556.2556-.2556.6718%200%20.925l2.775%202.775c.2556.2556.6718.2556.925%200%20.2532-.2556.2556-.6718%200-.925l-.4625-.4625.0024-.0024zm8.4856-15.893-3.5637%203.5637c-.3164.3164-.3164.8374%200%201.1538l2.2006%202.2005c1.5554-1.1197%203.7365-.981%205.1361.4187l1.7819-1.7818c.3164-.3165.3164-.8374%200-1.1538l-4.401-4.401c-.3165-.319-.8374-.319-1.1539%200zm-2.2881%207.8455-1.2999-1.2999c-.3043-.3043-.8033-.3043-1.1076%200l-4.5836%204.586c-.3042.3043-.3042.8033%200%201.1076l2.5973%202.5973c.3043.3043.8033.3043%201.1076%200l2.9478-2.9527c-.6231-1.2877-.5112-2.8431.3384-4.0383z'/%3e%3c/svg%3e",
@@ -101,12 +41,12 @@ var _ = t(), v = "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2
 	vercel: "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3ctitle%3eVercel%3c/title%3e%3cpath%20d='m12%201.608%2012%2020.784H0Z'/%3e%3c/svg%3e",
 	netlify: "data:image/svg+xml,%3csvg%20role='img'%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3ctitle%3eNetlify%3c/title%3e%3cpath%20d='M6.49%2019.04h-.23L5.13%2017.9v-.23l1.73-1.71h1.2l.15.15v1.2L6.5%2019.04ZM5.13%206.31V6.1l1.13-1.13h.23L8.2%206.68v1.2l-.15.15h-1.2L5.13%206.31Zm9.96%209.09h-1.65l-.14-.13v-3.83c0-.68-.27-1.2-1.1-1.23-.42%200-.9%200-1.43.02l-.07.08v4.96l-.14.14H8.9l-.13-.14V8.73l.13-.14h3.7a2.6%202.6%200%200%201%202.61%202.6v4.08l-.13.14Zm-8.37-2.44H.14L0%2012.82v-1.64l.14-.14h6.58l.14.14v1.64l-.14.14Zm17.14%200h-6.58l-.14-.14v-1.64l.14-.14h6.58l.14.14v1.64l-.14.14ZM11.05%206.55V1.64l.14-.14h1.65l.14.14v4.9l-.14.14h-1.65l-.14-.13Zm0%2015.81v-4.9l.14-.14h1.65l.14.13v4.91l-.14.14h-1.65l-.14-.14Z'/%3e%3c/svg%3e"
 });
-function x(e) {
-	return Object.hasOwn(b, e) ? b[e] : void 0;
+function s(e) {
+	return Object.hasOwn(o, e) ? o[e] : void 0;
 }
 //#endregion
 //#region studio-ui/src/features/connectors/components/ConnectorIcon.tsx
-var S = Object.freeze({
+var c = Object.freeze({
 	"diagnostic-api": "API",
 	"diagnostic-mcp": "MCP",
 	"application-api": "API",
@@ -123,28 +63,87 @@ var S = Object.freeze({
 	twilio: "T",
 	s3: "S3"
 });
-function C({ optionId: e, title: t, size: n = 32 }) {
-	let r = x(e), i = Number.isFinite(n) ? Math.min(96, Math.max(16, n)) : 32, a = t?.trim() || void 0, o = Object.hasOwn(S, e) ? S[e] : e.replace(/[^a-z0-9]/gi, "").slice(0, 2).toUpperCase() || "?";
-	return /* @__PURE__ */ (0, _.jsx)("span", {
-		className: `connector-icon${r ? "" : " connector-icon--initials"}`,
+function l({ optionId: e, title: t, size: n = 32 }) {
+	let i = s(e === "github-mcp" ? "github" : e), a = Number.isFinite(n) ? Math.min(96, Math.max(16, n)) : 32, o = t?.trim() || void 0, l = Object.hasOwn(c, e) ? c[e] : e.replace(/[^a-z0-9]/gi, "").slice(0, 2).toUpperCase() || "?";
+	return /* @__PURE__ */ (0, r.jsx)("span", {
+		className: `connector-icon${i ? "" : " connector-icon--initials"}`,
 		style: {
-			width: i,
-			height: i,
-			fontSize: i * .3
+			width: a,
+			height: a,
+			fontSize: a * .3
 		},
-		role: a ? "img" : void 0,
-		"aria-label": a,
-		"aria-hidden": !a || void 0,
+		role: o ? "img" : void 0,
+		"aria-label": o,
+		"aria-hidden": !o || void 0,
 		translate: "no",
-		children: r ? /* @__PURE__ */ (0, _.jsx)("img", {
-			src: r,
+		children: i ? /* @__PURE__ */ (0, r.jsx)("img", {
+			src: i,
 			alt: "",
-			width: Math.round(i * .65),
-			height: Math.round(i * .65),
+			width: Math.round(a * .65),
+			height: Math.round(a * .65),
 			loading: "lazy",
 			decoding: "async",
 			draggable: !1
-		}) : o
+		}) : l
+	});
+}
+//#endregion
+//#region studio-ui/src/features/connectors/model/guides.ts
+function u(e) {
+	return !(!e || typeof e != "object" || Array.isArray(e));
+}
+var d = (e) => typeof e == "string", f = (e) => Array.isArray(e) && e.every(d), p = (e) => u(e) && d(e.id) && d(e.title), m = (e) => e.description === void 0 || d(e.description);
+function h(e) {
+	return u(e) && p(e) && m(e) && (e.multiple === void 0 || typeof e.multiple == "boolean") && Array.isArray(e.options) && e.options.length > 0 && e.options.every((e) => u(e) && p(e) && m(e));
+}
+function g(e) {
+	return u(e) && p(e) && d(e.description) && d(e.identity) && [
+		"application",
+		"assistant",
+		"app-user"
+	].includes(String(e.usage)) && ["api", "mcp"].includes(String(e.transport)) && Array.isArray(e.questions) && e.questions.every(h);
+}
+function _(e) {
+	if (!d(e)) return !1;
+	try {
+		let t = new URL(e);
+		return t.protocol === "https:" && !t.username && !t.password;
+	} catch {
+		return !1;
+	}
+}
+function v(e) {
+	if (!u(e) || !d(e.optionId) || e.guideVersion !== 1 || !d(e.flowId) || !u(e.answers) || !Object.values(e.answers).every((e) => d(e) || f(e))) throw Error("Les réponses du guide sont illisibles.");
+	return e;
+}
+function y(e) {
+	if (!u(e) || !Array.isArray(e.guides) || !e.guides.every((e) => u(e) && d(e.optionId) && e.guideVersion === 1 && d(e.title) && d(e.description) && Array.isArray(e.flows) && e.flows.length > 0 && e.flows.every(g) && Array.isArray(e.sources) && e.sources.every((e) => u(e) && d(e.title) && _(e.url)))) throw Error("Les guides sont illisibles. Actualisez pour réessayer.");
+	return e.guides;
+}
+function b(e) {
+	if (!u(e) || !d(e.setupFingerprint) || !/^[a-f0-9]{64}$/.test(e.setupFingerprint) || !d(e.title) || !f(e.summary) || !f(e.prerequisites) || e.access !== "not-connected" || !Array.isArray(e.permissions) || !e.permissions.every((e) => u(e) && d(e.scope) && d(e.reason)) || !(e.nativeConnection === null || u(e.nativeConnection) && d(e.nativeConnection.providerId) && _(e.nativeConnection.url))) throw Error("La préparation reçue est illisible. Aucun accès n’est confirmé.");
+	return v(e.input), e;
+}
+function x(e) {
+	return e ? JSON.stringify([
+		e.optionId,
+		e.guideVersion,
+		e.flowId,
+		Object.entries(e.answers).sort(([e], [t]) => e.localeCompare(t)).map(([e, t]) => [e, Array.isArray(t) ? [...t].sort() : t])
+	]) : "";
+}
+function S(e, t) {
+	return {
+		optionId: e.optionId,
+		guideVersion: e.guideVersion,
+		flowId: t,
+		answers: {}
+	};
+}
+function C(e, t) {
+	return e.questions.every((e) => {
+		let n = t.answers[e.id];
+		return e.multiple ? Array.isArray(n) && n.length > 0 : typeof n == "string" && n.length > 0;
 	});
 }
 //#endregion
@@ -162,7 +161,7 @@ function T({ enabled: e = !0 } = {}) {
 		return a(!0), s(""), fetch("/api/connectors/guides", {
 			cache: "no-store",
 			signal: AbortSignal.any([t.signal, AbortSignal.timeout(15e3)])
-		}).then(w).then(f).then((e) => {
+		}).then(w).then(y).then((e) => {
 			!t.signal.aborted && n === u.current && r(e);
 		}).catch((e) => {
 			!t.signal.aborted && n === u.current && s(e instanceof Error ? e.message : "Guides indisponibles.");
@@ -189,7 +188,7 @@ function E() {
 		s.current?.abort(), s.current = null, c.current = null, t(null), i(!1), o("");
 	}
 	function u(e) {
-		let t = m(e);
+		let t = x(e);
 		if (c.current?.key === t) return c.current.promise;
 		let n = d(e, t);
 		return c.current = {
@@ -202,14 +201,14 @@ function E() {
 		let r = new AbortController();
 		s.current = r, t(null), i(!0), o("");
 		try {
-			let i = p(await w(await fetch("/api/connectors/guides/prepare", {
+			let i = b(await w(await fetch("/api/connectors/guides/prepare", {
 				method: "POST",
 				headers: { "content-type": "application/json" },
 				body: JSON.stringify(e),
 				signal: AbortSignal.any([r.signal, AbortSignal.timeout(15e3)])
 			})));
 			if (r.signal.aborted || s.current !== r) return null;
-			if (m(i.input) !== n) throw Error("La préparation concerne d’autres réponses. Réessayez.");
+			if (x(i.input) !== n) throw Error("La préparation concerne d’autres réponses. Réessayez.");
 			return t(i), i;
 		} catch (e) {
 			return !r.signal.aborted && s.current === r && o(e instanceof Error ? e.message : "Préparation impossible. Vos réponses sont conservées."), null;
@@ -226,70 +225,219 @@ function E() {
 	};
 }
 //#endregion
-//#region studio-ui/src/features/connectors/hooks/useConnectorGuide.ts
-function D({ definition: e, draft: t, preparation: r, preparing: i, disabled: a = !1, onChange: o, onPrepare: s }) {
-	let c = t?.optionId === e.optionId && t.guideVersion === e.guideVersion ? t : null, l = e.flows.find((e) => e.id === c?.flowId), u = r && c && m(r.input) === m(c) ? r : null, [d, f] = (0, n.useState)(u ? 2 : +!!l), p = (0, n.useRef)(null), _ = (0, n.useId)(), v = a || i, y = !!(l && c && g(l, c));
-	(0, n.useLayoutEffect)(() => {
-		p.current?.focus();
-	}, [d, e.optionId]);
-	function b(t) {
-		t.id !== c?.flowId && o(h(e, t.id));
+//#region studio-ui/src/features/connectors/model/guide-drafts.ts
+function D(e) {
+	let t = e;
+	if (!t || typeof t.optionId != "string" || !Number.isSafeInteger(t.version) || t.version < 1 || ![
+		0,
+		1,
+		2
+	].includes(t.step) || typeof t.updatedAt != "string") throw Error("Brouillon du guide illisible.");
+	if (t.input !== null && v(t.input).optionId !== t.optionId) throw Error("Le brouillon concerne un autre guide.");
+	return t;
+}
+function O(e) {
+	let t = e;
+	if (!t || typeof t.scopeId != "string" || !/^(home|project):[a-f0-9]{24}$/.test(t.scopeId) || !Array.isArray(t.drafts) || t.drafts.length > 12) throw Error("Les brouillons du guide sont illisibles.");
+	return {
+		scopeId: t.scopeId,
+		drafts: t.drafts.map(D)
+	};
+}
+//#endregion
+//#region studio-ui/src/features/connectors/model/guide-draft-session.ts
+var k = "/api/connectors/guide-drafts", A = class {
+	value = {
+		drafts: {},
+		scopeId: "",
+		loading: !1,
+		saving: !1,
+		error: ""
+	};
+	listeners = /* @__PURE__ */ new Set();
+	pending = /* @__PURE__ */ new Map();
+	versions = /* @__PURE__ */ new Map();
+	active = /* @__PURE__ */ new Set();
+	failures = /* @__PURE__ */ new Map();
+	alive = !0;
+	loaded = !1;
+	reading = !1;
+	subscribe = (e) => (this.listeners.add(e), () => {
+		this.listeners.delete(e);
+	});
+	snapshot = () => this.value;
+	publish(e) {
+		this.alive && (this.value = {
+			...this.value,
+			...e
+		}, this.listeners.forEach((e) => e()));
 	}
-	function x() {
-		c && y && !v && (f(2), s(c));
+	syncStatus() {
+		this.publish({
+			saving: this.active.size > 0,
+			error: [...this.failures.values()][0] ?? ""
+		});
+	}
+	async load() {
+		if (!this.reading) {
+			this.reading = !0, this.publish({ loading: !0 });
+			try {
+				let e = O(await w(await fetch(k, {
+					cache: "no-store",
+					signal: AbortSignal.timeout(15e3)
+				})));
+				if (!this.alive) return;
+				let t = { ...this.value.drafts };
+				for (let n of e.drafts) this.active.has(n.optionId) || n.version < (this.versions.get(n.optionId) ?? 0) || (this.versions.set(n.optionId, n.version), this.pending.has(n.optionId) || (t[n.optionId] = n));
+				this.loaded = !0, this.failures.clear(), this.publish({
+					drafts: t,
+					scopeId: e.scopeId,
+					error: ""
+				});
+				for (let e of this.pending.keys()) this.flush(e);
+			} catch {
+				this.publish({ error: "Enregistrement indisponible. Vos réponses locales sont conservées ; réessayez." });
+			} finally {
+				this.reading = !1, this.publish({ loading: !1 });
+			}
+		}
+	}
+	edit(e, t, n) {
+		let r = {
+			input: t,
+			step: n
+		};
+		this.pending.set(e, r), this.publish({ drafts: {
+			...this.value.drafts,
+			[e]: {
+				optionId: e,
+				input: t,
+				step: n,
+				version: this.versions.get(e) ?? 0,
+				updatedAt: ""
+			}
+		} }), this.flush(e);
+	}
+	accept(e, t, n) {
+		this.versions.set(e, n.version), this.pending.get(e) === t && (this.pending.delete(e), this.publish({ drafts: {
+			...this.value.drafts,
+			[e]: n
+		} }));
+	}
+	async flush(e) {
+		if (!this.alive || !this.loaded || this.active.has(e) || this.failures.has(e)) return;
+		let t = this.pending.get(e);
+		if (t) {
+			this.active.add(e), this.syncStatus();
+			try {
+				let n = await w(await fetch(k, {
+					method: "POST",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({
+						optionId: e,
+						expectedVersion: this.versions.get(e) ?? 0,
+						...t
+					}),
+					signal: AbortSignal.timeout(15e3)
+				})), r = D(n.draft);
+				if (n.scopeId !== this.value.scopeId || r.optionId !== e) throw Error("scope");
+				this.alive && this.accept(e, t, r);
+			} catch {
+				this.failures.set(e, "Brouillon non enregistré ou modifié ailleurs. Vos réponses sont conservées. Réessayez pour enregistrer cette saisie.");
+			} finally {
+				this.active.delete(e), this.syncStatus(), this.pending.has(e) && !this.failures.has(e) && this.flush(e);
+			}
+		}
+	}
+	resume() {
+		this.alive = !0, this.load();
+	}
+	dispose() {
+		this.alive = !1;
+	}
+};
+//#endregion
+//#region studio-ui/src/features/connectors/hooks/useGuideDrafts.ts
+function j({ enabled: e = !0 } = {}) {
+	let [t] = (0, n.useState)(() => new A()), r = (0, n.useSyncExternalStore)(t.subscribe, t.snapshot);
+	return (0, n.useEffect)(() => {
+		if (e) return t.resume(), () => t.dispose();
+	}, [e, t]), {
+		...r,
+		edit: t.edit.bind(t),
+		retry: () => t.load(),
+		clear: (e) => t.edit(e, null, 0)
+	};
+}
+//#endregion
+//#region studio-ui/src/features/connectors/hooks/useConnectorGuide.ts
+function M({ definition: e, draft: t, preparation: r, preparing: i, disabled: a = !1, onChange: o, onPrepare: s, step: c, onStepChange: l }) {
+	let u = t?.optionId === e.optionId && t.guideVersion === e.guideVersion ? t : null, d = e.flows.find((e) => e.id === u?.flowId), f = r && u && x(r.input) === x(u) ? r : null, [p, m] = (0, n.useState)(f ? 2 : +!!d), h = c ?? p;
+	function g(e) {
+		l ? l(e) : m(e);
+	}
+	let _ = (0, n.useRef)(null), v = (0, n.useId)(), y = a || i, b = !!(d && u && C(d, u));
+	(0, n.useLayoutEffect)(() => {
+		_.current?.focus();
+	}, [h, e.optionId]);
+	function w(t) {
+		t.id !== u?.flowId && o(S(e, t.id));
+	}
+	function T() {
+		u && b && !y && (g(2), s(u));
 	}
 	return {
-		input: c,
-		flow: l,
-		confirmed: u,
-		step: d,
-		setStep: f,
-		heading: p,
-		headingId: _,
-		locked: v,
-		complete: y,
-		chooseFlow: b,
-		preview: x
+		input: u,
+		flow: d,
+		confirmed: f,
+		step: h,
+		setStep: g,
+		heading: _,
+		headingId: v,
+		locked: y,
+		complete: b,
+		chooseFlow: w,
+		preview: T
 	};
 }
 //#endregion
 //#region studio-ui/src/features/connectors/components/GuideNavigation.tsx
-function O({ step: e, locked: t, hasFlow: n, prepared: r, onStep: i }) {
-	return /* @__PURE__ */ (0, _.jsx)("nav", {
+function N({ step: e, locked: t, hasFlow: n, prepared: i, onStep: a }) {
+	return /* @__PURE__ */ (0, r.jsx)("nav", {
 		className: "connector-guide-steps",
 		"aria-label": "Étapes de préparation",
 		children: [
 			"Usage",
 			"Configuration",
 			"Vérification"
-		].map((a, o) => /* @__PURE__ */ (0, _.jsxs)("button", {
+		].map((o, s) => /* @__PURE__ */ (0, r.jsxs)("button", {
 			type: "button",
-			"aria-current": e === o ? "step" : void 0,
-			disabled: t || o > 0 && !n || o === 2 && !r,
-			onClick: () => i(o),
-			children: [/* @__PURE__ */ (0, _.jsx)("span", {
+			"aria-current": e === s ? "step" : void 0,
+			disabled: t || s > 0 && !n || s === 2 && !i,
+			onClick: () => a(s),
+			children: [/* @__PURE__ */ (0, r.jsx)("span", {
 				"aria-hidden": "true",
-				children: o + 1
-			}), a]
-		}, a))
+				children: s + 1
+			}), o]
+		}, o))
 	});
 }
-function k(e) {
-	if (e.step === 0) return /* @__PURE__ */ (0, _.jsx)("button", {
+function P(e) {
+	if (e.step === 0) return /* @__PURE__ */ (0, r.jsx)("button", {
 		type: "button",
 		className: "primary",
 		disabled: e.locked || !e.hasFlow,
 		onClick: () => e.onStep(1),
 		children: "Préciser la configuration →"
 	});
-	if (e.step === 1) return /* @__PURE__ */ (0, _.jsx)("button", {
+	if (e.step === 1) return /* @__PURE__ */ (0, r.jsx)("button", {
 		type: "button",
 		className: "primary",
 		disabled: e.locked || !e.complete,
 		onClick: e.onPreview,
 		children: "Vérifier la préparation →"
 	});
-	if (!e.confirmed) return /* @__PURE__ */ (0, _.jsx)("button", {
+	if (!e.confirmed) return /* @__PURE__ */ (0, r.jsx)("button", {
 		type: "button",
 		className: "primary",
 		disabled: e.locked || !e.complete,
@@ -298,7 +446,7 @@ function k(e) {
 	});
 	if (!e.onApply) return null;
 	let t = e.confirmed, n = e.onApply;
-	return /* @__PURE__ */ (0, _.jsx)("button", {
+	return /* @__PURE__ */ (0, r.jsx)("button", {
 		type: "button",
 		className: "primary",
 		disabled: e.locked,
@@ -306,29 +454,29 @@ function k(e) {
 		children: e.applyLabel
 	});
 }
-function A(e) {
-	return /* @__PURE__ */ (0, _.jsxs)("footer", {
+function F(e) {
+	return /* @__PURE__ */ (0, r.jsxs)("footer", {
 		className: "connector-guide-actions",
-		children: [e.step > 0 ? /* @__PURE__ */ (0, _.jsx)("button", {
+		children: [e.step > 0 ? /* @__PURE__ */ (0, r.jsx)("button", {
 			type: "button",
 			disabled: e.locked,
 			onClick: () => e.onStep(e.step - 1),
 			children: "← Retour"
-		}) : e.onBack ? /* @__PURE__ */ (0, _.jsx)("button", {
+		}) : e.onBack ? /* @__PURE__ */ (0, r.jsx)("button", {
 			type: "button",
 			disabled: e.locked,
 			onClick: e.onBack,
 			children: "← Retour au catalogue"
-		}) : /* @__PURE__ */ (0, _.jsx)("span", {}), /* @__PURE__ */ (0, _.jsx)(k, { ...e })]
+		}) : /* @__PURE__ */ (0, r.jsx)("span", {}), /* @__PURE__ */ (0, r.jsx)(P, { ...e })]
 	});
 }
 //#endregion
 //#region studio-ui/src/features/connectors/components/ConnectorGuide.tsx
-function j({ question: e, input: t, disabled: r, onChange: i }) {
-	let a = (0, n.useId)(), o = t.answers[e.id], s = Array.isArray(o) ? o : o ? [o] : [];
-	function c(n) {
-		let r = e.multiple ? s.includes(n) ? s.filter((e) => e !== n) : [...s, n] : n;
-		i({
+function I({ question: e, input: t, disabled: i, onChange: a }) {
+	let o = (0, n.useId)(), s = t.answers[e.id], c = Array.isArray(s) ? s : s ? [s] : [];
+	function l(n) {
+		let r = e.multiple ? c.includes(n) ? c.filter((e) => e !== n) : [...c, n] : n;
+		a({
 			...t,
 			answers: {
 				...t.answers,
@@ -336,115 +484,117 @@ function j({ question: e, input: t, disabled: r, onChange: i }) {
 			}
 		});
 	}
-	return /* @__PURE__ */ (0, _.jsxs)("fieldset", {
+	return /* @__PURE__ */ (0, r.jsxs)("fieldset", {
 		className: "connector-guide-question",
-		disabled: r,
+		disabled: i,
 		children: [
-			/* @__PURE__ */ (0, _.jsx)("legend", { children: e.title }),
-			e.description ? /* @__PURE__ */ (0, _.jsx)("p", { children: e.description }) : null,
-			e.multiple ? /* @__PURE__ */ (0, _.jsx)("small", { children: "Plusieurs réponses possibles" }) : null,
-			/* @__PURE__ */ (0, _.jsx)("div", {
+			/* @__PURE__ */ (0, r.jsx)("legend", { children: e.title }),
+			e.description ? /* @__PURE__ */ (0, r.jsx)("p", { children: e.description }) : null,
+			e.multiple ? /* @__PURE__ */ (0, r.jsx)("small", { children: "Plusieurs réponses possibles" }) : null,
+			/* @__PURE__ */ (0, r.jsx)("div", {
 				className: "connector-guide-choices",
-				children: e.options.map((t) => /* @__PURE__ */ (0, _.jsxs)("label", {
+				children: e.options.map((t) => /* @__PURE__ */ (0, r.jsxs)("label", {
 					className: "connector-guide-choice",
-					children: [/* @__PURE__ */ (0, _.jsx)("input", {
+					children: [/* @__PURE__ */ (0, r.jsx)("input", {
 						type: e.multiple ? "checkbox" : "radio",
-						name: a,
-						checked: s.includes(t.id),
-						onChange: () => c(t.id)
-					}), /* @__PURE__ */ (0, _.jsxs)("span", { children: [/* @__PURE__ */ (0, _.jsx)("strong", { children: t.title }), t.description ? /* @__PURE__ */ (0, _.jsx)("small", { children: t.description }) : null] })]
+						name: o,
+						checked: c.includes(t.id),
+						onChange: () => l(t.id)
+					}), /* @__PURE__ */ (0, r.jsxs)("span", { children: [/* @__PURE__ */ (0, r.jsx)("strong", { children: t.title }), t.description ? /* @__PURE__ */ (0, r.jsx)("small", { children: t.description }) : null] })]
 				}, t.id))
 			})
 		]
 	});
 }
-function M({ value: e }) {
-	return /* @__PURE__ */ (0, _.jsxs)("div", {
+function L({ value: e }) {
+	return /* @__PURE__ */ (0, r.jsxs)("div", {
 		className: "connector-guide-summary",
 		children: [
-			/* @__PURE__ */ (0, _.jsxs)("div", {
+			/* @__PURE__ */ (0, r.jsxs)("div", {
 				className: "connector-guide-status",
-				children: [/* @__PURE__ */ (0, _.jsx)("span", {
+				children: [/* @__PURE__ */ (0, r.jsx)("span", {
 					"aria-hidden": "true",
 					children: "○"
 				}), " Préparation uniquement · Aucun nouvel accès connecté"]
 			}),
-			/* @__PURE__ */ (0, _.jsx)("h4", { children: e.title }),
-			/* @__PURE__ */ (0, _.jsx)("ul", { children: e.summary.map((e, t) => /* @__PURE__ */ (0, _.jsx)("li", { children: e }, t)) }),
-			/* @__PURE__ */ (0, _.jsxs)("section", {
+			/* @__PURE__ */ (0, r.jsx)("h4", { children: e.title }),
+			/* @__PURE__ */ (0, r.jsx)("ul", { children: e.summary.map((e, t) => /* @__PURE__ */ (0, r.jsx)("li", { children: e }, t)) }),
+			/* @__PURE__ */ (0, r.jsxs)("section", {
 				"aria-label": "Permissions prévues",
 				children: [
-					/* @__PURE__ */ (0, _.jsx)("h4", { children: "Permissions prévues" }),
-					/* @__PURE__ */ (0, _.jsx)("p", { children: "Elles expliquent les accès à demander. Elles ne prouvent pas un consentement." }),
-					e.permissions.length ? /* @__PURE__ */ (0, _.jsx)("dl", { children: e.permissions.map((e) => /* @__PURE__ */ (0, _.jsxs)("div", { children: [/* @__PURE__ */ (0, _.jsx)("dt", { children: /* @__PURE__ */ (0, _.jsx)("code", {
+					/* @__PURE__ */ (0, r.jsx)("h4", { children: "Permissions prévues" }),
+					/* @__PURE__ */ (0, r.jsx)("p", { children: "Elles expliquent les accès à demander. Elles ne prouvent pas un consentement." }),
+					e.permissions.length ? /* @__PURE__ */ (0, r.jsx)("dl", { children: e.permissions.map((e) => /* @__PURE__ */ (0, r.jsxs)("div", { children: [/* @__PURE__ */ (0, r.jsx)("dt", { children: /* @__PURE__ */ (0, r.jsx)("code", {
 						translate: "no",
 						children: e.scope
-					}) }), /* @__PURE__ */ (0, _.jsx)("dd", { children: e.reason })] }, e.scope)) }) : /* @__PURE__ */ (0, _.jsx)("p", { children: "Aucune permission détaillée dans cette préparation." })
+					}) }), /* @__PURE__ */ (0, r.jsx)("dd", { children: e.reason })] }, e.scope)) }) : /* @__PURE__ */ (0, r.jsx)("p", { children: "Aucune permission détaillée dans cette préparation." })
 				]
 			}),
-			/* @__PURE__ */ (0, _.jsxs)("section", {
+			/* @__PURE__ */ (0, r.jsxs)("section", {
 				"aria-label": "Éléments à préparer",
-				children: [/* @__PURE__ */ (0, _.jsx)("h4", { children: "Éléments à préparer ou à vérifier" }), e.prerequisites.length ? /* @__PURE__ */ (0, _.jsx)("ul", { children: e.prerequisites.map((e, t) => /* @__PURE__ */ (0, _.jsx)("li", { children: e }, t)) }) : /* @__PURE__ */ (0, _.jsx)("p", { children: "Aucun prérequis supplémentaire déclaré par le guide." })]
+				children: [/* @__PURE__ */ (0, r.jsx)("h4", { children: "Éléments à préparer ou à vérifier" }), e.prerequisites.length ? /* @__PURE__ */ (0, r.jsx)("ul", { children: e.prerequisites.map((e, t) => /* @__PURE__ */ (0, r.jsx)("li", { children: e }, t)) }) : /* @__PURE__ */ (0, r.jsx)("p", { children: "Aucun prérequis supplémentaire déclaré par le guide." })]
 			})
 		]
 	});
 }
-function N({ definition: e, draft: t, preparation: n, preparing: r, error: i, disabled: a = !1, onChange: o, onPrepare: s, onApply: c, applyLabel: l = "Utiliser cette préparation", onBack: u }) {
-	let { input: d, flow: f, confirmed: p, step: m, setStep: h, heading: g, headingId: v, locked: y, complete: b, chooseFlow: x, preview: S } = D({
+function R({ definition: e, draft: t, preparation: n, preparing: i, error: a, disabled: o = !1, onChange: s, onPrepare: c, onApply: u, applyLabel: d = "Utiliser cette préparation", onBack: f, step: p, onStepChange: m }) {
+	let { input: h, flow: g, confirmed: _, step: v, setStep: y, heading: b, headingId: x, locked: S, complete: C, chooseFlow: w, preview: T } = M({
 		definition: e,
 		draft: t,
 		preparation: n,
-		preparing: r,
-		disabled: a,
-		onChange: o,
-		onPrepare: s
+		preparing: i,
+		disabled: o,
+		onChange: s,
+		onPrepare: c,
+		step: p,
+		onStepChange: m
 	});
-	return /* @__PURE__ */ (0, _.jsxs)("section", {
+	return /* @__PURE__ */ (0, r.jsxs)("section", {
 		className: "connector-guide",
-		"aria-labelledby": v,
+		"aria-labelledby": x,
 		children: [
-			/* @__PURE__ */ (0, _.jsxs)("div", {
+			/* @__PURE__ */ (0, r.jsxs)("div", {
 				className: "connector-guide-heading",
-				children: [/* @__PURE__ */ (0, _.jsx)(C, {
+				children: [/* @__PURE__ */ (0, r.jsx)(l, {
 					optionId: e.optionId,
 					size: 36
-				}), /* @__PURE__ */ (0, _.jsxs)("div", { children: [/* @__PURE__ */ (0, _.jsx)("span", {
+				}), /* @__PURE__ */ (0, r.jsxs)("div", { children: [/* @__PURE__ */ (0, r.jsx)("span", {
 					className: "connector-guide-eyebrow",
 					children: "Préparer une intégration"
-				}), /* @__PURE__ */ (0, _.jsx)("h3", {
-					id: v,
-					ref: g,
+				}), /* @__PURE__ */ (0, r.jsx)("h3", {
+					id: x,
+					ref: b,
 					tabIndex: -1,
 					children: e.title
 				})] })]
 			}),
-			/* @__PURE__ */ (0, _.jsx)("p", {
+			/* @__PURE__ */ (0, r.jsx)("p", {
 				className: "connector-guide-intro",
 				children: e.description
 			}),
-			/* @__PURE__ */ (0, _.jsx)(O, {
-				step: m,
-				locked: y,
-				hasFlow: !!f,
-				prepared: !!p,
-				onStep: h
+			/* @__PURE__ */ (0, r.jsx)(N, {
+				step: v,
+				locked: S,
+				hasFlow: !!g,
+				prepared: !!_,
+				onStep: y
 			}),
-			m === 0 ? /* @__PURE__ */ (0, _.jsxs)("fieldset", {
+			v === 0 ? /* @__PURE__ */ (0, r.jsxs)("fieldset", {
 				className: "connector-guide-question",
-				disabled: y,
-				children: [/* @__PURE__ */ (0, _.jsx)("legend", { children: "À quoi ce service doit-il servir ?" }), /* @__PURE__ */ (0, _.jsx)("div", {
+				disabled: S,
+				children: [/* @__PURE__ */ (0, r.jsx)("legend", { children: "À quoi ce service doit-il servir ?" }), /* @__PURE__ */ (0, r.jsx)("div", {
 					className: "connector-guide-choices",
-					children: e.flows.map((e) => /* @__PURE__ */ (0, _.jsxs)("label", {
+					children: e.flows.map((e) => /* @__PURE__ */ (0, r.jsxs)("label", {
 						className: "connector-guide-choice",
-						children: [/* @__PURE__ */ (0, _.jsx)("input", {
+						children: [/* @__PURE__ */ (0, r.jsx)("input", {
 							type: "radio",
-							name: v + "-flow",
-							checked: e.id === d?.flowId,
-							onChange: () => x(e)
-						}), /* @__PURE__ */ (0, _.jsxs)("span", { children: [
-							/* @__PURE__ */ (0, _.jsx)("strong", { children: e.title }),
-							/* @__PURE__ */ (0, _.jsx)("small", { children: e.description }),
-							/* @__PURE__ */ (0, _.jsxs)("span", {
+							name: x + "-flow",
+							checked: e.id === h?.flowId,
+							onChange: () => w(e)
+						}), /* @__PURE__ */ (0, r.jsxs)("span", { children: [
+							/* @__PURE__ */ (0, r.jsx)("strong", { children: e.title }),
+							/* @__PURE__ */ (0, r.jsx)("small", { children: e.description }),
+							/* @__PURE__ */ (0, r.jsxs)("span", {
 								className: "connector-guide-scope",
 								children: [
 									e.usage === "assistant" ? "Outils de l’agent" : e.usage === "app-user" ? "Comptes de vos utilisateurs" : "Votre application",
@@ -457,58 +607,58 @@ function N({ definition: e, draft: t, preparation: n, preparing: r, error: i, di
 					}, e.id))
 				})]
 			}) : null,
-			m === 1 && f && d ? /* @__PURE__ */ (0, _.jsxs)("div", {
+			v === 1 && g && h ? /* @__PURE__ */ (0, r.jsxs)("div", {
 				className: "connector-guide-questions",
 				children: [
-					/* @__PURE__ */ (0, _.jsxs)("p", {
+					/* @__PURE__ */ (0, r.jsxs)("p", {
 						className: "connector-guide-identity",
 						children: [
-							f.title,
+							g.title,
 							" · Identité prévue : ",
-							f.identity
+							g.identity
 						]
 					}),
-					f.questions.map((e) => /* @__PURE__ */ (0, _.jsx)(j, {
+					g.questions.map((e) => /* @__PURE__ */ (0, r.jsx)(I, {
 						question: e,
-						input: d,
-						disabled: y,
-						onChange: o
+						input: h,
+						disabled: S,
+						onChange: s
 					}, e.id)),
-					/* @__PURE__ */ (0, _.jsx)("p", {
+					/* @__PURE__ */ (0, r.jsx)("p", {
 						className: "connector-guide-note",
 						children: "Ces réponses préparent le travail de l’agent. Ne saisissez aucune clé ni aucun jeton."
 					})
 				]
 			}) : null,
-			m === 2 ? /* @__PURE__ */ (0, _.jsxs)(_.Fragment, { children: [r ? /* @__PURE__ */ (0, _.jsx)("p", {
+			v === 2 ? /* @__PURE__ */ (0, r.jsxs)(r.Fragment, { children: [i ? /* @__PURE__ */ (0, r.jsx)("p", {
 				role: "status",
 				className: "connector-guide-note",
 				children: "Préparation du résumé et des permissions…"
-			}) : null, p ? /* @__PURE__ */ (0, _.jsx)(M, { value: p }) : !r && !i ? /* @__PURE__ */ (0, _.jsx)("p", {
+			}) : null, _ ? /* @__PURE__ */ (0, r.jsx)(L, { value: _ }) : !i && !a ? /* @__PURE__ */ (0, r.jsx)("p", {
 				className: "connector-guide-note",
 				children: "Vos réponses ont changé. Vérifiez à nouveau la préparation."
 			}) : null] }) : null,
-			i ? /* @__PURE__ */ (0, _.jsx)("p", {
+			a ? /* @__PURE__ */ (0, r.jsx)("p", {
 				role: "alert",
 				className: "connector-guide-error",
-				children: i
+				children: a
 			}) : null,
-			/* @__PURE__ */ (0, _.jsx)(A, {
-				step: m,
-				locked: y,
-				hasFlow: !!f,
-				complete: b,
-				confirmed: p,
-				error: i,
-				applyLabel: l,
-				onStep: h,
-				onPreview: S,
-				onApply: c,
-				onBack: u
+			/* @__PURE__ */ (0, r.jsx)(F, {
+				step: v,
+				locked: S,
+				hasFlow: !!g,
+				complete: C,
+				confirmed: _,
+				error: a,
+				applyLabel: d,
+				onStep: y,
+				onPreview: T,
+				onApply: u,
+				onBack: f
 			}),
-			e.sources.length ? /* @__PURE__ */ (0, _.jsxs)("details", {
+			e.sources.length ? /* @__PURE__ */ (0, r.jsxs)("details", {
 				className: "connector-guide-sources",
-				children: [/* @__PURE__ */ (0, _.jsx)("summary", { children: "Sources et documentation" }), /* @__PURE__ */ (0, _.jsx)("ul", { children: e.sources.map((e) => /* @__PURE__ */ (0, _.jsx)("li", { children: /* @__PURE__ */ (0, _.jsxs)("a", {
+				children: [/* @__PURE__ */ (0, r.jsx)("summary", { children: "Sources et documentation" }), /* @__PURE__ */ (0, r.jsx)("ul", { children: e.sources.map((e) => /* @__PURE__ */ (0, r.jsx)("li", { children: /* @__PURE__ */ (0, r.jsxs)("a", {
 					href: e.url,
 					target: "_blank",
 					rel: "noopener noreferrer",
@@ -519,4 +669,4 @@ function N({ definition: e, draft: t, preparation: n, preparing: r, error: i, di
 	});
 }
 //#endregion
-export { m as a, C as i, E as n, d as o, T as r, N as t };
+export { T as a, v as c, w as i, b as l, j as n, x as o, E as r, y as s, R as t, l as u };

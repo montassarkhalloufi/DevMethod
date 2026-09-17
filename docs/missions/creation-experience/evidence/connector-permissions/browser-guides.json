@@ -1,0 +1,523 @@
+{
+  "origin": "http://127.0.0.1:4363",
+  "startedAt": "2026-09-17T15:21:26.362Z",
+  "checks": [
+    {
+      "viewport": "desktop",
+      "optionId": "slack",
+      "flowId": "slack-bot",
+      "questionCount": 2,
+      "partialVersion": 15,
+      "reloadedStep": 1,
+      "summary": [
+        "Que doit préparer l’application ? Envoyer des messages.",
+        "Dans quelles conversations ? Canaux publics choisis.",
+        "Identité : bot applicatif.",
+        "Le bot doit être invité dans les canaux choisis ; chat:write.public n’est pas demandé.",
+        "Scopes proposés pour l’intégration, non accordés. Aucune connexion API native ni installation effectuée."
+      ],
+      "permissions": [
+        {
+          "scope": "chat:write",
+          "reason": "Envoyer des messages avec l’identité choisie dans les conversations autorisées."
+        }
+      ],
+      "prerequisites": [
+        "Créer ou utiliser une application Slack et vérifier la politique d’installation du workspace.",
+        "Implémenter OAuth côté serveur, protéger les secrets, vérifier le callback et les permissions accordées.",
+        "Demander les scopes bot via scope, prévoir un callback serveur HTTPS et sélectionner les canaux où inviter le bot. Les redirections desktop/localhost PKCE Slack n’acceptent pas les scopes bot.",
+        "Une réautorisation Slack peut ajouter des scopes ; retirer une option du guide ne révoque pas les droits déjà accordés."
+      ],
+      "nativeConnection": null,
+      "access": "not-connected",
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "dialogClient": 798,
+        "dialogScroll": 798,
+        "guideClient": 746,
+        "guideScroll": 746
+      },
+      "passwordFields": 0,
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "optionId": "notion",
+      "flowId": "notion-context",
+      "questionCount": 1,
+      "partialVersion": 14,
+      "reloadedStep": 1,
+      "summary": [
+        "Quel travail préparer ? Consulter du contenu pour comprendre le projet.",
+        "Usage : contexte ou documentation pour l’assistant via le MCP Notion.",
+        "Les choix lecture et préparation de modifications sont des intentions. Ils ne limitent pas techniquement les permissions Notion à la lecture seule.",
+        "Le compte connecté peut donner accès à des outils de lecture et de modification. Aucun accès n’est encore accordé par cette préparation."
+      ],
+      "permissions": [
+        {
+          "scope": "default",
+          "reason": "Consentement OAuth Notion à examiner : les outils peuvent lire et modifier le contenu accessible au compte. Ce guide ne réduit pas ce grant."
+        }
+      ],
+      "prerequisites": [
+        "Connecter explicitement son compte au MCP officiel et examiner les permissions affichées par Notion.",
+        "Vérifier les outils réellement découverts et sélectionner la connexion pour ce projet.",
+        "Faire autoriser chaque action externe ; préparer un changement ne l’autorise pas. Le runner natif ne reçoit pas ces outils automatiquement."
+      ],
+      "nativeConnection": {
+        "providerId": "notion",
+        "url": "https://mcp.notion.com/mcp"
+      },
+      "access": "not-connected",
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "dialogClient": 798,
+        "dialogScroll": 798,
+        "guideClient": 746,
+        "guideScroll": 746
+      },
+      "passwordFields": 0,
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "optionId": "linear",
+      "flowId": "linear-read",
+      "questionCount": 1,
+      "partialVersion": 14,
+      "reloadedStep": 1,
+      "summary": [
+        "Quelles informations utiliser ? Issues.",
+        "Usage : assistant, via le point d’entrée officiel Linear limité aux outils de lecture.",
+        "Le consentement, la découverte d’outils et la sélection du projet restent à effectuer. Une capacité d’écriture n’autorise pas une action externe."
+      ],
+      "permissions": [
+        {
+          "scope": "read",
+          "reason": "Consulter les ressources Linear accessibles au compte."
+        }
+      ],
+      "prerequisites": [
+        "Connecter explicitement Linear, examiner son écran de consentement et les droits du compte.",
+        "Vérifier les outils réellement découverts et sélectionner cette connexion dans le projet.",
+        "Respecter les autorisations utilisateur pour toute action externe. Le runner natif ne reçoit pas ces outils automatiquement."
+      ],
+      "nativeConnection": {
+        "providerId": "linear",
+        "url": "https://mcp.linear.app/mcp/readonly"
+      },
+      "access": "not-connected",
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "dialogClient": 798,
+        "dialogScroll": 798,
+        "guideClient": 746,
+        "guideScroll": 746
+      },
+      "passwordFields": 0,
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "optionId": "github-mcp",
+      "flowId": "github-read",
+      "questionCount": 1,
+      "partialVersion": 14,
+      "reloadedStep": 1,
+      "summary": [
+        "Quel contexte GitHub utiliser ? Code et fichiers des dépôts.",
+        "Usage : assistant, via le MCP GitHub officiel limité aux outils de lecture.",
+        "Les ressources choisies ne modifient pas les droits du jeton et ne limitent pas les dépôts accessibles. Configurez ces restrictions directement dans GitHub.",
+        "Connexion par jeton personnel (PAT), sans OAuth natif DevMethod. Aucun accès n’est accordé par cette préparation."
+      ],
+      "permissions": [
+        {
+          "scope": "Contents: read",
+          "reason": "Permission indicative à configurer dans un PAT à granularité fine, selon les opérations réellement nécessaires. Ce guide ne crée ni ne modifie le jeton."
+        }
+      ],
+      "prerequisites": [
+        "Créer un PAT à granularité fine lorsque les opérations le permettent : choisir le propriétaire, limiter les dépôts et donner uniquement les permissions nécessaires avec une expiration.",
+        "Vérifier les politiques de l’organisation et obtenir son approbation si nécessaire. Les droits du compte et du jeton déterminent les accès réels.",
+        "Saisir le PAT uniquement dans le champ de connexion masqué. Ne jamais le placer dans le prompt, les réponses du guide, les fichiers ou les références du projet.",
+        "Vérifier les outils découverts puis sélectionner cette connexion pour le projet. Le point d’entrée lecture seule ne révoque pas les autres permissions du PAT.",
+        "Respecter les autorisations utilisateur pour toute action externe. Le runner natif ne reçoit pas ces outils automatiquement."
+      ],
+      "nativeConnection": {
+        "providerId": "github",
+        "url": "https://api.githubcopilot.com/mcp/readonly"
+      },
+      "access": "not-connected",
+      "layout": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "dialogClient": 798,
+        "dialogScroll": 798,
+        "guideClient": 746,
+        "guideScroll": 746
+      },
+      "passwordFields": 1,
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "optionId": "slack",
+      "flowId": "slack-bot",
+      "questionCount": 2,
+      "partialVersion": 20,
+      "reloadedStep": 1,
+      "summary": [
+        "Que doit préparer l’application ? Envoyer des messages.",
+        "Dans quelles conversations ? Canaux publics choisis.",
+        "Identité : bot applicatif.",
+        "Le bot doit être invité dans les canaux choisis ; chat:write.public n’est pas demandé.",
+        "Scopes proposés pour l’intégration, non accordés. Aucune connexion API native ni installation effectuée."
+      ],
+      "permissions": [
+        {
+          "scope": "chat:write",
+          "reason": "Envoyer des messages avec l’identité choisie dans les conversations autorisées."
+        }
+      ],
+      "prerequisites": [
+        "Créer ou utiliser une application Slack et vérifier la politique d’installation du workspace.",
+        "Implémenter OAuth côté serveur, protéger les secrets, vérifier le callback et les permissions accordées.",
+        "Demander les scopes bot via scope, prévoir un callback serveur HTTPS et sélectionner les canaux où inviter le bot. Les redirections desktop/localhost PKCE Slack n’acceptent pas les scopes bot.",
+        "Une réautorisation Slack peut ajouter des scopes ; retirer une option du guide ne révoque pas les droits déjà accordés."
+      ],
+      "nativeConnection": null,
+      "access": "not-connected",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "dialogClient": 364,
+        "dialogScroll": 364,
+        "guideClient": 328,
+        "guideScroll": 328
+      },
+      "passwordFields": 0,
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "optionId": "notion",
+      "flowId": "notion-context",
+      "questionCount": 1,
+      "partialVersion": 19,
+      "reloadedStep": 1,
+      "summary": [
+        "Quel travail préparer ? Consulter du contenu pour comprendre le projet.",
+        "Usage : contexte ou documentation pour l’assistant via le MCP Notion.",
+        "Les choix lecture et préparation de modifications sont des intentions. Ils ne limitent pas techniquement les permissions Notion à la lecture seule.",
+        "Le compte connecté peut donner accès à des outils de lecture et de modification. Aucun accès n’est encore accordé par cette préparation."
+      ],
+      "permissions": [
+        {
+          "scope": "default",
+          "reason": "Consentement OAuth Notion à examiner : les outils peuvent lire et modifier le contenu accessible au compte. Ce guide ne réduit pas ce grant."
+        }
+      ],
+      "prerequisites": [
+        "Connecter explicitement son compte au MCP officiel et examiner les permissions affichées par Notion.",
+        "Vérifier les outils réellement découverts et sélectionner la connexion pour ce projet.",
+        "Faire autoriser chaque action externe ; préparer un changement ne l’autorise pas. Le runner natif ne reçoit pas ces outils automatiquement."
+      ],
+      "nativeConnection": {
+        "providerId": "notion",
+        "url": "https://mcp.notion.com/mcp"
+      },
+      "access": "not-connected",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "dialogClient": 364,
+        "dialogScroll": 364,
+        "guideClient": 328,
+        "guideScroll": 328
+      },
+      "passwordFields": 0,
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "optionId": "linear",
+      "flowId": "linear-read",
+      "questionCount": 1,
+      "partialVersion": 19,
+      "reloadedStep": 1,
+      "summary": [
+        "Quelles informations utiliser ? Issues.",
+        "Usage : assistant, via le point d’entrée officiel Linear limité aux outils de lecture.",
+        "Le consentement, la découverte d’outils et la sélection du projet restent à effectuer. Une capacité d’écriture n’autorise pas une action externe."
+      ],
+      "permissions": [
+        {
+          "scope": "read",
+          "reason": "Consulter les ressources Linear accessibles au compte."
+        }
+      ],
+      "prerequisites": [
+        "Connecter explicitement Linear, examiner son écran de consentement et les droits du compte.",
+        "Vérifier les outils réellement découverts et sélectionner cette connexion dans le projet.",
+        "Respecter les autorisations utilisateur pour toute action externe. Le runner natif ne reçoit pas ces outils automatiquement."
+      ],
+      "nativeConnection": {
+        "providerId": "linear",
+        "url": "https://mcp.linear.app/mcp/readonly"
+      },
+      "access": "not-connected",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "dialogClient": 364,
+        "dialogScroll": 364,
+        "guideClient": 328,
+        "guideScroll": 328
+      },
+      "passwordFields": 0,
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "optionId": "github-mcp",
+      "flowId": "github-read",
+      "questionCount": 1,
+      "partialVersion": 19,
+      "reloadedStep": 1,
+      "summary": [
+        "Quel contexte GitHub utiliser ? Code et fichiers des dépôts.",
+        "Usage : assistant, via le MCP GitHub officiel limité aux outils de lecture.",
+        "Les ressources choisies ne modifient pas les droits du jeton et ne limitent pas les dépôts accessibles. Configurez ces restrictions directement dans GitHub.",
+        "Connexion par jeton personnel (PAT), sans OAuth natif DevMethod. Aucun accès n’est accordé par cette préparation."
+      ],
+      "permissions": [
+        {
+          "scope": "Contents: read",
+          "reason": "Permission indicative à configurer dans un PAT à granularité fine, selon les opérations réellement nécessaires. Ce guide ne crée ni ne modifie le jeton."
+        }
+      ],
+      "prerequisites": [
+        "Créer un PAT à granularité fine lorsque les opérations le permettent : choisir le propriétaire, limiter les dépôts et donner uniquement les permissions nécessaires avec une expiration.",
+        "Vérifier les politiques de l’organisation et obtenir son approbation si nécessaire. Les droits du compte et du jeton déterminent les accès réels.",
+        "Saisir le PAT uniquement dans le champ de connexion masqué. Ne jamais le placer dans le prompt, les réponses du guide, les fichiers ou les références du projet.",
+        "Vérifier les outils découverts puis sélectionner cette connexion pour le projet. Le point d’entrée lecture seule ne révoque pas les autres permissions du PAT.",
+        "Respecter les autorisations utilisateur pour toute action externe. Le runner natif ne reçoit pas ces outils automatiquement."
+      ],
+      "nativeConnection": {
+        "providerId": "github",
+        "url": "https://api.githubcopilot.com/mcp/readonly"
+      },
+      "access": "not-connected",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "dialogClient": 364,
+        "dialogScroll": 364,
+        "guideClient": 328,
+        "guideScroll": 328
+      },
+      "passwordFields": 1,
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "posts": [
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guides/prepare"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guides/prepare"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guides/prepare"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "desktop",
+      "path": "/api/connectors/guides/prepare"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guides/prepare"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guides/prepare"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guides/prepare"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guide-drafts"
+    },
+    {
+      "viewport": "mobile",
+      "path": "/api/connectors/guides/prepare"
+    }
+  ],
+  "finishedAt": "2026-09-17T15:21:42.673Z"
+}

@@ -23,6 +23,13 @@ export const mcpPresets = Object.freeze([
     auth: 'oauth',
     docs: 'https://mcp.sentry.dev/',
   },
+  {
+    id: 'github',
+    name: 'GitHub',
+    url: 'https://api.githubcopilot.com/mcp/readonly',
+    auth: 'bearer',
+    docs: 'https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md',
+  },
 ]);
 export const mcpId = (value) =>
   typeof value === 'string' &&
@@ -94,12 +101,13 @@ export function connectionInput(input, connections) {
     input.url ?? (prior?.provider === preset?.id ? prior?.url : undefined) ?? preset?.url;
   const official =
     endpoint === preset?.url ||
-    (preset?.id === 'linear' && endpoint === 'https://mcp.linear.app/mcp/readonly');
+    (preset?.id === 'linear' && endpoint === 'https://mcp.linear.app/mcp/readonly') ||
+    (preset?.id === 'github' && endpoint === 'https://api.githubcopilot.com/mcp/');
   mcpRequire(
-    !preset || (official && (input.auth === undefined || input.auth === 'oauth')),
-    'Ce fournisseur utilise son endpoint OAuth officiel.',
+    !preset || (official && (input.auth === undefined || input.auth === preset.auth)),
+    'Utilisez l’endpoint officiel et le mode d’authentification prévu pour ce fournisseur.',
   );
-  const auth = input.auth ?? 'oauth';
+  const auth = input.auth ?? preset?.auth ?? 'oauth';
   mcpRequire(['oauth', 'bearer', 'none'].includes(auth), 'Authentification MCP inconnue.');
   mcpRequire(
     input.bearerToken === undefined || auth === 'bearer',

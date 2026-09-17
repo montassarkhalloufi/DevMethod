@@ -99,6 +99,39 @@ export function createJobs(store, { mcpContext } = {}) {
       references: state.references,
       mcp,
       connectorGuides: structuredClone(job.connectorGuides ?? []),
+      connectorInteractions: {
+        requestEndpoint: '/api/connectors/interactions/request',
+        responsesEndpoint: '/api/connectors/interactions',
+        commands: {
+          request: [
+            'devmethod',
+            'studio',
+            'guide-request',
+            '--workspace',
+            store.root,
+            '--file',
+            'guide-request.json',
+          ],
+          responses: [
+            'devmethod',
+            'studio',
+            'guide-responses',
+            '--workspace',
+            store.root,
+            '--file',
+            'guide-responses.json',
+          ],
+        },
+        requestPayload: {
+          jobId: job.id,
+          eventId: 'unique-request-id',
+          optionId: 'slack|notion|linear|github-mcp',
+          guideVersion: 1,
+        },
+        responsesPayload: { jobId: job.id },
+        instructions:
+          'Request a known connector guide when the human needs to choose its usage. Poll responses after the human has answered. Do not fabricate human answers or submit approval/draft/policy endpoints with the worker token. Later answers are validated preparations in this separate journal; the initial connectorGuides snapshot remains unchanged. A preparation is not a connected account. Secrets must only be entered into the dedicated connection form.',
+      },
       connectorGuideInstructions:
         'Connector guides are validated integration intentions, not connected accounts or permissions. Implement or plan only within the user’s request. Explain prerequisites, respect separate bot/user identities and requested scopes, use secret references only, and obtain authorization before external actions. MCP access is provided separately by the manual host bridge; app-user OAuth/runtime integration is not supplied by a guide.',
       request: job.request,

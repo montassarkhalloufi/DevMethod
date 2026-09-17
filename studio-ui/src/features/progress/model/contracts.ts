@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 export type JobStatus = 'queued' | 'running' | 'ready' | 'failed' | 'cancelled' | 'interrupted';
 export interface ProgressJob {
   id: string;
@@ -32,6 +33,7 @@ export interface ProgressSnapshot {
   source: 'host' | 'runner' | null;
 }
 export interface ProgressWidgetProps {
+  renderInteractions?(job: ProgressJob): ReactNode;
   jobs: ProgressJob[];
   revisions: { id: string; jobId: string; files: { path: string }[] }[];
   loadProgress(jobId: string, signal: AbortSignal): Promise<ProgressSnapshot>;

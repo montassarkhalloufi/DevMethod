@@ -83,6 +83,28 @@ const linearFlow = (id, title, description) => ({
     },
   ],
 });
+const githubFlow = (id, title, description) => ({
+  id,
+  title,
+  description,
+  usage: 'assistant',
+  identity: 'user',
+  transport: 'mcp',
+  questions: [
+    {
+      id: 'resources',
+      title: 'Quel contexte GitHub utiliser ?',
+      description:
+        'Ces choix préparent le travail de l’assistant. Les dépôts et droits réellement accessibles se règlent dans le jeton GitHub.',
+      multiple: true,
+      options: [
+        choice('code', 'Code et fichiers des dépôts'),
+        choice('issues', 'Issues'),
+        choice('pull-requests', 'Pull requests'),
+      ],
+    },
+  ],
+});
 
 // Version 1 IDs and semantics are durable; a changed contract needs a new version.
 export const connectorGuideDefinitions = [
@@ -163,6 +185,39 @@ export const connectorGuideDefinitions = [
     ],
     sources: [
       { title: 'Linear — serveur MCP et lecture seule', url: 'https://linear.app/docs/mcp' },
+    ],
+  },
+  {
+    optionId: 'github-mcp',
+    guideVersion: 1,
+    title: 'GitHub · Assistant MCP',
+    description:
+      'Connecter le serveur MCP officiel avec un jeton personnel GitHub (PAT). La lecture seule est proposée en premier ; l’API de votre application reste une intégration distincte.',
+    flows: [
+      githubFlow(
+        'github-read',
+        'Consulter GitHub en lecture seule',
+        'Le point d’entrée /mcp/readonly expose uniquement les outils de lecture du serveur. Il ne retire pas les autres droits du jeton.',
+      ),
+      githubFlow(
+        'github-write',
+        'Préparer des modifications GitHub',
+        'Le point d’entrée standard peut exposer des outils de modification. Chaque action externe reste soumise aux autorisations utilisateur.',
+      ),
+    ],
+    sources: [
+      {
+        title: 'GitHub — serveur MCP distant et lecture seule',
+        url: 'https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md',
+      },
+      {
+        title: 'GitHub — authentification MCP par PAT',
+        url: 'https://github.com/github/github-mcp-server/blob/main/README.md',
+      },
+      {
+        title: 'GitHub — jetons personnels et dépôts autorisés',
+        url: 'https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens',
+      },
     ],
   },
 ];

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { ConnectorConnection, ConnectorOption } from '../model/contracts';
 import type { GuideInput } from '../model/guides';
+import { useGuideDrafts } from './useGuideDrafts';
 
 export interface ConnectorDraft {
   profile: string;
@@ -29,14 +30,20 @@ function initialDraft(
 }
 
 export function useConnectorDrafts(checkId?: string) {
+  const persistence = useGuideDrafts();
   const [drafts, setDrafts] = useState<Record<string, ConnectorDraft>>({});
   function get(option: ConnectorOption, connection?: ConnectorConnection) {
     const existing = drafts[option.id];
-    return existing && (existing.dirty || existing.baseVersion >= (connection?.version || 0))
-      ? existing
-      : initialDraft(option, connection, checkId);
+    const base =
+      existing && (existing.dirty || existing.baseVersion >= (connection?.version || 0))
+        ? existing
+        : initialDraft(option, connection, checkId);
+    const restored = persistence.drafts[option.id]?.input;
+    return !base.dirty && restored ? { ...base, guide: restored } : base;
   }
   function update(optionId: string, current: ConnectorDraft, patch: Partial<ConnectorDraft>) {
+    if (patch.guide !== undefined)
+      persistence.edit(optionId, patch.guide, persistence.drafts[optionId]?.step ?? 0);
     const dirty = current.dirty || ['profile', 'references', 'guide'].some((key) => key in patch);
     setDrafts((values) => ({ ...values, [optionId]: { ...current, ...patch, dirty } }));
   }
@@ -47,5 +54,5 @@ export function useConnectorDrafts(checkId?: string) {
       return { ...values, [optionId]: { ...submitted, baseVersion: version, dirty: false } };
     });
   }
-  return { get, update, saved };
+  return { get, update, saved, persistence };
 }

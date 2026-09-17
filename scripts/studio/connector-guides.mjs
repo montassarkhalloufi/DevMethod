@@ -100,7 +100,44 @@ function slackPreparation(input) {
   };
 }
 
+function githubPreparation(input) {
+  const readOnly = input.flowId === 'github-read';
+  const permissions = {
+    code: 'Contents',
+    issues: 'Issues',
+    'pull-requests': 'Pull requests',
+  };
+  return {
+    summary: [
+      readOnly
+        ? 'Usage : assistant, via le MCP GitHub officiel limité aux outils de lecture.'
+        : 'Usage : assistant, via le MCP GitHub standard capable de modifications.',
+      'Les ressources choisies ne modifient pas les droits du jeton et ne limitent pas les dépôts accessibles. Configurez ces restrictions directement dans GitHub.',
+      'Connexion par jeton personnel (PAT), sans OAuth natif DevMethod. Aucun accès n’est accordé par cette préparation.',
+    ],
+    permissions: input.answers.resources.map((resource) => ({
+      scope: `${permissions[resource]}: ${readOnly ? 'read' : 'read/write'}`,
+      reason:
+        'Permission indicative à configurer dans un PAT à granularité fine, selon les opérations réellement nécessaires. Ce guide ne crée ni ne modifie le jeton.',
+    })),
+    prerequisites: [
+      'Créer un PAT à granularité fine lorsque les opérations le permettent : choisir le propriétaire, limiter les dépôts et donner uniquement les permissions nécessaires avec une expiration.',
+      'Vérifier les politiques de l’organisation et obtenir son approbation si nécessaire. Les droits du compte et du jeton déterminent les accès réels.',
+      'Saisir le PAT uniquement dans le champ de connexion masqué. Ne jamais le placer dans le prompt, les réponses du guide, les fichiers ou les références du projet.',
+      'Vérifier les outils découverts puis sélectionner cette connexion pour le projet. Le point d’entrée lecture seule ne révoque pas les autres permissions du PAT.',
+      'Respecter les autorisations utilisateur pour toute action externe. Le runner natif ne reçoit pas ces outils automatiquement.',
+    ],
+    nativeConnection: {
+      providerId: 'github',
+      url: readOnly
+        ? 'https://api.githubcopilot.com/mcp/readonly'
+        : 'https://api.githubcopilot.com/mcp/',
+    },
+  };
+}
+
 function mcpPreparation(input) {
+  if (input.optionId === 'github-mcp') return githubPreparation(input);
   if (input.optionId === 'notion')
     return {
       summary: [
