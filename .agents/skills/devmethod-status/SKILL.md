@@ -9,4 +9,4 @@ Execute the `status` stage now for the user's supplied ticket, mission, paths or
 
 Read [the stage contract](../project-foundation/references/operating-commands.md) and [project context routing](../project-foundation/SKILL.md), then apply only `status` and its relevant references. Preserve the supplied arguments, existing decisions, authorizations and stage scope. Reuse available context; clarify only a missing target that materially changes the work. Do not run other stages merely because they are suggested next.
 
-Return the concrete outcome, verification limits and one next command from the stage contract.
+Return the concrete outcome and verification limits. Include a next action only when work remains, following the stage contract and existing continuation authorization.

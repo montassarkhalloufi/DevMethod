@@ -11,4 +11,4 @@ Read [the stage contract](../project-foundation/references/operating-commands.md
 
 Use [decision-architecture](../decision-architecture/SKILL.md) for this stage’s detailed procedure.
 
-Return the concrete outcome, verification limits and one next command from the stage contract.
+Return the concrete outcome and verification limits. Include a next action only when work remains, following the stage contract and existing continuation authorization.

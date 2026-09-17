@@ -1,0 +1,6 @@
+.workspace { display: flex; height: 100vh; }
+.column { overflow: auto; }
+.decision { overflow: auto; overscroll-behavior: contain; }
+.composer { position: sticky; bottom: 0; }
+.source-menu { position: absolute; z-index: 3; }
+.editor-pinned-line { position: sticky; top: 0; z-index: 10; }

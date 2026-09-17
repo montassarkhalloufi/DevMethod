@@ -6,7 +6,20 @@ Statut : implémentation et essais en cours. Aucune supériorité annoncée. La 
 couvre les choix réversibles, le code local, les tests, les commits et une PR brouillon.
 Fusion, déploiement public, publication npm, achat, télémétrie et contact externe exclus.
 
-## Tranche en cours : espaces avant réalisation
+## Tranche terminée : enseignements réutilisables de Studio
+
+Le 17 septembre, après le bilan utilisateur, autorisation explicite : « je te laisse ce chantier alors go ». Partir de `84e6d41` ; améliorer le kit à partir des défauts et frictions constatés, sans relancer les essais fournisseur clos ni développer de nouveaux connecteurs Studio. La portée est prête sous la délégation existante : règles canoniques proportionnées, vérification UI plus précoce, résultats d’outils actionnables et boucle de correction traçable. Pas de nouvelle architecture ni de modification des références Vercel épinglées.
+
+| Critère | Résultat attendu | Vérification prévue |
+| --- | --- | --- |
+| METHOD-1 | Résultat et décision utile présentés avant la mécanique ; reprise d’une petite correction sans redemande de délégation | Exercice isolé sur projet fictif, diff et résultat observables |
+| METHOD-2 | Contrôle d’une première composition interactive avant réplication ; risques de scroll, superposition et espace utilisable ciblés | Revue des règles contre les défauts observés et exercice de sélection de contrôles ; aucune conformité navigateur déduite d’une lecture |
+| METHOD-3 | Contrôle absent/non exécuté/échoué distingué ; correction et recontrôle rattachés aux bons fichiers et révision | Exercice isolé avec vrai contrôle défaillant, journal conservé et nouvelle exécution |
+| METHOD-4 | Règles réutilisables distribuées par les installations existantes, références intactes, pas de migration automatique | Validation skills, liens, installation Codex/Claude/Cursor et contrôles du paquet |
+
+Tranche réalisée : [résultats, journaux et limites](evidence/method-feedback/RESULTS.md). Trois exercices hôtes ponctuels, 702 tests du dépôt réussis, installation/doctor/workflow 24/24, lint/format/liens/paquet contrôlés. La validation Python externe est indisponible (PyYAML absent). Ces essais évaluent la distribution et des comportements bornés ; ils ne prouvent ni supériorité comparative ni gain d’effort humain. Les checkpoints précédents restent historiques.
+
+## Tranche précédente : espaces avant réalisation
 
 Reprise du 16 septembre après `23b7a34` : le retour utilisateur montre que la longue vue
 Parcours ne rend pas Discovery, Cadrage et Design assez accessibles. Périmètre prêt :

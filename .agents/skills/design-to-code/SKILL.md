@@ -19,8 +19,8 @@ For an approved reference, continue directly below without reopening the directi
 2. Identify the journey, primary action, and required states. Read [the UX contract](references/ux-contract.md).
 3. Extract existing tokens and primitives: typography, semantic colors, spacing, grid, borders, radii, shadows, and iconography. Preserve the existing UI library.
 4. Map reference → components → data → interactions. Separate neutral primitives from business components; create only what the screen needs.
-5. Implement required real behavior and useful empty/loading/error states. Label prototype fixtures; never leave a button that shows fake success.
+5. Implement required real behavior and useful empty/loading/error states. For a changed layout or interaction pattern, inspect the first representative slice in a browser before extending it across screens. This is an implementation review, not another approval gate. Label prototype fixtures; never leave a button that shows fake success.
 6. Render in a browser and compare at the same desktop/mobile dimensions. Check legibility, scrolling, interactions, keyboard, and focus. A green compilation does not validate appearance.
-7. Correct priority gaps and report checks actually performed with [the record](assets/UI_ACCEPTANCE.md). Never claim “pixel perfect” or “100% faithful” without a measurable basis.
+7. Correct priority gaps and report checks actually performed, using relevant fields from [the record](assets/UI_ACCEPTANCE.md) in existing scope notes when useful. Never claim “pixel perfect” or “100% faithful” without a measurable basis.
 
 If the request concerns React, resolve `react-feature-engineering` only for implementation. This skill imposes no framework, palette, or shared style across projects.
