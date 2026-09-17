@@ -6,6 +6,37 @@ Statut : implémentation et essais en cours. Aucune supériorité annoncée. La 
 couvre les choix réversibles, le code local, les tests, les commits et une PR brouillon.
 Fusion, déploiement public, publication npm, achat, télémétrie et contact externe exclus.
 
+## Tranche réalisée : accueil et bibliothèque locale
+
+Demande du 17 septembre : arriver sur un écran permettant de créer, importer ou reprendre
+un projet. [ADR 023](../../ADR-023-studio-home.md) : accueil local indépendant, registre
+persistant, chaque projet conservant son workspace et ses serveurs. Trois actions,
+formulaires en fenêtre dédiée, récents/recherche et retour « Mes projets » préservant
+le brouillon. Les lancements directs restent compatibles.
+
+Critères HOME-1 à HOME-8 et preuves : [résultats de recette](evidence/home/RESULTS.md).
+Création, import par copie, reprise, erreur, recherche et redémarrage essayés dans Chrome ;
+débordement mobile détecté puis corrigé. Build et 843 tests, 9 contrôles CLI après
+refactoring, gates documentés. La portée est locale : l’accès par URL publique, son
+authentification et son hébergement restent à réaliser, sans déploiement implicite.
+
+## Recherche réalisée : configurations Lovable et modes de connexion
+
+L’utilisateur a demandé de parcourir la session Lovable ouverte avant de poursuivre
+l’élargissement des connecteurs. [Relevé interactif](evidence/lovable-connectors/UI-OBSERVATIONS.md),
+[sources officielles](evidence/lovable-connectors/RESEARCH.md) et
+[écarts avec le code actuel](evidence/lovable-connectors/DEVMethod-GAPS.md).
+Les familles accessibles ont été examinées : compte/espace/projet, App + chat, App user,
+API personnalisée, serveur/annuaire MCP, Cloud, IA, sécurité, Git, partage et publication.
+Les formulaires n’ont pas été enregistrés ; aucun fournisseur connecté ni service payant
+activé. Cette recherche ne constitue pas un essai des 115 entrées du catalogue.
+
+Suite identifiée dans la portée connecteurs demandée : clarifier consommateurs et
+identités, puis livrer un premier appel réellement utilisable depuis le runtime avant
+de généraliser les définitions API/MCP. App user exige l’identité applicative et le cycle
+OAuth isolé. Ces capacités natives ne sont pas livrées par le catalogue actuel ; les
+priorités détaillées du relevé sont des propositions d’implémentation, pas des cases achevées.
+
 ## Tranche réalisée : reprise de projets et outils à la demande
 
 Demandes du 17 septembre : nouveau projet ou reprise d’un dépôt sans DevMethod, contexte retrouvé dans ses sources, outils ouverts de diagnostic et services applicatifs au choix. Les références Lovable précisent une navigation catalogue → fiche → configuration, avec icônes, recherche et catégories dans une fenêtre dédiée. Conserver la composition bleu nuit du Studio et le brouillon utilisateur ; les fonctions facultatives restent à la demande.

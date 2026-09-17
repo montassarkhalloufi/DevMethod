@@ -348,7 +348,13 @@ const closeServer = (server) =>
     server.closeAllConnections();
   });
 
-export async function startStudio({ workspace, port = 4330, previewPort = 0, agent = null }) {
+export async function startStudio({
+  workspace,
+  port = 4330,
+  previewPort = 0,
+  agent = null,
+  homeUrl,
+}) {
   const packageRoot = fileURLToPath(new URL('../../', import.meta.url));
   if (path.resolve(workspace) === path.resolve(packageRoot))
     throw new Error('Choisissez un dossier dédié au produit, distinct du dépôt DevMethod.');
@@ -367,6 +373,7 @@ export async function startStudio({ workspace, port = 4330, previewPort = 0, age
       comparisonPreviewOrigin,
       token,
       workspace: store.root,
+      ...(homeUrl ? { homeUrl } : {}),
       agent: runner?.status() ?? { kind: 'host-bridge', automatic: false },
       delegation: domain.effectiveDelegation(state),
       approval,

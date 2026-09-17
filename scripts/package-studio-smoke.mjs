@@ -55,7 +55,8 @@ function checkHelp(pkg) {
   ]) {
     const result = spawnSync(process.execPath, args, { encoding: 'utf8', timeout: 10000 });
     assert.equal(result.status, 0, result.stderr || result.error?.message);
-    assert.match(result.stdout, /serve\|example\|status/);
+    for (const command of ['home', 'serve', 'import', 'example', 'status'])
+      assert.ok(result.stdout.includes(command), `Missing Studio command: ${command}`);
   }
 }
 

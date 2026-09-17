@@ -8,7 +8,38 @@ import { createTechnicalWorkspace } from './technical-workspace.js';
 import { createProgressController } from './progress-controller.js';
 import { createConnectorsController } from './connectors-controller.js';
 
-export function mountStudio({ document, window, api = createStudioApi(), pollMs = 2000 }) {
+function renderHomeLink(document, homeUrl) {
+  const link = document.getElementById('studio-home-link');
+  if (!link) return;
+  let origin;
+  try {
+    const url = new URL(homeUrl);
+    if (
+      url.protocol === 'http:' &&
+      ['127.0.0.1', 'localhost'].includes(url.hostname) &&
+      url.port &&
+      !url.username &&
+      !url.password &&
+      url.pathname === '/' &&
+      !url.search &&
+      !url.hash
+    )
+      origin = url.origin;
+  } catch {
+    /* A standalone Studio has no launcher. */
+  }
+  link.href = origin ?? '/';
+  link.setAttribute('aria-label', origin ? 'Accueil — Mes projets' : 'DevMethod Studio');
+  link.querySelector('span').textContent = origin ? '/ Mes projets' : '/ Studio';
+}
+
+export function mountStudio({
+  document,
+  window,
+  api = createStudioApi(),
+  pollMs = 2000,
+  navigate = (url) => window.location.assign(url),
+}) {
   const el = (id) => document.getElementById(id);
   const views = createViews(document);
   let technicalWorkspace;
@@ -63,6 +94,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   let editingProject = null;
   let draftDirty = false;
   let draftTimer;
+  let returningHome = false;
   let previewId = null;
   let displayedRevisionId = null;
   let frameOrigin = null;
@@ -495,6 +527,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     try {
       const [next, capabilities] = await Promise.all([api.state(), api.runtime()]);
       runtime = capabilities;
+      renderHomeLink(document, runtime.homeUrl);
       render(next);
       if (refreshError && el('notice').textContent === refreshError) notice('');
       refreshError = null;
@@ -559,6 +592,42 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     el('draft-status').textContent = 'Brouillon modifié…';
     window.clearTimeout(draftTimer);
     draftTimer = window.setTimeout(saveDraft, 900);
+  }
+  function requireSavedProject() {
+    if (!projectDirty) return false;
+    notice('Enregistrez les réglages du projet avant de revenir à l’accueil.', true);
+    openProjectSettings();
+    el('save-project').focus();
+    return true;
+  }
+  async function returnHome(event) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+      return;
+    event.preventDefault();
+    if (returningHome) return;
+    returningHome = true;
+    const link = event.currentTarget;
+    const destination = link.href;
+    link.setAttribute('aria-busy', 'true');
+    try {
+      await writes;
+      if (disposed || requireSavedProject()) return;
+      await saveDraft();
+      await writes;
+      if (disposed || requireSavedProject()) return;
+      if (draftDirty) {
+        if (!el('notice').classList.contains('error'))
+          notice(
+            'Votre demande a changé pendant l’enregistrement. Elle est conservée ; réessayez le retour à l’accueil.',
+            true,
+          );
+        return;
+      }
+      navigate(destination);
+    } finally {
+      returningHome = false;
+      link.removeAttribute('aria-busy');
+    }
   }
   async function sendRequest(event) {
     event.preventDefault();
@@ -777,6 +846,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     if (event.target.id !== 'reference-file') markProjectDirty();
   });
   on('request', 'input', markDraftDirty);
+  on('studio-home-link', 'click', returnHome);
   on('save-draft', 'click', saveDraft);
   on('request-form', 'submit', sendRequest);
   on('refresh', 'click', refresh);
@@ -827,6 +897,15 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     options,
   );
   window.addEventListener('message', selectedMessage, options);
+  window.addEventListener(
+    'beforeunload',
+    (event) => {
+      if (!draftDirty && !projectDirty) return;
+      event.preventDefault();
+      event.returnValue = '';
+    },
+    options,
+  );
   document.addEventListener(
     'keydown',
     (event) => {

@@ -1,0 +1,143 @@
+import fs from 'node:fs';
+import http from 'node:http';
+import { fileURLToPath } from 'node:url';
+import { body, send, sameOrigin } from './http.mjs';
+import { safeFile, mimeType } from './files.mjs';
+import { startStudio } from './server.mjs';
+import { createHomeStore, homeError } from './home-store.mjs';
+
+const publicRoot = fileURLToPath(new URL('./public/', import.meta.url));
+const widgetRoot = fileURLToPath(new URL('../../dist/studio-ui/', import.meta.url));
+const closeServer = (server) =>
+  new Promise((resolve) => {
+    server.close(resolve);
+    server.closeAllConnections();
+  });
+
+function publicError(error) {
+  if (error.homeSafe) return { status: error.status, message: error.message };
+  if (/verrouill|verrouillé/.test(error.message))
+    return {
+      status: 409,
+      message:
+        'Ce projet est déjà ouvert dans une autre session. Retrouvez cette session ou fermez-la avant de reprendre ici. Aucun verrou n’a été retiré.',
+    };
+  if (error.status === 403) return { status: 403, message: 'Origine non autorisée.' };
+  if (error.code === 'ENOENT')
+    return { status: 404, message: 'Dossier, projet ou fichier introuvable.' };
+  if (/symbolique/.test(error.message))
+    return { status: 400, message: 'Utilisez un chemin réel, sans lien symbolique.' };
+  return {
+    status: 400,
+    message:
+      'Action refusée : vérifiez le dossier, les données du projet et les limites d’import. Aucun projet existant n’a été réinitialisé.',
+  };
+}
+
+export async function startStudioHome({ directory, port = 4330 }) {
+  const store = createHomeStore(directory),
+    sessions = new Map();
+  let url,
+    closing = false,
+    closingTask,
+    mutations = Promise.resolve();
+  const serialize = (action) => {
+    if (closing) throw homeError('Cet accueil est en cours de fermeture.', 409);
+    const task = mutations.then(action);
+    mutations = task.catch(() => {});
+    return task;
+  };
+
+  async function open(input) {
+    if (
+      !input ||
+      typeof input !== 'object' ||
+      Array.isArray(input) ||
+      Object.keys(input).some((key) => key !== 'id')
+    )
+      throw homeError('Demande d’ouverture invalide.');
+    const project = store.project(input.id);
+    let studio = sessions.get(project.id);
+    if (!studio) {
+      studio = await startStudio({
+        workspace: project.workspace,
+        port: 0,
+        previewPort: 0,
+        agent: null,
+        homeUrl: url,
+      });
+      sessions.set(project.id, studio);
+    }
+    return { project: await store.opened(project.id), url: studio.runtime().url };
+  }
+
+  function asset(requestUrl, response) {
+    const relative =
+      requestUrl.pathname === '/' ? 'home.html' : decodeURIComponent(requestUrl.pathname.slice(1));
+    const file = relative.startsWith('studio-ui/')
+      ? safeFile(widgetRoot, relative.slice('studio-ui/'.length))
+      : safeFile(publicRoot, relative);
+    response.setHeader(
+      'Content-Security-Policy',
+      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'",
+    );
+    send(response, 200, fs.readFileSync(file), mimeType(file));
+  }
+
+  const server = http.createServer(async (request, response) => {
+    try {
+      if (request.headers.host !== new URL(url).host) throw homeError('Hôte non autorisé.', 403);
+      const requestUrl = new URL(request.url, url);
+      if (request.method === 'GET') {
+        if (requestUrl.pathname === '/api/home') return send(response, 200, store.read());
+        if (requestUrl.pathname.startsWith('/api/')) throw homeError('Route inconnue.', 404);
+        return asset(requestUrl, response);
+      }
+      if (request.method !== 'POST')
+        return send(response, 405, { error: 'Méthode non autorisée.' });
+      sameOrigin(request, url);
+      const actions = {
+        '/api/home/projects': async (input) => ({ project: await store.create(input) }),
+        '/api/home/open': open,
+      };
+      const action = actions[requestUrl.pathname];
+      if (!action) throw homeError('Route inconnue.', 404);
+      const input = await body(request, 65536);
+      send(response, 200, await serialize(() => action(input)));
+    } catch (error) {
+      const failure = publicError(error);
+      send(response, failure.status, { error: failure.message });
+    }
+  });
+  try {
+    await new Promise((resolve, reject) => {
+      server.once('error', reject);
+      server.listen(port, '127.0.0.1', () => {
+        server.removeListener('error', reject);
+        resolve();
+      });
+    });
+    url = 'http://127.0.0.1:' + server.address().port;
+  } catch (error) {
+    await closeServer(server);
+    await store.close();
+    throw error;
+  }
+  return {
+    runtime: () => ({ url, directory: store.root }),
+    close() {
+      closingTask ??= (async () => {
+        closing = true;
+        await closeServer(server);
+        await mutations;
+        const results = await Promise.allSettled(
+          [...sessions.values()].map((studio) => studio.close()),
+        );
+        await store.close();
+        const failed = results.find((result) => result.status === 'rejected');
+        if (failed) throw failed.reason;
+      })();
+      return closingTask;
+    },
+  };
+}

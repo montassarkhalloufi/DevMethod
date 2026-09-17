@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { startStudio } from './server.mjs';
 import { restoreArchive } from './archive.mjs';
 import { initializeReactExample } from './react-example.mjs';
@@ -45,7 +46,35 @@ function argumentsFor(args) {
       throw new Error('Option invalide : ' + value);
     options[value.slice(2)] = args[++index];
   }
-  return { options, command: positional[0] ?? 'serve' };
+  return { options, command: positional[0] ?? (options.workspace ? 'serve' : 'home') };
+}
+
+function keepStudioOpen(studio) {
+  console.log(JSON.stringify({ ...studio.runtime(), token: undefined }, null, 2));
+  let closing = false;
+  const close = async () => {
+    if (closing) return;
+    closing = true;
+    await studio.close();
+  };
+  process.once('SIGINT', close);
+  process.once('SIGTERM', close);
+}
+
+async function openHome(options) {
+  for (const option of Object.keys(options)) {
+    if (!['workspace', 'port'].includes(option))
+      throw new Error(`L’accueil Studio n’accepte pas l’option --${option}.`);
+  }
+  if (options.workspace && !path.isAbsolute(options.workspace))
+    throw new Error('--workspace doit désigner un dossier absolu dédié.');
+  const { startStudioHome } = await import('./home-server.mjs');
+  keepStudioOpen(
+    await startStudioHome({
+      directory: options.workspace ?? path.join(os.homedir(), '.devmethod', 'studio-home'),
+      port: Number(options.port ?? 4330),
+    }),
+  );
 }
 
 export async function runStudioCli(args) {
@@ -53,8 +82,12 @@ export async function runStudioCli(args) {
     const { options, command } = argumentsFor(args);
     if (options.help) {
       console.log(
-        'devmethod studio [serve|import|example|status|claim|progress|finish|fail|check|connectors|connector-probe|connector-result|restore|example-react] --workspace /dossier\nImport : --source /projet/existant --workspace /dossier/vide/distinct [--dry-run] ; copie locale sans exécuter de scripts ni installer de dépendances.\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nprogress/finish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nconnectors : lecture des connexions ; connector-probe/connector-result : --file payload.json (64 Kio maximum).\nprogress : {jobId,eventId,event} ; événement plan ou action pendant la mission, déclaration distincte des preuves.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
+        'devmethod studio [home|serve|import|example|status|claim|progress|finish|fail|check|connectors|connector-probe|connector-result|restore|example-react] [--workspace /dossier]\nAccueil : devmethod studio ; créer, importer ou reprendre un projet.\nhome : [--workspace /bibliothèque] [--port 4330] ; bibliothèque par défaut ~/.devmethod/studio-home.\nImport : --source /projet/existant --workspace /dossier/vide/distinct [--dry-run] ; copie locale sans exécuter de scripts ni installer de dépendances.\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nprogress/finish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nconnectors : lecture des connexions ; connector-probe/connector-result : --file payload.json (64 Kio maximum).\nprogress : {jobId,eventId,event} ; événement plan ou action pendant la mission, déclaration distincte des preuves.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
       );
+      return;
+    }
+    if (command === 'home') {
+      await openHome(options);
       return;
     }
     if (!options.workspace || !path.isAbsolute(options.workspace))
@@ -104,32 +137,28 @@ export async function runStudioCli(args) {
       await workerCommand(command, options);
       return;
     }
-    if (options.agent && options.agent !== 'codex')
-      throw new Error('Seul l’adaptateur local codex est disponible.');
-    const studio = await startStudio({
-      workspace: options.workspace,
-      port: Number(options.port ?? 4330),
-      previewPort: Number(options['preview-port'] ?? 4331),
-      agent: options.agent
-        ? {
-            maxJobs: Number(options['max-jobs'] ?? 2),
-            timeoutMs: Number(options['timeout-ms'] ?? 300000),
-          }
-        : null,
-    });
-    console.log(JSON.stringify({ ...studio.runtime(), token: undefined }, null, 2));
-    let closing = false;
-    const close = async () => {
-      if (closing) return;
-      closing = true;
-      await studio.close();
-    };
-    process.once('SIGINT', close);
-    process.once('SIGTERM', close);
+    await openWorkspace(options);
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;
   }
+}
+
+async function openWorkspace(options) {
+  if (options.agent && options.agent !== 'codex')
+    throw new Error('Seul l’adaptateur local codex est disponible.');
+  const studio = await startStudio({
+    workspace: options.workspace,
+    port: Number(options.port ?? 4330),
+    previewPort: Number(options['preview-port'] ?? 4331),
+    agent: options.agent
+      ? {
+          maxJobs: Number(options['max-jobs'] ?? 2),
+          timeoutMs: Number(options['timeout-ms'] ?? 300000),
+        }
+      : null,
+  });
+  keepStudioOpen(studio);
 }
 
 async function workerCommand(command, options) {

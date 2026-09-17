@@ -11,37 +11,179 @@ const html = await readFile(
   'utf8',
 );
 
-async function fixture(t, customize = () => {}) {
+async function fixture(t, customize = () => {}, runtime = {}) {
   const state = createInitialStudioState();
   state.project.idea = 'Un projet dont la délégation doit rester stable';
   customize(state);
   const dom = new JSDOM(html, { url: 'http://127.0.0.1:4330/#product' });
   const calls = [];
+  const navigations = [];
+  const api = {
+    state: async () => structuredClone(state),
+    runtime: async () => ({
+      previewOrigin: 'http://127.0.0.1:4331',
+      agent: { automatic: false },
+      ...runtime,
+    }),
+    change: async (route, version, input) => {
+      calls.push({ route, version, input });
+      if (route === 'project') state.project = input;
+      if (route === 'draft') state.draft = input.text;
+      state.version++;
+      return { state: structuredClone(state) };
+    },
+  };
   const app = mountStudio({
     document: dom.window.document,
     window: dom.window,
     pollMs: 0,
-    api: {
-      state: async () => structuredClone(state),
-      runtime: async () => ({
-        previewOrigin: 'http://127.0.0.1:4331',
-        agent: { automatic: false },
-      }),
-      change: async (route, version, input) => {
-        calls.push({ route, version, input });
-        if (route === 'project') state.project = input;
-        state.version++;
-        return { state: structuredClone(state) };
-      },
-    },
+    api,
+    navigate: (url) => navigations.push(url),
   });
   t.after(() => {
     app.destroy();
     dom.window.close();
   });
   await app.ready;
-  return { dom, app, calls, state, document: dom.window.document };
+  return { dom, app, api, calls, state, navigations, document: dom.window.document };
 }
+
+function type(f, id, value) {
+  const input = f.document.getElementById(id);
+  input.value = value;
+  input.dispatchEvent(new f.dom.window.Event('input', { bubbles: true }));
+  return input;
+}
+
+async function returnHome(f) {
+  const event = new f.dom.window.MouseEvent('click', { bubbles: true, cancelable: true });
+  f.document.getElementById('studio-home-link').dispatchEvent(event);
+  assert.equal(event.defaultPrevented, true);
+  await setImmediate();
+  return event;
+}
+
+test('returning home immediately saves the pending request once and waits for acknowledgement', async (t) => {
+  const f = await fixture(t, undefined, { homeUrl: 'http://127.0.0.1:4360' });
+  const change = f.api.change;
+  let release;
+  f.api.change = async (...args) => {
+    await new Promise((resolve) => {
+      release = resolve;
+    });
+    return change(...args);
+  };
+  type(f, 'request', 'Une demande saisie juste avant le retour');
+  await returnHome(f);
+  await returnHome(f);
+  assert.equal(typeof release, 'function');
+  assert.deepEqual(f.navigations, []);
+  release();
+  await f.app.settled();
+  await setImmediate();
+  assert.deepEqual(
+    f.calls.map((call) => call.route),
+    ['draft'],
+  );
+  assert.equal(f.state.draft, 'Une demande saisie juste avant le retour');
+  assert.deepEqual(f.navigations, ['http://127.0.0.1:4360/']);
+});
+
+test('a failed home save retains the request, error and focus until a successful retry', async (t) => {
+  const f = await fixture(t, undefined, { homeUrl: 'http://127.0.0.1:4360' });
+  const change = f.api.change;
+  f.api.change = async () => {
+    throw new Error('Connexion interrompue.');
+  };
+  const request = type(f, 'request', 'Ne pas perdre cette demande');
+  request.focus();
+  await returnHome(f);
+  await f.app.settled();
+  assert.deepEqual(f.navigations, []);
+  assert.equal(request.value, 'Ne pas perdre cette demande');
+  assert.equal(f.document.activeElement, request);
+  assert.match(f.document.getElementById('notice').textContent, /Connexion interrompue/);
+  const unload = new f.dom.window.Event('beforeunload', { cancelable: true });
+  f.dom.window.dispatchEvent(unload);
+  assert.equal(unload.defaultPrevented, true);
+  f.api.change = change;
+  await returnHome(f);
+  await f.app.settled();
+  await setImmediate();
+  assert.equal(f.navigations.length, 1);
+  const savedUnload = new f.dom.window.Event('beforeunload', { cancelable: true });
+  f.dom.window.dispatchEvent(savedUnload);
+  assert.equal(savedUnload.defaultPrevented, false);
+});
+
+test('returning home exposes unsaved project settings without saving or confirming them implicitly', async (t) => {
+  const f = await fixture(t, undefined, { homeUrl: 'http://127.0.0.1:4360' });
+  f.dom.window.confirm = () => {
+    throw new Error('Unexpected confirmation');
+  };
+  type(f, 'idea', 'Réglages encore à relire');
+  await returnHome(f);
+  assert.deepEqual(f.navigations, []);
+  assert.deepEqual(f.calls, []);
+  assert.equal(f.document.getElementById('project-form').hidden, false);
+  assert.equal(f.document.activeElement.id, 'save-project');
+  assert.match(f.document.getElementById('notice').textContent, /Enregistrez les réglages/);
+  assert.equal(f.document.getElementById('idea').value, 'Réglages encore à relire');
+  f.document
+    .getElementById('project-form')
+    .dispatchEvent(new f.dom.window.Event('submit', { bubbles: true, cancelable: true }));
+  await f.app.settled();
+  await returnHome(f);
+  assert.equal(f.navigations.length, 1);
+});
+
+test('a new keystroke during the home save keeps the latest text on the current page', async (t) => {
+  const f = await fixture(t, undefined, { homeUrl: 'http://127.0.0.1:4360' });
+  const change = f.api.change;
+  let release;
+  f.api.change = async (...args) => {
+    await new Promise((resolve) => {
+      release = resolve;
+    });
+    return change(...args);
+  };
+  const request = type(f, 'request', 'Premier texte');
+  await returnHome(f);
+  type(f, 'request', 'Texte plus récent');
+  request.focus();
+  release();
+  await f.app.settled();
+  await setImmediate();
+  assert.deepEqual(f.navigations, []);
+  assert.equal(f.state.draft, 'Premier texte');
+  assert.equal(request.value, 'Texte plus récent');
+  assert.equal(f.document.activeElement, request);
+});
+
+test('launcher sessions expose a local home link without changing the current view or draft', async (t) => {
+  const { document, dom, app } = await fixture(t, undefined, { homeUrl: 'http://127.0.0.1:4360' });
+  const link = document.getElementById('studio-home-link');
+  assert.equal(link.href, 'http://127.0.0.1:4360/');
+  assert.equal(link.getAttribute('aria-label'), 'Accueil — Mes projets');
+  const draft = document.querySelector('textarea');
+  draft.value = 'Une idée encore en cours';
+  draft.dispatchEvent(new dom.window.Event('input', { bubbles: true }));
+  await app.refresh();
+  assert.equal(dom.window.location.hash, '#product');
+  assert.equal(draft.value, 'Une idée encore en cours');
+});
+
+test('standalone and untrusted home URLs retain the local Studio entry', async (t) => {
+  for (const homeUrl of [
+    undefined,
+    'https://external.example',
+    'http://localhost:4360/?token=bad',
+    'http://user@localhost:4360',
+  ]) {
+    const { document } = await fixture(t, undefined, { homeUrl });
+    assert.equal(document.getElementById('studio-home-link').getAttribute('href'), '/');
+  }
+});
 
 test('the header owns one tablist with unique IDs, labelled panels and a form-associated mode', async (t) => {
   const { document } = await fixture(t);

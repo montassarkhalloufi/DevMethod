@@ -18,23 +18,57 @@ hôte. Il ne les installe ni ne les connecte automatiquement.
 Node.js 22+ est requis. Depuis une installation DevMethod :
 
 ```sh
-devmethod studio --workspace /chemin/absolu/mon-produit --port 4330 --preview-port 4331
+devmethod studio
 ```
 
-Depuis le dépôt, remplacer `devmethod` par `node scripts/studio.mjs` **et retirer le mot
-`studio`** :
+Le terminal affiche l’adresse de l’accueil local, par défaut `http://127.0.0.1:4330/`.
+L’accueil propose **Nouveau**, **Importer** et **Reprendre**. Son registre est conservé dans
+`~/.devmethod/studio-home` ; choisir une autre bibliothèque avec :
 
 ```sh
-node scripts/studio.mjs --workspace /chemin/absolu/mon-produit --port 4330 --preview-port 4331
+devmethod studio home --workspace /chemin/absolu/ma-bibliotheque --port 4330
 ```
 
-Choisir un dossier dédié, distinct du dépôt DevMethod, sans liens symboliques dans son
-chemin. Le terminal affiche l’adresse locale ; ouvrir `http://127.0.0.1:4330/`. Le produit
-s’exécute sur une origine distincte, au port 4331. Garder les mêmes ports à la reprise
-préserve aussi l’origine des éventuels brouillons navigateur du produit.
+Un nouveau projet reçoit son propre dossier dans `projects/IDENTIFIANT` sous cette
+bibliothèque. Importer copie un dossier source local dans un autre dossier géré et
+conserve l’original ; les [limites d’import](STUDIO-IMPORT.md) restent applicables.
+Reprendre retrouve les projets du registre ou ajoute un workspace Studio existant par
+son chemin absolu. Aucun balayage du disque ni réinitialisation du projet courant n’a lieu.
+
+Chaque projet ouvert utilise sa propre session et ses ports locaux attribués automatiquement.
+Revenir à l’accueil puis reprendre le même projet réutilise sa session. Le lien **Accueil**
+du projet ramène à sa bibliothèque. Arrêter le processus d’accueil ferme uniquement les
+sessions qu’il a ouvertes, tout en conservant les projets et leur registre. Une session déjà
+ouverte ailleurs doit être retrouvée ou fermée explicitement ; l’accueil ne retire pas son
+verrou. Le registre est limité à 200 projets. Voir [la décision d’architecture](ADR-023-studio-home.md).
+
+Le lancement direct reste disponible pour un projet connu, notamment pour conserver des
+ports fixes et donc l’origine de ses éventuels brouillons navigateur :
+
+```sh
+devmethod studio serve --workspace /chemin/absolu/mon-produit --port 4330 --preview-port 4331
+```
+
+Avec `--workspace` et sans sous-commande, `devmethod studio` conserve ce lancement direct.
+Avec `home`, `--workspace` désigne la bibliothèque. Les commandes `serve`, `status`, `import`
+et celles du bridge exigent toujours un workspace de projet. L’accueil accepte seulement
+`--workspace` et `--port` ; `--agent`, `--preview-port` et les options propres au projet y sont refusés.
+
+Depuis le dépôt, remplacer `devmethod studio` par `node scripts/studio.mjs` :
+
+```sh
+node scripts/studio.mjs home --workspace /chemin/absolu/ma-bibliotheque --port 4330
+node scripts/studio.mjs serve --workspace /chemin/absolu/mon-produit --port 4330 --preview-port 4331
+```
+
+Ces exemples sont deux modes de lancement alternatifs ; un port déjà occupé doit être changé.
+Choisir des dossiers dédiés, distincts du dépôt DevMethod, sans liens symboliques dans leurs
+chemins. Le produit s’exécute sur une origine distincte de celle du Studio.
 
 Sans `--agent`, les demandes attendent un agent hôte connecté par le bridge décrit plus
-bas. Aucun appel fournisseur n’est lancé. Le choix d’un mode ne connecte pas un agent.
+bas. L’accueil ouvre ses projets avec ce bridge manuel ; aucun appel fournisseur n’est lancé.
+Le choix d’un mode ne connecte pas un agent. Pour utiliser l’adaptateur Codex facultatif,
+fermer la session du projet puis employer le lancement direct avec `--agent codex`.
 
 Pour essayer le parcours **déjà enregistré** Les Ateliers depuis le dépôt, reconstruire
 l’exemple dans un dossier absent ou vide, puis lancer le serveur :
