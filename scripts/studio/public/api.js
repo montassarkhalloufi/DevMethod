@@ -17,6 +17,8 @@ export function createStudioApi(fetcher = fetch) {
   return {
     state: () => request('/api/state'),
     runtime: () => request('/api/runtime'),
+    progress: (jobId, signal) =>
+      request('/api/jobs/progress?' + new URLSearchParams({ jobId }), { signal }),
     source: ({ revisionId, path, signal, scope }) =>
       request(
         '/api/source?' +

@@ -5,6 +5,7 @@ import { compileSource, sourceProfile } from './profile.mjs';
 import { randomUUID } from 'node:crypto';
 import * as domain from './domain.mjs';
 import { safeFile, fileManifest, copyFiles, digest } from './files.mjs';
+import { createJobProgress } from './progress.mjs';
 
 function contextKey(state) {
   return digest(
@@ -55,6 +56,7 @@ function prepareRevision(before, job, input, files, compilation) {
 
 export function createJobs(store) {
   const mutate = (fn) => store.commit(store.read().version, fn);
+  const progress = createJobProgress(store);
 
   function claim(worker) {
     let job;
@@ -88,6 +90,30 @@ export function createJobs(store) {
       references: state.references,
       request: job.request,
       element: job.element,
+      progress: {
+        endpoint: '/api/jobs/progress',
+        command: [
+          'devmethod',
+          'studio',
+          'progress',
+          '--workspace',
+          store.root,
+          '--file',
+          'payload.json',
+        ],
+        payload: {
+          jobId: job.id,
+          eventId: 'unique-event-id',
+          event: 'One of the event schemas below.',
+        },
+        events: {
+          plan: '{type:"plan",title,steps:[{id,title,status:"pending"|"running"|"completed"|"blocked"}]}',
+          action:
+            '{type:"action",id,kind:"read"|"write"|"command"|"search"|"check"|"message",label,status:"running"|"completed"|"failed",path?}',
+        },
+        instructions:
+          'During this job, send the actual working plan and observed actions using this CLI argument array, or POST JSON to the endpoint with the Studio worker token. Use a unique eventId for each update and reuse it only for an identical retry; update an action using its stable id. Plans and action statuses are declarations, not verification evidence. Never fabricate completed work or include stdout, environment values or secrets. Paths are relative to app/. GET the endpoint with ?jobId= to read the snapshot. Send updates before finish/fail; new events after a terminal or stale job are refused. Titles are limited to 200 characters, labels to 400, paths to 300, the plan to 40 steps and the payload to 32 KiB. Keep text on one line. The journal retains 200 actions and up to 2000 event IDs; further events fail explicitly. Local compilation reporting is best effort if the journal is unavailable; the compiler result and revision checks remain authoritative.',
+      },
       dataContract:
         'GET /api/data returns {version,data}; initial empty data is exactly {} (not null); initialize only this empty object and preserve/reject unknown nonempty shapes; POST JSON {version,data}, HTTP409 means preserve all draft input and reload before retry. Data survives code changes. No authentication or public deployment.',
       templateDirectory: fileURLToPath(new URL('../../templates/studio-react/', import.meta.url)),
@@ -146,12 +172,47 @@ export function createJobs(store) {
     }
   }
 
+  function reportCompilation(jobId, id, status) {
+    try {
+      progress.report(
+        {
+          jobId,
+          eventId: `${id}-${status}`,
+          event: {
+            type: 'action',
+            id,
+            kind: 'check',
+            label: 'TypeScript strict et compilation React — comportement non évalué',
+            status,
+          },
+        },
+        'runner',
+      );
+    } catch {
+      // Reporting is best effort: a full, corrupt or terminal journal must not
+      // replace the actual compiler result or alter the job's delivery boundary.
+    }
+  }
+
+  async function compileForJob(jobId, snapshot, files) {
+    const id = `compilation-${randomUUID()}`;
+    reportCompilation(jobId, id, 'running');
+    try {
+      const result = await compileSource(snapshot, files);
+      reportCompilation(jobId, id, result.ok ? 'completed' : 'failed');
+      return result;
+    } catch (error) {
+      reportCompilation(jobId, id, 'failed');
+      throw error;
+    }
+  }
+
   async function finishReact(input, source, files) {
     const temp = safeFile(store.root, `.devmethod/compiling/${randomUUID()}`);
     try {
       const snapshot = path.join(temp, 'app');
       copyFiles(source, snapshot, files);
-      const result = await compileSource(snapshot, files);
+      const result = await compileForJob(input.jobId, snapshot, files);
       if (!result.ok)
         throw new Error(
           result.diagnostics
@@ -196,5 +257,11 @@ export function createJobs(store) {
     return finalize(input);
   }
 
-  return { claim, finish, fail: (input) => mutate((draft) => domain.failJob(draft, input)) };
+  return {
+    claim,
+    finish,
+    progress: progress.read,
+    reportProgress: progress.report,
+    fail: (input) => mutate((draft) => domain.failJob(draft, input)),
+  };
 }

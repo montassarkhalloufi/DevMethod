@@ -4,6 +4,7 @@ import { startStudio } from './server.mjs';
 import { restoreArchive } from './archive.mjs';
 import { initializeReactExample } from './react-example.mjs';
 import { initializeExample } from './example.mjs';
+import { progressLimits } from './progress.mjs';
 
 function argumentsFor(args) {
   const options = {},
@@ -47,7 +48,7 @@ export async function runStudioCli(args) {
     const { options, command } = argumentsFor(args);
     if (options.help) {
       console.log(
-        'devmethod studio [serve|example|status|claim|finish|fail|check|restore|example-react] --workspace /dossier\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nfinish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
+        'devmethod studio [serve|example|status|claim|progress|finish|fail|check|restore|example-react] --workspace /dossier\nServe : --port 4330 --preview-port 4331 [--agent codex --max-jobs 2 --timeout-ms 300000]\nAgent absent : attente explicite ; aucun fournisseur lancé. Codex utilise votre accès existant, coûts inconnus, arrêt sans relance après consommation inconnue.\nprogress/finish/fail/check : --file payload.json ; restore : --file export.tar dans dossier vide.\nprogress : {jobId,eventId,event} ; événement plan ou action pendant la mission, déclaration distincte des preuves.\nexample-react : --delegate-technical requis ; délégation technique dans une nouvelle copie uniquement, mode et réservations visuelles/adoption conservés.',
       );
       return;
     }
@@ -110,12 +111,17 @@ export async function runStudioCli(args) {
 }
 
 async function workerCommand(command, options) {
+  if (command === 'progress' && !options.file)
+    throw new Error('progress nécessite --file payload.json.');
+  if (command === 'progress' && fs.statSync(options.file).size > progressLimits.inputBytes)
+    throw new Error('Le fichier de progression dépasse 32 Kio.');
   const runtime = JSON.parse(
     fs.readFileSync(path.join(options.workspace, '.devmethod/runtime.json'), 'utf8'),
   );
   const routes = {
     status: '/api/state',
     claim: '/api/jobs/claim',
+    progress: '/api/jobs/progress',
     finish: '/api/jobs/finish',
     fail: '/api/jobs/fail',
     check: '/api/checks',

@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState, useCallback } from 'react';
 import { useProjectModel } from '../hooks/useProjectModel';
 import type { ProjectAnalysis } from '../model/contracts';
-import type { ProjectWidgetOptions } from '../model/widget';
+import type { ProjectView, ProjectWidgetOptions } from '../model/widget';
 import { FileExplorer } from './FileExplorer';
 import { ProjectInspector } from './ProjectInspector';
 import { ProjectIcon } from './ProjectIcon';
@@ -13,7 +13,6 @@ const FlowView = lazy(() => import('./FlowView').then((module) => ({ default: mo
 const ImpactView = lazy(() =>
   import('./ImpactView').then((module) => ({ default: module.ImpactView })),
 );
-type View = 'files' | 'architecture' | 'flows' | 'impact';
 function versionStatus(draft: boolean, revision: string | null, active: string | null) {
   if (draft) return 'Brouillon enregistré · non appliqué';
   return revision === active ? 'Appliquée' : 'Consultation';
@@ -42,7 +41,12 @@ function SourceSlot({ host }: { host: HTMLElement }) {
   return <div className="project-source-slot" ref={attach} />;
 }
 export function ProjectWorkbench(props: ProjectWidgetOptions) {
-  const [view, setView] = useState<View>(props.view || 'files');
+  const [localView, setLocalView] = useState<ProjectView>(props.view || 'files');
+  const view = props.onViewChange ? props.view || 'files' : localView;
+  const setView = (next: ProjectView) => {
+    if (props.onViewChange) props.onViewChange(next);
+    else setLocalView(next);
+  };
   const [draft, setDraft] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [inspector, setInspector] = useState(true);

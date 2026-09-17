@@ -29,6 +29,7 @@ export default defineConfig({
         'journey-widget': fileURLToPath(new URL('./src/journey-widget.tsx', import.meta.url)),
         'project-widget': fileURLToPath(new URL('./src/project-widget.tsx', import.meta.url)),
         'quality-widget': fileURLToPath(new URL('./src/quality-widget.tsx', import.meta.url)),
+        'progress-widget': fileURLToPath(new URL('./src/progress-widget.tsx', import.meta.url)),
       },
       formats: ['es'],
       fileName: (_format, entryName) => entryName + '.js',

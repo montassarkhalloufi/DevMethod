@@ -5,6 +5,7 @@ import { createSourceView, comparisonBase } from './source-view.js';
 import { createProposalController } from './proposal-controller.js';
 import { renderComparison, comparisonURL } from './comparison-view.js';
 import { createTechnicalWorkspace } from './technical-workspace.js';
+import { createProgressController } from './progress-controller.js';
 
 export function mountStudio({ document, window, api = createStudioApi(), pollMs = 2000 }) {
   const el = (id) => document.getElementById(id);
@@ -38,6 +39,15 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
     onPrepareRequest: ({ prompt }) => prepareCorrection(prompt),
   });
   const options = { signal: controller.signal };
+  const progressController = createProgressController({
+    document,
+    api,
+    onOpenFile(jobId, path) {
+      const revision = state?.revisions.findLast((entry) => entry.jobId === jobId);
+      if (!revision?.files.some((file) => file.path === path)) return;
+      technicalWorkspace.openDeliveredFile(revision.id, path);
+    },
+  });
   let state;
   let runtime;
   let projectDirty = false;
@@ -53,6 +63,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
   let selectedElement = null;
   let inspecting = false;
   let refreshing = false;
+  let refreshError = null;
   let writes = Promise.resolve();
   const rendered = new Map();
   let activePanel = 'product';
@@ -401,6 +412,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       state = next;
       syncInputs();
       proposalController.update(state, runtime);
+      progressController.update(state);
       if (initialPanel) {
         initialPanel = false;
         const requestedPanel = window.location.hash.slice(1);
@@ -425,7 +437,10 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
         () => views.policy(state, runtime),
       );
       region('flow-decisions', key, () => views.flowDecisions(state));
-      el('latest-result').hidden = !el('active-decision').hidden || !state.jobs.length;
+      el('latest-result').hidden =
+        !el('active-decision').hidden ||
+        !state.jobs.length ||
+        ['queued', 'running'].includes(state.jobs.at(-1)?.status);
       region('latest-result', key, () => views.latestResult(state));
       const constraints = el('preserve-constraints');
       if (constraints) {
@@ -451,7 +466,10 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       const [next, capabilities] = await Promise.all([api.state(), api.runtime()]);
       runtime = capabilities;
       render(next);
+      if (refreshError && el('notice').textContent === refreshError) notice('');
+      refreshError = null;
     } catch (error) {
+      refreshError = error.message;
       notice(error.message, true);
     } finally {
       refreshing = false;
@@ -801,6 +819,7 @@ export function mountStudio({ document, window, api = createStudioApi(), pollMs 
       controller.abort();
       sourceView.destroy();
       proposalController.dispose();
+      progressController.dispose();
       journeyWidget?.dispose();
       technicalWorkspace.destroy();
       window.clearInterval(interval);

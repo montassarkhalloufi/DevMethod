@@ -1,3 +1,5 @@
+export type ProjectView = 'files' | 'architecture' | 'flows' | 'impact';
+
 export interface ProjectWidgetOptions {
   revisionId: string | null;
   previousRevisionId: string | null;
@@ -15,7 +17,8 @@ export interface ProjectWidgetOptions {
   focused: boolean;
   pendingDecision?: string;
   onReviewDecision?(): void;
-  view?: 'files' | 'architecture' | 'flows' | 'impact';
+  view?: ProjectView;
+  onViewChange?(view: ProjectView): void;
 }
 export interface ProjectWidgetHandle {
   update(options: ProjectWidgetOptions): void;

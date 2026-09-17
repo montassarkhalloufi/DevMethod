@@ -85,6 +85,25 @@ test('polling preserves edits, focus, open context and a live preview without re
   assert.equal(f.el('context').querySelector('details').open, true);
 });
 
+test('reconnection clears only the refresh error and preserves an in-progress draft', async (t) => {
+  const f = await fixture(t);
+  const read = f.api.state;
+  f.input('request', 'Garder cette demande');
+  f.api.state = async () => {
+    throw new Error('Failed to fetch');
+  };
+  await f.app.refresh();
+  assert.equal(f.el('notice').hidden, false);
+  f.api.state = read;
+  await f.app.refresh();
+  assert.equal(f.el('notice').hidden, true);
+  assert.equal(f.el('request').value, 'Garder cette demande');
+  f.el('notice').textContent = 'Une autre décision reste à examiner.';
+  f.el('notice').hidden = false;
+  await f.app.refresh();
+  assert.equal(f.el('notice').hidden, false);
+});
+
 test('comparison labels, source and iframe follow the candidate identity on the read-only origin', async (t) => {
   const f = await fixture(t, (state) => {
     state.revisions = [revision('current'), revision('candidate')];

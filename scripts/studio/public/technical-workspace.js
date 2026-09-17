@@ -23,6 +23,20 @@ export function createTechnicalWorkspace({
   function showChecks() {
     openPanel('checks', 'push');
   }
+  function requestView(view) {
+    requestedView = view;
+    updateProject();
+  }
+  function openDeliveredFile(deliveredRevisionId, path) {
+    const delivered = state?.revisions.find((entry) => entry.id === deliveredRevisionId);
+    if (!delivered?.files.some((file) => file.path === path)) return;
+    requestedView = 'files';
+    selectedPath = path;
+    showVersion(deliveredRevisionId);
+    openPanel('code', 'push');
+    void sourceView.selectFile(path, undefined, { draft: false });
+    updateProject();
+  }
   function openSource(path, line, sourceOptions) {
     const sourceRevisionId = typeof sourceOptions === 'string' ? sourceOptions : undefined;
     if (sourceRevisionId && sourceRevisionId !== revisionId) showVersion(sourceRevisionId);
@@ -66,6 +80,7 @@ export function createTechnicalWorkspace({
         : document.getElementById('technical-decision-title')?.textContent,
       onReviewDecision: reviewDecision,
       view: requestedView,
+      onViewChange: requestView,
       onOpenSource: openSource,
       onShowChecks: showChecks,
       onFocus: toggleFocus,
@@ -144,6 +159,7 @@ export function createTechnicalWorkspace({
       selectedPath = path;
       updateProject();
     },
+    openDeliveredFile,
     show(view) {
       requestedView = view;
       openPanel('code', 'push');

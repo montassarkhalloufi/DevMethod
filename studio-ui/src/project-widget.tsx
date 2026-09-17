@@ -6,8 +6,7 @@ export function mountProjectWidget(
   options: ProjectWidgetOptions,
 ): ProjectWidgetHandle {
   const root = createRoot(host);
-  const render = (next: ProjectWidgetOptions) =>
-    root.render(<ProjectWorkbench key={next.view || 'files'} {...next} />);
+  const render = (next: ProjectWidgetOptions) => root.render(<ProjectWorkbench {...next} />);
   render(options);
   return { update: render, dispose: () => root.unmount() };
 }

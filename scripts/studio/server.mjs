@@ -13,6 +13,7 @@ import { exportProject } from './bundle.mjs';
 import { readSource, readRuntimeSource, readProjectServices } from './source.mjs';
 import { getRuntimeServices } from './backend-runtime.mjs';
 import { createEditor } from './editor.mjs';
+import { progressLimits } from './progress.mjs';
 
 const widgetRoot = fileURLToPath(new URL('../../dist/studio-ui', import.meta.url));
 const publicRoot = fileURLToPath(new URL('./public', import.meta.url));
@@ -139,7 +140,11 @@ async function projectQuality(context, revisionId) {
 
 async function getRoute(url, response, context) {
   const { store, runtime, editor } = context;
-  if (url.pathname === '/api/state') return send(response, 200, store.read());
+  const directReads = {
+    '/api/state': () => store.read(),
+    '/api/jobs/progress': () => context.jobs.progress(url.searchParams.get('jobId')),
+  };
+  if (directReads[url.pathname]) return send(response, 200, directReads[url.pathname]());
   if (url.pathname === '/api/project/model')
     return send(
       response,
@@ -211,6 +216,11 @@ async function postRoute(url, request, response, context) {
   const { store, jobs, runtime, wake, editor } = context,
     current = runtime();
   const worker = authorized(request, current.token);
+  if (url.pathname === '/api/jobs/progress') {
+    if (!worker)
+      return send(response, 403, { error: 'Cette action appartient à l’agent connecté.' });
+    return send(response, 200, jobs.reportProgress(await body(request, progressLimits.inputBytes)));
+  }
   if (
     worker &&
     [

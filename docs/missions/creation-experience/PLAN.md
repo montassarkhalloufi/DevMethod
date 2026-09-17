@@ -6,6 +6,14 @@ Statut : implémentation et essais en cours. Aucune supériorité annoncée. La 
 couvre les choix réversibles, le code local, les tests, les commits et une PR brouillon.
 Fusion, déploiement public, publication npm, achat, télémétrie et contact externe exclus.
 
+## Tranche terminée : plan et avancement visibles
+
+Après le chantier méthode `b8724c1`, demande utilisateur du 17 septembre : afficher en direct le plan et le journal d’actions, avec références Bolt comme exemple d’interaction, sans copier leur identité. [Décision technique](../../ADR-020-live-job-progress.md) sous la délégation existante : journal borné par demande et actualisation automatique, agents réellement connectés seulement, aucune relance fournisseur.
+
+Critères : LIVE-1 plan transmis et étapes mis à jour sans rechargement ; LIVE-2 journal repliable avec type, état, date et fichiers de la bonne livraison ; LIVE-3 ancien résultat, attente, interruption et erreur réseau distincts sans faux contrôle réussi ; LIVE-4 reprise persistante, publications idempotentes et tardives refusées ; LIVE-5 focus, saisie, défilement et lisibilité préservés. Tests de contrats, intégration HTTP, composant React et navigateur sur une copie locale identifiée. Une simulation d’événements pour vérifier l’affichage ne vaut pas essai fournisseur natif.
+
+Réalisée et contrôlée : [746 tests, essais navigateur, capture et limites](evidence/progress/RESULTS.md). Le plan et les actions restent distincts des preuves de la révision. Aucun nouvel appel fournisseur.
+
 ## Tranche terminée : enseignements réutilisables de Studio
 
 Le 17 septembre, après le bilan utilisateur, autorisation explicite : « je te laisse ce chantier alors go ». Partir de `84e6d41` ; améliorer le kit à partir des défauts et frictions constatés, sans relancer les essais fournisseur clos ni développer de nouveaux connecteurs Studio. La portée est prête sous la délégation existante : règles canoniques proportionnées, vérification UI plus précoce, résultats d’outils actionnables et boucle de correction traçable. Pas de nouvelle architecture ni de modification des références Vercel épinglées.
