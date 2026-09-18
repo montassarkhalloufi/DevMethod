@@ -4,7 +4,7 @@
 
 Preserve proportions, density, order, labels, action positions, iconography, and data treatment. A generic design-system image does not authorize inventing every business screen. If a desktop reference does not describe mobile, adapt composition with the same priorities and record inferred choices.
 
-Minimum matrix: route/journey, public/private status, action, data, approved reference, breakpoint, loading, empty, error, and recovery. Add success, stale data, insufficient rights, or uncertainty only when meaningful.
+Select affected journeys, breakpoints and states from the change's actual risks. Record their expected outcomes: action reached, input preserved, information readable, or recovery possible. Include loading, empty, error, recovery, privacy or stale data when implicated; a small correction does not require every state or a new matrix.
 
 ## Hybrid rendering when product requires it
 
@@ -27,6 +27,17 @@ Keep visual selection, technical/accessibility checks, and target-user observati
 ## Proportionate QA
 
 Compare the same viewport, state, and content; stabilize dynamic data for useful comparison. Examine structural differences before decorative detail. Test overflow, zoom, long text, visible focus, keyboard, labels, and information not conveyed by color alone. Prefer existing accessible primitives.
+
+On the first representative slice, inspect visual hierarchy separately from geometry: can the primary action, responsibility and state be distinguished? Correct observed problems before repeating the composition. Passing tests or matching dimensions alone does not establish that hierarchy.
+
+Choose interaction probes for the changed surface, rather than applying this entire list to every edit:
+
+- Nested scrolling: use the wheel/trackpad over an inner region without overflow, then at its scroll boundary. Check the intended container moves and commands remain reachable; setting `scrollTop` is not evidence of wheel routing.
+- Overlays: open the menu with the actual editor, canvas or embedded widget mounted. Click and keyboard-navigate its actions; check clipping, stacking, dismissal and focus return, including Escape ownership.
+- Resizable panes: change panel width and window height, try the bounds, and return to the original size. Keep content readable and commands/input reachable; verify pointer and keyboard resizing when provided.
+- When focus or motion changes, exercise the affected focus transition and reduced-motion preference.
+
+Keep DOM/state tests for their own claims. A rendered capture shows appearance, not a completed interaction. If browser access is unavailable, record the unverified behavior and continue independent work without inventing a pass.
 
 Classify findings as reproducible defect, decision conflict, or aesthetic preference. Give evidence, consequence, and correction. Keep screenshots in scope documentation when useful; do not multiply parallel screenbooks.
 

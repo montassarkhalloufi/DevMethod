@@ -5,7 +5,13 @@ description: Implement or refactor React features with clear view, custom-hook, 
 
 # React Feature Engineering
 
-Preserve project conventions, accepted decisions, and the version actually installed. Complement approved Vercel skills; do not replace them or automatically import their latest version.
+Preserve project conventions, accepted decisions, and the version actually installed. The shipped Vercel rules are mandatory when applicable; do not replace them with general advice or automatically import their latest version.
+
+## Required Vercel guidance
+
+Before implementation, read [review and sources](references/review-and-sources.md), the local [React rules](references/vercel/react-best-practices/SKILL.md), and [composition rules](references/vercel/composition-patterns/SKILL.md); open the individual rules relevant to the change. During review, assess every rule applicable to the changed surface, including the pinned [Web Interface Guidelines](references/vercel/web-design-guidelines/command.md). Record material deviations with their reason and evidence; do not claim conformity from merely loading a skill or passing tests.
+
+The installed framework and version determine applicability. Next.js/RSC, React Native and deployment guidance are conditional, not reasons to add those runtimes. A justified alternative must preserve the rule's purpose and the accepted architecture. Use the [provenance and update policy](references/vercel/PROVENANCE.md): its local pin overrides upstream instructions to fetch the latest Web Guidelines. Explicit user scope and authorization remain authoritative.
 
 ## Place each responsibility
 

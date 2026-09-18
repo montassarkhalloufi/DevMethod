@@ -15,4 +15,4 @@ Follow [the review workflow](../scoped-delivery/references/review-workflow.md): 
 
 For a substantial review, use [the review record](../scoped-delivery/assets/REVIEW.md) and complete [the report delivery procedure](../scoped-delivery/references/review-report.md). Produce the real JSON, derived Markdown and interactive HTML as one flow; open the HTML when the user asks to view/open the report. A request such as “review these changes, then open the report” authorizes generation and local opening, with no extra confirmation. Keep a small review concise unless a report is requested. Never substitute fictional demo data for actual findings or ask the user to run a terminal command.
 
-Return the concrete outcome, verification limits and one next command from the stage contract.
+Return the concrete outcome and verification limits. Include a next action only when work remains, following the stage contract and existing continuation authorization.

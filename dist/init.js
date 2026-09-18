@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { commandSkills } from './commands.js';
 import { reviewRuntimeFiles } from './review-runtime.js';
+import { isVercelResource } from './skill-resources.js';
 import { parseJson, checkPath, stat, MAX_MANIFEST_BYTES } from './filesystem.js';
 export const tools = {
     codex: '.agents/skills',
@@ -179,9 +180,12 @@ function addSkillFiles(files, tool, selected) {
         const source = path.join(packageRoot, '.agents/skills', name);
         checkPath(source);
         for (const relative of walk(source)) {
-            if (!/^(SKILL\.md|assets\/.*\.md|references\/.*\.md)$/.test(relative))
+            const vendor = name === 'react-feature-engineering' && relative.startsWith('references/vercel/');
+            const vendorResource = isVercelResource(name, relative);
+            if (!/^(SKILL\.md|assets\/.*\.md|references\/.*\.md)$/.test(relative) && !vendorResource)
                 throw new Error(`Unexpected payload file: ${name}/${relative}`);
-            files.set(`${tools[tool]}/${name}/${relative}`, profile(fs.readFileSync(path.join(source, relative)), tool));
+            const data = fs.readFileSync(path.join(source, relative));
+            files.set(`${tools[tool]}/${name}/${relative}`, vendor ? data : profile(data, tool));
         }
     }
 }

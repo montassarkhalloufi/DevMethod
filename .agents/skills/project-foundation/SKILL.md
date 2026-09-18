@@ -7,6 +7,10 @@ description: Start or resume the DevMethod workflow for a project or requested c
 
 Establish durable working context from the actual project. This kit is a reusable method, not an authority above the project's own instructions. Read only the relevant modules.
 
+## Choose the entry from the project's state
+
+For a new product, start from the supplied need and use the relevant exploration/framing path below. For an existing product without DevMethod context, apply [adopt an existing project](references/existing-project.md): reconstruct only useful missing context from identified sources, preserve the working system and accepted contracts, then join the same delivery path at the first unresolved dependency. Missing kit documents do not make an existing product a blank slate. If its current context already supports the requested change, resume directly without repeating adoption.
+
 ## Start or resume
 
 1. Read `CONTRIBUTING.md` when present, applicable instructions, work status, manifests/lockfiles, and referenced decisions. Inspect provided sources before selecting a stack. Do not read secrets.
@@ -16,7 +20,11 @@ Establish durable working context from the actual project. This kit is a reusabl
 5. Apply the relevant module below. Preserve the session's authorizations; the kit does not authorize new purchases, publications, messages, merges, or changes to external sources.
 6. Deliver the verified result within the requested scope. Save a compact checkpoint when work must continue, rather than a new copy of every source.
 
-At the start of a new project, reuse a working-mode preference or explicit delegation that already settles how to collaborate; otherwise offer guided or autonomous work once, explaining the decision boundary. Guided work discusses material product, design and architecture choices at useful checkpoints; autonomous work carries the authorized stages forward and decides within the agreed delegation. Both require the same evidence and quality, preserve scope and external-action permissions, and allow a mode change. Do not infer missing business facts or unlimited decision authority from “autonomous”. Record the chosen mode and delegation boundaries in the existing profile; do not repeat the question on each stage, resumed session or routine fix, or turn a bounded stage request into mandatory onboarding. While a choice is pending, inspect sources and progress independent work without inventing the answer. Collaboration mode is separate from work sizing and the user's technical expertise.
+Reuse the working-mode preference and explicit delegation already recorded in the profile or session. If neither settles a material decision boundary, offer the three modes once: **autonomous** delegates reversible choices and delivery; **DevAuto** discusses and validates structural choices, then carries out implementation and verification automatically within that accepted scope; **guided** also discusses acceptance of each useful delivered slice. Apply [working modes](references/working-modes.md) when establishing or changing this boundary, or when observed drift requires a scoped human intervention. All three preserve the same quality gates, evidence requirements, scope and external-action permissions.
+
+Record the mode, its source and delegation limits in the existing profile. Do not repeat onboarding on each stage, resumption or routine fix. A mode is independent of work sizing, technical expertise and host capabilities; it neither supplies missing business facts nor grants unlimited authority. While a choice is pending, progress independent authorized work. A short change does not require a new profile or a fixed collection of documents.
+
+Modes supply defaults; explicit instructions can delegate some decisions and reserve others in any mode. Respect the scope of each acceptance: a preference or an accepted layout is not approval of every visual choice. When the user reserves visual approval, present proposals in the requested medium and obtain their choice before dependent interface implementation. A later reopening supersedes the affected acceptance, not unrelated delegation; reconcile it and continue independent work. See [working modes](references/working-modes.md) for recording these boundaries without repeated questions.
 
 For a supplied project study, a requested complete PDF/DOCX dossier, or a portable handoff to another project/team, apply [portable project study](references/portable-study.md). Reuse verified study elements before restarting stages; a report's existence does not prove completeness or implementation.
 
@@ -38,7 +46,7 @@ Read [the operating commands](references/operating-commands.md) for any invocati
 
 For `explore`, use [existing solutions research](references/exploration.md) when product uncertainty warrants it. For an open `architecture`, resolve `decision-architecture` and discuss credible options in the conversation before detailing the dependent architecture. Preserve accepted choices and explicit delegations; invoking `plan` does not adopt a proposal. For `plan`, use [delivery planning](references/delivery-planning.md) to discuss useful outcomes and scope before fixing tickets.
 
-At the end of every execution, state what is done, what remains uncertain or blocked, and one recommended next command.
+At completion or a scoped stop, state what is done and what remains uncertain or blocked. Recommend a next command when work remains; do not replace an already authorized continuation with a request for the user to coordinate the next stage.
 
 ## Kit modules
 

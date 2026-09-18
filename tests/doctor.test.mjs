@@ -62,6 +62,46 @@ test('customized templates and skills are warnings, preserved byte for byte', (t
   assert.deepEqual(snapshot(destination), before);
 });
 
+test('doctor accepts the shipped Vercel resources and reports changed metadata without rewriting it', (t) => {
+  const { destination } = fixture(t, 'codex', ['react-feature-engineering']);
+  assert.equal(diagnose(destination).status, 'ok');
+  const metadata =
+    '.agents/skills/react-feature-engineering/references/vercel/react-best-practices/metadata.json';
+  fs.appendFileSync(path.join(destination, metadata), '\n');
+  const before = snapshot(destination);
+  const report = diagnose(destination);
+  assert.equal(report.status, 'warning');
+  assert.deepEqual(
+    report.findings.map(({ code, path }) => ({ code, path })),
+    [{ code: 'file-modified', path: metadata }],
+  );
+  assert.deepEqual(snapshot(destination), before);
+});
+
+test('Vercel resource permission cannot authorize arbitrary JSON, text, scripts or another skill', (t) => {
+  const { destination } = fixture(t, 'codex', ['react-feature-engineering']);
+  const manifestFile = path.join(destination, 'kit-manifest.json');
+  const original = fs.readFileSync(manifestFile);
+  for (const file of [
+    '.agents/skills/react-feature-engineering/references/vercel/unreviewed.json',
+    '.agents/skills/react-feature-engineering/references/vercel/unreviewed.txt',
+    '.agents/skills/react-feature-engineering/references/vercel/web-design-guidelines/metadata.json',
+    '.agents/skills/react-feature-engineering/references/vercel/react-best-practices/nested/metadata.json',
+    '.agents/skills/react-feature-engineering/references/vercel/run.mjs',
+    '.agents/skills/react-feature-engineering/references/vercel/../MANIFEST.json',
+    '.agents/skills/project-foundation/references/vercel/MANIFEST.json',
+  ]) {
+    fs.writeFileSync(manifestFile, original);
+    editManifest(destination, (manifest) => {
+      manifest.files[file] = '0'.repeat(64);
+    });
+    const report = diagnose(destination);
+    assert.equal(report.status, 'error', file);
+    assert.equal(report.checked, 0, 'Unsupported manifest paths must fail before payload reads');
+    assert.equal(report.findings[0].code, 'manifest-invalid', file);
+  }
+});
+
 test('missing files and duplicate host copies are errors even alongside customization', (t) => {
   const { destination } = fixture(t);
   fs.appendFileSync(path.join(destination, 'PROJECT_PROFILE.md'), '\nCustomized');
