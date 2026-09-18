@@ -21,6 +21,8 @@ Preserve accepted choices and delegations within their scope; routine reversible
 
 For a new service or a material capacity, performance or availability decision, apply [capacity and operations](references/capacity-and-operations.md), including under technical delegation. Establish the decision-changing workload and service constraints, compare viable options visually with estimated costs, and link claims to verification. Preserve the lightweight path for changes without this impact.
 
+For a missing tool, connector or application service, apply [tool and service selection](references/tool-and-service-selection.md). Discover actual capabilities and prerequisites, distinguish agent/diagnostic access from product runtime dependencies, and select an option from the need and accepted constraints rather than a preferred provider. Reuse an adequate accepted integration; discovery alone is not installation, connection or execution.
+
 For architecture diagrams, especially a detailed or presentation-quality visual request, apply [architecture visuals](references/architecture-visuals.md). Reuse accepted architecture when only its explanation is requested; graphic refinement is not permission to change the system. Produce and inspect actual readable renders alongside editable diagram sources.
 
 ## Proportionate trade-off

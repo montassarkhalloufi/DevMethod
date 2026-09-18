@@ -42,7 +42,7 @@ Start from the canonical mission/plan locations in the existing profile; see [mi
 - `ready` assesses the selected task's scope, dependencies and checks without executing them or starting implementation. Under an implementation request, this assessment can happen inline and continue without another user turn when ready.
 - `implement` maintains the affected task and evidence through its implementation loop. `review` inspects the identified diff and evidence, recording findings without silently fixing code unless fixes were requested. `verify` runs missing or invalidated checks and updates criterion evidence. Reuse unchanged evidence whose inputs and environment still apply; do not rerun solely because a new stage was invoked.
 - `review` resolves scoped-delivery and its review-workflow reference for technology-aware, source-backed inspection, structured results and derived reports. Preserve read-only assessment scope unless corrections were requested. UI reviews include real render/interaction checks; findings and checks remain distinct.
-- `handoff` records a compact snapshot with links to canonical state. `correct-course` updates only affected decisions, scope and dependent evidence. `integrate` records the actual authorized delivery result with its reference.
+- `handoff` records a compact snapshot with links to canonical state. `correct-course` updates only affected decisions, scope and dependent evidence. When authorized to improve the method from delivery feedback, use scoped-delivery's `references/bounded-correction.md` to distinguish a local defect, a missing reusable rule and a rule that was not applied; update its existing owner rather than create a parallel procedure. `integrate` records the actual authorized delivery result with its reference.
 
 For an explicitly requested complete study or portable dossier, `plan`/`handoff` applies [portable project study](portable-study.md): check scoped completeness before generating PDF/DOCX, include selected visuals, and preserve editable sources and provenance for resumption. Ordinary handoff remains compact. A supplied study is reconciled with current sources before choosing missing work, not treated as a reason to repeat every stage.
 
@@ -59,11 +59,11 @@ For an open product idea or material change of ambition, apply [product maturity
 
 ## Response
 
-At the end of every command, provide:
+At the end of a scoped command or delivery, communicate the following concisely, without requiring separate headings or a repeated stage report during ongoing work:
 
 1. **Done**: concrete outcome and available evidence.
 2. **Not done / uncertain**: limits, assumptions, and blockers.
-3. **Recommended next command**: exactly one command, with the ticket when present.
+3. **Next action**: when work remains, give one relevant next command with the ticket when present; carry on yourself if that continuation is already authorized. Do not invent another task after completed scope.
 4. For merges, deployments, publications, messages, and other external actions, ask for authorization only when it is not already present. Separately, resolve material product, architecture, or visual choices that remain undecided and undelegated through their relevant module; do not request confirmation again for an existing choice or scoped delegation.
 
 ## Ready ticket

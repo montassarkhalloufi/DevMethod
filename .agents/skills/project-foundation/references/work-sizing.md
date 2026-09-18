@@ -2,6 +2,8 @@
 
 Use this reference when starting a change or when scope changes. The fourteen stages are entry points, not fourteen mandatory conversations. Explain the selected path briefly; do not ask the user to choose a process label when the request and repository already settle it.
 
+Present the usable result, the material uncertainty and the next action in the user's terms. Keep stage names, role coordination and evidence bookkeeping behind that explanation unless requested or needed for a decision. An authorized continuation stays with the agent; a suggested command is not a handoff back to the user. In a product interface, expose the current result or decision first and disclose procedural/technical detail on demand. Reduce presentation overhead, not required checks or unresolved limits.
+
 | Path | Use when | Minimum useful evidence |
 |---|---|---|
 | Quick | One clear, bounded change within accepted contracts | Inline scope and readiness, relevant check, diff review, outcome |
@@ -23,6 +25,8 @@ Reuse an existing ticket or adapt the scoped-delivery slice when that module is 
 ## Existing repositories
 
 Inspect the actual entry points, manifests, tests, applicable instructions, and accepted decisions for the affected area. Reuse current conventions. Record only missing context that changes future decisions; cite source paths and inspected revision. Do not create a complete repository inventory for a local bug fix. If documents and code disagree, describe that conflict and resolve only what the requested change depends on.
+
+If an existing project has no usable DevMethod context, apply [existing-project adoption](existing-project.md) to reconstruct that context proportionately. Missing method files do not require product rediscovery, architectural replacement or a larger delivery path by themselves.
 
 ## Context and resumption
 

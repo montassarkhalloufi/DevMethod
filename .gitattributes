@@ -35,3 +35,6 @@ examples/fullstack/**/*.mjs text eol=lf
 examples/fullstack/**/*.cjs text eol=lf
 examples/fullstack/**/*.css text eol=lf
 examples/fullstack/**/*.html text eol=lf
+
+# Preserve exact licensed third-party source bytes on every host.
+.agents/skills/react-feature-engineering/references/vercel/** -text whitespace=-blank-at-eol,-blank-at-eof
