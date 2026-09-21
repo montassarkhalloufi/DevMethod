@@ -1,5 +1,14 @@
 # Point de continuation — 21 septembre 2026, après première recette native
 
+La [PR brouillon 40](https://github.com/montassarkhalloufi/DevMethod/pull/40) est
+ouverte sur `codex/local-oss-v1-review`. Première CI : Linux, macOS et fullstack
+réussis ; sept échecs Windows diagnostiqués et corrigés. Deux défauts produit
+de chemins/liens dans le suivi de progression, trois hypothèses de fixtures.
+Revue indépendante, **1 507 tests et build locaux**, lint et format réussis.
+Voir [preuve CI](evidence/PLATFORM-CI.md) ; la PR porte les résultats du prochain
+commit, sans réattribuer les anciens succès. Branche de travail et copies privées
+conservées, aucun merge/publication ni nouvel appel agent.
+
 Le [bilan de maturité A–H](evidence/MATURITY.md) est maintenant établi sur la base
 `9ecf22b` : mécanismes locaux implémentés, recette complète encore partielle.
 La préparation de PR utilise une branche de revue depuis main avec un arbre

@@ -59,6 +59,9 @@ locales implémentées de la recette complète encore partielle, les instruments
 expérimentaux et les preuves non trouvées. Le dossier d’intégration est préparé
 sur une branche de revue issue de main, avec l’arbre public contrôlé ; l’historique
 local original est conservé sans exposer les anciennes preuves personnelles.
+La [PR brouillon 40](https://github.com/montassarkhalloufi/DevMethod/pull/40) est
+ouverte ; sa [première CI et les corrections Windows](evidence/PLATFORM-CI.md)
+restent distinguées des contrôles locaux et de la recette complète.
 
 ## Précision stack — 21 septembre 2026
 

@@ -7,6 +7,10 @@ Base inspectée : `9ecf22b79d9afa758eed8e0846646e6335d79d55`, branche
 La v1 complète reste **PARTIAL**. Ce relevé n'exécute aucun contrôle et ne remplace
 pas les preuves datées auxquelles il renvoie.
 
+Pour la préparation d’intégration postérieure à cette base, consulter la
+[preuve CI](PLATFORM-CI.md) et la [PR 40](https://github.com/montassarkhalloufi/DevMethod/pull/40).
+Leurs résultats ne clôturent pas les critères natifs et humains encore partiels.
+
 ## Sens des statuts
 
 - **IMPLEMENTED** : capacité locale décrite présente, avec preuves dans la portée indiquée.

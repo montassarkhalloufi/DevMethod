@@ -343,7 +343,7 @@ test('a source change during copying refuses installation instead of publishing 
     if (
       typeof file === 'string' &&
       file.includes('.devmethod-import-') &&
-      file.endsWith('/app/main.py')
+      file.endsWith(path.sep + path.join('app', 'main.py'))
     )
       original(path.join(f.source, 'main.py'), 'concurrent change');
     return result;

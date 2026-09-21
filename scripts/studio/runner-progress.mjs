@@ -61,10 +61,11 @@ function shortText(value) {
 }
 
 function localPath(directory, value) {
-  if (typeof value !== 'string' || value.length > 500 || value.includes('\\')) return null;
+  if (typeof value !== 'string' || value.length > 500) return null;
+  value = value.replaceAll('\\', '/');
   const app = path.join(directory, 'app');
   const absolute = path.isAbsolute(value) ? value : path.resolve(directory, value);
-  const relative = path.relative(app, absolute);
+  const relative = path.relative(app, absolute).replaceAll('\\', '/');
   if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) return null;
   if (relative.split('/').some((part) => part.startsWith('.') || !/^[\w .@()+-]+$/u.test(part)))
     return null;
@@ -72,8 +73,9 @@ function localPath(directory, value) {
 }
 
 function readPath(directory, value) {
-  if (typeof value !== 'string' || path.isAbsolute(value) || value.split('/').includes('..'))
-    return null;
+  if (typeof value !== 'string') return null;
+  value = value.replaceAll('\\', '/');
+  if (path.isAbsolute(value) || value.split('/').includes('..')) return null;
   return localPath(directory, 'app/' + value);
 }
 
@@ -151,8 +153,26 @@ function fileReader(directory, onValue) {
     if (exhausted) return;
     let fd;
     try {
-      fd = fs.openSync(file, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW);
+      // Windows does not enforce O_NOFOLLOW. Compare the named file with the
+      // opened descriptor before decoding, including replacement during open.
+      const before = fs.lstatSync(file);
+      if (!before.isFile()) {
+        exhausted = true;
+        return;
+      }
+      fd = fs.openSync(file, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0));
       const stat = fs.fstatSync(fd);
+      const after = fs.lstatSync(file);
+      if (
+        !after.isFile() ||
+        before.dev !== stat.dev ||
+        before.ino !== stat.ino ||
+        after.dev !== stat.dev ||
+        after.ino !== stat.ino
+      ) {
+        exhausted = true;
+        return;
+      }
       const key = `${stat.dev}:${stat.ino}`;
       if (
         !stat.isFile() ||

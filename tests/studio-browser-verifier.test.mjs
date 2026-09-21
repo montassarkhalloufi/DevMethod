@@ -182,8 +182,10 @@ test('controlled harness exercises nonce, real private data endpoint and restart
   );
   assert.equal(harness.calls.launches[0].chromiumSandbox, true);
   assert.equal(harness.calls.launches[0].headless, true);
+  const { SystemRoot: windowsRoot, ...isolatedEnvironment } = harness.calls.launches[0].env;
+  assert.equal(windowsRoot, process.platform === 'win32' ? process.env.SystemRoot : undefined);
   assert.deepEqual(
-    Object.keys(harness.calls.launches[0].env).sort(),
+    Object.keys(isolatedEnvironment).sort(),
     ['HOME', 'LANG', 'TEMP', 'TMP', 'TMPDIR', 'USERPROFILE'].sort(),
   );
   assert.equal(fs.existsSync(harness.calls.launches[0].env.HOME), false);

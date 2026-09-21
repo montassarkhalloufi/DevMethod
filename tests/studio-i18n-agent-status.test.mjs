@@ -26,7 +26,18 @@ const output = await build({
     resolveDir: process.cwd(),
     loader: 'tsx',
   },
-  external: ['/studio-ui/*'],
+  plugins: [
+    {
+      name: 'external-studio-widget-urls',
+      setup(builder) {
+        // Match served URLs before filesystem resolution, including on Windows.
+        builder.onResolve({ filter: /^\/studio-ui\// }, ({ path }) => ({
+          path,
+          external: true,
+        }));
+      },
+    },
+  ],
   bundle: true,
   write: false,
   format: 'iife',

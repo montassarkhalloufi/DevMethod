@@ -339,3 +339,74 @@ test('runner reports safe observed actions and consumes the explicit plan before
   assert.equal(store.read().checks[0].protocol, 'studio-document-syntax-v1');
   assert.equal(store.read().checks[0].executor, 'studio');
 });
+
+test('Windows CLI paths are normalized and escaping paths remain rejected', (t) => {
+  const directory = 'C:\\studio-work\\job';
+  // Exercise Node's real Windows path implementation on any host, not a Windows OS run.
+  const windows = Object.fromEntries(
+    ['join', 'resolve', 'relative', 'isAbsolute'].map((key) => [key, path.win32[key]]),
+  );
+  for (const [key, implementation] of Object.entries(windows))
+    t.mock.method(path, key, implementation);
+  const events = [];
+  const progress = createRunnerProgress({
+    directory,
+    jobId: 'job',
+    jobs: { reportProgress: ({ event }) => events.push(event) },
+    signal: new AbortController().signal,
+    timeoutMs: 1000,
+  });
+  t.after(() => progress.stop(false));
+  progress.onEvent(
+    cli('file_change', 'windows', {
+      changes: [
+        { path: 'app/src/main.tsx' },
+        { path: 'C:\\studio-work\\job\\app\\style.css' },
+        { path: 'app\\nested\\file.ts' },
+        { path: 'C:\\elsewhere\\private.txt' },
+        { path: 'C:\\studio-work\\job\\app-other\\outside.ts' },
+        { path: 'app/../secret.txt' },
+        { path: 'app/.env' },
+        { path: 'app/src/file.ts:secret' },
+      ],
+    }),
+  );
+  assert.deepEqual(
+    events.map((event) => event.path),
+    ['src/main.tsx', 'style.css', 'nested/file.ts'],
+  );
+});
+
+test('file links are rejected even when the platform open ignores O_NOFOLLOW', (t) => {
+  const f = progressFixture(t);
+  const target = path.join(f.directory, 'target.jsonl');
+  fs.writeFileSync(target, JSON.stringify(plan()) + '\n');
+  fs.symlinkSync(target, path.join(f.directory, 'progress.jsonl'), 'file');
+  const open = fs.openSync;
+  t.mock.method(fs, 'openSync', (file, flags, ...args) =>
+    open(file, flags & ~(fs.constants.O_NOFOLLOW || 0), ...args),
+  );
+  f.progress.finish();
+  assert.deepEqual(f.events, []);
+});
+
+test('replacing the progress file with a link during open cannot publish its target', (t) => {
+  const f = progressFixture(t);
+  const file = path.join(f.directory, 'progress.jsonl');
+  const target = path.join(f.directory, 'target.jsonl');
+  fs.writeFileSync(file, JSON.stringify(plan()) + '\n');
+  fs.writeFileSync(target, JSON.stringify(plan('completed')) + '\n');
+  const open = fs.openSync;
+  let replaced = false;
+  t.mock.method(fs, 'openSync', (name, flags, ...args) => {
+    if (name === file && !replaced) {
+      replaced = true;
+      fs.unlinkSync(file);
+      fs.symlinkSync(target, file, 'file');
+    }
+    return open(name, flags & ~(fs.constants.O_NOFOLLOW || 0), ...args);
+  });
+  f.progress.finish();
+  assert.equal(replaced, true);
+  assert.deepEqual(f.events, []);
+});
