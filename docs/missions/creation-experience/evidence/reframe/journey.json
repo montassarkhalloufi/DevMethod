@@ -1,0 +1,11 @@
+{
+  "at": "2026-09-16T20:00:59.461Z",
+  "masterId": "retained-agenda-master",
+  "approvedBy": "agent",
+  "prototype": "336de365-3d32-476e-9577-5d5798829ed8",
+  "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+  "draftPreserved": true,
+  "dataPreserved": true,
+  "adoptionPreserved": true,
+  "providerCalls": 0
+}

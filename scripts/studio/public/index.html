@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>DevMethod — Studio</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/editor.css" />
+    <link rel="stylesheet" href="/layout.css" />
+    <link rel="stylesheet" href="/studio-ui/code-widget.css" />
+    <link rel="stylesheet" href="/connector-icons.css" />
+    <link rel="stylesheet" href="/mcp-connections.css" />
+    <link rel="stylesheet" href="/connector-guide.css" />
+    <link rel="stylesheet" href="/technical.css" />
+    <link rel="stylesheet" href="/source-compact.css" />
+    <link rel="stylesheet" href="/shell-navigation.css" />
+    <link rel="stylesheet" href="/discussion-sizing.css" />
+    <link rel="stylesheet" href="/progress.css" />
+    <script type="module" src="/app.js"></script>
+    <script type="module" src="/studio-ui/layout.js"></script>
+  </head>
+  <body data-studio="">
+    <svg
+      class="icon-sprite"
+      aria-hidden="true"
+      focusable="false"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <symbol id="studio-icon-folder" viewBox="0 0 24 24">
+          <path d="M3 7h18v13H3zM3 7V4h6l2 3" />
+        </symbol>
+        <symbol id="studio-icon-upload" viewBox="0 0 24 24">
+          <path d="M12 15V3m-4 4 4-4 4 4M4 13v8h16v-8" />
+        </symbol>
+        <symbol id="studio-icon-preview" viewBox="0 0 24 24">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M3 8h18M7 6h.01M10 6h.01M13 6h.01" />
+        </symbol>
+        <symbol id="studio-icon-code" viewBox="0 0 24 24">
+          <path d="m8 6-5 6 5 6m8-12 5 6-5 6m-3-15-2 18" />
+        </symbol>
+        <symbol id="studio-icon-document" viewBox="0 0 24 24">
+          <path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6" />
+        </symbol>
+        <symbol id="studio-icon-shield" viewBox="0 0 24 24">
+          <path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6zM8 12l3 3 5-6" />
+        </symbol>
+        <symbol id="studio-icon-history" viewBox="0 0 24 24">
+          <path d="M3 11a9 9 0 1 1 3 8M3 5v6h6M12 7v6l4 2" />
+        </symbol>
+        <symbol id="studio-icon-journey" viewBox="0 0 24 24">
+          <circle cx="6" cy="5" r="2" />
+          <circle cx="18" cy="19" r="2" />
+          <path d="M8 5h8a4 4 0 0 1 0 8H8a3 3 0 0 0 0 6h8" />
+        </symbol>
+        <symbol id="studio-icon-users" viewBox="0 0 24 24">
+          <circle cx="9" cy="7" r="3" />
+          <path d="M3 20v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6m1 3a5 5 0 0 1 4 5v2" />
+        </symbol>
+        <symbol id="studio-icon-user" viewBox="0 0 24 24">
+          <circle cx="12" cy="7" r="4" />
+          <path d="M4 21v-2a8 8 0 0 1 16 0v2" />
+        </symbol>
+        <symbol id="studio-icon-lock" viewBox="0 0 24 24">
+          <rect x="5" y="10" width="14" height="11" rx="2" />
+          <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+        </symbol>
+        <symbol id="studio-icon-desktop" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="13" rx="2" />
+          <path d="M12 16v5M8 21h8" />
+        </symbol>
+        <symbol id="studio-icon-phone" viewBox="0 0 24 24">
+          <rect x="7" y="2" width="10" height="20" rx="2" />
+          <path d="M11 18h2" />
+        </symbol>
+        <symbol id="studio-icon-target" viewBox="0 0 24 24">
+          <path d="M20.4 9a9 9 0 1 1-5.4-5.4M16.4 9a5 5 0 1 1-1.4-1.4M12 12l9-9m-5 0h5v5" />
+        </symbol>
+        <symbol id="studio-icon-expand" viewBox="0 0 24 24">
+          <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M3 3l6 6m12-6-6 6M3 21l6-6m12 6-6-6" />
+        </symbol>
+        <symbol id="studio-icon-external" viewBox="0 0 24 24">
+          <path d="M14 3h7v7m0-7L10 14M10 5H4v16h16v-6" />
+        </symbol>
+      </defs>
+    </svg>
+    <a
+      class="skip-link"
+      href="#workspace"
+      data-i18n-fr="Aller au projet"
+      data-i18n-en="Skip to project"
+      >Skip to project</a
+    >
+    <header class="topbar">
+      <a id="studio-home-link" class="brand" href="/">DevMethod <span>/ Studio</span></a
+      ><button id="project-menu" type="button" aria-controls="project-form">
+        <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-folder" /></svg
+        ><span id="project-menu-label" data-i18n-fr="Mon projet" data-i18n-en="My project"
+          >My project</span
+        ><span aria-hidden="true">⌄</span>
+      </button>
+      <nav
+        class="workspace-tabs shell-tabs"
+        role="tablist"
+        aria-label="Project views"
+        data-i18n-aria-label-fr="Vues du projet"
+        data-i18n-aria-label-en="Project views"
+      >
+        <button
+          id="tab-journey"
+          type="button"
+          role="tab"
+          aria-controls="journey"
+          aria-selected="false"
+          data-panel="journey"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-journey" /></svg
+          ><span data-i18n-fr="Conception" data-i18n-en="Design">Design</span>
+        </button>
+        <button
+          id="tab-product"
+          type="button"
+          role="tab"
+          aria-controls="product"
+          aria-selected="true"
+          data-panel="product"
+          tabindex="0"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-preview" /></svg
+          ><span data-i18n-fr="Aperçu" data-i18n-en="Preview">Preview</span></button
+        ><button
+          id="tab-code"
+          type="button"
+          role="tab"
+          aria-controls="code"
+          aria-selected="false"
+          data-panel="code"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-code" /></svg>Code</button
+        ><button
+          id="tab-choices"
+          type="button"
+          role="tab"
+          aria-controls="choices"
+          aria-selected="false"
+          data-panel="choices"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-document" /></svg
+          ><span data-i18n-fr="Décisions" data-i18n-en="Decisions">Decisions</span></button
+        ><button
+          id="tab-checks"
+          type="button"
+          role="tab"
+          aria-controls="checks"
+          aria-selected="false"
+          data-panel="checks"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-shield" /></svg
+          ><span data-i18n-fr="Vérifications" data-i18n-en="Checks">Checks</span></button
+        ><button
+          id="tab-history"
+          type="button"
+          role="tab"
+          aria-controls="history"
+          aria-selected="false"
+          data-panel="history"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
+          ><span data-i18n-fr="Historique" data-i18n-en="History">History</span>
+        </button>
+      </nav>
+      <label class="studio-language">
+        <span class="sr-only" data-i18n-fr="Langue du Studio" data-i18n-en="Studio language"
+          >Studio language</span
+        >
+        <select
+          name="studio-language"
+          data-studio-language
+          title="Studio language"
+          data-i18n-title-fr="Langue du Studio"
+          data-i18n-title-en="Studio language"
+        >
+          <option value="en" lang="en">English</option>
+          <option value="fr" lang="fr">Français</option>
+        </select>
+      </label>
+      <label class="shell-mode" for="studio-mode">
+        <span class="sr-only" data-i18n-fr="Mode de travail" data-i18n-en="Working mode"
+          >Working mode</span
+        >
+        <select
+          id="studio-mode"
+          name="mode"
+          form="project-form"
+          title="Working mode · adjust delegation"
+          data-i18n-title-fr="Mode de travail · ajuster la délégation"
+          data-i18n-title-en="Working mode · adjust delegation"
+        >
+          <option value="guided" data-i18n-fr="Guidé" data-i18n-en="Guided">Guided</option>
+          <option value="devauto">DevAuto</option>
+          <option value="delegated" data-i18n-fr="Autonome" data-i18n-en="Autonomous">
+            Autonomous
+          </option>
+        </select>
+      </label>
+      <button
+        id="open-connectors"
+        type="button"
+        title="Tools and services"
+        data-i18n-title-fr="Outils et services"
+        data-i18n-title-en="Tools and services"
+        aria-label="Tools and services"
+        data-i18n-aria-label-fr="Outils et services"
+        data-i18n-aria-label-en="Tools and services"
+        aria-haspopup="dialog"
+      >
+        <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-code" /></svg>
+      </button>
+      <a class="button-link export-project" href="/api/export" download=""
+        ><svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-upload" /></svg
+        ><span class="export-label" data-i18n-fr="Exporter" data-i18n-en="Export">Export</span></a
+      >
+    </header>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden=""></div>
+    <nav
+      class="mobile-navigation"
+      aria-label="Quick project navigation"
+      data-i18n-aria-label-fr="Accès rapide au projet"
+      data-i18n-aria-label-en="Quick project navigation"
+    >
+      <a href="#workspace" data-i18n-fr="Le produit" data-i18n-en="The product">The product</a>
+      <a
+        href="#request"
+        data-i18n-fr="Discussion et demande ↓"
+        data-i18n-en="Conversation and request ↓"
+        >Conversation and request ↓</a
+      >
+    </nav>
+    <div class="studio-layout">
+      <aside
+        id="discussion"
+        class="conversation"
+        aria-label="The project thread"
+        data-i18n-aria-label-fr="Le fil du projet"
+        data-i18n-aria-label-en="The project thread"
+        tabindex="-1"
+      >
+        <div class="discussion-content" data-scroll-region="discussion">
+          <section class="technical-assistant">
+            <h2>Assistant</h2>
+            <p class="muted" data-i18n-fr="Objectif du projet" data-i18n-en="Project objective">
+              Project objective
+            </p>
+            <p id="technical-objective"></p>
+          </section>
+          <a
+            class="mobile-return"
+            href="#workspace"
+            data-i18n-fr="↑ Revenir au produit"
+            data-i18n-en="↑ Back to the product"
+            >↑ Back to the product</a
+          >
+          <section
+            id="responsibilities"
+            class="policy-panel"
+            aria-labelledby="responsibilities-title"
+          >
+            <div class="section-heading">
+              <h2 id="responsibilities-title" class="responsibility-title">
+                <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-users" /></svg
+                ><span data-i18n-fr="Responsabilités" data-i18n-en="Responsibilities"
+                  >Responsibilities</span
+                >
+              </h2>
+              <button
+                id="adjust-policy"
+                type="button"
+                class="text-button"
+                data-i18n-fr="Ajuster"
+                data-i18n-en="Adjust"
+              >
+                Adjust
+              </button>
+            </div>
+            <div id="policy"></div>
+          </section>
+          <section id="project" class="panel introduction" aria-labelledby="project-title">
+            <div class="section-heading">
+              <div>
+                <p
+                  id="project-eyebrow"
+                  class="eyebrow"
+                  data-i18n-fr="VOTRE ESPACE DE CRÉATION"
+                  data-i18n-en="YOUR CREATIVE WORKSPACE"
+                >
+                  YOUR CREATIVE WORKSPACE
+                </p>
+                <h1
+                  id="project-title"
+                  data-i18n-fr="Qu’aimeriez-vous créer ?"
+                  data-i18n-en="What would you like to create?"
+                >
+                  What would you like to create?
+                </h1>
+              </div>
+              <div class="project-heading-actions">
+                <button
+                  id="edit-project"
+                  type="button"
+                  aria-expanded="true"
+                  aria-controls="project-form"
+                  hidden=""
+                  data-i18n-fr="Ajuster le projet"
+                  data-i18n-en="Adjust the project"
+                >
+                  Adjust the project</button
+                ><button
+                  id="refresh"
+                  class="quiet"
+                  type="button"
+                  data-i18n-fr="Actualiser"
+                  data-i18n-en="Refresh"
+                >
+                  Refresh
+                </button>
+              </div>
+            </div>
+
+            <p
+              id="project-intro"
+              class="intro-copy"
+              data-i18n-fr="Une idée, un besoin quotidien, une référence. Nous gardons le fil jusqu’à une app que vous pouvez essayer."
+              data-i18n-en="An idea, an everyday need, a reference. Keep the thread through to an app you can try."
+            >
+              An idea, an everyday need, a reference. Keep the thread through to an app you can try.
+            </p>
+            <form id="project-form">
+              <label
+                class="sr-only"
+                for="idea"
+                data-i18n-fr="Votre idée et le résultat attendu"
+                data-i18n-en="Your idea and the expected result"
+                >Your idea and the expected result</label
+              >
+              <textarea
+                id="idea"
+                rows="3"
+                maxlength="20000"
+                required=""
+                placeholder="I’d like an app for… It would help… to…"
+                data-i18n-placeholder-fr="J’aimerais une app pour… Elle aiderait… à…"
+                data-i18n-placeholder-en="I’d like an app for… It would help… to…"
+              ></textarea>
+              <div class="project-options">
+                <details id="project-details">
+                  <summary
+                    data-i18n-fr="Nom, technologie et contraintes"
+                    data-i18n-en="Name, technology and constraints"
+                  >
+                    Name, technology and constraints
+                  </summary>
+                  <div class="detail-fields">
+                    <label for="project-name"
+                      ><span data-i18n-fr="Nom du projet" data-i18n-en="Project name"
+                        >Project name</span
+                      >
+                      <span data-i18n-fr="(facultatif)" data-i18n-en="(optional)"
+                        >(optional)</span
+                      ></label
+                    ><input
+                      id="project-name"
+                      maxlength="200"
+                      placeholder="My project"
+                      data-i18n-placeholder-fr="Mon projet"
+                      data-i18n-placeholder-en="My project"
+                    />
+                    <label
+                      for="project-expected-profile"
+                      data-i18n-fr="Technologie attendue"
+                      data-i18n-en="Expected technology"
+                      >Expected technology</label
+                    >
+                    <select id="project-expected-profile">
+                      <option
+                        value=""
+                        disabled
+                        data-i18n-fr="À définir"
+                        data-i18n-en="To be defined"
+                      >
+                        To be defined
+                      </option>
+                      <option
+                        value="react-ts"
+                        data-i18n-fr="React / TypeScript strict"
+                        data-i18n-en="React / strict TypeScript"
+                      >
+                        React / strict TypeScript
+                      </option>
+                      <option value="static">HTML / CSS / JavaScript</option>
+                    </select>
+                    <label for="constraints"
+                      ><span data-i18n-fr="Ce qu’il faut garder" data-i18n-en="What to preserve"
+                        >What to preserve</span
+                      >
+                      <span
+                        data-i18n-fr="(une contrainte par ligne)"
+                        data-i18n-en="(one constraint per line)"
+                        >(one constraint per line)</span
+                      ></label
+                    ><textarea
+                      id="constraints"
+                      rows="2"
+                      placeholder="Mobile use, my existing data…"
+                      data-i18n-placeholder-fr="Un usage sur mobile, mes données existantes…"
+                      data-i18n-placeholder-en="Mobile use, my existing data…"
+                    ></textarea>
+                  </div>
+                </details>
+                <label class="reference-upload" for="reference-file"
+                  ><span data-i18n-fr="＋ Ajouter une référence" data-i18n-en="＋ Add a reference"
+                    >＋ Add a reference</span
+                  ><input
+                    id="reference-file"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,text/plain,text/markdown,.md"
+                /></label>
+              </div>
+
+              <details class="delegation-settings">
+                <summary
+                  data-i18n-fr="Qui prend les décisions ?"
+                  data-i18n-en="Who makes the decisions?"
+                >
+                  Who makes the decisions?
+                </summary>
+                <p
+                  class="muted"
+                  data-i18n-fr="Ces réglages précisent le mode. Une délégation ne remplace pas votre accord explicite."
+                  data-i18n-en="These settings refine the working mode. Delegation does not replace your explicit agreement."
+                >
+                  These settings refine the working mode. Delegation does not replace your explicit
+                  agreement.
+                </p>
+                <div class="delegation-fields">
+                  <div class="delegation-field">
+                    <label
+                      for="delegate-structure"
+                      data-i18n-fr="Produit et architecture"
+                      data-i18n-en="Product and architecture"
+                      >Product and architecture</label
+                    ><select id="delegate-structure">
+                      <option
+                        value="user"
+                        data-i18n-fr="Moi, avec validation"
+                        data-i18n-en="Me, with approval"
+                      >
+                        Me, with approval
+                      </option>
+                      <option
+                        value="agent"
+                        data-i18n-fr="L’agent, par délégation"
+                        data-i18n-en="The agent, by delegation"
+                      >
+                        The agent, by delegation
+                      </option>
+                    </select>
+                  </div>
+                  <div class="delegation-field">
+                    <label
+                      for="delegate-visual"
+                      data-i18n-fr="Validation visuelle"
+                      data-i18n-en="Visual approval"
+                      >Visual approval</label
+                    ><select id="delegate-visual">
+                      <option
+                        value="user"
+                        data-i18n-fr="Moi, avec validation"
+                        data-i18n-en="Me, with approval"
+                      >
+                        Me, with approval
+                      </option>
+                      <option
+                        value="agent"
+                        data-i18n-fr="L’agent, par délégation"
+                        data-i18n-en="The agent, by delegation"
+                      >
+                        The agent, by delegation
+                      </option>
+                    </select>
+                  </div>
+                  <div class="delegation-field">
+                    <label
+                      for="delegate-adoption"
+                      data-i18n-fr="Application d’une version"
+                      data-i18n-en="Applying a version"
+                      >Applying a version</label
+                    ><select id="delegate-adoption">
+                      <option
+                        value="user"
+                        data-i18n-fr="Moi, avec validation"
+                        data-i18n-en="Me, with approval"
+                      >
+                        Me, with approval
+                      </option>
+                      <option
+                        value="agent"
+                        data-i18n-fr="L’agent, par délégation"
+                        data-i18n-en="The agent, by delegation"
+                      >
+                        The agent, by delegation
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </details>
+              <div class="form-footer">
+                <span
+                  id="project-save-status"
+                  class="muted"
+                  data-i18n-fr="Le projet est conservé dans cet espace local."
+                  data-i18n-en="The project is saved in this local workspace."
+                  >The project is saved in this local workspace.</span
+                ><button id="save-project" class="primary" type="submit">
+                  <span data-i18n-fr="Garder cette idée" data-i18n-en="Save this idea"
+                    >Save this idea</span
+                  >
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </form>
+
+            <details class="project-context">
+              <summary data-i18n-fr="Contexte et références" data-i18n-en="Context and references">
+                Context and references
+              </summary>
+              <div id="project-summary" class="project-summary" hidden="">
+                <p id="project-idea-summary"></p>
+                <span id="project-mode" class="badge"></span
+                ><span
+                  id="project-unsaved"
+                  class="muted"
+                  hidden=""
+                  data-i18n-fr="Modifications non enregistrées"
+                  data-i18n-en="Unsaved changes"
+                  >Unsaved changes</span
+                >
+              </div>
+              <div
+                id="references"
+                class="references"
+                aria-label="Project references"
+                data-i18n-aria-label-fr="Références du projet"
+                data-i18n-aria-label-en="Project references"
+              ></div>
+            </details>
+          </section>
+          <div id="decision-request" class="decision-request" hidden="">
+            <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-user" /></svg>
+            <p id="decision-request-text"></p>
+          </div>
+          <section
+            id="active-decision"
+            aria-label="The decision to make"
+            data-i18n-aria-label-fr="La décision à prendre"
+            data-i18n-aria-label-en="The decision to make"
+            tabindex="-1"
+            hidden=""
+          ></section>
+          <section class="technical-decision" id="technical-decision" hidden>
+            <span data-i18n-fr="Décision à examiner" data-i18n-en="Decision to review"
+              >Decision to review</span
+            >
+            <h3 id="technical-decision-title"></h3>
+            <p id="technical-decision-state"></p>
+            <button
+              type="button"
+              data-action="review-decision"
+              data-i18n-fr="Ouvrir la décision →"
+              data-i18n-en="Open the decision →"
+            >
+              Open the decision →
+            </button>
+          </section>
+          <section
+            id="latest-result"
+            class="latest-result"
+            hidden=""
+            aria-label="Latest result"
+            data-i18n-aria-label-fr="Dernier résultat"
+            data-i18n-aria-label-en="Latest result"
+          ></section>
+          <div id="job-progress" hidden></div>
+          <details id="preserve-constraints" class="preserve-constraints" hidden="">
+            <summary>
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-lock" /></svg
+              ><span data-i18n-fr="À préserver" data-i18n-en="To preserve">To preserve</span>
+              <span id="preserve-summary" class="preserve-summary"></span>
+            </summary>
+            <div id="preserve-constraints-content"></div>
+          </details>
+          <details id="activity" class="activity-panel" data-size-region="activity">
+            <summary>
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
+              ><span data-i18n-fr="Activité précédente" data-i18n-en="Previous activity"
+                >Previous activity</span
+              >
+            </summary>
+            <div class="conversation-flow" id="conversation-flow" data-scroll-region="conversation">
+              <div
+                id="jobs"
+                class="jobs"
+                aria-label="Requests and results"
+                data-i18n-aria-label-fr="Demandes et résultats"
+                data-i18n-aria-label-en="Requests and results"
+              ></div>
+              <section
+                id="directions"
+                class="panel flow-directions"
+                aria-labelledby="directions-title"
+              >
+                <div class="section-heading">
+                  <div>
+                    <p
+                      class="eyebrow"
+                      data-i18n-fr="DONNER UNE DIRECTION"
+                      data-i18n-en="SET A DIRECTION"
+                    >
+                      SET A DIRECTION
+                    </p>
+                    <h2
+                      id="directions-title"
+                      data-i18n-fr="Des choix que vous pouvez voir"
+                      data-i18n-en="Choices you can see"
+                    >
+                      Choices you can see
+                    </h2>
+                  </div>
+                </div>
+                <div id="designs" class="design-grid"></div>
+                <form id="design-form" hidden="">
+                  <label
+                    for="design-reason"
+                    data-i18n-fr="Ce qui vous plaît dans cette direction"
+                    data-i18n-en="What you like about this direction"
+                    >What you like about this direction</label
+                  ><textarea
+                    id="design-reason"
+                    rows="2"
+                    maxlength="4000"
+                    placeholder="What I want to keep…"
+                    data-i18n-placeholder-fr="Ce que je souhaite garder…"
+                    data-i18n-placeholder-en="What I want to keep…"
+                  ></textarea
+                  ><button
+                    id="choose-design"
+                    class="primary"
+                    type="submit"
+                    data-i18n-fr="Valider ce choix"
+                    data-i18n-en="Approve this choice"
+                  >
+                    Approve this choice
+                  </button>
+                </form>
+              </section>
+              <div
+                id="flow-decisions"
+                class="flow-decisions"
+                aria-label="Recent decisions"
+                data-i18n-aria-label-fr="Décisions récentes"
+                data-i18n-aria-label-en="Recent decisions"
+              ></div>
+            </div>
+          </details>
+        </div>
+        <section
+          id="message-panel"
+          class="panel request-panel"
+          aria-labelledby="request-title"
+          data-size-region="message"
+        >
+          <a
+            class="mobile-return"
+            href="#workspace"
+            data-i18n-fr="↑ Revenir au produit"
+            data-i18n-en="↑ Back to the product"
+            >↑ Back to the product</a
+          >
+          <h2
+            id="request-title"
+            class="sr-only"
+            data-i18n-fr="Faire évoluer le projet"
+            data-i18n-en="Develop the project"
+          >
+            Develop the project
+          </h2>
+          <details class="agent-connection">
+            <summary>
+              <span
+                id="agent-status"
+                class="badge"
+                data-i18n-fr="Connexion à vérifier"
+                data-i18n-en="Connection to check"
+                >Connection to check</span
+              >
+            </summary>
+            <p
+              id="agent-description"
+              class="muted"
+              data-i18n-fr="Lecture de la connexion à l’agent…"
+              data-i18n-en="Checking the agent connection…"
+            >
+              Checking the agent connection…
+            </p>
+            <p
+              class="composer-note"
+              data-i18n-fr="Votre demande conserve le contexte et les choix du projet."
+              data-i18n-en="Your request keeps the project’s context and decisions."
+            >
+              Your request keeps the project’s context and decisions.
+            </p>
+            <div id="agent-configuration"></div>
+          </details>
+          <form id="request-form">
+            <div id="element-selection" class="element-selection" hidden="">
+              <span id="element-label"></span
+              ><button
+                id="clear-element"
+                type="button"
+                aria-label="Remove the selected element"
+                data-i18n-aria-label-fr="Retirer l’élément ciblé"
+                data-i18n-aria-label-en="Remove the selected element"
+              >
+                ×
+              </button>
+              <small
+                data-i18n-fr="Le sélecteur DOM ne fournit pas de mapping fiable vers un fichier source. La demande conserve l’élément ciblé."
+                data-i18n-en="The DOM selector does not reliably map to a source file. The request keeps the selected element."
+                >The DOM selector does not reliably map to a source file. The request keeps the
+                selected element.</small
+              >
+            </div>
+            <label
+              class="sr-only"
+              for="request"
+              data-i18n-fr="Votre demande"
+              data-i18n-en="Your request"
+              >Your request</label
+            ><textarea
+              id="request"
+              rows="2"
+              maxlength="20000"
+              required=""
+              placeholder="Describe what should change and what should stay…"
+              data-i18n-placeholder-fr="Décrivez ce qui doit changer, ce qui doit rester…"
+              data-i18n-placeholder-en="Describe what should change and what should stay…"
+            ></textarea>
+            <div class="form-footer">
+              <div class="draft-actions">
+                <span
+                  id="draft-status"
+                  class="muted"
+                  role="status"
+                  data-i18n-fr="Votre brouillon sera conservé."
+                  data-i18n-en="Your draft will be saved."
+                  >Your draft will be saved.</span
+                ><button
+                  id="save-draft"
+                  class="text-button"
+                  type="button"
+                  data-i18n-fr="Enregistrer"
+                  data-i18n-en="Save"
+                >
+                  Save
+                </button>
+              </div>
+              <button id="send-request" class="primary" type="submit">
+                <span data-i18n-fr="Envoyer" data-i18n-en="Send">Send</span>
+                <span aria-hidden="true">↑</span>
+              </button>
+            </div>
+          </form>
+          <div id="prompt-mcp-tools"></div>
+        </section>
+      </aside>
+      <div
+        id="conversation-resizer"
+        class="conversation-resizer"
+        role="separator"
+        tabindex="0"
+        aria-label="Conversation width"
+        data-i18n-aria-label-fr="Largeur de la discussion"
+        data-i18n-aria-label-en="Conversation width"
+        aria-orientation="vertical"
+        aria-controls="discussion"
+        aria-valuemin="300"
+        aria-valuemax="720"
+        aria-valuenow="300"
+        title="Drag to resize. Use arrow keys to adjust, Home/End for limits, double-click to reset."
+        data-i18n-title-fr="Glisser pour redimensionner. Flèches pour ajuster, Début/Fin pour les limites, double-clic pour réinitialiser."
+        data-i18n-title-en="Drag to resize. Use arrow keys to adjust, Home/End for limits, double-click to reset."
+      ></div>
+      <main id="workspace" tabindex="-1" data-scroll-region="preview">
+        <section
+          id="project-cap"
+          class="project-cap"
+          aria-label="The intended result"
+          data-i18n-aria-label-fr="Le résultat visé"
+          data-i18n-aria-label-en="The intended result"
+        ></section>
+        <div class="workbench">
+          <div class="preview-toolbar preview-command-bar">
+            <button
+              id="expand-workspace"
+              aria-label="Expand this view"
+              data-i18n-aria-label-fr="Agrandir cette vue"
+              data-i18n-aria-label-en="Expand this view"
+              title="Expand this view"
+              data-i18n-title-fr="Agrandir cette vue"
+              data-i18n-title-en="Expand this view"
+              type="button"
+              aria-controls="workspace"
+              aria-pressed="false"
+            >
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-expand" /></svg>
+            </button>
+            <select
+              id="preview-scenario"
+              class="preview-scenario"
+              aria-label="Scenario to compare without changing the choice"
+              data-i18n-aria-label-fr="Scénario à comparer sans modifier le choix"
+              data-i18n-aria-label-en="Scenario to compare without changing the choice"
+              title="Compare a scenario without changing the recorded decision"
+              data-i18n-title-fr="Comparer un scénario sans changer la décision enregistrée"
+              data-i18n-title-en="Compare a scenario without changing the recorded decision"
+              hidden=""
+            ></select>
+            <label
+              for="preview-version"
+              class="sr-only"
+              data-i18n-fr="Version à essayer"
+              data-i18n-en="Version to try"
+              >Version to try</label
+            ><select
+              id="preview-version"
+              aria-label="Version to try"
+              data-i18n-aria-label-fr="Version à essayer"
+              data-i18n-aria-label-en="Version to try"
+            >
+              <option value="" data-i18n-fr="Aucune version" data-i18n-en="No version">
+                No version
+              </option>
+            </select>
+            <div id="proposal-comparison" class="proposal-comparison" hidden="">
+              <div
+                class="comparison-switch"
+                role="group"
+                aria-label="Compare the change"
+                data-i18n-aria-label-fr="Comparer le changement"
+                data-i18n-aria-label-en="Compare the change"
+              >
+                <button
+                  id="comparison-before"
+                  type="button"
+                  aria-pressed="true"
+                  data-i18n-fr="Avant"
+                  data-i18n-en="Before"
+                >
+                  Before
+                </button>
+                <button
+                  id="comparison-proposal"
+                  type="button"
+                  aria-pressed="false"
+                  data-i18n-fr="Proposition"
+                  data-i18n-en="Proposal"
+                >
+                  Proposal
+                </button>
+              </div>
+            </div>
+            <div
+              class="viewport-buttons"
+              role="group"
+              aria-label="Preview width"
+              data-i18n-aria-label-fr="Largeur de l’aperçu"
+              data-i18n-aria-label-en="Preview width"
+            >
+              <button
+                id="wide-preview"
+                type="button"
+                aria-pressed="true"
+                aria-label="Desktop preview"
+                data-i18n-aria-label-fr="Aperçu bureau"
+                data-i18n-aria-label-en="Desktop preview"
+                title="Desktop preview"
+                data-i18n-title-fr="Aperçu bureau"
+                data-i18n-title-en="Desktop preview"
+              >
+                <svg class="ui-icon" aria-hidden="true">
+                  <use href="#studio-icon-desktop" />
+                </svg></button
+              ><button
+                id="mobile-preview"
+                type="button"
+                aria-pressed="false"
+                aria-label="Mobile preview"
+                data-i18n-aria-label-fr="Aperçu mobile"
+                data-i18n-aria-label-en="Mobile preview"
+                title="Mobile preview"
+                data-i18n-title-fr="Aperçu mobile"
+                data-i18n-title-en="Mobile preview"
+              >
+                <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-phone" /></svg>
+              </button>
+            </div>
+            <button
+              id="inspect-element"
+              aria-label="Select an element"
+              data-i18n-aria-label-fr="Cibler un élément"
+              data-i18n-aria-label-en="Select an element"
+              title="Select an element in the preview"
+              data-i18n-title-fr="Cibler un élément dans l’aperçu"
+              data-i18n-title-en="Select an element in the preview"
+              type="button"
+              disabled=""
+              aria-pressed="false"
+            >
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-target" /></svg>
+              <span
+                class="sr-only"
+                data-i18n-fr="Cibler un élément"
+                data-i18n-en="Select an element"
+                >Select an element</span
+              ></button
+            ><a
+              id="open-preview"
+              aria-label="Open the interactive application in a new tab"
+              data-i18n-aria-label-fr="Ouvrir l’application interactive dans un nouvel onglet"
+              data-i18n-aria-label-en="Open the interactive application in a new tab"
+              title="Open the interactive application in a new tab"
+              data-i18n-title-fr="Ouvrir l’application interactive dans un nouvel onglet"
+              data-i18n-title-en="Open the interactive application in a new tab"
+              class="button-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden=""
+              ><svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-external" /></svg
+            ></a>
+          </div>
+          <section
+            id="journey"
+            class="panel journey-panel"
+            aria-labelledby="tab-journey"
+            role="tabpanel"
+            hidden=""
+          >
+            <div id="journey-view"></div>
+            <div class="technical-links">
+              <button
+                type="button"
+                data-action="architecture"
+                data-i18n-fr="Examiner l’architecture détectée →"
+                data-i18n-en="Inspect the detected architecture →"
+              >
+                Inspect the detected architecture →
+              </button>
+              <span
+                data-i18n-fr="La cible et les alternatives de conception restent des choix déclarés."
+                data-i18n-en="The target and design alternatives remain declared choices."
+                >The target and design alternatives remain declared choices.</span
+              >
+            </div>
+          </section>
+          <section
+            id="product"
+            class="panel product-panel"
+            aria-labelledby="tab-product"
+            role="tabpanel"
+          >
+            <div class="preview-context">
+              <p id="comparison-status" role="status" aria-live="polite"></p>
+            </div>
+            <div class="section-heading sr-only">
+              <div>
+                <h2 id="product-title" data-i18n-fr="Votre app" data-i18n-en="Your app">
+                  Your app
+                </h2>
+              </div>
+              <span
+                id="preview-status"
+                class="badge"
+                data-i18n-fr="Aucune version"
+                data-i18n-en="No version"
+                >No version</span
+              >
+            </div>
+
+            <div id="preview-stage" class="preview-stage">
+              <img
+                id="proposal-image"
+                class="proposal-image"
+                alt="Aperçu visuel de la proposition"
+                hidden=""
+              />
+              <div id="proposal-empty" class="proposal-empty" role="status" hidden=""></div>
+              <div id="preview-empty" class="preview-empty">
+                <span class="empty-symbol" aria-hidden="true">▧</span>
+                <h3
+                  data-i18n-fr="Une vraie app apparaîtra ici"
+                  data-i18n-en="A real app will appear here"
+                >
+                  A real app will appear here
+                </h3>
+                <p
+                  data-i18n-fr="Gardez votre idée, puis préparez une première demande. L’aperçu s’ouvrira dès qu’une version aura été produite."
+                  data-i18n-en="Save your idea, then prepare your first request. The preview will open once a version has been produced."
+                >
+                  Save your idea, then prepare your first request. The preview will open once a
+                  version has been produced.
+                </p>
+                <button
+                  id="first-request"
+                  type="button"
+                  data-i18n-fr="Préparer ma première demande →"
+                  data-i18n-en="Prepare my first request →"
+                >
+                  Prepare my first request →
+                </button>
+              </div>
+              <iframe
+                id="preview"
+                title="Project application — interactive preview"
+                data-i18n-title-fr="Application du projet — aperçu interactif"
+                data-i18n-title-en="Project application — interactive preview"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"
+                hidden=""
+              ></iframe>
+              <div id="source-only-preview" class="preview-empty" hidden="">
+                <h3
+                  data-i18n-fr="Sources importées · aperçu à raccorder"
+                  data-i18n-en="Imported sources · preview not connected"
+                >
+                  Imported sources · preview not connected
+                </h3>
+                <p
+                  data-i18n-fr="Ce projet peut être parcouru et modifié dans Code. Sa stack n’est pas exécutée par le runtime actuel du Studio. Aucun script du projet n’a été lancé à l’import."
+                  data-i18n-en="You can browse and edit this project in Code. Its stack is not run by the current Studio runtime. No project script was run during import."
+                >
+                  You can browse and edit this project in Code. Its stack is not run by the current
+                  Studio runtime. No project script was run during import.
+                </p>
+                <a
+                  href="#code"
+                  class="button-link"
+                  data-i18n-fr="Parcourir les sources →"
+                  data-i18n-en="Browse the sources →"
+                  >Browse the sources →</a
+                >
+              </div>
+            </div>
+            <details class="preview-note">
+              <summary
+                data-i18n-fr="Données partagées entre versions"
+                data-i18n-en="Data shared across versions"
+              >
+                Data shared across versions
+              </summary>
+              <p
+                id="preview-data-note"
+                data-i18n-fr="Les données saisies dans l’app sont partagées entre ses versions. Revenir au code précédent ne restaure pas les anciennes données."
+                data-i18n-en="Data entered in the app is shared across its versions. Returning to earlier code does not restore earlier data."
+              >
+                Data entered in the app is shared across its versions. Returning to earlier code
+                does not restore earlier data.
+              </p>
+            </details>
+          </section>
+          <section
+            id="code"
+            class="panel code-panel"
+            role="tabpanel"
+            aria-labelledby="tab-code"
+            hidden=""
+          >
+            <div id="source-view"></div>
+            <div id="project-workbench"></div>
+          </section>
+          <section
+            id="choices"
+            class="panel choices-panel"
+            role="tabpanel"
+            aria-labelledby="tab-choices"
+            hidden=""
+          >
+            <div class="section-heading">
+              <div>
+                <p
+                  class="eyebrow"
+                  data-i18n-fr="LES RAISONS DE NOS CHOIX"
+                  data-i18n-en="THE REASONS BEHIND OUR CHOICES"
+                >
+                  THE REASONS BEHIND OUR CHOICES
+                </p>
+                <h2
+                  data-i18n-fr="Une direction révisable"
+                  data-i18n-en="A direction you can revise"
+                >
+                  A direction you can revise
+                </h2>
+              </div>
+            </div>
+            <div id="context"></div>
+            <div class="technical-links">
+              <button
+                type="button"
+                data-action="architecture"
+                data-i18n-fr="Confronter les choix à l’architecture détectée →"
+                data-i18n-en="Compare choices with the detected architecture →"
+              >
+                Compare choices with the detected architecture →
+              </button>
+              <button
+                type="button"
+                data-action="impact"
+                data-i18n-fr="Examiner l’impact sur le projet →"
+                data-i18n-en="Review the impact on the project →"
+              >
+                Review the impact on the project →
+              </button>
+            </div>
+            <form id="approval-form" class="approval-card" hidden="">
+              <h3 data-i18n-fr="Valider le cadrage" data-i18n-en="Approve the brief">
+                Approve the brief
+              </h3>
+              <p
+                id="approval-status"
+                data-i18n-fr="Lisez les choix ci-dessus avant de lancer la réalisation."
+                data-i18n-en="Read the choices above before starting implementation."
+              >
+                Read the choices above before starting implementation.
+              </p>
+              <label for="approval-reason"
+                ><span
+                  data-i18n-fr="Ce qui motive votre choix"
+                  data-i18n-en="The reason for your choice"
+                  >The reason for your choice</span
+                >
+                <span data-i18n-fr="(facultatif)" data-i18n-en="(optional)">(optional)</span></label
+              ><textarea id="approval-reason" rows="2" maxlength="4000"></textarea
+              ><button
+                id="approve-plan"
+                class="primary"
+                type="submit"
+                data-i18n-fr="Valider ces choix"
+                data-i18n-en="Approve these choices"
+              >
+                Approve these choices
+              </button>
+            </form>
+            <div class="capabilities">
+              <h3 data-i18n-fr="Dans cet espace" data-i18n-en="In this workspace">
+                In this workspace
+              </h3>
+              <p
+                data-i18n-fr="Apps web et données locales."
+                data-i18n-en="Web apps and local data."
+              >
+                Web apps and local data.
+              </p>
+              <p
+                id="capability-limits"
+                data-i18n-fr="Authentification et publication externe indisponibles."
+                data-i18n-en="Authentication and external publishing are unavailable."
+              >
+                Authentication and external publishing are unavailable.
+              </p>
+            </div>
+          </section>
+          <section
+            id="checks"
+            class="panel checks-panel"
+            role="tabpanel"
+            aria-labelledby="tab-checks"
+            hidden=""
+          >
+            <div class="section-heading">
+              <div>
+                <p
+                  class="eyebrow"
+                  data-i18n-fr="CONFRONTER LE RÉSULTAT À L’INTENTION"
+                  data-i18n-en="COMPARE THE RESULT WITH THE INTENT"
+                >
+                  COMPARE THE RESULT WITH THE INTENT
+                </p>
+                <h2 data-i18n-fr="Ce qui a été vérifié" data-i18n-en="What has been checked">
+                  What has been checked
+                </h2>
+              </div>
+            </div>
+            <div id="checks-list"></div>
+            <div id="quality-workbench"></div>
+          </section>
+          <section
+            id="history"
+            class="panel"
+            aria-labelledby="tab-history"
+            role="tabpanel"
+            hidden=""
+          >
+            <div class="section-heading">
+              <div>
+                <p
+                  class="eyebrow"
+                  data-i18n-fr="REPRENDRE SANS REPARTIR DE ZÉRO"
+                  data-i18n-en="RESUME WITHOUT STARTING OVER"
+                >
+                  RESUME WITHOUT STARTING OVER
+                </p>
+                <h2
+                  id="history-title"
+                  data-i18n-fr="Reprendre et retrouver les versions"
+                  data-i18n-en="Resume work and find earlier versions"
+                >
+                  Resume work and find earlier versions
+                </h2>
+              </div>
+            </div>
+            <div id="versions" class="versions"></div>
+            <details class="technical">
+              <summary data-i18n-fr="Journal du projet" data-i18n-en="Project log">
+                Project log
+              </summary>
+              <div id="events"></div>
+            </details>
+          </section>
+        </div>
+        <section
+          id="evidence-dock"
+          class="evidence-dock"
+          aria-label="Status of the displayed version"
+          data-i18n-aria-label-fr="État de la version affichée"
+          data-i18n-aria-label-en="Status of the displayed version"
+        ></section>
+      </main>
+    </div>
+    <dialog id="connectors-dialog" class="connectors-dialog" aria-labelledby="connectors-title">
+      <header class="connectors-dialog-header">
+        <h2
+          id="connectors-title"
+          data-i18n-fr="Outils et services"
+          data-i18n-en="Tools and services"
+        >
+          Tools and services
+        </h2>
+        <button
+          id="close-connectors"
+          type="button"
+          aria-label="Close tools and services"
+          data-i18n-aria-label-fr="Fermer les outils et services"
+          data-i18n-aria-label-en="Close tools and services"
+          data-i18n-fr="Fermer ×"
+          data-i18n-en="Close ×"
+        >
+          Close ×
+        </button>
+      </header>
+      <div id="connectors-host"></div>
+    </dialog>
+  </body>
+</html>

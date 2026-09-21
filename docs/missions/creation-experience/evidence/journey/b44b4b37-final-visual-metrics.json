@@ -1,0 +1,538 @@
+{
+  "observedAt": "2026-09-16T15:46:16.174Z",
+  "requestedRevision": "b44b4b37",
+  "url": "http://127.0.0.1:4331/",
+  "desktop": {
+    "bodyWidth": 1309,
+    "controls": [
+      {
+        "clientWidth": 323,
+        "height": 47.99715805053711,
+        "scrollWidth": 323,
+        "tag": "A",
+        "text": "Les Ateliers",
+        "width": 323.2528381347656,
+        "x": 40.57528305053711,
+        "y": 26.54119300842285
+      },
+      {
+        "clientWidth": 96,
+        "height": 101.0866470336914,
+        "scrollWidth": 96,
+        "tag": "A",
+        "text": "Les ateliers",
+        "width": 96.40625,
+        "x": 427.8266906738281,
+        "y": 0
+      },
+      {
+        "clientWidth": 168,
+        "height": 101.0866470336914,
+        "scrollWidth": 168,
+        "tag": "A",
+        "text": "Mes inscriptions\n3",
+        "width": 167.9971466064453,
+        "x": 568.2315063476562,
+        "y": 0
+      },
+      {
+        "clientWidth": 106,
+        "height": 50,
+        "scrollWidth": 106,
+        "tag": "BUTTON",
+        "text": "Tous",
+        "width": 107.4928970336914,
+        "x": 481.4772644042969,
+        "y": 144.99288940429688
+      },
+      {
+        "clientWidth": 156,
+        "height": 50,
+        "scrollWidth": 156,
+        "tag": "BUTTON",
+        "text": "Réparation",
+        "width": 157.81959533691406,
+        "x": 603.9701538085938,
+        "y": 144.99288940429688
+      },
+      {
+        "clientWidth": 128,
+        "height": 50,
+        "scrollWidth": 128,
+        "tag": "BUTTON",
+        "text": "Cuisine",
+        "width": 129.48863220214844,
+        "x": 776.7897338867188,
+        "y": 144.99288940429688
+      },
+      {
+        "clientWidth": 132,
+        "height": 50,
+        "scrollWidth": 132,
+        "tag": "BUTTON",
+        "text": "Couture",
+        "width": 134.16903686523438,
+        "x": 921.2783813476562,
+        "y": 144.99288940429688
+      },
+      {
+        "clientWidth": 604,
+        "height": 58.99857711791992,
+        "scrollWidth": 604,
+        "tag": "BUTTON",
+        "text": "Liste d’attente →",
+        "width": 603.92041015625,
+        "x": 629.375,
+        "y": 528.7073974609375
+      },
+      {
+        "clientWidth": 604,
+        "height": 58.99857711791992,
+        "scrollWidth": 604,
+        "tag": "BUTTON",
+        "text": "S’inscrire →",
+        "width": 603.92041015625,
+        "x": 629.375,
+        "y": 911.1292114257812
+      },
+      {
+        "clientWidth": 604,
+        "height": 58.99857711791992,
+        "scrollWidth": 604,
+        "tag": "BUTTON",
+        "text": "S’inscrire →",
+        "width": 603.92041015625,
+        "x": 629.375,
+        "y": 1293.5511474609375
+      },
+      {
+        "clientWidth": 81,
+        "height": 38.90625,
+        "scrollWidth": 81,
+        "tag": "BUTTON",
+        "text": "Annuler",
+        "width": 82.34375,
+        "x": 1163.9488525390625,
+        "y": 1488.0255126953125
+      },
+      {
+        "clientWidth": 81,
+        "height": 38.90625,
+        "scrollWidth": 81,
+        "tag": "BUTTON",
+        "text": "Annuler",
+        "width": 82.34375,
+        "x": 1163.9488525390625,
+        "y": 1576.285400390625
+      },
+      {
+        "clientWidth": 81,
+        "height": 38.90625,
+        "scrollWidth": 81,
+        "tag": "BUTTON",
+        "text": "Annuler",
+        "width": 82.34375,
+        "x": 1163.9488525390625,
+        "y": 1664.54541015625
+      },
+      {
+        "clientWidth": 124,
+        "height": 38.90625,
+        "scrollWidth": 124,
+        "tag": "BUTTON",
+        "text": "Quitter la liste",
+        "width": 126.20027923583984,
+        "x": 1120.09228515625,
+        "y": 1812.7130126953125
+      }
+    ],
+    "documentWidth": 1309,
+    "heading": {
+      "clientWidth": 368,
+      "height": 215.73863220214844,
+      "scrollWidth": 368,
+      "tag": "H1",
+      "text": "Faire ensemble,\napprendre\nautrement.",
+      "width": 367.5923156738281,
+      "x": 41.88920211791992,
+      "y": 264.43182373046875
+    },
+    "height": 909,
+    "overflow": [],
+    "title": "Les Ateliers",
+    "viewportSource": "Chrome viewport capability",
+    "width": 1309
+  },
+  "mobile": {
+    "bodyWidth": 390,
+    "controls": [
+      {
+        "className": "brand",
+        "clientWidth": 230,
+        "height": 35,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 230,
+        "tag": "A",
+        "text": "Les Ateliers",
+        "width": 229.55255126953125,
+        "x": 20,
+        "y": 14.999999046325684
+      },
+      {
+        "className": "active",
+        "clientWidth": 76,
+        "height": 47.99715805053711,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 76,
+        "tag": "A",
+        "text": "Les ateliers",
+        "width": 76.11505126953125,
+        "x": 20,
+        "y": 57.99715805053711
+      },
+      {
+        "className": "",
+        "clientWidth": 139,
+        "height": 47.99715805053711,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 139,
+        "tag": "A",
+        "text": "Mes inscriptions\n3",
+        "width": 138.7357940673828,
+        "x": 123.1107940673828,
+        "y": 57.99715805053711
+      },
+      {
+        "className": "filter active",
+        "clientWidth": 77,
+        "height": 43.99857711791992,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 77,
+        "tag": "BUTTON",
+        "text": "Tous",
+        "width": 79.3039779663086,
+        "x": 20,
+        "y": 507.3792419433594
+      },
+      {
+        "className": "filter",
+        "clientWidth": 122,
+        "height": 43.99857711791992,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 122,
+        "tag": "BUTTON",
+        "text": "Réparation",
+        "width": 124.03408813476562,
+        "x": 114.30397033691406,
+        "y": 507.3792419433594
+      },
+      {
+        "className": "filter",
+        "clientWidth": 97,
+        "height": 43.99857711791992,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 97,
+        "tag": "BUTTON",
+        "text": "Cuisine",
+        "width": 98.85652923583984,
+        "x": 253.3380584716797,
+        "y": 507.3792419433594
+      },
+      {
+        "className": "filter",
+        "clientWidth": 101,
+        "height": 43.99857711791992,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 101,
+        "tag": "BUTTON",
+        "text": "Couture",
+        "width": 103.01136016845705,
+        "x": 367.194580078125,
+        "y": 507.3792419433594
+      },
+      {
+        "className": "open-form primary-button",
+        "clientWidth": 234,
+        "height": 51.99573516845703,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 234,
+        "tag": "BUTTON",
+        "text": "Liste d’attente →",
+        "width": 234.1903381347656,
+        "x": 121.90340423583984,
+        "y": 909.2897338867188
+      },
+      {
+        "className": "open-form primary-button",
+        "clientWidth": 234,
+        "height": 51.99573516845703,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 234,
+        "tag": "BUTTON",
+        "text": "S’inscrire →",
+        "width": 234.1903381347656,
+        "x": 121.90340423583984,
+        "y": 1285.8095703125
+      },
+      {
+        "className": "open-form primary-button",
+        "clientWidth": 234,
+        "height": 51.99573516845703,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 234,
+        "tag": "BUTTON",
+        "text": "S’inscrire →",
+        "width": 234.1903381347656,
+        "x": 121.90340423583984,
+        "y": 1692.5709228515625
+      },
+      {
+        "className": "cancel-button",
+        "clientWidth": 306,
+        "height": 38.90625,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 306,
+        "tag": "BUTTON",
+        "text": "Annuler",
+        "width": 308.1817932128906,
+        "x": 40.909088134765625,
+        "y": 2010.09228515625
+      },
+      {
+        "className": "cancel-button",
+        "clientWidth": 306,
+        "height": 38.90625,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 306,
+        "tag": "BUTTON",
+        "text": "Annuler",
+        "width": 308.1817932128906,
+        "x": 40.909088134765625,
+        "y": 2157.258544921875
+      },
+      {
+        "className": "cancel-button",
+        "clientWidth": 306,
+        "height": 38.90625,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 306,
+        "tag": "BUTTON",
+        "text": "Annuler",
+        "width": 308.1817932128906,
+        "x": 40.909088134765625,
+        "y": 2304.424560546875
+      },
+      {
+        "className": "cancel-button",
+        "clientWidth": 306,
+        "height": 38.90625,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 306,
+        "tag": "BUTTON",
+        "text": "Quitter la liste",
+        "width": 308.1817932128906,
+        "x": 40.909088134765625,
+        "y": 2530.58935546875
+      }
+    ],
+    "documentWidth": 390,
+    "heading": {
+      "className": "",
+      "clientWidth": 350,
+      "height": 123.5795440673828,
+      "id": "page-title",
+      "overflowX": "visible",
+      "scrollWidth": 350,
+      "tag": "H1",
+      "text": "Faire ensemble, apprendre autrement.",
+      "width": 350,
+      "x": 20,
+      "y": 207.3508453369141
+    },
+    "height": 843,
+    "overflow": [
+      {
+        "className": "filter",
+        "clientWidth": 101,
+        "height": 43.99857711791992,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 101,
+        "tag": "BUTTON",
+        "text": "Couture",
+        "width": 103.01136016845705,
+        "x": 367.194580078125,
+        "y": 507.3792419433594
+      }
+    ],
+    "scrollContainers": [
+      {
+        "className": "agenda",
+        "clientWidth": 350,
+        "height": 1257.0950927734375,
+        "id": "",
+        "overflowX": "visible",
+        "scrollWidth": 370,
+        "tag": "SECTION",
+        "text": "Tous\nRéparation\nCuisine\nCouture\nDIM\n20\nSEPTEMBRE\nRéparation\nRéparer son vélo\n\n◷ 10 h–12 h\n\n● Maison des associations\n\nComplet\n\n1 personne en",
+        "width": 350,
+        "x": 20,
+        "y": 507.3792419433594
+      },
+      {
+        "className": "filters",
+        "clientWidth": 370,
+        "height": 43.99857711791992,
+        "id": "",
+        "overflowX": "auto",
+        "scrollWidth": 470,
+        "tag": "DIV",
+        "text": "Tous\nRéparation\nCuisine\nCouture",
+        "width": 370,
+        "x": 20,
+        "y": 507.3792419433594
+      }
+    ],
+    "width": 390
+  },
+  "form": {
+    "documentWidth": 390,
+    "focused": "INPUT",
+    "forms": [
+      {
+        "clientWidth": 0,
+        "height": 0,
+        "scrollWidth": 0,
+        "tag": "FORM",
+        "text": "\n            Votre nom \n            \n            \n              Rejoindre la liste\n              Fer",
+        "width": 0,
+        "x": 0,
+        "y": 0
+      },
+      {
+        "clientWidth": 234,
+        "height": 136.80397033691406,
+        "scrollWidth": 234,
+        "tag": "FORM",
+        "text": "Votre nom\n\nConfirmer\nFermer",
+        "width": 234.1903381347656,
+        "x": 121.90340423583984,
+        "y": 395.80963134765625
+      },
+      {
+        "clientWidth": 0,
+        "height": 0,
+        "scrollWidth": 0,
+        "tag": "FORM",
+        "text": "\n            Votre nom \n            \n            \n              Confirmer\n              Fermer\n     ",
+        "width": 0,
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "inputs": [
+      {
+        "clientWidth": 0,
+        "height": 0,
+        "scrollWidth": 0,
+        "tag": "INPUT",
+        "text": "name",
+        "width": 0,
+        "x": 0,
+        "y": 0
+      },
+      {
+        "clientWidth": 232,
+        "height": 42.99715805053711,
+        "scrollWidth": 232,
+        "tag": "INPUT",
+        "text": "name",
+        "width": 234.1903381347656,
+        "x": 121.90340423583984,
+        "y": 418.62213134765625
+      },
+      {
+        "clientWidth": 0,
+        "height": 0,
+        "scrollWidth": 0,
+        "tag": "INPUT",
+        "text": "name",
+        "width": 0,
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "width": 390
+  },
+  "filter": {
+    "documentWidth": 390,
+    "filter": "Couture",
+    "workshopHeadings": [
+      "Initiation à la couture"
+    ]
+  },
+  "consoleErrors": [],
+  "actions": [
+    "Nouvel onglet Chrome distinct ; onglet IAB utilisateur intact.",
+    "Viewport temporaire demandé 1440×1000 ; mesure réelle 1309×909 pixels CSS avec zoom Chrome préexistant.",
+    "Viewport temporaire demandé 429×928 ; mesure réelle 390×843 pixels CSS.",
+    "Formulaire Cuisine ouvert sans saisie ni soumission, puis fermé.",
+    "Filtre Couture sélectionné puis Tous rétabli.",
+    "Viewport Chrome réinitialisé après les observations."
+  ],
+  "limitations": [
+    "No registrations/cancellations/submissions performed",
+    "Viewport captures; no full-page completeness claim",
+    "Revision is parent-provided, not exposed in applicationDOM",
+    "Qualitative fidelity assessment, not pixel-perfect claim"
+  ],
+  "findings": [
+    {
+      "priority": "P2",
+      "status": "observed",
+      "subject": "Filtres mobiles",
+      "evidence": "Couture commence à x367,19 pour une largeur de 103,01 pixels ; conteneur scrollWidth470 > clientWidth370 avec overflow-x:auto. Le document global reste à390 pixels.",
+      "impact": "Le dernier filtre est masqué au premier affichage et demande un défilement latéral.",
+      "proposedChange": "Retour à la ligne des filtres prévu par le contrat DESIGN."
+    },
+    {
+      "priority": "P2",
+      "status": "observed",
+      "subject": "Densité de l’agenda desktop",
+      "evidence": "À1309 pixels CSS, chaque action est sous les détails ; bouton deuxième atelier y911 au-delà du viewport909.",
+      "impact": "La liste montre environ1,7atelier dans le premier écran ; le master plaçait les actions dans une troisième colonne.",
+      "proposedChange": "Conserver trois colonnes compactes à cette largeur."
+    }
+  ],
+  "qualitativeFidelity": {
+    "retained": [
+      "Fond papier clair, accents verts, serif pour les titres et dates.",
+      "Introduction à gauche, agenda à droite en desktop ; empilement mobile.",
+      "Dates et catégories visibles ; disponibilités et actions explicites.",
+      "Titre et formulaire sans débordement global à390 pixels."
+    ],
+    "notClaimed": [
+      "Fidélité pixel parfaite.",
+      "Validation humaine.",
+      "Preuve fonctionnelle de soumission, qui n’a pas été réexécutée ici."
+    ]
+  },
+  "captures": {
+    "format": "Captures JPEG natives du navigateur converties en PNG sans redimensionnement ni retouche des pixels.",
+    "extent": "Viewport uniquement ; capture pleine page non retenue car outil et zoom provoquaient un cadrage incorrect."
+  }
+}

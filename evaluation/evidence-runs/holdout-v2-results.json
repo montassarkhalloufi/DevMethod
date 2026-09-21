@@ -1,0 +1,396 @@
+{
+  "format": 1,
+  "protocolVersion": "v2",
+  "workspace": "/tmp/devmethod-evidence-holdout-Jdp1Sr",
+  "createdAt": "2026-09-15T22:24:32.804Z",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "frozenManifestSha256": "c5d0835279461f6106fdb6de0b1336daa7d1f066936dd908301968874dae6123",
+  "runnerProcesses": 16,
+  "adjudicatorChildren": 8,
+  "cases": [
+    {
+      "candidate": "healthy",
+      "report": {
+        "format": 1,
+        "status": "supported",
+        "fresh": true,
+        "reason": null,
+        "attempts": 1,
+        "permit": "1f9b6169d64ba720af901533ecb5a0a9748c4aa314a2a46eeb1373929225a57d",
+        "failureSignature": null,
+        "candidateBefore": "a839093afb184c268a3110e3a6df4af5d6cb456dac3f746532265ab924488a8f",
+        "candidateAfter": "a839093afb184c268a3110e3a6df4af5d6cb456dac3f746532265ab924488a8f",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "supported"
+          },
+          {
+            "id": "finality",
+            "status": "supported"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-15T22:24:30.327Z",
+        "durationMs": 312.58556,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "adjudicatorInvocation": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/scratch/d1e53b298710/DevMethod/evaluation/evidence-holdout/adjudicate.mjs",
+          "/tmp/devmethod-evidence-holdout-Jdp1Sr/healthy"
+        ],
+        "status": 0,
+        "signal": null,
+        "error": null,
+        "stdout": "{\"format\":1,\"kind\":\"independent-restart-adjudication\",\"durability\":\"passed\",\"finality\":\"passed\",\"observed\":{\"pending\":[\"waiting\"],\"retry\":false,\"after\":[\"waiting\"]}}",
+        "stderr": ""
+      },
+      "adjudication": {
+        "format": 1,
+        "kind": "independent-restart-adjudication",
+        "durability": "passed",
+        "finality": "passed",
+        "observed": {
+          "pending": [
+            "waiting"
+          ],
+          "retry": false,
+          "after": [
+            "waiting"
+          ]
+        }
+      }
+    },
+    {
+      "candidate": "duplicate",
+      "report": {
+        "format": 1,
+        "status": "failed",
+        "fresh": true,
+        "reason": null,
+        "attempts": 1,
+        "permit": "d884ba8f212fbf007a66027c6fa73a8c54d25fc76b201e91185077669fd711c7",
+        "failureSignature": "37ef25ad44002a452bd0ca855ced24fcc3c5a6b074638fc3df1f8e97e5e8bdf5",
+        "candidateBefore": "547dcc062890358a002574fdd3930872fb211eb22685b1c5e5c790ae0474bd63",
+        "candidateAfter": "547dcc062890358a002574fdd3930872fb211eb22685b1c5e5c790ae0474bd63",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "failed"
+          },
+          {
+            "id": "finality",
+            "status": "supported"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-15T22:24:30.975Z",
+        "durationMs": 296.00375899999995,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "adjudicatorInvocation": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/scratch/d1e53b298710/DevMethod/evaluation/evidence-holdout/adjudicate.mjs",
+          "/tmp/devmethod-evidence-holdout-Jdp1Sr/duplicate"
+        ],
+        "status": 0,
+        "signal": null,
+        "error": null,
+        "stdout": "{\"format\":1,\"kind\":\"independent-restart-adjudication\",\"durability\":\"passed\",\"finality\":\"passed\",\"observed\":{\"pending\":[\"waiting\"],\"retry\":false,\"after\":[\"waiting\"]}}",
+        "stderr": ""
+      },
+      "adjudication": {
+        "format": 1,
+        "kind": "independent-restart-adjudication",
+        "durability": "passed",
+        "finality": "passed",
+        "observed": {
+          "pending": [
+            "waiting"
+          ],
+          "retry": false,
+          "after": [
+            "waiting"
+          ]
+        }
+      }
+    },
+    {
+      "candidate": "resurrect",
+      "report": {
+        "format": 1,
+        "status": "failed",
+        "fresh": true,
+        "reason": null,
+        "attempts": 1,
+        "permit": "e60d72f27757d4bbbc544a8318cbc78ec13467be6c74e77a258f833f253c6f9c",
+        "failureSignature": "0980da6219f2fbca16134cbce991eba22c9a443a5239902b9731a863671b1eb1",
+        "candidateBefore": "63401f8b5505d68b51d0dc5d7069f1899149584cb22f8d64e21d3434bdb9ca75",
+        "candidateAfter": "63401f8b5505d68b51d0dc5d7069f1899149584cb22f8d64e21d3434bdb9ca75",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "supported"
+          },
+          {
+            "id": "finality",
+            "status": "failed"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-15T22:24:31.607Z",
+        "durationMs": 303.1327960000001,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "adjudicatorInvocation": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/scratch/d1e53b298710/DevMethod/evaluation/evidence-holdout/adjudicate.mjs",
+          "/tmp/devmethod-evidence-holdout-Jdp1Sr/resurrect"
+        ],
+        "status": 1,
+        "signal": null,
+        "error": null,
+        "stdout": "{\"format\":1,\"kind\":\"independent-restart-adjudication\",\"durability\":\"passed\",\"finality\":\"failed\",\"observed\":{\"pending\":[\"waiting\"],\"retry\":true,\"after\":[\"waiting\",\"finished\"]}}",
+        "stderr": ""
+      },
+      "adjudication": {
+        "format": 1,
+        "kind": "independent-restart-adjudication",
+        "durability": "passed",
+        "finality": "failed",
+        "observed": {
+          "pending": [
+            "waiting"
+          ],
+          "retry": true,
+          "after": [
+            "waiting",
+            "finished"
+          ]
+        }
+      }
+    },
+    {
+      "candidate": "lost-restart",
+      "report": {
+        "format": 1,
+        "status": "supported",
+        "fresh": true,
+        "reason": null,
+        "attempts": 1,
+        "permit": "05ca5d671d46954f0d0ca23cbec78e42f605c8eab41ce1ba311326f40448c8ee",
+        "failureSignature": null,
+        "candidateBefore": "1e21bde20d8ab76461002f592cdf851e97dfba5a4e8c5a134fe8c079907cd877",
+        "candidateAfter": "1e21bde20d8ab76461002f592cdf851e97dfba5a4e8c5a134fe8c079907cd877",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "supported"
+          },
+          {
+            "id": "finality",
+            "status": "supported"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "failed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "failed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-15T22:24:32.325Z",
+        "durationMs": 298.774414,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "adjudicatorInvocation": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/scratch/d1e53b298710/DevMethod/evaluation/evidence-holdout/adjudicate.mjs",
+          "/tmp/devmethod-evidence-holdout-Jdp1Sr/lost-restart"
+        ],
+        "status": 1,
+        "signal": null,
+        "error": null,
+        "stdout": "{\"format\":1,\"kind\":\"independent-restart-adjudication\",\"durability\":\"failed\",\"finality\":\"failed\",\"observed\":{\"pending\":[],\"retry\":true,\"after\":[\"finished\"]}}",
+        "stderr": ""
+      },
+      "adjudication": {
+        "format": 1,
+        "kind": "independent-restart-adjudication",
+        "durability": "failed",
+        "finality": "failed",
+        "observed": {
+          "pending": [],
+          "retry": true,
+          "after": [
+            "finished"
+          ]
+        }
+      }
+    }
+  ],
+  "falseSupportOnRestart": [
+    "lost-restart"
+  ],
+  "limitations": "Independently authored post-design deterministic fixture. Partial checker intentionally lacks restart checks. Not a native model comparison or generalization estimate. All predictions and misses retained."
+}

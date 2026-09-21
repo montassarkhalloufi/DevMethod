@@ -1,0 +1,38 @@
+{
+  "format": 1,
+  "freezeSha256": "e25cc1338d68fa09a978dca70fd1fff5ce19837a91e67096b24bbd05bc4f34fe",
+  "scope": "Public derivative: resume baseline argv anonymized and history replaced; other two case bundles unchanged",
+  "cases": {
+    "resume-filter": {
+      "head": "d175a2606ac06d6590541bedb76973ff579dbc6c",
+      "baseTree": "0773e992c8c4273bc24fbc9adb97f0cd1783afc4",
+      "indexTree": "0773e992c8c4273bc24fbc9adb97f0cd1783afc4",
+      "diff": "diff --git a/public/app.js b/public/app.js\nindex 838c358..8d6e49e 100644\n--- a/public/app.js\n+++ b/public/app.js\n@@ -221,6 +221,7 @@ $('#add-form').addEventListener('submit', (event) => {\n document.querySelectorAll('[data-filter]').forEach((element) =>\n   element.addEventListener('click', () => {\n     filter = element.dataset.filter;\n+    localStorage.setItem(\"pocket-tasks.filter\", filter);\n     editing = null;\n     render();\n     status(`Showing ${filter} tasks.`);\ndiff --git a/public/styles.css b/public/styles.css\nindex 24bee7f..8b9bc3f 100644\n--- a/public/styles.css\n+++ b/public/styles.css\n@@ -102,7 +102,7 @@ input:disabled {\n }\n :focus-visible {\n   outline: 3px solid #b2671d;\n-  outline-offset: 3px;\n+  outline-offset: 4px;\n }\n .toolbar {\n   display: flex;",
+      "stagedDiff": "",
+      "status": " M public/app.js\n M public/styles.css",
+      "bundle": "bundles/resume-filter.bundle",
+      "bundleSha256": "ed0c4e637933e222b1df15da473fbd9db048e9b9ee4f6c1698ce36622d907da8"
+    },
+    "title-policy": {
+      "head": "ae3f2717f2941e424bdb4923648946985dc18a8e",
+      "baseTree": "6c511f7bb38201bab50afeb65624233490233b4f",
+      "indexTree": "6c511f7bb38201bab50afeb65624233490233b4f",
+      "diff": "",
+      "stagedDiff": "",
+      "status": "",
+      "bundle": "bundles/title-policy.bundle",
+      "bundleSha256": "459958928a35f1eac78f2c47463469cb02ba5c4396dd4fdc09bafe1d656d5406"
+    },
+    "trim-boundary": {
+      "head": "1510059db22e80ff955aceb1909da1851a89d88e",
+      "baseTree": "b93b33d21d45ed32baae0195e106ab2b4e23af4c",
+      "indexTree": "b93b33d21d45ed32baae0195e106ab2b4e23af4c",
+      "diff": "diff --git a/src/domain.mjs b/src/domain.mjs\nindex 839ac97..0e12512 100644\n--- a/src/domain.mjs\n+++ b/src/domain.mjs\n@@ -5,7 +5,7 @@ export class TaskError extends Error {\n   }\n }\n export function title(value) {\n-  if (typeof value !== 'string' || !value.trim() || value.trim().length > 120) {\n+  if (typeof value !== 'string' || !value.trim() || value.length > 120) {\n     throw new TaskError('Title must contain 1\u2013120 characters.');\n   }\n   return value.trim();",
+      "stagedDiff": "",
+      "status": " M src/domain.mjs",
+      "bundle": "bundles/trim-boundary.bundle",
+      "bundleSha256": "d86185a64674dd80b481f4273b6169d387f3ba0698838a2245d376a167193164"
+    }
+  },
+  "originalFreezeSha256": "e206b6ee525c23a0c3bf4960cedbbe2e69a1bb3178d414de76552aa5038ac604"
+}

@@ -1,0 +1,157 @@
+{
+  "note": "Raw logs retained privately. Historical failures remain distinct from final validation. Source hashes identify the inspected implementation; package predates this final evidence-only report update.",
+  "sources": [
+    {
+      "path": "scripts/studio/admission.mjs",
+      "sha256": "31cf18a7ad7de77cb3517ed1909ac3302a489c8f91aeef7a38b7e915b09a2a9a"
+    },
+    {
+      "path": "scripts/studio/domain.mjs",
+      "sha256": "772af3aa8e68a712a0cb1a7f42c9c272cfa910ec2e5915e752254c0c019fa217"
+    },
+    {
+      "path": "scripts/studio/jobs.mjs",
+      "sha256": "0afa48fd6182f0fd2eb99e39c9ea9588417599fdd4059e925cd8f31f1aeb97a3"
+    },
+    {
+      "path": "scripts/studio/runner.mjs",
+      "sha256": "595a028df5a74d01e5e75bc2c3e74a6cf255f6517b12b1d8a9cc542f8c21a924"
+    },
+    {
+      "path": "scripts/studio/verify.mjs",
+      "sha256": "f37e7988052b3e23542076dbdc80b7a7ae673266a40890df3a3901c2ab72f732"
+    },
+    {
+      "path": "scripts/package-studio-smoke.mjs",
+      "sha256": "dee07112a0938cc06fe0b9d71edbc9993a1163545e406730bdca50482b9d45a8"
+    },
+    {
+      "path": "tests/studio-candidate-admission.test.mjs",
+      "sha256": "9504852a40b991afb1593271f26c5b42130e97183f0b91a582077c1fc012d883"
+    },
+    {
+      "path": "tests/studio-proposals.test.mjs",
+      "sha256": "d596ea52c616a2e54a4194c8e233819eee1396caf42be1de8c8b423a8233dfbe"
+    },
+    {
+      "path": "tests/studio-editor.test.mjs",
+      "sha256": "d316d768eb3b1ba76eb0053ad447c8aca3bb3ff41d8f1fff133da4bc31dc7bb3"
+    },
+    {
+      "path": "tests/studio-home-preview.test.mjs",
+      "sha256": "d8fbbd99f88925a785e4b928021dfb2cf32d5315c4ab77936897ff37bffc3413"
+    },
+    {
+      "path": "tests/studio-connectors.test.mjs",
+      "sha256": "a4858dec58ec772f60e866d5704858cd16e5d5a05512be82dc5cfc76f2ac04b3"
+    }
+  ],
+  "archiveSha256": "ca3bb86e41130591cc2872e9aa501bd3558f4f2d318bfe03a4a4cdf46b577ceb",
+  "entries": [
+    {
+      "name": "admission-domain.log",
+      "bytes": 3896,
+      "sha256": "7ba603dc4f2f92dce4aa2609b8d2b010d2adc02d3fceff588263be63948bb6f5"
+    },
+    {
+      "name": "admission-focused.log",
+      "bytes": 3348,
+      "sha256": "5a5e53a780a95855ff4f368726e52689b9c89eaf53020f989d7c7f3fa529b1d8"
+    },
+    {
+      "name": "admission-format.log",
+      "bytes": 500,
+      "sha256": "cdd7cf59ee84326ad533ed5f1b89f228d11187b5499c52025a1eb3bb3bc01f34"
+    },
+    {
+      "name": "admission-lint.log",
+      "bytes": 253,
+      "sha256": "e2e237c3349569189a1e797724e3b59d65d2203a722c16392e63387386041174"
+    },
+    {
+      "name": "admission-provenance.log",
+      "bytes": 6660,
+      "sha256": "3c4ab598c74a960964423b77b7f62e632f0738c116aeb444d3f085d5162a4c2b"
+    },
+    {
+      "name": "admission-red.log",
+      "bytes": 1111,
+      "sha256": "121476d2254171c8aca7a8e452337b52da5383324c4a178454fd8361a1e0c9ec"
+    },
+    {
+      "name": "admission-regressions.log",
+      "bytes": 10975,
+      "sha256": "b9fe4bd6fc9178b94aa8203c429db270c90e35ab6b1ebecaeb09e0d99fcb016f"
+    },
+    {
+      "name": "baseline-format.log",
+      "bytes": 500,
+      "sha256": "cdd7cf59ee84326ad533ed5f1b89f228d11187b5499c52025a1eb3bb3bc01f34"
+    },
+    {
+      "name": "baseline-lint.log",
+      "bytes": 253,
+      "sha256": "e2e237c3349569189a1e797724e3b59d65d2203a722c16392e63387386041174"
+    },
+    {
+      "name": "baseline-tests.log",
+      "bytes": 169185,
+      "sha256": "d2d5e520b0595e92c2bbaeefa4f23224364a37d72df8037bf4579b6123abb9f0"
+    },
+    {
+      "name": "candidate-tests.log",
+      "bytes": 119601,
+      "sha256": "d936c4009369d3c76221639605ce1571e4d8597c1816db5b6c65e0d59dca4dfa"
+    },
+    {
+      "name": "candidate-verified-tests.log",
+      "bytes": 114945,
+      "sha256": "499ef26cc536cff495819dbfca54f7c348981ddcaf3f7cdc8fec2416c9eca571"
+    },
+    {
+      "name": "docs-check-final.log",
+      "bytes": 143,
+      "sha256": "ef31d3f3f6dec6fa0d1d4340345df46f74ad48b09bb468b2959e04aa45f5df82"
+    },
+    {
+      "name": "docs-check.log",
+      "bytes": 143,
+      "sha256": "ef31d3f3f6dec6fa0d1d4340345df46f74ad48b09bb468b2959e04aa45f5df82"
+    },
+    {
+      "name": "package-dry-run.json",
+      "bytes": 192218,
+      "sha256": "8627e8577e181fd41bf89a1a48babdc89b3c92006fdae798ed06bd4460812c9d"
+    },
+    {
+      "name": "package-pack.log",
+      "bytes": 104405,
+      "sha256": "51894aaddb603c203cf6204d7a44c39afaaba4db080a8e5c1a46cd0010bc98ce"
+    },
+    {
+      "name": "package-smoke-cache-failure.log",
+      "bytes": 1219,
+      "sha256": "d4d9a8416afdbdc1403bddf6e023c1169ffd094e9ccf0f6fcb51063c51694804"
+    },
+    {
+      "name": "package-smoke-docs-failure.log",
+      "bytes": 3669,
+      "sha256": "fd850722249ab77c6e38db23df52611ea61d03678290a4f854ae9260f942a6d0"
+    },
+    {
+      "name": "package-smoke-initial.log",
+      "bytes": 1108,
+      "sha256": "ee8f9255987a8c5e748b968b03cff03323e658b534d28ffaf21223f0a7cac53d"
+    },
+    {
+      "name": "package-smoke.log",
+      "bytes": 824,
+      "sha256": "ff2056a516ba6eac24d6ee5d336245bb372e0076044fbae60955a98990613e25"
+    },
+    {
+      "name": "recovery-focused.log",
+      "bytes": 1116,
+      "sha256": "56898ac244a251c6f50733a2138e7197b2d01d432c1433994976cdf83681acd4"
+    }
+  ]
+}

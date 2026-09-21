@@ -1,0 +1,215 @@
+/* One global navigation. The work area retains only its contextual tools. */
+:root {
+  --shell-header-height: 56px;
+}
+body .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto minmax(70px, 180px) minmax(0, 1fr) auto auto auto auto;
+  grid-template-rows: 1fr;
+  gap: 12px;
+  height: var(--shell-header-height);
+  min-height: var(--shell-header-height);
+  padding: 0 16px;
+  background: #0d1b2e;
+}
+.topbar .brand {
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+.topbar #project-menu {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: none;
+  padding: 6px 0 6px 12px;
+  font-size: 12px;
+  gap: 7px;
+}
+.topbar #project-menu-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.topbar #project-menu > svg,
+.topbar #project-menu > [aria-hidden] {
+  flex: none;
+}
+body .topbar > .shell-tabs {
+  align-self: stretch;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  min-width: 0;
+  padding: 0 3px;
+  margin: 0;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  border: 0;
+  scroll-padding-inline: 8px;
+  overscroll-behavior-x: contain;
+}
+body .topbar > .shell-tabs > button {
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 10px;
+  gap: 7px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  font-size: 12px;
+  line-height: 20px;
+  color: #cad3e2;
+  background: transparent;
+}
+body .topbar > .shell-tabs > button > [data-i18n-fr] {
+  display: inline;
+  font: inherit;
+  margin: 0;
+}
+.topbar .ui-icon {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+body .topbar > .shell-tabs > button[aria-selected='true'] {
+  color: #f5f7fc;
+  border-bottom-color: #9b82ff;
+  background: #202340;
+}
+body .topbar > .shell-tabs > button[aria-selected='true'] .ui-icon {
+  color: #b5a2ff;
+}
+body .topbar > .shell-tabs > button:hover {
+  background: #1c2940;
+  color: #f5f7fc;
+}
+body .topbar > .shell-tabs > button:focus-visible {
+  outline: 2px solid #b5a2ff;
+  outline-offset: -5px;
+}
+.shell-mode {
+  position: relative;
+  min-width: 0;
+}
+.shell-mode select {
+  width: 108px;
+  margin: 0;
+  min-height: 34px;
+  border: 1px solid #4e5d7c;
+  background: #17263d;
+  color: #f5f7fc;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.shell-mode select:hover {
+  border-color: #9b82ff;
+}
+.topbar .export-project {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  background: transparent;
+}
+.topbar #open-connectors {
+  min-height: 34px;
+  min-width: 34px;
+  padding: 6px;
+}
+@media (min-width: 901px) {
+  body .studio-layout {
+    height: calc(100dvh - var(--shell-header-height));
+  }
+}
+@media (min-width: 1200px) and (max-width: 1370px) {
+  body .topbar {
+    gap: 8px;
+    padding-inline: 12px;
+    grid-template-columns: auto minmax(70px, 140px) minmax(0, 1fr) auto auto auto auto;
+  }
+  .topbar .brand {
+    font-size: 16px;
+  }
+  body .topbar > .shell-tabs > button {
+    padding-inline: 7px;
+    gap: 5px;
+  }
+}
+@media (max-width: 1199px) {
+  :root {
+    --shell-header-height: 96px;
+  }
+  body .topbar {
+    grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+    grid-template-rows: 48px 48px;
+    column-gap: 14px;
+    row-gap: 0;
+    padding-inline: 12px;
+  }
+  body .topbar > .shell-tabs {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    border-top: 1px solid #24344c;
+  }
+  .topbar #project-menu {
+    justify-content: flex-start;
+  }
+  .topbar > .studio-language {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    justify-self: end;
+    z-index: 1;
+    padding-left: 6px;
+    background: #0d1b2e;
+  }
+  body .topbar > .shell-tabs {
+    margin-right: 106px;
+  }
+}
+@media (max-width: 600px) {
+  body .topbar {
+    gap: 0 7px;
+    padding-inline: 8px;
+  }
+  .topbar .brand {
+    font-size: 13px;
+    letter-spacing: -0.35px;
+  }
+  .topbar #project-menu {
+    padding-left: 0;
+    border: 0;
+    gap: 3px;
+    font-size: 11px;
+  }
+  .topbar #project-menu > .ui-icon {
+    display: none;
+  }
+  body .topbar > .shell-tabs {
+    margin-right: 90px;
+  }
+  .shell-mode select {
+    width: 90px;
+    font-size: 11px;
+    padding-inline: 5px;
+  }
+  .topbar .export-project {
+    padding: 6px;
+    min-width: 34px;
+  }
+  .topbar .export-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}

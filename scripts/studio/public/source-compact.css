@@ -1,0 +1,270 @@
+/* Code commands occupy one row; durable source and Monaco keep the remaining space. */
+#source-view {
+  isolation: isolate;
+}
+/* Monaco's sticky lines, suggestions and context widgets stay below Studio commands.
+   Runtime sources have their own toolbar, below the parent surface menu. */
+#source-view .source-reading,
+#source-view .source-editing,
+#source-view .source-runtime,
+#source-view .source-monaco-host,
+#source-view .editor-monaco-host {
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+}
+#source-view .source-topbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 3px 8px;
+  background: #15233c;
+  border-bottom: 1px solid #2b3c57;
+  position: relative;
+  z-index: 3;
+}
+#source-view .source-topbar [hidden] {
+  display: none;
+}
+#source-view .source-file-toolbar,
+#source-view .source-editor-controls {
+  flex: 1;
+  min-width: 0;
+}
+#source-view .source-file-toolbar,
+#source-view .editor-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+#source-view .source-file-toolbar > h3,
+#source-view .editor-filename {
+  flex: 1 1 80px;
+  min-width: 32px;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  color: #f5f7fc;
+  font:
+    500 12px/1.5 ui-monospace,
+    monospace;
+}
+#source-view .source-actions {
+  display: flex;
+  flex: none;
+  flex-wrap: nowrap;
+  gap: 6px;
+  margin: 0;
+}
+#source-view .source-topbar button,
+#source-view .source-topbar summary,
+#source-view .editor-toolbar button,
+#source-view .editor-toolbar > details > summary {
+  min-height: 28px;
+  padding: 4px 7px;
+  font-size: 12px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+#source-view .source-menu,
+#source-view .editor-more {
+  position: relative;
+  flex: none;
+  font-size: 12px;
+}
+#source-view .source-menu > summary {
+  cursor: pointer;
+  color: #cad3e2;
+}
+#source-view .source-topbar > .source-menu {
+  margin-left: auto;
+}
+#source-view .source-menu-actions,
+#source-view .editor-more-actions {
+  position: absolute;
+  inset: 100% 0 auto auto;
+  display: grid;
+  z-index: 10;
+  width: min(280px, calc(100vw - 48px));
+  max-height: min(400px, 60dvh, var(--source-menu-available-height, 400px));
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 10px;
+  gap: 7px;
+  border: 1px solid #405475;
+  border-radius: 8px;
+  background: #1c2940;
+  box-shadow: 0 10px 24px #0005;
+  color: #cad3e2;
+}
+#source-view .source-menu-actions button,
+#source-view .editor-more-actions button {
+  white-space: normal;
+  text-align: left;
+}
+#source-view .source-menu-actions .source-details {
+  max-height: none;
+}
+#source-view .source-menu-actions h2 {
+  margin-block: 8px;
+  font-size: 13px;
+}
+#source-view :is(button, summary, input, textarea):focus-visible {
+  outline: 2px solid #b4a3ff;
+  outline-offset: 2px;
+}
+#source-view summary:hover {
+  color: #f5f7fc;
+}
+#source-view .source-editing,
+#source-view .source-editor-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+}
+#source-view .source-editing[hidden] {
+  display: none;
+}
+#source-view .editor-body {
+  flex: 1 1 0;
+  min-height: 0;
+  grid-template-columns: 150px minmax(0, 1fr);
+  border: 0;
+  border-radius: 0;
+}
+#source-view .editor-editing {
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#source-view .editor-monaco-host,
+#source-view .editor-input {
+  flex: 1 1 0;
+  min-height: 0;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+#source-view .editor-input {
+  resize: none;
+  padding: 8px;
+}
+#source-view .source-editor-back {
+  margin: 0;
+}
+#source-view .editor-auto {
+  flex: none;
+  margin: 0;
+  gap: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+#source-view .editor-auto input {
+  margin: 0;
+  width: 14px;
+  height: 14px;
+}
+#source-view .editor-statusbar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  padding: 3px 8px;
+  border-top: 1px solid #2b3c57;
+  background: #101d31;
+}
+#source-view .editor-status,
+#source-view .editor-position {
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+  line-height: 17px;
+  border-radius: 0;
+  background: none;
+}
+#source-view .editor-status {
+  flex: 1;
+  min-width: 0;
+  color: #cad3e2;
+}
+#source-view .editor-status.error,
+#source-view .editor-diagnostics-drawer > summary.error {
+  color: #ffd08c;
+}
+#source-view .editor-position {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+#source-view .editor-drawers {
+  display: flex;
+  flex-wrap: wrap;
+  flex: none;
+  max-height: 40%;
+  overflow: auto;
+  border-top: 1px solid #2b3c57;
+  background: #111e32;
+}
+#source-view .editor-drawer {
+  flex: 1 1 50%;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+#source-view .editor-drawer[open] {
+  flex-basis: 100%;
+}
+#source-view .editor-drawer > summary {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+}
+#source-view .editor-diagnostics {
+  padding: 4px 10px 10px;
+  margin: 0;
+  border: 0;
+}
+#source-view .editor-preview > p {
+  margin: 4px 10px 8px;
+  color: #cad3e2;
+  font-size: 12px;
+}
+#source-view .editor-preview iframe {
+  height: 300px;
+  border-radius: 0;
+}
+#source-view .editor-note,
+#source-view .code-language-status {
+  margin: 0;
+  padding: 4px 0;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: normal;
+}
+@media (max-width: 620px) {
+  #source-view .editor-position,
+  #source-view .editor-auto span {
+    display: none;
+  }
+  #source-view .source-topbar {
+    padding-inline: 4px;
+    gap: 4px;
+  }
+  #source-view .editor-toolbar {
+    gap: 4px;
+  }
+}

@@ -1,0 +1,38 @@
+✖ tightened no-progress limit halts before another runner or pending attempt (1138.946676ms)
+✖ tightened attempt budget preserves a valid halt below completed history (1047.033566ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2301.337438
+
+✖ failing tests:
+
+test at tests/evidence-runtime.test.mjs:8:34
+✖ tightened no-progress limit halts before another runner or pending attempt (1138.946676ms)
+  Error: Invalid evidence state: history bounds.
+      at ensure (file:///workspace/scratch/d1e53b298710/DevMethod/dist/evidence-store.js:9:15)
+      at validateState (file:///workspace/scratch/d1e53b298710/DevMethod/dist/evidence-store.js:119:5)
+      at Object.save (file:///workspace/scratch/d1e53b298710/DevMethod/dist/evidence-store.js:168:69)
+      at runEvidence (file:///workspace/scratch/d1e53b298710/DevMethod/dist/evidence-runtime.js:326:19)
+      at Object.run (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-runtime.test.mjs:202:31)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-runtime.test.mjs:554:28)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/evidence-runtime.test.mjs:8:34
+✖ tightened attempt budget preserves a valid halt below completed history (1047.033566ms)
+  Error: Invalid evidence state: history bounds.
+      at ensure (file:///workspace/scratch/d1e53b298710/DevMethod/dist/evidence-store.js:9:15)
+      at validateState (file:///workspace/scratch/d1e53b298710/DevMethod/dist/evidence-store.js:119:5)
+      at Object.save (file:///workspace/scratch/d1e53b298710/DevMethod/dist/evidence-store.js:168:69)
+      at runEvidence (file:///workspace/scratch/d1e53b298710/DevMethod/dist/evidence-runtime.js:326:19)
+      at Object.run (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-runtime.test.mjs:202:31)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-runtime.test.mjs:575:25)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

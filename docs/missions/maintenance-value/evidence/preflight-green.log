@@ -1,0 +1,11 @@
+✔ a commentary message followed by work is not a terminal native response (0.794625ms)
+✔ collection failure preserves already observed native accounting and blocks readiness (3.242541ms)
+✔ staging unchanged working bytes invalidates frozen resumption attribution (132.777417ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 190.268625

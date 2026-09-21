@@ -1,0 +1,43 @@
+{
+  "recordedAt": "2026-09-16T23:40:57.490Z",
+  "fullSuite": {
+    "tests": 683,
+    "passed": 683,
+    "failed": 0
+  },
+  "finalRefactor": "Version selector extracted without behavior changes; 13 workbench tests, build, lint and focused format check passed afterward.",
+  "packageSmoke": {
+    "passed": true,
+    "archive": "/private/tmp/devmethod-ai-0.5.0.tgz",
+    "sha256": "ca53922404bc816d9b2354c78fb173e98d558a7b282e6af6c9401c81d6d4e378",
+    "published": false
+  },
+  "dataAfterRestart": {
+    "user4346": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "isolated4350": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "unchanged": true
+  },
+  "finalBrowser": {
+    "width": 1562,
+    "height": 762,
+    "headerHeight": 55.9943,
+    "codeHeight": 495,
+    "centerHeight": 531.8253,
+    "mode": "delegated",
+    "activeRevision": "d7cd1dff-4985-46ea-abbc-40bdc930346e"
+  },
+  "outputs": {
+    "fullSuite": "✔ legacy manifest remains untouched and provenance is unknown (152.834625ms)\n✔ comparison distinguishes upstream edits, local customization, additions, removals and collisions without writes (181.986917ms)\n✔ preview refuses traversal and symbolic paths and malformed provenance (557.191084ms)\n✔ update-preview JSON and CLI exit codes (425.262083ms)\nℹ tests 683\nℹ suites 0\nℹ pass 683\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 33935.702125",
+    "lint": "> devmethod-ai@0.5.0 lint\n> eslint src scripts tests examples/pocket-tasks examples/clair-from-zero examples/fullstack examples/evidence-lab examples/seance studio-ui templates/studio-react examples/studio-ateliers-react *.config.mjs --max-warnings 0",
+    "format": "> devmethod-ai@0.5.0 format:check\n> prettier --check \"src/**/*.{ts,css}\" \"scripts/**/*.{mjs,js,css,html,json}\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab,seance}/**/*.{js,mjs,cjs,ts,tsx,css,html}\" \"studio-ui/**/*.{ts,tsx}\" \"templates/studio-react/**/*.{ts,tsx,css,html,json,md}\" \"examples/studio-ateliers-react/**/*.{ts,tsx,css,html,json,md}\"\n\nChecking formatting...\nAll matched files use Prettier code style!",
+    "buildAfterExtraction": "dist/studio-ui/ArchitectureView-BNuLi3C-.js         22.78 kB │ gzip:   6.69 kB\ndist/studio-ui/journey-widget.js                    25.16 kB │ gzip:   6.97 kB\ndist/studio-ui/project-widget.js                    25.98 kB │ gzip:   7.25 kB\ndist/studio-ui/tsMode-B4UHtSDt.js                   26.00 kB │ gzip:   6.81 kB\ndist/studio-ui/quality-widget.js                    27.70 kB │ gzip:   7.31 kB\ndist/studio-ui/lspLanguageFeatures-B9iGfGRp.js      35.75 kB │ gzip:   7.90 kB\ndist/studio-ui/code-widget.js                       67.59 kB │ gzip:  16.96 kB\ndist/studio-ui/jsx-runtime-Bz8zB3tG.js             297.60 kB │ gzip:  76.76 kB\ndist/studio-ui/toggleHighContrast-wJCBnj4M.js    1,426.49 kB │ gzip: 326.73 kB\ndist/studio-ui/editor.api-CBhnZFl3.js            3,225.33 kB │ gzip: 749.69 kB\n\n✓ built in 2.26s",
+    "targetedAfterExtraction": "  ✔ {\"baseRevisionId\":\"different\",\"draft\":false} (210.898041ms)\n  ✔ {\"baseRevisionId\":\"previous\",\"draft\":true} (203.337458ms)\n✔ a retained snapshot is never reused after comparison-base or draft scope changes (415.8755ms)\n✔ selecting a removed impact element never substitutes the previously opened current file (698.636583ms)\nℹ tests 13\nℹ suites 0\nℹ pass 13\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 5865.080667",
+    "documentation": "> devmethod-ai@0.5.0 check:docs\n> node scripts/check-docs.mjs\n\nLocal Markdown file links resolve (external URLs and anchors are not checked).",
+    "packageSmoke": "> devmethod-ai@0.5.0 test:package\n> node scripts/package-smoke.mjs /private/tmp/devmethod-ai-0.5.0.tgz\n\nPacked Atelier: real local assets, read-only discovery, numerical example, persistent project and agent request contract passed. No provider dispatch.\nPacked Studio: example, exact assets/source, isolated ESM edit, syntax rejection, adoption, durable draft, restart and export/restore passed. No provider calls or human validation.\nPacked React: installed actual archive and runtime dependencies, real strict build, local Monaco assets and preserved data passed. No provider call.\nPacked application evidence journey: correction, restart, maintenance and sticky stop passed.\nPacked restart checker: healthy acceptance and known restart fault detection passed.\nPacked 0.5.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution."
+  },
+  "limits": [
+    "These tests verify Studio behavior, not every generated application.",
+    "Browser evidence comes from the recorded Chrome viewports.",
+    "External tools require real connection; no provider or deployment run performed."
+  ]
+}

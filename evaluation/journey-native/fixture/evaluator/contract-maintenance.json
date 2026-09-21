@@ -1,0 +1,83 @@
+{
+  "format": 1,
+  "id": "cafe-maintenance",
+  "intent": "Track repair jobs without duplicate identities, lost durable state or reopened completed work. Add optional category without damaging legacy jobs.",
+  "criteria": [
+    {
+      "id": "intake",
+      "description": "Validated intake and idempotent identity with conflict protection."
+    },
+    {
+      "id": "finality",
+      "description": "Completion is terminal across finish and add retries."
+    },
+    {
+      "id": "durability",
+      "description": "Acknowledged jobs and statuses survive new processes."
+    },
+    {
+      "id": "integrity",
+      "description": "Malformed existing data is rejected and preserved."
+    },
+    {
+      "id": "category",
+      "description": "Optional categories persist while legacy fields and done statuses remain intact."
+    }
+  ],
+  "candidateInputs": [
+    "app.mjs"
+  ],
+  "evaluatorFiles": [
+    "maintenance-runner.mjs",
+    "maintenance-checks.mjs",
+    "controls/healthy/app.mjs",
+    "controls/intake/app.mjs",
+    "controls/finality/app.mjs",
+    "controls/durability/app.mjs",
+    "controls/integrity/app.mjs",
+    "controls/category/app.mjs"
+  ],
+  "checks": [
+    {
+      "id": "cafe-maintenance",
+      "runner": "maintenance-runner.mjs",
+      "criteria": [
+        "intake",
+        "finality",
+        "durability",
+        "integrity",
+        "category"
+      ],
+      "healthy": "healthy",
+      "faults": [
+        {
+          "id": "intake",
+          "target": "intake"
+        },
+        {
+          "id": "finality",
+          "target": "finality"
+        },
+        {
+          "id": "durability",
+          "target": "durability"
+        },
+        {
+          "id": "integrity",
+          "target": "integrity"
+        },
+        {
+          "id": "category",
+          "target": "category"
+        }
+      ]
+    }
+  ],
+  "limits": {
+    "maxAttempts": 3,
+    "maxNoProgress": 2,
+    "childTimeoutMs": 15000,
+    "attemptTimeoutMs": 120000,
+    "maxOutputBytes": 32768
+  }
+}

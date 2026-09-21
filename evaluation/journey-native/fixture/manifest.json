@@ -1,0 +1,35 @@
+{
+  "format": 1,
+  "id": "repair-cafe-smoke-2026-09-16",
+  "initialFiles": [
+    "initial/CONTRACT.md",
+    "initial/acceptance.mjs"
+  ],
+  "maintenanceFiles": [
+    "maintenance/MAINTENANCE.md",
+    "maintenance/acceptance.mjs"
+  ],
+  "initialPrompt": "Build the complete Repair Café CLI described in CONTRACT.md. Read the supplied independent acceptance.mjs; use it unchanged and add focused tests only if useful. Product and reversible architecture decisions are delegated. Deliver app.mjs and the required concise HANDOFF.md; execute checks and report their actual scope. Work only within this project. No dependencies, network, services, UI, publication or unrelated features. This is a narrow delivery request, not an audit-only request.",
+  "maintenancePrompt": "Continue the existing Repair Café application from HANDOFF.md and the actual files. Implement MAINTENANCE.md while preserving saved-jobs.json and all original behavior. The acceptance.mjs has been replaced by the identical externally supplied maintenance checks used in every condition. Read operator-setup.json to distinguish data made by your first version from any disclosed setup fallback. Run checks, update HANDOFF.md and report actual outcomes. Reversible architecture decisions remain delegated. No dependencies, network, services, UI, publication or unrelated changes.",
+  "evaluator": "evaluate.mjs",
+  "maintenancePreparation": "prepare-maintenance.mjs",
+  "candidateInputs": [
+    "app.mjs"
+  ],
+  "criteriaInitial": [
+    "intake",
+    "finality",
+    "durability",
+    "integrity"
+  ],
+  "criteriaMaintenance": [
+    "intake",
+    "finality",
+    "durability",
+    "integrity",
+    "category"
+  ],
+  "copyRule": "Copy each listed initial or maintenance source to candidate root using its basename. Run maintenancePreparation before overlaying maintenance files. Keep maintenance brief/tests and external controls out of initial worker input.",
+  "limitation": "One newly authored task with two sessions is a smoke test, not an independent unseen generalization sample, usability study, or superiority benchmark.",
+  "continuityEvaluator": "check-continuity.mjs"
+}

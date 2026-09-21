@@ -1,0 +1,6 @@
+
+> devmethod-ai@0.5.0 format:check
+> prettier --check "src/**/*.{ts,css}" "scripts/**/*.mjs" "tests/**/*.mjs" "*.config.mjs" package.json .github/workflows/*.yml "examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab}/**/*.{js,mjs,cjs,ts,tsx,css,html}"
+
+Checking formatting...
+All matched files use Prettier code style!

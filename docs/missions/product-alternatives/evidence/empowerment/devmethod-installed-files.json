@@ -1,0 +1,473 @@
+{
+  "sourceHead": "d14e64493bc02ed0470e8b65b72df3498706d6ac",
+  "sourceState": "working candidate with empowerment clarification; source HEAD alone does not identify modified skills",
+  "methodVersion": "0.5.0",
+  "operatorCustomization": "Same French AGENTS.md as Spec Kit/BMAD; no completed project facts or expert task brief",
+  "methodModelTurns": 0,
+  "fileCount": 88,
+  "bytes": 325484,
+  "skills": [
+    ".agents/skills/decision-architecture/SKILL.md",
+    ".agents/skills/design-to-code/SKILL.md",
+    ".agents/skills/devmethod-architecture/SKILL.md",
+    ".agents/skills/devmethod-correct-course/SKILL.md",
+    ".agents/skills/devmethod-design/SKILL.md",
+    ".agents/skills/devmethod-explore/SKILL.md",
+    ".agents/skills/devmethod-frame/SKILL.md",
+    ".agents/skills/devmethod-handoff/SKILL.md",
+    ".agents/skills/devmethod-implement/SKILL.md",
+    ".agents/skills/devmethod-integrate/SKILL.md",
+    ".agents/skills/devmethod-next/SKILL.md",
+    ".agents/skills/devmethod-plan/SKILL.md",
+    ".agents/skills/devmethod-ready/SKILL.md",
+    ".agents/skills/devmethod-review/SKILL.md",
+    ".agents/skills/devmethod-status/SKILL.md",
+    ".agents/skills/devmethod-verify/SKILL.md",
+    ".agents/skills/project-foundation/SKILL.md",
+    ".agents/skills/react-feature-engineering/SKILL.md",
+    ".agents/skills/reliable-ai-integration/SKILL.md",
+    ".agents/skills/scoped-delivery/SKILL.md"
+  ],
+  "files": [
+    {
+      "path": ".agents/skills/decision-architecture/SKILL.md",
+      "bytes": 5149,
+      "sha256": "8275196527e44f1d76df9ab3204cb82fab716fd9e3a867d858669b6dcb181617"
+    },
+    {
+      "path": ".agents/skills/decision-architecture/assets/ADR.md",
+      "bytes": 1356,
+      "sha256": "df353e5beee5f941dc9a27d44fab41cdd8cc4f7b91de657eee587ace5a4bf0b9"
+    },
+    {
+      "path": ".agents/skills/decision-architecture/references/api-contracts.md",
+      "bytes": 4191,
+      "sha256": "3fa87dbca0dabd55fc6f9de03acc59d47a0c04b64efc1d20b5ef739ad12a2aba"
+    },
+    {
+      "path": ".agents/skills/decision-architecture/references/architecture-visuals.md",
+      "bytes": 5533,
+      "sha256": "4e75f047919c53cfce77494829aa7d3c03a4f44f1e488f07538d2a0490e60260"
+    },
+    {
+      "path": ".agents/skills/decision-architecture/references/backend-boundaries.md",
+      "bytes": 3514,
+      "sha256": "9f03e67051a59ce72badf43843abe13896919e50046ecb5530ce8a590c818a20"
+    },
+    {
+      "path": ".agents/skills/decision-architecture/references/capacity-and-operations.md",
+      "bytes": 8903,
+      "sha256": "ccd0689ca1c033f3385bbc830991d97f4712ddcc7a15bdd2c92d7ee5f2de8f67"
+    },
+    {
+      "path": ".agents/skills/decision-architecture/references/product-decisions.md",
+      "bytes": 3714,
+      "sha256": "e692eda30c6395c810932050bc774f9595bcb308e710623144fd20558fb8c61c"
+    },
+    {
+      "path": ".agents/skills/design-to-code/SKILL.md",
+      "bytes": 2372,
+      "sha256": "dabcfe2d24ce3ebfa0b67319a9aad93b1cc075e1b127e7ff1417c40a9f02db0d"
+    },
+    {
+      "path": ".agents/skills/design-to-code/assets/DIRECTION_COMPARISON.md",
+      "bytes": 1225,
+      "sha256": "d24ff998276d2cfb94e2db4e5b5c0e5a6667257a9d89b4849fad23b8dda3512d"
+    },
+    {
+      "path": ".agents/skills/design-to-code/assets/UI_ACCEPTANCE.md",
+      "bytes": 763,
+      "sha256": "cfa31cf63a97dcdd64e081d98be195669c4c238fa9403685b49d3036039eddab"
+    },
+    {
+      "path": ".agents/skills/design-to-code/references/design-evidence.md",
+      "bytes": 3469,
+      "sha256": "81431e5a1fa48f0aab317980a7f6358af90a6b881fd3c10547da296e3b29db03"
+    },
+    {
+      "path": ".agents/skills/design-to-code/references/ux-contract.md",
+      "bytes": 3425,
+      "sha256": "0c82af364c6adfc3ee9b74d0314a084c1bc991fbdc09d52121a325765c2ed6a1"
+    },
+    {
+      "path": ".agents/skills/design-to-code/references/visual-creation.md",
+      "bytes": 9863,
+      "sha256": "68ce6dcfa08a6bf7e62e5ee8830ff0f63d3133633170b5e69f2961de971114e6"
+    },
+    {
+      "path": ".agents/skills/devmethod-architecture/SKILL.md",
+      "bytes": 1117,
+      "sha256": "db7e80b11863176455034a1ab03dba6fcf4784ea92f0bbeee5ba223fc991189b"
+    },
+    {
+      "path": ".agents/skills/devmethod-correct-course/SKILL.md",
+      "bytes": 1003,
+      "sha256": "774b8bc371886f386489c9de398712d4e1d35045d0ad773a3913e4b67f74ac98"
+    },
+    {
+      "path": ".agents/skills/devmethod-design/SKILL.md",
+      "bytes": 1063,
+      "sha256": "a9c3fa2168e8962d838d9eba9f6659073249695645e6348c4594818cbfcec7a4"
+    },
+    {
+      "path": ".agents/skills/devmethod-explore/SKILL.md",
+      "bytes": 973,
+      "sha256": "61eefe4ea7ace88e8baa974d9aaa9129fa8ac91b60d9033b3434283bd74b46e5"
+    },
+    {
+      "path": ".agents/skills/devmethod-frame/SKILL.md",
+      "bytes": 950,
+      "sha256": "371b123419d01de049ff27637f73e4d85ef167847e4d16c6aa47b2d20d4a1a6b"
+    },
+    {
+      "path": ".agents/skills/devmethod-handoff/SKILL.md",
+      "bytes": 1059,
+      "sha256": "1bb1a8874aae43d5cff3d57863d59d4d67dcf0fd320573aa746fa39bb94d5f02"
+    },
+    {
+      "path": ".agents/skills/devmethod-implement/SKILL.md",
+      "bytes": 1074,
+      "sha256": "a5f607c29959891acfb54aa4cb3a19ecf5d58bde10125dce6dbf7f3933a69bba"
+    },
+    {
+      "path": ".agents/skills/devmethod-integrate/SKILL.md",
+      "bytes": 1066,
+      "sha256": "f7a83a03b3e34d654341bc1638f3c66bda43732e5a8bebb6639d7df772cf770b"
+    },
+    {
+      "path": ".agents/skills/devmethod-next/SKILL.md",
+      "bytes": 1049,
+      "sha256": "4ad95bb95e88278fd131755d019ee085215a62f592353a6076566cc81b481aeb"
+    },
+    {
+      "path": ".agents/skills/devmethod-plan/SKILL.md",
+      "bytes": 1042,
+      "sha256": "52cc2a73da6b8bb210e7f2ee5f3e3965594036d721069a831e28793790ad2812"
+    },
+    {
+      "path": ".agents/skills/devmethod-ready/SKILL.md",
+      "bytes": 1066,
+      "sha256": "8501aa3a54eaa3ebafa1ae68b0364350cc6cb0082fb23cb6c46b34d4499d4314"
+    },
+    {
+      "path": ".agents/skills/devmethod-review/SKILL.md",
+      "bytes": 2106,
+      "sha256": "ef727903c1be13dbcbfc40ebbf6a862b748f10e13aaa8e8dfe9a5569169b078d"
+    },
+    {
+      "path": ".agents/skills/devmethod-status/SKILL.md",
+      "bytes": 978,
+      "sha256": "ec9aa89614a0604f35b223064b3492d5a659a1726728d2f8eca5969ac984f73c"
+    },
+    {
+      "path": ".agents/skills/devmethod-verify/SKILL.md",
+      "bytes": 1060,
+      "sha256": "00549c3fb4cfd9b7d98d37128c5c6bb117605c286afdb36df5a03c038f072e30"
+    },
+    {
+      "path": ".agents/skills/project-foundation/SKILL.md",
+      "bytes": 8289,
+      "sha256": "201607523c878d206b00f2878ffdc855048eadf87ff8cd4ca64b896fc72281d9"
+    },
+    {
+      "path": ".agents/skills/project-foundation/assets/AGENTS.foundation.md",
+      "bytes": 1429,
+      "sha256": "9564d30890ce7133e6b1fc9a6115e2217145276d7843069c447ff456d6eea0ea"
+    },
+    {
+      "path": ".agents/skills/project-foundation/assets/CADRAGE.md",
+      "bytes": 378,
+      "sha256": "292974445e586b97e4ecd228f4b7147b27da98620c7066af233599b56e60b1cf"
+    },
+    {
+      "path": ".agents/skills/project-foundation/assets/ENGINEERING_POLICY.template.md",
+      "bytes": 2181,
+      "sha256": "341d03b7ef60d6c02badebadc950a535e3db5a82c196b773a523af052db25a98"
+    },
+    {
+      "path": ".agents/skills/project-foundation/assets/EXISTANT.md",
+      "bytes": 764,
+      "sha256": "7a20805fb2a0529e858e5f029441898d4c76f9344f8a5a4290c17d9f9dedf011"
+    },
+    {
+      "path": ".agents/skills/project-foundation/assets/OPPORTUNITES.md",
+      "bytes": 772,
+      "sha256": "18aee528f60cefc0a2198b5103c963d04030a7e9ef3950dae6fa6990f5671d4c"
+    },
+    {
+      "path": ".agents/skills/project-foundation/assets/PROJECT_PROFILE.md",
+      "bytes": 1590,
+      "sha256": "d65e51dddea84c26871d417ddef4f37f42ae80c93f89fb73d1091616e374a267"
+    },
+    {
+      "path": ".agents/skills/project-foundation/assets/REGLES.md",
+      "bytes": 334,
+      "sha256": "cc6ee52e50380ac4c4c9a484b3fccad4f07b968bee073ad3e5f41f2c6180ab2b"
+    },
+    {
+      "path": ".agents/skills/project-foundation/assets/START_HERE.md",
+      "bytes": 3425,
+      "sha256": "924a91a603c26eda7126a265d1a3f55f2cca15e5952d0df2af71ed1556d4a0a4"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/delivery-planning.md",
+      "bytes": 3036,
+      "sha256": "92f9e0c335c02c2c638ea43fa7d4050e157973ef192d2fe6802a9528475f725d"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/exploration.md",
+      "bytes": 3539,
+      "sha256": "038a02b1c1cc35fd6b1de8c4b84fc1e8811368d8acc4691b3ddf16d886d22ae5"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/mission-context.md",
+      "bytes": 7750,
+      "sha256": "55bce28057bdc02394d88dcc1eeed8d4b73f82582847a4a8c9977b2bc08b7d31"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/operating-commands.md",
+      "bytes": 12507,
+      "sha256": "40bad2fb4c13922d965eefe2944cc6fbe4b05e0969224572a5b9dce82a55c0ad"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/portable-study.md",
+      "bytes": 6745,
+      "sha256": "5075ef0f1ea76e3e0a83f1dbfbf9add48a8b9b27bcf255564eaa90b6140aef31"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/product-maturity.md",
+      "bytes": 4320,
+      "sha256": "22e1ec546d3c4f09616fa3706caf1a4868f994b3b145d05ef123c173475f41b5"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/profiles/README.md",
+      "bytes": 2160,
+      "sha256": "a05eaaeef6bf25aca4bbd1e65e79995cab8f5419c275cd4d37beeff547be469c"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/profiles/ci.md",
+      "bytes": 1736,
+      "sha256": "ca7ab4034c8dae85853069f37d9fc90d7d9a8c5511267df1cf51c9ec035865b9"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/profiles/cloud-delivery.md",
+      "bytes": 2589,
+      "sha256": "044eb1b1715fd45893ac02610a6bf751f37ae3d0002d08dd3fd4f308eaddcf63"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/profiles/messaging.md",
+      "bytes": 2091,
+      "sha256": "180621daa5bed77f2f2eb17b5464aff8f23252b2ea5d4ebb60b2c94065683e22"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/profiles/mongodb.md",
+      "bytes": 1530,
+      "sha256": "9ec39ab8209425d714a1d17635aaa21f18995d9fb52123754e5bac87107a9a82"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/profiles/node-nest.md",
+      "bytes": 2510,
+      "sha256": "d1b288ef53e93819cc021040892c74cf5647206d38ff415295e3ee91745d8ec0"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/profiles/postgres-drizzle.md",
+      "bytes": 2669,
+      "sha256": "b6beacb8c2852029ecca5bd2f782afa0ee9cf74304236d33b951c67dd8ed44b4"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/profiles/react-next.md",
+      "bytes": 1798,
+      "sha256": "8819abb3f7a22fb87e26f6a5465e77aeec5505f5c6dd9462edafbee1918237c9"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/profiles/typescript.md",
+      "bytes": 1527,
+      "sha256": "c6452bc3f6397eb975267ccb4909e566655513d974e91c6207a7a1b858d41147"
+    },
+    {
+      "path": ".agents/skills/project-foundation/references/work-sizing.md",
+      "bytes": 4041,
+      "sha256": "f4145b1a8dd316748f565b8bd75d0ab07ec9c18241cb68cd91d9edd831a0cdb8"
+    },
+    {
+      "path": ".agents/skills/react-feature-engineering/SKILL.md",
+      "bytes": 3113,
+      "sha256": "7766b7db86833cc63d16493b1d0b006a9a2c275ac513fcbbae6d3d2e4efafd95"
+    },
+    {
+      "path": ".agents/skills/react-feature-engineering/references/review-and-sources.md",
+      "bytes": 2828,
+      "sha256": "43a0829aa20a95bb46c09ab5f2ae7d11965abfe54dfaf48fd1e59798f8283ad3"
+    },
+    {
+      "path": ".agents/skills/reliable-ai-integration/SKILL.md",
+      "bytes": 2111,
+      "sha256": "cc43feeb4f4ba892248ce4fe9637c31637b6078eb35de7ebcc08aa918c6ff85f"
+    },
+    {
+      "path": ".agents/skills/reliable-ai-integration/assets/AI_EVALUATION.md",
+      "bytes": 790,
+      "sha256": "9fccf7fbadb38f10210d6813fde059678646f978e72bf9e79fb5f7b2366910c1"
+    },
+    {
+      "path": ".agents/skills/reliable-ai-integration/references/evidence-and-media.md",
+      "bytes": 2772,
+      "sha256": "67100fe297e40729a8acb02840ec1d6f3974e0f082b512cd203b76c4d45dcda0"
+    },
+    {
+      "path": ".agents/skills/reliable-ai-integration/references/jobs-and-costs.md",
+      "bytes": 2185,
+      "sha256": "32de8493813b84dc4b2540e4cd6a682494e0357dfb4bd94002e36c5e080ad699"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/SKILL.md",
+      "bytes": 5885,
+      "sha256": "05854e5d1548472f96bb0f72910dedb5bbd4690d2b193043d140ceee1b9d8d5d"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/assets/CHECKPOINT.md",
+      "bytes": 1227,
+      "sha256": "f74ebb2181c1944289270e389ea1df7ab7e3feb1aa975d6f89104e82ab73717b"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/assets/MISSION.md",
+      "bytes": 2287,
+      "sha256": "3f5d16b7763cb9a50ac9c131eae038f1fd386d6dc013247e7e3d7deb3a7246e1"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/assets/PLAN.md",
+      "bytes": 1287,
+      "sha256": "5f4c7f1f3e2918008da50d1865227e97f4e438633690b8bfe58bbe3e9211fe04"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/assets/REPRISE.md",
+      "bytes": 840,
+      "sha256": "0aa4f20f69b87292f902a11d2fac9e5b04f74dec76c63303aca03b28bf673c4f"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/assets/REVIEW.md",
+      "bytes": 2765,
+      "sha256": "414c7f578303048dc60c816190fa88463571a75f5e747d0d2948b830fb3e0df1"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/assets/SLICE.md",
+      "bytes": 807,
+      "sha256": "8bf1c238904da20f5fb09c42f427356988b478b2230a4ad26cff5c6dd00c4ee8"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/assets/TICKET.md",
+      "bytes": 1291,
+      "sha256": "94befa7d148691d6094684715d950abf4f3ba617adeee0b80037ee9fc1cb8f6b"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/assets/VERIFICATION.md",
+      "bytes": 1699,
+      "sha256": "76df02eb5ed6ccdefde0a57574aacf9c51ba7653813bc368e2eca659e9bd9ff7"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/references/bounded-correction.md",
+      "bytes": 5042,
+      "sha256": "b43ae5c373abac692129ed48efa5e7a948af087f175d86049ceb081b4e6a6dea"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/references/review-format.md",
+      "bytes": 3361,
+      "sha256": "19ac482c790b752e1bc3a7ca733fa34411a0b359371b7a7d1246af8c27e05f0e"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/references/review-report.md",
+      "bytes": 2947,
+      "sha256": "d7f0260bf58b7b65e2105031aa90c66e80fd690f7e0ec826b7af87d426690630"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/references/review-workflow.md",
+      "bytes": 8175,
+      "sha256": "34ac74466b061e600c940c15306168c35f7098c53ea2ed08d343c114d7b83ad1"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/references/verification-and-cost.md",
+      "bytes": 8689,
+      "sha256": "494403802d0e47ad66f815ad2f72ab7660e457ce08cc4e02888d5697e88bfbc2"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/scripts/filesystem.mjs",
+      "bytes": 1852,
+      "sha256": "5a29a8b010f964b889a946c2e7b1bf39a05ae0c17b647c2a4cb0ce1ab73a20e6"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/scripts/records.mjs",
+      "bytes": 4472,
+      "sha256": "5c17bf7e3198fa2b104504fb63d34186ce3081e8042dfda6bea4f084527ad734"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/scripts/review-agent.mjs",
+      "bytes": 1271,
+      "sha256": "2afa01f5b1276eadf7237d7eae249b68a917fe34c2d1194d6d384f04afe020c8"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/scripts/review-browser.js",
+      "bytes": 45991,
+      "sha256": "bf6a1845f173f87355e8daf545632a71d5075b8cbe4a08ff0468c7f6029088ab"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/scripts/review-cli.mjs",
+      "bytes": 5076,
+      "sha256": "c3030e851e8f6a0188da2bde3b4050f2d5736dc74f6e930583ccb512a73c03d0"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/scripts/review-model.mjs",
+      "bytes": 17034,
+      "sha256": "496303754135035346a14c60cc2b3f26aaef954fdb416db8156deceb78418780"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/scripts/review-open.mjs",
+      "bytes": 1009,
+      "sha256": "aef4e126988b9a1927cd0f52426fee52cdc3878b73f149447ba51430339f19e4"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/scripts/review-ui.css",
+      "bytes": 16764,
+      "sha256": "87765185a5cb38db747a46a56e4850fc41e5fccfd297cec72cd8c86686e6ae00"
+    },
+    {
+      "path": ".agents/skills/scoped-delivery/scripts/review.mjs",
+      "bytes": 1689,
+      "sha256": "579a8d8cacae152265e1cc6745bf3b40a1748cb62eac4e4e64cbb24e2e09804a"
+    },
+    {
+      "path": "AGENTS.foundation.md",
+      "bytes": 1429,
+      "sha256": "9564d30890ce7133e6b1fc9a6115e2217145276d7843069c447ff456d6eea0ea"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 217,
+      "sha256": "dcb10d5c9efc49ebe157d389f9c4dd6c44a095d6483f609da11037ad4e590a6a"
+    },
+    {
+      "path": "DEVMETHOD-LICENSE",
+      "bytes": 1075,
+      "sha256": "72fb4edf48aa7c640ac4a3a826ba9627511f12f5dea755f5bbdbf587d25ce7a7"
+    },
+    {
+      "path": "ENGINEERING_POLICY.template.md",
+      "bytes": 2181,
+      "sha256": "341d03b7ef60d6c02badebadc950a535e3db5a82c196b773a523af052db25a98"
+    },
+    {
+      "path": "PROJECT_PROFILE.md",
+      "bytes": 1590,
+      "sha256": "d65e51dddea84c26871d417ddef4f37f42ae80c93f89fb73d1091616e374a267"
+    },
+    {
+      "path": "START_HERE.md",
+      "bytes": 3425,
+      "sha256": "924a91a603c26eda7126a265d1a3f55f2cca15e5952d0df2af71ed1556d4a0a4"
+    },
+    {
+      "path": "kit-manifest.json",
+      "bytes": 11515,
+      "sha256": "0b5a5eaab5445bb7807063ec4e0cc764298aa3ad20128fc5f383feca9d145305"
+    }
+  ]
+}

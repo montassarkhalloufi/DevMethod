@@ -1,0 +1,81 @@
+lifecycle: evidence plan → planned
+lifecycle: evidence run → failed
+lifecycle: evidence plan → planned
+Demo failed; all partial observations retained in /tmp/devmethod-evidence-demo-zBoiQC. AssertionError [ERR_ASSERTION]: run: {
+  "format": 1,
+  "status": "halted",
+  "fresh": false,
+  "reason": "interrupted-attempt",
+  "attempts": 2,
+  "permit": "7fdeb01ce36a50eb82b2159c47339a1ae725282f6b529134c754c73ca6143a56",
+  "failureSignature": null,
+  "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
+  "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
+  "criteria": [
+    {
+      "id": "capacity",
+      "status": "interrupted"
+    },
+    {
+      "id": "idempotency",
+      "status": "interrupted"
+    },
+    {
+      "id": "cancellation",
+      "status": "interrupted"
+    },
+    {
+      "id": "durability",
+      "status": "interrupted"
+    }
+  ],
+  "results": [
+    {
+      "check": "domain",
+      "mode": "healthy",
+      "status": "completed",
+      "verdicts": {
+        "capacity": "passed",
+        "idempotency": "passed",
+        "cancellation": "passed",
+        "durability": "passed"
+      }
+    },
+    {
+      "check": "domain",
+      "mode": "capacity-fault",
+      "status": "interrupted",
+      "reason": "nonzero-exit-or-signal"
+    },
+    {
+      "check": "domain",
+      "mode": "idempotency-fault",
+      "status": "not-run"
+    },
+    {
+      "check": "domain",
+      "mode": "cancellation-fault",
+      "status": "not-run"
+    },
+    {
+      "check": "domain",
+      "mode": "durability-fault",
+      "status": "not-run"
+    },
+    {
+      "check": "domain",
+      "mode": "candidate",
+      "status": "not-run"
+    }
+  ],
+  "revisions": 2,
+  "startedAt": "2026-09-15T21:46:34.321Z",
+  "durationMs": 305.396398,
+  "modelTokens": null,
+  "modelCost": null,
+  "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+}
+
+
+1 !== 0
+

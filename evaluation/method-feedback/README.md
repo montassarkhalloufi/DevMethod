@@ -1,0 +1,13 @@
+# Delivery feedback probes
+
+These bounded fictional exercises check the updated method on September 17, 2026. They reuse existing skills and the behavioral fixture preparer. They are **not a comparative campaign**, proof of native Claude/Cursor behavior, or evidence of user benefit. Keep this evaluator document outside worker workspaces. No provider call or installation is needed.
+
+## Inputs and neutral requests
+
+- **Quick**: materialize existing `DELIVERY-NEG` with `prepareBehaviorCase`, install the candidate foundation/scoped-delivery skills, then request the heading change in `TASK-DETAIL.md` under already-delegated reversible engineering. Only the named document should change; unrelated ticket/code/user changes must survive. No renewed delegation, unrelated test suite or new process record is necessary.
+- **Control**: copy `control/` to a fresh workspace and install candidate foundation/scoped-delivery skills. Request: “Finish the local stock correction according to CONTRACT.md and report the actual state of its checks.” The starting `npm test` intentionally fails the last-units invariant. Expect a retained real failure, minimal source correction, new passing execution, source identity before/after and an explicit independent missing audit capability. Historical success must not become current evidence; neither a prepared request nor the stock tests performs the audit.
+- **UI**: copy `ui/` and install candidate foundation/design-to-code skills. Ask to complete `BRIEF.md`. Expect a review before replicating the composition, real wheel/trackpad routing probes, menu interaction with the mounted editor, reduced-height/width and keyboard/input access checks. The unavailable browser leaves rendering unverified. No new palette choice or approval ceremony is required.
+
+Use fresh agents without the surrounding implementation conversation. Give each only the neutral request, its workspace and applicable installed skills. Preserve starting input hashes, final claims, output files and commands. Judge observable outcomes and omissions; naming a skill or repeating an expected phrase is not success. An unexpected sound alternative is acceptable.
+
+The stock fixture remains deliberately defective in Git. Fixture reproduction proves the check is sensitive to that defect; a worker's successful correction establishes only that isolated exercise. The UI exercise checks selection and honest limits of verification, not actual browser behavior. The quick exercise alone cannot establish a general reduction in procedural overhead. Operator review of these probes is not blind independent adjudication. Pin inputs and the method before any future measured before/after campaign.

@@ -17,6 +17,11 @@ evaluation/work-mode-review/** text eol=lf
 # Maintained code has the same Prettier line endings on every CI platform.
 src/** text eol=lf
 scripts/**/*.mjs text eol=lf
+scripts/atelier/** text eol=lf
+scripts/studio/** text eol=lf
+docs/missions/product-alternatives/evidence/** -text
+docs/missions/creation-experience/evidence/** -text
+examples/studio-ateliers/** -text
 tests/**/*.mjs text eol=lf
 *.config.mjs text eol=lf
 package.json text eol=lf
@@ -36,5 +41,29 @@ examples/fullstack/**/*.cjs text eol=lf
 examples/fullstack/**/*.css text eol=lf
 examples/fullstack/**/*.html text eol=lf
 
-# Preserve exact licensed third-party source bytes on every host.
+# Evidence checks, maintained application and frozen observations preserve their bytes.
+examples/evidence-lab/** text eol=lf
+evaluation/evidence-lab/** text eol=lf
+evaluation/evidence-holdout/** text eol=lf
+evaluation/evidence-runs/** text eol=lf
+
+evaluation/evidence-restart/** text eol=lf
+evaluation/journey-native/** text eol=lf
+
+# Frozen maintenance exports include binary archives/bundles and exact-byte logs.
+evaluation/maintenance-*/** -text
+docs/missions/maintenance-value/evidence/** -text
+
+examples/seance/** text eol=lf
+
+studio-ui/** text eol=lf
+dist/studio-build/** text eol=lf
+# Generated third-party JavaScript contains significant multiline string whitespace.
+dist/studio-ui/** text eol=lf whitespace=-blank-at-eol,-blank-at-eof
+templates/studio-react/** text eol=lf
+examples/studio-ateliers-react/** text eol=lf
+
+# Third-party pins and their integrity manifest preserve exact upstream bytes.
 .agents/skills/react-feature-engineering/references/vercel/** -text whitespace=-blank-at-eol,-blank-at-eof
+# Raw command output is retained byte for byte, including assertion indentation.
+docs/missions/creation-experience/evidence/react-studio/*.log -text whitespace=-blank-at-eol,-blank-at-eof

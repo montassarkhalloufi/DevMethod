@@ -1,0 +1,37 @@
+{
+  "revision": "440db4322167102546cd974004462fb4dab743a5",
+  "node": "v23.10.0",
+  "platform": "darwin",
+  "partial": {
+    "status": 0,
+    "stdout": "{\"format\":1,\"check\":\"queue-partial\",\"verdicts\":{\"idempotency\":\"passed\",\"finality\":\"passed\"}}",
+    "stderr": ""
+  },
+  "restart": {
+    "status": 1,
+    "stdout": "{\"format\":1,\"kind\":\"independent-restart-adjudication\",\"durability\":\"failed\",\"finality\":\"failed\",\"observed\":{\"pending\":[],\"retry\":true,\"after\":[\"finished\"]}}",
+    "stderr": ""
+  }
+}
+node:internal/modules/run_main:104
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The requirement includes restart: the existing checker should reject lost-restart
+
+0 !== 1
+
+    at file:///private/tmp/devmethod-restart-evolution/[eval1]:8:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:268:26)
+    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:264:20)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 1,
+  operator: 'strictEqual'
+}
+
+Node.js v23.10.0

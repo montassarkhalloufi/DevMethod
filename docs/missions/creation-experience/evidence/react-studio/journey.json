@@ -1,0 +1,126 @@
+{
+  "at": "2026-09-16T17:45:32.430Z",
+  "activeRevision": "b61b1ac4-63a2-4354-9676-69c2c4e925d3",
+  "jobId": "ad7253ec-b660-48e5-8595-bd6ed9c9fa1d",
+  "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+  "dataVersion": 11,
+  "sourceFiles": 23,
+  "compilation": {
+    "profile": "react-ts",
+    "protocol": "react-strict-v1",
+    "files": [
+      {
+        "path": "assets/app.css",
+        "bytes": 22892,
+        "sha256": "69f4ae9cf3e5400e0728ebd84e0a1e0cd2b68ee881da9fd486c7788afa33eac4"
+      },
+      {
+        "path": "assets/app.js",
+        "bytes": 274470,
+        "sha256": "3cb5f376a51f283cca93a8c4363228bd9ca8d99521aa2cd0552e48af2c265e67"
+      },
+      {
+        "path": "index.html",
+        "bytes": 397,
+        "sha256": "3e5e6e256ad70e311653d46a0a94cb5ee6a90adae3c4f0e417c667c83e68b2cf"
+      }
+    ]
+  },
+  "processRestart": {
+    "beforePid": 82808,
+    "studio": "http://127.0.0.1:4342",
+    "preview": "http://127.0.0.1:4343",
+    "dataPreserved": true
+  },
+  "browserActions": [
+    "filter Couture",
+    "type Mina contrôle React",
+    "reload preserves draft",
+    "confirm booking -> registrations 4"
+  ],
+  "providerCalls": 0,
+  "editor": {
+    "badTypeObservedInBrowser": "src/main.tsx:2 — Type 'string' is not assignable to type 'number'.",
+    "adoptionDisabled": true,
+    "recovery": "Source restored exactly through editor API after browser undo removed only the last typing group; no code adoption.",
+    "builtVersion": 4,
+    "changedPaths": [],
+    "diagnostics": [
+      {
+        "severity": "info",
+        "file": "build",
+        "message": "TypeScript strict et bundle React vérifiés. Les classes Tailwind doivent être écrites entièrement ; les scripts package et configurations du projet ne sont pas exécutés.",
+        "direction": "Vérifier le comportement et le rendu dans l’aperçu ; ces contrôles ne prouvent pas l’adéquation du produit."
+      }
+    ]
+  },
+  "architectureReconciled": true,
+  "licenseCompletion": {
+    "at": "2026-09-16T18:15:25.174Z",
+    "previousRevision": "b61b1ac4-63a2-4354-9676-69c2c4e925d3",
+    "activeRevision": "aca1dbe0-516e-435f-a9ec-8fa53985a7f2",
+    "jobId": "a2cfc5c9-4ac4-475a-be2d-9ec85a46705a",
+    "sourceChange": "README.md only",
+    "notices": {
+      "path": "THIRD_PARTY_NOTICES.txt",
+      "bytes": 21806,
+      "sha256": "4a53d7a482ddc7b6a7b3b0a090340b65ac5999e628c5dbcb653b7c0a7e59f336"
+    },
+    "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "dataPreserved": true,
+    "providerCalls": 0,
+    "priorAttempt": "5abffa58-9227-45e0-9fb9-446801e114a4",
+    "delegationCorrection": "User explicitly authorized recording technical delegation after automatic review refusal. Existing visual and adoption responsibilities retained. No human plan approval manufactured.",
+    "draftRecovery": "Restored the known agent-written restart test draft after the failed host request cleared it."
+  },
+  "vercelCorrections": {
+    "at": "2026-09-16T18:39:18.582Z",
+    "previousRevision": "aca1dbe0-516e-435f-a9ec-8fa53985a7f2",
+    "activeRevision": "336de365-3d32-476e-9577-5d5798829ed8",
+    "jobId": "7e832ad9-e418-4732-8e1a-a777cdee3dd5",
+    "changedFiles": [
+      "src/styles.css",
+      "src/shared/ui/button.tsx",
+      "src/features/workshops/components/Registrations.tsx",
+      "src/features/workshops/components/WorkshopCard.tsx",
+      "src/features/workshops/components/WorkshopPage.tsx",
+      "src/features/workshops/hooks/useBookingDrafts.ts",
+      "src/features/workshops/hooks/useWorkshopFilter.ts"
+    ],
+    "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "dataPreserved": true,
+    "draftPreserved": true,
+    "providerCalls": 0,
+    "authority": "Existing explicit technical delegation; no policy mutation or new human approval."
+  },
+  "releaseRestart": {
+    "oldPid": 15289,
+    "at": "2026-09-16T18:35:57.897Z",
+    "activeRevision": "aca1dbe0-516e-435f-a9ec-8fa53985a7f2",
+    "draft": "Reprise vérifiée : conserver les choix, les inscriptions et la liste d’attente.",
+    "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "observedAfterRestart": "2026-09-16T18:39:18.583Z",
+    "dataPreserved": true,
+    "draftPreserved": true,
+    "activeRevisionPreserved": true,
+    "newPid": 44167
+  },
+  "finalBrowser": {
+    "at": "2026-09-16T18:44:02.116Z",
+    "revision": "336de365-3d32-476e-9577-5d5798829ed8",
+    "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "confirmationDismissedWithoutWrite": true,
+    "filterCategory": "sewing",
+    "filterSurvivesReload": true,
+    "mobileCssWidth": 354,
+    "mobileDocumentWidth": 354,
+    "studioDesktop": {
+      "width": 1562,
+      "height": 762,
+      "conversationHeight": 340,
+      "previewHeight": 400,
+      "composerHeight": 134
+    },
+    "details": "LAYOUT-REVIEW.md"
+  }
+}

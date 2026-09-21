@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "id": "devmethod-english",
+  "name": "DevMethod English narration",
+  "approval": {
+    "date": "2026-09-17",
+    "source": "Explicit user approval in the DevMethod Studio website/video task",
+    "quote": "ok cette voix est ok, utilise la est enregistre la pour des futures realisation",
+    "scope": "Reuse this synthetic English narration voice for future DevMethod media"
+  },
+  "synthetic": true,
+  "language": "en-US",
+  "voice": {
+    "id": "af_heart",
+    "description": "Kokoro model-supplied American English female voice; no claim to represent a particular human",
+    "speed": 1,
+    "downloadUrl": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/voices/af_heart.bin",
+    "sha256": "d583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b",
+    "bytes": 522240
+  },
+  "model": {
+    "original": "hexgrad/Kokoro-82M",
+    "version": "1.0",
+    "runtimeRepository": "onnx-community/Kokoro-82M-v1.0-ONNX",
+    "revision": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+    "precision": "fp32",
+    "device": "cpu",
+    "sampleRateHz": 24000,
+    "files": [
+      {
+        "path": "config.json",
+        "url": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/config.json",
+        "sha256": "df34b4f930b23447cd4dc410fabfb42eb3f24e803e6c3f97d618fb359380a36f",
+        "bytes": 44
+      },
+      {
+        "path": "tokenizer.json",
+        "url": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/tokenizer.json",
+        "sha256": "77a02c8e164413299b4b4c403b14f8e0e1c1b727db4d46a09d6327b861060a34",
+        "bytes": 3497
+      },
+      {
+        "path": "tokenizer_config.json",
+        "url": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/tokenizer_config.json",
+        "sha256": "be1cb066d6ef6b074b3f15e6a6dd21ac88ff3cdaedf325f0aaed686c70f75d20",
+        "bytes": 113
+      },
+      {
+        "path": "onnx/model.onnx",
+        "url": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/onnx/model.onnx",
+        "sha256": "8fbea51ea711f2af382e88c833d9e288c6dc82ce5e98421ea61c058ce21a34cb",
+        "bytes": 325532232
+      }
+    ]
+  },
+  "runtime": {
+    "node": "24.18.0",
+    "packages": {
+      "kokoro-js": "1.2.1",
+      "@huggingface/transformers": "3.8.1",
+      "onnxruntime-node": "1.21.0",
+      "phonemizer": "1.2.1"
+    }
+  },
+  "license": {
+    "modelAndVoice": "Apache-2.0",
+    "library": "Apache-2.0",
+    "originalModelCard": "https://huggingface.co/hexgrad/Kokoro-82M",
+    "onnxModelCard": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX",
+    "librarySource": "https://github.com/hexgrad/kokoro/tree/main/kokoro.js"
+  },
+  "pronunciation": {
+    "substitutions": [],
+    "verifiedBy": "Inspection of actual Kokoro.js phoneme preprocessing; the user approved listening to scene 1",
+    "terms": {
+      "DevMethod": "Same phonemes as Dev Method: dˈɛv mˈɛθəd",
+      "MCP": "Letter names em-see-pee",
+      "API": "Letter names ay-pee-eye"
+    }
+  },
+  "processing": {
+    "generatedFormat": "WAV PCM float32, mono, 24000 Hz",
+    "addedSilenceSeconds": 0,
+    "trim": "Trim only exterior silence below -50 dB with 70 ms margin; preserve internal phrasing",
+    "normalization": "Normalize assembled narration globally to -17 LUFS and -1.5 dBTP before AAC encoding",
+    "headroom": "Keep float intermediates until normalization; raw neural output can exceed 0 dBFS",
+    "scenePaddingSeconds": {
+      "before": 0.15,
+      "after": 0.35,
+      "afterFinal": 0.65
+    },
+    "timeStretch": false,
+    "subtitles": "Timings estimated from speech segments and pauses; no native Kokoro.js word alignment"
+  },
+  "verification": {
+    "firstApprovedSampleSeconds": 8.825,
+    "sevenOriginalSegmentsSeconds": 79.85,
+    "modelFileHashCheckedAgainst": "Public Hugging Face LFS metadata at pinned revision",
+    "fullDecode": "All seven source WAV files fully decoded by FFmpeg without error"
+  }
+}

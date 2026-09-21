@@ -1,0 +1,292 @@
+{
+  "beforeWheel": {
+    "composer": {
+      "bottom": 751.81103515625,
+      "height": 133.7926025390625,
+      "left": 15.994318008422852,
+      "right": 567.9971256256104,
+      "top": 618.0184326171875,
+      "width": 552.0028076171875,
+      "x": 15.994318008422852,
+      "y": 618.0184326171875
+    },
+    "document": 0,
+    "history": 7904.54541015625,
+    "left": 1253.6363525390625,
+    "right": 0
+  },
+  "afterWheel": {
+    "composer": {
+      "bottom": 751.81103515625,
+      "height": 133.7926025390625,
+      "left": 15.994318008422852,
+      "right": 567.9971256256104,
+      "top": 618.0184326171875,
+      "width": 552.0028076171875,
+      "x": 15.994318008422852,
+      "y": 618.0184326171875
+    },
+    "document": 0,
+    "history": 9715,
+    "historyHeight": 300,
+    "historyScrollHeight": 10015,
+    "left": 1253.6363525390625,
+    "right": 0
+  },
+  "afterOuterWheel": {
+    "composer": {
+      "bottom": 751.81103515625,
+      "height": 133.7926025390625,
+      "left": 15.994318008422852,
+      "right": 567.9971256256104,
+      "top": 618.0184326171875,
+      "width": 552.0028076171875,
+      "x": 15.994318008422852,
+      "y": 618.0184326171875
+    },
+    "document": 0,
+    "documentWidth": 1562,
+    "history": 9715,
+    "left": 0,
+    "right": 0,
+    "viewport": {
+      "height": 762,
+      "width": 1562
+    }
+  },
+  "narrowDelegation": {
+    "composer": {
+      "bottom": 751.8110656738281,
+      "height": 133.79971313476562,
+      "left": 15.994318008422852,
+      "right": 329.9999942779541,
+      "top": 618.0113525390625,
+      "width": 314.00567626953125,
+      "x": 15.994318008422852,
+      "y": 618.0113525390625
+    },
+    "fields": [
+      {
+        "label": "Produit et architecture",
+        "overflow": false,
+        "selectWidth": 280,
+        "top": 201.36363220214844,
+        "width": 282
+      },
+      {
+        "label": "Validation visuelle",
+        "overflow": false,
+        "selectWidth": 280,
+        "top": 279.538330078125,
+        "width": 282
+      },
+      {
+        "label": "Application d’une version",
+        "overflow": false,
+        "selectWidth": 280,
+        "top": 357.7130432128906,
+        "width": 282
+      }
+    ],
+    "focused": "delegate-visual",
+    "pageWidth": 1562,
+    "resizer": {
+      "bottom": 751.8110427856445,
+      "height": 679.8153076171875,
+      "left": 343.991455078125,
+      "right": 351.9886140823364,
+      "top": 71.99573516845703,
+      "width": 7.997159004211426,
+      "x": 343.991455078125,
+      "y": 71.99573516845703
+    },
+    "viewport": {
+      "height": 762,
+      "width": 1562
+    },
+    "width": 320
+  },
+  "wideDelegation": {
+    "fields": [
+      {
+        "label": "Produit et architecture",
+        "overflow": false,
+        "selectWidth": 272,
+        "top": 160.7670440673828,
+        "width": 274
+      },
+      {
+        "label": "Validation visuelle",
+        "overflow": false,
+        "selectWidth": 272,
+        "top": 160.7670440673828,
+        "width": 274
+      },
+      {
+        "label": "Application d’une version",
+        "overflow": false,
+        "selectWidth": 272,
+        "top": 238.94175720214844,
+        "width": 274
+      }
+    ],
+    "pageWidth": 1562,
+    "viewport": {
+      "height": 762,
+      "width": 1562
+    },
+    "width": 600
+  },
+  "mobileDelegation": {
+    "fields": [
+      {
+        "label": "Produit et architecture",
+        "overflow": false,
+        "selectWidth": 340,
+        "top": 374.6875,
+        "width": 342
+      },
+      {
+        "label": "Validation visuelle",
+        "overflow": false,
+        "selectWidth": 340,
+        "top": 452.8622131347656,
+        "width": 342
+      },
+      {
+        "label": "Application d’une version",
+        "overflow": false,
+        "selectWidth": 340,
+        "top": 531.0369262695312,
+        "width": 342
+      }
+    ],
+    "focused": "delegate-visual",
+    "pageWidth": 390,
+    "viewport": {
+      "height": 840,
+      "width": 390
+    },
+    "width": 370
+  },
+  "semanticDesktop": {
+    "composer": {
+      "bottom": 1008.5440063476562,
+      "height": 133.7926025390625,
+      "left": 15.994318008422852,
+      "right": 429.9999942779541,
+      "top": 874.7514038085938,
+      "width": 414.0056762695313,
+      "x": 15.994318008422852,
+      "y": 874.7514038085938
+    },
+    "documentWidth": 1536,
+    "leftWidth": 420,
+    "palette": {
+      "accent": "#9b82ff",
+      "agent": "#50c9e8",
+      "success": "#69dcab",
+      "warning": "#f2ba58"
+    },
+    "previewHeight": 509,
+    "status": "Version appliquée · Formulaire ciblé · d7cd1dff. 1 contrôle(s) enregistré(s), 0 échec(s). Lecture seule : saisies et boutons désactivés.",
+    "viewport": {
+      "height": 1024,
+      "width": 1536
+    }
+  },
+  "semanticShortViewport": {
+    "composer": {
+      "bottom": 717.2655639648438,
+      "height": 133.7926025390625,
+      "left": 15.994318008422852,
+      "right": 429.9999942779541,
+      "top": 583.4729614257812,
+      "width": 414.0056762695313,
+      "x": 15.994318008422852,
+      "y": 583.4729614257812
+    },
+    "documentWidth": 1309,
+    "leftHeight": 645,
+    "leftScrollHeight": 896,
+    "viewport": {
+      "height": 727,
+      "width": 1309
+    },
+    "workspaceHeight": 645,
+    "workspaceScrollHeight": 672
+  },
+  "semanticMobile": {
+    "documentHeight": 2921,
+    "documentWidth": 390,
+    "footer": {
+      "bottom": 1482.3152465820312,
+      "height": 269.20452880859375,
+      "left": 10,
+      "right": 380,
+      "top": 1213.1107177734375,
+      "width": 370,
+      "x": 10,
+      "y": 1213.1107177734375
+    },
+    "toolbar": {
+      "bottom": 597.2869262695312,
+      "height": 177.578125,
+      "left": 10.909090042114258,
+      "right": 379.0908832550049,
+      "top": 419.7088012695313,
+      "width": 368.1817932128906,
+      "x": 10.909090042114258,
+      "y": 419.7088012695313
+    },
+    "toolbarOverflow": true,
+    "viewport": {
+      "height": 840,
+      "width": 390
+    }
+  },
+  "semanticMobileAfter": {
+    "comparison": {
+      "scrollWidth": 352,
+      "width": 352
+    },
+    "documentWidth": 390,
+    "toolbar": {
+      "height": 168,
+      "scrollWidth": 368,
+      "width": 368
+    },
+    "viewport": {
+      "height": 840,
+      "width": 390
+    }
+  },
+  "semanticDesktopAfter": {
+    "documentWidth": 1536,
+    "leftWidth": 420,
+    "previewHeight": 509,
+    "toolbar": {
+      "scrollWidth": 1059,
+      "width": 1059
+    },
+    "viewport": {
+      "height": 1024,
+      "width": 1536
+    }
+  },
+  "finalDesktopCapture": {
+    "file": "studio-semantic-desktop.png",
+    "pixels": {
+      "width": 1571,
+      "height": 851
+    },
+    "viewport": {
+      "width": 1571,
+      "height": 851
+    },
+    "conversationWidth": 420,
+    "mode": "Native viewport, no size override; CUA screenshot bytes saved directly.",
+    "observed": "Full form, disabled join button, visible pending decision, composer and all three evidence rows in image.",
+    "limitation": "Previous emulated 1536×1024 DOM measurements did not guarantee PNG size: screenshot backend clipped output. They remain layout measurements; final image is 1571×851 verified with sips and visually inspected."
+  }
+}

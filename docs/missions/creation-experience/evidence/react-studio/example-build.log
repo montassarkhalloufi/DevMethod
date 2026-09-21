@@ -1,0 +1,14 @@
+
+> devmethod-les-ateliers-react@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.0 building client environment for production...
+transforming...
+✓ 31 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.44 kB │ gzip:  0.28 kB
+dist/assets/index-A1qJBFJz.css   24.45 kB │ gzip:  6.08 kB
+dist/assets/index-B04_5zoh.js   269.17 kB │ gzip: 84.89 kB
+
+✓ built in 94ms

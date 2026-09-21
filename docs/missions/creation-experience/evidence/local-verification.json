@@ -1,0 +1,164 @@
+{
+  "observedAt": "2026-09-16T16:48:30.296191+00:00",
+  "environment": {
+    "platform": "macOS",
+    "node": "24.18.0"
+  },
+  "checks": [
+    {
+      "command": "npm test",
+      "passed": 472,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed"
+    },
+    {
+      "command": "npm run format:check",
+      "result": "passed"
+    },
+    {
+      "command": "node --test tests/studio-source-ui.test.mjs tests/studio-editor-ui.test.mjs",
+      "passed": 22,
+      "failed": 0,
+      "scope": "latest editor refinements after full suite"
+    },
+    {
+      "command": "npm run check:docs",
+      "result": "passed"
+    },
+    {
+      "command": "npm pack --dry-run --json",
+      "result": "passed",
+      "cache": "temporary local cache"
+    },
+    {
+      "command": "node scripts/package-smoke.mjs PACKAGE_TGZ",
+      "result": "passed",
+      "scope": "local packed runtime and examples; final candidate CI remains separate"
+    }
+  ],
+  "sources": [
+    {
+      "path": "scripts/package-studio-smoke.mjs",
+      "sha256": "b80effe71d068f23f4b6a710f48796b58e1201f6eb8cf15e00dc7fc98a9adfeb"
+    },
+    {
+      "path": "scripts/studio/archive.mjs",
+      "sha256": "b01cdc129228ccd2a4b1eb27ac008e35b9719eaf7677dd9520962a7188ecfc95"
+    },
+    {
+      "path": "scripts/studio/budget.mjs",
+      "sha256": "729c9771bc348a7bd3b082919e3bbb039812f03079c80600fc16d77dafec5919"
+    },
+    {
+      "path": "scripts/studio/bundle.mjs",
+      "sha256": "cc3df164ee99552a9e6c218d06f73dd10bcbce3cfbf0bc006e159c4bb2aa865d"
+    },
+    {
+      "path": "scripts/studio/cli.mjs",
+      "sha256": "c70e526cd9ba64218b21ecba48f83b613ff5cbd763cd37721e9c2c6561cd1de9"
+    },
+    {
+      "path": "scripts/studio/domain.mjs",
+      "sha256": "f5bd8c7f0e5b7ed80559667fe888093e5fcee4e311edcc88d7d9300c47882f2f"
+    },
+    {
+      "path": "scripts/studio/editor.mjs",
+      "sha256": "d7c930385d9fbdc027a47d6e5fccff208df96a538b510247d9445a2f8a492a12"
+    },
+    {
+      "path": "scripts/studio/example.mjs",
+      "sha256": "4551b4c9e82ccba5c2ccab2eb186e6c9d2bb1adb260151c9f5013d1f948dcf47"
+    },
+    {
+      "path": "scripts/studio/files.mjs",
+      "sha256": "b60efed067be56d090f940caa4c0d3b7f8cf8dce49359bbdc77dffea87fa0382"
+    },
+    {
+      "path": "scripts/studio/http.mjs",
+      "sha256": "f9f4f4e8df61e6418d6d17145e4d2ab1fa817c4cc426f014d138d4027379c5f0"
+    },
+    {
+      "path": "scripts/studio/jobs.mjs",
+      "sha256": "cf420faddb6e42a128d96be0d302380bb08b00dbce5acee5521e54525f642e47"
+    },
+    {
+      "path": "scripts/studio/preview.mjs",
+      "sha256": "2d9043f5aca1e26f522cdfed92644cee804ae2210a52033f47c1b81cf77d3d53"
+    },
+    {
+      "path": "scripts/studio/public/api.js",
+      "sha256": "c5db287b1c14eae795515715758c64d57f5d5986f0146c8c874e4ffc0bff68d8"
+    },
+    {
+      "path": "scripts/studio/public/app.js",
+      "sha256": "318da27a789524085b23f0f27a74b066e76e0a5a8cc792c97832df7517a7c49c"
+    },
+    {
+      "path": "scripts/studio/public/editor.css",
+      "sha256": "51518f4efd84eef1a5f0cc7fb540f8241e51a8ec539a133ec8ad59e621955ad7"
+    },
+    {
+      "path": "scripts/studio/public/index.html",
+      "sha256": "325e5279a39404fd0b84b5ffec9c49230b772ed06f0423d054bd7301f8f5cb09"
+    },
+    {
+      "path": "scripts/studio/public/source-diff.js",
+      "sha256": "cd87fdac28bd89fb3df47c739282ba6c6fc13ac2804bdbb3c4d289982264e8f1"
+    },
+    {
+      "path": "scripts/studio/public/source-editor.js",
+      "sha256": "eee4f91504aa81424d8afe66802e0b42dc23d99fae793c94d3e082a5cb33e919"
+    },
+    {
+      "path": "scripts/studio/public/source-view.js",
+      "sha256": "233985d7a41b19d99e53ac7b95678ba9a5f9c2aeb4707ae6e595b69846e5305a"
+    },
+    {
+      "path": "scripts/studio/public/style.css",
+      "sha256": "4f67349f50a9c36b01c59bb698b072114074322282f04e56ccd77cfc4797f094"
+    },
+    {
+      "path": "scripts/studio/public/views.js",
+      "sha256": "c9ab8b63f09693053d9e1fd53a289750c5a2323c84fc251de39d757c1fc6d2f6"
+    },
+    {
+      "path": "scripts/studio/runner.mjs",
+      "sha256": "1277e04f352480f193c41838995f11add357feba168801cc5341e37426f52a73"
+    },
+    {
+      "path": "scripts/studio/server.mjs",
+      "sha256": "9d3aee284b2893eb054c457e952fa1e973e501a59e64dc75c9d8580dcf997bfb"
+    },
+    {
+      "path": "scripts/studio/source.mjs",
+      "sha256": "9ccb6f6e2229935486746edcead6246c02c5c9b12c91536ac8cad56f7bc9a1e9"
+    },
+    {
+      "path": "scripts/studio/store.mjs",
+      "sha256": "2a42ff426d1307a7c9434708f1eebdc26e3b59a9f8616628defc877113ed1241"
+    },
+    {
+      "path": "scripts/studio/verify.mjs",
+      "sha256": "c2470866f30432ad3ff218b5dba17342647276c8d3f5b267d6cd66bd51aad468"
+    },
+    {
+      "path": "scripts/studio/workflow.mjs",
+      "sha256": "9735a5a2a6f27f54b4c80c28b4ad38d1c34a35c7045f3cd9805448f7af127b94"
+    },
+    {
+      "path": "scripts/studio.mjs",
+      "sha256": "7a06c60943226a50f7c254066a07fe4c033e7573b449fc2c3b4225bf0f6d587c"
+    }
+  ],
+  "limits": [
+    "Local macOS evidence only; no unobserved platform claim.",
+    "UI refinements have targeted tests and browser review; unit checks do not establish visual quality.",
+    "No native provider calls in package smoke; one earlier real Codex call retained separately.",
+    "Comparative advantage and human acceptance are not established.",
+    "Palette L remains awaiting the user visual choice."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "single-sandbox-v1.json": {
+    "originalSha256": "58772a8818bd6cb11556f2d81fefa871fe89c6569393f38c1d78931091e03ecb",
+    "publishedSha256": "19b088d5a503169b346494f6a1a47f1460dce18378edca1e98727cef7dda910b",
+    "derivation": "Source and user-home paths replaced. Probe paths, results and earlier failed checks retained; not an original-byte claim."
+  },
+  "single-sandbox-v2.json": {
+    "originalSha256": "62122206a258e89a7dee1067ba7baf1890cc34674e71ee6561c69f3a6aaca413",
+    "publishedSha256": "332ac429f9b12464cea5eaf86c96b628eda3350495a32c40b91ea4f12a523447",
+    "derivation": "Source and user-home paths replaced. Probe paths, results and earlier failed checks retained; not an original-byte claim."
+  },
+  "single-sandbox-v3.json": {
+    "originalSha256": "045935591dc72ef070cc625d8b477a63d426e68cf66737d9826f2f9be4e25426",
+    "publishedSha256": "260b46cc1f1d3c74fa0cdb5631fe011fb0c6ea6622b612dc8e3aa47713ce4730",
+    "derivation": "Source and user-home paths replaced. Probe paths, results and earlier failed checks retained; not an original-byte claim."
+  },
+  "single-sandbox-v4.json": {
+    "originalSha256": "13fcf31928e715b3486cfc538424e4b040fdbed35b7cd074c5248597d9ca5157",
+    "publishedSha256": "32e80190e22b386543e3e57b6609455bb284529fcc6512bb76c9b71611d633f8",
+    "derivation": "Source and user-home paths replaced. Probe paths, results and earlier failed checks retained; not an original-byte claim."
+  }
+}

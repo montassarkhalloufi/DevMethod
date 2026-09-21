@@ -1,0 +1,8 @@
+{
+  "revisionId": "8fc388e7-b16b-43e8-b21a-b241b85b081b",
+  "label": "Contrôles du constructeur : syntaxe et invariants des prêts",
+  "kind": "command",
+  "status": "passed",
+  "command": "node --check app/app.mjs && node --check app/model.mjs ; node --test model.test.mjs",
+  "output": "✔ empty object is initialized in memory; unknown populated formats are rejected (0.869875ms)\n✔ same labels remain independent through loans and returns (0.244875ms)\n✔ duplicate numbers and simultaneous double loans are refused (0.187625ms)\n✔ return preserves completed history and permits a subsequent loan (0.082167ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 51.585792\n"
+}

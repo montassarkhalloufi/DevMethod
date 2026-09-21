@@ -1,0 +1,381 @@
+{
+  "storageVersion": 4,
+  "session": {
+    "format": 1,
+    "revision": 1,
+    "project": {
+      "format": 1,
+      "id": "la-gazette",
+      "title": "La Gazette — publier à plusieurs",
+      "brief": "Publier à plusieurs sans dépendre d’une seule personne.\nLa Gazette est un magazine associatif fictif. Son équipe veut publier ses articles sans dépendre de la disponibilité d’une seule personne, tout en sachant qui porte chaque texte et comment il a été relu. Comparer un bureau et circuit éditorial avec relais identifiés et une relecture entre pairs sur les mêmes articles. Le prototype permet d’éprouver ces règles ; il ne publie rien sur Internet.",
+      "actors": [
+        {
+          "id": "camille",
+          "label": "Camille — auteur"
+        },
+        {
+          "id": "nina",
+          "label": "Nina — rédactrice"
+        },
+        {
+          "id": "sam",
+          "label": "Sam — relecteur et relais de publication"
+        },
+        {
+          "id": "lou",
+          "label": "Lou — relectrice"
+        }
+      ],
+      "constraints": [
+        {
+          "id": "collectif",
+          "text": "Aucune étape ne doit être réservée à une seule identité. Chaque variante doit permettre à plusieurs personnes de faire avancer la publication."
+        },
+        {
+          "id": "regard-distinct",
+          "text": "L’action Relire doit être effectuée par une autre personne que la propriétaire du texte. Cela représente un regard distinct, sans prouver la qualité ni la véracité de la relecture."
+        },
+        {
+          "id": "auteur-conserve",
+          "text": "Chaque article conserve son identifiant, son titre et sa personne propriétaire lorsque son état change. La personne qui agit est enregistrée séparément."
+        },
+        {
+          "id": "comparaison",
+          "text": "Les deux variantes partent des mêmes articles et identités. L’équipe peut rejouer une même suite d’actions et constater les permissions ou refus de chacune."
+        },
+        {
+          "id": "simulation",
+          "text": "Toutes les personnes et situations de ce cas sont fictives ; aucune enquête ni source de terrain n’est revendiquée. Publier signifie changer un état local, sans notification, site public, preuve juridique ni validation factuelle automatique."
+        }
+      ],
+      "sources": [],
+      "questions": [
+        "À quelles conditions un membre peut-il devenir référent éditorial ou participer à la relecture entre pairs : accord collectif, formation, disponibilité ?",
+        "Qu’est-ce qu’une relecture suffisante pour La Gazette : clarté du texte, vérification des faits, accord de la personne citée ? Le prototype ne vérifie aucun de ces contenus.",
+        "Après une relecture par une autre personne, qui doit pouvoir décider du moment de publication, et comment le collectif souhaite-t-il traiter un désaccord ?"
+      ],
+      "records": [
+        {
+          "id": "atelier-velo",
+          "title": "Réparer ensemble : récit de l’atelier vélo",
+          "state": "submitted",
+          "owner": "camille"
+        },
+        {
+          "id": "portrait-bibliotheque",
+          "title": "Portrait d’une bénévole de la bibliothèque",
+          "state": "draft",
+          "owner": "lou"
+        },
+        {
+          "id": "agenda-quartier",
+          "title": "Trois rendez-vous du quartier",
+          "state": "draft",
+          "owner": "nina"
+        }
+      ],
+      "variants": [
+        {
+          "id": "bureau-editorial",
+          "title": "Bureau et circuit éditorial",
+          "premise": "Hypothèse fictive : la préparation est partagée ; Sam et Lou relisent les textes d’une autre personne. Nina et Sam peuvent chacun déclencher la publication d’un texte prêt. Les responsabilités sont explicites, avec un relais de publication.",
+          "tradeoff": "Le circuit sépare des responsabilités lisibles et donne un relais à la rédactrice. Il concentre néanmoins les droits : un membre disponible ne peut pas toujours remplacer une personne habilitée, et un relecteur ne peut pas relire son propre article.",
+          "design": {
+            "layout": "board",
+            "accent": "#315C87"
+          },
+          "architecture": {
+            "boundaries": [
+              "La liste des quatre personnes est un contexte de simulation ; elle n’authentifie personne et ne gère pas d’appartenance à l’association.",
+              "Les règles de transition autorisent ou refusent une action selon son état, son acteur et l’interdiction de relire son propre texte.",
+              "L’affichage en colonnes sert à voir où les articles attendent. Il n’ajoute aucune permission et ne représente pas un calendrier de bouclage.",
+              "L’état publié reste dans l’atelier local ; aucun service de diffusion ni connecteur externe n’est appelé."
+            ],
+            "data": "Chaque article porte seulement id, titre, état et propriétaire. Les observations enregistrent séparément l’action et son acteur. Aucun texte intégral, commentaire de relecture, donnée personnelle réelle ou justificatif de vérification n’est stocké dans ce cas.",
+            "tradeoffs": [
+              "Le moteur représente un circuit fini, pas l’organisation complète d’une rédaction. Les rôles sont des listes d’identités fixes, sans remplacement automatique.",
+              "Une seule relecture par une autre personne suffit pour atteindre Prêt. Le moteur n’établit ni la qualité de cet avis ni un quorum.",
+              "La préparation et la soumission peuvent être effectuées par chacun des quatre membres, y compris pour le texte d’un autre ; le moteur v1 ne restreint pas une action au seul propriétaire.",
+              "La personne qui publie peut être celle qui a relu. Le moteur n’impose pas une séparation entre ces deux actes. Le retour en correction et le traitement des désaccords restent hors de ce scénario initial."
+            ]
+          },
+          "states": [
+            {
+              "id": "draft",
+              "label": "Brouillon"
+            },
+            {
+              "id": "submitted",
+              "label": "À relire"
+            },
+            {
+              "id": "ready",
+              "label": "Prêt"
+            },
+            {
+              "id": "published",
+              "label": "Publié localement"
+            }
+          ],
+          "actions": [
+            {
+              "id": "create",
+              "label": "Créer un article",
+              "kind": "create",
+              "from": [],
+              "to": "draft",
+              "actors": [
+                "camille",
+                "nina",
+                "sam",
+                "lou"
+              ],
+              "otherOwner": false
+            },
+            {
+              "id": "submit",
+              "label": "Soumettre à la relecture",
+              "kind": "transition",
+              "from": [
+                "draft"
+              ],
+              "to": "submitted",
+              "actors": [
+                "camille",
+                "nina",
+                "sam",
+                "lou"
+              ],
+              "otherOwner": false
+            },
+            {
+              "id": "review",
+              "label": "Relire",
+              "kind": "transition",
+              "from": [
+                "submitted"
+              ],
+              "to": "ready",
+              "actors": [
+                "sam",
+                "lou"
+              ],
+              "otherOwner": true
+            },
+            {
+              "id": "publish",
+              "label": "Publier localement",
+              "kind": "transition",
+              "from": [
+                "ready"
+              ],
+              "to": "published",
+              "actors": [
+                "nina",
+                "sam"
+              ],
+              "otherOwner": false
+            }
+          ]
+        },
+        {
+          "id": "relecture-pairs",
+          "title": "Relecture entre pairs",
+          "premise": "Hypothèse fictive : les quatre membres peuvent relire un texte dont ils ne sont pas propriétaires. Une fois ce regard distinct enregistré, chacun peut déclencher la publication. La responsabilité se lit dans les actions effectuées plutôt que dans une fonction réservée.",
+          "tradeoff": "La publication peut avancer avec davantage de relais et chacun peut contribuer hors de son rôle habituel. Le collectif doit néanmoins partager ses critères de relecture et assumer une responsabilité éditoriale plus distribuée.",
+          "design": {
+            "layout": "list",
+            "accent": "#875E32"
+          },
+          "architecture": {
+            "boundaries": [
+              "La liste des quatre personnes est un contexte de simulation ; elle n’authentifie personne et ne mesure pas leur compétence éditoriale.",
+              "Les règles de transition donnent à chaque membre les mêmes possibilités, avec une exception commune : personne ne peut relire son propre article.",
+              "L’affichage en liste met en regard titre, propriétaire et état. Il n’attribue pas de travail automatiquement et ne remplace pas la discussion entre pairs.",
+              "L’état publié reste dans l’atelier local ; aucun service de diffusion ni connecteur externe n’est appelé."
+            ],
+            "data": "Chaque article porte seulement id, titre, état et propriétaire, comme dans le bureau éditorial. Les observations enregistrent séparément l’action et son acteur. Aucun score de confiance, profil de compétence ou accord collectif implicite n’est ajouté.",
+            "tradeoffs": [
+              "Des droits identiques ne prouvent pas des compétences identiques. Le moteur ne vérifie ni formation ni disponibilité.",
+              "Une seule relecture par une autre personne suffit pour atteindre Prêt, comme dans l’autre variante. Une convergence éditoriale ou une vérification des faits n’est pas garantie.",
+              "La préparation et la soumission peuvent être effectuées par chacun des quatre membres, y compris pour le texte d’un autre ; le moteur v1 ne restreint pas une action au seul propriétaire.",
+              "L’auteur peut publier après la relecture d’un pair. Le moteur ne représente ni quorum, ni vote, ni arbitrage d’un désaccord. Le retour en correction reste hors de ce scénario initial."
+            ]
+          },
+          "states": [
+            {
+              "id": "draft",
+              "label": "Brouillon"
+            },
+            {
+              "id": "submitted",
+              "label": "À relire"
+            },
+            {
+              "id": "ready",
+              "label": "Prêt"
+            },
+            {
+              "id": "published",
+              "label": "Publié localement"
+            }
+          ],
+          "actions": [
+            {
+              "id": "create",
+              "label": "Créer un article",
+              "kind": "create",
+              "from": [],
+              "to": "draft",
+              "actors": [
+                "camille",
+                "nina",
+                "sam",
+                "lou"
+              ],
+              "otherOwner": false
+            },
+            {
+              "id": "submit",
+              "label": "Soumettre à la relecture",
+              "kind": "transition",
+              "from": [
+                "draft"
+              ],
+              "to": "submitted",
+              "actors": [
+                "camille",
+                "nina",
+                "sam",
+                "lou"
+              ],
+              "otherOwner": false
+            },
+            {
+              "id": "review",
+              "label": "Relire",
+              "kind": "transition",
+              "from": [
+                "submitted"
+              ],
+              "to": "ready",
+              "actors": [
+                "camille",
+                "nina",
+                "sam",
+                "lou"
+              ],
+              "otherOwner": true
+            },
+            {
+              "id": "publish",
+              "label": "Publier localement",
+              "kind": "transition",
+              "from": [
+                "ready"
+              ],
+              "to": "published",
+              "actors": [
+                "camille",
+                "nina",
+                "sam",
+                "lou"
+              ],
+              "otherOwner": false
+            }
+          ]
+        }
+      ]
+    },
+    "lanes": {
+      "bureau-editorial": {
+        "records": [
+          {
+            "id": "atelier-velo",
+            "title": "Réparer ensemble : récit de l’atelier vélo",
+            "state": "submitted",
+            "owner": "camille"
+          },
+          {
+            "id": "portrait-bibliotheque",
+            "title": "Portrait d’une bénévole de la bibliothèque",
+            "state": "draft",
+            "owner": "lou"
+          },
+          {
+            "id": "agenda-quartier",
+            "title": "Trois rendez-vous du quartier",
+            "state": "draft",
+            "owner": "nina"
+          }
+        ],
+        "events": [
+          {
+            "variantId": "bureau-editorial",
+            "actionId": "review",
+            "actorId": "nina",
+            "recordId": "atelier-velo",
+            "allowed": false,
+            "before": "submitted",
+            "after": "submitted",
+            "reason": "Actor nina does not have permission for Relire."
+          }
+        ]
+      },
+      "relecture-pairs": {
+        "records": [
+          {
+            "id": "atelier-velo",
+            "title": "Réparer ensemble : récit de l’atelier vélo",
+            "state": "ready",
+            "owner": "camille"
+          },
+          {
+            "id": "portrait-bibliotheque",
+            "title": "Portrait d’une bénévole de la bibliothèque",
+            "state": "draft",
+            "owner": "lou"
+          },
+          {
+            "id": "agenda-quartier",
+            "title": "Trois rendez-vous du quartier",
+            "state": "draft",
+            "owner": "nina"
+          },
+          {
+            "id": "item-036a331e",
+            "title": "Essai individuel du témoin",
+            "state": "draft",
+            "owner": "nina"
+          }
+        ],
+        "events": [
+          {
+            "variantId": "relecture-pairs",
+            "actionId": "review",
+            "actorId": "nina",
+            "recordId": "atelier-velo",
+            "allowed": true,
+            "before": "submitted",
+            "after": "ready",
+            "reason": "Relire: submitted → ready."
+          },
+          {
+            "variantId": "relecture-pairs",
+            "actionId": "create",
+            "actorId": "nina",
+            "recordId": "item-036a331e",
+            "allowed": true,
+            "before": null,
+            "after": "draft",
+            "reason": "Créer un article: new record → draft."
+          }
+        ]
+      }
+    },
+    "situation": [],
+    "decision": null,
+    "history": [],
+    "requests": []
+  }
+}

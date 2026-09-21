@@ -21,35 +21,67 @@
     "COMPATIBILITY.md",
     "CONTRIBUTING.md",
     "VALIDATION.md",
-    "START_HERE.md"
+    "START_HERE.md",
+    "templates/"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/montassarkhalloufi/DevMethod.git"
   },
   "scripts": {
-    "build": "tsc && node scripts/build-review.mjs",
-    "test": "npm run build && node --test tests/*.test.mjs",
+    "build": "tsc && node scripts/build-review.mjs && npm run build:studio-ui",
+    "test": "npm run build && node --experimental-strip-types --test tests/*.test.mjs examples/studio-ateliers-react/tests/*.test.ts",
     "test:fixtures": "node --test tests/evaluation.test.mjs",
     "check:docs": "node scripts/check-docs.mjs",
     "test:cli": "node --test tests/install.test.mjs tests/doctor.test.mjs tests/update.test.mjs tests/checkpoint.test.mjs tests/resume-cli.test.mjs tests/mission.test.mjs tests/planner.test.mjs tests/closure-loop.test.mjs tests/guard.test.mjs tests/guard-store.test.mjs tests/guard-revision.test.mjs",
     "test:behavior": "node --test tests/behavioral-evaluation.test.mjs tests/prepare-behavior-case.test.mjs",
     "test:protocols": "node --test tests/comparison.test.mjs",
     "test:greenfield": "node --test examples/pocket-tasks/tests/*.test.mjs evaluation/greenfield/*.test.mjs examples/clair-from-zero/tests/*.test.mjs",
-    "lint": "eslint src scripts tests examples/pocket-tasks examples/clair-from-zero examples/fullstack *.config.mjs --max-warnings 0",
-    "format:check": "prettier --check \"src/**/*.{ts,css}\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack}/**/*.{js,mjs,cjs,ts,tsx,css,html}\"",
-    "format": "prettier --write \"src/**/*.{ts,css}\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack}/**/*.{js,mjs,cjs,ts,tsx,css,html}\"",
-    "quality:report": "node scripts/quality-report.mjs"
+    "lint": "eslint src scripts tests examples/pocket-tasks examples/clair-from-zero examples/fullstack examples/evidence-lab examples/seance studio-ui templates/studio-react examples/studio-ateliers-react *.config.mjs --max-warnings 0",
+    "format:check": "prettier --check \"src/**/*.{ts,css}\" \"scripts/**/*.{mjs,js,css,html,json}\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab,seance}/**/*.{js,mjs,cjs,ts,tsx,css,html}\" \"studio-ui/**/*.{ts,tsx}\" \"templates/studio-react/**/*.{ts,tsx,css,html,json,md}\" \"examples/studio-ateliers-react/**/*.{ts,tsx,css,html,json,md}\"",
+    "format": "prettier --write \"src/**/*.{ts,css}\" \"scripts/**/*.{mjs,js,css,html,json}\" \"tests/**/*.mjs\" \"*.config.mjs\" package.json .github/workflows/*.yml \"examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab,seance}/**/*.{js,mjs,cjs,ts,tsx,css,html}\" \"studio-ui/**/*.{ts,tsx}\" \"templates/studio-react/**/*.{ts,tsx,css,html,json,md}\" \"examples/studio-ateliers-react/**/*.{ts,tsx,css,html,json,md}\"",
+    "test:evidence-demo": "node --test examples/evidence-lab/app/*.test.mjs && node scripts/evidence-demo.mjs",
+    "quality:report": "node scripts/quality-report.mjs",
+    "atelier": "node scripts/atelier.mjs",
+    "studio": "node scripts/studio.mjs",
+    "build:studio-ui": "tsc -p studio-ui/tsconfig.json && vite build --config studio-ui/vite.config.ts && node scripts/build-studio-notices.mjs",
+    "test:package": "node scripts/package-smoke.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@tailwindcss/vite": "4.3.3",
     "@types/node": "^22.0.0",
+    "@vitejs/plugin-react": "6.1.1",
     "eslint": "10.10.0",
+    "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-sonarjs": "4.2.1",
     "globals": "17.12.0",
     "jsdom": "27.4.0",
+    "monaco-editor": "0.56.0",
     "prettier": "3.9.6",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "8.70.0"
+    "typescript-eslint": "8.70.0",
+    "vite": "8.3.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@radix-ui/react-slot": "1.3.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "ajv": "8.20.0",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "esbuild": "0.28.2",
+    "parse5": "8.0.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwind-merge": "3.7.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "dompurify": "3.4.15"
+  },
+  "optionalDependencies": {
+    "playwright-core": "1.63.0"
   }
 }

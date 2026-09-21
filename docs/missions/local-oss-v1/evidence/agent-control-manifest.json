@@ -1,0 +1,29 @@
+{
+  "base": "a356a35",
+  "files": [
+    {
+      "path": "scripts/studio/agent-availability.mjs",
+      "sha256": "a1efbd0486e41bd5c7713019f9358d884a7ead43ff8d78b0476d05817ad9847e"
+    },
+    {
+      "path": "scripts/studio/agent-control.mjs",
+      "sha256": "6e7056d16ae84b124f3a5f88a274c18d6d35a850a1b2f97e6f4ab964a2404db4"
+    },
+    {
+      "path": "scripts/studio/server.mjs",
+      "sha256": "afeda9e02a772f123b9470d4eac1837fcb37b843707d1f99f46a7b2e5e8203b1"
+    },
+    {
+      "path": "tests/studio-agent-control.test.mjs",
+      "sha256": "5f88c8e26a331624189c4b47e5ca4eefef0edaf0657a919f51ba0e4538ef2ba2"
+    },
+    {
+      "path": "evaluation-private/local-oss-v1/logs/agent-integrated-tests.log",
+      "sha256": "21e6c91677381299e8b735a7191d201d334ec43389d984409282239e40ae92a4"
+    },
+    {
+      "path": "evaluation-private/local-oss-v1/logs/async-suite-node24.log",
+      "sha256": "0c521936661104aaa8bf3616a667844fadcb7718aeecc899998795b6c294c7ee"
+    }
+  ]
+}

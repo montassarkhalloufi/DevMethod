@@ -1,0 +1,2659 @@
+{
+  "format": 1,
+  "kind": "deterministic-mechanism-fixtures-not-native",
+  "startedAt": "2026-09-15T21:35:32.703Z",
+  "nodeVersion": "v24.19.0",
+  "platform": "linux",
+  "baseRevision": "6f31552ac3f68c70ee1caa7b4bffb1181341a336",
+  "protocolSha256": "ff450449d8d79d870dcbcf8f9d0edba27f2104786502c9da30ed349af4e22f16",
+  "scriptSha256": "3223a90e70dd53caa05cc81792abe754a222989cd3ff88ef3352cedac915429e",
+  "runnerSha256": "d9ba8e10140a8094306b14199711d9742e32d1c803d5087a2e1586932aa94c82",
+  "budget": {
+    "maximumExperimentalProcesses": 100,
+    "childTimeoutMs": 1000,
+    "childOutputLimitBytes": 16384
+  },
+  "measurementsUnavailable": [
+    "tokens",
+    "model-cost",
+    "candidate-generation-cost",
+    "user-interruptions",
+    "native-model-success"
+  ],
+  "cases": [
+    {
+      "id": "capacity-booking",
+      "split": "development",
+      "implementations": {
+        "healthy": "export const run = ({ capacity, occupied, quantity }) => quantity > 0 && occupied + quantity <= capacity ? capacity - occupied - quantity : null;",
+        "primary-fault": "export const run = ({ capacity, occupied, quantity }) => quantity > 0 && quantity <= capacity ? capacity - occupied - quantity : null;",
+        "secondary-fault": "export const run = ({ capacity, occupied, quantity }) => occupied + quantity <= capacity ? capacity - occupied - quantity : null;"
+      },
+      "assertions": {
+        "strong": "\n  assert.equal(run({ capacity: 5, occupied: 2, quantity: 3 }), 0);\n  assert.equal(run({ capacity: 5, occupied: 4, quantity: 2 }), null);\n  assert.equal(run({ capacity: 5, occupied: 2, quantity: 0 }), null);\n  assert.equal(run({ capacity: 5, occupied: 2, quantity: -1 }), null);",
+        "partial": "\n  assert.equal(run({ capacity: 5, occupied: 2, quantity: 3 }), 0);\n  assert.equal(run({ capacity: 5, occupied: 4, quantity: 2 }), null);",
+        "tautological": "const input = { capacity: 5, occupied: 4, quantity: 2 }; assert.equal(run(input), run(input));"
+      }
+    },
+    {
+      "id": "cents-invoice",
+      "split": "development",
+      "implementations": {
+        "healthy": "export const run = ({ lines, discountBps }) => Math.round(lines.reduce((sum, line) => sum + line.cents * line.quantity, 0) * (10000 - discountBps) / 10000);",
+        "primary-fault": "export const run = ({ lines, discountBps }) => Math.round(lines.reduce((sum, line) => sum + line.cents, 0) * (10000 - discountBps) / 10000);",
+        "secondary-fault": "export const run = ({ lines, discountBps }) => Math.floor(lines.reduce((sum, line) => sum + line.cents * line.quantity, 0) * (10000 - discountBps) / 10000);"
+      },
+      "assertions": {
+        "strong": "\n  assert.equal(run({ lines: [{ cents: 199, quantity: 3 }], discountBps: 0 }), 597);\n  assert.equal(run({ lines: [{ cents: 101, quantity: 2 }, { cents: 200, quantity: 1 }], discountBps: 0 }), 402);\n  assert.equal(run({ lines: [{ cents: 105, quantity: 1 }], discountBps: 5000 }), 53);\n  assert.equal(run({ lines: [{ cents: 199, quantity: 3 }], discountBps: 10000 }), 0);",
+        "partial": "\n  assert.equal(run({ lines: [{ cents: 199, quantity: 3 }], discountBps: 0 }), 597);\n  assert.equal(run({ lines: [{ cents: 101, quantity: 2 }, { cents: 200, quantity: 1 }], discountBps: 0 }), 402);",
+        "tautological": "const input = { lines: [{ cents: 105, quantity: 3 }], discountBps: 5000 }; assert.equal(run(input), run(input));"
+      }
+    }
+  ],
+  "executions": [
+    {
+      "id": 1,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 66.525,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 2,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 57.48,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n-1 !== null\n",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n-1 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 3,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 59.391,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n3 !== null\n",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n3 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 4,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 54.386,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 5,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 56.622,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n-1 !== null\n",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n-1 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 6,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 51.422,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 7,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 56.584,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "ebf7db7bf7dc547d5c3ddaea1c5663439ef2d218d6fe61f36a1570997bffebec",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 8,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 54.03,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "ebf7db7bf7dc547d5c3ddaea1c5663439ef2d218d6fe61f36a1570997bffebec",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 9,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 55.252,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "ebf7db7bf7dc547d5c3ddaea1c5663439ef2d218d6fe61f36a1570997bffebec",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 10,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 53.949,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 11,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 51.122,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 12,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 48.391,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 13,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 54.412,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/13/missing-dependency.mjs' imported from <temporary>/13/oracle.mjs",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/13/missing-dependency.mjs' imported from <temporary>/13/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 14,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 52.701,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/14/missing-dependency.mjs' imported from <temporary>/14/oracle.mjs",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/14/missing-dependency.mjs' imported from <temporary>/14/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 15,
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 51.935,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/15/missing-dependency.mjs' imported from <temporary>/15/oracle.mjs",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/15/missing-dependency.mjs' imported from <temporary>/15/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 16,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 53.256,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 17,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 54.909,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n199 !== 597\n",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n199 !== 597\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 18,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 55.506,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n52 !== 53\n",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n52 !== 53\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 19,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 59.333,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 20,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 52.973,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n199 !== 597\n",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n199 !== 597\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 21,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 47.652,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 22,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 50.618,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "7ad827acbf0c631d4a6028d3a2f15414af6cbdd7b061b04530e6f09dea2349af",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 23,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 49.886,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "7ad827acbf0c631d4a6028d3a2f15414af6cbdd7b061b04530e6f09dea2349af",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 24,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 53.434,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "7ad827acbf0c631d4a6028d3a2f15414af6cbdd7b061b04530e6f09dea2349af",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 25,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 48.816,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 26,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 52.214,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 27,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 49.657,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 28,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 56.414,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/28/missing-dependency.mjs' imported from <temporary>/28/oracle.mjs",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/28/missing-dependency.mjs' imported from <temporary>/28/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 29,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 55.078,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/29/missing-dependency.mjs' imported from <temporary>/29/oracle.mjs",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/29/missing-dependency.mjs' imported from <temporary>/29/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 30,
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 50.672,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/30/missing-dependency.mjs' imported from <temporary>/30/oracle.mjs",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/30/missing-dependency.mjs' imported from <temporary>/30/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 31,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 52.189,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 32,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 55.721,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n-1 !== null\n",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n-1 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 33,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 59.54,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 34,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 51.391,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n-1 !== null\n",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n-1 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 35,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 49.931,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n3 !== null\n",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n3 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 36,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 55.124,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 37,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 57.584,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n-1 !== null\n",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n-1 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 38,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 55.036,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 39,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 62.631,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n-1 !== null\n",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n-1 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 40,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 58.044,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 41,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 54.95,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "ebf7db7bf7dc547d5c3ddaea1c5663439ef2d218d6fe61f36a1570997bffebec",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 42,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 60.517,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "ebf7db7bf7dc547d5c3ddaea1c5663439ef2d218d6fe61f36a1570997bffebec",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 43,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 51.497,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 44,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 50.551,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 45,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 58.099,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/45/missing-dependency.mjs' imported from <temporary>/45/oracle.mjs",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/45/missing-dependency.mjs' imported from <temporary>/45/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 46,
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 57.412,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/46/missing-dependency.mjs' imported from <temporary>/46/oracle.mjs",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/46/missing-dependency.mjs' imported from <temporary>/46/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 47,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 64.096,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 48,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 52.563,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n199 !== 597\n",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n199 !== 597\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 49,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 51.083,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 50,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 56.133,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n199 !== 597\n",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n199 !== 597\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 51,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 56.921,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n52 !== 53\n",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n52 !== 53\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 52,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 51.948,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 53,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 52.116,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n199 !== 597\n",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n199 !== 597\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 54,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 52.957,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 55,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 55.512,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n199 !== 597\n",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n199 !== 597\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 56,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 59.483,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 57,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 51.069,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "7ad827acbf0c631d4a6028d3a2f15414af6cbdd7b061b04530e6f09dea2349af",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 58,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 53.611,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "7ad827acbf0c631d4a6028d3a2f15414af6cbdd7b061b04530e6f09dea2349af",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 59,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 56.909,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 60,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 51.017,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 61,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "role": "healthy-control",
+      "elapsedMs": 51.027,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/61/missing-dependency.mjs' imported from <temporary>/61/oracle.mjs",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/61/missing-dependency.mjs' imported from <temporary>/61/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 62,
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "role": "fault-control",
+      "elapsedMs": 55.096,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/62/missing-dependency.mjs' imported from <temporary>/62/oracle.mjs",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/62/missing-dependency.mjs' imported from <temporary>/62/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 63,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 52.016,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 64,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 50.919,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n-1 !== null\n",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n-1 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 65,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 59.351,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n3 !== null\n",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "980decfe5cd329313884b12e0de9564b9f3b27e3872ba5516ca855bc96b7e0cf",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n3 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 66,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 59.487,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 67,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 52.869,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n-1 !== null\n",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n-1 !== null\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 68,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 57.063,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "d781aa435198b229d730a1e89c908cb611925ae842c51f5e3b1376e459c26a53",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 69,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 60.921,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "ebf7db7bf7dc547d5c3ddaea1c5663439ef2d218d6fe61f36a1570997bffebec",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 70,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 56.005,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "ebf7db7bf7dc547d5c3ddaea1c5663439ef2d218d6fe61f36a1570997bffebec",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 71,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 52.323,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "ebf7db7bf7dc547d5c3ddaea1c5663439ef2d218d6fe61f36a1570997bffebec",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 72,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 55.17,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 73,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 52.335,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 74,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 59.345,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 75,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 52.816,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/75/missing-dependency.mjs' imported from <temporary>/75/oracle.mjs",
+      "implementationSha256": "f539437c060922a40e7acbf4a67d7a18cb2df663ef0e70f55da5b57c45148067",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/75/missing-dependency.mjs' imported from <temporary>/75/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 76,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 53.286,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/76/missing-dependency.mjs' imported from <temporary>/76/oracle.mjs",
+      "implementationSha256": "45a899405478251531c28ed75dbf1daf1d9865fedd3b9dc141f74034681e9fbf",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/76/missing-dependency.mjs' imported from <temporary>/76/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 77,
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 49.351,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/77/missing-dependency.mjs' imported from <temporary>/77/oracle.mjs",
+      "implementationSha256": "6c7f2b477b9f237977a802a9da27fb63539f25fd47bd0c6e3001f117268fd3c1",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/77/missing-dependency.mjs' imported from <temporary>/77/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 78,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 55.209,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 79,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 66.992,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n199 !== 597\n",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n199 !== 597\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 80,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 54.156,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n52 !== 53\n",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "a128f00c2edae5a7ae3842aa3f63d136183f06ed5bca421c4c56bd208ccbfd6f",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n52 !== 53\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 81,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 58.197,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 82,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 52.752,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n\n199 !== 597\n",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Expected values to be strictly equal:\\n\\n199 !== 597\\n\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 83,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 54.357,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "522abd62d8cc9df88a0f1a84c2bc07e70d3b6330af2362e27b1075c971bb4dff",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 84,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 55.399,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "7ad827acbf0c631d4a6028d3a2f15414af6cbdd7b061b04530e6f09dea2349af",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 85,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 55.344,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "7ad827acbf0c631d4a6028d3a2f15414af6cbdd7b061b04530e6f09dea2349af",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 86,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 52.402,
+      "exitCode": 0,
+      "signal": null,
+      "outcome": "pass",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "7ad827acbf0c631d4a6028d3a2f15414af6cbdd7b061b04530e6f09dea2349af",
+      "stdout": "{\"outcome\":\"pass\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 87,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 51.446,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 88,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 59.851,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 89,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 57.557,
+      "exitCode": 1,
+      "signal": null,
+      "outcome": "criterion-failure",
+      "code": "ERR_ASSERTION",
+      "message": "Deliberately unusable criterion",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "138d3455e1fe697ccb4a6fc42e20143cf5c3c72413ce0689f51a01f3258665ae",
+      "stdout": "{\"outcome\":\"criterion-failure\",\"code\":\"ERR_ASSERTION\",\"message\":\"Deliberately unusable criterion\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 90,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "role": "candidate",
+      "elapsedMs": 54.47,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/90/missing-dependency.mjs' imported from <temporary>/90/oracle.mjs",
+      "implementationSha256": "b4f463648e02b733aed641aca5a88a502bb0b0d1a9c7287c0412317b61b812d9",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/90/missing-dependency.mjs' imported from <temporary>/90/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 91,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "role": "candidate",
+      "elapsedMs": 58.318,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/91/missing-dependency.mjs' imported from <temporary>/91/oracle.mjs",
+      "implementationSha256": "52ad7319f9cdb2525a4463b3ec9131cbb1117d6fe7f39f0cbd455a2b6c88b189",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/91/missing-dependency.mjs' imported from <temporary>/91/oracle.mjs\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": 92,
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "secondary-fault",
+      "role": "candidate",
+      "elapsedMs": 59.007,
+      "exitCode": 2,
+      "signal": null,
+      "outcome": "infrastructure-error",
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find module '<temporary>/92/missing-dependency.mjs' imported from <temporary>/92/oracle.mjs",
+      "implementationSha256": "c8c755d6dd4a24fade131235ffdf97391d68051fc2b06445973c5e94747bf8bc",
+      "oracleSha256": "c8960cdb6e61d0a490059670131025c53d20cd71825274af3b0a7f2f1df0cac5",
+      "stdout": "{\"outcome\":\"infrastructure-error\",\"code\":\"ERR_MODULE_NOT_FOUND\",\"message\":\"Cannot find module '<temporary>/92/missing-dependency.mjs' imported from <temporary>/92/oracle.mjs\"}\n",
+      "stderr": ""
+    }
+  ],
+  "decisions": [
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        1
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        2
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        3
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        4
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        5
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "accepted",
+      "executionIds": [
+        6
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        7
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "accepted",
+      "executionIds": [
+        8
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "accepted",
+      "executionIds": [
+        9
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "rejected",
+      "executionIds": [
+        10
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        11
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        12
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "check-unavailable",
+      "executionIds": [
+        13
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "check-unavailable",
+      "executionIds": [
+        14
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "check-unavailable",
+      "executionIds": [
+        15
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        16
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        17
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        18
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        19
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        20
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "accepted",
+      "executionIds": [
+        21
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        22
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "accepted",
+      "executionIds": [
+        23
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "accepted",
+      "executionIds": [
+        24
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "rejected",
+      "executionIds": [
+        25
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        26
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        27
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "check-unavailable",
+      "executionIds": [
+        28
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "check-unavailable",
+      "executionIds": [
+        29
+      ]
+    },
+    {
+      "arm": "A-candidate-only",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "check-unavailable",
+      "executionIds": [
+        30
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "role": "calibration",
+      "outcome": "valid",
+      "invalidHealthyControl": false,
+      "invalidFaultControl": false,
+      "executionIds": [
+        31,
+        32
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        33
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        34
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        35
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "role": "calibration",
+      "outcome": "valid",
+      "invalidHealthyControl": false,
+      "invalidFaultControl": false,
+      "executionIds": [
+        36,
+        37
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        38
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        39
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "accepted",
+      "executionIds": [
+        40
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "role": "calibration",
+      "outcome": "invalid-oracle",
+      "invalidHealthyControl": false,
+      "invalidFaultControl": true,
+      "executionIds": [
+        41,
+        42
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "role": "calibration",
+      "outcome": "invalid-oracle",
+      "invalidHealthyControl": true,
+      "invalidFaultControl": false,
+      "executionIds": [
+        43,
+        44
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "role": "calibration",
+      "outcome": "invalid-oracle",
+      "invalidHealthyControl": true,
+      "invalidFaultControl": true,
+      "executionIds": [
+        45,
+        46
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "role": "calibration",
+      "outcome": "valid",
+      "invalidHealthyControl": false,
+      "invalidFaultControl": false,
+      "executionIds": [
+        47,
+        48
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        49
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        50
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        51
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "role": "calibration",
+      "outcome": "valid",
+      "invalidHealthyControl": false,
+      "invalidFaultControl": false,
+      "executionIds": [
+        52,
+        53
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "accepted",
+      "executionIds": [
+        54
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "rejected",
+      "executionIds": [
+        55
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "accepted",
+      "executionIds": [
+        56
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "role": "calibration",
+      "outcome": "invalid-oracle",
+      "invalidHealthyControl": false,
+      "invalidFaultControl": true,
+      "executionIds": [
+        57,
+        58
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "role": "calibration",
+      "outcome": "invalid-oracle",
+      "invalidHealthyControl": true,
+      "invalidFaultControl": false,
+      "executionIds": [
+        59,
+        60
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "role": "calibration",
+      "outcome": "invalid-oracle",
+      "invalidHealthyControl": true,
+      "invalidFaultControl": true,
+      "executionIds": [
+        61,
+        62
+      ]
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "healthy",
+      "truth": "healthy",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "primary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "B-calibrated",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "candidate": "secondary-fault",
+      "truth": "faulty",
+      "outcome": "invalid-oracle",
+      "executionIds": []
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "strong",
+      "order": [
+        "healthy",
+        "secondary-fault",
+        "primary-fault"
+      ],
+      "selected": "healthy",
+      "truth": "healthy",
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": true,
+      "outcome": "accepted",
+      "executionIds": [
+        63,
+        64,
+        65
+      ]
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "partial",
+      "order": [
+        "healthy",
+        "secondary-fault",
+        "primary-fault"
+      ],
+      "selected": "healthy",
+      "truth": "healthy",
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": true,
+      "outcome": "accepted",
+      "executionIds": [
+        66,
+        67,
+        68
+      ]
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "tautological",
+      "order": [
+        "healthy",
+        "secondary-fault",
+        "primary-fault"
+      ],
+      "selected": "healthy",
+      "truth": "healthy",
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": true,
+      "outcome": "accepted",
+      "executionIds": [
+        69,
+        70,
+        71
+      ]
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "always-fail",
+      "order": [
+        "healthy",
+        "secondary-fault",
+        "primary-fault"
+      ],
+      "selected": null,
+      "truth": null,
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": false,
+      "outcome": "no-selection",
+      "executionIds": [
+        72,
+        73,
+        74
+      ]
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "capacity-booking",
+      "oracle": "broken-import",
+      "order": [
+        "healthy",
+        "secondary-fault",
+        "primary-fault"
+      ],
+      "selected": null,
+      "truth": null,
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": false,
+      "outcome": "no-selection",
+      "executionIds": [
+        75,
+        76,
+        77
+      ]
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "strong",
+      "order": [
+        "healthy",
+        "primary-fault",
+        "secondary-fault"
+      ],
+      "selected": "healthy",
+      "truth": "healthy",
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": true,
+      "outcome": "accepted",
+      "executionIds": [
+        78,
+        79,
+        80
+      ]
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "partial",
+      "order": [
+        "healthy",
+        "primary-fault",
+        "secondary-fault"
+      ],
+      "selected": "healthy",
+      "truth": "healthy",
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": true,
+      "outcome": "accepted",
+      "executionIds": [
+        81,
+        82,
+        83
+      ]
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "tautological",
+      "order": [
+        "healthy",
+        "primary-fault",
+        "secondary-fault"
+      ],
+      "selected": "healthy",
+      "truth": "healthy",
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": true,
+      "outcome": "accepted",
+      "executionIds": [
+        84,
+        85,
+        86
+      ]
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "always-fail",
+      "order": [
+        "healthy",
+        "primary-fault",
+        "secondary-fault"
+      ],
+      "selected": null,
+      "truth": null,
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": false,
+      "outcome": "no-selection",
+      "executionIds": [
+        87,
+        88,
+        89
+      ]
+    },
+    {
+      "arm": "C-portfolio",
+      "domain": "cents-invoice",
+      "oracle": "broken-import",
+      "order": [
+        "healthy",
+        "primary-fault",
+        "secondary-fault"
+      ],
+      "selected": null,
+      "truth": null,
+      "firstCandidate": "healthy",
+      "firstCandidateAcceptedByA": false,
+      "outcome": "no-selection",
+      "executionIds": [
+        90,
+        91,
+        92
+      ]
+    }
+  ],
+  "arms": {
+    "A-candidate-only": {
+      "executions": 30,
+      "cumulativeChildMs": 1614.62,
+      "wallMs": 1629.682,
+      "childOutcomes": {
+        "pass": 12,
+        "criterion-failure": 12,
+        "infrastructure-error": 6,
+        "timeout": 0,
+        "output-protocol-error": 0
+      },
+      "candidateMetrics": {
+        "falseAcceptance": 6,
+        "faultyCandidates": 20,
+        "falseRejection": 2,
+        "healthyCandidates": 10,
+        "healthyWithheldInvalidOracle": 0,
+        "healthyCheckUnavailable": 2
+      }
+    },
+    "B-calibrated": {
+      "executions": 32,
+      "cumulativeChildMs": 1761.758,
+      "wallMs": 1778.541,
+      "childOutcomes": {
+        "pass": 14,
+        "criterion-failure": 14,
+        "infrastructure-error": 4,
+        "timeout": 0,
+        "output-protocol-error": 0
+      },
+      "candidateMetrics": {
+        "falseAcceptance": 2,
+        "faultyCandidates": 20,
+        "falseRejection": 0,
+        "healthyCandidates": 10,
+        "healthyWithheldInvalidOracle": 6,
+        "healthyCheckUnavailable": 0
+      },
+      "controlMetrics": {
+        "calibrations": 10,
+        "invalidOracles": 6,
+        "invalidHealthyControls": 4,
+        "invalidFaultControls": 4
+      }
+    },
+    "C-portfolio": {
+      "executions": 30,
+      "cumulativeChildMs": 1668.714,
+      "wallMs": 1689.917,
+      "childOutcomes": {
+        "pass": 12,
+        "criterion-failure": 12,
+        "infrastructure-error": 6,
+        "timeout": 0,
+        "output-protocol-error": 0
+      },
+      "selectionMetrics": {
+        "portfolios": 10,
+        "wrongSelection": 0,
+        "healthySelection": 6,
+        "noSelection": 4
+      }
+    }
+  },
+  "status": "complete",
+  "finishedAt": "2026-09-15T21:35:37.806Z"
+}

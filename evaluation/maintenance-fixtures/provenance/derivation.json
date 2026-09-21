@@ -1,0 +1,84 @@
+{
+  "evidence/v1-syntax-failure.json": {
+    "originalSha256": "c2b001651e4dae667618ba6c3d96695ce4aeb526fe30718abb968834ac985d91",
+    "publicSha256": "cc91fbc1d0c0ec0e7bcbb2e2fc3c59d8c859744ffdca895fb5eb4d6bcb725b9a",
+    "transformation": "Host-specific executable/temp/operator path strings only; outcome/status/duration fields preserved",
+    "rawBytesPreserved": false
+  },
+  "evidence/v2-public-calibration.json": {
+    "originalSha256": "f853828f997d6a31c153dea177265bf9acbcc450ff7e03145a02c05daa01aa88",
+    "publicSha256": "38e77e71db6fa1fcde7657426793bb23ec50b3b63b970d91d372e5d6648231e4",
+    "transformation": "Host-specific executable/temp/operator path strings only; outcome/status/duration fields preserved",
+    "rawBytesPreserved": false
+  },
+  "evidence/v3-public-calibration.json": {
+    "originalSha256": "bc0ecd1920fc6955120f444d7efa677bb2566fc65eea523374f1b2a027d4fc2b",
+    "publicSha256": "19876610dd96754eddc2a27e9222b796aad89f9444b4262ea63e62667ff05a92",
+    "transformation": "Host-specific executable/temp/operator path strings only; outcome/status/duration fields preserved",
+    "rawBytesPreserved": false
+  },
+  "evidence/original-setup-without-git.json": {
+    "originalSha256": "40fe12a2c9ad281b90297fdfd08cf8c75f83c7a2a30ce5c7e5f92d1ddcb15531",
+    "publicSha256": "33907cab8c7379dfdf17bb710a3a6affab65f3df6530de9e4522c47534928c76",
+    "transformation": "Host-specific executable/temp/operator path strings only; outcome/status/duration fields preserved",
+    "rawBytesPreserved": false
+  },
+  "evidence/private-companion-adoption.json": {
+    "originalSha256": "0b838d1d6e38e142608ed148edc98d4aac44675275ee5854b8cdfbe41ab75a91",
+    "publicSha256": "8eed2f65096121d8bc4c32f7145900c20dd40ad6a380e51948518931c69391e5",
+    "transformation": "Host-specific executable/temp/operator path strings only; outcome/status/duration fields preserved",
+    "rawBytesPreserved": false
+  },
+  "suite-public.tar.gz": {
+    "originalFreezeSha256": "e206b6ee525c23a0c3bf4960cedbbe2e69a1bb3178d414de76552aa5038ac604",
+    "publicFreezeSha256": "e25cc1338d68fa09a978dca70fd1fff5ce19837a91e67096b24bbd05bc4f34fe",
+    "originalCompletePopulationReconstructible": false,
+    "reason": "Reserved transfer omitted; resume observation executable anonymized and its public baseline history derived. Original full freeze metadata is retained, not verified as a complete distributed population.",
+    "archiveSha256": "748335de08bd3b050a7809197fbd78cb8bf549acbc89865aa91e59b3dfa67f78",
+    "archiveFiles": 347,
+    "byteIdenticalOriginalPublicFiles": 343,
+    "changedPublicFiles": [
+      {
+        "path": "cases/resume-filter/worker/evidence/domain-baseline.json",
+        "field": "argv[0]",
+        "originalSha256": "bf8dcf4acc5838ff555a31d0f82da704cfdfd5a2d87c5747d2ac81743ea43dc6",
+        "publicSha256": "d04001460f14be203536e338f944b0802f437ed9f1938f371609d07d16beec34"
+      },
+      {
+        "path": "cases/resume-filter/initial-state.json",
+        "fields": [
+          "head",
+          "baseTree"
+        ],
+        "originalSha256": "2e0867dfc76d6233244efe2af3a14dcd3d78f4e99d2c13dfa782f45a6631dade",
+        "publicSha256": "497097b4816dd457529ebb5f314ff568c31ba462f29d88ad93e7c7c5169ce585"
+      }
+    ],
+    "resumeGit": {
+      "originalHead": "c2cc552c36636900729249f614d6b6c927c7c27d",
+      "publicHead": "d175a2606ac06d6590541bedb76973ff579dbc6c",
+      "originalBaseTree": "c02aaa9f9a0d39a20a11b9121b1342c8b379c59e",
+      "publicBaseTree": "0773e992c8c4273bc24fbc9adb97f0cd1783afc4",
+      "initialDiffByteIdentical": true,
+      "initialStatusByteIdentical": true
+    }
+  },
+  "evidence/public-adoption.json": {
+    "originalSha256": "68d45ba2c6a8f1baa5330cca50e1c94cd9d4b60fb01decac9b19fab608f3b1fe",
+    "publicSha256": "a03a873593ffdcd3de88d471cc8f7f8d7c236c1d10e5bb50c5f546d5e905873b",
+    "kind": "New local public derivative check; not historical or native result",
+    "transformation": "Executable/temp/operator path normalization only"
+  },
+  "evidence/public-v2-reproduction.json": {
+    "originalSha256": "0fccb45de70d1fd20e18e9319447513a462fddb79df6536c1c50b509211ad045",
+    "publicSha256": "46396b5b8b32de4225ca1a6f55ca8b58dc0b8e3c6065068e431a5508b0218841",
+    "kind": "New local public derivative check; not historical or native result",
+    "transformation": "Executable/temp/operator path normalization only"
+  },
+  "evidence/public-v3-reproduction.json": {
+    "originalSha256": "8cd12691ec68754dcfe9d6351498304084842d6d1d9f656ab27ae20224856694",
+    "publicSha256": "f12d708f2bbcbd829476d4727a42846695a0859d2432c6d9383f7442d1760555",
+    "kind": "New local public derivative check; not historical or native result",
+    "transformation": "Executable/temp/operator path normalization only"
+  }
+}

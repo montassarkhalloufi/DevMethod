@@ -46,6 +46,14 @@ Start with [missions and the tested source quick start](docs/MISSIONS.md), the [
 
 ## Why this method?
 
+**Local creation experience: Studio (unpublished candidate).** [Open the Studio guide](docs/STUDIO.md) for the three working modes, visual choices, running application, editable code and isolated draft preview, version-specific checks, restart and export. The [recorded Les Ateliers example](examples/studio-ateliers/README.md) includes a real generation attempt, its failure and corrections, persistent registrations and a later waiting-list requirement. [Results and limitations](docs/missions/creation-experience/RESULTS.md) distinguish implemented behavior from an unproven comparative advantage. The local runtime supports React 19 / strict TypeScript / Tailwind and existing HTML/CSS/JavaScript apps with JSON data. The [typed React checkpoint](docs/missions/creation-experience/REACT-CHECKPOINT.md) records editable Monaco source, controlled compilation and versioned Vercel guidance. Cloud deployment, authentication and arbitrary framework builds are not provided.
+
+[Import an existing project](docs/STUDIO-IMPORT.md) as a separate, sourced baseline; unsupported runtimes remain editable and exportable as source snapshots. The [tools and services catalog](docs/STUDIO-CONNECTORS.md) offers provider choices and host-mediated checks, with configuration, observed availability and application integration kept distinct. [Live plans and actions](docs/STUDIO-PROGRESS.md) show actual progress published by connected agents.
+
+**Experimental branch: application evidence lab.** [Run the local product demonstration](docs/EVIDENCE-LAB.md) to challenge application checks against known healthy/faulty controls and recheck evidence after changes. This opt-in research extension preserves the existing workflow. [The comparison](evaluation/evidence-lab/README.md) reduced some misleading green results but also withheld healthy candidates and missed unrepresented faults; it does not establish general superiority.
+
+**Experimental product research: Atelier.** [Try the local experience](docs/ATELIER.md) to compare behavioral alternatives, retain a decision and its observations, and exercise a real agent proposal after changing the need. [Three different conceptions and their prior art](docs/missions/product-alternatives/RESEARCH.md) challenge how DevMethod could work. The bounded prototype cannot represent every product; an independent scheduling context exposed that limit. No breakthrough or comparative user benefit is established.
+
 DevMethod grew from its creator’s own AI-assisted development practice: making the same way of working reusable across projects. The creator did not know BMAD when the idea began and discovered it afterwards. That origin explains the project; it is not evidence of uniqueness or superiority.
 
 The central unit is a **mission with an observable outcome**. Larger missions can use milestones and coherent tickets; small changes can stay inline. Discuss decisions before dependent work, keep uncertain plans conditional, connect acceptance criteria to executed checks, and leave a dated handoff. The method does not require sprints and can fit an existing team process.
@@ -90,7 +98,7 @@ npx --yes devmethod-ai@0.4.1 init --tool claude --dest ../foundation-staging --d
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The installer has no runtime dependencies and makes no network requests after npm obtains the package. To pin the final version, use `npx --yes devmethod-ai@0.4.1 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The skill installer makes no network requests after npm obtains the package. Studio adds pinned runtime dependencies for local React/TypeScript compilation. To pin the final version, use `npx --yes devmethod-ai@0.4.1 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -114,7 +122,7 @@ node dist/cli.js doctor --dest ../candidate-staging --json
 node dist/cli.js update-preview --dest ../candidate-staging --json
 ```
 
-The package includes advanced docs and fictional examples. `init` copies only the skills and adoption templates, preserving the application. Read the package docs from its checkout or extracted tarball. The core CLI has no runtime dependencies; example applications install their own pinned dependencies separately.
+The package includes advanced docs and fictional examples. `init` copies only the skills and adoption templates, preserving the application. Read the package docs from its checkout or extracted tarball. The method commands do not load the Studio compiler; the distributed package includes its pinned React/TypeScript build dependencies. Standalone example applications declare their own dependencies.
 
 ## Inspect an adopted installation
 
