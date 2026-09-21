@@ -1,0 +1,161 @@
+.panel-size-controls {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+  min-height: 26px;
+  color: var(--muted);
+}
+.panel-size-controls > button {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  min-height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font:
+    16px/1 system-ui,
+    sans-serif;
+}
+.panel-height-handle {
+  flex: 1;
+  min-width: 36px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  cursor: row-resize;
+  touch-action: none;
+  border-radius: 5px;
+}
+.panel-height-handle::before {
+  content: '';
+  width: 36px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--control-border);
+}
+.panel-height-handle:hover::before,
+.panel-height-handle:focus-visible::before {
+  background: var(--accent);
+}
+.panel-size-controls > button:hover {
+  color: var(--ink);
+  background: var(--decision);
+}
+.panel-size-controls > :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+#discussion > #message-panel.panel-size-enabled {
+  max-height: 55dvh;
+}
+#message-panel.panel-size-enabled #request {
+  height: var(--message-height, 52px);
+  min-height: 52px;
+  max-height: none;
+  resize: none;
+}
+#message-panel.panel-size-enabled .agent-connection {
+  max-height: 90px;
+  overflow: auto;
+  overscroll-behavior: auto;
+}
+/* Give configuration a usable scroll area while the composer stays outside it. */
+#message-panel.panel-size-enabled .agent-connection[open] {
+  max-height: clamp(180px, 50dvh, 420px);
+  scrollbar-gutter: stable;
+}
+#message-panel.panel-size-enabled .panel-size-controls {
+  margin-top: -5px;
+  margin-bottom: 3px;
+}
+#discussion #activity.panel-size-enabled[open] {
+  flex: 0 0 auto;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+#discussion #activity.panel-size-enabled[open] .conversation-flow {
+  height: var(--activity-height, 280px);
+  min-height: 0;
+  max-height: none;
+  overflow: auto;
+  overscroll-behavior: auto;
+  scrollbar-gutter: stable;
+}
+.discussion-height-resizing,
+.discussion-height-resizing * {
+  cursor: row-resize !important;
+  user-select: none !important;
+}
+.discussion-height-resizing iframe {
+  pointer-events: none;
+}
+@media (min-width: 901px) {
+  #discussion > #message-panel.panel-size-enabled:has(.agent-connection[open]) {
+    display: flex;
+    flex-direction: column;
+    max-height: min(78dvh, calc(100dvh - 220px));
+  }
+  #message-panel.panel-size-enabled:has(.agent-connection[open]) > * {
+    flex-shrink: 0;
+  }
+  #message-panel.panel-size-enabled .agent-connection[open] {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  #discussion {
+    overflow: hidden;
+    scrollbar-gutter: auto;
+  }
+  .discussion-content {
+    flex: 1 1 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
+    scroll-padding-block: 8px;
+  }
+  .discussion-content > #active-decision {
+    flex: 0 0 auto;
+    max-height: 70dvh;
+    overscroll-behavior: auto;
+  }
+  #discussion > #message-panel {
+    position: relative;
+    bottom: auto;
+    flex: 0 0 auto;
+    margin-top: 0;
+    overflow: auto;
+  }
+}
+@media (max-width: 900px) {
+  #discussion > #message-panel.panel-size-enabled {
+    max-height: none;
+  }
+  #message-panel.panel-size-enabled .agent-connection[open] {
+    max-height: none;
+    overflow: visible;
+  }
+  .panel-height-handle {
+    touch-action: pan-y;
+    cursor: default;
+  }
+  .panel-size-controls > button {
+    width: 32px;
+    height: 32px;
+  }
+}
+.discussion-content {
+  display: flex;
+  flex-direction: column;
+  gap: inherit;
+  min-width: 0;
+  min-height: 0;
+}
+.discussion-content > * {
+  flex-shrink: 0;
+}

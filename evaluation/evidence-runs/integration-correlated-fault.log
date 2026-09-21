@@ -1,0 +1,105 @@
+lifecycle: evidence plan → planned
+lifecycle: evidence run → failed
+lifecycle: evidence plan → planned
+Demo failed; all partial observations retained in /tmp/devmethod-evidence-demo-INM7re. AssertionError [ERR_ASSERTION]: run: {
+  "format": 1,
+  "status": "halted",
+  "fresh": false,
+  "reason": "repeated-criterion-failure",
+  "attempts": 2,
+  "permit": "f58b2dabcb0e26a1c1334846e139741a75edd77a5c2dc4218c6536cf0866b151",
+  "failureSignature": "2d457d2a972b28f3a4c75907461dd8b3fbf6f14b7da999ded71b37f1956055d9",
+  "candidateBefore": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
+  "candidateAfter": "b66f4746708a58abc0e731098fe667110af9e0819e3888dd3e5c5238a91cc74a",
+  "criteria": [
+    {
+      "id": "capacity",
+      "status": "calibration-failed"
+    },
+    {
+      "id": "idempotency",
+      "status": "calibration-failed"
+    },
+    {
+      "id": "cancellation",
+      "status": "calibration-failed"
+    },
+    {
+      "id": "durability",
+      "status": "calibration-failed"
+    }
+  ],
+  "results": [
+    {
+      "check": "domain",
+      "mode": "healthy",
+      "status": "completed",
+      "verdicts": {
+        "capacity": "passed",
+        "idempotency": "passed",
+        "cancellation": "passed",
+        "durability": "passed"
+      }
+    },
+    {
+      "check": "domain",
+      "mode": "capacity-fault",
+      "status": "completed",
+      "verdicts": {
+        "capacity": "failed",
+        "idempotency": "passed",
+        "cancellation": "passed",
+        "durability": "passed"
+      }
+    },
+    {
+      "check": "domain",
+      "mode": "idempotency-fault",
+      "status": "completed",
+      "verdicts": {
+        "capacity": "passed",
+        "idempotency": "failed",
+        "cancellation": "failed",
+        "durability": "passed"
+      }
+    },
+    {
+      "check": "domain",
+      "mode": "cancellation-fault",
+      "status": "completed",
+      "verdicts": {
+        "capacity": "passed",
+        "idempotency": "passed",
+        "cancellation": "failed",
+        "durability": "passed"
+      }
+    },
+    {
+      "check": "domain",
+      "mode": "durability-fault",
+      "status": "completed",
+      "verdicts": {
+        "capacity": "passed",
+        "idempotency": "failed",
+        "cancellation": "failed",
+        "durability": "failed"
+      }
+    },
+    {
+      "check": "domain",
+      "mode": "candidate",
+      "status": "not-run",
+      "reason": "calibration-failed"
+    }
+  ],
+  "revisions": 2,
+  "startedAt": "2026-09-15T21:50:02.688Z",
+  "durationMs": 372.01113599999996,
+  "modelTokens": null,
+  "modelCost": null,
+  "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+}
+
+
+1 !== 0
+

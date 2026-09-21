@@ -1,0 +1,240 @@
+{
+  "format": 1,
+  "node": "v24.18.0",
+  "kind": "deterministic-fixture-calibration-not-native",
+  "results": [
+    {
+      "stage": "initial",
+      "mode": "healthy",
+      "format": 1,
+      "verdicts": {
+        "intake": "passed",
+        "finality": "passed",
+        "durability": "passed",
+        "integrity": "passed"
+      },
+      "details": {},
+      "processes": 27,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "initial",
+      "mode": "intake",
+      "format": 1,
+      "verdicts": {
+        "intake": "failed",
+        "finality": "passed",
+        "durability": "passed",
+        "integrity": "passed"
+      },
+      "details": {
+        "intake": "error must return nonzero"
+      },
+      "processes": 20,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "initial",
+      "mode": "finality",
+      "format": 1,
+      "verdicts": {
+        "intake": "passed",
+        "finality": "failed",
+        "durability": "passed",
+        "integrity": "passed"
+      },
+      "details": {
+        "finality": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    id: 'job-f',\n+   status: 'open',\n-   status: 'done',\n    title: 'Radio'\n  }\n"
+      },
+      "processes": 25,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "initial",
+      "mode": "durability",
+      "format": 1,
+      "verdicts": {
+        "intake": "failed",
+        "finality": "failed",
+        "durability": "failed",
+        "integrity": "passed"
+      },
+      "details": {
+        "intake": "error must return nonzero",
+        "finality": "CLI success required; stderr={\"error\":\"not-found\"}\n\n\n1 !== 0\n",
+        "durability": "ENOENT: no such file or directory, open '/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/cafe-acceptance-XEpL8U/durability.json'"
+      },
+      "processes": 13,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "initial",
+      "mode": "integrity",
+      "format": 1,
+      "verdicts": {
+        "intake": "passed",
+        "finality": "passed",
+        "durability": "passed",
+        "integrity": "failed"
+      },
+      "details": {
+        "integrity": "error must return nonzero"
+      },
+      "processes": 23,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "maintenance",
+      "mode": "healthy",
+      "format": 1,
+      "verdicts": {
+        "intake": "passed",
+        "finality": "passed",
+        "durability": "passed",
+        "integrity": "passed",
+        "category": "passed"
+      },
+      "details": {},
+      "processes": 42,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "maintenance",
+      "mode": "intake",
+      "format": 1,
+      "verdicts": {
+        "intake": "failed",
+        "finality": "passed",
+        "durability": "passed",
+        "integrity": "passed",
+        "category": "failed"
+      },
+      "details": {
+        "intake": "error must return nonzero",
+        "category": "error must return nonzero"
+      },
+      "processes": 26,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "maintenance",
+      "mode": "finality",
+      "format": 1,
+      "verdicts": {
+        "intake": "passed",
+        "finality": "failed",
+        "durability": "passed",
+        "integrity": "passed",
+        "category": "failed"
+      },
+      "details": {
+        "finality": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    id: 'job-f',\n+   status: 'open',\n-   status: 'done',\n    title: 'Radio'\n  }\n",
+        "category": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    id: 'legacy-done',\n+   status: 'open',\n-   status: 'done',\n    title: 'Old radio'\n  }\n"
+      },
+      "processes": 27,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "maintenance",
+      "mode": "durability",
+      "format": 1,
+      "verdicts": {
+        "intake": "failed",
+        "finality": "failed",
+        "durability": "failed",
+        "integrity": "passed",
+        "category": "failed"
+      },
+      "details": {
+        "intake": "error must return nonzero",
+        "finality": "CLI success required; stderr={\"error\":\"not-found\"}\n\n\n1 !== 0\n",
+        "durability": "ENOENT: no such file or directory, open '/var/folders/8g/nnmv94vj0g3cg9lt395kw03w0000gn/T/cafe-acceptance-ObXgIx/durability.json'",
+        "category": "error must return nonzero"
+      },
+      "processes": 19,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "maintenance",
+      "mode": "integrity",
+      "format": 1,
+      "verdicts": {
+        "intake": "passed",
+        "finality": "passed",
+        "durability": "passed",
+        "integrity": "failed",
+        "category": "passed"
+      },
+      "details": {
+        "integrity": "error must return nonzero"
+      },
+      "processes": 38,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    },
+    {
+      "stage": "maintenance",
+      "mode": "category",
+      "format": 1,
+      "verdicts": {
+        "intake": "passed",
+        "finality": "passed",
+        "durability": "passed",
+        "integrity": "passed",
+        "category": "failed"
+      },
+      "details": {
+        "category": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n-   category: 'Kitchen',\n    id: 'new-category',\n    status: 'open',\n    title: 'Mixer'\n  }\n"
+      },
+      "processes": 31,
+      "limits": "Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim."
+    }
+  ],
+  "adapterProtocols": "both-passed",
+  "ordinaryChecksEqualExternal": true,
+  "actualDataPreparation": {
+    "format": 1,
+    "origin": "created-through-initial-implementation",
+    "observations": [
+      {
+        "command": "add",
+        "status": 0,
+        "stdout": "{\"id\":\"preserved-done\",\"title\":\"Old radio\",\"status\":\"open\"}\n",
+        "stderr": ""
+      },
+      {
+        "command": "finish",
+        "status": 0,
+        "stdout": "{\"id\":\"preserved-done\",\"title\":\"Old radio\",\"status\":\"done\"}\n",
+        "stderr": ""
+      },
+      {
+        "command": "add",
+        "status": 0,
+        "stdout": "{\"id\":\"preserved-open\",\"title\":\"Old lamp\",\"status\":\"open\"}\n",
+        "stderr": ""
+      }
+    ],
+    "expected": {
+      "version": 1,
+      "jobs": [
+        {
+          "id": "preserved-done",
+          "title": "Old radio",
+          "status": "done"
+        },
+        {
+          "id": "preserved-open",
+          "title": "Old lamp",
+          "status": "open"
+        }
+      ]
+    }
+  },
+  "continuity": {
+    "format": 1,
+    "criterion": "actual-session-continuity",
+    "outcome": "passed",
+    "origin": "created-through-initial-implementation",
+    "details": null
+  }
+}

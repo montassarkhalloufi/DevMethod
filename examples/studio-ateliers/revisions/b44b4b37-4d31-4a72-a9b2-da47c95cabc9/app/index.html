@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#f5f3ed">
+    <title>Les Ateliers</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#programme" aria-label="Les Ateliers — accueil">
+        <svg class="brand-mark" aria-hidden="true" viewBox="0 0 52 48"><path d="M25 43C24 27 15 18 4 12c-1 13 6 23 20 24M27 33C27 16 36 5 50 3c1 16-7 27-23 30M26 46V25"/></svg>
+        <span>Les Ateliers</span>
+      </a>
+      <nav aria-label="Navigation principale">
+        <a class="active" href="#programme">Les ateliers</a>
+        <a href="#inscriptions">Mes inscriptions <span id="registration-count" class="nav-count" hidden></span></a>
+      </nav>
+    </header>
+
+    <main id="programme" class="page-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Le programme</p>
+        <span class="accent-line" aria-hidden="true"></span>
+        <h1 id="page-title">Faire ensemble,<br> apprendre<br> autrement.</h1>
+        <p class="lede">Des rendez-vous pour réparer,<br> cuisiner et créer près de chez vous.</p>
+        <p class="month">Septembre 2026</p>
+      </section>
+
+      <section class="agenda" aria-label="Programme des ateliers">
+        <div class="filters" role="group" aria-label="Filtrer par activité">
+          <button class="filter active" type="button" data-filter="all" aria-pressed="true">Tous</button>
+          <button class="filter" type="button" data-filter="repair" aria-pressed="false">Réparation</button>
+          <button class="filter" type="button" data-filter="cooking" aria-pressed="false">Cuisine</button>
+          <button class="filter" type="button" data-filter="sewing" aria-pressed="false">Couture</button>
+        </div>
+
+        <div id="status" class="status" role="status" aria-live="polite">Chargement du programme…</div>
+        <div id="workshop-list" class="workshop-list" aria-live="polite" aria-busy="true"></div>
+        <p id="empty-state" class="empty" hidden>Aucun atelier ne correspond à ce filtre.</p>
+      </section>
+    </main>
+
+    <section id="inscriptions" class="registrations-section" aria-labelledby="registrations-title">
+      <div class="registrations-inner">
+        <div>
+          <p class="eyebrow">Vos réservations</p>
+          <h2 id="registrations-title">Mes inscriptions</h2>
+        </div>
+        <div id="registration-list" class="registration-list"><p>Aucune inscription pour le moment.</p></div>
+      </div>
+    </section>
+
+    <footer>Association fictive <span aria-hidden="true">·</span> Démonstration locale</footer>
+
+    <template id="workshop-template">
+      <article class="workshop-card">
+        <div class="date-block">
+          <span class="weekday"></span>
+          <strong class="day"></strong>
+          <span class="date-month">Septembre</span>
+        </div>
+        <div class="workshop-details">
+          <span class="category-pill"></span>
+          <h2 class="workshop-title"></h2>
+          <p class="meta"><span aria-hidden="true">◷</span> <span class="time"></span></p>
+          <p class="meta"><span aria-hidden="true">●</span> <span class="location"></span></p>
+        </div>
+        <div class="booking-panel">
+          <p class="availability"></p>
+          <p class="waitlist-note" hidden></p>
+          <button class="open-form primary-button" type="button">S’inscrire <span aria-hidden="true">→</span></button>
+          <form class="booking-form" hidden novalidate>
+            <label>Votre nom <input class="name-input" name="name" type="text" maxlength="80" autocomplete="name" required></label>
+            <p class="form-error" role="alert"></p>
+            <div class="form-actions">
+              <button class="primary-button submit-booking" type="submit">Confirmer</button>
+              <button class="text-button close-form" type="button">Fermer</button>
+            </div>
+          </form>
+          <div class="conflict-box" hidden role="alert">
+            <p>Le programme a changé. Les données ont été rechargées et votre saisie est conservée.</p>
+            <button class="retry-button" type="button">Réessayer</button>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

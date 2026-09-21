@@ -1,0 +1,20 @@
+{
+  "startedAt": "2026-09-16T09:17:44.000Z",
+  "endedAt": "2026-09-16T09:27:43.032Z",
+  "elapsedSeconds": 599.032,
+  "activeWorkSeconds": null,
+  "author": "native_admission agent",
+  "providerCalls": 0,
+  "runtimeForTests": "v24.18.0",
+  "testsPassed": 10,
+  "testsFailed": 0,
+  "browserJourney": "evidence/browser-journey.md",
+  "scenarioSha256": "fca577bed4535852f0e563dc09603f822286ad1cddcc1c64c7299b835adbb570",
+  "limitations": [
+    "Construction after complete scenario disclosure; absent initial support prevents maintenance claim",
+    "No human preference or usability outcome",
+    "Browser download and old phones not exercised",
+    "Append-only application snapshots, not tamper-proof storage",
+    "Two handcrafted alternatives; no optimization/generalization claim"
+  ]
+}

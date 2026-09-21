@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "scope": "Exported resume-filter only; no reserved transfer files read or copied",
+  "setup": {
+    "status": 0,
+    "stdout": "{\"case\":\"resume-filter\",\"destination\":\"<OPERATOR_PATH>\",\"baselineTree\":\"c02aaa9f9a0d39a20a11b9121b1342c8b379c59e\",\"priorChangesPreserved\":true}\n",
+    "stderr": ""
+  },
+  "expected": {
+    "sourceRevision": "5448fe82b001c592f44856baa2752c4fe4516588",
+    "head": "c2cc552c36636900729249f614d6b6c927c7c27d",
+    "baseTree": "c02aaa9f9a0d39a20a11b9121b1342c8b379c59e",
+    "status": " M public/app.js\n M public/styles.css\n",
+    "diff": "diff --git a/public/app.js b/public/app.js\nindex 838c358..8d6e49e 100644\n--- a/public/app.js\n+++ b/public/app.js\n@@ -221,6 +221,7 @@ $('#add-form').addEventListener('submit', (event) => {\n document.querySelectorAll('[data-filter]').forEach((element) =>\n   element.addEventListener('click', () => {\n     filter = element.dataset.filter;\n+    localStorage.setItem(\"pocket-tasks.filter\", filter);\n     editing = null;\n     render();\n     status(`Showing ${filter} tasks.`);\ndiff --git a/public/styles.css b/public/styles.css\nindex 24bee7f..8b9bc3f 100644\n--- a/public/styles.css\n+++ b/public/styles.css\n@@ -102,7 +102,7 @@ input:disabled {\n }\n :focus-visible {\n   outline: 3px solid #b2671d;\n-  outline-offset: 3px;\n+  outline-offset: 4px;\n }\n .toolbar {\n   display: flex;\n",
+    "classification": "partial-work-plus-user-change"
+  },
+  "observed": {
+    "head": "277e4232c5a7de24629530114bb51018db4c00cf",
+    "baseTree": "c02aaa9f9a0d39a20a11b9121b1342c8b379c59e",
+    "indexTree": "c02aaa9f9a0d39a20a11b9121b1342c8b379c59e",
+    "diff": "diff --git a/public/app.js b/public/app.js\nindex 838c358..8d6e49e 100644\n--- a/public/app.js\n+++ b/public/app.js\n@@ -221,6 +221,7 @@ $('#add-form').addEventListener('submit', (event) => {\n document.querySelectorAll('[data-filter]').forEach((element) =>\n   element.addEventListener('click', () => {\n     filter = element.dataset.filter;\n+    localStorage.setItem(\"pocket-tasks.filter\", filter);\n     editing = null;\n     render();\n     status(`Showing ${filter} tasks.`);\ndiff --git a/public/styles.css b/public/styles.css\nindex 24bee7f..8b9bc3f 100644\n--- a/public/styles.css\n+++ b/public/styles.css\n@@ -102,7 +102,7 @@ input:disabled {\n }\n :focus-visible {\n   outline: 3px solid #b2671d;\n-  outline-offset: 3px;\n+  outline-offset: 4px;\n }\n .toolbar {\n   display: flex;",
+    "status": " M public/app.js\n M public/styles.css"
+  },
+  "equality": {
+    "head": false,
+    "baseTree": true,
+    "indexTree": true,
+    "diff": true,
+    "status": true
+  }
+}

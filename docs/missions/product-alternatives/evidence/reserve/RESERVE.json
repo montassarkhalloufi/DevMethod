@@ -1,0 +1,12 @@
+{
+  "format": 1,
+  "kind": "Predeclared independent scenario reserve, not executed",
+  "date": "2026-09-16",
+  "candidateRevealedToAuthor": false,
+  "prototypeOrFixtureImplemented": false,
+  "nativeCalls": 0,
+  "files": {
+    "README.md": "f95ac37fc84a8c85cdee27199165e37582db4f91ca2189a62957be3bf4fe7d7d",
+    "scenario.md": "fca577bed4535852f0e563dc09603f822286ad1cddcc1c64c7299b835adbb570"
+  }
+}

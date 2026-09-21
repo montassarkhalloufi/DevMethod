@@ -1,0 +1,88 @@
+{
+  "format": 1,
+  "frozenAt": "2026-09-16T06:01:33.662Z",
+  "pins": {
+    "stable": "6f31552ac3f68c70ee1caa7b4bffb1181341a336",
+    "experimental": "440db4322167102546cd974004462fb4dab743a5",
+    "host": "codex-cli 0.147.0",
+    "model": "gpt-5.6-sol",
+    "effort": "low",
+    "maxRuns": 6,
+    "timeoutMs": 120000,
+    "maxBytes": 2097152,
+    "observedTokenStop": 100000
+  },
+  "slots": [
+    {
+      "id": "A-initial",
+      "arm": "A",
+      "phase": "initial",
+      "prompt": "Use your ordinary tools and good engineering judgment. Build the complete Repair Café CLI described in CONTRACT.md. Read the supplied independent acceptance.mjs; use it unchanged and add focused tests only if useful. Product and reversible architecture decisions are delegated. Deliver app.mjs and the required concise HANDOFF.md; execute checks and report their actual scope. Work only within this project. No dependencies, network, services, UI, publication or unrelated features. This is a narrow delivery request, not an audit-only request.\nImplement the working product, run the supplied ordinary acceptance checks, and report actual failures or uncertainties. Use Node built-ins; no dependency installation. Stay inside this workspace. Do not alter supplied checks, method files, or requirements. No network, external actions, purchases, nested agents, commits, or publication. Technical and product decisions within the stated scope are delegated. Write a concise HANDOFF.md containing decisions, actual verification and remaining limitations. Respond in English."
+    },
+    {
+      "id": "B-initial",
+      "arm": "B",
+      "phase": "initial",
+      "prompt": "Use the installed project-foundation skill and relevant DevMethod instructions proportionately. Build the complete Repair Café CLI described in CONTRACT.md. Read the supplied independent acceptance.mjs; use it unchanged and add focused tests only if useful. Product and reversible architecture decisions are delegated. Deliver app.mjs and the required concise HANDOFF.md; execute checks and report their actual scope. Work only within this project. No dependencies, network, services, UI, publication or unrelated features. This is a narrow delivery request, not an audit-only request.\nImplement the working product, run the supplied ordinary acceptance checks, and report actual failures or uncertainties. Use Node built-ins; no dependency installation. Stay inside this workspace. Do not alter supplied checks, method files, or requirements. No network, external actions, purchases, nested agents, commits, or publication. Technical and product decisions within the stated scope are delegated. Write a concise HANDOFF.md containing decisions, actual verification and remaining limitations. Respond in English."
+    },
+    {
+      "id": "C-initial",
+      "arm": "C",
+      "phase": "initial",
+      "prompt": "Use the installed project-foundation skill and relevant DevMethod instructions proportionately. The optional experimental application evidence lab is available through node .method/dist/cli.js evidence; its guide is .method/docs/EVIDENCE-LAB.md. Decide whether it adds value for this task, and report whether you used it and why. Build the complete Repair Café CLI described in CONTRACT.md. Read the supplied independent acceptance.mjs; use it unchanged and add focused tests only if useful. Product and reversible architecture decisions are delegated. Deliver app.mjs and the required concise HANDOFF.md; execute checks and report their actual scope. Work only within this project. No dependencies, network, services, UI, publication or unrelated features. This is a narrow delivery request, not an audit-only request.\nImplement the working product, run the supplied ordinary acceptance checks, and report actual failures or uncertainties. Use Node built-ins; no dependency installation. Stay inside this workspace. Do not alter supplied checks, method files, or requirements. No network, external actions, purchases, nested agents, commits, or publication. Technical and product decisions within the stated scope are delegated. Write a concise HANDOFF.md containing decisions, actual verification and remaining limitations. Respond in English."
+    },
+    {
+      "id": "C-maintenance",
+      "arm": "C",
+      "phase": "maintenance",
+      "prompt": "Use the installed project-foundation skill and relevant DevMethod instructions proportionately. The optional experimental application evidence lab is available through node .method/dist/cli.js evidence; its guide is .method/docs/EVIDENCE-LAB.md. Decide whether it adds value for this task, and report whether you used it and why. Continue the existing Repair Café application from HANDOFF.md and the actual files. Implement MAINTENANCE.md while preserving saved-jobs.json and all original behavior. The acceptance.mjs has been replaced by the identical externally supplied maintenance checks used in every condition. Read operator-setup.json to distinguish data made by your first version from any disclosed setup fallback. Run checks, update HANDOFF.md and report actual outcomes. Reversible architecture decisions remain delegated. No dependencies, network, services, UI, publication or unrelated changes.\nImplement the working product, run the supplied ordinary acceptance checks, and report actual failures or uncertainties. Use Node built-ins; no dependency installation. Stay inside this workspace. Do not alter supplied checks, method files, or requirements. No network, external actions, purchases, nested agents, commits, or publication. Technical and product decisions within the stated scope are delegated. Write a concise HANDOFF.md containing decisions, actual verification and remaining limitations. Respond in English."
+    },
+    {
+      "id": "B-maintenance",
+      "arm": "B",
+      "phase": "maintenance",
+      "prompt": "Use the installed project-foundation skill and relevant DevMethod instructions proportionately. Continue the existing Repair Café application from HANDOFF.md and the actual files. Implement MAINTENANCE.md while preserving saved-jobs.json and all original behavior. The acceptance.mjs has been replaced by the identical externally supplied maintenance checks used in every condition. Read operator-setup.json to distinguish data made by your first version from any disclosed setup fallback. Run checks, update HANDOFF.md and report actual outcomes. Reversible architecture decisions remain delegated. No dependencies, network, services, UI, publication or unrelated changes.\nImplement the working product, run the supplied ordinary acceptance checks, and report actual failures or uncertainties. Use Node built-ins; no dependency installation. Stay inside this workspace. Do not alter supplied checks, method files, or requirements. No network, external actions, purchases, nested agents, commits, or publication. Technical and product decisions within the stated scope are delegated. Write a concise HANDOFF.md containing decisions, actual verification and remaining limitations. Respond in English."
+    },
+    {
+      "id": "A-maintenance",
+      "arm": "A",
+      "phase": "maintenance",
+      "prompt": "Use your ordinary tools and good engineering judgment. Continue the existing Repair Café application from HANDOFF.md and the actual files. Implement MAINTENANCE.md while preserving saved-jobs.json and all original behavior. The acceptance.mjs has been replaced by the identical externally supplied maintenance checks used in every condition. Read operator-setup.json to distinguish data made by your first version from any disclosed setup fallback. Run checks, update HANDOFF.md and report actual outcomes. Reversible architecture decisions remain delegated. No dependencies, network, services, UI, publication or unrelated changes.\nImplement the working product, run the supplied ordinary acceptance checks, and report actual failures or uncertainties. Use Node built-ins; no dependency installation. Stay inside this workspace. Do not alter supplied checks, method files, or requirements. No network, external actions, purchases, nested agents, commits, or publication. Technical and product decisions within the stated scope are delegated. Write a concise HANDOFF.md containing decisions, actual verification and remaining limitations. Respond in English."
+    }
+  ],
+  "fixture": {
+    "calibration.json": "71cbeefadc46959e6b098e62a2d523f4d852fe5cecfb1ffb965e4c703c0bd835",
+    "check-continuity.mjs": "b8830cf161d06c5485da32231e834b6f2ae37b33219adca191d6fea5fae71e08",
+    "evaluate.mjs": "56ca789fd913f25380a15130e2b45d7837390e55a4fdf57bd44623e40890f9ab",
+    "evaluator/contract-initial.json": "ec36cdbcf40701091abf8d93bb6d072c26107a0a2154524ac72500569b943177",
+    "evaluator/contract-maintenance.json": "97d171102478019a6a6e80867ec57bb69b3f7d932dea111ee23bc71ead1a4e1b",
+    "evaluator/controls/category/app.mjs": "89c6087459b7e4be8e3db1b4d39127a476180d5ef6e2c5cedca1af7ae5e4ce1b",
+    "evaluator/controls/durability/app.mjs": "9cef75e20cccb2139f3f27d010fd028aaa866fd3e81566e64c54e3ccb6971841",
+    "evaluator/controls/finality/app.mjs": "c2d6f91b411a165b9c5f7a64214449f981a66372b38b50ccc55f89da68d21fc4",
+    "evaluator/controls/healthy/app.mjs": "238f5a05f6ab975dc8fceeb479bac01d275e7c974753016425c82c7bedbce1c1",
+    "evaluator/controls/intake/app.mjs": "18997429d604f26679ae50bc56eaebfd13b67d98a438dcc381d46dbf2dc83389",
+    "evaluator/controls/integrity/app.mjs": "c740d983d3c7b36a3adba0881f81601a71470e05c7143b7fd284f66d621b8bcf",
+    "evaluator/initial-checks.mjs": "3946795cb53e81075c2d4f020c499c257e88f5d14a01caf787ce7b401dabf330",
+    "evaluator/initial-runner.mjs": "b5258a9ab506c44096f21661ba6bab5c8c6c657fd9add53a521e56388c75f195",
+    "evaluator/maintenance-checks.mjs": "2db1282cf734cf5403ace40ed2b41655e19c323e7d0c1473c323114cc9d8bf63",
+    "evaluator/maintenance-runner.mjs": "fe58029b87fd99f8b4b74dbe90d7bf1ad642dede3606c51399bfc406119c3e42",
+    "initial/acceptance.mjs": "3946795cb53e81075c2d4f020c499c257e88f5d14a01caf787ce7b401dabf330",
+    "initial/CONTRACT.md": "12b4d2636df1222c23b1f564029d3cc3a5c043c69254ea1928ca4e0b58ff4b1b",
+    "maintenance/acceptance.mjs": "2db1282cf734cf5403ace40ed2b41655e19c323e7d0c1473c323114cc9d8bf63",
+    "maintenance/MAINTENANCE.md": "1e02624ee76163aafd4d68bd3bbaea3a57b2e67b3285c2ba6c63c9082df782bd",
+    "manifest.json": "edfd5603725a7cf784bc7cac97b6174c32e64da9a2a9d1602d984f3175bcf24c",
+    "prepare-maintenance.mjs": "f3fb287d1bc819adb13ab0e04bda8be77a82144bbc558339aa99ef4322036cfc",
+    "PROTOCOL.md": "f29071abde5f774ecd084db7f241559128f9fd79493fc17e5b7c78323ebcd31e",
+    "SHA256SUMS": "ffa8f6104e7c6c45b07551741be5f2d3144ba32ef685396493419a7a319e1ba8"
+  },
+  "drivers": {
+    "scripts/native-journey-smoke.mjs": "0a8c7b758592ab8dd7a610286f5517e15348501a268410a8f2cd41f358be7090",
+    "scripts/native-host.mjs": "5ee9332ebe4af46eddb10e82d1317bfabb6b232dfa2c5d73eaa6a054661f95cb",
+    "scripts/hosts/codex.mjs": "bbfb28f3e0bb1b925845a6a18c4582a7d8d280f5f35a440545ff5e069e020ee8",
+    "dist/filesystem.js": "5a29a8b010f964b889a946c2e7b1bf39a05ae0c17b647c2a4cb0ce1ab73a20e6"
+  },
+  "setupSeconds": 12.897,
+  "globalSkillsDisabled": 52,
+  "ambientSkills": "Global user/system skills are disabled with per-invocation path overrides; plugins and hooks disabled. Shared global instruction policy may remain. No credentials copied or user configuration modified.",
+  "frozenPrivateRecordSha256": "a53dc999765dd94aca67cd957f28edaea2ff27dd5a1f3a5114339fe5a3d49836"
+}

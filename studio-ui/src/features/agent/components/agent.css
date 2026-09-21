@@ -1,0 +1,45 @@
+.agent-settings {
+  padding-top: 8px;
+  min-width: 0;
+}
+.agent-settings fieldset {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  min-width: 0;
+}
+.agent-settings legend {
+  font-size: 11px;
+}
+.agent-settings-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
+  gap: 8px;
+}
+.agent-settings label {
+  display: grid;
+  align-content: end;
+  gap: 4px;
+  font-size: 11px;
+}
+.agent-settings input {
+  width: 100%;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+.agent-settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.agent-settings button {
+  white-space: normal;
+  text-align: left;
+  touch-action: manipulation;
+}
+.agent-connection .agent-settings p {
+  max-height: none;
+  overflow: visible;
+  overflow-wrap: anywhere;
+}

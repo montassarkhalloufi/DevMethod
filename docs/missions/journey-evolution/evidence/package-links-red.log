@@ -1,0 +1,25 @@
+Packed application evidence journey: correction, restart, maintenance and sticky stop passed.
+Packed restart checker: healthy acceptance and known restart fault detection passed.
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: node scripts/check-docs.mjs
+
+docs/research/journey-audit-2026-09-16.md: ../../src/planner.ts
+docs/research/journey-audit-2026-09-16.md: ../../src/checkpoint.ts
+
+
+1 !== 0
+
+    at run (file://<checkout>/scripts/package-smoke.mjs:13:10)
+    at file://<checkout>/scripts/package-smoke.mjs:64:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

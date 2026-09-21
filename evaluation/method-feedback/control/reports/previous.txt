@@ -1,0 +1,3 @@
+Historical report — earlier source revision stock-old-01
+Observed: 2 tests passed on that revision.
+This report does not identify or verify the current source bytes.

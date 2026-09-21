@@ -1,0 +1,25 @@
+{
+  "format": 1,
+  "id": "evidence-lab-domain",
+  "intent": "Reserve volunteer places durably without overbooking, duplicate requests or resurrected cancellations.",
+  "criteria": [
+    { "id": "capacity", "description": "Seed welcome with 2 places and garden with 3; accept only positive safe integer seats; reject overbooking without durable change." },
+    { "id": "idempotency", "description": "The same requestId and parameters returns the same reservation, including after reopen; conflicts reject without change." },
+    { "id": "cancellation", "description": "Cancellation restores capacity once; replay remains cancelled, including after reopen." },
+    { "id": "durability", "description": "Active and cancelled reservation states survive repeated store reopening in one process." }
+  ],
+  "candidateInputs": ["store.mjs"],
+  "evaluatorFiles": ["check.mjs", "reference.mjs", "expected-seeds.json"],
+  "checks": [{
+    "id": "domain", "runner": "check.mjs",
+    "criteria": ["capacity", "idempotency", "cancellation", "durability"],
+    "healthy": "healthy",
+    "faults": [
+      { "id": "capacity-fault", "target": "capacity" },
+      { "id": "idempotency-fault", "target": "idempotency" },
+      { "id": "cancellation-fault", "target": "cancellation" },
+      { "id": "durability-fault", "target": "durability" }
+    ]
+  }],
+  "limits": { "maxAttempts": 3, "maxNoProgress": 2, "childTimeoutMs": 3000, "attemptTimeoutMs": 20000, "maxOutputBytes": 32000 }
+}

@@ -1,0 +1,454 @@
+import { translateStudioError } from '../../../../../scripts/studio/public/error-messages.js';
+import { useI18n, translate, type StudioLocale } from '../../../i18n';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import type { HomeOperation, HomeProjectType, ProjectInput } from '../model/contracts';
+import { useMcpConnections } from '../../mcp';
+import type { GuidePreparation } from '../../connectors';
+import { useComposerGuides } from './useComposerGuides';
+import {
+  applyComposerSeed,
+  attachmentMime,
+  composerInput,
+  composerLimits,
+  emptyComposer,
+  hasComposerContent,
+  normalizeReference,
+  parseComposerCatalog,
+  projectTypes,
+} from '../model/composer';
+import type {
+  ComposerAttachment,
+  ComposerCatalog,
+  ComposerDraft,
+  ComposerSeed,
+} from '../model/composer';
+
+function readAttachment(
+  file: File,
+  signal: AbortSignal,
+  locale: StudioLocale = 'en',
+): Promise<ComposerAttachment> {
+  const mime = attachmentMime(file, locale);
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    const abort = () => reader.abort();
+    const cleanup = () => signal.removeEventListener('abort', abort);
+    reader.onload = () => {
+      cleanup();
+      const encoded = String(reader.result || '').split(',')[1];
+      if (!encoded)
+        reject(
+          new Error(
+            translate(
+              'Impossible de lire « {name} ». Réessayez.',
+              'Unable to read “{name}”. Try again.',
+              { name: file.name },
+              locale,
+            ),
+          ),
+        );
+      else resolve({ name: file.name, mime, base64: encoded });
+    };
+    reader.onerror = () => {
+      cleanup();
+      reject(
+        new Error(
+          translate(
+            'Impossible de lire « {name} ». Réessayez.',
+            'Unable to read “{name}”. Try again.',
+            { name: file.name },
+            locale,
+          ),
+        ),
+      );
+    };
+    reader.onabort = () => {
+      cleanup();
+      reject(
+        new Error(
+          translate(
+            'Lecture des fichiers interrompue.',
+            'File reading interrupted.',
+            undefined,
+            locale,
+          ),
+        ),
+      );
+    };
+    signal.addEventListener('abort', abort, { once: true });
+    reader.readAsDataURL(file);
+    if (signal.aborted) reader.abort();
+  });
+}
+
+export function useIdeaComposer({
+  operation,
+  onSubmit,
+  onEdit,
+  seed,
+}: {
+  operation: HomeOperation;
+  onSubmit(input: ProjectInput, onSaved: () => void): void;
+  onEdit(): void;
+  seed?: ComposerSeed;
+}) {
+  const { locale, t } = useI18n();
+  const [content, setContent] = useState({
+    draft: emptyComposer(),
+    seedId: null as number | null,
+    seedError: '',
+  });
+  const [error, setError] = useState('');
+  const [reading, setReading] = useState(false);
+  const [catalog, setCatalog] = useState<ComposerCatalog | null>(null);
+  const [catalogLoading, setCatalogLoading] = useState(false);
+  const [catalogError, setCatalogError] = useState('');
+  const [savedDraft, setSavedDraft] = useState<ComposerDraft | null>(null);
+  const saved = useRef<ComposerDraft | null>(null);
+  const departureApproved = useRef(false);
+  const readingRequest = useRef<AbortController | null>(null);
+  const catalogRequest = useRef<AbortController | null>(null);
+  const catalogLocale = useRef(locale);
+  const submitting = useRef(false);
+  const textarea = useRef<HTMLTextAreaElement>(null);
+  const mcp = useMcpConnections(
+    (id) => selectMcp(id, true),
+    (id) => selectMcp(id, false),
+  );
+  const busy = reading || operation.phase !== 'idle';
+  const guides = useComposerGuides({
+    busy,
+    selected: content.draft.connectorGuides,
+    onApply: addGuide,
+    onEdit,
+  });
+  const notifySeedEdit = useEffectEvent(onEdit);
+  const hasUnsavedContent =
+    reading ||
+    guides.hasPendingDraft ||
+    (hasComposerContent(content.draft) && content.draft !== savedDraft);
+  const warnBeforeLeaving = useEffectEvent((event: BeforeUnloadEvent) => {
+    if (departureApproved.current) return;
+    if (
+      !readingRequest.current &&
+      !guides.hasPendingDraft &&
+      (!hasComposerContent(content.draft) || content.draft === saved.current)
+    )
+      return;
+    event.preventDefault();
+    event.returnValue = '';
+  });
+  useEffect(() => {
+    const guard = (event: BeforeUnloadEvent) => warnBeforeLeaving(event);
+    window.addEventListener('beforeunload', guard);
+    return () => window.removeEventListener('beforeunload', guard);
+  }, []);
+  if (seed && seed.id !== content.seedId && !busy) {
+    const applied = applyComposerSeed(content.draft, seed, locale);
+    setContent({ draft: applied.draft, seedId: seed.id, seedError: applied.error });
+    setError('');
+  }
+  useEffect(() => {
+    if (content.seedId === null) return;
+    notifySeedEdit();
+    textarea.current?.focus();
+    textarea.current?.scrollIntoView?.({ block: 'center' });
+  }, [content.seedId]);
+  useEffect(
+    () => () => {
+      const reading = readingRequest.current;
+      readingRequest.current = null;
+      reading?.abort();
+      catalogRequest.current?.abort();
+    },
+    [],
+  );
+  function update(change: (draft: ComposerDraft) => ComposerDraft) {
+    if (readingRequest.current || operation.phase !== 'idle') return;
+    departureApproved.current = false;
+    setContent((current) => ({ ...current, draft: change(current.draft), seedError: '' }));
+    setError('');
+    onEdit();
+  }
+  function setField<K extends 'idea' | 'name' | 'design' | 'action'>(
+    field: K,
+    value: ComposerDraft[K],
+  ) {
+    update((draft) => ({ ...draft, [field]: value }));
+  }
+  function selectType(projectType: HomeProjectType) {
+    update((draft) => ({
+      ...draft,
+      projectType,
+      idea: draft.idea.trim()
+        ? draft.idea
+        : projectTypes(locale).find((type) => type.id === projectType)?.idea || '',
+    }));
+    textarea.current?.focus();
+  }
+  function addLink(value: string) {
+    if (busy || readingRequest.current) return false;
+    try {
+      const url = normalizeReference(value, locale);
+      if (content.draft.links.includes(url))
+        throw new Error(
+          t('Cette référence est déjà ajoutée.', 'This reference has already been added.'),
+        );
+      if (content.draft.links.length >= composerLimits.links)
+        throw new Error(t('Vous pouvez ajouter au maximum 5 liens.', 'You can add up to 5 links.'));
+      update((draft) => ({ ...draft, links: [...draft.links, url] }));
+      return true;
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : t('Lien invalide.', 'Invalid link.'));
+      return false;
+    }
+  }
+  async function addFiles(files: File[]) {
+    if (!files.length || readingRequest.current || operation.phase !== 'idle') return;
+    const controller = new AbortController();
+    try {
+      if (content.draft.attachments.length + files.length > composerLimits.attachments)
+        throw new Error(
+          t('Vous pouvez joindre au maximum 4 fichiers.', 'You can attach up to 4 files.'),
+        );
+      files.forEach((file) => attachmentMime(file, locale));
+      readingRequest.current = controller;
+      setReading(true);
+      setError('');
+      const attachments = await Promise.all(
+        files.map((file) => readAttachment(file, controller.signal, locale)),
+      );
+      if (controller.signal.aborted) return;
+      setContent((current) => ({
+        ...current,
+        draft: { ...current.draft, attachments: [...current.draft.attachments, ...attachments] },
+        seedError: '',
+      }));
+      onEdit();
+    } catch (cause) {
+      if (!controller.signal.aborted)
+        setError(
+          cause instanceof Error
+            ? cause.message
+            : t('Lecture des fichiers impossible.', 'The files could not be read.'),
+        );
+      controller.abort();
+    } finally {
+      if (readingRequest.current === controller) {
+        readingRequest.current = null;
+        setReading(false);
+      }
+    }
+  }
+  async function loadCatalog() {
+    catalogRequest.current?.abort();
+    const controller = new AbortController();
+    catalogRequest.current = controller;
+    setCatalogLoading(true);
+    setCatalogError('');
+    try {
+      const response = await fetch('/api/home/catalog?language=' + locale, {
+        cache: 'no-store',
+        credentials: 'same-origin',
+        signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]),
+      });
+      const value: unknown = await response.json();
+      if (controller.signal.aborted) return;
+      if (!response.ok)
+        throw new Error(
+          t(
+            'Le catalogue est indisponible. Réessayez dans un instant.',
+            'The catalog is unavailable. Try again shortly.',
+          ),
+        );
+      setCatalog(parseComposerCatalog(value, locale));
+    } catch (cause) {
+      if (!controller.signal.aborted)
+        setCatalogError(
+          cause instanceof Error ? cause.message : t('Chargement impossible.', 'Unable to load.'),
+        );
+    } finally {
+      if (!controller.signal.aborted) setCatalogLoading(false);
+    }
+  }
+  const reloadLocalizedCatalog = useEffectEvent(() => {
+    if (catalogRequest.current) void loadCatalog();
+  });
+  useEffect(() => {
+    if (catalogLocale.current === locale) return;
+    catalogLocale.current = locale;
+    reloadLocalizedCatalog();
+  }, [locale]);
+  function submit() {
+    if (busy || readingRequest.current || submitting.current) return;
+    try {
+      if (guides.hasPendingSelection)
+        throw new Error(
+          t(
+            'Validez puis ajoutez à nouveau le guide modifié, ou retirez-le de votre demande.',
+            'Validate and add the updated guide again, or remove it from your request.',
+          ),
+        );
+      if (
+        content.draft.mcpConnectionIds.some(
+          (id) =>
+            !mcp.connections.some(
+              (connection) => connection.id === id && connection.status === 'connected',
+            ),
+        )
+      )
+        throw new Error(
+          t(
+            'Reconnectez les serveurs MCP sélectionnés ou retirez-les de ce projet.',
+            'Reconnect the selected MCP servers or remove them from this project.',
+          ),
+        );
+      const input = composerInput(content.draft, locale);
+      submitting.current = true;
+      setError('');
+      const submittedDraft = content.draft;
+      onSubmit(input, () => {
+        saved.current = submittedDraft;
+        setSavedDraft(submittedDraft);
+      });
+      queueMicrotask(() => {
+        submitting.current = false;
+      });
+    } catch (cause) {
+      submitting.current = false;
+      setError(
+        cause instanceof Error
+          ? cause.message
+          : t('Complétez votre demande.', 'Complete your request.'),
+      );
+      textarea.current?.focus();
+    }
+  }
+  function toggleConnector(id: string) {
+    if (busy || readingRequest.current) return;
+    const selected = content.draft.connectors.includes(id);
+    if (!selected && content.draft.connectors.length >= composerLimits.connectors) {
+      setError(
+        t(
+          'Vous pouvez proposer au maximum 12 outils ou services.',
+          'You can suggest up to 12 tools or services.',
+        ),
+      );
+      return;
+    }
+    update((draft) => ({
+      ...draft,
+      connectorGuides: selected
+        ? draft.connectorGuides.filter((guide) => guide.optionId !== id)
+        : draft.connectorGuides,
+      connectors: selected
+        ? draft.connectors.filter((item) => item !== id)
+        : [...draft.connectors, id],
+    }));
+    if (selected) guides.forget(id);
+  }
+  function addGuide(preparation: GuidePreparation, application: boolean) {
+    if (busy || readingRequest.current) return false;
+    const id = preparation.input.optionId;
+    if (
+      (!content.draft.connectorGuides.some((guide) => guide.optionId === id) &&
+        content.draft.connectorGuides.length >= 12) ||
+      (application &&
+        !content.draft.connectors.includes(id) &&
+        content.draft.connectors.length >= composerLimits.connectors)
+    ) {
+      setError(
+        t(
+          'Vous pouvez préparer au maximum 12 outils ou services.',
+          'You can prepare up to 12 tools or services.',
+        ),
+      );
+      return false;
+    }
+    update((draft) => ({
+      ...draft,
+      connectorGuides: [
+        ...draft.connectorGuides.filter((guide) => guide.optionId !== id),
+        structuredClone(preparation.input),
+      ],
+      connectors:
+        application && !draft.connectors.includes(id)
+          ? [...draft.connectors, id]
+          : draft.connectors,
+    }));
+    return true;
+  }
+  function removeGuide(id: string) {
+    if (busy || readingRequest.current) return;
+    update((draft) => ({
+      ...draft,
+      connectorGuides: draft.connectorGuides.filter((guide) => guide.optionId !== id),
+      connectors: draft.connectors.filter((optionId) => optionId !== id),
+    }));
+    guides.forget(id);
+  }
+  function selectMcp(id: string, enabled: boolean) {
+    if (enabled && content.draft.mcpConnectionIds.includes(id)) return;
+    if (enabled && content.draft.mcpConnectionIds.length >= 12) {
+      setError(
+        t(
+          'Vous pouvez utiliser au maximum 12 serveurs MCP pour ce projet.',
+          'You can use up to 12 MCP servers for this project.',
+        ),
+      );
+      return;
+    }
+    update((draft) => ({
+      ...draft,
+      mcpConnectionIds: enabled
+        ? [...draft.mcpConnectionIds, id]
+        : draft.mcpConnectionIds.filter((item) => item !== id),
+    }));
+  }
+  return {
+    mcp,
+    linearAccessWarning:
+      content.draft.connectorGuides.some((guide) => guide.flowId === 'linear-read') &&
+      mcp.connections.some(
+        (connection) =>
+          connection.provider === 'linear' &&
+          connection.url === 'https://mcp.linear.app/mcp' &&
+          connection.status === 'connected' &&
+          content.draft.mcpConnectionIds.includes(connection.id),
+      ),
+    guides,
+    removeGuide,
+    toggleMcp: (id: string) => selectMcp(id, !content.draft.mcpConnectionIds.includes(id)),
+    hasUnsavedContent,
+    approveDeparture: () => {
+      departureApproved.current = true;
+    },
+    cancelDeparture: () => {
+      departureApproved.current = false;
+    },
+    draft: content.draft,
+    error: translateStudioError(error || content.seedError, locale),
+    busy,
+    reading,
+    textarea,
+    catalog,
+    catalogLoading,
+    catalogError: translateStudioError(catalogError, locale),
+    loadCatalog,
+    submit,
+    setField,
+    selectType,
+    addLink,
+    addFiles,
+    removeLink: (index: number) =>
+      update((draft) => ({ ...draft, links: draft.links.filter((_, i) => i !== index) })),
+    removeAttachment: (index: number) =>
+      update((draft) => ({
+        ...draft,
+        attachments: draft.attachments.filter((_, i) => i !== index),
+      })),
+    toggleConnector,
+  };
+}
+
+export type IdeaComposerController = ReturnType<typeof useIdeaComposer>;

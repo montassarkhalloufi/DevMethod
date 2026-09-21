@@ -1,0 +1,15 @@
+✔ prepared handoff preserves historical context and shared scenario through separate-process restart (214.074375ms)
+ℹ request bytes=34863; same data without added history/scenario=25393; historical decisions=1; shared actions=1
+✔ atelier persists observed differences, choices and live records through changed needs and restart (54.946875ms)
+✔ atelier rejects stale tabs, cross-origin writes and malformed proposals without losing state (23.25275ms)
+✔ discovery is read-only, replays real consequences and rejects a stale project (37.447833ms)
+✔ agent request is an actual retained handoff; imported response preserves data and is auditable (14.842917ms)
+✔ a corrupt persisted lane fails on opening and is not silently reset (4.321625ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 257.248459

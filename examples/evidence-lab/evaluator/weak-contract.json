@@ -1,0 +1,24 @@
+{
+  "format": 1,
+  "id": "evidence-lab-vacuous-domain",
+  "intent": "Negative control: all-green output must not qualify as adequate domain evidence.",
+  "criteria": [
+    { "id": "capacity", "description": "Reject overbooking." },
+    { "id": "idempotency", "description": "Preserve request identity." },
+    { "id": "cancellation", "description": "Apply cancellation." },
+    { "id": "durability", "description": "Preserve state after reopening." }
+  ],
+  "candidateInputs": ["store.mjs"],
+  "evaluatorFiles": ["weak-check.mjs"],
+  "checks": [{
+    "id": "domain", "runner": "weak-check.mjs",
+    "criteria": ["capacity", "idempotency", "cancellation", "durability"],
+    "healthy": "healthy",
+    "faults": [
+      { "id": "capacity-fault", "target": "capacity" },
+      { "id": "idempotency-fault", "target": "idempotency" },
+      { "id": "cancellation-fault", "target": "cancellation" },
+      { "id": "durability-fault", "target": "durability" }
+    ]
+  }]
+}

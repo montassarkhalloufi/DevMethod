@@ -1,0 +1,335 @@
+.connector-guide {
+  min-width: 0;
+  color: var(--text, #f3f5fc);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.connector-guide-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.connector-guide-heading > div {
+  min-width: 0;
+}
+.connector-guide-heading h3 {
+  margin: 2px 0 0;
+  font-size: 21px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.connector-guide-eyebrow {
+  color: var(--muted, #acbbd0);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+  font-weight: 650;
+}
+.connector-guide-intro {
+  color: var(--muted, #acbbd0);
+  margin: 14px 0 20px;
+  max-width: 68ch;
+}
+.connector-guide-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 5px;
+  margin-bottom: 26px;
+  border: 1px solid var(--border, #30435d);
+  border-radius: 12px;
+  background: var(--canvas, #0b1423);
+}
+.connector-guide-steps button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 8px;
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--muted, #acbbd0);
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+}
+.connector-guide-steps button span {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 10px;
+  flex: none;
+}
+.connector-guide-steps [aria-current='step'] {
+  color: var(--text, #f3f5fc);
+  background: var(--accent-soft, #292642);
+  border-color: var(--accent, #9b82ff);
+}
+.connector-guide-question {
+  border: 0;
+  padding: 0;
+  margin: 0 0 24px;
+  min-width: 0;
+}
+.connector-guide-question legend {
+  font-size: 16px;
+  font-weight: 650;
+  padding: 0;
+  margin-bottom: 12px;
+}
+.connector-guide-question > p {
+  margin: 0 0 12px;
+  color: var(--muted, #acbbd0);
+}
+.connector-guide-question > small {
+  display: block;
+  color: var(--muted, #acbbd0);
+  margin: -4px 0 12px;
+}
+.connector-guide-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr));
+  gap: 10px;
+}
+.connector-guide .connector-guide-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--border, #30435d);
+  border-radius: 12px;
+  background: var(--surface, #102238);
+  cursor: pointer;
+}
+.connector-guide-choice:has(input:checked) {
+  border-color: var(--accent, #9b82ff);
+  background: var(--accent-soft, #292642);
+}
+.connector-guide-choice:hover {
+  border-color: var(--accent, #9b82ff);
+}
+.connector-guide-choice:has(input:disabled) {
+  cursor: default;
+  opacity: 0.7;
+}
+.connector-guide .connector-guide-choice input {
+  width: 17px;
+  height: 17px;
+  min-height: 0;
+  margin: 3px 0 0;
+  flex: none;
+  accent-color: var(--accent, #9b82ff);
+}
+.connector-guide-choice > span {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.connector-guide-choice strong {
+  font-weight: 650;
+  font-size: 14px;
+}
+.connector-guide-choice small {
+  font-size: 12px;
+  color: var(--muted, #acbbd0);
+}
+.connector-guide-scope {
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--accent, #b3a1ff);
+  margin-top: 6px;
+}
+.connector-guide-identity {
+  padding: 12px 14px;
+  border-left: 2px solid var(--accent, #9b82ff);
+  background: var(--canvas, #0b1423);
+  border-radius: 0 8px 8px 0;
+  margin: 0 0 22px;
+  color: var(--muted, #acbbd0);
+}
+.connector-guide-note,
+.connector-guide-summary section > p {
+  font-size: 12px;
+  color: var(--muted, #acbbd0);
+}
+.connector-guide-summary h4 {
+  font-size: 15px;
+  margin: 18px 0 8px;
+}
+.connector-guide-summary section {
+  border-top: 1px solid var(--border, #30435d);
+  margin-top: 20px;
+}
+.connector-guide-summary ul {
+  padding-left: 20px;
+}
+.connector-guide-summary li + li {
+  margin-top: 7px;
+}
+.connector-guide-summary dl {
+  display: grid;
+  gap: 10px;
+}
+.connector-guide-summary dl > div {
+  background: var(--canvas, #0b1423);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.connector-guide-summary dt {
+  color: var(--accent, #b3a1ff);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.connector-guide-summary dd {
+  margin: 5px 0 0;
+  color: var(--muted, #acbbd0);
+  font-size: 12px;
+}
+.connector-guide-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border, #30435d);
+  border-radius: 8px;
+  color: var(--muted, #acbbd0);
+  font-size: 12px;
+}
+.connector-guide-error {
+  color: var(--danger, #ffb4b4);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.connector-guide-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border, #30435d);
+}
+.connector-guide-actions button {
+  max-width: 100%;
+  white-space: normal;
+}
+.connector-guide-sources {
+  margin-top: 18px;
+  color: var(--muted, #acbbd0);
+  font-size: 12px;
+}
+.connector-guide-sources a {
+  color: var(--accent, #b3a1ff);
+}
+.connector-guide :focus-visible {
+  outline: 2px solid var(--accent, #9b82ff);
+  outline-offset: 3px;
+}
+.connector-guide button {
+  touch-action: manipulation;
+}
+.connector-project-guide {
+  border-block: 1px solid var(--border, #30435d);
+  margin-top: 24px;
+  padding-block: 24px;
+}
+.connector-guide-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  min-width: 0;
+  margin-block: 10px;
+}
+.connector-guide-chips > span {
+  display: inline-flex;
+  align-items: stretch;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid var(--border, #30435d);
+  border-radius: 9px;
+  background: var(--surface, #102238);
+}
+.connector-guide-chips button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 6px 9px;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  color: var(--text, #f3f5fc);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.connector-guide-chips button + button {
+  flex: none;
+  border-left: 1px solid var(--border, #30435d);
+  padding-inline: 9px;
+  color: var(--muted, #acbbd0);
+}
+.connector-guide-chips small {
+  color: var(--muted, #acbbd0);
+  font-size: 10px;
+}
+.connector-guide-chips button:hover {
+  background: var(--accent-soft, #292642);
+}
+.connector-guide-connect {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border, #30435d);
+  border-radius: 12px;
+  padding: 15px;
+  margin-block: 18px;
+  background: var(--surface, #102238);
+}
+.connector-guide-connect p {
+  flex: 1 1 230px;
+  min-width: 0;
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted, #acbbd0);
+}
+.connector-guide-connect button {
+  max-width: 100%;
+  white-space: normal;
+}
+.connector-guide-chips :focus-visible,
+.connector-guide-connect :focus-visible {
+  outline: 2px solid var(--accent, #9b82ff);
+  outline-offset: 3px;
+}
+@media (max-width: 520px) {
+  .connector-guide-steps {
+    gap: 3px;
+  }
+  .connector-guide-steps button {
+    flex-direction: column;
+    gap: 5px;
+    padding: 9px 3px;
+    font-size: 11px;
+  }
+  .connector-guide-heading h3 {
+    font-size: 19px;
+  }
+  .connector-guide-actions {
+    flex-wrap: wrap;
+  }
+  .connector-guide-actions .primary {
+    flex: 1;
+  }
+  .connector-guide .connector-guide-choice {
+    padding: 14px;
+  }
+}

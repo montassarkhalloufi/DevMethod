@@ -1,0 +1,65 @@
+{
+  "method": "WCAG relative luminance sRGB, normal text threshold 4.5:1. Selected declared token pairs only; not a full WCAG conformance audit.",
+  "pairs": [
+    {
+      "name": "ink/panel",
+      "foreground": "#F5F7FC",
+      "background": "#0F2137",
+      "contrast": 15.15
+    },
+    {
+      "name": "muted/panel",
+      "foreground": "#CAD3E2",
+      "background": "#0F2137",
+      "contrast": 10.77
+    },
+    {
+      "name": "accent/panel",
+      "foreground": "#9B82FF",
+      "background": "#0F2137",
+      "contrast": 5.44
+    },
+    {
+      "name": "agent/panel",
+      "foreground": "#50C9E8",
+      "background": "#0F2137",
+      "contrast": 8.4
+    },
+    {
+      "name": "warning/decision",
+      "foreground": "#F2BA58",
+      "background": "#182D46",
+      "contrast": 7.95
+    },
+    {
+      "name": "success/panel",
+      "foreground": "#69DCAB",
+      "background": "#0F2137",
+      "contrast": 9.61
+    },
+    {
+      "name": "badge agent",
+      "foreground": "#081522",
+      "background": "#50C9E8",
+      "contrast": 9.52
+    },
+    {
+      "name": "badge person",
+      "foreground": "#081522",
+      "background": "#9B82FF",
+      "contrast": 6.16
+    },
+    {
+      "name": "white/primary",
+      "foreground": "#FFFFFF",
+      "background": "#6E50D6",
+      "contrast": 5.55
+    },
+    {
+      "name": "error/danger bg",
+      "foreground": "#FFB4B4",
+      "background": "#422632",
+      "contrast": 8
+    }
+  ]
+}

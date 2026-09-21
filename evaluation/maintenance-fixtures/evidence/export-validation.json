@@ -1,0 +1,16 @@
+{
+  "kind": "Public export validation; no native call",
+  "archiveFiles": 347,
+  "archiveHasNoGitOrReservedContents": true,
+  "personalHostPathsAbsentInPublicTextTarAndReachableBundleObjects": true,
+  "originalFreezeSha256Unchanged": "e206b6ee525c23a0c3bf4960cedbbe2e69a1bb3178d414de76552aa5038ac604",
+  "originalPublicCaseControlEvaluatorFilesUnchanged": 337,
+  "publicAdoptionChecksPassed": 5,
+  "publicV1ExpectedSyntaxFailure": true,
+  "publicV2HistoricalVerdictMatches": 21,
+  "publicV3HistoricalVerdictMatches": 21,
+  "limits": [
+    "Full original private freeze population is withheld and not reconstructible",
+    "Authored controls calibrate evaluator only; no agent-test sensitivity or method-effectiveness claim"
+  ]
+}

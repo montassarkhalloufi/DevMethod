@@ -13,3 +13,5 @@ scripts/media/
 **/migrations/meta/
 **/mission.json
 **/evidence/
+
+**/dist/

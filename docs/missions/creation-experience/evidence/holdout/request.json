@@ -1,0 +1,5 @@
+{
+  "request": "Carnet de prêts d’objets pour une association : créer un objet avec un libellé et un numéro distinct, le prêter à un prénom, enregistrer son retour et retrouver l’historique. Deux objets peuvent avoir le même libellé. Données persistantes, reprise après redémarrage et export local. Aucun compte, courriel ou paiement.",
+  "stateVersion": 3,
+  "createdAt": "2026-09-16T15:08:24.405Z"
+}

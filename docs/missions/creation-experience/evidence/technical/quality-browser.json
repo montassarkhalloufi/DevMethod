@@ -1,0 +1,86 @@
+{
+  "scope": "Vérification réelle de Qualité via navigateur Chrome et API locale, copie dédiée 4350.",
+  "browser": {
+    "nativeViewport": [
+      1562,
+      762
+    ],
+    "qualityFilters": true,
+    "unavailableToolIsBlocked": true,
+    "unavailableToolHasNoRunButton": true,
+    "keyboardFocus": {
+      "target": "Portée et limites du contrôle",
+      "outline": "solid",
+      "color": "rgb(183, 166, 255)"
+    },
+    "scroll": {
+      "owner": "#workspace",
+      "overflowY": "auto",
+      "clientHeight": 676,
+      "scrollHeight": 1297
+    },
+    "contrastRatios": {
+      "pendingOnSelected": 7.27,
+      "blocked": 10.4,
+      "secondaryText": 12.13,
+      "rowText": 11.94,
+      "selectedTab": 11.84,
+      "success": 9.04,
+      "failure": 7.7,
+      "pendingSummary": 8.69,
+      "primaryButton": 6.41
+    }
+  },
+  "runs": [
+    {
+      "checkId": "source-syntax",
+      "revisionId": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+      "fingerprint": "e556eb85ea3a030c643d62670cc4cf3a7d0121b67f78614f231e10c6a4f15f07",
+      "status": "passed",
+      "startedAt": "2026-09-16T22:34:13.261Z",
+      "finishedAt": "2026-09-16T22:34:13.274Z",
+      "durationMs": 13,
+      "environment": "Node 24.18.0 · darwin/arm64 · TypeScript 5.9.3",
+      "observed": "17 fichier(s) analysé(s), 0 erreur(s) de syntaxe.",
+      "limits": [
+        "Analyse syntaxique uniquement : ni typage sémantique complet, ni exécution, ni test du comportement."
+      ]
+    },
+    {
+      "checkId": "relative-imports",
+      "revisionId": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+      "fingerprint": "e556eb85ea3a030c643d62670cc4cf3a7d0121b67f78614f231e10c6a4f15f07",
+      "status": "passed",
+      "startedAt": "2026-09-16T22:34:27.457Z",
+      "finishedAt": "2026-09-16T22:34:27.477Z",
+      "durationMs": 20,
+      "environment": "Node 24.18.0 · darwin/arm64 · TypeScript 5.9.3",
+      "observed": "25 import(s) relatif(s) contrôlé(s), 0 non résolu(s). 23 import(s) de package ou alias hors périmètre.",
+      "limits": [
+        "Les alias, imports dynamiques, require() et résolution des paquets ne sont pas évalués. Une cible existante ne prouve pas la compatibilité de ses exports."
+      ]
+    }
+  ],
+  "businessData": {
+    "beforeSHA256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "afterSHA256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "unchanged": true
+  },
+  "automated": {
+    "tests": 10,
+    "command": "node --test tests/studio-quality*.test.mjs",
+    "result": "passed",
+    "typecheck": "tsc -p studio-ui/tsconfig.json passed",
+    "lint": "Owned quality files passed ESLint"
+  },
+  "screenshots": [
+    "quality-run.png",
+    "quality-overview.png"
+  ],
+  "limits": [
+    "La syntaxe et les imports ne démontrent pas le comportement applicatif.",
+    "La capture d’exécution provient de la copie dédiée ; aucun résultat n’a été injecté dans le projet affiché sur4346.",
+    "Le changement de viewport global n’a pas ciblé l’onglet attendu ; aucune validation900/390 revendiquée dans cette preuve.",
+    "Les tests React et les analyseurs sont contrôlés automatisés, pas une validation humaine indépendante."
+  ]
+}

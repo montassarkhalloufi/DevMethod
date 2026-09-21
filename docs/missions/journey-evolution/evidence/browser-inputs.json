@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-16",
+  "baseline": "440db4322167102546cd974004462fb4dab743a5",
+  "observedCssWidths": [
+    320,
+    1280
+  ],
+  "inputs": {
+    "examples/evidence-lab/app/public/app.js": "c93cb1dfe4021a5adb32e911fac563b3896cce7d590cac85c1144d0b75c83b41",
+    "examples/evidence-lab/app/public/style.css": "15016a8d448559528904f30185bd8956cb848e949f5ca61861c49749caee0da6",
+    "examples/evidence-lab/app/public/index.html": "8f56bc01d15050855b7d97773a5426ea1f53502e2a2bec0f45cfb33ecdaf8614",
+    "examples/evidence-lab/app/server.mjs": "3b7b804eecd16461d7174f31a8fa333ead802583a2933cac7cfe9421f9a430f8",
+    "examples/evidence-lab/app/store.mjs": "b6c916bfde4b2c4717ecc7417d1618b621651248981e5947bedfa8243bb58187",
+    "tests/evidence-application.test.mjs": "b452437568c6b6202c779bac8f76fabb36a0d031021590d0ee20b62723afb5e7",
+    "docs/missions/journey-evolution/evidence/mobile-unavailable.jpg": "b90ade7ff7e7e0d1bed8e46a1bd90e24a6b6455be9646f89f3092c7b0849a794",
+    "docs/missions/journey-evolution/evidence/desktop-reservations.jpg": "7d1972612ac0adb3a3df215418de4b94a59cc334fde2ced4931eaf79ef5bdb57"
+  },
+  "captureEncoding": "JPEG bytes returned by browser screenshot API; image dimensions can differ from measured CSS viewport"
+}

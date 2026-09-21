@@ -1,0 +1,133 @@
+{
+  "status": "closed",
+  "reason": "BMAD reached the prospective 120s limit; no terminal response or usage. Subsequent arms not admitted. No retry.",
+  "sourceHead": "617b22c9742ace05893e4ca5a73d217fcf1036da",
+  "host": "codex-cli 0.147.0",
+  "node": "v24.18.0",
+  "model": "gpt-5.6-sol",
+  "effort": "low",
+  "scope": "One local host calibration, then a bounded framing diagnostic from the same real project sources. No implementation comparison or human benefit measurement.",
+  "newCallsExecuted": 2,
+  "runs": {
+    "calibration": {
+      "status": "exited",
+      "exit": 0,
+      "elapsedSeconds": 27.022,
+      "usage": {
+        "inputTokens": 48818,
+        "outputTokens": 516,
+        "cachedInputTokens": 28160,
+        "costUSD": null
+      },
+      "finalResponse": true,
+      "accepted": true,
+      "verification": {
+        "status": "exited",
+        "exit": 0,
+        "stdout": "✔ clamp through a local HTTP request (17.17625ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 73.164791\n",
+        "stderr": "",
+        "independent": {
+          "status": "exited",
+          "exit": 0,
+          "stdout": "7 independent cases passed\n",
+          "stderr": ""
+        }
+      },
+      "collectionErrors": [],
+      "protectedChanges": [],
+      "events": 14,
+      "rawSha256": "aa478229b7ba23a03e0ae18c3559244bdd709a9818dbcd670c86a64e1750b05b",
+      "scope": "host readiness"
+    },
+    "bmad": {
+      "status": "timeout",
+      "exit": null,
+      "elapsedSeconds": 120.008,
+      "usage": null,
+      "finalResponse": false,
+      "accepted": null,
+      "verification": null,
+      "collectionErrors": [],
+      "protectedChanges": [],
+      "events": 59,
+      "rawSha256": "1d2d057556d3f852b3eb66c032bc7323a3ddea62e41eb0fc078b70f85897a64e",
+      "scope": "single framing artifact; not complete method or human benefit"
+    },
+    "devmethod": {
+      "status": "not-admitted"
+    },
+    "spec-kit": {
+      "status": "not-admitted"
+    }
+  },
+  "knownObservedTokensIncludingHistoricalReference": 101046,
+  "unknownUsage": [
+    "journey-native",
+    "maintenance-native",
+    "this-bmad-framing-run"
+  ],
+  "totalTokens": null,
+  "moneyCostUSD": null,
+  "humanBenefit": "not measured",
+  "comparativeRanking": "not available",
+  "freezeHistory": [
+    {
+      "protocolSha256": "e2fad5670e83294cc5db7d9ac6a47efbb5852b0051677c6b4255b5827897706e",
+      "driverSha256": "25e51aa06a9d6f2d3e45bb026487f26e77afbe402699ef37c30d34fded85af5f",
+      "at": "2026-09-16T13:22:15.926Z",
+      "profileBoundaries": "single native; protected evaluation and siblings; local/private network binding allowed; global initial instructions checked separately"
+    },
+    {
+      "protocolSha256": "e2fad5670e83294cc5db7d9ac6a47efbb5852b0051677c6b4255b5827897706e",
+      "driverSha256": "e3e81e7d211a217b3f00df4c89e3ba51b97718cb2301b146fa8d28b899562cd7",
+      "at": "2026-09-16T13:27:48.901644+00:00",
+      "profileBoundaries": "single native; protected evaluation and siblings; local/private network binding allowed; global initial instructions checked separately",
+      "revision": 2,
+      "revisionReason": "Before any provider call: immutable calibration test plus independent cases inside native policy, SIGINT/TERM forwards cancellation, collection errors gate next call. Protocol/inputs/permissions/preflights unchanged; v1 preserved."
+    },
+    {
+      "protocolSha256": "e2fad5670e83294cc5db7d9ac6a47efbb5852b0051677c6b4255b5827897706e",
+      "driverSha256": "59d2759b7331547762de077bc9b47162bdb1334017039f4fdb5e33c6a203dc3b",
+      "at": "2026-09-16T13:29:53.245871+00:00",
+      "profileBoundaries": "single native; protected evaluation and siblings; local/private network binding allowed; global initial instructions checked separately",
+      "revision": 3,
+      "revisionReason": "After completed successful v2 calibration, before any framing arm: retain signal handlers through verification/finalization and forward AbortSignal to verification supervision. No calibration retry, no input/protocol/criteria/budget/profile change; v2 retained."
+    }
+  ],
+  "preflights": {
+    "calibration": {
+      "activeSkillCount": 0,
+      "disabledSkillCount": 26,
+      "toolExit": 0,
+      "catalogSha256": "893e7af75f98f982ad74369bfd1c62367008f78a162db7319b8d5a340277f542",
+      "toolPreflightSha256": "bdf32284b078a357ca6fa84bc1ddca73fd63e3e43f69d4983d74b8ac76269537"
+    },
+    "bmad": {
+      "activeSkillCount": 29,
+      "disabledSkillCount": 26,
+      "toolExit": 0,
+      "catalogSha256": "8d5de2edbdb6f35eef7ab93ae1bef94fee44204b1f6412fd2914f0921c3a0be4",
+      "toolPreflightSha256": "670814eeba6d438bb0d54d76073cd8e3c6df4c1079d42a0194ed6395a0445636"
+    },
+    "devmethod": {
+      "activeSkillCount": 20,
+      "disabledSkillCount": 26,
+      "toolExit": 0,
+      "catalogSha256": "a1a443ba091983f414f10009e21422f5c4091b9a0d2f7a35d4efd94e35d7339f",
+      "toolPreflightSha256": "84acc3133398e0bc333b814a626c216a5888cb8dd7bdc946c812891c22dfaed0"
+    },
+    "spec-kit": {
+      "activeSkillCount": 18,
+      "disabledSkillCount": 26,
+      "toolExit": 0,
+      "catalogSha256": "1ae4cb6d55eb5d0843fcfce4e99d413555348d51b8fb467d94b5d6e256f8b197",
+      "toolPreflightSha256": "7ec5bd2dfbdad3b1f1e879453e8fce468ac10bf2218870f27b46179e39d2752b"
+    }
+  },
+  "preparation": "Operator selected framing-only task and supplied a full existing DevMethod project plus three source files equally. Existing authored context and operator work are inputs, not a free human baseline.",
+  "privateArtifactsRoot": "/private/tmp/devmethod-framing-pilot-20260916",
+  "originalRawSha256": {
+    "calibration": "aa478229b7ba23a03e0ae18c3559244bdd709a9818dbcd670c86a64e1750b05b",
+    "bmad": "1d2d057556d3f852b3eb66c032bc7323a3ddea62e41eb0fc078b70f85897a64e"
+  }
+}
