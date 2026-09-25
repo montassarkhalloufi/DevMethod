@@ -1,0 +1,31 @@
+{
+  "conclusion": "success",
+  "headSha": "6fb8a902aa242c01330f1c4fa1c7057bc26a014d",
+  "jobs": [
+    {
+      "completedAt": "2026-09-16T16:57:19Z",
+      "conclusion": "success",
+      "name": "Install on ubuntu-latest",
+      "startedAt": "2026-09-16T16:55:42Z",
+      "url": "https://github.com/montassarkhalloufi/DevMethod/actions/runs/35124980021/job/104891678065"
+    },
+    {
+      "completedAt": "2026-09-16T16:57:56Z",
+      "conclusion": "success",
+      "name": "Install on macos-latest",
+      "startedAt": "2026-09-16T16:55:48Z",
+      "url": "https://github.com/montassarkhalloufi/DevMethod/actions/runs/35124980021/job/104891678382"
+    },
+    {
+      "completedAt": "2026-09-16T17:02:13Z",
+      "conclusion": "success",
+      "name": "Install on windows-latest",
+      "startedAt": "2026-09-16T16:55:43Z",
+      "url": "https://github.com/montassarkhalloufi/DevMethod/actions/runs/35124980021/job/104891678405"
+    }
+  ],
+  "name": "Platform installation tests",
+  "status": "completed",
+  "url": "https://github.com/montassarkhalloufi/DevMethod/actions/runs/35124980021",
+  "scope": "Runtime et paquet Studio. Fournisseurs natifs non exercés par ces jobs."
+}

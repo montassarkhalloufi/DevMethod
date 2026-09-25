@@ -1,0 +1,42 @@
+{
+  "observedAt": "2026-09-17T09:22:33.570Z",
+  "baselineRevision": "6a5dd6c2-89eb-4100-a4fc-498f1399a000",
+  "activeRevision": "6a5dd6c2-89eb-4100-a4fc-498f1399a000",
+  "candidate": {
+    "id": "d3c72c01-6c1c-4227-ae40-bc16d22b3b68",
+    "profile": "source-only",
+    "summary": "Édition utilisateur ; 1 fichier(s) modifié(s). Snapshot de sources ; aucun contrôle exécuté.",
+    "files": [
+      {
+        "path": "README.md",
+        "bytes": 209,
+        "sha256": "e5899f1ca030c7239b7960791f25f2f974d6f5bdcbfb18a941d9ee8833cf5ec1"
+      },
+      {
+        "path": "app/(equipe)/[id]/page.tsx",
+        "bytes": 122,
+        "sha256": "6fd3b66f2626ac8c632036335a4f75b7c07e49a9337f33dd1acf737863b25d07"
+      },
+      {
+        "path": "package.json",
+        "bytes": 237,
+        "sha256": "5707ef2007dc6ab7c8f1cd2263ee3394a4194cce54fbe5583b17c1edeca03cc7"
+      },
+      {
+        "path": "server/mail.js",
+        "bytes": 94,
+        "sha256": "3d0c719484eac6f398c93ef753225095db2a7106734892825346bf9b3db30dd5"
+      },
+      {
+        "path": "tests/mail.test.mjs",
+        "bytes": 126,
+        "sha256": "ba1c2bda8bc54228cee85fa17cbfba6bc073a7fa6621aa6d7a46cd7df6eaad68"
+      }
+    ]
+  },
+  "originalReadmeMatchesBaseline": true,
+  "job": {
+    "worker": "user-editor",
+    "status": "ready"
+  }
+}

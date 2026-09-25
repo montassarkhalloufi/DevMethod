@@ -1,0 +1,117 @@
+import type { ProjectFile } from './contracts';
+
+export type FileGrouping = 'files' | 'layer' | 'feature';
+export interface TreeItem {
+  name: string;
+  path: string;
+  sourcePath: string;
+  file?: ProjectFile;
+  children: TreeItem[];
+}
+export const layerNames = {
+  frontend: 'Frontend',
+  backend: 'Backend',
+  shared: 'Partagé',
+  infrastructure: 'Infrastructure',
+  unclassified: 'Autres fichiers',
+};
+function groupName(file: ProjectFile, mode: FileGrouping) {
+  if (mode === 'files') return '';
+  return mode === 'layer'
+    ? layerNames[file.layer]
+    : file.feature || 'Sans fonctionnalité identifiée';
+}
+function appendFile(items: TreeItem[], file: ProjectFile, group: string) {
+  const segments = file.path.split('/');
+  for (const [index, name] of segments.entries()) {
+    const sourcePath = segments.slice(0, index + 1).join('/');
+    let node = items.find((item) => item.name === name);
+    if (!node) {
+      node = { name, path: group + sourcePath, sourcePath, children: [] };
+      items.push(node);
+    }
+    if (index === segments.length - 1) node.file = file;
+    items = node.children;
+  }
+}
+function sortTree(items: TreeItem[]): TreeItem[] {
+  items.sort(
+    (a, b) =>
+      Number(Boolean(a.file)) - Number(Boolean(b.file)) ||
+      a.name.localeCompare(b.name, 'fr', { numeric: true, sensitivity: 'base' }),
+  );
+  for (const item of items) sortTree(item.children);
+  return items;
+}
+export function fileGroups(files: ProjectFile[], mode: FileGrouping, query: string): TreeItem[] {
+  const items: TreeItem[] = [];
+  const groups = new Map<string, TreeItem>();
+  const search = query.trim().toLocaleLowerCase();
+  for (const file of files) {
+    if (!file.path.toLocaleLowerCase().includes(search)) continue;
+    const name = groupName(file, mode);
+    if (!name) {
+      appendFile(items, file, '');
+      continue;
+    }
+    let root = groups.get(name);
+    if (!root) {
+      root = { name, path: name + ':', sourcePath: name, children: [] };
+      groups.set(name, root);
+    }
+    appendFile(root.children, file, name + ':');
+  }
+  if (mode === 'files') return sortTree(items);
+  const grouped = sortTree([...groups.values()]);
+  if (mode !== 'layer') return grouped;
+  const rank = Object.values(layerNames);
+  return grouped.sort((a, b) => rank.indexOf(a.name) - rank.indexOf(b.name));
+}
+export function parentFolderPaths(file: ProjectFile, mode: FileGrouping): string[] {
+  const name = groupName(file, mode);
+  const prefix = name ? name + ':' : '';
+  const segments = file.path.split('/');
+  const folders = segments
+    .slice(0, -1)
+    .map((_, index) => prefix + segments.slice(0, index + 1).join('/'));
+  return name ? [prefix, ...folders] : folders;
+}
+export interface FileAppearance {
+  kind: string;
+  label: string;
+  description: string;
+}
+const fallbackAppearance = { kind: 'file', label: '', description: 'Fichier' };
+const configurationAppearance = { kind: 'config', label: '⚙', description: 'Configuration' };
+const appearances: Record<string, FileAppearance> = {
+  ts: { kind: 'typescript', label: 'TS', description: 'TypeScript' },
+  tsx: { kind: 'react', label: 'TSX', description: 'React / TypeScript' },
+  js: { kind: 'javascript', label: 'JS', description: 'JavaScript' },
+  jsx: { kind: 'react', label: 'JSX', description: 'React / JavaScript' },
+  json: { kind: 'json', label: '{}', description: 'JSON' },
+  css: { kind: 'css', label: '#', description: 'CSS' },
+  scss: { kind: 'css', label: '#', description: 'SCSS' },
+  md: { kind: 'markdown', label: 'MD', description: 'Markdown' },
+  html: { kind: 'html', label: '<>', description: 'HTML' },
+  yaml: { kind: 'yaml', label: 'YML', description: 'YAML' },
+  config: configurationAppearance,
+  file: fallbackAppearance,
+};
+const aliases: Record<string, string> = {
+  mts: 'ts',
+  cts: 'ts',
+  mjs: 'js',
+  cjs: 'js',
+  jsonc: 'json',
+  yml: 'yaml',
+  mdx: 'md',
+  htm: 'html',
+};
+export function fileAppearance(file: ProjectFile): FileAppearance {
+  const name = file.path.split('/').at(-1)?.toLowerCase() || '';
+  const extension = name.split('.').at(-1) || '';
+  if (/^(dockerfile|makefile|\.env(?:\..*)?|\.gitignore|\.npmrc|\.editorconfig)$/.test(name)) {
+    return configurationAppearance;
+  }
+  return appearances[aliases[extension] || extension] || fallbackAppearance;
+}

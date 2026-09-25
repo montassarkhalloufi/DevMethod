@@ -1,0 +1,373 @@
+DevMethod Studio connector icons
+
+38 unchanged SVG files from Simple Icons 16.31.0.
+Collection: https://github.com/simple-icons/simple-icons/tree/16.31.0
+Asset manifest: studio-ui/src/features/connectors/assets/brands/manifest.json
+Original monochrome SVG bytes are preserved; CSS scales the complete mark only.
+Cloudflare R2 uses the Cloudflare corporate mark, not a claimed R2 product logo.
+Marks identify selectable tools/providers, not partnership, endorsement, connected status or verified compatibility. All brand names and trademarks belong to their respective owners.
+
+Simple Icons collection license: CC0 1.0 Universal. This does not imply that every underlying brand asset is CC0 or waive trademark rights; upstream individual license and guideline metadata is retained below.
+
+OpenTelemetry logo: Cloud Native Computing Foundation / OpenTelemetry contributors, as distributed by Simple Icons. Source: https://cncf-branding.netlify.app/projects/opentelemetry/ . License: Creative Commons Attribution 4.0 International, https://creativecommons.org/licenses/by/4.0/ . SVG unchanged.
+
+Sanity logo: Copyright (c) 2025 Sanity.io; MIT license reproduced below. SVG unchanged.
+
+== Per-asset provenance ==
+
+Brevo (brevo)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/brevo.svg
+  Brand source: https://www.brevo.com
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 0a90b5a6ed0ca8af580e24b2dee298d297b1c7923d805c2ccf5dfe6c757cc914
+
+Node.js (node-test, node-check)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/nodedotjs.svg
+  Brand source: https://nodejs.org/en/about/branding
+  Brand guidelines: https://nodejs.org/en/about/branding
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 021851b758cde7d3e04819c3ac02047d0ff281c712e8387afa0c76a6dac6db6c
+
+ESLint (eslint)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/eslint.svg
+  Brand source: https://eslint.org
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 6da8751e228367945e707607d0818db23848fa52e2992d22aecffd66f7124bbe
+
+Sentry (sentry)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/sentry.svg
+  Brand source: https://sentry.io/branding/
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 8ba32902ffbac503784607374f57df5e3cbcf57a99d0adff03e735575500adc6
+
+OpenTelemetry (opentelemetry)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/opentelemetry.svg
+  Brand source: https://cncf-branding.netlify.app/projects/opentelemetry/
+  Brand guidelines: https://cncf-branding.netlify.app/projects/opentelemetry/
+  Individual license metadata: CC-BY-4.0
+  SHA-256: 1e93836eeedaf02fb985130ed05c4d692c66ff56269f50af8478a219645ee741
+
+Resend (resend)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/resend.svg
+  Brand source: https://resend.com/brand
+  Brand guidelines: https://resend.com/brand
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 1a95a84811b2f856852afdbcb475419d9f8d18d6cc9dd7353d89a246162662eb
+
+PostgreSQL (postgresql)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/postgresql.svg
+  Brand source: https://wiki.postgresql.org/wiki/Logo
+  Brand guidelines: https://www.postgresql.org/about/policies/trademarks/
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: c8ccadbd88c9312c2ad3734c4861b31d3485ce179ee91d64793143f83cfa745c
+
+Supabase (supabase)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/supabase.svg
+  Brand source: https://github.com/supabase/supabase/blob/4031a7549f5d46da7bc79c01d56be4177dc7c114/packages/common/assets/images/supabase-logo-wordmark--light.svg
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 61bf16d93be418f723ae1e137e57afdad4f185352fbc6dea9482af1e0a89ccf7
+
+Appwrite (appwrite)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/appwrite.svg
+  Brand source: https://appwrite.io/assets
+  Brand guidelines: https://appwrite.io/assets
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 8345942aa27704b9c77804606f4d6fcada26d1e80c94dfd6740ce032a9e97c43
+
+Auth0 (auth0)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/auth0.svg
+  Brand source: https://auth0.com
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: cad263a6fac5f35ed2eab436051c09ea48254994bdd708fce5f87500bd29f09b
+
+Stripe (stripe)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/stripe.svg
+  Brand source: https://stripe.com/newsroom/information
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 130c6d957b8977f5eda2928267b9df531ca038a400a801765d263801bb1bd870
+
+Paddle (paddle)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/paddle.svg
+  Brand source: https://www.paddle.com
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: dd792261c6badda146ba15c07286d7baa5eb5fb380405261bb3c859043dd6432
+
+Shopify (shopify)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/shopify.svg
+  Brand source: https://www.shopify.com/brand-assets
+  Brand guidelines: https://www.shopify.com/brand-assets
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: a5ea31f53511bb0b3663cb73ff96eaa8d0451fe9cad586625adfc02b729e4d4d
+
+WooCommerce (woocommerce)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/woocommerce.svg
+  Brand source: https://woocommerce.com/style-guide
+  Brand guidelines: https://woocommerce.com/trademark-guidelines
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 3a74e2c6cc29d679cdd8eff36660f2e105ae157bb0626c53d1172d08f275704e
+
+Cloudflare (cloudflare-r2)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/cloudflare.svg
+  Brand source: https://www.cloudflare.com/logo/
+  Brand guidelines: https://www.cloudflare.com/trademark/
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 408096d99907fd99e0863cb5d73f77a72537c6a85fd8d5e2704178a83a891f08
+
+Anthropic (anthropic)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/anthropic.svg
+  Brand source: https://www.anthropic.com
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 1cc599f6ebce2016dc388cf84e54a52c6b13487655c7e243554d654c7bce1882
+
+Google Gemini (gemini)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/googlegemini.svg
+  Brand source: https://gemini.google.com
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: a6228d8846040401e941a39ed17459785e8324dbb7b870ce84233c9b3e9863a0
+
+Ollama (ollama)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/ollama.svg
+  Brand source: https://github.com/ollama/ollama/issues/2152#issuecomment-1905286922
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 9c62bf0159ee96c8b58c86a732f33b002b4b3bb165ec86e8ecca51ad6a82dab6
+
+GitHub (github)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/github.svg
+  Brand source: https://github.com/logos
+  Brand guidelines: https://github.com/logos
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 3bf8cceead820aec50d4ee825a3fd02c5a1cd6665cc9cf4cbf3d9c8861a204bb
+
+GitLab (gitlab)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/gitlab.svg
+  Brand source: https://about.gitlab.com/press/press-kit/
+  Brand guidelines: https://about.gitlab.com/handbook/marketing/corporate-marketing/brand-activation/trademark-guidelines/
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: c7c39058bd1b6f9f40334383bd5136bb8c5ba5e6a24200f2d1f18365e2526e28
+
+Strapi (strapi)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/strapi.svg
+  Brand source: https://handbook.strapi.io/strapi-brand-book-2022/strapi-logo
+  Brand guidelines: https://handbook.strapi.io/strapi-brand-book-2022
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 7ace74e62d71799f2f9fe8b2f9398a3365cc52448792bc9361f03407b266b22f
+
+Directus (directus)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/directus.svg
+  Brand source: https://directus.io
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 29bf6496a1f716a16fefaa99d62c63be4ed32d150a65abf9b10014c108b4d844
+
+Contentful (contentful)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/contentful.svg
+  Brand source: https://press.contentful.com/media_kits
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 37d1f9836c010f260186b59b004edad87660f0f8fde0161085a83aa8e18c37dd
+
+Sanity (sanity)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/sanity.svg
+  Brand source: https://github.com/sanity-io/logos/blob/e298a1ac2757c83910fe08b496a115bc9aef06bd/src/sanityMonogram.tsx
+  Individual license metadata: MIT
+  SHA-256: 7c94e59b8458db8de5c47df1ce498b3df2d681cadb46c282a60c476e1985196f
+
+Discord (discord)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/discord.svg
+  Brand source: https://discord.com/branding
+  Brand guidelines: https://discord.com/branding
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 1d364b72c9eaf1fe37d17ca88cd8fb541308dc0f3b09e2ab3b824f380b3493d5
+
+Telegram (telegram)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/telegram.svg
+  Brand source: https://telegram.org/tour/screenshots
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 147fd8f8923e7e5f463fe98c0eb9913bead6b2ae59935728cda141002ec8a7c9
+
+Gmail (gmail)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/gmail.svg
+  Brand source: https://fonts.gstatic.com/s/i/productlogos/gmail_2020q4/v8/192px.svg
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: a537f5d85d9a27efa3a5d6086e8df6072ee93f76b4d176639a5e483f74b74b9f
+
+Notion (notion)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/notion.svg
+  Brand source: https://www.notion.so
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: b17d2a2b592a06252efef522d5205f0c7a958f748d40df1011ed081417e42f85
+
+Airtable (airtable)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/airtable.svg
+  Brand source: https://airtable.com/newsroom
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 5d65b71d7c21151d54ef18acdcbac914c264f7139e3e8160a0895979fe31e391
+
+Google Calendar (google-calendar)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/googlecalendar.svg
+  Brand source: https://fonts.gstatic.com/s/i/productlogos/calendar_2020q4/v8/192px.svg
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 39b434d3264d123629a12509e9f5bdf57bf9e5ed9a6eafffb714cff5f05f032f
+
+PostHog (posthog)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/posthog.svg
+  Brand source: https://posthog.com/handbook/company/brand-assets
+  Brand guidelines: https://posthog.com/handbook/company/brand-assets
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 5bf868765c8159a0d308d5577c86f2fc2f76d63795182a5a39bc362d5d4329f1
+
+Matomo (matomo)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/matomo.svg
+  Brand source: https://matomo.org/media/
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: e4f077f3e41635bdec06c659751799acdf88d4388367ecf129eefdac0296688d
+
+Google Analytics (google-analytics)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/googleanalytics.svg
+  Brand source: https://marketingplatform.google.com/intl/en_uk/about/analytics/
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: b21a9cd9544cefee6f2d09a38523cb2bc06a0d7606dd50af35675c11211d8a61
+
+Meilisearch (meilisearch)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/meilisearch.svg
+  Brand source: https://www.meilisearch.com
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: ed4366b985f794a5364e164a770ff6c0bd4029f1cdc849ccb9a934c15137f163
+
+Algolia (algolia)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/algolia.svg
+  Brand source: https://algolia.frontify.com/d/1AZwVNcFZiu7/style-guide#/basics/algolia-logo
+  Brand guidelines: https://algolia.frontify.com/d/1AZwVNcFZiu7/style-guide
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: e8e2ceeccecf49866ef4e7ac85018b54d4d0cbe3ccf2f63be407324bd2a59f40
+
+Cloudflare Workers (cloudflare-workers)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/cloudflareworkers.svg
+  Brand source: https://www.cloudflare.com/developer-platform/products/
+  Brand guidelines: https://www.cloudflare.com/trademark/
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 33c1f3a5e64f822df4172db37b1d556ebc5b7913c47de43efd4e4cd70e276c51
+
+Vercel (vercel)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/vercel.svg
+  Brand source: https://vercel.com/geist/brands
+  Brand guidelines: https://vercel.com/geist/brands
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: 57f1e4135486c566e9878fddd259f7f6bf8ec43f31e7e6e38a36d9e814a1c0e0
+
+Netlify (netlify)
+  SVG: https://raw.githubusercontent.com/simple-icons/simple-icons/16.31.0/icons/netlify.svg
+  Brand source: https://www.netlify.com/press/
+  Brand guidelines: https://www.netlify.com/press/
+  Individual license metadata: not supplied by upstream; no blanket claim about brand rights
+  SHA-256: adbe4ef3579ca1ef95e1903ff8599a5a55e5c6531fab3f7edaf2b4adee0f4ef9
+
+== Simple Icons CC0 1.0 Universal ==
+
+# CC0 1.0 Universal
+
+## Statement of Purpose
+
+The laws of most jurisdictions throughout the world automatically confer exclusive Copyright and Related Rights (defined below) upon the creator and subsequent owner(s) (each and all, an “owner”) of an original work of authorship and/or a database (each, a “Work”).
+
+Certain owners wish to permanently relinquish those rights to a Work for the purpose of contributing to a commons of creative, cultural and scientific works (“Commons”) that the public can reliably and without fear of later claims of infringement build upon, modify, incorporate in other works, reuse and redistribute as freely as possible in any form whatsoever and for any purposes, including without limitation commercial purposes. These owners may contribute to the Commons to promote the ideal of a free culture and the further production of creative, cultural and scientific works, or to gain reputation or greater distribution for their Work in part through the use and efforts of others.
+
+For these and/or other purposes and motivations, and without any expectation of additional consideration or compensation, the person associating CC0 with a Work (the “Affirmer”), to the extent that he or she is an owner of Copyright and Related Rights in the Work, voluntarily elects to apply CC0 to the Work and publicly distribute the Work under its terms, with knowledge of his or her Copyright and Related Rights in the Work and the meaning and intended legal effect of CC0 on those rights.
+
+1. Copyright and Related Rights. A Work made available under CC0 may be protected by copyright and related or neighboring rights (“Copyright and Related Rights”). Copyright and Related Rights include, but are not limited to, the following:
+    1. the right to reproduce, adapt, distribute, perform, display, communicate, and translate a Work;
+    2. moral rights retained by the original author(s) and/or performer(s);
+    3. publicity and privacy rights pertaining to a person’s image or likeness depicted in a Work;
+    4. rights protecting against unfair competition in regards to a Work, subject to the limitations in paragraph 4(i), below;
+    5. rights protecting the extraction, dissemination, use and reuse of data in a Work;
+    6. database rights (such as those arising under Directive 96/9/EC of the European Parliament and of the Council of 11 March 1996 on the legal protection of databases, and under any national implementation thereof, including any amended or successor version of such directive); and
+    7. other similar, equivalent or corresponding rights throughout the world based on applicable law or treaty, and any national implementations thereof.
+
+2. Waiver. To the greatest extent permitted by, but not in contravention of, applicable law, Affirmer hereby overtly, fully, permanently, irrevocably and unconditionally waives, abandons, and surrenders all of Affirmer’s Copyright and Related Rights and associated claims and causes of action, whether now known or unknown (including existing as well as future claims and causes of action), in the Work (i) in all territories worldwide, (ii) for the maximum duration provided by applicable law or treaty (including future time extensions), (iii) in any current or future medium and for any number of copies, and (iv) for any purpose whatsoever, including without limitation commercial, advertising or promotional purposes (the “Waiver”). Affirmer makes the Waiver for the benefit of each member of the public at large and to the detriment of Affirmer’s heirs and successors, fully intending that such Waiver shall not be subject to revocation, rescission, cancellation, termination, or any other legal or equitable action to disrupt the quiet enjoyment of the Work by the public as contemplated by Affirmer’s express Statement of Purpose.
+
+3. Public License Fallback. Should any part of the Waiver for any reason be judged legally invalid or ineffective under applicable law, then the Waiver shall be preserved to the maximum extent permitted taking into account Affirmer’s express Statement of Purpose. In addition, to the extent the Waiver is so judged Affirmer hereby grants to each affected person a royalty-free, non transferable, non sublicensable, non exclusive, irrevocable and unconditional license to exercise Affirmer’s Copyright and Related Rights in the Work (i) in all territories worldwide, (ii) for the maximum duration provided by applicable law or treaty (including future time extensions), (iii) in any current or future medium and for any number of copies, and (iv) for any purpose whatsoever, including without limitation commercial, advertising or promotional purposes (the “License”). The License shall be deemed effective as of the date CC0 was applied by Affirmer to the Work. Should any part of the License for any reason be judged legally invalid or ineffective under applicable law, such partial invalidity or ineffectiveness shall not invalidate the remainder of the License, and in such case Affirmer hereby affirms that he or she will not (i) exercise any of his or her remaining Copyright and Related Rights in the Work or (ii) assert any associated claims and causes of action with respect to the Work, in either case contrary to Affirmer’s express Statement of Purpose.
+
+4. Limitations and Disclaimers.
+    1. No trademark or patent rights held by Affirmer are waived, abandoned, surrendered, licensed or otherwise affected by this document.
+    2. Affirmer offers the Work as-is and makes no representations or warranties of any kind concerning the Work, express, implied, statutory or otherwise, including without limitation warranties of title, merchantability, fitness for a particular purpose, non infringement, or the absence of latent or other defects, accuracy, or the present or absence of errors, whether or not discoverable, all to the greatest extent permissible under applicable law.
+    3. Affirmer disclaims responsibility for clearing rights of other persons that may apply to the Work or any use thereof, including without limitation any person’s Copyright and Related Rights in the Work. Further, Affirmer disclaims responsibility for obtaining any necessary consents, permissions or other rights required for any use of the Work.
+    4. Affirmer understands and acknowledges that Creative Commons is not a party to this document and has no duty or obligation with respect to this CC0 or use of the Work.
+
+For more information, please see <https://creativecommons.org/publicdomain/zero/1.0>.
+
+== Simple Icons disclaimer ==
+
+# Disclaimer
+
+Simple Icons asks that its users read this disclaimer fully before including an icon in their project.
+
+## Licenses, Copyrights & Trademarks
+
+> [!IMPORTANT]\
+> The addition of licenses to Simple Icons is an ongoing project. Hence, the absence of license data for a particular icon does not imply that the icon is not released under a license.
+
+<!-- markdownlint-disable-next-line no-blanks-blockquote -->
+
+> [!NOTE]\
+> Simple Icons is released under CC0 - though that doesn't mean to imply that all icons within the project are also CC0. Please see individual licenses where available.
+
+Simple Icons provides data on the license under which icons are available. We ask users to carefully consider this when using an icon. As licenses are subject to change we also ask our users to regularly check if the license of the icons they use have been changed.
+
+The license under which an icon is available can be found in the icon's entry in the JSON data file in the NPM and Packagist packages, or through the license link on the icon's card on [the Simple Icons website].
+
+As we rely largely on our community to help us keep Simple Icons up-to-date, the license data for an icon may be outdated. If you find that the license data provided is outdated, please [submit an issue][icon-outdated-issues] to [the Simple Icons GitHub repository].
+
+If an icon includes a registered trademark (`®`) or trademark symbol (`™`) the recommendations outlined in [the Simple Icons Contributing Guidelines] are followed to decide whether to include the symbol or not.
+
+Simple Icons cannot be held responsible for any legal activity raised by a brand, or users of the package. We ask that our users seek the correct permissions to use the icons relevant to their project.
+
+## Brand Guidelines
+
+> [!NOTE]\
+> The addition of guidelines to Simple Icons is an ongoing project. In the meantime, users of Simple Icons are instead encouraged to check the `source` URL as, in some cases, the icon will have been sourced from official guidelines. The lack of a `guidelines` entry for a particular brand does not imply that the brand has no guidelines.
+
+Simple Icons provides a link to a brand's _branding guidelines_ (or similar) if the brand provides one. We ask our users read these guidelines and ensure their usage of the brand's icon is in accordance with them. As guidelines are subject to change we also ask our users to regularly check if the brand guidelines of the icons they use have been updated.
+
+The brand guidelines can be found in the icon's entry in the JSON data file in the NPM and Packagist packages, or through the "Brand Guidelines" link on the icon's card on [the Simple Icons website].
+
+As we rely largely on our community to help us keep Simple Icons up-to-date, the guidelines link for a brand may be outdated. If you find that the guidelines are outdated, please [submit an issue][icon-outdated-issues] to [the Simple Icons GitHub repository].
+
+## Update of Brands
+
+Should a brand wish for their icon or data to be updated, please [submit an issue][icon-outdated-issues] to [the Simple Icons GitHub repository]. In the issue, please explain your affiliation with the company and reasons for the update. We generally release updates once a week, but can make exceptions for immediate updates of brands.
+
+## Removal of Brands
+
+Should a brand wish for their icon to be removed from the package, contact `removals at simpleicons dot org` explaining your affiliation with the company, and reasons for removal. Alternatively, it is also possible to [submit an issue][removal-issues] on [the Simple Icons GitHub repository] with the same information. We generally remove icons that no longer [meet our criteria] twice a year in our major releases - but can occasionally make exceptions for immediate removal of brands.
+
+The pull request of icon removal must be submitted by the Simple Icons maintainer.
+
+[meet our criteria]: https://github.com/simple-icons/simple-icons/blob/develop/CONTRIBUTING.md#requesting-an-icon
+[icon-outdated-issues]: https://github.com/simple-icons/simple-icons/issues/new?assignees=&labels=update+icon%2Fdata&template=icon_update.yml&title=Update%3A+
+[removal-issues]: https://github.com/simple-icons/simple-icons/issues/new?assignees=&labels=breaking+change&template=icon_removal.yml&title=Remove%3A+
+[the simple icons contributing guidelines]: https://github.com/simple-icons/simple-icons/blob/develop/CONTRIBUTING.md#icon-guidelines
+[the simple icons github repository]: https://github.com/simple-icons/simple-icons
+[the simple icons website]: https://simpleicons.org/
+
+== Sanity MIT license ==
+Source: https://raw.githubusercontent.com/sanity-io/logos/e298a1ac2757c83910fe08b496a115bc9aef06bd/LICENSE
+
+MIT License
+
+Copyright (c) 2025 Sanity.io
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

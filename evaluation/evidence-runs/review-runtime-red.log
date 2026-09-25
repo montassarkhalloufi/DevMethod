@@ -1,0 +1,64 @@
+▶ incoherent stored support fails closed instead of reporting fresh evidence
+  ✔ supported outcome with failed criterion (1.570492ms)
+  ✔ null criterion (0.622939ms)
+  ✔ unknown outcome (0.463451ms)
+  ✖ array outcome masquerading as a scalar enum (88.426116ms)
+  ✔ malformed revision (0.797189ms)
+  ✔ oversized note (0.614937ms)
+  ✔ negative duration (0.535659ms)
+  ✔ invalid date (0.592944ms)
+  ✔ inconsistent freshness (0.635668ms)
+  ✔ null result (0.575929ms)
+  ✔ invalid verdict (0.631742ms)
+  ✔ candidate failure hidden by support (0.471373ms)
+  ✔ unfinished passing attempt (0.540146ms)
+✖ incoherent stored support fails closed instead of reporting fresh evidence (549.200998ms)
+✖ tightened no-progress limit halts before another runner or pending attempt (1410.671442ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 12
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2057.818156
+
+✖ failing tests:
+
+test at tests/evidence-runtime.test.mjs:106:15
+✖ array outcome masquerading as a scalar enum (88.426116ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-runtime.test.mjs:111:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at TestContext.test (node:internal/test_runner/test:394:20)
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-runtime.test.mjs:106:15)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /[Ii]nvalid|[Ii]nconsistent/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/evidence-runtime.test.mjs:8:34
+✖ tightened no-progress limit halts before another runner or pending attempt (1410.671442ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3 !== 2
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/d1e53b298710/DevMethod/tests/evidence-runtime.test.mjs:549:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

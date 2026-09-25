@@ -1,0 +1,106 @@
+{
+  "recordedAt": "2026-09-16T23:19:02.605Z",
+  "url": "http://127.0.0.1:4350/?quality=batch-qa#checks",
+  "isolatedWorkspace": "/private/tmp/devmethod-editor-technical-qa",
+  "revision": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+  "runs": [
+    {
+      "id": "87cba560-68b0-4128-b4e7-c36b68fc429d",
+      "checkId": "bundle-size",
+      "status": "passed",
+      "revisionId": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+      "fingerprint": "e556eb85ea3a030c643d62670cc4cf3a7d0121b67f78614f231e10c6a4f15f07",
+      "startedAt": "2026-09-16T23:17:18.290Z",
+      "finishedAt": "2026-09-16T23:17:18.292Z",
+      "durationMs": 2,
+      "observed": "4 artefact(s), 322863 octets non compressés. Inventaire mesuré sans seuil de performance."
+    },
+    {
+      "id": "93586262-1e42-47ab-ac64-58d7ea049abb",
+      "checkId": "relative-imports",
+      "status": "passed",
+      "revisionId": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+      "fingerprint": "e556eb85ea3a030c643d62670cc4cf3a7d0121b67f78614f231e10c6a4f15f07",
+      "startedAt": "2026-09-16T23:17:18.231Z",
+      "finishedAt": "2026-09-16T23:17:18.241Z",
+      "durationMs": 10,
+      "observed": "25 import(s) relatif(s) contrôlé(s), 0 non résolu(s). 23 import(s) de package ou alias hors périmètre."
+    },
+    {
+      "id": "967d4240-35f8-4429-9415-e191b4b53ac2",
+      "checkId": "react-strict-build",
+      "status": "passed",
+      "revisionId": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+      "fingerprint": "e556eb85ea3a030c643d62670cc4cf3a7d0121b67f78614f231e10c6a4f15f07",
+      "startedAt": "2026-09-16T23:17:15.643Z",
+      "finishedAt": "2026-09-16T23:17:18.196Z",
+      "durationMs": 2553,
+      "observed": "TypeScript strict et compilation React réussis ; 4 artefact(s) construits temporairement avec React 19.3.0, TypeScript 5.9.3."
+    },
+    {
+      "id": "a5280b5c-c35b-49da-bf86-a73f12d89beb",
+      "checkId": "secret-markers",
+      "status": "passed",
+      "revisionId": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+      "fingerprint": "e556eb85ea3a030c643d62670cc4cf3a7d0121b67f78614f231e10c6a4f15f07",
+      "startedAt": "2026-09-16T23:17:18.315Z",
+      "finishedAt": "2026-09-16T23:17:18.318Z",
+      "durationMs": 3,
+      "observed": "0 marqueur(s) correspondant aux formats recherchés."
+    },
+    {
+      "id": "c66df2db-f478-4b5b-a882-aab2d283feb9",
+      "checkId": "source-syntax",
+      "status": "passed",
+      "revisionId": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+      "fingerprint": "e556eb85ea3a030c643d62670cc4cf3a7d0121b67f78614f231e10c6a4f15f07",
+      "startedAt": "2026-09-16T23:17:15.601Z",
+      "finishedAt": "2026-09-16T23:17:15.614Z",
+      "durationMs": 13,
+      "observed": "17 fichier(s) analysé(s), 0 erreur(s) de syntaxe."
+    },
+    {
+      "id": "cd856a98-7b28-4e00-a1dc-110561eb4f91",
+      "checkId": "json-format",
+      "status": "passed",
+      "revisionId": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+      "fingerprint": "e556eb85ea3a030c643d62670cc4cf3a7d0121b67f78614f231e10c6a4f15f07",
+      "startedAt": "2026-09-16T23:17:18.261Z",
+      "finishedAt": "2026-09-16T23:17:18.264Z",
+      "durationMs": 3,
+      "observed": "3 document(s) JSON lus, 0 format(s) invalide(s)."
+    }
+  ],
+  "browser": {
+    "progressObserved": "1 / 6 puis 6 / 6 réponses reçues",
+    "countsAfter": "7 réussis (dont 1 preuve héritée), 0 échec, 21 à connecter, 8 non applicables",
+    "controlFocus": "quality-detail-heading après clic explicite Compilation React stricte",
+    "requestPreparation": {
+      "check": "unit-tests",
+      "seed": "Brouillon de contrôle qualité : conserver cette première note.",
+      "seedPreserved": true,
+      "exactRevisionInDraft": true,
+      "focus": "request",
+      "composerVisible": {
+        "top": 650.78,
+        "bottom": 702.78
+      },
+      "sent": false
+    },
+    "jobsBefore": 16,
+    "jobsAfter": 16,
+    "jobCountObservation": "16 avant préparation de la demande, 16 après ; aucun envoi effectué."
+  },
+  "dataSha256Before": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+  "dataSha256After": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+  "screenshots": [
+    "quality-react-build.png",
+    "quality-connect-request.png"
+  ],
+  "limits": [
+    "Les outils externes n’ont pas été exécutés. Connecter prépare un brouillon ; aucun agent lancé.",
+    "La compilation réussie porte sur le profil React strict pris en charge et ne valide ni comportement, ni rendu, ni version appliquée différente.",
+    "La version contrôlée d7cd1dff est consultée comme version antérieure à la version appliquée cb98b65d ; aucun succès n’est attribué à cette dernière."
+  ],
+  "activeRevisionObservedAfter": "cb98b65d-926c-4ce5-b882-e5bb44374c5a"
+}

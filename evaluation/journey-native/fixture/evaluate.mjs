@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import path from 'node:path';
+const [root,stage]=process.argv.slice(2);
+if(!root || !['initial','maintenance'].includes(stage)) throw new Error('Usage: node evaluate.mjs CANDIDATE initial|maintenance');
+const {evaluateRoot}=await import(`./evaluator/${stage}-checks.mjs`);
+const result=evaluateRoot(root);
+const handoff=path.join(root,'HANDOFF.md');
+result.handoff={present:fs.existsSync(handoff),bytes:fs.existsSync(handoff)?fs.statSync(handoff).size:0,semanticReview:'required'};
+process.stdout.write(JSON.stringify(result)+'\n');
+process.exitCode=Object.values(result.verdicts).every(v=>v==='passed')?0:1;

@@ -1,0 +1,5 @@
+2026-09-16T12:17:57.974036Z ERROR codex_models_manager::manager: failed to load models cache: missing field `supports_parallel_tool_calls` at line 132 column 5
+2026-09-16T12:18:27.801542Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid hunk at line 4, Update hunk does not contain any lines
+2026-09-16T12:18:27.839082Z ERROR codex_models_manager::manager: failed to renew cache TTL: missing field `supports_parallel_tool_calls` at line 132 column 5
+2026-09-16T12:18:39.605146Z ERROR codex_core::tools::router: error=apply_patch verification failed: Failed to read file to update <CALIBRATION>/index.js: fs sandbox helper failed with status exit status: 71: sandbox-exec: sandbox_apply: Operation not permitted
+2026-09-16T12:18:39.631590Z ERROR codex_models_manager::manager: failed to renew cache TTL: missing field `supports_parallel_tool_calls` at line 132 column 5

@@ -1,0 +1,12 @@
+✔ actual DOM event bindings reserve, show full capacity and cancel through the HTTP application (131.56575ms)
+✔ UI retries an uncertain response with the same request identity and avoids a duplicate booking (56.147208ms)
+✔ refresh preserves an unsubmitted choice after recovery instead of silently booking fewer seats (37.574791ms)
+✔ refresh keeps a now-unavailable choice explicit until the user chooses a valid quantity (58.266375ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 856.928167

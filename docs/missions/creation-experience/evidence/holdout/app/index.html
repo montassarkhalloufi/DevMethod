@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Le vestiaire des objets</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="app.mjs"></script>
+  </head>
+  <body>
+    <header class="masthead"><a class="brand" href="./">Le vestiaire <span>des objets</span></a><p>Un objet circule, son histoire reste.</p><button id="export" type="button">Exporter les données</button></header>
+    <main>
+      <section class="introduction"><p class="eyebrow">LE CARNET DE L’ASSOCIATION</p><h1>Prêter. Retrouver.<br />Faire circuler.</h1><p>Chaque exemplaire a son numéro. Gardez le fil des prêts et des retours, même lorsque les objets portent le même nom.</p></section>
+      <p id="status" role="status" aria-live="polite">Chargement du carnet…</p>
+      <div class="workspace">
+        <section class="collection" aria-labelledby="objects-title">
+          <div class="section-head"><h2 id="objects-title">Les objets</h2><span id="count"></span></div>
+          <div class="filters" role="group" aria-label="Filtrer les objets"><button type="button" data-filter="all" aria-pressed="true">Tous</button><button type="button" data-filter="available" aria-pressed="false">Disponibles</button><button type="button" data-filter="loaned" aria-pressed="false">En prêt</button></div>
+          <div id="objects" class="objects"></div>
+        </section>
+        <aside class="add-panel"><p class="eyebrow">ENRICHIR LE CARNET</p><h2>Un nouvel objet</h2><form id="add-form"><label for="label">Libellé</label><input id="label" name="label" autocomplete="off" maxlength="100" required placeholder="Ex. Perceuse" /><label for="number">Numéro de l’exemplaire</label><input id="number" name="number" autocomplete="off" maxlength="40" required placeholder="Ex. OUTIL-014" /><p class="hint">Le numéro doit être unique. Le libellé peut être partagé par plusieurs objets.</p><button class="primary" type="submit">Ajouter l’objet</button></form></aside>
+      </div>
+      <section class="history" aria-labelledby="history-title"><div class="section-head"><h2 id="history-title">Le fil des prêts</h2><span>Prêts en cours et retours conservés</span></div><div id="history"></div></section>
+      <footer>Application locale · Aucun compte ni envoi de message · Les données restent dans votre workspace</footer>
+    </main>
+    <dialog id="loan-dialog" aria-labelledby="loan-title"><form id="loan-form"><div class="section-head"><p class="eyebrow">NOUVEAU PRÊT</p><button id="cancel-loan" type="button" aria-label="Fermer le formulaire de prêt">Fermer</button></div><h2 id="loan-title">Prêter un objet</h2><p id="loan-object"></p><label for="borrower">Prénom de la personne</label><input id="borrower" name="borrower" maxlength="100" autocomplete="off" required /><p id="loan-status" role="status" aria-live="polite"></p><button class="primary" type="submit">Enregistrer le prêt</button></form></dialog>
+  </body>
+</html>

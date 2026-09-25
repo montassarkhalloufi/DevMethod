@@ -1,0 +1,7 @@
+{
+  "revisionId": "8fc388e7-b16b-43e8-b21a-b241b85b081b",
+  "label": "Observation navigateur par le constructeur, puis reprise réelle",
+  "kind": "agent-observation",
+  "status": "passed",
+  "output": "Deux exemplaires Perceuse OUT-101/OUT-102 créés via UI, prêts Lina/Noé, retour OUT-101 : OUT-102 reste prêté ; historique deux lignes. Premier processus arrêté, port4335 indisponible, nouveau processus démarré : réponse données exactement identique (SHA256 87edf1d181e5ec6fbfe1c327a3944e5490ccb6c2e3d4d81a0ba6f51640736682), rechargement navigateur conserve état. Archive restaurée et lancée seule sur4336, code et données concordants. Ce contrôle du constructeur n’est pas indépendant."
+}

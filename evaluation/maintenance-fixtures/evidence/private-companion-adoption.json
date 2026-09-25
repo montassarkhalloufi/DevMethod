@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "kind": "Local deterministic adoption check; no model or native run",
+  "scope": "Three public cases exported without .git; reserved transfer never read or copied",
+  "runtime": {
+    "version": "v24.18.0",
+    "execPath": "<NODE_24_EXECUTABLE>"
+  },
+  "exported": "<HOST_TEMP>/devmethod-portable-adoption-fbJfeM/exported",
+  "freezeSha256": "e206b6ee525c23a0c3bf4960cedbbe2e69a1bb3178d414de76552aa5038ac604",
+  "originalFreezeUnchanged": true,
+  "exportedHasNoGitDirectories": true,
+  "checksPassed": 5,
+  "records": [
+    {
+      "case": "resume-filter",
+      "destination": "<HOST_TEMP>/devmethod-portable-adoption-fbJfeM/resume-filter",
+      "exit": 0,
+      "stdout": "{\n  \"format\": 1,\n  \"case\": \"resume-filter\",\n  \"destination\": \"<HOST_TEMP>/devmethod-portable-adoption-fbJfeM/resume-filter\",\n  \"freezeSha256\": \"e206b6ee525c23a0c3bf4960cedbbe2e69a1bb3178d414de76552aa5038ac604\",\n  \"portableManifestSha256\": \"e06305972fb19639791df7785339ebce6ba715c3e9927844b25e654e7d1fc2e1\",\n  \"observed\": {\n    \"head\": \"c2cc552c36636900729249f614d6b6c927c7c27d\",\n    \"baseTree\": \"c02aaa9f9a0d39a20a11b9121b1342c8b379c59e\",\n    \"indexTree\": \"c02aaa9f9a0d39a20a11b9121b1342c8b379c59e\",\n    \"diff\": \"diff --git a/public/app.js b/public/app.js\\nindex 838c358..8d6e49e 100644\\n--- a/public/app.js\\n+++ b/public/app.js\\n@@ -221,6 +221,7 @@ $('#add-form').addEventListener('submit', (event) => {\\n document.querySelectorAll('[data-filter]').forEach((element) =>\\n   element.addEventListener('click', () => {\\n     filter = element.dataset.filter;\\n+    localStorage.setItem(\\\"pocket-tasks.filter\\\", filter);\\n     editing = null;\\n     render();\\n     status(`Showing ${filter} tasks.`);\\ndiff --git a/public/styles.css b/public/styles.css\\nindex 24bee7f..8b9bc3f 100644\\n--- a/public/styles.css\\n+++ b/public/styles.css\\n@@ -102,7 +102,7 @@ input:disabled {\\n }\\n :focus-visible {\\n   outline: 3px solid #b2671d;\\n-  outline-offset: 3px;\\n+  outline-offset: 4px;\\n }\\n .toolbar {\\n   display: flex;\",\n    \"stagedDiff\": \"\",\n    \"status\": \" M public/app.js\\n M public/styles.css\"\n  },\n  \"exactStartingStatePreserved\": true\n}\n",
+      "stderr": "",
+      "error": null,
+      "elapsedMs": 162.671833
+    },
+    {
+      "case": "title-policy",
+      "destination": "<HOST_TEMP>/devmethod-portable-adoption-fbJfeM/title-policy",
+      "exit": 0,
+      "stdout": "{\n  \"format\": 1,\n  \"case\": \"title-policy\",\n  \"destination\": \"<HOST_TEMP>/devmethod-portable-adoption-fbJfeM/title-policy\",\n  \"freezeSha256\": \"e206b6ee525c23a0c3bf4960cedbbe2e69a1bb3178d414de76552aa5038ac604\",\n  \"portableManifestSha256\": \"e06305972fb19639791df7785339ebce6ba715c3e9927844b25e654e7d1fc2e1\",\n  \"observed\": {\n    \"head\": \"ae3f2717f2941e424bdb4923648946985dc18a8e\",\n    \"baseTree\": \"6c511f7bb38201bab50afeb65624233490233b4f\",\n    \"indexTree\": \"6c511f7bb38201bab50afeb65624233490233b4f\",\n    \"diff\": \"\",\n    \"stagedDiff\": \"\",\n    \"status\": \"\"\n  },\n  \"exactStartingStatePreserved\": true\n}\n",
+      "stderr": "",
+      "error": null,
+      "elapsedMs": 123.98637500000001
+    },
+    {
+      "case": "trim-boundary",
+      "destination": "<HOST_TEMP>/devmethod-portable-adoption-fbJfeM/trim-boundary",
+      "exit": 0,
+      "stdout": "{\n  \"format\": 1,\n  \"case\": \"trim-boundary\",\n  \"destination\": \"<HOST_TEMP>/devmethod-portable-adoption-fbJfeM/trim-boundary\",\n  \"freezeSha256\": \"e206b6ee525c23a0c3bf4960cedbbe2e69a1bb3178d414de76552aa5038ac604\",\n  \"portableManifestSha256\": \"e06305972fb19639791df7785339ebce6ba715c3e9927844b25e654e7d1fc2e1\",\n  \"observed\": {\n    \"head\": \"1510059db22e80ff955aceb1909da1851a89d88e\",\n    \"baseTree\": \"b93b33d21d45ed32baae0195e106ab2b4e23af4c\",\n    \"indexTree\": \"b93b33d21d45ed32baae0195e106ab2b4e23af4c\",\n    \"diff\": \"diff --git a/src/domain.mjs b/src/domain.mjs\\nindex 839ac97..0e12512 100644\\n--- a/src/domain.mjs\\n+++ b/src/domain.mjs\\n@@ -5,7 +5,7 @@ export class TaskError extends Error {\\n   }\\n }\\n export function title(value) {\\n-  if (typeof value !== 'string' || !value.trim() || value.trim().length > 120) {\\n+  if (typeof value !== 'string' || !value.trim() || value.length > 120) {\\n     throw new TaskError('Title must contain 1–120 characters.');\\n   }\\n   return value.trim();\",\n    \"stagedDiff\": \"\",\n    \"status\": \" M src/domain.mjs\"\n  },\n  \"exactStartingStatePreserved\": true\n}\n",
+      "stderr": "",
+      "error": null,
+      "elapsedMs": 178.26741599999997
+    },
+    {
+      "case": "resume-filter",
+      "destination": "<HOST_TEMP>/devmethod-portable-adoption-fbJfeM/resume-filter",
+      "exit": 1,
+      "stdout": "",
+      "stderr": "file://<OPERATOR_PATH>:11\n  throw new Error('Usage: setup.mjs <absolute exported suite> <case id> <new absolute worker destination>');\n        ^\n\nError: Usage: setup.mjs <absolute exported suite> <case id> <new absolute worker destination>\n    at file://<OPERATOR_PATH>:11:9\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.18.0\n",
+      "error": null,
+      "elapsedMs": 33.05091700000003
+    },
+    {
+      "case": "resume-filter",
+      "destination": "<HOST_TEMP>/devmethod-portable-adoption-fbJfeM/tampered",
+      "exit": 1,
+      "stdout": "",
+      "stderr": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Worker changed: public/styles.css\n+ actual - expected\n\n+ 'cc470ed6acf1c7f125eb30b98bb7487b465b0c54bf22926be9df9268a0f570df'\n- 'e9eb4d930a2434bac4fef40883bf65f32d0f11ca5db41647a30e7d6d3b3b8bf3'\n\n    at file://<OPERATOR_PATH>:41:35\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 'cc470ed6acf1c7f125eb30b98bb7487b465b0c54bf22926be9df9268a0f570df',\n  expected: 'e9eb4d930a2434bac4fef40883bf65f32d0f11ca5db41647a30e7d6d3b3b8bf3',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.18.0\n",
+      "error": null,
+      "elapsedMs": 33.74829199999999
+    }
+  ]
+}

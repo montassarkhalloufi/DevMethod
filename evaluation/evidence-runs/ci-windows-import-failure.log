@@ -1,0 +1,68 @@
+Excerpt: one representative failure and complete test summary, GitHub job104589052325, workflow35030946691, PR33 heada76207ef0fce8e4ac54870010fe98521720bf492.
+Full log: https://github.com/montassarkhalloufi/DevMethod/actions/runs/35030946691/job/104589052325
+
+2026-09-15T22:27:40.8429336Z not ok 129 - evidence-demo preserves malformed invocation before decoding its report
+2026-09-15T22:27:40.8429833Z   ---
+2026-09-15T22:27:40.8430673Z   duration_ms: 458.7322
+2026-09-15T22:27:40.8431778Z   type: 'test'
+2026-09-15T22:27:40.8432366Z   location: 'D:\\a\\DevMethod\\DevMethod\\tests\\evidence-traces.test.mjs:148:5'
+2026-09-15T22:27:40.8433216Z   failureType: 'testCodeFailure'
+2026-09-15T22:27:40.8433596Z   error: |-
+2026-09-15T22:27:40.8434027Z     node:internal/modules/esm/load:199
+2026-09-15T22:27:40.8434503Z         throw new ERR_UNSUPPORTED_ESM_URL_SCHEME(parsed, schemes);
+2026-09-15T22:27:40.8435038Z               ^
+2026-09-15T22:27:40.8435346Z     
+2026-09-15T22:27:40.8436374Z     Error [ERR_UNSUPPORTED_ESM_URL_SCHEME]: Only URLs with a scheme in: file, data, and node are supported by the default ESM loader. On Windows, absolute paths must be valid file:// URLs. Received protocol 'c:'
+2026-09-15T22:27:40.8437602Z         at throwIfUnsupportedURLScheme (node:internal/modules/esm/load:199:11)
+2026-09-15T22:27:40.8438258Z         at defaultLoadSync (node:internal/modules/esm/load:146:3)
+2026-09-15T22:27:40.8438993Z         at ModuleLoader.load (node:internal/modules/esm/loader:831:12)
+2026-09-15T22:27:40.8439667Z         at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:609:31)
+2026-09-15T22:27:40.8440461Z         at #createModuleJob (node:internal/modules/esm/loader:640:36)
+2026-09-15T22:27:40.8441083Z         at #getJobFromResolveResult (node:internal/modules/esm/loader:353:34)
+2026-09-15T22:27:40.8441818Z         at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:321:41)
+2026-09-15T22:27:40.8442649Z         at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:680:25) {
+2026-09-15T22:27:40.8443263Z       code: 'ERR_UNSUPPORTED_ESM_URL_SCHEME'
+2026-09-15T22:27:40.8443882Z     }
+2026-09-15T22:27:40.8444165Z     
+2026-09-15T22:27:40.8444489Z     Node.js v22.23.2
+2026-09-15T22:27:40.8444849Z     
+2026-09-15T22:27:40.8445147Z     
+2026-09-15T22:27:40.8445449Z     0 !== 1
+2026-09-15T22:27:40.8445822Z     
+2026-09-15T22:27:40.8446170Z   code: 'ERR_ASSERTION'
+2026-09-15T22:27:40.8446675Z   name: 'AssertionError'
+2026-09-15T22:27:40.8446996Z   expected: 1
+2026-09-15T22:27:40.8447332Z   actual: 0
+2026-09-15T22:27:40.8447720Z   operator: 'strictEqual'
+2026-09-15T22:27:40.8448097Z   stack: |-
+2026-09-15T22:27:40.8448681Z     throwIfUnsupportedURLScheme (node:internal/modules/esm/load:199:11)
+2026-09-15T22:27:40.8449719Z     defaultLoadSync (node:internal/modules/esm/load:146:3)
+2026-09-15T22:27:40.8450281Z     ModuleLoader.load (node:internal/modules/esm/loader:831:12)
+2026-09-15T22:27:40.8450963Z     ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:609:31)
+2026-09-15T22:27:40.8451633Z     #createModuleJob (node:internal/modules/esm/loader:640:36)
+2026-09-15T22:27:40.8452369Z     #getJobFromResolveResult (node:internal/modules/esm/loader:353:34)
+2026-09-15T22:27:40.8453169Z     ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:321:41)
+2026-09-15T22:27:40.8453964Z     async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:680:25) {
+2026-09-15T22:27:40.8454721Z     fixture (file:///D:/a/DevMethod/DevMethod/tests/evidence-traces.test.mjs:74:10)
+2026-09-15T22:27:40.8455596Z     TestContext.<anonymous> (file:///D:/a/DevMethod/DevMethod/tests/evidence-traces.test.mjs:149:33)
+2026-09-15T22:27:40.8456287Z     Test.runInAsyncScope (node:async_hooks:214:14)
+2026-09-15T22:27:40.8456819Z     Test.run (node:internal/test_runner/test:1047:25)
+2026-09-15T22:27:40.8457369Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+2026-09-15T22:27:40.8457989Z     Test.postRun (node:internal/test_runner/test:1173:19)
+2026-09-15T22:27:40.8458550Z     Test.run (node:internal/test_runner/test:1101:12)
+2026-09-15T22:27:40.8459248Z     async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+2026-09-15T22:27:40.8459790Z   ...
+
+2026-09-15T22:27:40.8429336Z not ok 129 - evidence-demo preserves malformed invocation before decoding its report
+2026-09-15T22:27:40.8461061Z not ok 130 - evidence-demo preserves empty invocation before decoding its report
+2026-09-15T22:27:40.8492251Z not ok 131 - evidence-demo preserves timeout invocation before decoding its report
+2026-09-15T22:27:40.8522854Z not ok 132 - evidence-demo preserves valid invocation before decoding its report
+2026-09-15T22:27:40.8552093Z not ok 133 - evidence-holdout preserves malformed invocation before decoding its report
+2026-09-15T22:27:40.8581584Z not ok 134 - evidence-holdout preserves empty invocation before decoding its report
+2026-09-15T22:27:40.8607739Z not ok 135 - evidence-holdout preserves timeout invocation before decoding its report
+2026-09-15T22:27:40.8635477Z not ok 136 - evidence-holdout preserves valid invocation before decoding its report
+2026-09-15T22:28:06.1273099Z # tests 263
+2026-09-15T22:28:06.1273464Z # pass 218
+2026-09-15T22:28:06.1273634Z # fail 8
+2026-09-15T22:28:06.1273987Z # skipped 37
+

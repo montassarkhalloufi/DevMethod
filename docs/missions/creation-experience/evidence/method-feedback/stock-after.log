@@ -1,0 +1,14 @@
+
+> test
+> node --test test/*.test.mjs
+
+✔ a request may consume the last available units (0.862916ms)
+✔ rejected requests preserve stock (0.126541ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 55.082084

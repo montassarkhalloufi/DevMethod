@@ -1,0 +1,18 @@
+✔ durées exactes, initial 20:57 et sortie 21:02 (0.548416ms)
+✔ choix 1 : six films, remplacement explicite, appel exact, F6 dernier (0.485ms)
+✔ choix 2 : retrait F4, discussion15, attente2, sortie limite exacte (0.116041ms)
+✔ garder six films et discussion10 après appel dépasse de2 ; publication bloquée (0.221125ms)
+✔ appel en retard : conflit explicite sans film coupé ni chevauchement (0.092917ms)
+✔ événement ne choisit pas implicitement une option, ni ne modifie le brouillon (0.080375ms)
+✔ publication transactionnelle conserve v1 et son HTML après choix, édition et v2 (0.212042ms)
+✔ export autonome : contenu échappé et aucune ressource distante ni script (0.166542ms)
+✔ stockage local séparé : roundtrip de brouillon + versions, corruption signalée (1.216208ms)
+✔ catalogue ne permet pas de falsifier les durées (0.130833ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 48.147291

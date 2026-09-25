@@ -1,0 +1,15 @@
+{
+  "scope": "Synthetic technical observation of a real handoff; no participant or human benefit measure",
+  "source": "b590fb1",
+  "checks": {
+    "currentReasonPresent": true,
+    "historicalReasonPresent": true,
+    "historicalContextPresent": true,
+    "historicalConstraintPresent": true,
+    "liveRecordsPreserved": true,
+    "historyStillInSession": true
+  },
+  "historyCount": 1,
+  "requestBytes": 24647,
+  "originalObservationSha256": "e8d0c81a32c58c42638b6f32c7c749ee4c91f5ee843d9dedbc2c005a3cbc1db4"
+}

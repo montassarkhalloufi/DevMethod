@@ -1,0 +1,79 @@
+Browser tab: 744838099, Title: "Le vestiaire des objets", URL: "http://127.0.0.1:4335/".
+1 AXWebArea Le vestiaire des objets, URL: 127.0.0.1:4335/
+	2 container
+		3 link Description: Le vestiaire des objets, Value: 127.0.0.1:4335/
+		4 text Un objet circule, son histoire reste.
+		5 button Exporter les données, ID: export
+	6 container
+		7 text LE CARNET DE L’ASSOCIATION
+		8 heading Prêter. Retrouver. Faire circuler., Value: 1
+			9 text Prêter. Retrouver.
+			10 text Faire circuler.
+		11 text Chaque exemplaire a son numéro. Gardez le fil des prêts et des retours, même lorsque les objets portent le même nom.
+		12 text Carnet local chargé. Les modifications sont enregistrées sur ce serveur.
+		13 container Les objets
+			14 heading Les objets, Value: 2, ID: objects-title
+				15 text Les objets
+			16 text 2 sur 2
+			17 container Filtrer les objets
+				18 checkbox Tous, Value: 1
+				19 checkbox Disponibles, Value: 0
+				20 checkbox En prêt, Value: 0
+			21 container objects
+				22 container
+					23 text OUT-101
+					24 heading Perceuse, Value: 3
+						25 text Perceuse
+					26 text Disponible
+					27 button Prêter cet objet
+				28 container
+					29 text OUT-102
+					30 heading Perceuse, Value: 3
+						31 text Perceuse
+					32 text Prêté à Noé Depuis le 16 sept. 2026, 17:14
+					33 button Enregistrer le retour
+		34 text ENRICHIR LE CARNET
+		35 heading Un nouvel objet, Value: 2
+			36 text Un nouvel objet
+		37 container add-form
+			38 text Libellé
+			39 text field (settable) Libellé, ID: label
+			40 text Numéro de l’exemplaire
+			41 text field (settable) Numéro de l’exemplaire, ID: number
+			42 text Le numéro doit être unique. Le libellé peut être partagé par plusieurs objets.
+			43 button Ajouter l’objet
+		44 container Le fil des prêts
+			45 heading Le fil des prêts, Value: 2, ID: history-title
+				46 text Le fil des prêts
+			47 text Prêts en cours et retours conservés
+			48 table
+				49 row
+					50 cell
+						51 text Objet et numéro
+					52 cell
+						53 text Personne
+					54 cell
+						55 text Prêté le
+					56 cell
+						57 text Retour
+				58 row
+					59 cell
+						60 text Perceuse · OUT-102
+					61 cell
+						62 text Noé
+					63 cell
+						64 text 16 sept. 2026, 17:14
+					65 cell
+						66 text En cours
+				67 row
+					68 cell
+						69 text Perceuse · OUT-101
+					70 cell
+						71 text Lina
+					72 cell
+						73 text 16 sept. 2026, 17:14
+					74 cell
+						75 text 16 sept. 2026, 17:15
+		76 text Application locale · Aucun compte ni envoi de message · Les données restent dans votre workspace
+
+The focused UI element is 1 AXWebArea Le vestiaire des objets, URL: 127.0.0.1:4335/

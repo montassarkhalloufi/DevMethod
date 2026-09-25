@@ -1,0 +1,39 @@
+{
+  "kind": "Independent local domain/export review; not browser or user evidence",
+  "pins": {
+    "code/domain.js": "6a2d2daf9bc8da75d93cbc35aa8bbac9c72d56f5c7988b834386c6aae2cf8df2",
+    "code/storage.js": "7e7483a6a1fd31d20bc573aff5f8deb292a5346cab09d41dbc973e8196f7f44e",
+    "code/render.js": "18e3a3ec77c9edf8ceffdf86fc53a8adc895efa032ab125518631fc8a25ca736",
+    "code/app.js": "d41842186828832b2fb2020a7c435e288a0887ba26b5f61b49f10c26e2295dd1",
+    "code/test.cjs": "ca776eee28f5559c88d695444e9242d988b1f1a5f6d31a48c7a38067e894ee96"
+  },
+  "checks": [
+    {
+      "name": "Both actual proposals satisfy independently stated arithmetic and allowed selection",
+      "passed": true
+    },
+    {
+      "name": "No explicit choice is made by merely creating proposals or recording change",
+      "passed": true
+    },
+    {
+      "name": "Published v1 bytes and offline HTML unchanged through v2 and JSON reload",
+      "passed": true
+    },
+    {
+      "name": "Separately retaining discussion10 or15 with six films cannot publish",
+      "passed": true
+    },
+    {
+      "name": "Late call and duplicate, missing break, duplicate discussion are refused",
+      "passed": true
+    }
+  ],
+  "corruptionProbe": {
+    "accepted": true,
+    "domainErrors": [
+      "Activité inconnue : unknown-film"
+    ],
+    "uiAccessThrows": "Cannot read properties of undefined (reading 'title')"
+  }
+}

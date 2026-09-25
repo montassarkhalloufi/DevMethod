@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-17",
+  "baseRevision": "0a885b8",
+  "scope": "Accueil local enrichi, aperçus réels et gestionnaire MCP partagé",
+  "checks": {
+    "build": "passed via npm test",
+    "tests": {
+      "command": "npm test",
+      "passed": 985,
+      "failed": 0,
+      "durationMs": 68166
+    },
+    "lint": "passed",
+    "format": "passed",
+    "diff": "passed",
+    "docs": "passed",
+    "packageDryRun": "passed: npm pack --dry-run --cache /private/tmp/devmethod-npm-cache"
+  },
+  "browser": {
+    "desktopCssWidth": 1562,
+    "mobileCssWidth": 390,
+    "mobileDocumentWidth": 390,
+    "localOAuth": "passed with local fixture; 2 tools discovered; selected in new project; disconnected",
+    "notionOAuth": "official DevMethod Studio consent reached; not granted; expired",
+    "animation": "typing/deleting examples + 3px orbit edge; focused input remains stable",
+    "upload": "browser permission blocked; no permission modified"
+  },
+  "realProviderCalls": 0,
+  "nativeRunnerMcp": false,
+  "publicDeployment": false,
+  "review": {
+    "httpResponseCrash": "fixed with regression tests",
+    "storageAdmissionRollback": "fixed with regression tests",
+    "rootRelativePreviewAssets": "HTML/CSS manifest assets rebased; arbitrary JS not rewritten",
+    "reactTimeoutTestRace": "fixture waits for previous frame timer cleanup"
+  },
+  "limitations": [
+    "Provider accounts not validated end to end",
+    "Project API preferences are not native application integrations",
+    "App user OAuth not implemented",
+    "MCP supported in manual host bridge, not isolated native runner",
+    "No public multi-user service"
+  ]
+}

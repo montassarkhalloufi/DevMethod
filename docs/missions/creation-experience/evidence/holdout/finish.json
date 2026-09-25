@@ -1,0 +1,21 @@
+{
+  "jobId": "fc92d004-b845-46ca-910a-93ccd22164cb",
+  "title": "Carnet de prêts avec exemplaires et historique",
+  "summary": "Application locale réelle : créer un exemplaire numéroté, prêter à un prénom, enregistrer un retour sans effacer l’historique, filtrer et exporter les données JSON. Deux libellés identiques restent distincts par identifiant et numéro. Les fichiers ont été vérifiés avec node --check et quatre tests métier agent ; l’essai navigateur et le redémarrage restent à effectuer au moment de cette livraison.",
+  "brief": {
+    "outcome": "Retrouver chaque exemplaire et son historique de prêts après interruption.",
+    "scope": ["Créer des exemplaires à numéro unique, libellé éventuellement identique", "Prêter à un prénom et enregistrer un retour", "Historique persistant et export local"],
+    "excluded": ["Comptes et droits multi-utilisateur", "Courriels, paiement et hébergement public"],
+    "criteria": [
+      { "id": "identity", "text": "Le retour d’un exemplaire ne libère pas un autre exemplaire de même libellé." },
+      { "id": "history", "text": "Les prêts terminés restent consultables avec leur date de retour." },
+      { "id": "durable", "text": "Le carnet est conservé après un véritable arrêt puis redémarrage." },
+      { "id": "recovery", "text": "Un refus d’écriture laisse les saisies récupérables et n’annonce pas un succès." }
+    ]
+  },
+  "decisions": [
+    { "id": "loan-identity", "topic": "Identité des objets", "choice": "Identifiant stable par exemplaire et numéro unique ; libellés non uniques.", "reason": "Une agrégation par nom serait plus courte mais confondrait les prêts d’exemplaires homonymes.", "status": "active", "source": "agent" },
+    { "id": "loan-architecture", "topic": "architecture", "choice": "Fichiers HTML/CSS/ES modules locaux et contrat de données versionné Studio, objets et prêts séparés.", "reason": "Le stockage navigateur serait simple mais isolerait le carnet de la reprise/export du workspace. Le contrat local existant évite un service nouveau ; pas d’authentification revendiquée.", "status": "active", "source": "agent" },
+    { "id": "loan-design", "topic": "Présentation", "choice": "Inventaire par cartes, formulaire stable de création, historique tabulaire ; palette papier et vert sombre.", "reason": "Afficher l’exemplaire et son statut avant les actions. Composition CSS originale sans maquette raster ni référence imposée pour ce cas de transfert.", "status": "active", "source": "agent" }
+  ]
+}

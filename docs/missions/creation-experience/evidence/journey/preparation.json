@@ -1,0 +1,173 @@
+{
+  "label": "Operator-authored real HTTP preparation, not human validation",
+  "traces": [
+    {
+      "route": "/api/project",
+      "payload": {
+        "name": "Les Ateliers",
+        "idea": "Une association veut que les habitants trouvent un atelier de réparation, cuisine ou couture, voient date, lieu et places et puissent inscrire une personne puis annuler. Préserver les inscriptions en quittant et en revenant. Aucun email envoyé, compte ou paiement.",
+        "mode": "delegated",
+        "constraints": [
+          "Exécution locale",
+          "Aucun compte requis, données fictives",
+          "Aucun email ni paiement",
+          "HTML/CSS/JS et données JSON persistantes"
+        ]
+      },
+      "version": 2
+    },
+    {
+      "route": "/api/references",
+      "payload": {
+        "name": "direction-a-agenda.png"
+      },
+      "version": 3
+    },
+    {
+      "route": "/api/references",
+      "payload": {
+        "name": "direction-b-catalogue.png"
+      },
+      "version": 4
+    },
+    {
+      "route": "/api/references",
+      "payload": {
+        "name": "direction-c-tableau.png"
+      },
+      "version": 5
+    },
+    {
+      "route": "/api/references",
+      "payload": {
+        "name": "master-desktop.png"
+      },
+      "version": 6
+    },
+    {
+      "route": "/api/references",
+      "payload": {
+        "name": "mobile.png"
+      },
+      "version": 7
+    },
+    {
+      "route": "/api/requests",
+      "payload": {
+        "request": "Explorer, cadrer et conserver les directions visuelles des Ateliers avant réalisation."
+      },
+      "version": 8
+    },
+    {
+      "route": "/api/jobs/claim",
+      "payload": {
+        "worker": "Agent de mission — exploration et design délégués"
+      },
+      "version": 9
+    },
+    {
+      "route": "/api/jobs/finish",
+      "payload": {
+        "jobId": "a1cbe4f8-f66a-4d34-b842-6e9e81d86b24",
+        "title": "Cadrage et directions",
+        "summary": "Trois compositions raster inspectées. Agenda retenu sous délégation pour la lecture chronologique ; préférence humaine non mesurée.",
+        "brief": {
+          "outcome": "Trouver un atelier disponible et gérer des inscriptions persistantes sans reconstituer le contexte.",
+          "scope": [
+            "Agenda et filtre par activité",
+            "Inscription nominative avec capacité",
+            "Annulation et restitution de la place",
+            "Préservation des données et des saisies sur conflit"
+          ],
+          "excluded": [
+            "Authentification",
+            "Paiement",
+            "Email",
+            "Déploiement public",
+            "Liste d’attente V1"
+          ],
+          "criteria": [
+            {
+              "id": "find",
+              "text": "Filtrer les ateliers par activité sans perdre les inscriptions."
+            },
+            {
+              "id": "register",
+              "text": "Inscrire un nom dans un atelier avec place disponible."
+            },
+            {
+              "id": "capacity",
+              "text": "Refuser une inscription au-delà de la capacité."
+            },
+            {
+              "id": "cancel",
+              "text": "Annuler et rendre la place disponible."
+            },
+            {
+              "id": "persist",
+              "text": "Retrouver les inscriptions après redémarrage."
+            },
+            {
+              "id": "conflict",
+              "text": "Conflit de sauvegarde visible, saisie conservée pour réessayer."
+            }
+          ]
+        },
+        "decisions": [
+          {
+            "id": "architecture-local",
+            "topic": "architecture",
+            "choice": "HTML, CSS et JavaScript locaux ; stockage JSON par le service local fourni.",
+            "reason": "Tranche navigateur persistante sans nouvelle infrastructure ; pas de compte ou service payant nécessaire.",
+            "status": "active",
+            "source": "agent"
+          },
+          {
+            "id": "exploration-choice",
+            "topic": "exploration",
+            "choice": "Agenda clair plutôt que catalogue illustré ou tableau dense.",
+            "reason": "Les dates, lieux et places sont les informations utiles au premier choix. Hypothèse de facilité, non validée avec participants.",
+            "status": "active",
+            "source": "agent"
+          }
+        ],
+        "designs": [
+          {
+            "id": "agenda",
+            "title": "Agenda clair — référence retenue",
+            "description": "Le master décline la direction A : introduction à gauche, lignes datées à droite, fond papier et vert profond.",
+            "file": "53223255-28ee-40e5-a7c4-38fc39ad3573"
+          },
+          {
+            "id": "catalogue",
+            "title": "Catalogue chaleureux",
+            "description": "Découverte illustrée, moins de place pour les dates.",
+            "file": "573c2218-c21f-461f-80c1-b95ac7284c54"
+          },
+          {
+            "id": "tableau",
+            "title": "Tableau opérationnel",
+            "description": "Comparaison dense des places, moins accessible au premier contact.",
+            "file": "d139a0bf-c210-49b1-8c5b-ec28e12589d0"
+          }
+        ]
+      },
+      "version": 10
+    },
+    {
+      "route": "/api/design",
+      "payload": {
+        "id": "agenda",
+        "reason": "Choix opéré par l’agent de mission dans la délégation explicite ; pas un vote humain. Appliquer master-desktop et déclinaison mobile."
+      },
+      "version": 11
+    },
+    {
+      "route": "/api/requests",
+      "payload": {
+        "request": "Réalise Les Ateliers avec trois ateliers initiaux Réparer son vélo (20 septembre 2026, 10 h–12 h, Maison des associations, capacité 2), Cuisine de saison (23 septembre, 18 h–20 h, Cuisine partagée, capacité 3), Initiation à la couture (26 septembre, 14 h–16 h, Salle des pratiques, capacité 2). Applique exactement la référence visuelle choisie et une version mobile lisible. Filtre par activité, inscription avec nom, annulation, capacité contrôlée ; données via /api/data. Sauvegarde les saisies de formulaires sur reload, ne les efface jamais à une erreur. En HTTP409 garde les saisies, recharge les données, propose de réessayer ; ne perds aucune inscription concurrente. Ne simule aucun email. Ajoute tests locaux utiles et explique les vérifications réellement exécutées."
+      },
+      "version": 12
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "recordedAt": "2026-09-17",
+  "scope": "Architecture, Flux et Impact dans Code ; sous-agent right_scroll",
+  "url": "http://127.0.0.1:4348/#code",
+  "project": "Validation technique · démonstration",
+  "revision": "04c0ef55-2bf7-4186-b7d7-04dde4ff6d70",
+  "previousRevision": "97957108-acbf-4697-8c75-66a1dd46adb5",
+  "fixture": "Sources React/Express/PostgreSQL/Zod réellement analysées. Le backend de cette fixture n’a pas été exécuté et aucun contrôle de son comportement n’est déclaré réussi.",
+  "desktop": {
+    "domViewport": { "width": 1562, "height": 762 },
+    "pngSize": { "width": 1563, "height": 762 },
+    "sizeNote": "Captures natives CUA sans recadrage ni modification, dimensions PNG vérifiées par sips. Écart d’un pixel avec le viewport DOM conservé explicitement.",
+    "horizontalOverflow": false,
+    "screenshots": ["architecture.png", "architecture-comparison.png", "flow.png", "impact.png"]
+  },
+  "architecture": {
+    "nodesWithoutDetails": 10,
+    "edgesWithoutDetails": 4,
+    "nodeSelection": "GET /api/tasks -> inspecteur GET /api/tasks",
+    "edgeKeyboardSelection": "HTTP : GET /api/tasks -> inspecteur Relation · http, GET /api/tasks",
+    "edgePointerLimit": "L’activation automatisée au centre de la boîte SVG d’une courbe croisée a sélectionné l’autre courbe. La sélection clavier ciblée fonctionne. Les liens proches restent plus faciles à distinguer depuis la liste accessible ; la carte n’est pas une preuve d’ergonomie humaine validée.",
+    "search": "db -> 1/1 élément, recentrage translate(-253,-8) scale(1)",
+    "keyboardPan": "ArrowDown -> translate(0,-40) scale(1)",
+    "zoom": "120 % -> translate(-88,-94) scale(1.2), retour 100 % disponible",
+    "fit": "58 % -> translate(201.3316582914573,-4.623115577889447) scale(0.5778894472361809)",
+    "comparison": "10 connexions ajoutées, 4 supprimées, 1 élément retiré ; aucune preuve de runtime induite.",
+    "caps": "40 éléments par défaut, extension explicite à 100, 200 liens ; recherche et types disponibles.",
+    "svgExport": "Blob réellement sérialisé puis reparsé en test JSDOM ; même caméra, viewBox et styles inline ; téléchargement système non exercé dans la preuve navigateur."
+  },
+  "flows": {
+    "selected": "POST /api/tasks",
+    "count": 6,
+    "associatedElements": 10,
+    "errorBranchesInAssociatedSources": 4,
+    "observedTrace": false,
+    "sourceNavigation": "backend/server.ts:11 -> Fichiers, server.ts",
+    "scope": "Liste de dépendances associées à l’entrée, pas une chronologie. Les autres routes du même fichier sont explicitement signalées comme pouvant appartenir au périmètre.",
+    "originalProject4346": "État vide réel lorsque analysis.flows est vide ; aucun parcours inventé."
+  },
+  "impact": {
+    "changes": { "added": 2, "modified": 2, "removed": 1 },
+    "selectedFile": "shared/task.ts",
+    "modifiedElements": 4,
+    "directDependencies": 3,
+    "potentialConsumers": 5,
+    "contractsToReview": 2,
+    "associatedTests": 2,
+    "staleProofs": 0,
+    "warning": "Ces associations ne constituent ni une exécution de tests ni une preuve d’absence de régression."
+  },
+  "mobilePartial": {
+    "view": "Impact uniquement",
+    "requestedViewport": { "width": 390, "height": 844 },
+    "observedViewport": { "width": 354, "height": 767 },
+    "horizontalOverflow": false,
+    "note": "Override réinitialisé immédiatement pour ne pas perturber la vérification parallèle du parent. Architecture et Flux ne sont pas déclarés vérifiés sur mobile. Aucune capture mobile retenue."
+  },
+  "automatedChecks": {
+    "studio-architecture-model.test.mjs": 8,
+    "studio-project-model-views.test.mjs": 6,
+    "studio-project-workbench.test.mjs": 13,
+    "typeScript": "tsc -p studio-ui/tsconfig.json passe",
+    "lint": "Fichiers de ce périmètre passent ESLint",
+    "build": "npm run build:studio-ui passe"
+  },
+  "negativeFindingsFixed": [
+    "Carte globale longue illisible : caméra initiale lisible, ajustement global volontaire, recentrage des filtres.",
+    "Export SVG XML invalide dû à xmlns dupliqué : correction reproduite et couverte par un vrai reparsing XML.",
+    "Présentation de flux risquant de suggérer une chronologie : numérotation retirée et portée de dépendances visible en tête.",
+    "Réanalyse editor-saved démontant l’explorateur : snapshot conservé uniquement au même périmètre revision/base/draft, marqué à actualiser ; focus, saisie et classement préservés en test React.",
+    "Résultats antérieurs visibles pendant une réanalyse ou une erreur : preuves masquées tant que l’analyse n’est pas de nouveau disponible.",
+    "Sélection d’un élément supprimé redirigeant implicitement l’inspecteur vers un fichier courant : absence maintenant explicite, sans substitution."
+  ],
+  "limitations": [
+    "Vue Architecture comparée par marqueurs et liste des retraits ; pas d’édition visuelle de l’architecture.",
+    "Traces observées et données sensibles couvertes par fixture React automatisée, pas par instrumentation runtime de l’application de démonstration.",
+    "Les captures montrent le viewport réel et des contenus défilables, pas toute la hauteur des longues vues. Elles précèdent les correctifs de conservation du focus pendant réanalyse et d’inspection des suppressions ; ces derniers sont couverts par les tests React.",
+    "Aucune étude utilisateur ni supériorité de DevMethod déduite de ces vérifications."
+  ]
+}

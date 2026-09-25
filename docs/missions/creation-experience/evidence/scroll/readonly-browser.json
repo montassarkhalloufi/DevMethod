@@ -1,0 +1,80 @@
+{
+  "observedAt": "2026-09-16T21:57:15.626Z",
+  "method": "Chrome réel via CUA, onglet isolé 744838215 ; contrôles DOM rendus et interactions, aucune inscription ni adoption déclenchée.",
+  "workspace": "Démonstration locale sur le port 4346",
+  "viewport": {
+    "width": 1562,
+    "height": 762
+  },
+  "activeRevision": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+  "data": {
+    "beforeSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "afterSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+    "unchanged": true,
+    "version": 11,
+    "registrations": 4,
+    "waiting": 1
+  },
+  "comparison": {
+    "origin": "http://127.0.0.1:53068",
+    "fieldDisabled": true,
+    "fieldAriaDisabled": "true",
+    "fieldDescription": "Comparaison en lecture seule. Ouvrez l’application pour interagir.",
+    "fillAttemptRejected": true,
+    "fieldValueRemainedEmpty": true,
+    "submitButtonVisiblyDisabled": true,
+    "csp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
+  },
+  "keyboard": {
+    "action": "Tab depuis le dernier lien natif de l’aperçu",
+    "result": "Les contrôles de saisie et action désactivés sont ignorés ; focus sur le bouton Détails du Studio, id checks-.",
+    "valueUnchanged": true
+  },
+  "focus": {
+    "before": {
+      "control": "comparison-before",
+      "revision": "336de365-3d32-476e-9577-5d5798829ed8"
+    },
+    "proposal": {
+      "control": "comparison-proposal",
+      "revision": "d7cd1dff-4985-46ea-abbc-40bdc930346e"
+    },
+    "automaticFocusIntoForm": false
+  },
+  "targeting": {
+    "headingSucceeded": true,
+    "disabledInputInitialAttempt": "Échec reproductible : Chromium ne transmet pas click pour le champ disabled.",
+    "correction": "pointerdown uniquement sur les contrôles disabled de comparaison et lorsque le ciblage est actif.",
+    "disabledInputRetestSucceeded": true,
+    "target": "#name-repair-bike",
+    "inputRemainedDisabled": true,
+    "inputDidNotReceiveFocus": true,
+    "composerFocusedAfterExplicitTargeting": true,
+    "targetClearedAfterTest": true
+  },
+  "interactive": {
+    "inStudioButton": "Ouvrir la version appliquée",
+    "inStudioOrigin": "http://127.0.0.1:4347",
+    "formOpenedFromButton": true,
+    "inputDisabled": false,
+    "inputAriaDisabled": null,
+    "externalLinkOpenedExactRevision": true,
+    "externalRevision": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+    "externalInputDisabled": false,
+    "externalInputInitiallyFocused": false,
+    "formNeverSubmitted": true
+  },
+  "finalState": "Comparaison réouverte, aucun élément ciblé, onglet interactif fermé.",
+  "screenshot": "readonly-comparison.png",
+  "limitations": [
+    "Ce contrôle porte sur l’application de démonstration et Chrome ; aucun audit de technologie d’assistance.",
+    "La comparaison lit les données actuelles partagées et protège les écritures par son serveur. Elle n’est ni un instantané historique de données ni une isolation générale de code.",
+    "Les boutons arbitraires sont tous désactivés car leur effet métier ne peut pas être identifié génériquement.",
+    "Le brouillon Studio a été modifié par une autre session pendant cette revue ; ce worker ne l’a ni saisi ni restauré. Aucune donnée métier modifiée."
+  ],
+  "sourceHashes": {
+    "scripts/studio/preview.mjs": "b59781db24cfaaada12acad591ff809bd1172f6ff227aa7360266ebd9bdc1ba4",
+    "scripts/studio/public/comparison-guard.js": "2d6ccdcb1ec8508d610c667cfbcfb6bc540ce6dcd64b5c464a43e616db659527",
+    "scripts/studio/public/comparison-view.js": "259df16bfbb159bb59577c772f434dfb5e6215e6132bcdefe2b1139ef0602c23"
+  }
+}

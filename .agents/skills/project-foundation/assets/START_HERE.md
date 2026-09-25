@@ -13,7 +13,7 @@ Choose the entry that fits the actual project:
 - **Starting from zero:** give the need, constraints and existing decisions. Foundation selects the useful exploration/framing work before delivery.
 - **Adopting an existing product:** give its repository, relevant sources and requested outcome. Ask foundation to reconstruct missing context with source/revision references, preserve existing contracts and user changes, identify material unknowns, and continue at the first unresolved stage. Do not restart the product study merely because the kit was absent.
 
-Installing the kit does not import or run an application, or prove that its runtime, external services or tests work. Agent tools and application services have distinct requirements; use existing capabilities and accepted choices before proposing new ones.
+Installing the kit does not import or run an application in Studio, or prove that its runtime, external services or tests work. Agent tools and application services have distinct requirements; use existing capabilities and accepted choices before proposing new ones.
 
 If skills are not discovered automatically:
 

@@ -1,0 +1,15 @@
+{
+  "exportedAt": "2026-09-16T15:40:11.716Z",
+  "bytes": 7235072,
+  "sha256": "1037219a1c10fa5dfe17802c551ab6b0c6109046b62a926d52a2bf79477f4b5b",
+  "source": "GET /api/export",
+  "rawArchive": "/private/tmp/devmethod-studio-export-20260916.tar",
+  "reproducibleExample": "devmethod studio example --workspace /absolute/empty/directory",
+  "restoredFiles": 37,
+  "standaloneURL": "http://127.0.0.1:4337",
+  "dataIdentical": true,
+  "activeCodeHash": "525eb6bdd60c7943777fea47add48fc407906c0caf3066c5a0af563a1d6640c4",
+  "providerCredentialsExported": false,
+  "budgetPreserved": 277934,
+  "checkedAt": "2026-09-16T15:40:46.197Z"
+}

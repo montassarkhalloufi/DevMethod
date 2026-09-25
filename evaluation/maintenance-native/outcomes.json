@@ -1,0 +1,48 @@
+{
+  "format": 1,
+  "freezeSha256": "2733e70e5316f0ce9f10e6495b984dcb6052860e51e320bc4a61106b05296f88",
+  "admissions": 1,
+  "completedNativeTurns": 0,
+  "availableTokens": null,
+  "costUSD": null,
+  "slots": [
+    {
+      "id": "readiness",
+      "state": "launch-failed",
+      "reason": "exit 1; empty JSONL; EPERM; no final usage"
+    },
+    {
+      "id": "A-resume-filter",
+      "state": "not-run",
+      "reason": "admission stopped after failed, unmetered readiness"
+    },
+    {
+      "id": "B-resume-filter",
+      "state": "not-run",
+      "reason": "admission stopped after failed, unmetered readiness"
+    },
+    {
+      "id": "B-title-policy",
+      "state": "not-run",
+      "reason": "admission stopped after failed, unmetered readiness"
+    },
+    {
+      "id": "A-title-policy",
+      "state": "not-run",
+      "reason": "admission stopped after failed, unmetered readiness"
+    },
+    {
+      "id": "A-trim-boundary",
+      "state": "not-run",
+      "reason": "admission stopped after failed, unmetered readiness"
+    },
+    {
+      "id": "B-trim-boundary",
+      "state": "not-run",
+      "reason": "admission stopped after failed, unmetered readiness"
+    }
+  ],
+  "candidateC": "not-justified: no observed A/B gap",
+  "reservedTransfer": "not-run: no product-method candidate",
+  "browser": "not-run: no native product artifact"
+}

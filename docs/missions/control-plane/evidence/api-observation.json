@@ -1,0 +1,14 @@
+{
+  "at": "2026-09-25T09:26:31.566Z",
+  "fixture": "Les Ateliers local disposable copy",
+  "scope": "local HTTP read and persisted evaluation, not page loading or load testing",
+  "runs": 12,
+  "nodes": 77,
+  "edges": 77,
+  "history": 14,
+  "firstMs": 167.92,
+  "medianWarmMs": 149.19,
+  "maxWarmMs": 319.07,
+  "responseBytes": 2322962,
+  "decision": "Verify"
+}

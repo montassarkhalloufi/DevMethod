@@ -1,0 +1,1266 @@
+{
+  "format": 1,
+  "kind": "deterministic-calibration-after-reporting-correction-not-native",
+  "node": "v24.18.0",
+  "platform": "darwin",
+  "startedAt": "2026-09-16T07:30:48.812Z",
+  "freezeSha256": "e206b6ee525c23a0c3bf4960cedbbe2e69a1bb3178d414de76552aa5038ac604",
+  "executions": [
+    {
+      "case": "resume-filter",
+      "variant": "starting",
+      "target": null,
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "resume-filter",
+        "<SUITE>/cases/resume-filter/worker"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"resume-filter\",\"verdicts\":{\"restore-choice\":\"failed\",\"persist-change\":\"failed\",\"invalid-or-denied-storage\":\"failed\",\"preserve-user-edit\":\"passed\",\"baseline-evidence-still-applies\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"restore-choice\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\\n+ actual - expected\\n\\n  [\\n+   'all'\\n-   'active'\\n  ]\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:39:16\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:36:5\",\"persist-change\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\\n+ actual - expected\\n\\n  [\\n+   'all'\\n-   'completed'\\n  ]\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:45:14\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:42:5\",\"invalid-or-denied-storage\":\"AssertionError [ERR_ASSERTION]: Got unwanted exception.\\nActual message: \\\"Storage disabled\\\"\\n    at Object.clickFilter (file://<SUITE>/evaluator/ui-probe.mjs:57:177)\\n    at file://<SUITE>/evaluator/evaluate.mjs:50:119\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:47:5\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"evidence-reuse\",\"requirement\":\"Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 55.975291000000006,
+      "report": {
+        "format": 1,
+        "case": "resume-filter",
+        "verdicts": {
+          "restore-choice": "failed",
+          "persist-change": "failed",
+          "invalid-or-denied-storage": "failed",
+          "preserve-user-edit": "passed",
+          "baseline-evidence-still-applies": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "restore-choice": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n+   'all'\n-   'active'\n  ]\n\n    at file://<SUITE>/evaluator/evaluate.mjs:39:16\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:36:5",
+          "persist-change": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n+   'all'\n-   'completed'\n  ]\n\n    at file://<SUITE>/evaluator/evaluate.mjs:45:14\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:42:5",
+          "invalid-or-denied-storage": "AssertionError [ERR_ASSERTION]: Got unwanted exception.\nActual message: \"Storage disabled\"\n    at Object.clickFilter (file://<SUITE>/evaluator/ui-probe.mjs:57:177)\n    at file://<SUITE>/evaluator/evaluate.mjs:50:119\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:47:5"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "evidence-reuse",
+            "requirement": "Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "healthy",
+      "target": null,
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "resume-filter",
+        "<SUITE>/controls/resume-filter/healthy"
+      ],
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"resume-filter\",\"verdicts\":{\"restore-choice\":\"passed\",\"persist-change\":\"passed\",\"invalid-or-denied-storage\":\"passed\",\"preserve-user-edit\":\"passed\",\"baseline-evidence-still-applies\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"evidence-reuse\",\"requirement\":\"Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 49.448207999999994,
+      "report": {
+        "format": 1,
+        "case": "resume-filter",
+        "verdicts": {
+          "restore-choice": "passed",
+          "persist-change": "passed",
+          "invalid-or-denied-storage": "passed",
+          "preserve-user-edit": "passed",
+          "baseline-evidence-still-applies": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {},
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "evidence-reuse",
+            "requirement": "Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "no-restore",
+      "target": "restore-choice",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "resume-filter",
+        "<SUITE>/controls/resume-filter/no-restore"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"resume-filter\",\"verdicts\":{\"restore-choice\":\"failed\",\"persist-change\":\"failed\",\"invalid-or-denied-storage\":\"passed\",\"preserve-user-edit\":\"passed\",\"baseline-evidence-still-applies\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"restore-choice\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\\n+ actual - expected\\n\\n  [\\n+   'all'\\n-   'active'\\n  ]\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:39:16\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:36:5\",\"persist-change\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\\n+ actual - expected\\n\\n  [\\n+   'all'\\n-   'completed'\\n  ]\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:45:14\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:42:5\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"evidence-reuse\",\"requirement\":\"Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 45.93616699999998,
+      "report": {
+        "format": 1,
+        "case": "resume-filter",
+        "verdicts": {
+          "restore-choice": "failed",
+          "persist-change": "failed",
+          "invalid-or-denied-storage": "passed",
+          "preserve-user-edit": "passed",
+          "baseline-evidence-still-applies": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "restore-choice": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n+   'all'\n-   'active'\n  ]\n\n    at file://<SUITE>/evaluator/evaluate.mjs:39:16\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:36:5",
+          "persist-change": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n+   'all'\n-   'completed'\n  ]\n\n    at file://<SUITE>/evaluator/evaluate.mjs:45:14\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:42:5"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "evidence-reuse",
+            "requirement": "Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "no-write",
+      "target": "persist-change",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "resume-filter",
+        "<SUITE>/controls/resume-filter/no-write"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"resume-filter\",\"verdicts\":{\"restore-choice\":\"passed\",\"persist-change\":\"failed\",\"invalid-or-denied-storage\":\"passed\",\"preserve-user-edit\":\"passed\",\"baseline-evidence-still-applies\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"persist-change\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\\n+ actual - expected\\n\\n+ undefined\\n- 'completed'\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:44:14\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:42:5\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"evidence-reuse\",\"requirement\":\"Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 45.764207999999996,
+      "report": {
+        "format": 1,
+        "case": "resume-filter",
+        "verdicts": {
+          "restore-choice": "passed",
+          "persist-change": "failed",
+          "invalid-or-denied-storage": "passed",
+          "preserve-user-edit": "passed",
+          "baseline-evidence-still-applies": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "persist-change": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- 'completed'\n\n    at file://<SUITE>/evaluator/evaluate.mjs:44:14\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:42:5"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "evidence-reuse",
+            "requirement": "Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "unguarded-read",
+      "target": "invalid-or-denied-storage",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "resume-filter",
+        "<SUITE>/controls/resume-filter/unguarded-read"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"resume-filter\",\"verdicts\":{\"restore-choice\":\"passed\",\"persist-change\":\"passed\",\"invalid-or-denied-storage\":\"failed\",\"preserve-user-edit\":\"passed\",\"baseline-evidence-still-applies\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"invalid-or-denied-storage\":\"AssertionError [ERR_ASSERTION]: Got unwanted exception: Existing UI must initialize even when preference storage is unavailable\\nActual message: \\\"Storage disabled\\\"\\n    at openUI (file://<SUITE>/evaluator/ui-probe.mjs:53:10)\\n    at file://<SUITE>/evaluator/evaluate.mjs:50:28\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:47:5\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"evidence-reuse\",\"requirement\":\"Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 52.019957999999974,
+      "report": {
+        "format": 1,
+        "case": "resume-filter",
+        "verdicts": {
+          "restore-choice": "passed",
+          "persist-change": "passed",
+          "invalid-or-denied-storage": "failed",
+          "preserve-user-edit": "passed",
+          "baseline-evidence-still-applies": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "invalid-or-denied-storage": "AssertionError [ERR_ASSERTION]: Got unwanted exception: Existing UI must initialize even when preference storage is unavailable\nActual message: \"Storage disabled\"\n    at openUI (file://<SUITE>/evaluator/ui-probe.mjs:53:10)\n    at file://<SUITE>/evaluator/evaluate.mjs:50:28\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:47:5"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "evidence-reuse",
+            "requirement": "Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "invalid-restoration",
+      "target": "invalid-or-denied-storage",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "resume-filter",
+        "<SUITE>/controls/resume-filter/invalid-restoration"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"resume-filter\",\"verdicts\":{\"restore-choice\":\"passed\",\"persist-change\":\"passed\",\"invalid-or-denied-storage\":\"failed\",\"preserve-user-edit\":\"passed\",\"baseline-evidence-still-applies\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"invalid-or-denied-storage\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\\n+ actual - expected\\n\\n+ []\\n- [\\n-   'all'\\n- ]\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:49:64\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:47:5\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"evidence-reuse\",\"requirement\":\"Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 52.98225000000002,
+      "report": {
+        "format": 1,
+        "case": "resume-filter",
+        "verdicts": {
+          "restore-choice": "passed",
+          "persist-change": "passed",
+          "invalid-or-denied-storage": "failed",
+          "preserve-user-edit": "passed",
+          "baseline-evidence-still-applies": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "invalid-or-denied-storage": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   'all'\n- ]\n\n    at file://<SUITE>/evaluator/evaluate.mjs:49:64\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:47:5"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "evidence-reuse",
+            "requirement": "Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "reverted-user-css",
+      "target": "preserve-user-edit",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "resume-filter",
+        "<SUITE>/controls/resume-filter/reverted-user-css"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"resume-filter\",\"verdicts\":{\"restore-choice\":\"passed\",\"persist-change\":\"passed\",\"invalid-or-denied-storage\":\"passed\",\"preserve-user-edit\":\"failed\",\"baseline-evidence-still-applies\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"preserve-user-edit\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\\n+ actual - expected\\n\\n+ '368eaa114f097015dc40f61d5627620d491616c09409faac669682e0d2bc443e'\\n- 'e9eb4d930a2434bac4fef40883bf65f32d0f11ca5db41647a30e7d6d3b3b8bf3'\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:52:56\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:52:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"evidence-reuse\",\"requirement\":\"Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 48.12458400000003,
+      "report": {
+        "format": 1,
+        "case": "resume-filter",
+        "verdicts": {
+          "restore-choice": "passed",
+          "persist-change": "passed",
+          "invalid-or-denied-storage": "passed",
+          "preserve-user-edit": "failed",
+          "baseline-evidence-still-applies": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "preserve-user-edit": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '368eaa114f097015dc40f61d5627620d491616c09409faac669682e0d2bc443e'\n- 'e9eb4d930a2434bac4fef40883bf65f32d0f11ca5db41647a30e7d6d3b3b8bf3'\n\n    at file://<SUITE>/evaluator/evaluate.mjs:52:56\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:52:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "evidence-reuse",
+            "requirement": "Attribute the supplied independent baseline; check pins and relevance; report whether its observation was reused or rerun. Count any repeat from actual command trace, not agent claims."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "starting",
+      "target": null,
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "title-policy",
+        "<SUITE>/cases/title-policy/worker"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"title-policy\",\"verdicts\":{\"new-title-boundary\":\"failed\",\"legacy-read-does-not-rewrite\":\"passed\",\"legacy-completion-survives-process-restart\":\"passed\",\"both-ui-inputs-follow-new-limit\":\"failed\",\"existing-fixture-preserved\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"new-title-boundary\":\"AssertionError [ERR_ASSERTION]: Missing expected exception.\\n    at file://<SUITE>/evaluator/evaluate.mjs:59:71\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:56:11\",\"both-ui-inputs-follow-new-limit\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\\n\\n120 !== 80\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:74:14\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:72:5\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"compatibility-decision\",\"requirement\":\"The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation.\"}],\"processes\":5,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 466.80775000000006,
+      "report": {
+        "format": 1,
+        "case": "title-policy",
+        "verdicts": {
+          "new-title-boundary": "failed",
+          "legacy-read-does-not-rewrite": "passed",
+          "legacy-completion-survives-process-restart": "passed",
+          "both-ui-inputs-follow-new-limit": "failed",
+          "existing-fixture-preserved": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "new-title-boundary": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file://<SUITE>/evaluator/evaluate.mjs:59:71\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:56:11",
+          "both-ui-inputs-follow-new-limit": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n120 !== 80\n\n    at file://<SUITE>/evaluator/evaluate.mjs:74:14\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:72:5"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "compatibility-decision",
+            "requirement": "The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation."
+          }
+        ],
+        "processes": 5,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "healthy",
+      "target": null,
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "title-policy",
+        "<SUITE>/controls/title-policy/healthy"
+      ],
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"title-policy\",\"verdicts\":{\"new-title-boundary\":\"passed\",\"legacy-read-does-not-rewrite\":\"passed\",\"legacy-completion-survives-process-restart\":\"passed\",\"both-ui-inputs-follow-new-limit\":\"passed\",\"existing-fixture-preserved\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"compatibility-decision\",\"requirement\":\"The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation.\"}],\"processes\":5,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 239.279084,
+      "report": {
+        "format": 1,
+        "case": "title-policy",
+        "verdicts": {
+          "new-title-boundary": "passed",
+          "legacy-read-does-not-rewrite": "passed",
+          "legacy-completion-survives-process-restart": "passed",
+          "both-ui-inputs-follow-new-limit": "passed",
+          "existing-fixture-preserved": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {},
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "compatibility-decision",
+            "requirement": "The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation."
+          }
+        ],
+        "processes": 5,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "legacy-rejected",
+      "target": "legacy-read-does-not-rewrite",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "title-policy",
+        "<SUITE>/controls/title-policy/legacy-rejected"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"title-policy\",\"verdicts\":{\"new-title-boundary\":\"passed\",\"legacy-read-does-not-rewrite\":\"failed\",\"legacy-completion-survives-process-restart\":\"failed\",\"both-ui-inputs-follow-new-limit\":\"passed\",\"existing-fixture-preserved\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"legacy-read-does-not-rewrite\":\"AssertionError [ERR_ASSERTION]: Expected supported operation to succeed: file://<SUITE>/controls/title-policy/legacy-rejected/src/domain.mjs:41\\n      throw new Error('Invalid stored task');\\n            ^\\n\\nError: Invalid stored task\\n    at validateStoredTasks (file://<SUITE>/controls/title-policy/legacy-rejected/src/domain.mjs:41:13)\\n    at read (file://<SUITE>/controls/title-policy/legacy-rejected/src/store.mjs:21:12)\\n\\nNode.js v24.18.0\\n\\n\\n1 !== 0\\n\\n    at persisted (file://<SUITE>/evaluator/evaluate.mjs:31:10)\\n    at file://<SUITE>/evaluator/evaluate.mjs:64:20\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:62:11\",\"legacy-completion-survives-process-restart\":\"AssertionError [ERR_ASSERTION]: Expected supported operation to succeed: file://<SUITE>/controls/title-policy/legacy-rejected/src/domain.mjs:41\\n      throw new Error('Invalid stored task');\\n            ^\\n\\nError: Invalid stored task\\n    at validateStoredTasks (file://<SUITE>/controls/title-policy/legacy-rejected/src/domain.mjs:41:13)\\n    at read (file://<SUITE>/controls/title-policy/legacy-rejected/src/store.mjs:21:12)\\n    at async file://<SUITE>/controls/title-policy/legacy-rejected/src/store.mjs:53:23\\n\\nNode.js v24.18.0\\n\\n\\n1 !== 0\\n\\n    at persisted (file://<SUITE>/evaluator/evaluate.mjs:31:10)\\n    at file://<SUITE>/evaluator/evaluate.mjs:69:7\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:67:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"compatibility-decision\",\"requirement\":\"The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation.\"}],\"processes\":2,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 128.8476659999999,
+      "report": {
+        "format": 1,
+        "case": "title-policy",
+        "verdicts": {
+          "new-title-boundary": "passed",
+          "legacy-read-does-not-rewrite": "failed",
+          "legacy-completion-survives-process-restart": "failed",
+          "both-ui-inputs-follow-new-limit": "passed",
+          "existing-fixture-preserved": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "legacy-read-does-not-rewrite": "AssertionError [ERR_ASSERTION]: Expected supported operation to succeed: file://<SUITE>/controls/title-policy/legacy-rejected/src/domain.mjs:41\n      throw new Error('Invalid stored task');\n            ^\n\nError: Invalid stored task\n    at validateStoredTasks (file://<SUITE>/controls/title-policy/legacy-rejected/src/domain.mjs:41:13)\n    at read (file://<SUITE>/controls/title-policy/legacy-rejected/src/store.mjs:21:12)\n\nNode.js v24.18.0\n\n\n1 !== 0\n\n    at persisted (file://<SUITE>/evaluator/evaluate.mjs:31:10)\n    at file://<SUITE>/evaluator/evaluate.mjs:64:20\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:62:11",
+          "legacy-completion-survives-process-restart": "AssertionError [ERR_ASSERTION]: Expected supported operation to succeed: file://<SUITE>/controls/title-policy/legacy-rejected/src/domain.mjs:41\n      throw new Error('Invalid stored task');\n            ^\n\nError: Invalid stored task\n    at validateStoredTasks (file://<SUITE>/controls/title-policy/legacy-rejected/src/domain.mjs:41:13)\n    at read (file://<SUITE>/controls/title-policy/legacy-rejected/src/store.mjs:21:12)\n    at async file://<SUITE>/controls/title-policy/legacy-rejected/src/store.mjs:53:23\n\nNode.js v24.18.0\n\n\n1 !== 0\n\n    at persisted (file://<SUITE>/evaluator/evaluate.mjs:31:10)\n    at file://<SUITE>/evaluator/evaluate.mjs:69:7\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:67:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "compatibility-decision",
+            "requirement": "The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation."
+          }
+        ],
+        "processes": 2,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "edit-ui-old-limit",
+      "target": "both-ui-inputs-follow-new-limit",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "title-policy",
+        "<SUITE>/controls/title-policy/edit-ui-old-limit"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"title-policy\",\"verdicts\":{\"new-title-boundary\":\"passed\",\"legacy-read-does-not-rewrite\":\"passed\",\"legacy-completion-survives-process-restart\":\"passed\",\"both-ui-inputs-follow-new-limit\":\"failed\",\"existing-fixture-preserved\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"both-ui-inputs-follow-new-limit\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\\n\\n120 !== 80\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:74:105\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:72:5\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"compatibility-decision\",\"requirement\":\"The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation.\"}],\"processes\":5,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 257.6322500000001,
+      "report": {
+        "format": 1,
+        "case": "title-policy",
+        "verdicts": {
+          "new-title-boundary": "passed",
+          "legacy-read-does-not-rewrite": "passed",
+          "legacy-completion-survives-process-restart": "passed",
+          "both-ui-inputs-follow-new-limit": "failed",
+          "existing-fixture-preserved": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "both-ui-inputs-follow-new-limit": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n120 !== 80\n\n    at file://<SUITE>/evaluator/evaluate.mjs:74:105\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:72:5"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "compatibility-decision",
+            "requirement": "The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation."
+          }
+        ],
+        "processes": 5,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "add-ui-old-limit",
+      "target": "both-ui-inputs-follow-new-limit",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "title-policy",
+        "<SUITE>/controls/title-policy/add-ui-old-limit"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"title-policy\",\"verdicts\":{\"new-title-boundary\":\"passed\",\"legacy-read-does-not-rewrite\":\"passed\",\"legacy-completion-survives-process-restart\":\"passed\",\"both-ui-inputs-follow-new-limit\":\"failed\",\"existing-fixture-preserved\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"both-ui-inputs-follow-new-limit\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\\n\\n120 !== 80\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:74:14\\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\\n    at async file://<SUITE>/evaluator/evaluate.mjs:72:5\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"compatibility-decision\",\"requirement\":\"The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation.\"}],\"processes\":5,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 234.72083299999986,
+      "report": {
+        "format": 1,
+        "case": "title-policy",
+        "verdicts": {
+          "new-title-boundary": "passed",
+          "legacy-read-does-not-rewrite": "passed",
+          "legacy-completion-survives-process-restart": "passed",
+          "both-ui-inputs-follow-new-limit": "failed",
+          "existing-fixture-preserved": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "both-ui-inputs-follow-new-limit": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n120 !== 80\n\n    at file://<SUITE>/evaluator/evaluate.mjs:74:14\n    at async criterion (file://<SUITE>/evaluator/evaluate.mjs:17:9)\n    at async file://<SUITE>/evaluator/evaluate.mjs:72:5"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "compatibility-decision",
+            "requirement": "The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation."
+          }
+        ],
+        "processes": 5,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "new-input-old-limit",
+      "target": "new-title-boundary",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "title-policy",
+        "<SUITE>/controls/title-policy/new-input-old-limit"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"title-policy\",\"verdicts\":{\"new-title-boundary\":\"failed\",\"legacy-read-does-not-rewrite\":\"passed\",\"legacy-completion-survives-process-restart\":\"passed\",\"both-ui-inputs-follow-new-limit\":\"passed\",\"existing-fixture-preserved\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"new-title-boundary\":\"AssertionError [ERR_ASSERTION]: Missing expected exception.\\n    at file://<SUITE>/evaluator/evaluate.mjs:59:71\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:56:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"compatibility-decision\",\"requirement\":\"The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation.\"}],\"processes\":5,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 214.92566699999998,
+      "report": {
+        "format": 1,
+        "case": "title-policy",
+        "verdicts": {
+          "new-title-boundary": "failed",
+          "legacy-read-does-not-rewrite": "passed",
+          "legacy-completion-survives-process-restart": "passed",
+          "both-ui-inputs-follow-new-limit": "passed",
+          "existing-fixture-preserved": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "new-title-boundary": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file://<SUITE>/evaluator/evaluate.mjs:59:71\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:56:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "compatibility-decision",
+            "requirement": "The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation."
+          }
+        ],
+        "processes": 5,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "legacy-truncated",
+      "target": "legacy-completion-survives-process-restart",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "title-policy",
+        "<SUITE>/controls/title-policy/legacy-truncated"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"title-policy\",\"verdicts\":{\"new-title-boundary\":\"passed\",\"legacy-read-does-not-rewrite\":\"failed\",\"legacy-completion-survives-process-restart\":\"failed\",\"both-ui-inputs-follow-new-limit\":\"passed\",\"existing-fixture-preserved\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"legacy-read-does-not-rewrite\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\\n\\n80 !== 120\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:64:14\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:62:11\",\"legacy-completion-survives-process-restart\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\\n+ actual - expected\\n\\n  [\\n    {\\n      done: true,\\n      id: 'old81',\\n+     title: 'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL'\\n-     title: 'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL'\\n    },\\n    {\\n      done: true,\\n      id: 'old120',\\n+     title: 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'\\n-     title: 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'\\n    }\\n  ]\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:69:86\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:67:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"},{\"id\":\"compatibility-decision\",\"requirement\":\"The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation.\"}],\"processes\":3,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 148.38245900000015,
+      "report": {
+        "format": 1,
+        "case": "title-policy",
+        "verdicts": {
+          "new-title-boundary": "passed",
+          "legacy-read-does-not-rewrite": "failed",
+          "legacy-completion-survives-process-restart": "failed",
+          "both-ui-inputs-follow-new-limit": "passed",
+          "existing-fixture-preserved": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "legacy-read-does-not-rewrite": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n80 !== 120\n\n    at file://<SUITE>/evaluator/evaluate.mjs:64:14\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:62:11",
+          "legacy-completion-survives-process-restart": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    {\n      done: true,\n      id: 'old81',\n+     title: 'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL'\n-     title: 'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL'\n    },\n    {\n      done: true,\n      id: 'old120',\n+     title: 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'\n-     title: 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'\n    }\n  ]\n\n    at file://<SUITE>/evaluator/evaluate.mjs:69:86\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:67:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          },
+          {
+            "id": "compatibility-decision",
+            "requirement": "The explanation explicitly distinguishes new/edited input <=80 from old valid stored titles <=120 and states no automatic migration/truncation."
+          }
+        ],
+        "processes": 3,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "starting",
+      "target": null,
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "trim-boundary",
+        "<SUITE>/cases/trim-boundary/worker"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"trim-boundary\",\"verdicts\":{\"trim-before-length\":\"failed\",\"retain-existing-rejections\":\"passed\",\"normalize-without-changing-boundary\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"trim-before-length\":\"AssertionError [ERR_ASSERTION]: Got unwanted exception: A valid title must be accepted\\nActual message: \\\"Title must contain 1–120 characters.\\\"\\n    at acceptedTitle (file://<SUITE>/evaluator/evaluate.mjs:23:10)\\n    at file://<SUITE>/evaluator/evaluate.mjs:80:20\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:79:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 65.21250000000009,
+      "report": {
+        "format": 1,
+        "case": "trim-boundary",
+        "verdicts": {
+          "trim-before-length": "failed",
+          "retain-existing-rejections": "passed",
+          "normalize-without-changing-boundary": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "trim-before-length": "AssertionError [ERR_ASSERTION]: Got unwanted exception: A valid title must be accepted\nActual message: \"Title must contain 1–120 characters.\"\n    at acceptedTitle (file://<SUITE>/evaluator/evaluate.mjs:23:10)\n    at file://<SUITE>/evaluator/evaluate.mjs:80:20\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:79:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "healthy",
+      "target": null,
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "trim-boundary",
+        "<SUITE>/controls/trim-boundary/healthy"
+      ],
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"trim-boundary\",\"verdicts\":{\"trim-before-length\":\"passed\",\"retain-existing-rejections\":\"passed\",\"normalize-without-changing-boundary\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 45.247749999999996,
+      "report": {
+        "format": 1,
+        "case": "trim-boundary",
+        "verdicts": {
+          "trim-before-length": "passed",
+          "retain-existing-rejections": "passed",
+          "normalize-without-changing-boundary": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {},
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "raw-length",
+      "target": "trim-before-length",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "trim-boundary",
+        "<SUITE>/controls/trim-boundary/raw-length"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"trim-boundary\",\"verdicts\":{\"trim-before-length\":\"failed\",\"retain-existing-rejections\":\"passed\",\"normalize-without-changing-boundary\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"trim-before-length\":\"AssertionError [ERR_ASSERTION]: Got unwanted exception: A valid title must be accepted\\nActual message: \\\"Title must contain 1–120 characters.\\\"\\n    at acceptedTitle (file://<SUITE>/evaluator/evaluate.mjs:23:10)\\n    at file://<SUITE>/evaluator/evaluate.mjs:80:20\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:79:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 38.379917000000205,
+      "report": {
+        "format": 1,
+        "case": "trim-boundary",
+        "verdicts": {
+          "trim-before-length": "failed",
+          "retain-existing-rejections": "passed",
+          "normalize-without-changing-boundary": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "trim-before-length": "AssertionError [ERR_ASSERTION]: Got unwanted exception: A valid title must be accepted\nActual message: \"Title must contain 1–120 characters.\"\n    at acceptedTitle (file://<SUITE>/evaluator/evaluate.mjs:23:10)\n    at file://<SUITE>/evaluator/evaluate.mjs:80:20\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:79:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "off-by-one",
+      "target": "normalize-without-changing-boundary",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "trim-boundary",
+        "<SUITE>/controls/trim-boundary/off-by-one"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"trim-boundary\",\"verdicts\":{\"trim-before-length\":\"failed\",\"retain-existing-rejections\":\"passed\",\"normalize-without-changing-boundary\":\"failed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"trim-before-length\":\"AssertionError [ERR_ASSERTION]: Got unwanted exception: A valid title must be accepted\\nActual message: \\\"Title must contain 1–120 characters.\\\"\\n    at acceptedTitle (file://<SUITE>/evaluator/evaluate.mjs:23:10)\\n    at file://<SUITE>/evaluator/evaluate.mjs:81:20\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:79:11\",\"normalize-without-changing-boundary\":\"AssertionError [ERR_ASSERTION]: Got unwanted exception: A valid title must be accepted\\nActual message: \\\"Title must contain 1–120 characters.\\\"\\n    at acceptedTitle (file://<SUITE>/evaluator/evaluate.mjs:23:10)\\n    at file://<SUITE>/evaluator/evaluate.mjs:88:89\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:87:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 37.16516700000011,
+      "report": {
+        "format": 1,
+        "case": "trim-boundary",
+        "verdicts": {
+          "trim-before-length": "failed",
+          "retain-existing-rejections": "passed",
+          "normalize-without-changing-boundary": "failed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "trim-before-length": "AssertionError [ERR_ASSERTION]: Got unwanted exception: A valid title must be accepted\nActual message: \"Title must contain 1–120 characters.\"\n    at acceptedTitle (file://<SUITE>/evaluator/evaluate.mjs:23:10)\n    at file://<SUITE>/evaluator/evaluate.mjs:81:20\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:79:11",
+          "normalize-without-changing-boundary": "AssertionError [ERR_ASSERTION]: Got unwanted exception: A valid title must be accepted\nActual message: \"Title must contain 1–120 characters.\"\n    at acceptedTitle (file://<SUITE>/evaluator/evaluate.mjs:23:10)\n    at file://<SUITE>/evaluator/evaluate.mjs:88:89\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:87:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "unbounded-title",
+      "target": "retain-existing-rejections",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "trim-boundary",
+        "<SUITE>/controls/trim-boundary/unbounded-title"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"trim-boundary\",\"verdicts\":{\"trim-before-length\":\"passed\",\"retain-existing-rejections\":\"failed\",\"normalize-without-changing-boundary\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"retain-existing-rejections\":\"AssertionError [ERR_ASSERTION]: Missing expected exception.\\n    at file://<SUITE>/evaluator/evaluate.mjs:84:92\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:83:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 34.31204200000002,
+      "report": {
+        "format": 1,
+        "case": "trim-boundary",
+        "verdicts": {
+          "trim-before-length": "passed",
+          "retain-existing-rejections": "failed",
+          "normalize-without-changing-boundary": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "retain-existing-rejections": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file://<SUITE>/evaluator/evaluate.mjs:84:92\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:83:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "untrimmed-result",
+      "target": "normalize-without-changing-boundary",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "trim-boundary",
+        "<SUITE>/controls/trim-boundary/untrimmed-result"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"trim-boundary\",\"verdicts\":{\"trim-before-length\":\"failed\",\"retain-existing-rejections\":\"passed\",\"normalize-without-changing-boundary\":\"failed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"trim-before-length\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\\n+ actual - expected\\n\\n+ '                                                                                                                                                      Keep\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t\\\\t'\\n- 'Keep'\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:80:14\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:79:11\",\"normalize-without-changing-boundary\":\"AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\\n+ actual - expected\\n\\n+ '\\\\t Ordinary task \\\\n'\\n- 'Ordinary task'\\n\\n    at file://<SUITE>/evaluator/evaluate.mjs:88:14\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:87:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 34.09654200000023,
+      "report": {
+        "format": 1,
+        "case": "trim-boundary",
+        "verdicts": {
+          "trim-before-length": "failed",
+          "retain-existing-rejections": "passed",
+          "normalize-without-changing-boundary": "failed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "trim-before-length": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '                                                                                                                                                      Keep\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t'\n- 'Keep'\n\n    at file://<SUITE>/evaluator/evaluate.mjs:80:14\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:79:11",
+          "normalize-without-changing-boundary": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '\\t Ordinary task \\n'\n- 'Ordinary task'\n\n    at file://<SUITE>/evaluator/evaluate.mjs:88:14\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:87:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "blank-accepted",
+      "target": "retain-existing-rejections",
+      "argv": [
+        "<NODE_24_EXECUTABLE>",
+        "<SUITE>/evaluator/evaluate.mjs",
+        "trim-boundary",
+        "<SUITE>/controls/trim-boundary/blank-accepted"
+      ],
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "{\"format\":1,\"case\":\"trim-boundary\",\"verdicts\":{\"trim-before-length\":\"passed\",\"retain-existing-rejections\":\"failed\",\"normalize-without-changing-boundary\":\"passed\",\"preserve-accepted-boundaries\":\"passed\"},\"details\":{\"retain-existing-rejections\":\"AssertionError [ERR_ASSERTION]: Missing expected exception.\\n    at file://<SUITE>/evaluator/evaluate.mjs:84:92\\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\\n    at file://<SUITE>/evaluator/evaluate.mjs:83:11\"},\"manualReview\":[{\"id\":\"authored-regression\",\"requirement\":\"Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence.\"},{\"id\":\"scope-and-handoff\",\"requirement\":\"Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence.\"}],\"processes\":0,\"kind\":\"deterministic-domain-and-vm-checks-not-browser-or-native-evidence\"}\n",
+      "stderr": "",
+      "durationMs": 33.36299999999983,
+      "report": {
+        "format": 1,
+        "case": "trim-boundary",
+        "verdicts": {
+          "trim-before-length": "passed",
+          "retain-existing-rejections": "failed",
+          "normalize-without-changing-boundary": "passed",
+          "preserve-accepted-boundaries": "passed"
+        },
+        "details": {
+          "retain-existing-rejections": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file://<SUITE>/evaluator/evaluate.mjs:84:92\n    at criterion (file://<SUITE>/evaluator/evaluate.mjs:17:15)\n    at file://<SUITE>/evaluator/evaluate.mjs:83:11"
+        },
+        "manualReview": [
+          {
+            "id": "authored-regression",
+            "requirement": "Identify actually authored or meaningfully extended test(s), their executed result and original-fault sensitivity; never count mere file presence."
+          },
+          {
+            "id": "scope-and-handoff",
+            "requirement": "Inspect candidate diff/transcript/HANDOFF for preservation, truthful attribution, verified limits and proportionate work. This is separate manual review, not automatic passed evidence."
+          }
+        ],
+        "processes": 0,
+        "kind": "deterministic-domain-and-vm-checks-not-browser-or-native-evidence"
+      }
+    }
+  ],
+  "calibration": [
+    {
+      "case": "resume-filter",
+      "variant": "starting",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "restore-choice": "failed",
+        "persist-change": "failed",
+        "invalid-or-denied-storage": "failed",
+        "preserve-user-edit": "passed",
+        "baseline-evidence-still-applies": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "healthy",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "restore-choice": "passed",
+        "persist-change": "passed",
+        "invalid-or-denied-storage": "passed",
+        "preserve-user-edit": "passed",
+        "baseline-evidence-still-applies": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "no-restore",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "restore-choice": "failed",
+        "persist-change": "failed",
+        "invalid-or-denied-storage": "passed",
+        "preserve-user-edit": "passed",
+        "baseline-evidence-still-applies": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "no-write",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "restore-choice": "passed",
+        "persist-change": "failed",
+        "invalid-or-denied-storage": "passed",
+        "preserve-user-edit": "passed",
+        "baseline-evidence-still-applies": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "unguarded-read",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "restore-choice": "passed",
+        "persist-change": "passed",
+        "invalid-or-denied-storage": "failed",
+        "preserve-user-edit": "passed",
+        "baseline-evidence-still-applies": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "invalid-restoration",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "restore-choice": "passed",
+        "persist-change": "passed",
+        "invalid-or-denied-storage": "failed",
+        "preserve-user-edit": "passed",
+        "baseline-evidence-still-applies": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "resume-filter",
+      "variant": "reverted-user-css",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "restore-choice": "passed",
+        "persist-change": "passed",
+        "invalid-or-denied-storage": "passed",
+        "preserve-user-edit": "failed",
+        "baseline-evidence-still-applies": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "starting",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "new-title-boundary": "failed",
+        "legacy-read-does-not-rewrite": "passed",
+        "legacy-completion-survives-process-restart": "passed",
+        "both-ui-inputs-follow-new-limit": "failed",
+        "existing-fixture-preserved": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "healthy",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "new-title-boundary": "passed",
+        "legacy-read-does-not-rewrite": "passed",
+        "legacy-completion-survives-process-restart": "passed",
+        "both-ui-inputs-follow-new-limit": "passed",
+        "existing-fixture-preserved": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "legacy-rejected",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "new-title-boundary": "passed",
+        "legacy-read-does-not-rewrite": "failed",
+        "legacy-completion-survives-process-restart": "failed",
+        "both-ui-inputs-follow-new-limit": "passed",
+        "existing-fixture-preserved": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "edit-ui-old-limit",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "new-title-boundary": "passed",
+        "legacy-read-does-not-rewrite": "passed",
+        "legacy-completion-survives-process-restart": "passed",
+        "both-ui-inputs-follow-new-limit": "failed",
+        "existing-fixture-preserved": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "add-ui-old-limit",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "new-title-boundary": "passed",
+        "legacy-read-does-not-rewrite": "passed",
+        "legacy-completion-survives-process-restart": "passed",
+        "both-ui-inputs-follow-new-limit": "failed",
+        "existing-fixture-preserved": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "new-input-old-limit",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "new-title-boundary": "failed",
+        "legacy-read-does-not-rewrite": "passed",
+        "legacy-completion-survives-process-restart": "passed",
+        "both-ui-inputs-follow-new-limit": "passed",
+        "existing-fixture-preserved": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "title-policy",
+      "variant": "legacy-truncated",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "new-title-boundary": "passed",
+        "legacy-read-does-not-rewrite": "failed",
+        "legacy-completion-survives-process-restart": "failed",
+        "both-ui-inputs-follow-new-limit": "passed",
+        "existing-fixture-preserved": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "starting",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "trim-before-length": "failed",
+        "retain-existing-rejections": "passed",
+        "normalize-without-changing-boundary": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "healthy",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "trim-before-length": "passed",
+        "retain-existing-rejections": "passed",
+        "normalize-without-changing-boundary": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "raw-length",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "trim-before-length": "failed",
+        "retain-existing-rejections": "passed",
+        "normalize-without-changing-boundary": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "off-by-one",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "trim-before-length": "failed",
+        "retain-existing-rejections": "passed",
+        "normalize-without-changing-boundary": "failed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "unbounded-title",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "trim-before-length": "passed",
+        "retain-existing-rejections": "failed",
+        "normalize-without-changing-boundary": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "untrimmed-result",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "trim-before-length": "failed",
+        "retain-existing-rejections": "passed",
+        "normalize-without-changing-boundary": "failed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    },
+    {
+      "case": "trim-boundary",
+      "variant": "blank-accepted",
+      "calibrated": true,
+      "technical": false,
+      "verdicts": {
+        "trim-before-length": "passed",
+        "retain-existing-rejections": "failed",
+        "normalize-without-changing-boundary": "passed",
+        "preserve-accepted-boundaries": "passed"
+      }
+    }
+  ],
+  "previousResults": "<OPERATOR_PATH>",
+  "outerNodeProcesses": 21,
+  "observedNestedNodeProcesses": 30,
+  "elapsedMs": 2328.6232930000006,
+  "complete": true,
+  "finishedAt": "2026-09-16T07:30:51.165Z"
+}

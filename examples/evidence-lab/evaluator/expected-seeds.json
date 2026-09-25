@@ -1,0 +1,6 @@
+{
+  "slots": [
+    { "id": "welcome", "capacity": 2 },
+    { "id": "garden", "capacity": 3 }
+  ]
+}

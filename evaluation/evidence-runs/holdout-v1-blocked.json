@@ -1,0 +1,301 @@
+{
+  "format": 1,
+  "workspace": "/tmp/devmethod-evidence-holdout-V0pnI5",
+  "createdAt": "2026-09-15T21:52:55.706Z",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "frozenManifestSha256": "a9b2a49485bfa1fe1cf80b1272b0dfd63ea224840166ea15e1de2a9aaf83c335",
+  "runnerProcesses": 8,
+  "adjudicatorChildren": 8,
+  "cases": [
+    {
+      "candidate": "healthy",
+      "report": {
+        "format": 1,
+        "status": "halted",
+        "fresh": false,
+        "reason": "interrupted-attempt",
+        "attempts": 1,
+        "permit": "d6e361b8802940e6691454bd42f4d5740c15c0db3b1e3ab7a6167bdeeb53c437",
+        "failureSignature": null,
+        "candidateBefore": "a839093afb184c268a3110e3a6df4af5d6cb456dac3f746532265ab924488a8f",
+        "candidateAfter": "a839093afb184c268a3110e3a6df4af5d6cb456dac3f746532265ab924488a8f",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "interrupted"
+          },
+          {
+            "id": "finality",
+            "status": "interrupted"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "interrupted",
+            "reason": "invalid-verdict-protocol"
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "not-run"
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "not-run"
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-15T21:52:53.551Z",
+        "durationMs": 236.246272,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "adjudication": {
+        "format": 1,
+        "kind": "independent-restart-adjudication",
+        "durability": "passed",
+        "finality": "passed",
+        "observed": {
+          "pending": [
+            "waiting"
+          ],
+          "retry": false,
+          "after": [
+            "waiting"
+          ]
+        }
+      }
+    },
+    {
+      "candidate": "duplicate",
+      "report": {
+        "format": 1,
+        "status": "halted",
+        "fresh": false,
+        "reason": "interrupted-attempt",
+        "attempts": 1,
+        "permit": "5429929d785cb2d993f53e4e15bbf3c8f094f1de917880e60d33ed082da2ca6a",
+        "failureSignature": null,
+        "candidateBefore": "547dcc062890358a002574fdd3930872fb211eb22685b1c5e5c790ae0474bd63",
+        "candidateAfter": "547dcc062890358a002574fdd3930872fb211eb22685b1c5e5c790ae0474bd63",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "interrupted"
+          },
+          {
+            "id": "finality",
+            "status": "interrupted"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "interrupted",
+            "reason": "invalid-verdict-protocol"
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "not-run"
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "not-run"
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-15T21:52:54.127Z",
+        "durationMs": 238.88504199999988,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "adjudication": {
+        "format": 1,
+        "kind": "independent-restart-adjudication",
+        "durability": "passed",
+        "finality": "passed",
+        "observed": {
+          "pending": [
+            "waiting"
+          ],
+          "retry": false,
+          "after": [
+            "waiting"
+          ]
+        }
+      }
+    },
+    {
+      "candidate": "resurrect",
+      "report": {
+        "format": 1,
+        "status": "halted",
+        "fresh": false,
+        "reason": "interrupted-attempt",
+        "attempts": 1,
+        "permit": "eeb932f6b30025359442702de544425b6ee2eaa89f63e43df2c3fd40c3bcb729",
+        "failureSignature": null,
+        "candidateBefore": "63401f8b5505d68b51d0dc5d7069f1899149584cb22f8d64e21d3434bdb9ca75",
+        "candidateAfter": "63401f8b5505d68b51d0dc5d7069f1899149584cb22f8d64e21d3434bdb9ca75",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "interrupted"
+          },
+          {
+            "id": "finality",
+            "status": "interrupted"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "interrupted",
+            "reason": "invalid-verdict-protocol"
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "not-run"
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "not-run"
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-15T21:52:54.709Z",
+        "durationMs": 239.431507,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "adjudication": {
+        "format": 1,
+        "kind": "independent-restart-adjudication",
+        "durability": "passed",
+        "finality": "failed",
+        "observed": {
+          "pending": [
+            "waiting"
+          ],
+          "retry": true,
+          "after": [
+            "waiting",
+            "finished"
+          ]
+        }
+      }
+    },
+    {
+      "candidate": "lost-restart",
+      "report": {
+        "format": 1,
+        "status": "halted",
+        "fresh": false,
+        "reason": "interrupted-attempt",
+        "attempts": 1,
+        "permit": "6ee7ff783027fc0b24b26603f89a69d80caf57f87c7af3f40ab8865bac14a136",
+        "failureSignature": null,
+        "candidateBefore": "1e21bde20d8ab76461002f592cdf851e97dfba5a4e8c5a134fe8c079907cd877",
+        "candidateAfter": "1e21bde20d8ab76461002f592cdf851e97dfba5a4e8c5a134fe8c079907cd877",
+        "criteria": [
+          {
+            "id": "idempotency",
+            "status": "interrupted"
+          },
+          {
+            "id": "finality",
+            "status": "interrupted"
+          }
+        ],
+        "results": [
+          {
+            "check": "queue-partial",
+            "mode": "healthy",
+            "status": "completed",
+            "verdicts": {
+              "idempotency": "passed",
+              "finality": "passed"
+            }
+          },
+          {
+            "check": "queue-partial",
+            "mode": "duplicate",
+            "status": "interrupted",
+            "reason": "invalid-verdict-protocol"
+          },
+          {
+            "check": "queue-partial",
+            "mode": "resurrect",
+            "status": "not-run"
+          },
+          {
+            "check": "queue-partial",
+            "mode": "candidate",
+            "status": "not-run"
+          }
+        ],
+        "revisions": 1,
+        "startedAt": "2026-09-15T21:52:55.302Z",
+        "durationMs": 234.5707299999999,
+        "modelTokens": null,
+        "modelCost": null,
+        "limitations": "Experimental local evidence, not semantic acceptance or a security sandbox. Evaluator code and session storage are trusted. Only declared bytes are bound; undeclared dependencies, external writers and TOCTOU are outside this boundary. Controls measure declared fault sensitivity, not test independence or requirement completeness."
+      },
+      "adjudication": {
+        "format": 1,
+        "kind": "independent-restart-adjudication",
+        "durability": "failed",
+        "finality": "failed",
+        "observed": {
+          "pending": [],
+          "retry": true,
+          "after": [
+            "finished"
+          ]
+        }
+      }
+    }
+  ],
+  "falseSupportOnRestart": [],
+  "limitations": "Independently authored post-design deterministic fixture. Partial checker intentionally lacks restart checks. Not a native model comparison or generalization estimate. All predictions and misses retained."
+}

@@ -1,0 +1,58 @@
+{
+  "format": 1,
+  "mode": "no-model-single-native-sandbox",
+  "startedAt": "2026-09-16T12:27:34.408Z",
+  "endedAt": "2026-09-16T12:27:34.623Z",
+  "root": "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ",
+  "worker": "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe",
+  "profileName": "devmethod_single_probe",
+  "profile": {
+    "extends": ":workspace",
+    "filesystem": {
+      ":root": "read",
+      ":tmpdir": "deny",
+      ":slash_tmp": "deny",
+      "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ": "deny",
+      "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe": "write",
+      "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe/.codex": "read",
+      "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe/.agents": "read",
+      "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe/.git": "write",
+      "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe/.runtime/tmp": "write",
+      "<SOURCE>": "deny"
+    },
+    "network": {
+      "enabled": false
+    }
+  },
+  "command": "codex",
+  "args": [
+    "sandbox",
+    "-P",
+    "devmethod_single_probe",
+    "-C",
+    "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe",
+    "-c",
+    "permissions.devmethod_single_probe={\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"/private/tmp/devmethod-single-sandbox-probe-eR1sPZ\"=\"deny\",\"/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe\"=\"write\",\"/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe/.codex\"=\"read\",\"/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe/.agents\"=\"read\",\"/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe/.git\"=\"write\",\"/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe/.runtime/tmp\"=\"write\",\"<SOURCE>\"=\"deny\"},\"network\"={\"enabled\"=false}}",
+    "--",
+    "<USER_HOME>/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+    "/private/tmp/devmethod-single-sandbox-probe-eR1sPZ/workers/probe/probe.mjs"
+  ],
+  "runtime": {
+    "version": "v24.18.0",
+    "execPath": "<USER_HOME>/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "probeSha256": "a3ab6944c0009569c6e1057da862c51649805de166e52c8a26ded09d9d88a6cb",
+  "driverSha256": "24036a15407db675fba139f42c360353a28268f501e97bb24d84f6f0fbbc3d47",
+  "exit": 1,
+  "signal": null,
+  "stdout": "",
+  "stderr": "node:fs:2787\n      const stats = binding.lstat(base, true, undefined, true /* throwIfNoEntry */);\n                            ^\n\nError: EPERM: operation not permitted, lstat '/private/tmp'\n    at Object.realpathSync (node:fs:2787:29)\n    at toRealPath (node:internal/modules/helpers:63:13)\n    at Module._findPath (node:internal/modules/cjs/loader:803:22)\n    at resolveMainPath (node:internal/modules/run_main:35:21)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:146:20)\n    at node:internal/main/run_main_module:33:47 {\n  errno: -1,\n  code: 'EPERM',\n  syscall: 'lstat',\n  path: '/private/tmp'\n}\n\nNode.js v24.18.0\n",
+  "parsed": null,
+  "limits": {
+    "timeoutMs": 15000,
+    "maxBytes": 262144
+  },
+  "modelTurns": 0
+}
