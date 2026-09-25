@@ -1,0 +1,4 @@
+
+> devmethod-ai@0.6.0-beta.1 lint
+> eslint src scripts tests examples/pocket-tasks examples/clair-from-zero examples/fullstack examples/evidence-lab examples/seance studio-ui templates/studio-react examples/studio-ateliers-react *.config.mjs --max-warnings 0
+

@@ -85,7 +85,7 @@ test('foundation offers greenfield and existing-project entry without importing 
   });
   assert.match(f.document.body.textContent, /Deux points de départ/);
   assert.match(f.document.body.textContent, /Créer de zéro/);
-  assert.match(f.document.body.textContent, /devmethod studio import --source/);
+  assert.match(f.document.body.textContent, /devmethod-studio import --source/);
   assert.match(f.document.body.textContent, /--dry-run/);
   assert.equal(f.requests.length, 0);
 });

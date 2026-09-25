@@ -35,8 +35,8 @@ l’accès avant de retrouver le statut connecté.
 Le pont hôte peut lire les outils ou les appeler pendant une demande en cours :
 
 ```sh
-devmethod studio mcp tools --workspace /chemin/projet --file outils.json
-devmethod studio mcp call --workspace /chemin/projet --file appel.json
+devmethod-studio mcp tools --workspace /chemin/projet --file outils.json
+devmethod-studio mcp call --workspace /chemin/projet --file appel.json
 ```
 
 `outils.json` contient `jobId`, `connectionId` et éventuellement `toolName` pour consulter
@@ -56,7 +56,7 @@ se relance pas automatiquement. Les politiques ne contrôlent pas les outils ext
 appelés directement par l’agent hôte.
 
 Les guides Slack, Notion, Linear et GitHub conservent leurs étapes et réponses. L’agent
-peut demander un questionnaire connu avec `devmethod studio guide-request --workspace …
+peut demander un questionnaire connu avec `devmethod-studio guide-request --workspace …
 --file demande.json`, puis lire les réponses avec `guide-responses`. Une préparation
 n’est jamais présentée comme une connexion. Les interactions restent séparées du
 contexte initial immuable, des propositions de design et du progrès déclaré. Voir les
@@ -199,7 +199,7 @@ Après exécution réelle, le worker envoie à `POST /api/connectors/results` :
 }
 ```
 
-La commande `devmethod studio connector-result --workspace <workspace> --file <rapport.json>`
+La commande `devmethod-studio connector-result --workspace <workspace> --file <rapport.json>`
 gère le token worker localement. Le ticket rappelle aussi le point d’entrée HTTP. Le
 workspace est celui de la demande ; aucune clé ne doit être copiée dans le fichier.
 

@@ -6,3 +6,5 @@ node_modules/
 
 templates/**/dist/
 examples/studio-ateliers-react/dist/
+
+packages/studio/build/

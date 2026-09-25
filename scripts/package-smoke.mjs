@@ -5,9 +5,7 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { checkPackedGuard } from './package-guard-smoke.mjs';
-import { checkPackedAtelier } from './package-atelier-smoke.mjs';
-import { checkPackedReact } from './package-react-smoke.mjs';
-import { checkPackedStudio } from './package-studio-smoke.mjs';
+import { installArchive, runNpm } from './package-npm.mjs';
 const archive = process.argv[2];
 if (!archive) throw new Error('Usage: node scripts/package-smoke.mjs PACKAGE_TGZ');
 const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'devmethod-package-'));
@@ -17,21 +15,29 @@ const run = (command, args, cwd = root, expected = 0, input) => {
   return r.stdout;
 };
 try {
-  // stdin avoids GNU tar treating a Windows drive letter as a remote host.
-  run('tar', ['-xzf', '-'], root, 0, fs.readFileSync(path.resolve(archive)));
-  const pkg = path.join(root, 'package');
+  const consumer = path.join(root, 'consumer');
+  const pkg = installArchive(archive, consumer, 'devmethod-ai', { offline: true });
+  assert.deepEqual(
+    fs.readdirSync(path.join(consumer, 'node_modules')).filter((name) => !name.startsWith('.')),
+    ['devmethod-ai'],
+  );
+  assert.equal(fs.existsSync(path.join(pkg, 'scripts/studio')), false);
+  assert.equal(fs.existsSync(path.join(pkg, 'dist/studio-ui')), false);
   const cli = path.join(pkg, 'dist/cli.js');
-  await checkPackedAtelier(pkg, path.join(root, 'atelier'));
-  await checkPackedStudio(pkg, path.join(root, 'studio'));
-  await checkPackedReact(path.join(root, 'react-studio'), path.resolve(archive));
+  assert.match(
+    runNpm(['exec', '--offline', '--yes=false', '--', 'devmethod', '--help'], consumer),
+    /devmethod init/,
+  );
+  const absentStudio = spawnSync(process.execPath, [cli, 'studio', '--help'], {
+    cwd: consumer,
+    encoding: 'utf8',
+    timeout: 10000,
+  });
+  assert.equal(absentStudio.status, 2);
+  assert.match(absentStudio.stderr, /separate package.*devmethod-studio.*Nothing was downloaded/);
+  assert.equal(fs.existsSync(path.join(consumer, 'node_modules/devmethod-studio')), false);
   if (process.platform !== 'win32') {
-    run(process.execPath, ['scripts/evidence-demo.mjs'], pkg);
-    console.log(
-      'Packed application evidence journey: correction, restart, maintenance and sticky stop passed.',
-    );
-    const { prepareRestartFixture } = await import(
-      pathToFileURL(path.join(pkg, 'scripts/evidence-restart-comparison.mjs')).href
-    );
+    const { prepareRestartFixture } = await import('./evidence-restart-comparison.mjs');
     const { inspectEvidence, runEvidence } = await import(
       pathToFileURL(path.join(pkg, 'dist/evidence-runtime.js')).href
     );
@@ -67,8 +73,10 @@ try {
   }
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
   assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.6.0-beta.1');
-  run(process.execPath, ['evaluation/maintenance-fixtures/scripts/verify.mjs'], pkg);
-  run(process.execPath, ['scripts/check-docs.mjs'], pkg);
+  assert.deepEqual(
+    JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).dependencies ?? {},
+    {},
+  );
   assert.match(call(['--help']), /Markdown PLAN\/tickets and legacy missions/);
   assert.ok(fs.existsSync(path.join(pkg, 'dist/closure.js')));
   assert.ok(fs.existsSync(path.join(pkg, 'dist/loop.js')));
@@ -202,23 +210,6 @@ try {
   writeClosure('code.txt', 'changed fixture');
   assert.equal(JSON.parse(call(closureArgs, 1)).status, 'reverify');
   checkPackedGuard(call, closureRoot, path.join(root, 'guard-session'));
-  const behavioral = JSON.parse(
-    run(
-      process.execPath,
-      ['scripts/evaluate-behavior.mjs', 'evaluation/behavioral/pending.json'],
-      pkg,
-    ),
-  );
-  assert.equal(behavioral.plannedRuns, 36);
-  assert.equal(behavioral.nativeCompletedRuns, 0);
-  assert.equal(behavioral.nativePassRateAmongCompleted, null);
-  const preparedRoot = path.join(root, 'prepared-review');
-  const prepared = JSON.parse(
-    run(process.execPath, ['scripts/prepare-behavior-case.mjs', 'REVIEW', preparedRoot], pkg),
-  );
-  assert.equal(prepared.status, 'prepared-not-run');
-  assert.ok(Object.keys(prepared.files).length > 0);
-  assert.ok(!fs.existsSync(path.join(preparedRoot, 'oracle.json')));
   for (const resource of [
     'project-foundation/references/exploration.md',
     'project-foundation/references/delivery-planning.md',
@@ -235,11 +226,6 @@ try {
   ]) {
     assert.ok(fs.statSync(path.join(pkg, '.agents/skills', resource)).size > 0, resource);
   }
-  assert.ok(
-    fs.existsSync(
-      path.join(pkg, 'examples/mission-dialogue/docs/missions/first-save/tickets/SAVE-1.md'),
-    ),
-  );
   for (const file of [
     'review.js',
     'review-cli.js',
@@ -271,16 +257,6 @@ try {
   assert.ok(fs.readFileSync(path.join(reviewRoot, 'REVIEW.md'), 'utf8').includes('R-01'));
   call(['review', '--demo', '--dest', reviewRoot, '--output', 'review.html'], 2);
 
-  for (const testFile of [
-    ...fs
-      .readdirSync(path.join(pkg, 'examples/pocket-tasks/tests'))
-      .filter((f) => f.endsWith('.test.mjs'))
-      .map((f) => `examples/pocket-tasks/tests/${f}`),
-    'evaluation/greenfield/acceptance.test.mjs',
-    'evaluation/greenfield/security.test.mjs',
-  ]) {
-    run(process.execPath, ['--test', testFile], pkg);
-  }
   for (const host of ['codex', 'claude', 'cursor']) {
     const project = path.join(root, host);
     call(['init', '--tool', host, '--dest', project]);
@@ -433,7 +409,7 @@ try {
     );
   }
   console.log(
-    'Packed 0.6.0-beta.1: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.',
+    'Packed 0.6.0-beta.1: three host installs, subset, customization preservation, mission/context/staleness/planning passed from an offline installation with an empty cache and zero Studio dependencies. No native host execution.',
   );
 } finally {
   fs.rmSync(root, { recursive: true, force: true });

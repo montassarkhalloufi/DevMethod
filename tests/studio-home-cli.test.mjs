@@ -213,7 +213,7 @@ test('home help and direct import remain available without starting a default li
   fs.writeFileSync(path.join(source, 'main.py'), 'print("kept")\n');
   const help = await run(['--help']);
   assert.equal(help.code, 0);
-  assert.match(help.stdout, /Accueil : devmethod studio/);
+  assert.match(help.stdout, /Accueil : devmethod-studio/);
   assert.match(help.stdout, /home : \[--workspace \/bibliothèque\]/);
   const inspected = await run([
     'import',

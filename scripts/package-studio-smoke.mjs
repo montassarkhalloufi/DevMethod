@@ -49,10 +49,7 @@ async function withStudio(startStudio, workspace, inspect) {
 }
 
 function checkHelp(pkg) {
-  for (const args of [
-    [path.join(pkg, 'scripts/studio.mjs'), '--help'],
-    [path.join(pkg, 'dist/cli.js'), 'studio', '--help'],
-  ]) {
+  for (const args of [[path.join(pkg, 'scripts/studio.mjs'), '--help']]) {
     const result = spawnSync(process.execPath, args, { encoding: 'utf8', timeout: 10000 });
     assert.equal(result.status, 0, result.stderr || result.error?.message);
     for (const command of ['home', 'serve', 'import', 'example', 'status'])

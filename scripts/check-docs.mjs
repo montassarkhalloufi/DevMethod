@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { localMarkdownFileExists } from './markdown-links.mjs';
-const skip = new Set(['.git', 'node_modules', '.next', 'dist', 'evaluation-private']);
+const skip = new Set(['.git', 'node_modules', '.next', 'dist', 'build', 'evaluation-private']);
 
 function files(root) {
   return fs

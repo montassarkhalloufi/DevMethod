@@ -21,6 +21,7 @@ devmethod studio [home] [--port 4330]
 devmethod studio home --workspace /ABSOLUTE/PROJECT_LIBRARY
 devmethod studio --workspace /ABSOLUTE/DEDICATED_DIR [--agent codex]
 devmethod studio --help
+  Studio is distributed separately as devmethod-studio. No automatic installation.
 devmethod doctor [--dest PATH] [--json]
 devmethod update-preview [--dest PATH] [--json]
 devmethod mission --mission RELATIVE_JSON [--dest PATH] [--json]

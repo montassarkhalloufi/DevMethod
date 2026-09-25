@@ -1,0 +1,5 @@
+
+> devmethod-ai@0.6.0-beta.1 check:docs
+> node scripts/check-docs.mjs
+
+Local Markdown links, handbook assets and indexed deep references resolve (external URLs and anchors are not checked).

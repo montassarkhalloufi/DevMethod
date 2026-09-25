@@ -5,7 +5,7 @@ const quoted = (value: string) => `'${value.replaceAll("'", "'\\''")}'`;
 function ImportGuide() {
   const [source, setSource] = useState('/chemin/du-projet');
   const [workspace, setWorkspace] = useState('/chemin/du-studio');
-  const command = `devmethod studio import --source ${quoted(source)} --workspace ${quoted(workspace)}`;
+  const command = `devmethod-studio import --source ${quoted(source)} --workspace ${quoted(workspace)}`;
   return (
     <details className="journey-import-guide">
       <summary>Reprendre un projet existant sans DevMethod</summary>
@@ -32,7 +32,7 @@ function ImportGuide() {
           Importer puis ouvrir le nouvel espace :
           <pre>
             {command}
-            {'\n'}devmethod studio serve --workspace {quoted(workspace)}
+            {'\n'}devmethod-studio serve --workspace {quoted(workspace)}
           </pre>
         </li>
       </ol>

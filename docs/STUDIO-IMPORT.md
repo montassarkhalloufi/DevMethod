@@ -3,9 +3,9 @@
 Studio peut partir d’un nouveau workspace ou copier les sources d’un projet existant. Pour un dépôt distant, fournir d’abord un clone local obtenu par le moyen habituel. L’import n’accède pas au réseau et ne lance aucun fournisseur.
 
 ```bash
-devmethod studio import --source /chemin/absolu/projet --workspace /chemin/absolu/atelier --dry-run
-devmethod studio import --source /chemin/absolu/projet --workspace /chemin/absolu/atelier
-devmethod studio --workspace /chemin/absolu/atelier
+devmethod-studio import --source /chemin/absolu/projet --workspace /chemin/absolu/atelier --dry-run
+devmethod-studio import --source /chemin/absolu/projet --workspace /chemin/absolu/atelier
+devmethod-studio --workspace /chemin/absolu/atelier
 ```
 
 Utiliser des chemins réels sans lien symbolique ; sur macOS, le chemin canonique de `/tmp` est `/private/tmp`. Source et destination doivent être distinctes et non imbriquées. La destination doit être absente ou vide. Le dry-run retourne l’inventaire, les exclusions, le contexte et le profil proposé sans créer la destination.
