@@ -1154,23 +1154,25 @@ body[data-active-panel='control'] #control {
     padding-left: 12px;
   }
   body[data-active-panel='control'] .studio-layout {
+    display: flex;
+    flex-direction: column;
     height: auto;
     min-height: calc(100dvh - 100px);
-    grid-template-columns: 220px minmax(0, 1fr);
+    max-width: none;
   }
-  .cp-metrics {
-    flex-wrap: wrap;
+  body[data-active-panel='control'] #workspace {
+    order: 0;
   }
-  .cp-metrics > div {
-    flex-basis: 30%;
+  body[data-active-panel='control'] #discussion {
+    order: 1;
+    overflow: visible;
   }
-  .cp-cards,
-  .cp-path > div {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  body[data-active-panel='control'] .discussion-content {
+    flex: 0 0 auto;
+    overflow: visible;
   }
-  .cp-explanation,
-  .cp-heading-actions {
-    flex-wrap: wrap;
+  body[data-active-panel='control'] .mobile-navigation {
+    display: none;
   }
   .cp-attention-layout,
   .cp-graph-layout {
@@ -1187,15 +1189,31 @@ body[data-active-panel='control'] #control {
   .cp-inspector {
     max-height: none;
   }
-  .cp-step:nth-child(2)::after {
-    content: none;
-  }
   #control-tabs .shell-tabs button {
     padding-inline: 12px;
     min-height: 52px;
   }
   .cp-main-actions {
     flex-wrap: wrap;
+  }
+}
+@media (max-width: 1150px) {
+  .cp-metrics {
+    flex-wrap: wrap;
+  }
+  .cp-metrics > div {
+    flex-basis: 30%;
+  }
+  .cp-cards,
+  .cp-path > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cp-explanation,
+  .cp-heading-actions {
+    flex-wrap: wrap;
+  }
+  .cp-step:nth-child(2)::after {
+    content: none;
   }
 }
 @media (max-width: 700px) {
@@ -1406,7 +1424,7 @@ body[data-active-panel='control'] #project-menu {
 .cp-mobile-nav {
   display: none;
 }
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   .cp-mobile-nav {
     display: flex;
     gap: 6px;
@@ -1424,7 +1442,7 @@ body[data-active-panel='control'] #project-menu {
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   .cp-sidebar {
     display: none;
   }
@@ -1534,4 +1552,9 @@ body[data-active-panel='control'] .workspace-expanded .cp-expand-graph {
 body[data-active-panel='control'] .workspace-expanded .cp-graph-detailed .cp-inspector {
   top: 66px;
   max-height: calc(100dvh - 94px);
+}
+@media (max-width: 700px) {
+  body[data-active-panel='control'] .workspace-expanded .cp-graph-heading-row {
+    padding-top: 52px;
+  }
 }

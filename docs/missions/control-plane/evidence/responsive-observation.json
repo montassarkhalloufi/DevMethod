@@ -1,0 +1,240 @@
+{
+  "view": "overview",
+  "height": 1011,
+  "observations": [
+    {
+      "cardsColumns": "169px 169px",
+      "discussion": {
+        "height": 223.796875,
+        "width": 374,
+        "x": 8,
+        "y": 1958.6484375
+      },
+      "documentWidth": 390,
+      "metricsOverflow": false,
+      "viewport": 390,
+      "workspace": {
+        "height": 1826.6484375,
+        "width": 374,
+        "x": 8,
+        "y": 120
+      }
+    },
+    {
+      "cardsColumns": "324px 324px",
+      "discussion": {
+        "height": 227.796875,
+        "width": 684,
+        "x": 8,
+        "y": 1756.3671875
+      },
+      "documentWidth": 700,
+      "metricsOverflow": false,
+      "viewport": 700,
+      "workspace": {
+        "height": 1623.8671875,
+        "width": 684,
+        "x": 8,
+        "y": 120.5
+      }
+    },
+    {
+      "cardsColumns": "313.5px 313.5px",
+      "discussion": {
+        "height": 257.796875,
+        "width": 677,
+        "x": 12,
+        "y": 1687.6171875
+      },
+      "documentWidth": 701,
+      "metricsOverflow": false,
+      "viewport": 701,
+      "workspace": {
+        "height": 1547.1171875,
+        "width": 677,
+        "x": 12,
+        "y": 128.5
+      }
+    },
+    {
+      "cardsColumns": "358.5px 358.5px",
+      "discussion": {
+        "height": 257.796875,
+        "width": 767,
+        "x": 12,
+        "y": 1565.421875
+      },
+      "documentWidth": 791,
+      "metricsOverflow": false,
+      "viewport": 791,
+      "workspace": {
+        "height": 1441.421875,
+        "width": 767,
+        "x": 12,
+        "y": 112
+      }
+    },
+    {
+      "cardsColumns": "413px 413px",
+      "discussion": {
+        "height": 257.796875,
+        "width": 876,
+        "x": 12,
+        "y": 1540.625
+      },
+      "documentWidth": 900,
+      "metricsOverflow": false,
+      "viewport": 900,
+      "workspace": {
+        "height": 1416.625,
+        "width": 876,
+        "x": 12,
+        "y": 112
+      }
+    },
+    {
+      "cardsColumns": "413.5px 413.5px",
+      "discussion": {
+        "height": 257.796875,
+        "width": 877,
+        "x": 12,
+        "y": 1516.625
+      },
+      "documentWidth": 901,
+      "metricsOverflow": false,
+      "viewport": 901,
+      "workspace": {
+        "height": 1392.625,
+        "width": 877,
+        "x": 12,
+        "y": 112
+      }
+    },
+    {
+      "cardsColumns": "463px 463px",
+      "discussion": {
+        "height": 257.796875,
+        "width": 976,
+        "x": 12,
+        "y": 1516.625
+      },
+      "documentWidth": 1000,
+      "metricsOverflow": false,
+      "viewport": 1000,
+      "workspace": {
+        "height": 1392.625,
+        "width": 976,
+        "x": 12,
+        "y": 112
+      }
+    },
+    {
+      "cardsColumns": "325px 325px",
+      "discussion": {
+        "height": 911,
+        "width": 265,
+        "x": 12,
+        "y": 88
+      },
+      "documentWidth": 1001,
+      "metricsOverflow": false,
+      "viewport": 1001,
+      "workspace": {
+        "height": 911,
+        "width": 700,
+        "x": 289,
+        "y": 88
+      }
+    },
+    {
+      "cardsColumns": "374.5px 374.5px",
+      "discussion": {
+        "height": 911,
+        "width": 265,
+        "x": 12,
+        "y": 88
+      },
+      "documentWidth": 1100,
+      "metricsOverflow": false,
+      "viewport": 1100,
+      "workspace": {
+        "height": 911,
+        "width": 799,
+        "x": 289,
+        "y": 88
+      }
+    },
+    {
+      "cardsColumns": "399.5px 399.5px",
+      "discussion": {
+        "height": 911,
+        "width": 265,
+        "x": 12,
+        "y": 88
+      },
+      "documentWidth": 1150,
+      "metricsOverflow": false,
+      "viewport": 1150,
+      "workspace": {
+        "height": 911,
+        "width": 849,
+        "x": 289,
+        "y": 88
+      }
+    },
+    {
+      "cardsColumns": "194px 194px 194px 194px",
+      "discussion": {
+        "height": 911,
+        "width": 265,
+        "x": 12,
+        "y": 88
+      },
+      "documentWidth": 1151,
+      "metricsOverflow": false,
+      "viewport": 1151,
+      "workspace": {
+        "height": 911,
+        "width": 850,
+        "x": 289,
+        "y": 88
+      }
+    },
+    {
+      "cardsColumns": "226.25px 226.25px 226.25px 226.25px",
+      "discussion": {
+        "height": 911,
+        "width": 265,
+        "x": 12,
+        "y": 88
+      },
+      "documentWidth": 1280,
+      "metricsOverflow": false,
+      "viewport": 1280,
+      "workspace": {
+        "height": 911,
+        "width": 979,
+        "x": 289,
+        "y": 88
+      }
+    },
+    {
+      "cardsColumns": "281.5px 281.5px 281.5px 281.5px",
+      "discussion": {
+        "height": 915,
+        "width": 338,
+        "x": 17,
+        "y": 86
+      },
+      "documentWidth": 1586,
+      "metricsOverflow": false,
+      "viewport": 1586,
+      "workspace": {
+        "height": 915,
+        "width": 1196,
+        "x": 373,
+        "y": 86
+      }
+    }
+  ]
+}

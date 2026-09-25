@@ -49,6 +49,7 @@ visuelle. L’UI ne les déclare pas réussies à partir des tests du Studio.
 | [Attention](evidence/browser-attention-desktop.jpg) | Décision réservée avant son examen ; lire ne la résout pas ; trois preuves à renouveler |
 | [Preuve périmée](evidence/browser-proof-stale.jpg) | Ancienne version, révision observée différente, renouvellement réel ensuite |
 | [Erreur de lecture](evidence/browser-error-stale.jpg) | Serveur arrêté ; dernier rapport affiché comme périmé ; reprise après redémarrage |
+| [Largeur intermédiaire](evidence/browser-overview-tablet.jpg) | 791 × 1011, vue principale sur toute la largeur, indicateurs lisibles et responsabilités en dessous |
 | [Mobile](evidence/browser-overview-mobile.jpg) et [historique mobile](evidence/browser-history-mobile.jpg) | 390 × 844, navigation accessible sans débordement horizontal du document |
 | [Clavier et hauteur réduite](evidence/browser-keyboard-short.jpg) | 1280 × 650, focus visible et action atteignable au clavier |
 | [Graphe détaillé : critères](evidence/browser-graph-detailed-criteria.jpg) | Nœuds espacés, noms complets et relations réelles dans les marges |
@@ -67,6 +68,13 @@ dense, la vue complète utilise neuf familles, des nœuds ronds numérotés et d
 Les relations de même type et direction partagent un tracé unique avec des jonctions explicites,
 des couleurs, des pointillés et une légende. « Isoler ce lien » montre un trajet précis.
 Le plein écran réutilise celui du Studio, avec sortie permanente et Échap.
+La navigation compacte et la disposition sur une colonne s’appliquent jusqu’à 1 000 px,
+afin d’éviter le conflit avec le réordonnancement mobile du Studio. Les cartes et indicateurs
+s’adaptent dès 1 150 px. Les [mesures navigateur](evidence/responsive-observation.json)
+couvrent 13 largeurs de 390 à 1 586 px, notamment les deux côtés des seuils : aucun débordement
+horizontal du document ou des indicateurs ; les responsabilités restent accessibles.
+Le graphe plein écran à 791 px conserve les 77 nœuds et sa sortie par Échap ; sur mobile,
+une réserve au-dessus du titre laisse la place au bouton de sortie.
 Elle garde tous les nœuds ; les liens dessinés concernent la sélection, et l’inspecteur permet de
 suivre chaque relation entrante ou sortante et de revenir en arrière. Les familles sont un ordre
 de lecture, pas de nouvelles assertions causales. Le zoom détaillé reste au minimum à 80 % pour

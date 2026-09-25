@@ -14,7 +14,7 @@
     "scripts/studio/mcp-broker.mjs": "4332c6a45935dff00d39cc7dea69018cc9c3d195c5b9cc1f78420aae6f80fad9",
     "scripts/studio/public/app.js": "923bb31f65328c208f66c5bdd685533ab849ae2a17d8766143dbb598914b9a3b",
     "scripts/studio/public/control-controller.js": "55c754f9fd99dac266f23c62cfed36d9985b55ca2cc6278a33b7560d20291b2b",
-    "scripts/studio/public/control-plane.css": "208c3adc43fee2112a0fbdec7f8660de343ce7c9d343923dd1394ce34c7357d3",
+    "scripts/studio/public/control-plane.css": "e019e38c71cfa22bbc97f92bbffec5c0b2a067339a774df2f3cd0f67b2ed53f4",
     "scripts/studio/public/index.html": "f7b1354de2b32570decc1156a3ab6fca88ea13919550e9ca2a9cb15ece31522f",
     "scripts/studio/public/technical-workspace.js": "1d295d7d4b401f507e968ca859839a7be92f8178705a3cda4aad08b9366765ac",
     "scripts/studio/quality-catalog.mjs": "841978af8612a234a75e784ea3430aa67faeb19853de7232382b4b2e9c6d25c7",
@@ -78,6 +78,24 @@
     "selectedStyle": "round nodes, family layout, orthogonal routes for selected relations",
     "colouredBundledRelations": true,
     "isolatedLinkPreserves77Nodes": true,
-    "fullscreenButtonAndEscape": "passed, selection retained, background inert restored"
+    "fullscreenButtonAndEscape": "passed, selection retained, background inert restored",
+    "responsiveWidths": [
+      390,
+      700,
+      701,
+      791,
+      900,
+      901,
+      1000,
+      1001,
+      1100,
+      1150,
+      1151,
+      1280,
+      1586
+    ],
+    "responsiveDocumentAndMetricsOverflow": false,
+    "tabletFullscreenAndEscape": "passed, 77 nodes retained, width 791",
+    "mobileFullscreenTitle": "title top 76px, exit button bottom 62px, no overlap at 390px"
   }
 }
