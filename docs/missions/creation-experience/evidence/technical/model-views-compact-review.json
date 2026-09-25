@@ -1,0 +1,256 @@
+{
+  "testedAt": "2026-09-16T23:16:45.528Z",
+  "url": "http://127.0.0.1:4348/#code",
+  "revision": "04c0ef55-2bf7-4186-b7d7-04dde4ff6d70",
+  "measurements": {
+    "before": {
+      "canvas": {
+        "client": 410,
+        "height": 410,
+        "scroll": 410,
+        "width": 933.0894775390624,
+        "y": 270.8096618652344
+      },
+      "center": {
+        "client": 485,
+        "height": 485.0141906738281,
+        "scroll": 602,
+        "width": 933.0894775390624,
+        "y": 157.6988525390625
+      },
+      "filters": {
+        "client": 52,
+        "height": 52.90482711791992,
+        "scroll": 52,
+        "width": 933.0894775390624,
+        "y": 217.90481567382812
+      },
+      "graph": {
+        "client": 348,
+        "height": 347.6917419433594,
+        "scroll": 348,
+        "width": 933.0894775390624,
+        "y": 270.8096618652344
+      },
+      "legend": {
+        "client": 36,
+        "height": 38.3167610168457,
+        "scroll": 36,
+        "width": 430.4829406738281,
+        "y": 630.4971313476562
+      },
+      "list": {
+        "client": 45,
+        "height": 45.696022033691406,
+        "scroll": 45,
+        "width": 933.0894775390624,
+        "y": 714.2116088867188
+      },
+      "status": {
+        "client": 32,
+        "height": 33.4019889831543,
+        "scroll": 32,
+        "width": 933.0894775390624,
+        "y": 680.8096313476562
+      },
+      "toolbar": {
+        "client": 59,
+        "height": 60.205963134765625,
+        "scroll": 59,
+        "width": 933.0894775390624,
+        "y": 157.6988525390625
+      },
+      "view": {
+        "client": 602,
+        "height": 602.2088012695312,
+        "scroll": 602,
+        "width": 933.0894775390624,
+        "y": 157.6988525390625
+      },
+      "viewport": [
+        1562,
+        762
+      ]
+    },
+    "afterArchitecture": {
+      "canvas": {
+        "client": 372,
+        "height": 371.6335144042969,
+        "scroll": 372,
+        "width": 933.0894775390624,
+        "y": 242.7769775390625
+      },
+      "center": {
+        "client": 532,
+        "height": 531.8252563476562,
+        "scroll": 532,
+        "width": 933.0894775390624,
+        "y": 149.68038940429688
+      },
+      "filters": {
+        "client": 44,
+        "height": 44.893463134765625,
+        "scroll": 44,
+        "width": 933.0894775390624,
+        "y": 197.88351440429688
+      },
+      "graph": {
+        "client": 335,
+        "height": 335.1491394042969,
+        "scroll": 335,
+        "width": 933.0894775390624,
+        "y": 242.7769775390625
+      },
+      "inspector": {
+        "client": 532,
+        "height": 531.8252563476562,
+        "scroll": 777,
+        "width": 327.83380126953125,
+        "y": 149.68038940429688
+      },
+      "legend": {
+        "client": 24,
+        "height": 24.495737075805664,
+        "scroll": 24,
+        "width": 400.6676025390625,
+        "y": 583.92041015625
+      },
+      "list": {
+        "client": 37,
+        "height": 37.6988639831543,
+        "scroll": 37,
+        "width": 933.0894775390624,
+        "y": 643.8068237304688
+      },
+      "status": {
+        "client": 28,
+        "height": 29.396305084228516,
+        "scroll": 28,
+        "width": 933.0894775390624,
+        "y": 614.4104614257812
+      },
+      "toolbar": {
+        "client": 47,
+        "height": 48.203125,
+        "scroll": 47,
+        "width": 933.0894775390624,
+        "y": 149.68038940429688
+      },
+      "view": {
+        "client": 532,
+        "height": 531.8252563476562,
+        "scroll": 532,
+        "width": 933.0894775390624,
+        "y": 149.68038940429688
+      },
+      "viewport": [
+        1562,
+        762
+      ]
+    },
+    "afterFlow": {
+      "center": {
+        "client": 532,
+        "height": 531.8252563476562,
+        "scroll": 1735,
+        "width": 933.0894775390624,
+        "y": 149.68038940429688
+      },
+      "grid": {
+        "client": 532,
+        "height": 531.8252563476562,
+        "scroll": 1735,
+        "width": 1260.9232177734375,
+        "y": 149.68038940429688
+      },
+      "pageWidth": 1562,
+      "steps": 5,
+      "view": {
+        "client": 1735,
+        "height": 1734.8720703125,
+        "scroll": 1735,
+        "width": 933.0894775390624,
+        "y": 149.68038940429688
+      },
+      "viewport": [
+        1562,
+        762
+      ]
+    },
+    "afterImpact": {
+      "center": {
+        "client": 532,
+        "height": 531.8252563476562,
+        "scroll": 833,
+        "width": 933.0894775390624,
+        "y": 149.68038940429688
+      },
+      "grid": {
+        "client": 532,
+        "height": 531.8252563476562,
+        "scroll": 833,
+        "width": 1260.9232177734375,
+        "y": 149.68038940429688
+      },
+      "pageWidth": 1562,
+      "view": {
+        "client": 833,
+        "height": 833.0894775390625,
+        "scroll": 833,
+        "width": 933.0894775390624,
+        "y": 149.68038940429688
+      },
+      "viewport": [
+        1562,
+        762
+      ]
+    },
+    "impactWheel": {
+      "centerScroll": 0,
+      "discussionScroll": 0,
+      "gridScroll": 301.3636169433594,
+      "headerTop": 0,
+      "viewScroll": 0,
+      "workspaceScroll": 0
+    },
+    "flowWheel": {
+      "centerScroll": 0,
+      "discussionScroll": 0,
+      "gridScroll": 1203.1817626953125,
+      "headerTop": 0,
+      "viewScroll": 0,
+      "workspaceScroll": 0
+    }
+  },
+  "images": {
+    "architecture.png": [
+      1563,
+      762
+    ],
+    "flow.png": [
+      1563,
+      762
+    ],
+    "impact.png": [
+      1563,
+      762
+    ]
+  },
+  "tests": {
+    "pureModel": 8,
+    "renderedViews": 6,
+    "passed": 14
+  },
+  "review": {
+    "navigation": "Position stable, one header; version and provenance remain accessible.",
+    "architecture": "Compact controls and legend; no decorative glow or animated runtime. Initial camera preserves readability and pan/zoom, not every node fits without Ajuster.",
+    "flow": "Source dependencies and actual source errors, explicitly not observed runtime chronology. Long list scrolls independently from the conversation.",
+    "impact": "Direct modifications, possible consumers and unknowns remain separate; no current evidence claimed for a different revision."
+  },
+  "limits": [
+    "Browser inspection at one native desktop viewport for these final three view captures; responsive shell separately verified.",
+    "QA sources are genuine two-version fixture sources but their backend is not running.",
+    "Fixture graph has four visible links of two kinds, not every supported relation kind exercised here.",
+    "No human usability study and no competitive superiority claim."
+  ]
+}

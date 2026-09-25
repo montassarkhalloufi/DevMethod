@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-16T19:49:34.119Z",
+  "workspace": "/private/tmp/devmethod-reframe-demo",
+  "sourceWorkspace": "/private/tmp/devmethod-react-live",
+  "baseRevision": "336de365-3d32-476e-9577-5d5798829ed8",
+  "candidateRevision": "d7cd1dff-4985-46ea-abbc-40bdc930346e",
+  "jobId": "9b8abc3f-9dd5-4d91-ba64-d2f398b673af",
+  "dataSha256": "7e5a1c94e6383910e6d583268c97fbe8ca94c0af27a7a8fd803bd40ab32e73c0",
+  "dataPreserved": true,
+  "activeRevisionPreserved": true,
+  "providerCalls": 0,
+  "scenario": "Recorded demonstration with actual host-built candidate; no user visual approval invented."
+}

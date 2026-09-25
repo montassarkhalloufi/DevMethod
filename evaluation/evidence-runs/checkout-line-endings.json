@@ -1,0 +1,21 @@
+{
+  "before": {
+    "phase": "before attributes correction",
+    "checkoutAutocrlf": true,
+    "crlf": {
+      "examples/evidence-lab/app/public/app.js": true,
+      "examples/evidence-lab/evaluator/check.mjs": true,
+      "evaluation/evidence-holdout/runner-v2.mjs": true
+    }
+  },
+  "after": {
+    "phase": "after attributes correction",
+    "checkoutAutocrlf": true,
+    "crlf": {
+      "examples/evidence-lab/app/public/app.js": false,
+      "examples/evidence-lab/evaluator/check.mjs": false,
+      "evaluation/evidence-holdout/runner-v2.mjs": false
+    }
+  },
+  "limitation": "Local Git autocrlf checkout reproduction, not execution on Windows; native platform CI validates separately."
+}

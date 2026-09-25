@@ -1,0 +1,15 @@
+✔ a commentary message followed by work is not a terminal native response (0.47225ms)
+✔ collection failure preserves already observed native accounting and blocks readiness (3.11575ms)
+✔ staging unchanged working bytes invalidates frozen resumption attribution (125.171916ms)
+✔ outer read isolation permits canonical worker paths without exposing protected data (37.702083ms)
+✔ startup preflight checks the second sandbox before any Codex process (27.755709ms)
+✔ native arguments place both Node and zsh temporary files inside the assigned workspace (0.59075ms)
+✔ local shell preflight reproduces denied heredoc and verifies the bounded correction (64.086416ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 243.000834

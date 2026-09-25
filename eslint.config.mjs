@@ -3,6 +3,7 @@ import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import sonarjs from 'eslint-plugin-sonarjs';
 import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default defineConfig(
   {
@@ -31,11 +32,30 @@ export default defineConfig(
     },
   },
   {
+    files: [
+      'studio-ui/**/*.{ts,tsx}',
+      'templates/studio-react/**/*.{ts,tsx}',
+      'examples/studio-ateliers-react/**/*.{ts,tsx}',
+    ],
+    extends: [js.configs.recommended, tseslint.configs.recommended],
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
+    plugins: { sonarjs, 'react-hooks': reactHooks },
+    rules: {
+      'sonarjs/cognitive-complexity': ['error', 15],
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'error',
+    },
+  },
+  {
     files: ['src/**/*.ts'],
     extends: [tseslint.configs.recommended],
   },
   {
-    files: ['examples/{pocket-tasks,clair-from-zero,fullstack}/**/*.{js,mjs,cjs,ts,tsx}'],
+    files: [
+      'scripts/atelier/public/*.js',
+      'scripts/studio/public/*.js',
+      'examples/{pocket-tasks,clair-from-zero,fullstack,evidence-lab,seance}/**/*.{js,mjs,cjs,ts,tsx}',
+    ],
     extends: [js.configs.recommended],
     plugins: { sonarjs },
     rules: { 'sonarjs/cognitive-complexity': ['error', 15] },
@@ -50,14 +70,20 @@ export default defineConfig(
       'examples/fullstack/tests/**/*.cjs',
       'examples/fullstack/web/*.config.mjs',
       'examples/fullstack/web/features/**/server/**/*.ts',
+      'examples/evidence-lab/app/*.mjs',
+      'examples/evidence-lab/evaluator/*.mjs',
     ],
     languageOptions: { globals: globals.node },
   },
   {
     files: [
+      'scripts/atelier/public/*.js',
+      'scripts/studio/public/*.js',
+      'examples/seance/code/*.js',
       'examples/pocket-tasks/public/**/*.js',
       'examples/clair-from-zero/app/**/*.mjs',
       'examples/fullstack/web/**/*.{ts,tsx}',
+      'examples/evidence-lab/app/public/*.js',
     ],
     languageOptions: { globals: globals.browser },
   },

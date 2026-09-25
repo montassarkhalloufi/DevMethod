@@ -1,0 +1,9 @@
+# Icônes des connecteurs
+
+Le composant `ConnectorIcon({optionId, title?, size?})` utilise 38 SVG locaux de [Simple Icons 16.31.0](https://github.com/simple-icons/simple-icons/tree/16.31.0) pour 39 options du catalogue. Les fichiers sont inchangés, importés explicitement et intégrés au bundle ; aucune image distante ni dépendance supplémentaire n’est chargée. Le [manifeste](../studio-ui/src/features/connectors/assets/brands/manifest.json) conserve source, licence individuelle disponible et SHA-256 de chaque copie. Les [notices redistribuées](CONNECTOR-ICON-NOTICES.txt) conservent CC0 pour la collection, les attributions OpenTelemetry (CC-BY-4.0) et Sanity (MIT), ainsi que les conditions upstream. CC0 ne vaut pas autorisation générale sur les marques.
+
+Le logo Cloudflare représente le fournisseur de R2. Les options génériques ainsi que Playwright, axe-core, Mailpit, OpenAI, Slack, Twilio, Amazon S3 et Keycloak utilisent des initiales lisibles. Ces initiales sont du texte, pas une imitation de logo ; elles sont également le repli des futurs identifiants inconnus. Aucun identifiant ni titre reçu ne construit une URL.
+
+Sans `title`, l’icône est décorative et masquée aux technologies d’assistance, puisque le nom est affiché dans la carte. Un `title` explicite lui donne un nom accessible. La taille par défaut est 32 px, bornée entre 16 et 96 px. Les proportions sont conservées sur un fond blanc indépendant du thème.
+
+Périmètre React : composant de présentation pur avec imports directs, sans effet, requête, état partagé ni changement de framework. Les tests vérifient les empreintes et éléments SVG autorisés, la résolution fixe face aux identifiants inattendus, les variantes accessibles et les dimensions. La revue visuelle du catalogue intégré reste distincte de ces contrôles.

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DevMethod — Éprouver un tarif</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/transfer.css" />
+    <script type="module" src="/transfer-app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">DevMethod <span class="brand-section">/ Expériences</span></a>
+    </header>
+    <main class="transfer-workspace">
+      <header>
+        <p class="eyebrow">ÉQUIPEMENT PARTAGÉ · CAS FICTIF</p>
+        <h1>Un tarif, deux façons de compter.</h1>
+        <p>
+          3 € par tranche de 30 minutes commencée. Faut-il arrondir chaque séance, ou cumuler le
+          temps utilisé dans la journée ? Essayez les conséquences avant de choisir une promesse.
+        </p>
+      </header>
+      <section class="situation" aria-labelledby="usage-title">
+        <h2 id="usage-title">Utilisez l’équipement</h2>
+        <p>
+          Une fenêtre de deux heures, des locations de 20, 40 ou 60 minutes. Une pause de 20 minutes
+          ne coûte rien.
+        </p>
+        <div id="rental-actions" class="head-actions"></div>
+        <p id="rental-progress" role="status"></p>
+        <ol id="rental-history"></ol>
+        <button id="clear-rental">Recommencer cet essai</button>
+      </section>
+      <div
+        id="rental-invoices"
+        class="discovery-outcomes"
+        aria-label="Conséquences des deux tarifs"
+      ></div>
+      <section class="discovery-panel" aria-labelledby="find-title">
+        <p class="eyebrow">CHERCHER CE QUI LES DÉPARTAGE</p>
+        <h2 id="find-title">Quelle utilisation révèle un écart ?</h2>
+        <p>
+          La recherche essaie les mêmes opérations sur les deux calculs. Son aperçu laisse votre
+          essai intact.
+        </p>
+        <button id="find-rental" class="primary">Trouver une situation qui les distingue</button>
+        <div id="rental-discovery" aria-live="polite"></div>
+      </section>
+      <details class="transfer-context">
+        <summary>Comprendre le compromis et les limites</summary>
+        <p>
+          Le tarif par séance peut rémunérer les préparations répétées. Le cumul évite de facturer
+          chaque fragment comme une tranche entière. Le calcul ne dit pas lequel répond à votre
+          besoin.
+        </p>
+        <p>
+          Ce programme compare des calculs de durée et de montant. Il ne gère ni paiement, dépôt,
+          autres clients, remboursement ni changement de jour. Il utilise le même moteur de
+          recherche que l’Atelier, avec un adaptateur distinct.
+        </p>
+        <p>
+          Cas de recherche fictif. Aucun paiement ni envoi. Les essais de cette page restent en
+          mémoire et disparaissent au rechargement.
+        </p>
+      </details>
+      <p><a href="/">← Revenir à l’Atelier</a></p>
+    </main>
+    <dialog id="rental-reset" aria-labelledby="rental-reset-title">
+      <h2 id="rental-reset-title">Remplacer votre essai actuel ?</h2>
+      <p>Les locations et pauses de cette page seront remplacées par la situation trouvée.</p>
+      <button id="cancel-rental-reset">Conserver mon essai</button>
+      <button id="confirm-rental-reset" class="primary">Jouer la situation trouvée</button>
+    </dialog>
+  </body>
+</html>

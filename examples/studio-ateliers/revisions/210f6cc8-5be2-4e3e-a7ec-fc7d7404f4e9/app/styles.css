@@ -1,0 +1,154 @@
+:root {
+  --paper: #f5f3ed;
+  --ink: #080b0a;
+  --forest: #0d4d3c;
+  --forest-dark: #093c30;
+  --muted: #54606a;
+  --line: #cfd4d2;
+  --card: rgba(255, 255, 255, 0.79);
+  --repair: #e8efeb;
+  --cooking: #faead9;
+  --sewing: #f7dcdc;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 64% 27%, rgba(255,255,255,.92), transparent 34%),
+    linear-gradient(110deg, #f8f7f2, var(--paper));
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #b26d22; outline-offset: 3px; }
+
+.site-header {
+  height: 102px;
+  padding: 0 3.1vw;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand { display: flex; align-items: center; gap: 17px; color: var(--forest-dark); text-decoration: none; }
+.brand-mark { width: 52px; height: 48px; fill: var(--forest); stroke: var(--forest); stroke-width: 1.5; }
+.brand span { font: 700 42px/1 Georgia, serif; }
+
+nav { display: flex; gap: 44px; align-self: stretch; }
+nav a { position: relative; display: flex; align-items: center; color: #46515c; font-size: 19px; text-decoration: none; }
+nav a.active { color: #153b32; }
+nav a.active::after { content: ""; position: absolute; height: 3px; left: 0; right: 0; bottom: 20px; background: var(--forest); }
+.nav-count { margin-left: 7px; min-width: 22px; padding: 2px 6px; border-radius: 11px; color: white; background: var(--forest); font-size: 12px; text-align: center; }
+
+.page-shell { display: grid; grid-template-columns: minmax(330px, 30%) 1fr; gap: 72px; padding: 43px 3.2vw 37px; }
+.intro { padding-top: 16px; }
+.eyebrow, .month { margin: 0; color: #485565; font-size: 13px; letter-spacing: .31em; text-transform: uppercase; }
+.accent-line { display: block; width: 52px; height: 1px; margin: 20px 0 67px; background: var(--forest); }
+h1 { margin: 0; font: 700 clamp(50px, 4vw, 66px)/1.03 Georgia, serif; letter-spacing: -.035em; }
+.lede { margin: 31px 0 88px; color: var(--muted); font-size: 24px; line-height: 1.5; }
+
+.filters { display: flex; gap: 15px; margin: 0 0 24px; }
+.filter { min-height: 50px; padding: 0 34px; border: 1px solid #c7cecc; border-radius: 18px; color: #3d4851; background: transparent; font-size: 18px; }
+.filter.active { border-color: var(--forest); color: white; background: linear-gradient(135deg, #1d604d, #0d4939); }
+
+.status { min-height: 0; color: var(--muted); }
+.status:empty { display: none; }
+.status.error { margin-bottom: 15px; padding: 12px 15px; border-left: 3px solid #9b3f2e; background: #fff3ef; color: #6f291d; }
+.status-retry { color: inherit; font-weight: 700; }
+.workshop-list { display: grid; gap: 14px; }
+.workshop-card { min-height: 218px; display: grid; grid-template-columns: 158px 1fr 236px; padding: 31px 33px; border: 1px solid #d7dcda; border-radius: 11px; background: var(--card); box-shadow: 0 7px 22px rgba(30,51,44,.035); }
+.date-block { display: flex; flex-direction: column; align-items: center; padding-right: 26px; border-right: 1px solid #d6d9d8; text-transform: uppercase; }
+.weekday { color: #495363; font-size: 15px; letter-spacing: .18em; }
+.day { margin: 4px 0 -2px; color: var(--forest); font: 400 88px/.95 Georgia, serif; }
+.date-month { color: #3d4855; font-size: 14px; letter-spacing: .12em; }
+.workshop-details { padding: 0 46px; }
+.category-pill { display: inline-flex; align-items: center; min-height: 38px; padding: 0 16px; border-radius: 12px; font-size: 16px; }
+.category-pill::before { margin-right: 10px; font-size: 21px; }
+.workshop-card[data-category="repair"] .category-pill { background: var(--repair); }
+.workshop-card[data-category="repair"] .category-pill::before { content: "🔧"; }
+.workshop-card[data-category="cooking"] .category-pill { background: var(--cooking); }
+.workshop-card[data-category="cooking"] .category-pill::before { content: "♨"; color: var(--forest); }
+.workshop-card[data-category="sewing"] .category-pill { background: var(--sewing); }
+.workshop-card[data-category="sewing"] .category-pill::before { content: "✂"; color: var(--forest); }
+.workshop-title { margin: 11px 0 9px; font: 700 32px/1.12 Georgia, serif; letter-spacing: -.025em; }
+.meta { margin: 8px 0; color: var(--muted); font-size: 19px; }
+.meta > span:first-child { display: inline-block; width: 30px; color: #315e55; font-size: 25px; }
+.booking-panel { padding-left: 56px; border-left: 1px solid #d6d9d8; display: flex; flex-direction: column; justify-content: center; align-items: stretch; }
+.availability { margin: 0 0 15px; color: var(--forest); font: 700 29px/1.1 Georgia, serif; }
+.availability.full { color: #53616a; }
+.primary-button { min-height: 59px; padding: 0 26px; border: 0; border-radius: 11px; color: white; background: linear-gradient(135deg, #1b604c, #0c4938); font-size: 19px; }
+.primary-button:disabled { cursor: not-allowed; color: #606b72; background: #dedede; }
+.booking-form label { display: grid; gap: 6px; color: #34423e; font-size: 14px; }
+.name-input { width: 100%; min-height: 43px; padding: 8px 10px; border: 1px solid #aeb8b5; border-radius: 7px; background: white; }
+.form-error { min-height: 18px; margin: 5px 0; color: #8b2f22; font-size: 13px; }
+.form-actions { display: flex; gap: 12px; align-items: center; }
+.booking-form .primary-button { min-height: 43px; padding: 0 15px; font-size: 15px; }
+.text-button, .retry-button { border: 0; padding: 7px 2px; color: var(--forest); background: transparent; text-decoration: underline; }
+.conflict-box { margin-top: 10px; padding: 9px; border-radius: 7px; background: #fff1df; color: #623f16; font-size: 13px; }
+.conflict-box p { margin: 0 0 4px; }
+.empty { padding: 35px; border: 1px dashed var(--line); text-align: center; color: var(--muted); }
+
+.registrations-section { border-top: 1px solid var(--line); background: rgba(255,255,255,.3); }
+.registrations-inner { display: grid; grid-template-columns: 30% 1fr; gap: 72px; padding: 46px 3.2vw; }
+.registrations-inner h2 { margin: 12px 0 0; font: 700 36px Georgia, serif; }
+.registration-list { display: grid; gap: 10px; color: var(--muted); }
+.registration-item { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 20px; padding: 16px 20px; border: 1px solid var(--line); border-radius: 9px; background: rgba(255,255,255,.72); }
+.registration-item strong { display: block; margin-bottom: 4px; color: var(--ink); font: 700 19px Georgia, serif; }
+.cancel-button { padding: 9px 13px; border: 1px solid #9c4c42; border-radius: 7px; color: #7c2e25; background: transparent; }
+footer { margin: 0 3.2vw; padding: 28px 4px 31px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+
+@media (max-width: 1050px) {
+  .page-shell { grid-template-columns: 1fr; gap: 35px; }
+  .intro br { display: none; }
+  .accent-line { margin-bottom: 30px; }
+  .lede { margin-bottom: 35px; }
+  .workshop-card { grid-template-columns: 125px 1fr 210px; padding: 25px 22px; }
+  .workshop-details { padding: 0 28px; }
+  .booking-panel { padding-left: 28px; }
+}
+
+@media (max-width: 720px) {
+  .site-header { height: auto; min-height: 82px; padding: 15px 20px 0; flex-wrap: wrap; gap: 8px 26px; }
+  .brand-mark { width: 37px; height: 35px; }
+  .brand span { font-size: 29px; }
+  nav { order: 2; width: 100%; height: 48px; gap: 27px; }
+  nav a { font-size: 15px; }
+  nav a.active::after { bottom: 0; }
+  .page-shell { padding: 34px 20px; }
+  .intro { padding-top: 0; }
+  h1 { font-size: 46px; }
+  .lede { font-size: 20px; }
+  .filters { overflow-x: auto; margin-right: -20px; padding-right: 20px; scrollbar-width: none; }
+  .filter { min-height: 44px; padding: 0 22px; flex: 0 0 auto; font-size: 16px; }
+  .workshop-card { grid-template-columns: 86px 1fr; min-height: 0; padding: 22px 18px; }
+  .date-block { grid-row: 1 / span 2; padding-right: 16px; }
+  .weekday { font-size: 12px; }
+  .day { font-size: 60px; }
+  .date-month { font-size: 10px; letter-spacing: .07em; }
+  .workshop-details { padding: 0 0 21px 20px; }
+  .workshop-title { font-size: 27px; }
+  .meta { font-size: 16px; }
+  .booking-panel { grid-column: 2; padding: 19px 0 0 20px; border-left: 0; border-top: 1px solid #d6d9d8; }
+  .availability { font-size: 23px; }
+  .primary-button { min-height: 52px; }
+  .registrations-inner { grid-template-columns: 1fr; gap: 25px; padding: 36px 20px; }
+  .registration-item { grid-template-columns: 1fr; }
+  footer { margin: 0 20px; }
+}
+
+@media (max-width: 420px) {
+  h1 { font-size: 40px; }
+  .workshop-card { grid-template-columns: 73px 1fr; padding: 19px 13px; }
+  .day { font-size: 53px; }
+  .workshop-details, .booking-panel { padding-left: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

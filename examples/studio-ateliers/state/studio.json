@@ -1,0 +1,794 @@
+{
+  "format": 1,
+  "version": 42,
+  "project": {
+    "name": "Les Ateliers",
+    "idea": "Une association veut que les habitants trouvent un atelier de réparation, cuisine ou couture, voient date, lieu et places et puissent inscrire une personne puis annuler. Préserver les inscriptions en quittant et en revenant. Aucun email envoyé, compte ou paiement.",
+    "mode": "delegated",
+    "constraints": [
+      "Exécution locale",
+      "Aucun compte requis, données fictives",
+      "Aucun email ni paiement",
+      "HTML/CSS/JS et données JSON persistantes"
+    ]
+  },
+  "draft": "Reprise vérifiée : conserver les choix, les inscriptions et la liste d’attente.",
+  "references": [
+    {
+      "id": "d7db5f87-da53-4f30-a97a-09e57a5360a0",
+      "name": "direction-a-agenda.png",
+      "file": "references/d7db5f87-da53-4f30-a97a-09e57a5360a0.png",
+      "mime": "image/png"
+    },
+    {
+      "id": "573c2218-c21f-461f-80c1-b95ac7284c54",
+      "name": "direction-b-catalogue.png",
+      "file": "references/573c2218-c21f-461f-80c1-b95ac7284c54.png",
+      "mime": "image/png"
+    },
+    {
+      "id": "d139a0bf-c210-49b1-8c5b-ec28e12589d0",
+      "name": "direction-c-tableau.png",
+      "file": "references/d139a0bf-c210-49b1-8c5b-ec28e12589d0.png",
+      "mime": "image/png"
+    },
+    {
+      "id": "53223255-28ee-40e5-a7c4-38fc39ad3573",
+      "name": "master-desktop.png",
+      "file": "references/53223255-28ee-40e5-a7c4-38fc39ad3573.png",
+      "mime": "image/png"
+    },
+    {
+      "id": "35b114a3-9aeb-48a4-87a1-6dbca0f39df5",
+      "name": "mobile.png",
+      "file": "references/35b114a3-9aeb-48a4-87a1-6dbca0f39df5.png",
+      "mime": "image/png"
+    }
+  ],
+  "brief": {
+    "outcome": "Trouver un atelier disponible et gérer des inscriptions persistantes sans reconstituer le contexte.",
+    "scope": [
+      "Agenda et filtre par activité",
+      "Inscription nominative avec capacité",
+      "Annulation et promotion de la première personne en attente, sinon restitution de la place",
+      "Préservation des données et des saisies sur conflit",
+      "Liste d’attente nominative FIFO par atelier et retrait volontaire"
+    ],
+    "excluded": [
+      "Authentification",
+      "Paiement",
+      "Email",
+      "Déploiement public"
+    ],
+    "criteria": [
+      {
+        "id": "find",
+        "text": "Filtrer les ateliers par activité sans perdre les inscriptions."
+      },
+      {
+        "id": "register",
+        "text": "Inscrire un nom dans un atelier avec place disponible."
+      },
+      {
+        "id": "capacity",
+        "text": "Refuser une inscription au-delà de la capacité."
+      },
+      {
+        "id": "cancel",
+        "text": "Annuler promeut la première personne en attente du même atelier, sinon rend la place disponible."
+      },
+      {
+        "id": "persist",
+        "text": "Retrouver les inscriptions après redémarrage."
+      },
+      {
+        "id": "conflict",
+        "text": "Conflit de sauvegarde visible, saisie conservée pour réessayer."
+      },
+      {
+        "id": "waitlist-fifo",
+        "text": "Sur atelier complet, les noms attendent dans leur ordre d’arrivée ; cette priorité survit au redémarrage et ne dépasse jamais la capacité."
+      },
+      {
+        "id": "legacy-preserved",
+        "text": "Les inscriptions existantes et leurs champs sont préservés à la première lecture et aux actions d’attente."
+      }
+    ]
+  },
+  "decisions": [
+    {
+      "id": "architecture-local",
+      "topic": "architecture",
+      "choice": "HTML, CSS et JavaScript locaux ; stockage JSON par le service local fourni.",
+      "reason": "Tranche navigateur persistante sans nouvelle infrastructure ; pas de compte ou service payant nécessaire.",
+      "status": "active",
+      "source": "agent"
+    },
+    {
+      "id": "exploration-choice",
+      "topic": "exploration",
+      "choice": "Agenda clair plutôt que catalogue illustré ou tableau dense.",
+      "reason": "Les dates, lieux et places sont les informations utiles au premier choix. Hypothèse de facilité, non validée avec participants.",
+      "status": "active",
+      "source": "agent"
+    },
+    {
+      "id": "96b882b4-2abd-430e-9321-eca181a0c2f4",
+      "topic": "Direction visuelle",
+      "choice": "Agenda clair — référence retenue",
+      "reason": "Choix opéré par l’agent de mission dans la délégation explicite ; pas un vote humain. Appliquer master-desktop et déclinaison mobile.",
+      "source": "user",
+      "status": "superseded"
+    },
+    {
+      "id": "waitlist-fifo-v2",
+      "topic": "liste-attente",
+      "choice": "Attente nominative ordonnée par atelier, promotion dans la même sauvegarde que l’annulation ; aucun email.",
+      "reason": "La demande courante remplace l’exclusion Liste d’attente V1. Un tableau additionnel conserve les inscriptions existantes ; l’écriture optimiste empêche d’écraser une modification concurrente.",
+      "status": "active",
+      "source": "agent"
+    },
+    {
+      "id": "b3a596d7-23bf-4bf0-b0b9-d776383d780c",
+      "topic": "Direction visuelle",
+      "choice": "Agenda clair — référence retenue",
+      "reason": "Choix de l’agent de mission dans la délégation, distinct de la validation humaine K pour le shell Studio. Cette entrée corrige la provenance de l’événement initial sans réécrire son historique.",
+      "source": "agent",
+      "status": "active"
+    },
+    {
+      "id": "a5c9040e-0a0c-4d29-a8b2-9fdcca750655",
+      "topic": "Version active",
+      "choice": "Modification manuelle du code",
+      "reason": "Adoption explicite du build vérifié dans l’éditeur.",
+      "source": "user",
+      "status": "active"
+    }
+  ],
+  "designs": [
+    {
+      "id": "agenda",
+      "title": "Agenda clair — référence retenue",
+      "description": "Le master décline la direction A : introduction à gauche, lignes datées à droite, fond papier et vert profond.",
+      "file": "53223255-28ee-40e5-a7c4-38fc39ad3573"
+    },
+    {
+      "id": "catalogue",
+      "title": "Catalogue chaleureux",
+      "description": "Découverte illustrée, moins de place pour les dates.",
+      "file": "573c2218-c21f-461f-80c1-b95ac7284c54"
+    },
+    {
+      "id": "tableau",
+      "title": "Tableau opérationnel",
+      "description": "Comparaison dense des places, moins accessible au premier contact.",
+      "file": "d139a0bf-c210-49b1-8c5b-ec28e12589d0"
+    }
+  ],
+  "selectedDesignId": "agenda",
+  "jobs": [
+    {
+      "id": "a1cbe4f8-f66a-4d34-b842-6e9e81d86b24",
+      "request": "Explorer, cadrer et conserver les directions visuelles des Ateliers avant réalisation.",
+      "element": null,
+      "baseRevision": null,
+      "status": "ready",
+      "worker": "Agent de mission — exploration et design délégués",
+      "createdAt": "2026-09-16T14:50:00.324Z",
+      "finishedAt": "2026-09-16T14:50:00.345Z",
+      "summary": "Trois compositions raster inspectées. Agenda retenu sous délégation pour la lecture chronologique ; préférence humaine non mesurée."
+    },
+    {
+      "id": "48f29572-b237-42bd-a83e-cfc9d762e6e7",
+      "request": "Réalise Les Ateliers avec trois ateliers initiaux Réparer son vélo (20 septembre 2026, 10 h–12 h, Maison des associations, capacité 2), Cuisine de saison (23 septembre, 18 h–20 h, Cuisine partagée, capacité 3), Initiation à la couture (26 septembre, 14 h–16 h, Salle des pratiques, capacité 2). Applique exactement la référence visuelle choisie et une version mobile lisible. Filtre par activité, inscription avec nom, annulation, capacité contrôlée ; données via /api/data. Sauvegarde les saisies de formulaires sur reload, ne les efface jamais à une erreur. En HTTP409 garde les saisies, recharge les données, propose de réessayer ; ne perds aucune inscription concurrente. Ne simule aucun email. Ajoute tests locaux utiles et explique les vérifications réellement exécutées.",
+      "element": null,
+      "baseRevision": null,
+      "status": "ready",
+      "worker": "Codex local",
+      "createdAt": "2026-09-16T14:50:00.363Z",
+      "finishedAt": "2026-09-16T14:55:13.642Z",
+      "summary": "Application créée dans app/ avec la direction visuelle fournie, mise en page mobile, filtres, inscriptions nominatives, annulations et capacités. Les données utilisent GET/POST /api/data sans réinitialisation au démarrage. Les brouillons survivent au rechargement et aux erreurs ; un HTTP409 recharge les données, conserve la saisie et permet de réessayer sans écraser les inscriptions concurrentes. Vérifications exécutées : 5 tests Node réussis, contrôles de syntaxe JavaScript réussis, présence des fichiers et absence de ressources externes contrôlées. Aucun navigateur exécutable n’était disponible pour une comparaison visuelle rendue. Commande recommandée : node --test app/tests.mjs."
+    },
+    {
+      "id": "d747874f-919f-4273-b498-e1dd403e0047",
+      "request": "Corriger le premier démarrage sur le stockage Studio vide {version:1,data:{}}. Garder le refus de remplacer des données non vides incompatibles. Aucune autre fonctionnalité ne change.",
+      "element": null,
+      "baseRevision": "63ac6700-375d-44e2-b28d-6eefad79de90",
+      "status": "ready",
+      "worker": "Agent de mission — correction bornée après contrôle navigateur",
+      "createdAt": "2026-09-16T14:58:08.731Z",
+      "finishedAt": "2026-09-16T15:00:05.177Z",
+      "summary": "Le stockage {} initialise le programme ; un format non vide inconnu est préservé et refusé. Sept tests Node passent, dont deux contrôles du contrat réel."
+    },
+    {
+      "id": "e081ad4b-e966-4e84-a453-2c112721b0c7",
+      "request": "Quand un atelier est complet, proposer une liste d’attente nominative. Après annulation d’une inscription, le premier nom de la liste d’attente prend la place libérée, avec un message clair. Garder les inscriptions existantes, la capacité, les filtres, les brouillons et le design. Aucun email envoyé.",
+      "element": {
+        "selector": "h2:nth-child(2)",
+        "text": "Réparer son vélo"
+      },
+      "baseRevision": "210f6cc8-5be2-4e3e-a7ec-fc7d7404f4e9",
+      "status": "ready",
+      "worker": "Agent de mission — évolution",
+      "createdAt": "2026-09-16T15:06:16.911Z",
+      "finishedAt": "2026-09-16T15:12:01.999Z",
+      "summary": "Un atelier complet propose une attente nominative ; annuler promeut la première personne de cet atelier et affiche son nom. Retrait de liste disponible. Données existantes, champs supplémentaires, filtres, brouillons et réessai HTTP409 conservés. Treize tests Node passent ; contrôle DOM avec service simulé en mémoire réussi pour attente, promotion, message, filtre et conflit concurrent. Aucune donnée métier réelle modifiée par l’agent, aucun email ; contrôle visuel navigateur restant."
+    },
+    {
+      "id": "54b06c50-486d-4981-9383-95608db8ec17",
+      "request": "Corriger le débordement mobile observé : préserver les espaces quand les retours de titre sont masqués et permettre aux colonnes de se réduire. Garder design, inscriptions, attente et saisies.",
+      "element": null,
+      "baseRevision": "3e5a7370-5d8d-405b-84df-5255562e886d",
+      "status": "ready",
+      "worker": "Agent de cette mission — contrôle navigateur",
+      "createdAt": "2026-09-16T15:15:19.975Z",
+      "finishedAt": "2026-09-16T15:15:20.012Z",
+      "summary": "Espaces entre segments de titre conservés ; colonnes réductibles et actions adaptées aux largeurs intermédiaires. Correction issue du vrai navigateur, contrôle visuel en cours."
+    },
+    {
+      "id": "91a2f59b-5c88-4d30-9f8a-e41e54f20d80",
+      "request": "Rétablir le retour à la ligne des filtres mobiles conforme à la référence ; garder trois colonnes compactes dans les cartes sur desktop 1051–1400 px. Préserver fonctionnalités, données et direction papier/vert.",
+      "element": null,
+      "baseRevision": "b44b4b37-4d31-4a72-a9b2-da47c95cabc9",
+      "status": "ready",
+      "worker": "Agent de cette mission — fidélité visuelle",
+      "createdAt": "2026-09-16T15:52:14.037Z",
+      "finishedAt": "2026-09-16T15:52:14.070Z",
+      "summary": "Correction bornée de la fidélité : tous les filtres se replient sur mobile, trois colonnes compactes sur desktop intermédiaire. JS et données inchangés ; comparaison navigateur attendue."
+    },
+    {
+      "id": "5f090ff9-fc4f-47f1-b8d8-cabacf1a6b30",
+      "request": "Rectifier la provenance du choix visuel de l’exemple : direction choisie par l’agent sous délégation, pas vote humain. Conserver historique et code.",
+      "element": null,
+      "baseRevision": "4bb3238f-fd3a-4edb-8377-89d5850cc258",
+      "status": "ready",
+      "worker": "mission-context-reconciliation",
+      "createdAt": "2026-09-16T16:18:33.635Z",
+      "finishedAt": "2026-09-16T16:18:33.661Z",
+      "summary": "La direction Agenda reste retenue ; sa provenance active est corrigée en choix délégué à l’agent. L’entrée historique incorrectement attribuée à la personne est conservée comme remplacée. Aucun changement de code ou de données."
+    },
+    {
+      "id": "727d844e-e66d-490a-9f2b-4bd3fc5c2e7e",
+      "request": "Édition manuelle 01900c2d-d2c3-489b-ab98-9d35a873c1e3 : Modification manuelle du code",
+      "element": null,
+      "baseRevision": "4bb3238f-fd3a-4edb-8377-89d5850cc258",
+      "status": "ready",
+      "worker": "user-editor",
+      "createdAt": "2026-09-16T16:25:00.498Z",
+      "finishedAt": "2026-09-16T16:25:00.530Z",
+      "summary": "Édition utilisateur ; 1 fichier(s) modifié(s). Contrôles statiques uniquement."
+    }
+  ],
+  "revisions": [
+    {
+      "id": "63ac6700-375d-44e2-b28d-6eefad79de90",
+      "jobId": "48f29572-b237-42bd-a83e-cfc9d762e6e7",
+      "title": "Les Ateliers implémenté localement",
+      "summary": "Application créée dans app/ avec la direction visuelle fournie, mise en page mobile, filtres, inscriptions nominatives, annulations et capacités. Les données utilisent GET/POST /api/data sans réinitialisation au démarrage. Les brouillons survivent au rechargement et aux erreurs ; un HTTP409 recharge les données, conserve la saisie et permet de réessayer sans écraser les inscriptions concurrentes. Vérifications exécutées : 5 tests Node réussis, contrôles de syntaxe JavaScript réussis, présence des fichiers et absence de ressources externes contrôlées. Aucun navigateur exécutable n’était disponible pour une comparaison visuelle rendue. Commande recommandée : node --test app/tests.mjs.",
+      "createdAt": "2026-09-16T14:55:13.638Z",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 581,
+          "sha256": "5b7f7666e0a433385b9e4083a4ad41ff46063712cc05e23d3c7b66b32a458c6e"
+        },
+        {
+          "path": "app.js",
+          "bytes": 10495,
+          "sha256": "e7053b3430248b2d7703b1e979bf63bf9c603d6b7aa636edf6d6c9b1696521a2"
+        },
+        {
+          "path": "index.html",
+          "bytes": 4460,
+          "sha256": "99130df3f2fdd652c272ede6672a6dda24e61102d9425b6ef1fe17b9b32eadc1"
+        },
+        {
+          "path": "lib.mjs",
+          "bytes": 2126,
+          "sha256": "faa33604da7b5d4ebd0a2f3e0c4fb5818b4bd959e0999f5fa9c1ca2aaafcc89c"
+        },
+        {
+          "path": "styles.css",
+          "bytes": 8855,
+          "sha256": "1d56a1d971295b404a8163f16ab4120dfa685eb9413122bd6adf7411223ce610"
+        },
+        {
+          "path": "tests.mjs",
+          "bytes": 2095,
+          "sha256": "591cba4176039f93e8f3df167334d80044ab497d142e5d4d68fa01b2a55294c5"
+        }
+      ]
+    },
+    {
+      "id": "210f6cc8-5be2-4e3e-a7ec-fc7d7404f4e9",
+      "jobId": "d747874f-919f-4273-b498-e1dd403e0047",
+      "title": "Premier démarrage corrigé",
+      "summary": "Le stockage {} initialise le programme ; un format non vide inconnu est préservé et refusé. Sept tests Node passent, dont deux contrôles du contrat réel.",
+      "createdAt": "2026-09-16T15:00:05.174Z",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 581,
+          "sha256": "5b7f7666e0a433385b9e4083a4ad41ff46063712cc05e23d3c7b66b32a458c6e"
+        },
+        {
+          "path": "app.js",
+          "bytes": 10296,
+          "sha256": "d02b9c22dcf577d63b53949a65a2b59ff39a1b88314033938a06f0e06ec4f2a7"
+        },
+        {
+          "path": "index.html",
+          "bytes": 4460,
+          "sha256": "99130df3f2fdd652c272ede6672a6dda24e61102d9425b6ef1fe17b9b32eadc1"
+        },
+        {
+          "path": "lib.mjs",
+          "bytes": 2649,
+          "sha256": "3fd86b9866be1ac2ffb9d57ca25ab35d0cb5fa76dffc1787848167c44ea4c4d4"
+        },
+        {
+          "path": "styles.css",
+          "bytes": 8855,
+          "sha256": "1d56a1d971295b404a8163f16ab4120dfa685eb9413122bd6adf7411223ce610"
+        },
+        {
+          "path": "tests.mjs",
+          "bytes": 2766,
+          "sha256": "e315762c512c040df784c8a53642fc7f6bdcce24e83d9be15b83ea8c93ee09a5"
+        }
+      ]
+    },
+    {
+      "id": "3e5a7370-5d8d-405b-84df-5255562e886d",
+      "jobId": "e081ad4b-e966-4e84-a453-2c112721b0c7",
+      "title": "Liste d’attente FIFO et promotion après annulation",
+      "summary": "Un atelier complet propose une attente nominative ; annuler promeut la première personne de cet atelier et affiche son nom. Retrait de liste disponible. Données existantes, champs supplémentaires, filtres, brouillons et réessai HTTP409 conservés. Treize tests Node passent ; contrôle DOM avec service simulé en mémoire réussi pour attente, promotion, message, filtre et conflit concurrent. Aucune donnée métier réelle modifiée par l’agent, aucun email ; contrôle visuel navigateur restant.",
+      "createdAt": "2026-09-16T15:12:01.996Z",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 1566,
+          "sha256": "995750c93885b248d849e4a4cb01476871f5fd338919107f5f139c40c11c0bf6"
+        },
+        {
+          "path": "app.js",
+          "bytes": 12433,
+          "sha256": "525eb6bdd60c7943777fea47add48fc407906c0caf3066c5a0af563a1d6640c4"
+        },
+        {
+          "path": "index.html",
+          "bytes": 4507,
+          "sha256": "c0fc8ec3d7ef7217e201478d80ad6a70024d444e85786579b4de5386e5eadc34"
+        },
+        {
+          "path": "lib.mjs",
+          "bytes": 3929,
+          "sha256": "2c0d17e4fabe4ee3d52724aaf2a1a7b7e64732ff6f95877416d79ab4cb029894"
+        },
+        {
+          "path": "styles.css",
+          "bytes": 9048,
+          "sha256": "949106a808e135654c57cdf496b798d5f91c5c366ab573134081bc9527c18796"
+        },
+        {
+          "path": "tests.mjs",
+          "bytes": 6247,
+          "sha256": "f0dca5f6b17f1d988a9864e0f722b52a0d272d0f25ff88f8e3aa37b8d318db19"
+        }
+      ]
+    },
+    {
+      "id": "b44b4b37-4d31-4a72-a9b2-da47c95cabc9",
+      "jobId": "54b06c50-486d-4981-9383-95608db8ec17",
+      "title": "Lecture mobile sans débordement",
+      "summary": "Espaces entre segments de titre conservés ; colonnes réductibles et actions adaptées aux largeurs intermédiaires. Correction issue du vrai navigateur, contrôle visuel en cours.",
+      "createdAt": "2026-09-16T15:15:20.010Z",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 1566,
+          "sha256": "995750c93885b248d849e4a4cb01476871f5fd338919107f5f139c40c11c0bf6"
+        },
+        {
+          "path": "app.js",
+          "bytes": 12433,
+          "sha256": "525eb6bdd60c7943777fea47add48fc407906c0caf3066c5a0af563a1d6640c4"
+        },
+        {
+          "path": "index.html",
+          "bytes": 4510,
+          "sha256": "ad06d6b636daa6e7476fafd60a67a8674620fc7ea98286a287207d09fc23e867"
+        },
+        {
+          "path": "lib.mjs",
+          "bytes": 3929,
+          "sha256": "2c0d17e4fabe4ee3d52724aaf2a1a7b7e64732ff6f95877416d79ab4cb029894"
+        },
+        {
+          "path": "styles.css",
+          "bytes": 9916,
+          "sha256": "0d82f45caea91f85ce863e3cd3490671326b428b0b0c943465cd50a24be73ffc"
+        },
+        {
+          "path": "tests.mjs",
+          "bytes": 6247,
+          "sha256": "f0dca5f6b17f1d988a9864e0f722b52a0d272d0f25ff88f8e3aa37b8d318db19"
+        }
+      ]
+    },
+    {
+      "id": "4bb3238f-fd3a-4edb-8377-89d5850cc258",
+      "jobId": "91a2f59b-5c88-4d30-9f8a-e41e54f20d80",
+      "title": "Filtres mobiles visibles et agenda desktop compact",
+      "summary": "Correction bornée de la fidélité : tous les filtres se replient sur mobile, trois colonnes compactes sur desktop intermédiaire. JS et données inchangés ; comparaison navigateur attendue.",
+      "createdAt": "2026-09-16T15:52:14.067Z",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 1566,
+          "sha256": "995750c93885b248d849e4a4cb01476871f5fd338919107f5f139c40c11c0bf6"
+        },
+        {
+          "path": "app.js",
+          "bytes": 12433,
+          "sha256": "525eb6bdd60c7943777fea47add48fc407906c0caf3066c5a0af563a1d6640c4"
+        },
+        {
+          "path": "index.html",
+          "bytes": 4510,
+          "sha256": "ad06d6b636daa6e7476fafd60a67a8674620fc7ea98286a287207d09fc23e867"
+        },
+        {
+          "path": "lib.mjs",
+          "bytes": 3929,
+          "sha256": "2c0d17e4fabe4ee3d52724aaf2a1a7b7e64732ff6f95877416d79ab4cb029894"
+        },
+        {
+          "path": "styles.css",
+          "bytes": 10499,
+          "sha256": "9fa202d8e3fd7c750bc67614ff1b1e6ea21df8ebbf32c9f68c70a6f770fa3100"
+        },
+        {
+          "path": "tests.mjs",
+          "bytes": 6247,
+          "sha256": "f0dca5f6b17f1d988a9864e0f722b52a0d272d0f25ff88f8e3aa37b8d318db19"
+        }
+      ]
+    },
+    {
+      "id": "1aea70fe-1134-4dfa-a872-a79e3003b6aa",
+      "jobId": "727d844e-e66d-490a-9f2b-4bd3fc5c2e7e",
+      "title": "Modification manuelle du code",
+      "summary": "Édition utilisateur ; 1 fichier(s) modifié(s). Contrôles statiques uniquement.",
+      "createdAt": "2026-09-16T16:25:00.526Z",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 1566,
+          "sha256": "995750c93885b248d849e4a4cb01476871f5fd338919107f5f139c40c11c0bf6"
+        },
+        {
+          "path": "app.js",
+          "bytes": 12433,
+          "sha256": "525eb6bdd60c7943777fea47add48fc407906c0caf3066c5a0af563a1d6640c4"
+        },
+        {
+          "path": "index.html",
+          "bytes": 4539,
+          "sha256": "da2b387ed22786e350e8427538cc76e48e3c8c43bdac3f7182c70294b7afd221"
+        },
+        {
+          "path": "lib.mjs",
+          "bytes": 3929,
+          "sha256": "2c0d17e4fabe4ee3d52724aaf2a1a7b7e64732ff6f95877416d79ab4cb029894"
+        },
+        {
+          "path": "styles.css",
+          "bytes": 10499,
+          "sha256": "9fa202d8e3fd7c750bc67614ff1b1e6ea21df8ebbf32c9f68c70a6f770fa3100"
+        },
+        {
+          "path": "tests.mjs",
+          "bytes": 6247,
+          "sha256": "f0dca5f6b17f1d988a9864e0f722b52a0d272d0f25ff88f8e3aa37b8d318db19"
+        }
+      ]
+    }
+  ],
+  "activeRevision": "1aea70fe-1134-4dfa-a872-a79e3003b6aa",
+  "checks": [
+    {
+      "revisionId": "63ac6700-375d-44e2-b28d-6eefad79de90",
+      "label": "Premier démarrage sur le vrai service de données",
+      "status": "failed",
+      "kind": "agent-observation",
+      "output": "Navigateur : programme absent, message données existantes incompatibles. GET /api/data fournit {version:1,data:{}} ; app ne permet initialisation que null.",
+      "id": "be39909f-2105-4de8-ad72-33d81b34a3af",
+      "createdAt": "2026-09-16T14:58:08.708Z"
+    },
+    {
+      "revisionId": "210f6cc8-5be2-4e3e-a7ec-fc7d7404f4e9",
+      "label": "Tests de logique et contrat de stockage",
+      "status": "passed",
+      "kind": "command",
+      "command": "node --test app/tests.mjs",
+      "output": "7 tests exécutés, 7 réussis. Contrôle agent de mission, comportement navigateur à vérifier.",
+      "id": "6f34455e-7703-40bc-9a39-0d9b18cc940a",
+      "createdAt": "2026-09-16T15:00:05.189Z"
+    },
+    {
+      "revisionId": "3e5a7370-5d8d-405b-84df-5255562e886d",
+      "label": "Liste d’attente : logique, migration additive et capacité",
+      "status": "passed",
+      "kind": "command",
+      "command": "node --test app/tests.mjs && node --check app/app.js && node --check app/lib.mjs",
+      "output": "13 tests Node réussis ; syntaxe app.js/lib.mjs valide. Scénarios : données anciennes Amina/Noa/Omar préservées, places strictes, FIFO par atelier, annulation répétée sans seconde promotion, persistance JSON, retrait d’attente, concurrence. Contrôle exécuté par agent de mission ; validation humaine non mesurée.",
+      "id": "48cb94b8-db51-4990-ba9d-a46841b3de26",
+      "createdAt": "2026-09-16T15:12:24.478Z"
+    },
+    {
+      "revisionId": "b44b4b37-4d31-4a72-a9b2-da47c95cabc9",
+      "label": "Comparaison visuelle mobile et desktop à la référence",
+      "status": "failed",
+      "kind": "agent-observation",
+      "output": "Chrome 390 px : aucun débordement global, mais filtre Couture masqué par défilement horizontal ; master demande retour à la ligne. Desktop1309 px : cartes trop hautes, ~1,7 atelier dans premier écran. Captures b44b4b37-final-{desktop,mobile}.png. Observation agent distincte des tests métier.",
+      "id": "82823be2-d620-48e3-ba66-64e71b8e39ca",
+      "createdAt": "2026-09-16T15:52:14.023Z"
+    },
+    {
+      "revisionId": "4bb3238f-fd3a-4edb-8377-89d5850cc258",
+      "label": "Navigateur réel : filtres mobile390 et cartes desktop1280",
+      "status": "passed",
+      "kind": "agent-observation",
+      "output": "{\"checkedAt\":\"2026-09-16T15:57:45.467Z\",\"url\":\"http://127.0.0.1:4331/\",\"revisionIdProvidedByHost\":\"4bb3238f-fd3a-4edb-8377-89d5850cc258\",\"browser\":\"Chrome, independent agent tab\",\"scope\":\"Targeted visual QA of desktop compact three-column workshop cards and mobile wrapping filters; no registration mutations.\",\"references\":[\"../../design/master-desktop.png\",\"../../design/mobile.png\"],\"desktop\":{\"cards\":[{\"children\":[{\"className\":\"date-block\",\"rect\":{\"bottom\":437.5283966064453,\"height\":193.62925720214844,\"right\":555.2911682128906,\"width\":90,\"x\":465.2911682128906,\"y\":243.89913940429688}},{\"className\":\"workshop-details\",\"rect\":{\"bottom\":437.5283966064453,\"height\":193.62925720214844,\"right\":1034.1335144042969,\"width\":478.8423156738281,\"x\":555.2911987304688,\"y\":243.89913940429688}},{\"className\":\"booking-panel\",\"rect\":{\"bottom\":437.5283966064453,\"height\":193.62925720214844,\"right\":1214.133544921875,\"width\":180,\"x\":1034.133544921875,\"y\":243.89913940429688}}],\"gridTemplateColumns\":\"90px 478.842px 180px\",\"rect\":{\"bottom\":462.4360656738281,\"height\":243.4445953369141,\"right\":1239.0411682128906,\"width\":798.6576538085938,\"x\":440.3835144042969,\"y\":218.9914703369141},\"title\":\"Réparer son vélo\"},{\"children\":[{\"className\":\"date-block\",\"rect\":{\"bottom\":669.5241241455078,\"height\":168.1818084716797,\"right\":555.2911682128906,\"width\":90,\"x\":465.2911682128906,\"y\":501.3423156738281}},{\"className\":\"workshop-details\",\"rect\":{\"bottom\":669.5241241455078,\"height\":168.1818084716797,\"right\":1034.1335144042969,\"width\":478.8423156738281,\"x\":555.2911987304688,\"y\":501.3423156738281}},{\"className\":\"booking-panel\",\"rect\":{\"bottom\":669.5241241455078,\"height\":168.1818084716797,\"right\":1214.133544921875,\"width\":180,\"x\":1034.133544921875,\"y\":501.3423156738281}}],\"gridTemplateColumns\":\"90px 478.842px 180px\",\"rect\":{\"bottom\":694.4317779541016,\"height\":217.9971466064453,\"right\":1239.0411682128906,\"width\":798.6576538085938,\"x\":440.3835144042969,\"y\":476.43463134765625},\"title\":\"Cuisine de saison\"},{\"children\":[{\"className\":\"date-block\",\"rect\":{\"bottom\":901.5198211669922,\"height\":168.1818084716797,\"right\":555.2911682128906,\"width\":90,\"x\":465.2911682128906,\"y\":733.3380126953125}},{\"className\":\"workshop-details\",\"rect\":{\"bottom\":901.5198211669922,\"height\":168.1818084716797,\"right\":1034.1335144042969,\"width\":478.8423156738281,\"x\":555.2911987304688,\"y\":733.3380126953125}},{\"className\":\"booking-panel\",\"rect\":{\"bottom\":901.5198211669922,\"height\":168.1818084716797,\"right\":1214.133544921875,\"width\":180,\"x\":1034.133544921875,\"y\":733.3380126953125}}],\"gridTemplateColumns\":\"90px 478.842px 180px\",\"rect\":{\"bottom\":926.427505493164,\"height\":217.9971466064453,\"right\":1239.0411682128906,\"width\":798.6576538085938,\"x\":440.3835144042969,\"y\":708.4303588867188},\"title\":\"Initiation à la couture\"}],\"document\":{\"clientWidth\":1280,\"scrollHeight\":1536,\"scrollWidth\":1280},\"filters\":[{\"rect\":{\"bottom\":194.99288940429688,\"height\":50,\"right\":547.8764114379883,\"width\":107.4928970336914,\"x\":440.3835144042969,\"y\":144.99288940429688},\"text\":\"Tous\"},{\"rect\":{\"bottom\":194.99288940429688,\"height\":50,\"right\":720.6959991455078,\"width\":157.81959533691406,\"x\":562.8764038085938,\"y\":144.99288940429688},\"text\":\"Réparation\"},{\"rect\":{\"bottom\":194.99288940429688,\"height\":50,\"right\":865.1846160888672,\"width\":129.48863220214844,\"x\":735.6959838867188,\"y\":144.99288940429688},\"text\":\"Cuisine\"},{\"rect\":{\"bottom\":194.99288940429688,\"height\":50,\"right\":1014.3536682128906,\"width\":134.16903686523438,\"x\":880.1846313476562,\"y\":144.99288940429688},\"text\":\"Couture\"}],\"registrationText\":\"Noa — Cuisine de saison18 h–20 h, Cuisine partagéeAnnulerOmar — Réparer son vélo10 h–12 h, Maison des associationsAnnulerLina — Réparer son vélo10 h–12 h, Maison des associationsAnnulerListe d’attenteSami — Réparer son véloEn attente · position 1 — 10 h–12 h, Maison des associationsQuitter la liste\",\"viewport\":{\"devicePixelRatio\":1.100000023841858,\"height\":960,\"width\":1280}},\"mobile\":{\"cards\":[{\"children\":[{\"className\":\"date-block\",\"rect\":{\"bottom\":1013.2811889648438,\"height\":366.00140380859375,\"right\":106.90340423583984,\"width\":72.99715423583984,\"x\":33.90625,\"y\":647.27978515625}},{\"className\":\"workshop-details\",\"rect\":{\"bottom\":832.4999542236328,\"height\":185.2201690673828,\"right\":356.09374237060547,\"width\":249.1903381347656,\"x\":106.90340423583984,\"y\":647.27978515625}},{\"className\":\"booking-panel\",\"rect\":{\"bottom\":1013.28125,\"height\":180.78125,\"right\":356.09374237060547,\"width\":249.1903381347656,\"x\":106.90340423583984,\"y\":832.5}}],\"gridTemplateColumns\":\"72.9972px 249.19px\",\"rect\":{\"bottom\":1033.1888732910156,\"height\":405.8167419433594,\"right\":370,\"width\":350,\"x\":20,\"y\":627.3721313476562},\"title\":\"Réparer son vélo\"},{\"children\":[{\"className\":\"date-block\",\"rect\":{\"bottom\":1389.8010559082031,\"height\":322.7059631347656,\"right\":106.90340423583984,\"width\":72.99715423583984,\"x\":33.90625,\"y\":1067.0950927734375}},{\"className\":\"workshop-details\",\"rect\":{\"bottom\":1252.3152618408203,\"height\":185.2201690673828,\"right\":356.09374237060547,\"width\":249.1903381347656,\"x\":106.90340423583984,\"y\":1067.0950927734375}},{\"className\":\"booking-panel\",\"rect\":{\"bottom\":1389.8011016845703,\"height\":137.4857940673828,\"right\":356.09374237060547,\"width\":249.1903381347656,\"x\":106.90340423583984,\"y\":1252.3153076171875}}],\"gridTemplateColumns\":\"72.9972px 249.19px\",\"rect\":{\"bottom\":1409.7088012695312,\"height\":362.5213012695313,\"right\":370,\"width\":350,\"x\":20,\"y\":1047.1875},\"title\":\"Cuisine de saison\"},{\"children\":[{\"className\":\"date-block\",\"rect\":{\"bottom\":1796.5624084472656,\"height\":352.9474182128906,\"right\":106.90340423583984,\"width\":72.99715423583984,\"x\":33.90625,\"y\":1443.614990234375}},{\"className\":\"workshop-details\",\"rect\":{\"bottom\":1659.076629638672,\"height\":215.46163940429688,\"right\":356.09374237060547,\"width\":249.1903381347656,\"x\":106.90340423583984,\"y\":1443.614990234375}},{\"className\":\"booking-panel\",\"rect\":{\"bottom\":1796.5624542236328,\"height\":137.4857940673828,\"right\":356.09374237060547,\"width\":249.1903381347656,\"x\":106.90340423583984,\"y\":1659.07666015625}}],\"gridTemplateColumns\":\"72.9972px 249.19px\",\"rect\":{\"bottom\":1816.4700317382812,\"height\":392.76275634765625,\"right\":370,\"width\":350,\"x\":20,\"y\":1423.707275390625},\"title\":\"Initiation à la couture\"}],\"document\":{\"clientWidth\":390,\"scrollHeight\":2751,\"scrollWidth\":390},\"filterGroup\":{\"display\":\"flex\",\"flexWrap\":\"wrap\",\"rect\":{\"bottom\":603.3735580444336,\"height\":95.99431610107422,\"right\":370,\"width\":350,\"x\":20,\"y\":507.3792419433594}},\"filters\":[{\"rect\":{\"bottom\":551.3778190612793,\"height\":43.99857711791992,\"right\":87.30113220214844,\"width\":67.30113220214844,\"x\":20,\"y\":507.3792419433594},\"text\":\"Tous\"},{\"rect\":{\"bottom\":551.3778190612793,\"height\":43.99857711791992,\"right\":207.32953643798828,\"width\":112.03124237060548,\"x\":95.2982940673828,\"y\":507.3792419433594},\"text\":\"Réparation\"},{\"rect\":{\"bottom\":551.3778190612793,\"height\":43.99857711791992,\"right\":302.18038177490234,\"width\":86.85369110107422,\"x\":215.32669067382812,\"y\":507.3792419433594},\"text\":\"Cuisine\"},{\"rect\":{\"bottom\":603.3735771179199,\"height\":43.99857711791992,\"right\":111.0085220336914,\"width\":91.0085220336914,\"x\":20,\"y\":559.375},\"text\":\"Couture\"}],\"registrationText\":\"Noa — Cuisine de saison18 h–20 h, Cuisine partagéeAnnulerOmar — Réparer son vélo10 h–12 h, Maison des associationsAnnulerLina — Réparer son vélo10 h–12 h, Maison des associationsAnnulerListe d’attenteSami — Réparer son véloEn attente · position 1 — 10 h–12 h, Maison des associationsQuitter la liste\",\"viewport\":{\"devicePixelRatio\":1.100000023841858,\"height\":843,\"width\":390}},\"checks\":{\"desktopNoHorizontalOverflow\":true,\"desktopThreeColumns\":true,\"mobileNoHorizontalOverflow\":true,\"mobileFiltersWrap\":true,\"mobileAllFiltersInsideViewport\":true,\"cuisineFilter\":[\"Cuisine de saison\"],\"allFilter\":[\"Réparer son vélo\",\"Cuisine de saison\",\"Initiation à la couture\"],\"registrationsDisplayedUnchanged\":true},\"console\":[],\"captures\":{\"desktop\":{\"file\":\"final-desktop.png\",\"fullPage\":false,\"requestedOverride\":{\"width\":1408,\"height\":1056},\"actualDom\":{\"width\":1280,\"height\":960}},\"mobile\":{\"file\":\"final-mobile.png\",\"fullPage\":false,\"requestedOverride\":{\"width\":429,\"height\":928},\"actualDom\":{\"width\":390,\"height\":843}},\"note\":\"Existing Chrome zoom is 110%; overrides were adjusted using actual innerWidth. Mobile fullPage capture was discarded because the capture API clipped its right edge at this zoom; final-mobile is the normal viewport screenshot.\"},\"assessment\":{\"affectedFixes\":\"pass\",\"referenceDifferencesNotRetestedOrChanged\":[\"Live dates, availability and existing registrations are data rather than the reference fixture.\",\"Mobile keeps the date beside details and booking; the reference shows a full-width bottom booking row. This existing layout difference is outside the two CSS fixes.\"],\"limits\":\"No full journey, enrollment, cancellation, persistence, accessibility, other browsers or all breakpoints tested in this pass. The user IAB tab was not selected or modified.\"}}",
+      "id": "8cfd318c-5eb0-4752-813c-f659a54789a5",
+      "createdAt": "2026-09-16T16:18:33.622Z"
+    },
+    {
+      "revisionId": "1aea70fe-1134-4dfa-a872-a79e3003b6aa",
+      "label": "Édition : syntaxe JavaScript et JSON — comportement non évalué",
+      "status": "passed",
+      "kind": "command",
+      "command": "node --input-type=module --check (stdin: octets exacts de chaque .js/.mjs) ; node --input-type=commonjs --check (stdin: octets exacts de chaque .cjs) ; borne globale 10s ; JSON.parse (fichiers JSON)",
+      "output": "[{\"severity\":\"info\",\"file\":\"\",\"message\":\"Syntaxe JS et JSON uniquement ; aucun test métier, contrôle CSS, JavaScript inline, compilation TypeScript ni installation exécuté.\",\"direction\":\"Essayer l’aperçu et revoir les critères avant adoption ; les avertissements de références sont heuristiques.\"}]",
+      "id": "8c24f0bc-a909-44db-8f17-e98f714fa74b",
+      "createdAt": "2026-09-16T16:25:00.538Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "8bacd3cd-6c2c-4b7e-94c7-603ccb67e8c8",
+      "type": "project",
+      "text": "Intention et délégation enregistrées.",
+      "createdAt": "2026-09-16T14:50:00.176Z"
+    },
+    {
+      "id": "e2ccbbb6-f755-4a03-91e6-14ef940c6cc0",
+      "type": "queued",
+      "text": "Demande enregistrée, en attente d’un agent.",
+      "createdAt": "2026-09-16T14:50:00.324Z"
+    },
+    {
+      "id": "0995cbc3-68ab-46e2-908f-4127c605576b",
+      "type": "running",
+      "text": "Un agent a pris en charge la demande.",
+      "createdAt": "2026-09-16T14:50:00.333Z"
+    },
+    {
+      "id": "85948222-1b2a-4419-a05d-ae830e283ddc",
+      "type": "ready",
+      "text": "Résultat disponible ; les vérifications restent distinctes.",
+      "createdAt": "2026-09-16T14:50:00.345Z"
+    },
+    {
+      "id": "4827fb84-8569-4e10-b098-9c399506aa63",
+      "type": "design",
+      "text": "Direction visuelle sélectionnée.",
+      "createdAt": "2026-09-16T14:50:00.355Z"
+    },
+    {
+      "id": "b69b0f44-63d5-4806-a3d1-468deaacb85e",
+      "type": "queued",
+      "text": "Demande enregistrée, en attente d’un agent.",
+      "createdAt": "2026-09-16T14:50:00.363Z"
+    },
+    {
+      "id": "320fa959-1287-4e10-8679-9ba09ed8f869",
+      "type": "running",
+      "text": "Un agent a pris en charge la demande.",
+      "createdAt": "2026-09-16T14:50:41.620Z"
+    },
+    {
+      "id": "1ac83648-6aeb-452a-b4c7-21782135a664",
+      "type": "ready",
+      "text": "Résultat disponible ; les vérifications restent distinctes.",
+      "createdAt": "2026-09-16T14:55:13.642Z"
+    },
+    {
+      "id": "61a30d71-61b6-4faf-95eb-566cef5d496a",
+      "type": "activated",
+      "text": "Révision activée dans le cadre de la délégation.",
+      "createdAt": "2026-09-16T14:55:13.642Z"
+    },
+    {
+      "id": "4426a52b-a5a9-47ce-abfe-c2a7ed64ddb2",
+      "type": "checked",
+      "text": "Une vérification a été ajoutée à sa révision.",
+      "createdAt": "2026-09-16T14:58:08.709Z"
+    },
+    {
+      "id": "5d11537c-f5bb-454a-80de-7eae6a251791",
+      "type": "queued",
+      "text": "Demande enregistrée, en attente d’un agent.",
+      "createdAt": "2026-09-16T14:58:08.731Z"
+    },
+    {
+      "id": "3783b941-83f7-4df5-a697-0129a387b13e",
+      "type": "running",
+      "text": "Un agent a pris en charge la demande.",
+      "createdAt": "2026-09-16T14:58:08.741Z"
+    },
+    {
+      "id": "7e1c1d5f-202d-46f0-9d85-b0080b3c7e52",
+      "type": "ready",
+      "text": "Résultat disponible ; les vérifications restent distinctes.",
+      "createdAt": "2026-09-16T15:00:05.177Z"
+    },
+    {
+      "id": "070f4a2f-7230-4286-86d5-0737f78e9ae9",
+      "type": "activated",
+      "text": "Révision activée dans le cadre de la délégation.",
+      "createdAt": "2026-09-16T15:00:05.177Z"
+    },
+    {
+      "id": "70b391fa-0e18-4dc0-b01f-3428bd8a60d6",
+      "type": "checked",
+      "text": "Une vérification a été ajoutée à sa révision.",
+      "createdAt": "2026-09-16T15:00:05.189Z"
+    },
+    {
+      "id": "c0b53fae-b1eb-42b2-88de-4e42ac91b1c1",
+      "type": "queued",
+      "text": "Demande enregistrée, en attente d’un agent.",
+      "createdAt": "2026-09-16T15:06:16.911Z"
+    },
+    {
+      "id": "3b93f8f4-b548-489d-96ab-da0ec9c1e5a9",
+      "type": "running",
+      "text": "Un agent a pris en charge la demande.",
+      "createdAt": "2026-09-16T15:07:10.098Z"
+    },
+    {
+      "id": "f544c94d-5dfa-418e-8299-e0fa7f9f572d",
+      "type": "ready",
+      "text": "Résultat disponible ; les vérifications restent distinctes.",
+      "createdAt": "2026-09-16T15:12:01.999Z"
+    },
+    {
+      "id": "5f2d2eaa-61d4-4659-81b5-fa80c2d54f6f",
+      "type": "activated",
+      "text": "Révision activée dans le cadre de la délégation.",
+      "createdAt": "2026-09-16T15:12:01.999Z"
+    },
+    {
+      "id": "486c7551-a9bf-4f63-a5d3-610d3bc7c67d",
+      "type": "checked",
+      "text": "Une vérification a été ajoutée à sa révision.",
+      "createdAt": "2026-09-16T15:12:24.478Z"
+    },
+    {
+      "id": "82175c7f-4aa4-4508-8533-cf352c57bf62",
+      "type": "queued",
+      "text": "Demande enregistrée, en attente d’un agent.",
+      "createdAt": "2026-09-16T15:15:19.975Z"
+    },
+    {
+      "id": "52a26025-a38e-4a95-80e2-94d88735943b",
+      "type": "running",
+      "text": "Un agent a pris en charge la demande.",
+      "createdAt": "2026-09-16T15:15:19.994Z"
+    },
+    {
+      "id": "7426898d-07bf-4d36-8d93-fe93d7de11f0",
+      "type": "ready",
+      "text": "Résultat disponible ; les vérifications restent distinctes.",
+      "createdAt": "2026-09-16T15:15:20.012Z"
+    },
+    {
+      "id": "167f3490-2030-4cd4-8d81-8c5f8de3f3d5",
+      "type": "activated",
+      "text": "Révision activée dans le cadre de la délégation.",
+      "createdAt": "2026-09-16T15:15:20.012Z"
+    },
+    {
+      "id": "1c54f470-2c16-4a09-b69f-13c837240da6",
+      "type": "checked",
+      "text": "Une vérification a été ajoutée à sa révision.",
+      "createdAt": "2026-09-16T15:52:14.023Z"
+    },
+    {
+      "id": "ae88cf06-67c0-407d-8eff-bd918db984c4",
+      "type": "queued",
+      "text": "Demande enregistrée, en attente d’un agent.",
+      "createdAt": "2026-09-16T15:52:14.037Z"
+    },
+    {
+      "id": "4f91fb0d-6106-4fd0-be74-b0964baf69b0",
+      "type": "running",
+      "text": "Un agent a pris en charge la demande.",
+      "createdAt": "2026-09-16T15:52:14.050Z"
+    },
+    {
+      "id": "b82c4068-eb90-4278-b49c-8531bb186435",
+      "type": "ready",
+      "text": "Résultat disponible ; les vérifications restent distinctes.",
+      "createdAt": "2026-09-16T15:52:14.070Z"
+    },
+    {
+      "id": "575dd7d0-5ccd-4119-b7fe-d2874d9a5849",
+      "type": "activated",
+      "text": "Révision activée dans le cadre de la délégation.",
+      "createdAt": "2026-09-16T15:52:14.070Z"
+    },
+    {
+      "id": "38201cda-8ed4-4b44-8be5-456dad40dfb4",
+      "type": "checked",
+      "text": "Une vérification a été ajoutée à sa révision.",
+      "createdAt": "2026-09-16T16:18:33.622Z"
+    },
+    {
+      "id": "c691f1a9-ca5a-4f7e-b465-ae5b8aa958dc",
+      "type": "queued",
+      "text": "Demande enregistrée, en attente d’un agent.",
+      "createdAt": "2026-09-16T16:18:33.635Z"
+    },
+    {
+      "id": "9c6f7e7f-554e-4c70-97d6-93a979a3a6a5",
+      "type": "running",
+      "text": "Un agent a pris en charge la demande.",
+      "createdAt": "2026-09-16T16:18:33.646Z"
+    },
+    {
+      "id": "f7f6141b-0a63-43c1-ac16-5841796870e6",
+      "type": "ready",
+      "text": "Résultat disponible ; les vérifications restent distinctes.",
+      "createdAt": "2026-09-16T16:18:33.661Z"
+    },
+    {
+      "id": "c7ec2ff8-3098-4ad6-be9c-3551678e32fe",
+      "type": "queued",
+      "text": "Demande enregistrée, en attente d’un agent.",
+      "createdAt": "2026-09-16T16:25:00.498Z"
+    },
+    {
+      "id": "ee9dcdf2-3000-416b-9e65-3e3f51ab1bc6",
+      "type": "running",
+      "text": "Un agent a pris en charge la demande.",
+      "createdAt": "2026-09-16T16:25:00.512Z"
+    },
+    {
+      "id": "c973f660-2b1d-4520-9624-6e3019a973f3",
+      "type": "ready",
+      "text": "Résultat disponible ; les vérifications restent distinctes.",
+      "createdAt": "2026-09-16T16:25:00.530Z"
+    },
+    {
+      "id": "1249da8c-31ef-48ec-9bbb-20e1e1b32dc0",
+      "type": "activated",
+      "text": "Révision activée dans le cadre de la délégation.",
+      "createdAt": "2026-09-16T16:25:00.530Z"
+    },
+    {
+      "id": "f792deed-5942-4db6-8b98-0c8de63a3026",
+      "type": "checked",
+      "text": "Une vérification a été ajoutée à sa révision.",
+      "createdAt": "2026-09-16T16:25:00.538Z"
+    },
+    {
+      "id": "2e7143cb-448b-4387-9a81-8595d20dd5d9",
+      "type": "activated",
+      "text": "Révision activée. Les données applicatives sont conservées.",
+      "createdAt": "2026-09-16T16:25:00.538Z"
+    }
+  ]
+}

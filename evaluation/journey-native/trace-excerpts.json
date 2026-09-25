@@ -1,0 +1,29 @@
+{
+  "format": 1,
+  "scope": "Manually inspected selected observations; not a complete transcript.",
+  "transcriptSha256": "ff499061fe2bfa256d5f82872ba1a6b2d4f7c8fc631941f908c852cff01fb061",
+  "eventCount": 16,
+  "usageEventCount": 0,
+  "perEventTimestampsAvailable": false,
+  "startedAt": "2026-09-16T06:04:50.249Z",
+  "supervisorElapsedSeconds": 120.009,
+  "messages": [
+    "I’ll inspect the contract and the supplied acceptance checks first, then implement the CLI and verify it with those checks unchanged.",
+    "The contract is crisp. I’m checking the project boundary and repository state now, then I’ll implement strict validation and conservative persistence in the single required entry file.",
+    "The CLI is implemented with exact argument/schema checks, normalized Unicode-aware titles, sorted output, and write-before-success persistence. I’m running the supplied multi-process acceptance suite unchanged, followed by focused edge checks for malformed storage and filesystem failures.",
+    "The supplied suite passed all 4 criteria across 27 separate processes. The shell could not create its own temporary heredoc for my additional inline test, so I’m rerunning those focused checks without shell temporary files; this is a test harness limitation, not a CLI failure."
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"node acceptance.mjs .\nnode --check app.mjs\nnode --input-type=module <<'EOF'\nimport assert from 'node:assert/strict';\nimport fs from 'node:fs';\nimport os from 'node:os';\nimport path from 'node:path';\nimport {spawnSync} from 'node:child_process';\nconst root=process.cwd();\nconst dir=fs.mkdtempSync(path.join(os.tmpdir(),'cafe-focused-'));\nconst call=(args)=>spawnSync(process.execPath,[path.join(root,'app.mjs'),...args],{encoding:'utf8'});\ntry {\n  const file=path.join(dir,'jobs.json');\n  let r=call([file,'add',JSON.stringify({id:'job-u',title:'  🔧  '})]);\n  assert.equal(r.status,0); assert.deepEqual(JSON.parse(r.stdout),{id:'job-u',title:'🔧',status:'open'});\n  const before=fs.readFileSync(file);\n  r=call([file,'list','extra']); assert.notEqual(r.status,0); assert.equal(r.stdout,''); assert.deepEqual(JSON.parse(r.stderr),{error:'invalid-input'}); assert.deepEqual(fs.readFileSync(file),before);\n  fs.writeFileSync(file,JSON.stringify({version:1,jobs:[{id:'job-a',title:' Lamp ',status:'open',extra:true}]}));\n  const corrupt=fs.readFileSync(file);\n  r=call([file,'list']); assert.deepEqual(JSON.parse(r.stderr),{error:'invalid-data'}); assert.deepEqual(fs.readFileSync(file),corrupt);\n  r=call([dir,'list']); assert.deepEqual(JSON.parse(r.stderr),{error:'storage-error'}); assert.equal(r.stdout,'');\n  console.log(JSON.stringify({focused:'passed',cases:4}));\n} finally { fs.rmSync(dir,{recursive:true,force:true}); }\nEOF\"",
+      "exit": 1,
+      "output": "{\"format\":1,\"stage\":\"initial\",\"verdicts\":{\"intake\":\"passed\",\"finality\":\"passed\",\"durability\":\"passed\",\"integrity\":\"passed\"},\"details\":{},\"processes\":27,\"limits\":\"Separate sequential Node processes; no concurrency, power-loss, usability or model-comparison claim.\"}\nzsh:3: can't create temp file for here document: operation not permitted\n"
+    },
+    {
+      "command": "/bin/zsh -lc \"node --check app.mjs\nnode -e 'const assert=require(\\\"node:assert/strict\\\"),fs=require(\\\"node:fs\\\"),os=require(\\\"node:os\\\"),path=require(\\\"node:path\\\"),{spawnSync}=require(\\\"node:child_process\\\"); const root=process.cwd(),dir=fs.mkdtempSync(path.join(os.tmpdir(),\\\"cafe-focused-\\\")); const call=(args)=>spawnSync(process.execPath,[path.join(root,\\\"app.mjs\\\"),...args],{encoding:\\\"utf8\\\"}); try { const file=path.join(dir,\\\"jobs.json\\\"); let r=call([file,\\\"add\\\",JSON.stringify({id:\\\"job-u\\\",title:\\\"  🔧  \\\"})]); assert.equal(r.status,0); assert.deepEqual(JSON.parse(r.stdout),{id:\\\"job-u\\\",title:\\\"🔧\\\",status:\\\"open\\\"}); const before=fs.readFileSync(file); r=call([file,\\\"list\\\",\\\"extra\\\"]); assert.notEqual(r.status,0); assert.equal(r.stdout,\\\"\\\"); assert.deepEqual(JSON.parse(r.stderr),{error:\\\"invalid-input\\\"}); assert.deepEqual(fs.readFileSync(file),before); fs.writeFileSync(file,JSON.stringify({version:1,jobs:[{id:\\\"job-a\\\",title:\\\" Lamp \\\",status:\\\"open\\\",extra:true}]})); const corrupt=fs.readFileSync(file); r=call([file,\\\"list\\\"]); assert.deepEqual(JSON.parse(r.stderr),{error:\\\"invalid-data\\\"}); assert.deepEqual(fs.readFileSync(file),corrupt); r=call([dir,\\\"list\\\"]); assert.deepEqual(JSON.parse(r.stderr),{error:\\\"storage-error\\\"}); assert.equal(r.stdout,\\\"\\\"); console.log(JSON.stringify({focused:\\\"passed\\\",cases:4})); } finally { fs.rmSync(dir,{recursive:true,force:true}); }'\"",
+      "exit": 0,
+      "output": "{\"focused\":\"passed\",\"cases\":4}\n"
+    }
+  ],
+  "terminal": "No turn.completed or final answer before timeout."
+}

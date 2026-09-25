@@ -1,0 +1,86 @@
+{
+  "at": "2026-09-16T18:48:30.964Z",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "node": "v24.18.0",
+  "tests": {
+    "passed": 532,
+    "failed": 0,
+    "skipped": 0,
+    "log": "test.log"
+  },
+  "priorFailure": {
+    "total": 530,
+    "passed": 513,
+    "failed": 17,
+    "reason": "Doctor rejected exact vendor resources accepted by init. Shared allowlist corrected; validation retains traversal and unexpected-file rejection.",
+    "log": "test-first-failure.log"
+  },
+  "checks": [
+    {
+      "name": "lint",
+      "status": "passed",
+      "log": "lint.log"
+    },
+    {
+      "name": "format",
+      "status": "passed",
+      "log": "format.log"
+    },
+    {
+      "name": "docs",
+      "status": "passed",
+      "log": "docs.log"
+    },
+    {
+      "name": "template-build",
+      "status": "passed",
+      "log": "template-build.log"
+    },
+    {
+      "name": "example-build",
+      "status": "passed",
+      "log": "example-build.log"
+    },
+    {
+      "name": "package-smoke",
+      "status": "passed",
+      "log": "package-smoke.log"
+    }
+  ],
+  "scope": "Local code and packaging checks. Not a native agent, human evaluation, cross-platform result or superiority claim. Trace-only closure changes follow the local package; CI packages the exact committed candidate.",
+  "logs": [
+    {
+      "file": "test.log",
+      "sha256": "4443420b892b2fc96bfe227aa8d3ca7e18d3586afdae63f1d7d81c0c7f3a816f"
+    },
+    {
+      "file": "test-first-failure.log",
+      "sha256": "4750ded075b7f8e0645ddaa38e614f377a42637596dcd9b4f4b47085ee489d0a"
+    },
+    {
+      "file": "lint.log",
+      "sha256": "e2e237c3349569189a1e797724e3b59d65d2203a722c16392e63387386041174"
+    },
+    {
+      "file": "format.log",
+      "sha256": "cdd7cf59ee84326ad533ed5f1b89f228d11187b5499c52025a1eb3bb3bc01f34"
+    },
+    {
+      "file": "docs.log",
+      "sha256": "ef31d3f3f6dec6fa0d1d4340345df46f74ad48b09bb468b2959e04aa45f5df82"
+    },
+    {
+      "file": "package-smoke.log",
+      "sha256": "30db61b6f6b09927b9b651f1a89cebfbf9e069341cd99259628e9a79ca021a98"
+    },
+    {
+      "file": "template-build.log",
+      "sha256": "9019aad77704ba2b0889d8d66121a5954eb0754ba5ca6a1f82c39389fabf0a9b"
+    },
+    {
+      "file": "example-build.log",
+      "sha256": "d4a791edf6bf3622226a18cbd75373ebc8dcf1a68fb460dc98d2bcf7a1935155"
+    }
+  ]
+}

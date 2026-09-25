@@ -1,0 +1,74 @@
+# Bolt, Lovable, Replit — création puis évolution d’un logiciel
+
+Recherche bornée, consultée le **16 septembre 2026**, sans compte, achat, connexion aux produits ni appel modèle natif. Aucun dépôt ou résultat antérieur modifié. **Essayé ici : aucun des trois produits.** « Documenté » signifie que la documentation officielle décrit le parcours ; « annoncé » reste une affirmation du fournisseur. Les trois témoignages sont des récits individuels, non vérifiés sur leurs applications ; ce n’est pas un échantillon représentatif ni une mesure comparative.
+
+## Conclusion pour DevMethod
+
+La barre concurrentielle est déjà une expérience intégrée : décrire, explorer avant de coder, obtenir un résultat manipulable, pointer une modification, connecter des données, publier, revenir en arrière et reprendre avec du code exportable. Un chat avec preview, des étapes de méthode ou un export Git ne suffiraient donc pas à différencier DevMethod. Les sources soutiennent surtout une question à tester : **aider une personne à décider et réaliser une évolution tout en comprenant ce qui change pour ses données, ses utilisateurs et son exploitation**. Ce bénéfice reste une hypothèse ; les builders peuvent déjà l’assurer dans certains cas.
+
+## Ce que les parcours officiels donnent réellement à prendre au sérieux
+
+| Axe | Bolt | Lovable | Replit |
+| --- | --- | --- | --- |
+| De l’idée au logiciel | Quickstart guidé : première app, données/utilisateurs, modification puis publication. Plan/Discussion précèdent les changements et consomment moins que Build selon la documentation. [B1, B2] | Plan mode inspecte contexte/fichiers/logs, pose des clarifications, compare des approches ; le plan est modifiable avant approbation. Dernier plan conservé dans `.lovable/plan.md`, anciens plans dans l’historique. [L1] | Project Editor associe agent, projet, aperçu et tâches ; le guide demande de planifier, fournir du contexte, tester puis utiliser les checkpoints. Ce n’est déjà plus seulement un prompt d’exécution. [R1, R2] |
+| Design et modification contextuelle | Sélecteur d’un élément dans l’aperçu, demande ciblée ; code directement modifiable. Le quickstart avertit que son historique ne couvre pas les modifications manuelles de code : prudence sur la portée de « undo ». [B1] | La **preview toolbar remplace Visual edits** : sélection multiple, annotation dessinée, texte inline, commentaires attachés aux éléments. Les messages sélection/annotation consomment des crédits ; commentaires seuls gratuits ; quota de texte inline gratuit. [L2] | Design Canvas pour explorer une maquette avant conversion, Visual Editor et aperçu du produit ; fichiers, captures et annotations servent de contexte. Import de code ou design déjà existant. [R1, R3] |
+| Données, auth, intégrations | Bolt Database ou Supabase ; auth email et Google, reset de mot de passe. Les URL de retour nécessitent parfois un réglage après publication : le backend intégré ne supprime pas toute configuration. [B3] | Cloud fournit base, auth, stockage, fonctions, tâches, logs et outils d’usage ; fondation Supabase, ou backend externe. Permissions par outil configurables. La doc décrit aussi restauration de backups et export de données. [L3] | Base gérée/Agent, stockage et connecteurs. **Replit Auth** implique des comptes Replit ; **Clerk Auth** propose un tenant et des comptes indépendants, avec parcours de migration documenté. Les contrôles d’accès applicatifs restent nécessaires. [R4, R5] |
+| Reprise, rollback, maintenance | Historique consultable/prévisualisable, sauvegardes nommées et marquées ; restaurer une version **ne restaure pas** les bases Bolt/Supabase. ZIP et GitHub permettent de travailler ailleurs. [B4, B5] | Historique de versions, preview et revert ; GitHub sync/export, GitLab bidirectionnel. La FAQ consultée dit qu’on ne peut pas démarrer depuis un repo externe déjà existant : export/sync ≠ import universel. [L4, L5] | Checkpoints documentés pour fichiers, contexte agent/config et données. DB de développement à restaurer seulement sur option ; DB de production non restaurée automatiquement. Import GitHub/ZIP, mais secrets/domaines/données ne suivent pas un simple ZIP. [R6, R7] |
+| Coût et dépendance | Au jour consulté : Free 1 M tokens/mois, plafond 300 k/jour ; Pro dès **25 USD/mois**, 10 M tokens. Taille du filesystem envoyé au modèle explicitement liée au coût. Restauration par bouton sans tokens. [B2, B6] | Tarification actuelle : crédits partagés entre construction, Cloud et AI. Valeur/consommation varient selon plan/fonction ; un crédit n’est pas un message universel. Code/données déclarés portables ; migration et opérations restent à prendre en charge. [L6, L7] | Facturation à l’effort, y compris les conversations sans code ; crédits également utilisés par les services cloud. Usage affiché peut avoir jusqu’à 30 min de retard. Auth, stockage et déploiement restent des dépendances à inventorier lors d’une sortie. [R8, R4] |
+
+Ces descriptions ne prouvent ni qualité constante des générations, ni sécurité complète, ni maintien des acquis pendant n’importe quelle évolution. Inversement, un élément non vérifié dans ce temps de recherche n’est pas déclaré absent.
+
+## Trois témoignages datés, avec leurs contradictions utiles
+
+1. **Bolt, 1er février 2025** — auteur disant avoir construit une app full-stack fonctionnelle à environ 90 %, avec 10 M tokens, de l’apprentissage et de nombreux rollbacks. Le témoignage est à la fois favorable à la capacité de construire et révélateur de travail de reprise. Ancien : ne pas extrapoler sa consommation à Bolt septembre 2026. Ni dépôt, protocole, facture ni définition indépendante de « 90 % » inspectés. [Fil r/boltnewbuilders](https://www.reddit.com/r/boltnewbuilders/comments/1iex3lt/how_many_tokens_did_you_spend_to_create_a_website/).
+2. **Lovable, 29 juin 2026** — un auteur rapporte qu’un petit projet de développement consommait 1,86 Run Credits/jour contre 0,15 pour sa production. Cause trouvée avec l’équipe support : tâche email toutes les cinq secondes maintenant la base active ; passage déclaré à une approche événementielle. Il remercie explicitement le support, première réponse en moins de 48 h. Ce récit ne démontre pas une surfacturation : il montre une conséquence d’architecture difficile à identifier pour son auteur. Pas d’accès à ses logs ni vérification des montants. [Fil r/lovable](https://www.reddit.com/r/lovable/comments/1uifjbq/lovable_run_credits_almost_made_me_abandon_the/).
+3. **Replit, 31 août 2026** — auteur rapportant plusieurs mois de construction, des dépenses de plusieurs milliers de dollars et une difficulté à identifier l’état fiable entre repo, DB/schéma, credentials Stripe, auth, stockage et déploiement. Les réponses proposent aussi de conserver Replit avec un workflow Git mieux contrôlé ; elles ne concluent pas toutes à migrer. Plaintes et montants non audités ; ne pas reprendre comme fait la responsabilité causale imputée à l’infrastructure. [Fil r/replit](https://www.reddit.com/r/replit/comments/1w3ilm3/ive_spent_thousands_building_on_replit_since_may/).
+
+Sélection intentionnelle de trois parcours pertinents à l’évolution et à la maîtrise, pas estimation de fréquence. Les communautés concentrent les difficultés et peuvent contenir promotion, versions anciennes ou diagnostics erronés. Aucun contact effectué. Les détails négatifs deviennent des situations à observer, pas une preuve de supériorité DevMethod.
+
+## Qualités à reprendre et problèmes encore à vérifier
+
+**À reprendre sans les présenter comme une invention :** accès immédiat à quelque chose d’utilisable ; boucle aperçu→pointage→modification ; plan discutable avec choix explicites ; backend/auth courants intégrés ; historique compréhensible avec prévisualisation ; code accessible ; tests et observations reliés au changement. Éviter d’exiger une configuration documentaire avant que la personne puisse voir et éprouver son idée.
+
+**Difficultés documentées ou plausibles :**
+
+- La réversibilité porte sur plusieurs états. Bolt distingue explicitement code/base ; Replit ajoute contexte agent et base de développement optionnelle, mais sépare la production. Lovable documente des backups DB distincts. Un « retour » doit expliquer son effet sur chacun, sans présumer qu’une restauration globale serait toujours souhaitable.
+- Posséder le code ne suffit pas à retrouver un service opérationnel avec ses utilisateurs. Les imports et options d’auth ci-dessus montrent des frontières concrètes ; la portabilité annoncée n’est pas une preuve de reprise sans intervention.
+- Des choix apparemment fonctionnels engagent un coût récurrent : le récit Lovable fournit un exemple de polling, pas une loi générale. À observer : rendre ce lien visible au moment de choisir, puis confronter l’estimation aux mesures.
+- La lecture du contexte et la maintenance consomment elles-mêmes du budget. Bolt l’explicite ; Lovable et Replit facturent aussi certaines interactions de raisonnement. Le coût utile comprend itérations, erreurs et exploitation, pas seulement la première maquette.
+
+## Une différenciation plausible à éprouver
+
+**Un atelier d’évolution qui montre et exécute les conséquences d’un choix dans l’application réelle.** Depuis le besoin de la personne, produire rapidement une tranche fonctionnelle avec ses données, puis permettre de choisir une évolution en montrant : usages affectés, anciens enregistrements conservés ou migrés, éléments indépendants préservés, coût d’exploitation attendu et possibilité de revenir/reprendre. Le choix devient une modification utilisable ; les raisons et observations restent attachées à l’état réellement livré. Un tableau de décisions seul ne satisferait pas cette proposition.
+
+Le concurrent de référence doit être le **parcours recommandé complet** de chaque builder : planning, preview, modifications ciblées, backend, checkpoints et Git, avec leurs capacités actuelles. Ne pas les réduire à un seul prompt ni leur fournir moins de temps de reprise. Même besoin et sources initiales ; le contexte construit par chaque parcours est une sortie. Faire ensuite une vraie modification du besoin avec de nouvelles données déjà entrées, puis une reprise depuis une autre session. Observer fonctionnement, pertes/réparations, informations répétées, décisions comprises/prises et effort effectivement fourni. Sans propriétaire ou participant observé, conclure seulement sur la capacité technique et la fidélité de la continuation.
+
+L’avantage proposé n’est pas « personne d’autre ne peut le faire ». C’est une expérience éventuellement plus compréhensible et moins coûteuse à diriger dans ce parcours. **Aucun des matériaux lus ne démontre cet avantage.** Les précédentes corrections de handoff DevMethod et les essais arrêtés ne le démontrent pas davantage et restent inchangés.
+
+## Sources officielles et fraîcheur
+
+Toutes consultées le 2026-09-16. Sauf date indiquée, **date de publication/mise à jour non affichée ou non vérifiée** ; ne pas confondre crawl moteur et date de release. Les produits SaaS ne sont pas épinglés à un commit. Aucun écran connecté ni comportement exécuté vérifié.
+
+- **B1 — Bolt QuickStart guide** : https://support.bolt.new/building/quickstart — parcours, sélecteur, code et portée de l’historique.
+- **B2 — Maximize token efficiency** : https://support.bolt.new/best-practices/maximizing-token-efficiency — Plan/Discussion, boutons gratuits, coûts de contexte/connecteurs.
+- **B3 — Authentication settings** : https://support.bolt.new/cloud/database/authentication — auth, reset et URL de retour.
+- **B4 — Backups, restore, and version history** : https://support.bolt.new/building/using-bolt/rollback-backup — restauration et séparation des bases.
+- **B5 — Manage your projects** : https://support.bolt.new/building/using-bolt/projects-files — export ZIP, limites transfert et duplication. Cette page contient des formulations de duplication variables selon contexte ; aucun résultat de duplication DB testé ici.
+- **B6 — Pricing** : https://bolt.new/pricing — chiffres lus aujourd’hui, coûts susceptibles de changer.
+- **L1 — Plan mode** : https://docs.lovable.dev/features/plan-mode — décision avant code et conservation du plan.
+- **L2 — Edit from the preview** : https://docs.lovable.dev/features/preview-toolbar — cible actuelle de l’ancienne URL `/features/design` ; nouveau vocabulaire et tarification des interactions.
+- **L3 — Lovable Cloud** : https://docs.lovable.dev/features/cloud — backend, contrôle des permissions, backups, jobs, usage et export.
+- **L4 — FAQ** : https://docs.lovable.dev/introduction/faq — historique, export, absence d’import initial externe selon cette page.
+- **L5 — GitLab integration** : https://docs.lovable.dev/integrations/gitlab — sync des deux côtés ; renommer/déplacer le repo peut casser la connexion.
+- **L6 — Pricing** : https://lovable.dev/pricing et **annonce publiée le 2026-06-13** https://lovable.dev/blog/simplifying-billing — balance commune. Une page admin encore indexée décrit deux balances : https://docs.lovable.dev/features/workspace-admin-settings. Ne pas prendre cette ancienne formulation pour la règle tarifaire universelle actuelle ; rollout/compte précis non vérifié. Aucun tarif nominal de plan non extrait des cartes dynamiques n’est inventé.
+- **L7 — Deployment, hosting, ownership** : https://docs.lovable.dev/tips-tricks/deployment-hosting-ownership — propriété/portabilité **annoncées et documentées**, migration non essayée.
+- **R1 — Project Editor** : https://docs.replit.com/learn/projects-and-artifacts/project-editor — aperçu, canvas, tâches et import.
+- **R2 — Build with Agent** : https://docs.replit.com/learn/build-with-agent — guidage recommandé, review/test, correction en avant ou rollback.
+- **R3 — Replit Core** : https://docs.replit.com/billing/plans/replit-core — Visual Editor, Plan Mode, connecteurs ; montants nominaux non lisibles dans l’extraction, donc non rapportés.
+- **R4 — Replit Auth** : https://docs.replit.com/features/auth-and-identity/authentication — distinction Replit/Clerk et responsabilités applicatives.
+- **R5 — Add a database** : https://docs.replit.com/build/add-database — mise en place de persistance via Agent.
+- **R6 — Checkpoints and Rollbacks** : https://docs.replit.com/features/version-control/checkpoints-and-rollbacks — restauration de contexte et limites DB.
+- **R7 — Import** : https://docs.replit.com/fr/references/workspace/import — code/assets, exceptions secrets/domaines/données ; page officielle française.
+- **R8 — AI Billing** : https://docs.replit.com/billing/ai-billing — coût à l’effort, conversations et délai d’affichage.
+
+Prochaine étape proposée : cadrer une première expérience produit intégrée sur un besoin réel, en reprenant ces qualités de base et en fixant ce que la personne doit pouvoir comprendre, choisir et conserver après une évolution. Aucun lancement d’essai ni achat autorisé par ce rapport.

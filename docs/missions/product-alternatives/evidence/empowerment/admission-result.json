@@ -1,0 +1,37 @@
+{
+  "status": "exited",
+  "exit": 0,
+  "startedAt": "2026-09-16T12:17:57.544Z",
+  "endedAt": "2026-09-16T12:18:44.762Z",
+  "elapsedSeconds": 47.218,
+  "usage": {
+    "inputTokens": 50760,
+    "outputTokens": 952,
+    "cachedInputTokens": 40704,
+    "costUSD": null
+  },
+  "finalResponse": true,
+  "collectionErrors": [],
+  "readinessPassed": false,
+  "verificationError": "Expected values to be strictly equal:\n\n-2 !== 0\n",
+  "protectedChanges": [],
+  "outputEvents": 7,
+  "rawSha256": "5c2f9ecdd04d6ac4591c0f7bebf6bf6259ad36f132a1715c063dc4c715d4a3b1",
+  "totalObservedTokens": 51712,
+  "observedTokenStop": 20000,
+  "hardTokenCap": false,
+  "disposition": "stopped; no comparison or retry admitted",
+  "scope": "one host calibration; no method evaluated; no human benefit measured",
+  "sourceHead": "d14e64493bc02ed0470e8b65b72df3498706d6ac",
+  "protocolSha256": "5cd1b3835522553e118c193f37ba1cabf36cc043f2a65d2f0f8f2f903f043e7c",
+  "driverSha256": "d08ed6f2bbf1f32936b13ca8dc14f10e5ec1bd93ddfda6f1ea5b4e1eb6367860",
+  "preservedOriginals": {
+    "protocol.json": "5cd1b3835522553e118c193f37ba1cabf36cc043f2a65d2f0f8f2f903f043e7c",
+    "preflight.json": "5fd67411702d676a89aedcc4f211b2d0eed0179f49749f218b3f558290fcadfc",
+    "dispatch.json": "ab8bb00da40ca5438476973cc29cac5ae304a6481a1b18d7ec608481242b9a2d",
+    "result.json": "257f9067d2e1149a1ffccdc85b02565cdd3fd6f02c52fa66baad45d651d84f8f",
+    "raw.jsonl": "5c2f9ecdd04d6ac4591c0f7bebf6bf6259ad36f132a1715c063dc4c715d4a3b1",
+    "raw.stderr": "316c210db10f3e442e4a8a62047e71f7d46fa38759029777c677f95d959329ce",
+    "ledger/calibration.json": "8f743f00079cf19ca08dda335f14133e0bba9ac7d34e16cd54cdc4b079549e8c"
+  }
+}

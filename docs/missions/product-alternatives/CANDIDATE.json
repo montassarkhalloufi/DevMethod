@@ -1,0 +1,21 @@
+{
+  "label": "Prospective candidate freeze before reserve disclosure",
+  "utc": "2026-09-16T09:16:41.832878+00:00",
+  "base": "98091340d7d95c25123f6bb1e9aa2a5d3d095365",
+  "files": {
+    "scripts/atelier.mjs": "71d67d22edcd48a98899a10a555674c6e2213cbe7fb7ace5ede0f75c09bfc3b6",
+    "scripts/atelier/domain.mjs": "ca29932ab8c72cae83e02f5946db778ac9c9ced75a6d633291ccf8c075a237e1",
+    "scripts/atelier/gazette.json": "b93521aefe422ad1a078916c6fb8b506d5925221de551245c030a9e9da2b3887",
+    "scripts/atelier/public/app.js": "f299d7966f6c5014ebca0f0561645ea76b644af969f87c9d67b82b34a37a6d1a",
+    "scripts/atelier/public/controls.js": "866257aaefbae161f1361170511abe8533e2e61ea9aa2aa5c50d51f86d423328",
+    "scripts/atelier/public/index.html": "a24f5533e25e5a2ed2253b44bd657e5a4f9bf6eab727d4cbc8173f281d3c8eb3",
+    "scripts/atelier/public/style.css": "ad7e444123b6a14231c8378dbfaee5194c91ce804a1aca259e41f87f7865a3e1",
+    "scripts/atelier/public/views.js": "bf267040afe5c8540248ac96ec518e412c2c410e1a7a38cd5dc2f86cfedb0b3c",
+    "scripts/atelier/schema.mjs": "79a23cb32341212323008c15e70a7d1efc748ea5e200b32f05c9fbdc36f3eb9a",
+    "scripts/atelier/server.mjs": "55ba6b3cd4edef4dcfee328516ccd4f64d4793883f247b1365d5e0885d3a4a3c",
+    "scripts/atelier/store.mjs": "3848a3c6bef82151374315cdba8174218588272fadd5d1ca068a6f0867083e02",
+    "docs/missions/product-alternatives/EXPERIMENT.md": "e7c29e9eac439a15d1eedea985581915d65b44fefc38397bfdbb4c49690bb058"
+  },
+  "model": "Inherited current task agents; no provider CLI call; not a native A/B benchmark",
+  "budget": "One bounded 15-minute active pass per condition; report capability/limits, no human or cost inference"
+}

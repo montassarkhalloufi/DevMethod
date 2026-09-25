@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>DevMethod — Studio</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/editor.css" />
+    <link rel="stylesheet" href="/layout.css" />
+    <link rel="stylesheet" href="/studio-ui/code-widget.css" />
+    <link rel="stylesheet" href="/connector-icons.css" />
+    <link rel="stylesheet" href="/mcp-connections.css" />
+    <link rel="stylesheet" href="/connector-guide.css" />
+    <link rel="stylesheet" href="/technical.css" />
+    <link rel="stylesheet" href="/source-compact.css" />
+    <link rel="stylesheet" href="/shell-navigation.css" />
+    <link rel="stylesheet" href="/discussion-sizing.css" />
+    <link rel="stylesheet" href="/progress.css" />
+    <script type="module" src="/app.js"></script>
+    <script type="module" src="/studio-ui/layout.js"></script>
+  </head>
+  <body data-studio="">
+    <svg
+      class="icon-sprite"
+      aria-hidden="true"
+      focusable="false"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <symbol id="studio-icon-folder" viewBox="0 0 24 24">
+          <path d="M3 7h18v13H3zM3 7V4h6l2 3" />
+        </symbol>
+        <symbol id="studio-icon-upload" viewBox="0 0 24 24">
+          <path d="M12 15V3m-4 4 4-4 4 4M4 13v8h16v-8" />
+        </symbol>
+        <symbol id="studio-icon-preview" viewBox="0 0 24 24">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M3 8h18M7 6h.01M10 6h.01M13 6h.01" />
+        </symbol>
+        <symbol id="studio-icon-code" viewBox="0 0 24 24">
+          <path d="m8 6-5 6 5 6m8-12 5 6-5 6m-3-15-2 18" />
+        </symbol>
+        <symbol id="studio-icon-document" viewBox="0 0 24 24">
+          <path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6" />
+        </symbol>
+        <symbol id="studio-icon-shield" viewBox="0 0 24 24">
+          <path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6zM8 12l3 3 5-6" />
+        </symbol>
+        <symbol id="studio-icon-history" viewBox="0 0 24 24">
+          <path d="M3 11a9 9 0 1 1 3 8M3 5v6h6M12 7v6l4 2" />
+        </symbol>
+        <symbol id="studio-icon-journey" viewBox="0 0 24 24">
+          <circle cx="6" cy="5" r="2" />
+          <circle cx="18" cy="19" r="2" />
+          <path d="M8 5h8a4 4 0 0 1 0 8H8a3 3 0 0 0 0 6h8" />
+        </symbol>
+        <symbol id="studio-icon-users" viewBox="0 0 24 24">
+          <circle cx="9" cy="7" r="3" />
+          <path d="M3 20v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6m1 3a5 5 0 0 1 4 5v2" />
+        </symbol>
+        <symbol id="studio-icon-user" viewBox="0 0 24 24">
+          <circle cx="12" cy="7" r="4" />
+          <path d="M4 21v-2a8 8 0 0 1 16 0v2" />
+        </symbol>
+        <symbol id="studio-icon-lock" viewBox="0 0 24 24">
+          <rect x="5" y="10" width="14" height="11" rx="2" />
+          <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+        </symbol>
+        <symbol id="studio-icon-desktop" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="13" rx="2" />
+          <path d="M12 16v5M8 21h8" />
+        </symbol>
+        <symbol id="studio-icon-phone" viewBox="0 0 24 24">
+          <rect x="7" y="2" width="10" height="20" rx="2" />
+          <path d="M11 18h2" />
+        </symbol>
+        <symbol id="studio-icon-target" viewBox="0 0 24 24">
+          <path d="M20.4 9a9 9 0 1 1-5.4-5.4M16.4 9a5 5 0 1 1-1.4-1.4M12 12l9-9m-5 0h5v5" />
+        </symbol>
+        <symbol id="studio-icon-expand" viewBox="0 0 24 24">
+          <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M3 3l6 6m12-6-6 6M3 21l6-6m12 6-6-6" />
+        </symbol>
+        <symbol id="studio-icon-external" viewBox="0 0 24 24">
+          <path d="M14 3h7v7m0-7L10 14M10 5H4v16h16v-6" />
+        </symbol>
+      </defs>
+    </svg>
+    <a class="skip-link" href="#workspace">Aller au projet</a>
+    <header class="topbar">
+      <a id="studio-home-link" class="brand" href="/">DevMethod <span>/ Studio</span></a
+      ><button id="project-menu" type="button" aria-controls="project-form">
+        <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-folder" /></svg
+        ><span id="project-menu-label">Mon projet</span><span aria-hidden="true">⌄</span>
+      </button>
+      <nav class="workspace-tabs shell-tabs" role="tablist" aria-label="Vues du projet">
+        <button
+          id="tab-journey"
+          type="button"
+          role="tab"
+          aria-controls="journey"
+          aria-selected="false"
+          data-panel="journey"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-journey" /></svg
+          >Conception
+        </button>
+        <button
+          id="tab-product"
+          type="button"
+          role="tab"
+          aria-controls="product"
+          aria-selected="true"
+          data-panel="product"
+          tabindex="0"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-preview" /></svg
+          >Aperçu</button
+        ><button
+          id="tab-code"
+          type="button"
+          role="tab"
+          aria-controls="code"
+          aria-selected="false"
+          data-panel="code"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-code" /></svg>Code</button
+        ><button
+          id="tab-choices"
+          type="button"
+          role="tab"
+          aria-controls="choices"
+          aria-selected="false"
+          data-panel="choices"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-document" /></svg
+          >Décisions</button
+        ><button
+          id="tab-checks"
+          type="button"
+          role="tab"
+          aria-controls="checks"
+          aria-selected="false"
+          data-panel="checks"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-shield" /></svg
+          >Vérifications</button
+        ><button
+          id="tab-history"
+          type="button"
+          role="tab"
+          aria-controls="history"
+          aria-selected="false"
+          data-panel="history"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
+          >Historique
+        </button>
+      </nav>
+      <label class="shell-mode" for="studio-mode">
+        <span class="sr-only">Mode de travail</span>
+        <select
+          id="studio-mode"
+          name="mode"
+          form="project-form"
+          title="Mode de travail · ajuster la délégation"
+        >
+          <option value="guided">Guidé</option>
+          <option value="devauto">DevAuto</option>
+          <option value="delegated">Autonome</option>
+        </select>
+      </label>
+      <button
+        id="open-connectors"
+        type="button"
+        title="Outils et services"
+        aria-label="Outils et services"
+        aria-haspopup="dialog"
+      >
+        <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-code" /></svg>
+      </button>
+      <a class="button-link export-project" href="/api/export" download=""
+        ><svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-upload" /></svg
+        ><span class="export-label">Exporter</span></a
+      >
+    </header>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden=""></div>
+    <nav class="mobile-navigation" aria-label="Accès rapide au projet">
+      <a href="#workspace">Le produit</a>
+      <a href="#request">Discussion et demande ↓</a>
+    </nav>
+    <div class="studio-layout">
+      <aside id="discussion" class="conversation" aria-label="Le fil du projet" tabindex="-1">
+        <div class="discussion-content" data-scroll-region="discussion">
+          <section class="technical-assistant">
+            <h2>Assistant</h2>
+            <p class="muted">Objectif du projet</p>
+            <p id="technical-objective"></p>
+          </section>
+          <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
+          <section
+            id="responsibilities"
+            class="policy-panel"
+            aria-labelledby="responsibilities-title"
+          >
+            <div class="section-heading">
+              <h2 id="responsibilities-title" class="responsibility-title">
+                <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-users" /></svg
+                >Responsabilités
+              </h2>
+              <button id="adjust-policy" type="button" class="text-button">Ajuster</button>
+            </div>
+            <div id="policy"></div>
+          </section>
+          <section id="project" class="panel introduction" aria-labelledby="project-title">
+            <div class="section-heading">
+              <div>
+                <p id="project-eyebrow" class="eyebrow">VOTRE ESPACE DE CRÉATION</p>
+                <h1 id="project-title">Qu’aimeriez-vous créer ?</h1>
+              </div>
+              <div class="project-heading-actions">
+                <button
+                  id="edit-project"
+                  type="button"
+                  aria-expanded="true"
+                  aria-controls="project-form"
+                  hidden=""
+                >
+                  Ajuster le projet</button
+                ><button id="refresh" class="quiet" type="button">Actualiser</button>
+              </div>
+            </div>
+
+            <p id="project-intro" class="intro-copy">
+              Une idée, un besoin quotidien, une référence. Nous gardons le fil jusqu’à une app que
+              vous pouvez essayer.
+            </p>
+            <form id="project-form">
+              <label class="sr-only" for="idea">Votre idée et le résultat attendu</label>
+              <textarea
+                id="idea"
+                rows="3"
+                maxlength="20000"
+                required=""
+                placeholder="J’aimerais une app pour… Elle aiderait… à…"
+              ></textarea>
+              <div class="project-options">
+                <details id="project-details">
+                  <summary>Nom et contraintes</summary>
+                  <div class="detail-fields">
+                    <label for="project-name">Nom du projet <span>(facultatif)</span></label
+                    ><input id="project-name" maxlength="200" placeholder="Mon projet" /><label
+                      for="constraints"
+                      >Ce qu’il faut garder <span>(une contrainte par ligne)</span></label
+                    ><textarea
+                      id="constraints"
+                      rows="2"
+                      placeholder="Un usage sur mobile, mes données existantes…"
+                    ></textarea>
+                  </div>
+                </details>
+                <label class="reference-upload" for="reference-file"
+                  >＋ Ajouter une référence<input
+                    id="reference-file"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,text/plain,text/markdown,.md"
+                /></label>
+              </div>
+
+              <details class="delegation-settings">
+                <summary>Qui prend les décisions ?</summary>
+                <p class="muted">
+                  Ces réglages précisent le mode. Une délégation ne remplace pas votre accord
+                  explicite.
+                </p>
+                <div class="delegation-fields">
+                  <div class="delegation-field">
+                    <label for="delegate-structure">Produit et architecture</label
+                    ><select id="delegate-structure">
+                      <option value="user">Moi, avec validation</option>
+                      <option value="agent">L’agent, par délégation</option>
+                    </select>
+                  </div>
+                  <div class="delegation-field">
+                    <label for="delegate-visual">Validation visuelle</label
+                    ><select id="delegate-visual">
+                      <option value="user">Moi, avec validation</option>
+                      <option value="agent">L’agent, par délégation</option>
+                    </select>
+                  </div>
+                  <div class="delegation-field">
+                    <label for="delegate-adoption">Application d’une version</label
+                    ><select id="delegate-adoption">
+                      <option value="user">Moi, avec validation</option>
+                      <option value="agent">L’agent, par délégation</option>
+                    </select>
+                  </div>
+                </div>
+              </details>
+              <div class="form-footer">
+                <span id="project-save-status" class="muted"
+                  >Le projet est conservé dans cet espace local.</span
+                ><button id="save-project" class="primary" type="submit">
+                  Garder cette idée <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </form>
+
+            <details class="project-context">
+              <summary>Contexte et références</summary>
+              <div id="project-summary" class="project-summary" hidden="">
+                <p id="project-idea-summary"></p>
+                <span id="project-mode" class="badge"></span
+                ><span id="project-unsaved" class="muted" hidden=""
+                  >Modifications non enregistrées</span
+                >
+              </div>
+              <div id="references" class="references" aria-label="Références du projet"></div>
+            </details>
+          </section>
+          <div id="decision-request" class="decision-request" hidden="">
+            <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-user" /></svg>
+            <p id="decision-request-text"></p>
+          </div>
+          <section
+            id="active-decision"
+            aria-label="La décision à prendre"
+            tabindex="-1"
+            hidden=""
+          ></section>
+          <section class="technical-decision" id="technical-decision" hidden>
+            <span>Décision à examiner</span>
+            <h3 id="technical-decision-title"></h3>
+            <p id="technical-decision-state"></p>
+            <button type="button" data-action="review-decision">Ouvrir la décision →</button>
+          </section>
+          <section
+            id="latest-result"
+            class="latest-result"
+            hidden=""
+            aria-label="Dernier résultat"
+          ></section>
+          <div id="job-progress" hidden></div>
+          <details id="preserve-constraints" class="preserve-constraints" hidden="">
+            <summary>
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-lock" /></svg>À
+              préserver <span id="preserve-summary" class="preserve-summary"></span>
+            </summary>
+            <div id="preserve-constraints-content"></div>
+          </details>
+          <details id="activity" class="activity-panel" data-size-region="activity">
+            <summary>
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-history" /></svg
+              >Activité précédente
+            </summary>
+            <div class="conversation-flow" id="conversation-flow" data-scroll-region="conversation">
+              <div id="jobs" class="jobs" aria-label="Demandes et résultats"></div>
+              <section
+                id="directions"
+                class="panel flow-directions"
+                aria-labelledby="directions-title"
+              >
+                <div class="section-heading">
+                  <div>
+                    <p class="eyebrow">DONNER UNE DIRECTION</p>
+                    <h2 id="directions-title">Des choix que vous pouvez voir</h2>
+                  </div>
+                </div>
+                <div id="designs" class="design-grid"></div>
+                <form id="design-form" hidden="">
+                  <label for="design-reason">Ce qui vous plaît dans cette direction</label
+                  ><textarea
+                    id="design-reason"
+                    rows="2"
+                    maxlength="4000"
+                    placeholder="Ce que je souhaite garder…"
+                  ></textarea
+                  ><button id="choose-design" class="primary" type="submit">
+                    Valider ce choix
+                  </button>
+                </form>
+              </section>
+              <div id="flow-decisions" class="flow-decisions" aria-label="Décisions récentes"></div>
+            </div>
+          </details>
+        </div>
+        <section
+          id="message-panel"
+          class="panel request-panel"
+          aria-labelledby="request-title"
+          data-size-region="message"
+        >
+          <a class="mobile-return" href="#workspace">↑ Revenir au produit</a>
+          <h2 id="request-title" class="sr-only">Faire évoluer le projet</h2>
+          <details class="agent-connection">
+            <summary><span id="agent-status" class="badge">Connexion à vérifier</span></summary>
+            <p id="agent-description" class="muted">Lecture de la connexion à l’agent…</p>
+            <p class="composer-note">Votre demande conserve le contexte et les choix du projet.</p>
+          </details>
+          <form id="request-form">
+            <div id="element-selection" class="element-selection" hidden="">
+              <span id="element-label"></span
+              ><button id="clear-element" type="button" aria-label="Retirer l’élément ciblé">
+                ×
+              </button>
+              <small
+                >Le sélecteur DOM ne fournit pas de mapping fiable vers un fichier source. La
+                demande conserve l’élément ciblé.</small
+              >
+            </div>
+            <label class="sr-only" for="request">Votre demande</label
+            ><textarea
+              id="request"
+              rows="2"
+              maxlength="20000"
+              required=""
+              placeholder="Décrivez ce qui doit changer, ce qui doit rester…"
+            ></textarea>
+            <div class="form-footer">
+              <div class="draft-actions">
+                <span id="draft-status" class="muted" role="status"
+                  >Votre brouillon sera conservé.</span
+                ><button id="save-draft" class="text-button" type="button">Enregistrer</button>
+              </div>
+              <button id="send-request" class="primary" type="submit">
+                Envoyer <span aria-hidden="true">↑</span>
+              </button>
+            </div>
+          </form>
+          <div id="prompt-mcp-tools"></div>
+        </section>
+      </aside>
+      <div
+        id="conversation-resizer"
+        class="conversation-resizer"
+        role="separator"
+        tabindex="0"
+        aria-label="Largeur de la discussion"
+        aria-orientation="vertical"
+        aria-controls="discussion"
+        aria-valuemin="300"
+        aria-valuemax="720"
+        aria-valuenow="300"
+        title="Glisser pour redimensionner. Flèches pour ajuster, Début/Fin pour les limites, double-clic pour réinitialiser."
+      ></div>
+      <main id="workspace" tabindex="-1" data-scroll-region="preview">
+        <section id="project-cap" class="project-cap" aria-label="Le résultat visé"></section>
+        <div class="workbench">
+          <div class="preview-toolbar preview-command-bar">
+            <button
+              id="expand-workspace"
+              aria-label="Agrandir cette vue"
+              title="Agrandir cette vue"
+              type="button"
+              aria-controls="workspace"
+              aria-pressed="false"
+            >
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-expand" /></svg>
+            </button>
+            <select
+              id="preview-scenario"
+              class="preview-scenario"
+              aria-label="Scénario à comparer sans modifier le choix"
+              title="Comparer un scénario sans changer la décision enregistrée"
+              hidden=""
+            ></select>
+            <label for="preview-version" class="sr-only">Version à essayer</label
+            ><select id="preview-version" aria-label="Version à essayer">
+              <option value="">Aucune version</option>
+            </select>
+            <div id="proposal-comparison" class="proposal-comparison" hidden="">
+              <div class="comparison-switch" role="group" aria-label="Comparer le changement">
+                <button id="comparison-before" type="button" aria-pressed="true">Avant</button>
+                <button id="comparison-proposal" type="button" aria-pressed="false">
+                  Proposition
+                </button>
+              </div>
+            </div>
+            <div class="viewport-buttons" role="group" aria-label="Largeur de l’aperçu">
+              <button
+                id="wide-preview"
+                type="button"
+                aria-pressed="true"
+                aria-label="Aperçu bureau"
+                title="Aperçu bureau"
+              >
+                <svg class="ui-icon" aria-hidden="true">
+                  <use href="#studio-icon-desktop" />
+                </svg></button
+              ><button
+                id="mobile-preview"
+                type="button"
+                aria-pressed="false"
+                aria-label="Aperçu mobile"
+                title="Aperçu mobile"
+              >
+                <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-phone" /></svg>
+              </button>
+            </div>
+            <button
+              id="inspect-element"
+              aria-label="Cibler un élément"
+              title="Cibler un élément dans l’aperçu"
+              type="button"
+              disabled=""
+              aria-pressed="false"
+            >
+              <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-target" /></svg>
+              <span class="sr-only">Cibler un élément</span></button
+            ><a
+              id="open-preview"
+              aria-label="Ouvrir l’application interactive dans un nouvel onglet"
+              title="Ouvrir l’application interactive dans un nouvel onglet"
+              class="button-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden=""
+              ><svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-external" /></svg
+            ></a>
+          </div>
+          <section
+            id="journey"
+            class="panel journey-panel"
+            aria-labelledby="tab-journey"
+            role="tabpanel"
+            hidden=""
+          >
+            <div id="journey-view"></div>
+            <div class="technical-links">
+              <button type="button" data-action="architecture">
+                Examiner l’architecture détectée →
+              </button>
+              <span>La cible et les alternatives de conception restent des choix déclarés.</span>
+            </div>
+          </section>
+          <section
+            id="product"
+            class="panel product-panel"
+            aria-labelledby="tab-product"
+            role="tabpanel"
+          >
+            <div class="preview-context">
+              <p id="comparison-status" role="status" aria-live="polite"></p>
+            </div>
+            <div class="section-heading sr-only">
+              <div>
+                <h2 id="product-title">Votre app</h2>
+              </div>
+              <span id="preview-status" class="badge">Aucune version</span>
+            </div>
+
+            <div id="preview-stage" class="preview-stage">
+              <img
+                id="proposal-image"
+                class="proposal-image"
+                alt="Aperçu visuel de la proposition"
+                hidden=""
+              />
+              <div id="proposal-empty" class="proposal-empty" role="status" hidden=""></div>
+              <div id="preview-empty" class="preview-empty">
+                <span class="empty-symbol" aria-hidden="true">▧</span>
+                <h3>Une vraie app apparaîtra ici</h3>
+                <p>
+                  Gardez votre idée, puis préparez une première demande. L’aperçu s’ouvrira dès
+                  qu’une version aura été produite.
+                </p>
+                <button id="first-request" type="button">Préparer ma première demande →</button>
+              </div>
+              <iframe
+                id="preview"
+                title="Application du projet — aperçu interactif"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"
+                hidden=""
+              ></iframe>
+              <div id="source-only-preview" class="preview-empty" hidden="">
+                <h3>Sources importées · aperçu à raccorder</h3>
+                <p>
+                  Ce projet peut être parcouru et modifié dans Code. Sa stack n’est pas exécutée par
+                  le runtime actuel du Studio. Aucun script du projet n’a été lancé à l’import.
+                </p>
+                <a href="#code" class="button-link">Parcourir les sources →</a>
+              </div>
+            </div>
+            <details class="preview-note">
+              <summary>Données partagées entre versions</summary>
+              <p id="preview-data-note">
+                Les données saisies dans l’app sont partagées entre ses versions. Revenir au code
+                précédent ne restaure pas les anciennes données.
+              </p>
+            </details>
+          </section>
+          <section
+            id="code"
+            class="panel code-panel"
+            role="tabpanel"
+            aria-labelledby="tab-code"
+            hidden=""
+          >
+            <div id="source-view"></div>
+            <div id="project-workbench"></div>
+          </section>
+          <section
+            id="choices"
+            class="panel choices-panel"
+            role="tabpanel"
+            aria-labelledby="tab-choices"
+            hidden=""
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">LES RAISONS DE NOS CHOIX</p>
+                <h2>Une direction révisable</h2>
+              </div>
+            </div>
+            <div id="context"></div>
+            <div class="technical-links">
+              <button type="button" data-action="architecture">
+                Confronter les choix à l’architecture détectée →
+              </button>
+              <button type="button" data-action="impact">Examiner l’impact sur le projet →</button>
+            </div>
+            <form id="approval-form" class="approval-card" hidden="">
+              <h3>Valider le cadrage</h3>
+              <p id="approval-status">Lisez les choix ci-dessus avant de lancer la réalisation.</p>
+              <label for="approval-reason"
+                >Ce qui motive votre choix <span>(facultatif)</span></label
+              ><textarea id="approval-reason" rows="2" maxlength="4000"></textarea
+              ><button id="approve-plan" class="primary" type="submit">Valider ces choix</button>
+            </form>
+            <div class="capabilities">
+              <h3>Dans cet espace</h3>
+              <p>Apps web et données locales.</p>
+              <p id="capability-limits">Authentification et publication externe indisponibles.</p>
+            </div>
+          </section>
+          <section
+            id="checks"
+            class="panel checks-panel"
+            role="tabpanel"
+            aria-labelledby="tab-checks"
+            hidden=""
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">CONFRONTER LE RÉSULTAT À L’INTENTION</p>
+                <h2>Ce qui a été vérifié</h2>
+              </div>
+            </div>
+            <div id="checks-list"></div>
+            <div id="quality-workbench"></div>
+          </section>
+          <section
+            id="history"
+            class="panel"
+            aria-labelledby="tab-history"
+            role="tabpanel"
+            hidden=""
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">REPRENDRE SANS REPARTIR DE ZÉRO</p>
+                <h2 id="history-title">Reprendre et retrouver les versions</h2>
+              </div>
+            </div>
+            <div id="versions" class="versions"></div>
+            <details class="technical">
+              <summary>Journal du projet</summary>
+              <div id="events"></div>
+            </details>
+          </section>
+        </div>
+        <section
+          id="evidence-dock"
+          class="evidence-dock"
+          aria-label="État de la version affichée"
+        ></section>
+      </main>
+    </div>
+    <dialog id="connectors-dialog" class="connectors-dialog" aria-labelledby="connectors-title">
+      <header class="connectors-dialog-header">
+        <h2 id="connectors-title">Outils et services</h2>
+        <button id="close-connectors" type="button" aria-label="Fermer les outils et services">
+          Fermer ×
+        </button>
+      </header>
+      <div id="connectors-host"></div>
+    </dialog>
+  </body>
+</html>

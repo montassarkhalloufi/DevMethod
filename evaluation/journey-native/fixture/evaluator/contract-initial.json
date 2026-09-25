@@ -1,0 +1,73 @@
+{
+  "format": 1,
+  "id": "cafe-initial",
+  "intent": "Track repair jobs without duplicate identities, lost durable state or reopened completed work.",
+  "criteria": [
+    {
+      "id": "intake",
+      "description": "Validated intake and idempotent identity with conflict protection."
+    },
+    {
+      "id": "finality",
+      "description": "Completion is terminal across finish and add retries."
+    },
+    {
+      "id": "durability",
+      "description": "Acknowledged jobs and statuses survive new processes."
+    },
+    {
+      "id": "integrity",
+      "description": "Malformed existing data is rejected and preserved."
+    }
+  ],
+  "candidateInputs": [
+    "app.mjs"
+  ],
+  "evaluatorFiles": [
+    "initial-runner.mjs",
+    "initial-checks.mjs",
+    "controls/healthy/app.mjs",
+    "controls/intake/app.mjs",
+    "controls/finality/app.mjs",
+    "controls/durability/app.mjs",
+    "controls/integrity/app.mjs"
+  ],
+  "checks": [
+    {
+      "id": "cafe-initial",
+      "runner": "initial-runner.mjs",
+      "criteria": [
+        "intake",
+        "finality",
+        "durability",
+        "integrity"
+      ],
+      "healthy": "healthy",
+      "faults": [
+        {
+          "id": "intake",
+          "target": "intake"
+        },
+        {
+          "id": "finality",
+          "target": "finality"
+        },
+        {
+          "id": "durability",
+          "target": "durability"
+        },
+        {
+          "id": "integrity",
+          "target": "integrity"
+        }
+      ]
+    }
+  ],
+  "limits": {
+    "maxAttempts": 3,
+    "maxNoProgress": 2,
+    "childTimeoutMs": 15000,
+    "attemptTimeoutMs": 120000,
+    "maxOutputBytes": 32768
+  }
+}

@@ -1,0 +1,2311 @@
+{
+  "observedAt": "2026-09-16T16:46:16.997Z",
+  "method": "Agent reviewer, real Chrome, DOM measurements clipped by ancestor overflow; no source or data edits; browser has devicePixelRatio 1.1, viewport overrides compensated to measured CSS sizes.",
+  "desktopInitial": {
+    "documentWidth": 1563,
+    "rects": {
+      "#code": {
+        "bottom": 712.7343597412109,
+        "clientHeight": 500,
+        "clientWidth": 1054,
+        "fontSize": "16px",
+        "height": 500.3266906738281,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 1056,
+        "scrollTop": 0,
+        "scrollWidth": 1054,
+        "visibleHeight": 500.3266906738281,
+        "width": 1054.3465576171875,
+        "x": 492.3863525390625,
+        "y": 212.4076690673828
+      },
+      "#evidence-dock": {
+        "bottom": 797.6349411010742,
+        "clientHeight": 74,
+        "clientWidth": 1054,
+        "fontSize": "16px",
+        "height": 75.99431610107422,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 96,
+        "scrollTop": 0,
+        "scrollWidth": 1054,
+        "visibleHeight": 75.99431610107422,
+        "width": 1056.164794921875,
+        "x": 491.4772644042969,
+        "y": 721.640625
+      },
+      "#project-cap": {
+        "bottom": 120.60368728637695,
+        "clientHeight": 41,
+        "clientWidth": 1054,
+        "fontSize": "16px",
+        "height": 42.6136360168457,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 41,
+        "scrollTop": 0,
+        "scrollWidth": 1054,
+        "visibleHeight": 42.6136360168457,
+        "width": 1056.164794921875,
+        "x": 491.4772644042969,
+        "y": 77.99005126953125
+      },
+      "#request": {
+        "bottom": 707.5994071960449,
+        "clientHeight": 62,
+        "clientWidth": 423,
+        "fontSize": "12px",
+        "height": 63.99857711791992,
+        "lineHeight": "18px",
+        "overflowY": "auto",
+        "scrollHeight": 62,
+        "scrollTop": 0,
+        "scrollWidth": 423,
+        "visibleHeight": 63.99857711791992,
+        "width": 424.772705078125,
+        "x": 29.90056800842285,
+        "y": 643.600830078125
+      },
+      "#source-view": {
+        "bottom": 704.7371826171875,
+        "clientHeight": 484,
+        "clientWidth": 1038,
+        "fontSize": "16px",
+        "height": 484.3323669433594,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 1048,
+        "scrollTop": 0,
+        "scrollWidth": 1038,
+        "visibleHeight": 484.3323669433594,
+        "width": 1038.352294921875,
+        "x": 500.3835144042969,
+        "y": 220.40481567382812
+      },
+      "#studio-code-input": {
+        "bottom": 882.9971313476562,
+        "clientHeight": 472,
+        "clientWidth": 469,
+        "fontSize": "13px",
+        "height": 471.82525634765625,
+        "lineHeight": "21.45px",
+        "overflowY": "auto",
+        "scrollHeight": 2036,
+        "scrollTop": 0,
+        "scrollWidth": 1377,
+        "visibleHeight": 301.56248474121094,
+        "width": 468.522705078125,
+        "x": 663.288330078125,
+        "y": 411.171875
+      },
+      "#workspace": {
+        "bottom": 797.6348876953125,
+        "clientHeight": 720,
+        "clientWidth": 1056,
+        "fontSize": "16px",
+        "height": 719.6448364257812,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 720,
+        "scrollTop": 0,
+        "scrollWidth": 1056,
+        "visibleHeight": 719.6448364257812,
+        "width": 1056.164794921875,
+        "x": 491.4772644042969,
+        "y": 77.99005126953125
+      },
+      ".editor-files": {
+        "bottom": 914.4886169433594,
+        "clientHeight": 531,
+        "clientWidth": 150,
+        "fontSize": "16px",
+        "height": 530.7670288085938,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 531,
+        "scrollTop": 0,
+        "scrollWidth": 150,
+        "visibleHeight": 329.0127716064453,
+        "width": 150,
+        "x": 501.2926025390625,
+        "y": 383.7215881347656
+      },
+      ".editor-preview": {
+        "bottom": 914.4886169433594,
+        "clientHeight": 531,
+        "clientWidth": 393,
+        "fontSize": "16px",
+        "height": 530.7670288085938,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 531,
+        "scrollTop": 0,
+        "scrollWidth": 393,
+        "visibleHeight": 329.0127716064453,
+        "width": 394.0198669433594,
+        "x": 1143.8067626953125,
+        "y": 383.7215881347656
+      },
+      ".editor-toolbar": {
+        "bottom": 374.815315246582,
+        "clientHeight": 37,
+        "clientWidth": 1038,
+        "fontSize": "16px",
+        "height": 36.789772033691406,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 37,
+        "scrollTop": 0,
+        "scrollWidth": 1038,
+        "visibleHeight": 36.789772033691406,
+        "width": 1038.352294921875,
+        "x": 500.3835144042969,
+        "y": 338.0255432128906
+      }
+    },
+    "scrollY": 0,
+    "viewport": {
+      "dpr": 1.100000023841858,
+      "height": 813,
+      "width": 1563
+    },
+    "editorSha256": "da2b387ed22786e350e8427538cc76e48e3c8c43bdac3f7182c70294b7afd221",
+    "requestSha256": "15a8cb2ede91fef40b22cc6a8089955c854bfac1e9f0c8889c2165c39848896a",
+    "buttonsGeometry": [
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "app.js",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "index.html",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "lib.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "README.md",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "styles.css",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "tests.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Afficher le fichier",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Comparer à la version précédente",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Copier le contenu",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Modifier le code",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Réessayer la lecture",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "← Consulter la version et ses différences",
+        "y": 220.40481567382812
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Vérifier et actualiser",
+        "y": 338.42327880859375
+      },
+      {
+        "disabled": true,
+        "height": 35.99431610107422,
+        "text": "Adopter cette version",
+        "y": 338.42327880859375
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Récupérer mes modifications",
+        "y": 385.7244262695313
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Préparer une correction",
+        "y": 427.7130432128906
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Reprendre la version active",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Relire le brouillon partagé (copie à télécharger)",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "app.js",
+        "y": 393.7215881347656
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "index.html",
+        "y": 435.2130432128906
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "lib.mjs",
+        "y": 476.70452880859375
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "README.md",
+        "y": 518.1959838867188
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "styles.css",
+        "y": 559.6875
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "tests.mjs",
+        "y": 601.178955078125
+      }
+    ]
+  },
+  "mobileResize": {
+    "documentWidth": 391,
+    "rects": {
+      "#code": {
+        "bottom": 2384.6092529296875,
+        "clientHeight": 2038,
+        "clientWidth": 369,
+        "fontSize": "16px",
+        "height": 2037.8123779296875,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 2038,
+        "scrollTop": 0,
+        "scrollWidth": 369,
+        "visibleHeight": 496.203125,
+        "width": 369.09088134765625,
+        "x": 10.909090042114258,
+        "y": 346.796875
+      },
+      "#evidence-dock": {
+        "bottom": 2533.515625,
+        "clientHeight": 138,
+        "clientWidth": 369,
+        "fontSize": "16px",
+        "height": 140,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 232,
+        "scrollTop": 0,
+        "scrollWidth": 369,
+        "visibleHeight": 0,
+        "width": 370.9090881347656,
+        "x": 10,
+        "y": 2393.515625
+      },
+      "#project-cap": {
+        "bottom": 249.99288177490232,
+        "clientHeight": 108,
+        "clientWidth": 369,
+        "fontSize": "16px",
+        "height": 109.48152923583984,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 108,
+        "scrollTop": 0,
+        "scrollWidth": 369,
+        "visibleHeight": 109.48152923583984,
+        "width": 370.9090881347656,
+        "x": 10,
+        "y": 140.5113525390625
+      },
+      "#request": {
+        "bottom": 3008.927532196045,
+        "clientHeight": 62,
+        "clientWidth": 337,
+        "fontSize": "12px",
+        "height": 63.99857711791992,
+        "lineHeight": "18px",
+        "overflowY": "auto",
+        "scrollHeight": 62,
+        "scrollTop": 0,
+        "scrollWidth": 337,
+        "visibleHeight": 0,
+        "width": 339.0909118652344,
+        "x": 25.909090042114254,
+        "y": 2944.928955078125
+      },
+      "#source-view": {
+        "bottom": 2376.6121215820312,
+        "clientHeight": 2022,
+        "clientWidth": 353,
+        "fontSize": "16px",
+        "height": 2021.818115234375,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 2022,
+        "scrollTop": 0,
+        "scrollWidth": 353,
+        "visibleHeight": 488.20599365234375,
+        "width": 353.0965881347656,
+        "x": 18.90625,
+        "y": 354.79400634765625
+      },
+      "#studio-code-input": {
+        "bottom": 1116.7826538085938,
+        "clientHeight": 320,
+        "clientWidth": 327,
+        "fontSize": "13px",
+        "height": 320,
+        "lineHeight": "21.45px",
+        "overflowY": "auto",
+        "scrollHeight": 2036,
+        "scrollTop": 0,
+        "scrollWidth": 1377,
+        "visibleHeight": 46.21734619140625,
+        "width": 327.28692626953125,
+        "x": 31.811079025268555,
+        "y": 796.7826538085938
+      },
+      "#workspace": {
+        "bottom": 2533.5155029296875,
+        "clientHeight": 2393,
+        "clientWidth": 371,
+        "fontSize": "16px",
+        "height": 2393.004150390625,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 2393,
+        "scrollTop": 0,
+        "scrollWidth": 371,
+        "visibleHeight": 702.4886474609375,
+        "width": 370.9090881347656,
+        "x": 10,
+        "y": 140.5113525390625
+      },
+      ".editor-files": {
+        "bottom": 769.3323364257812,
+        "clientHeight": 140,
+        "clientWidth": 351,
+        "fontSize": "16px",
+        "height": 140,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 269,
+        "scrollTop": 0,
+        "scrollWidth": 351,
+        "visibleHeight": 140,
+        "width": 351.27838134765625,
+        "x": 19.815340042114254,
+        "y": 629.3323364257812
+      },
+      ".editor-preview": {
+        "bottom": 1700.0922241210938,
+        "clientHeight": 551,
+        "clientWidth": 351,
+        "fontSize": "16px",
+        "height": 551.8181762695312,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 551,
+        "scrollTop": 0,
+        "scrollWidth": 351,
+        "visibleHeight": 0,
+        "width": 351.27838134765625,
+        "x": 19.815340042114254,
+        "y": 1148.2740478515625
+      },
+      ".editor-toolbar": {
+        "bottom": 620.4261474609375,
+        "clientHeight": 81,
+        "clientWidth": 353,
+        "fontSize": "16px",
+        "height": 80.78125,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 81,
+        "scrollTop": 0,
+        "scrollWidth": 353,
+        "visibleHeight": 80.78125,
+        "width": 353.0965881347656,
+        "x": 18.90625,
+        "y": 539.6448974609375
+      }
+    },
+    "scrollY": 0,
+    "viewport": {
+      "dpr": 1.100000023841858,
+      "height": 843,
+      "width": 391
+    },
+    "editorSha256": "da2b387ed22786e350e8427538cc76e48e3c8c43bdac3f7182c70294b7afd221",
+    "requestSha256": "15a8cb2ede91fef40b22cc6a8089955c854bfac1e9f0c8889c2165c39848896a",
+    "buttonsGeometry": [
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "app.js",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "index.html",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "lib.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "README.md",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "styles.css",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "tests.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Afficher le fichier",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Comparer à la version précédente",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Copier le contenu",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Modifier le code",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Réessayer la lecture",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "← Consulter la version et ses différences",
+        "y": 354.79400634765625
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Vérifier et actualiser",
+        "y": 539.6448974609375
+      },
+      {
+        "disabled": true,
+        "height": 35.99431610107422,
+        "text": "Adopter cette version",
+        "y": 584.0340576171875
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Récupérer mes modifications",
+        "y": 631.335205078125
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Préparer une correction",
+        "y": 673.3238525390625
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Reprendre la version active",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Relire le brouillon partagé (copie à télécharger)",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "app.js",
+        "y": 639.3323364257812
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "index.html",
+        "y": 680.8238525390625
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "lib.mjs",
+        "y": 722.3153076171875
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "README.md",
+        "y": 763.8067626953125
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "styles.css",
+        "y": 805.2982788085938
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "tests.mjs",
+        "y": 846.7897338867188
+      }
+    ]
+  },
+  "mobileInitial": {
+    "documentWidth": 390,
+    "rects": {
+      "#code": {
+        "bottom": 2384.6092529296875,
+        "clientHeight": 2038,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 2037.8123779296875,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 2038,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 496.203125,
+        "width": 368.1817932128906,
+        "x": 10.909090042114258,
+        "y": 346.796875
+      },
+      "#evidence-dock": {
+        "bottom": 2533.515625,
+        "clientHeight": 138,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 140,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 232,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 0,
+        "width": 370,
+        "x": 10,
+        "y": 2393.515625
+      },
+      "#project-cap": {
+        "bottom": 249.99288177490232,
+        "clientHeight": 108,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 109.48152923583984,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 108,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 109.48152923583984,
+        "width": 370,
+        "x": 10,
+        "y": 140.5113525390625
+      },
+      "#request": {
+        "bottom": 3008.927532196045,
+        "clientHeight": 62,
+        "clientWidth": 336,
+        "fontSize": "12px",
+        "height": 63.99857711791992,
+        "lineHeight": "18px",
+        "overflowY": "auto",
+        "scrollHeight": 62,
+        "scrollTop": 0,
+        "scrollWidth": 336,
+        "visibleHeight": 0,
+        "width": 338.1817932128906,
+        "x": 25.909090042114254,
+        "y": 2944.928955078125
+      },
+      "#source-view": {
+        "bottom": 2376.6121215820312,
+        "clientHeight": 2022,
+        "clientWidth": 352,
+        "fontSize": "16px",
+        "height": 2021.818115234375,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 2022,
+        "scrollTop": 0,
+        "scrollWidth": 352,
+        "visibleHeight": 488.20599365234375,
+        "width": 352.1875,
+        "x": 18.90625,
+        "y": 354.79400634765625
+      },
+      "#studio-code-input": {
+        "bottom": 1116.7826538085938,
+        "clientHeight": 320,
+        "clientWidth": 326,
+        "fontSize": "13px",
+        "height": 320,
+        "lineHeight": "21.45px",
+        "overflowY": "auto",
+        "scrollHeight": 2036,
+        "scrollTop": 0,
+        "scrollWidth": 1377,
+        "visibleHeight": 46.21734619140625,
+        "width": 326.3778381347656,
+        "x": 31.811079025268555,
+        "y": 796.7826538085938
+      },
+      "#workspace": {
+        "bottom": 2533.5155029296875,
+        "clientHeight": 2393,
+        "clientWidth": 370,
+        "fontSize": "16px",
+        "height": 2393.004150390625,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 2393,
+        "scrollTop": 0,
+        "scrollWidth": 370,
+        "visibleHeight": 702.4886474609375,
+        "width": 370,
+        "x": 10,
+        "y": 140.5113525390625
+      },
+      ".editor-files": {
+        "bottom": 769.3323364257812,
+        "clientHeight": 140,
+        "clientWidth": 350,
+        "fontSize": "16px",
+        "height": 140,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 269,
+        "scrollTop": 0,
+        "scrollWidth": 350,
+        "visibleHeight": 140,
+        "width": 350.3692932128906,
+        "x": 19.815340042114254,
+        "y": 629.3323364257812
+      },
+      ".editor-preview": {
+        "bottom": 1700.0922241210938,
+        "clientHeight": 551,
+        "clientWidth": 350,
+        "fontSize": "16px",
+        "height": 551.8181762695312,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 551,
+        "scrollTop": 0,
+        "scrollWidth": 350,
+        "visibleHeight": 0,
+        "width": 350.3692932128906,
+        "x": 19.815340042114254,
+        "y": 1148.2740478515625
+      },
+      ".editor-toolbar": {
+        "bottom": 620.4261474609375,
+        "clientHeight": 81,
+        "clientWidth": 352,
+        "fontSize": "16px",
+        "height": 80.78125,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 81,
+        "scrollTop": 0,
+        "scrollWidth": 352,
+        "visibleHeight": 80.78125,
+        "width": 352.1875,
+        "x": 18.90625,
+        "y": 539.6448974609375
+      }
+    },
+    "scrollY": 0,
+    "viewport": {
+      "dpr": 1.100000023841858,
+      "height": 843,
+      "width": 390
+    },
+    "editorSha256": "da2b387ed22786e350e8427538cc76e48e3c8c43bdac3f7182c70294b7afd221",
+    "requestSha256": "15a8cb2ede91fef40b22cc6a8089955c854bfac1e9f0c8889c2165c39848896a",
+    "buttonsGeometry": [
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "app.js",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "index.html",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "lib.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "README.md",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "styles.css",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "tests.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Afficher le fichier",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Comparer à la version précédente",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Copier le contenu",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Modifier le code",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Réessayer la lecture",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "← Consulter la version et ses différences",
+        "y": 354.79400634765625
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Vérifier et actualiser",
+        "y": 539.6448974609375
+      },
+      {
+        "disabled": true,
+        "height": 35.99431610107422,
+        "text": "Adopter cette version",
+        "y": 584.0340576171875
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Récupérer mes modifications",
+        "y": 631.335205078125
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Préparer une correction",
+        "y": 673.3238525390625
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Reprendre la version active",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Relire le brouillon partagé (copie à télécharger)",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "app.js",
+        "y": 639.3323364257812
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "index.html",
+        "y": 680.8238525390625
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "lib.mjs",
+        "y": 722.3153076171875
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "README.md",
+        "y": 763.8067626953125
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "styles.css",
+        "y": 805.2982788085938
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "tests.mjs",
+        "y": 846.7897338867188
+      }
+    ]
+  },
+  "mobileActions": {
+    "actions": [
+      {
+        "label": "Récupérer mes modifications",
+        "rect": {
+          "bottom": 667.3295211791992,
+          "height": 35.99431610107422,
+          "left": 203.50851440429688,
+          "right": 461.6903381347656,
+          "top": 631.335205078125,
+          "width": 258.18182373046875,
+          "x": 203.50851440429688,
+          "y": 631.335205078125
+        }
+      },
+      {
+        "label": "Préparer une correction",
+        "rect": {
+          "bottom": 709.3181686401367,
+          "height": 35.99431610107422,
+          "left": 203.50851440429688,
+          "right": 461.6903381347656,
+          "top": 673.3238525390625,
+          "width": 258.18182373046875,
+          "x": 203.50851440429688,
+          "y": 673.3238525390625
+        }
+      }
+    ],
+    "documentWidth": 390,
+    "viewport": {
+      "height": 843,
+      "width": 390
+    }
+  },
+  "navigation": {
+    "documentWidth": 390,
+    "rects": {
+      "#code": {
+        "bottom": 2384.6092529296875,
+        "clientHeight": 2038,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 2037.8123779296875,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 2038,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 496.203125,
+        "width": 368.1817932128906,
+        "x": 10.909090042114258,
+        "y": 346.796875
+      },
+      "#evidence-dock": {
+        "bottom": 2533.515625,
+        "clientHeight": 138,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 140,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 232,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 0,
+        "width": 370,
+        "x": 10,
+        "y": 2393.515625
+      },
+      "#project-cap": {
+        "bottom": 249.99288177490232,
+        "clientHeight": 108,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 109.48152923583984,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 108,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 109.48152923583984,
+        "width": 370,
+        "x": 10,
+        "y": 140.5113525390625
+      },
+      "#request": {
+        "bottom": 3008.927532196045,
+        "clientHeight": 62,
+        "clientWidth": 336,
+        "fontSize": "12px",
+        "height": 63.99857711791992,
+        "lineHeight": "18px",
+        "overflowY": "auto",
+        "scrollHeight": 62,
+        "scrollTop": 0,
+        "scrollWidth": 336,
+        "visibleHeight": 0,
+        "width": 338.1817932128906,
+        "x": 25.909090042114254,
+        "y": 2944.928955078125
+      },
+      "#source-view": {
+        "bottom": 2376.6121215820312,
+        "clientHeight": 2022,
+        "clientWidth": 352,
+        "fontSize": "16px",
+        "height": 2021.818115234375,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 2022,
+        "scrollTop": 0,
+        "scrollWidth": 352,
+        "visibleHeight": 488.20599365234375,
+        "width": 352.1875,
+        "x": 18.90625,
+        "y": 354.79400634765625
+      },
+      "#studio-code-input": {
+        "bottom": 1116.7826538085938,
+        "clientHeight": 320,
+        "clientWidth": 326,
+        "fontSize": "13px",
+        "height": 320,
+        "lineHeight": "21.45px",
+        "overflowY": "auto",
+        "scrollHeight": 2036,
+        "scrollTop": 0,
+        "scrollWidth": 1377,
+        "visibleHeight": 46.21734619140625,
+        "width": 326.3778381347656,
+        "x": 31.811079025268555,
+        "y": 796.7826538085938
+      },
+      "#workspace": {
+        "bottom": 2533.5155029296875,
+        "clientHeight": 2393,
+        "clientWidth": 370,
+        "fontSize": "16px",
+        "height": 2393.004150390625,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 2393,
+        "scrollTop": 0,
+        "scrollWidth": 370,
+        "visibleHeight": 702.4886474609375,
+        "width": 370,
+        "x": 10,
+        "y": 140.5113525390625
+      },
+      ".editor-files": {
+        "bottom": 769.3323364257812,
+        "clientHeight": 140,
+        "clientWidth": 350,
+        "fontSize": "16px",
+        "height": 140,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 269,
+        "scrollTop": 0,
+        "scrollWidth": 350,
+        "visibleHeight": 140,
+        "width": 350.3692932128906,
+        "x": 19.815340042114254,
+        "y": 629.3323364257812
+      },
+      ".editor-preview": {
+        "bottom": 1700.0922241210938,
+        "clientHeight": 551,
+        "clientWidth": 350,
+        "fontSize": "16px",
+        "height": 551.8181762695312,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 551,
+        "scrollTop": 0,
+        "scrollWidth": 350,
+        "visibleHeight": 0,
+        "width": 350.3692932128906,
+        "x": 19.815340042114254,
+        "y": 1148.2740478515625
+      },
+      ".editor-toolbar": {
+        "bottom": 620.4261474609375,
+        "clientHeight": 81,
+        "clientWidth": 352,
+        "fontSize": "16px",
+        "height": 80.78125,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 81,
+        "scrollTop": 0,
+        "scrollWidth": 352,
+        "visibleHeight": 80.78125,
+        "width": 352.1875,
+        "x": 18.90625,
+        "y": 539.6448974609375
+      }
+    },
+    "scrollY": 0,
+    "viewport": {
+      "dpr": 1.100000023841858,
+      "height": 843,
+      "width": 390
+    },
+    "editorSha256": "da2b387ed22786e350e8427538cc76e48e3c8c43bdac3f7182c70294b7afd221",
+    "requestSha256": "15a8cb2ede91fef40b22cc6a8089955c854bfac1e9f0c8889c2165c39848896a",
+    "buttonsGeometry": [
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "app.js",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "index.html",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "lib.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "README.md",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "styles.css",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "tests.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Afficher le fichier",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Comparer à la version précédente",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Copier le contenu",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Modifier le code",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Réessayer la lecture",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "← Consulter la version et ses différences",
+        "y": 354.79400634765625
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Vérifier et actualiser",
+        "y": 539.6448974609375
+      },
+      {
+        "disabled": true,
+        "height": 35.99431610107422,
+        "text": "Adopter cette version",
+        "y": 584.0340576171875
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Récupérer mes modifications",
+        "y": 631.335205078125
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Préparer une correction",
+        "y": 673.3238525390625
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Reprendre la version active",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Relire le brouillon partagé (copie à télécharger)",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "app.js",
+        "y": 639.3323364257812
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "index.html",
+        "y": 680.8238525390625
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "lib.mjs",
+        "y": 722.3153076171875
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "README.md",
+        "y": 763.8067626953125
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "styles.css",
+        "y": 805.2982788085938
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "tests.mjs",
+        "y": 846.7897338867188
+      }
+    ]
+  },
+  "preserved": {
+    "codeAfterResizeAndTabSwitch": true,
+    "requestAfterResizeAndTabSwitch": true
+  },
+  "mobileFreshOpen": {
+    "documentWidth": 390,
+    "rects": {
+      "#code": {
+        "bottom": 2384.6092529296875,
+        "clientHeight": 2038,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 2037.8123779296875,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 2038,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 496.203125,
+        "width": 368.1817932128906,
+        "x": 10.909090042114258,
+        "y": 346.796875
+      },
+      "#evidence-dock": {
+        "bottom": 2533.515625,
+        "clientHeight": 138,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 140,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 232,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 0,
+        "width": 370,
+        "x": 10,
+        "y": 2393.515625
+      },
+      "#project-cap": {
+        "bottom": 249.99288177490232,
+        "clientHeight": 108,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 109.48152923583984,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 108,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 109.48152923583984,
+        "width": 370,
+        "x": 10,
+        "y": 140.5113525390625
+      },
+      "#request": {
+        "bottom": 3008.927532196045,
+        "clientHeight": 62,
+        "clientWidth": 336,
+        "fontSize": "12px",
+        "height": 63.99857711791992,
+        "lineHeight": "18px",
+        "overflowY": "auto",
+        "scrollHeight": 62,
+        "scrollTop": 0,
+        "scrollWidth": 336,
+        "visibleHeight": 0,
+        "width": 338.1817932128906,
+        "x": 25.909090042114254,
+        "y": 2944.928955078125
+      },
+      "#source-view": {
+        "bottom": 2376.6121215820312,
+        "clientHeight": 2022,
+        "clientWidth": 352,
+        "fontSize": "16px",
+        "height": 2021.818115234375,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 2022,
+        "scrollTop": 0,
+        "scrollWidth": 352,
+        "visibleHeight": 488.20599365234375,
+        "width": 352.1875,
+        "x": 18.90625,
+        "y": 354.79400634765625
+      },
+      "#studio-code-input": {
+        "bottom": 1116.7826538085938,
+        "clientHeight": 320,
+        "clientWidth": 326,
+        "fontSize": "13px",
+        "height": 320,
+        "lineHeight": "21.45px",
+        "overflowY": "auto",
+        "scrollHeight": 2036,
+        "scrollTop": 0,
+        "scrollWidth": 1377,
+        "visibleHeight": 46.21734619140625,
+        "width": 326.3778381347656,
+        "x": 31.811079025268555,
+        "y": 796.7826538085938
+      },
+      "#workspace": {
+        "bottom": 2533.5155029296875,
+        "clientHeight": 2393,
+        "clientWidth": 370,
+        "fontSize": "16px",
+        "height": 2393.004150390625,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 2393,
+        "scrollTop": 0,
+        "scrollWidth": 370,
+        "visibleHeight": 702.4886474609375,
+        "width": 370,
+        "x": 10,
+        "y": 140.5113525390625
+      },
+      ".editor-files": {
+        "bottom": 769.3323364257812,
+        "clientHeight": 140,
+        "clientWidth": 350,
+        "fontSize": "16px",
+        "height": 140,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 269,
+        "scrollTop": 0,
+        "scrollWidth": 350,
+        "visibleHeight": 140,
+        "width": 350.3692932128906,
+        "x": 19.815340042114254,
+        "y": 629.3323364257812
+      },
+      ".editor-preview": {
+        "bottom": 1700.0922241210938,
+        "clientHeight": 551,
+        "clientWidth": 350,
+        "fontSize": "16px",
+        "height": 551.8181762695312,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 551,
+        "scrollTop": 0,
+        "scrollWidth": 350,
+        "visibleHeight": 0,
+        "width": 350.3692932128906,
+        "x": 19.815340042114254,
+        "y": 1148.2740478515625
+      },
+      ".editor-toolbar": {
+        "bottom": 620.4261474609375,
+        "clientHeight": 81,
+        "clientWidth": 352,
+        "fontSize": "16px",
+        "height": 80.78125,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 81,
+        "scrollTop": 0,
+        "scrollWidth": 352,
+        "visibleHeight": 80.78125,
+        "width": 352.1875,
+        "x": 18.90625,
+        "y": 539.6448974609375
+      }
+    },
+    "scrollY": 0,
+    "viewport": {
+      "dpr": 1.100000023841858,
+      "height": 843,
+      "width": 390
+    },
+    "editorSha256": "da2b387ed22786e350e8427538cc76e48e3c8c43bdac3f7182c70294b7afd221",
+    "requestSha256": "15a8cb2ede91fef40b22cc6a8089955c854bfac1e9f0c8889c2165c39848896a",
+    "buttonsGeometry": [
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "app.js",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "index.html",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "lib.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "README.md",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "styles.css",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "tests.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Afficher le fichier",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Comparer à la version précédente",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Copier le contenu",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Modifier le code",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Réessayer la lecture",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "← Consulter la version et ses différences",
+        "y": 354.79400634765625
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Vérifier et actualiser",
+        "y": 539.6448974609375
+      },
+      {
+        "disabled": true,
+        "height": 35.99431610107422,
+        "text": "Adopter cette version",
+        "y": 584.0340576171875
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Récupérer mes modifications",
+        "y": 631.335205078125
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Préparer une correction",
+        "y": 673.3238525390625
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Reprendre la version active",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Relire le brouillon partagé (copie à télécharger)",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "app.js",
+        "y": 639.3323364257812
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "index.html",
+        "y": 680.8238525390625
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "lib.mjs",
+        "y": 722.3153076171875
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "README.md",
+        "y": 763.8067626953125
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "styles.css",
+        "y": 805.2982788085938
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "tests.mjs",
+        "y": 846.7897338867188
+      }
+    ]
+  },
+  "mobileCorrected": {
+    "documentWidth": 390,
+    "rects": {
+      "#code": {
+        "bottom": 1939.0908203125,
+        "clientHeight": 1947,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 1947.2939453125,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 1947,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 843,
+        "width": 368.1817932128906,
+        "x": 10.909090042114258,
+        "y": -8.203125
+      },
+      "#evidence-dock": {
+        "bottom": 2087.9970703125,
+        "clientHeight": 138,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 140,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 232,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 0,
+        "width": 370,
+        "x": 10,
+        "y": 1947.9970703125
+      },
+      "#project-cap": {
+        "bottom": -105.0071029663086,
+        "clientHeight": 108,
+        "clientWidth": 368,
+        "fontSize": "16px",
+        "height": 109.48152923583984,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 108,
+        "scrollTop": 0,
+        "scrollWidth": 368,
+        "visibleHeight": 0,
+        "width": 370,
+        "x": 10,
+        "y": -214.48863220214844
+      },
+      "#request": {
+        "bottom": 2563.408977508545,
+        "clientHeight": 62,
+        "clientWidth": 336,
+        "fontSize": "12px",
+        "height": 63.99857711791992,
+        "lineHeight": "18px",
+        "overflowY": "auto",
+        "scrollHeight": 62,
+        "scrollTop": 0,
+        "scrollWidth": 336,
+        "visibleHeight": 0,
+        "width": 338.1817932128906,
+        "x": 25.909090042114254,
+        "y": 2499.410400390625
+      },
+      "#source-view": {
+        "bottom": 1931.093716710806,
+        "clientHeight": 1931,
+        "clientWidth": 352,
+        "fontSize": "16px",
+        "height": 1931.2996826171875,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 1931,
+        "scrollTop": 0,
+        "scrollWidth": 352,
+        "visibleHeight": 843,
+        "width": 352.1875,
+        "x": 18.90625,
+        "y": -0.20596590638160703
+      },
+      "#studio-code-input": {
+        "bottom": 671.2641906738281,
+        "clientHeight": 320,
+        "clientWidth": 326,
+        "fontSize": "13px",
+        "height": 320,
+        "lineHeight": "21.45px",
+        "overflowY": "auto",
+        "scrollHeight": 2036,
+        "scrollTop": 0,
+        "scrollWidth": 1377,
+        "visibleHeight": 320,
+        "width": 326.3778381347656,
+        "x": 31.811079025268555,
+        "y": 351.2641906738281
+      },
+      "#workspace": {
+        "bottom": 2087.996963500977,
+        "clientHeight": 2302,
+        "clientWidth": 370,
+        "fontSize": "16px",
+        "height": 2302.485595703125,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 2302,
+        "scrollTop": 0,
+        "scrollWidth": 370,
+        "visibleHeight": 843,
+        "width": 370,
+        "x": 10,
+        "y": -214.48863220214844
+      },
+      ".editor-files": {
+        "bottom": 323.8138999938965,
+        "clientHeight": 49,
+        "clientWidth": 350,
+        "fontSize": "16px",
+        "height": 49.48153305053711,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 49,
+        "scrollTop": 0,
+        "scrollWidth": 585,
+        "visibleHeight": 49.48153305053711,
+        "width": 350.3692932128906,
+        "x": 19.815340042114254,
+        "y": 274.3323669433594
+      },
+      ".editor-preview": {
+        "bottom": 1254.5738525390625,
+        "clientHeight": 551,
+        "clientWidth": 350,
+        "fontSize": "16px",
+        "height": 551.8181762695312,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 551,
+        "scrollTop": 0,
+        "scrollWidth": 350,
+        "visibleHeight": 140.24432373046875,
+        "width": 350.3692932128906,
+        "x": 19.815340042114254,
+        "y": 702.7556762695312
+      },
+      ".editor-toolbar": {
+        "bottom": 265.42613220214844,
+        "clientHeight": 81,
+        "clientWidth": 352,
+        "fontSize": "16px",
+        "height": 80.78125,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 81,
+        "scrollTop": 0,
+        "scrollWidth": 352,
+        "visibleHeight": 80.78125,
+        "width": 352.1875,
+        "x": 18.90625,
+        "y": 184.64488220214844
+      }
+    },
+    "scrollY": 355,
+    "viewport": {
+      "dpr": 1.100000023841858,
+      "height": 843,
+      "width": 390
+    },
+    "editorSha256": "da2b387ed22786e350e8427538cc76e48e3c8c43bdac3f7182c70294b7afd221",
+    "requestSha256": "15a8cb2ede91fef40b22cc6a8089955c854bfac1e9f0c8889c2165c39848896a",
+    "buttonsGeometry": [
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "app.js",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "index.html",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "lib.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "README.md",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "styles.css",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "tests.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Afficher le fichier",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Comparer à la version précédente",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Copier le contenu",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Modifier le code",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Réessayer la lecture",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "← Consulter la version et ses différences",
+        "y": -0.20596590638160703
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Vérifier et actualiser",
+        "y": 229.4318084716797
+      },
+      {
+        "disabled": true,
+        "height": 35.99431610107422,
+        "text": "Adopter cette version",
+        "y": 229.4318084716797
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Récupérer mes modifications",
+        "y": 232.34373474121097
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Préparer une correction",
+        "y": 274.3323669433594
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Reprendre la version active",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Relire le brouillon partagé (copie à télécharger)",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "app.js",
+        "y": 280.3266906738281
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "index.html",
+        "y": 280.3266906738281
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "lib.mjs",
+        "y": 280.3266906738281
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "README.md",
+        "y": 280.3266906738281
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "styles.css",
+        "y": 280.3266906738281
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "tests.mjs",
+        "y": 280.3266906738281
+      }
+    ]
+  },
+  "mobileActionsCorrected": {
+    "actions": [
+      {
+        "label": "Récupérer mes modifications",
+        "rect": {
+          "bottom": 268.33805084228516,
+          "height": 35.99431610107422,
+          "left": 102.00283813476562,
+          "right": 360.1846618652344,
+          "top": 232.34373474121097,
+          "width": 258.18182373046875,
+          "x": 102.00283813476562,
+          "y": 232.34373474121097
+        }
+      },
+      {
+        "label": "Préparer une correction",
+        "rect": {
+          "bottom": 310.3266830444336,
+          "height": 35.99431610107422,
+          "left": 102.00283813476562,
+          "right": 360.1846618652344,
+          "top": 274.3323669433594,
+          "width": 258.18182373046875,
+          "x": 102.00283813476562,
+          "y": 274.3323669433594
+        }
+      }
+    ],
+    "documentWidth": 390,
+    "viewport": {
+      "height": 843,
+      "width": 390
+    }
+  },
+  "desktopCorrected": {
+    "documentWidth": 1563,
+    "rects": {
+      "#code": {
+        "bottom": 712.7343597412109,
+        "clientHeight": 500,
+        "clientWidth": 1054,
+        "fontSize": "16px",
+        "height": 500.3266906738281,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 1076,
+        "scrollTop": 0,
+        "scrollWidth": 1054,
+        "visibleHeight": 500.3266906738281,
+        "width": 1054.3465576171875,
+        "x": 492.3863525390625,
+        "y": 212.4076690673828
+      },
+      "#evidence-dock": {
+        "bottom": 797.6349411010742,
+        "clientHeight": 74,
+        "clientWidth": 1054,
+        "fontSize": "16px",
+        "height": 75.99431610107422,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 96,
+        "scrollTop": 0,
+        "scrollWidth": 1054,
+        "visibleHeight": 75.99431610107422,
+        "width": 1056.164794921875,
+        "x": 491.4772644042969,
+        "y": 721.640625
+      },
+      "#project-cap": {
+        "bottom": 120.60368728637695,
+        "clientHeight": 41,
+        "clientWidth": 1054,
+        "fontSize": "16px",
+        "height": 42.6136360168457,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 41,
+        "scrollTop": 0,
+        "scrollWidth": 1054,
+        "visibleHeight": 42.6136360168457,
+        "width": 1056.164794921875,
+        "x": 491.4772644042969,
+        "y": 77.99005126953125
+      },
+      "#request": {
+        "bottom": 707.5994071960449,
+        "clientHeight": 62,
+        "clientWidth": 423,
+        "fontSize": "12px",
+        "height": 63.99857711791992,
+        "lineHeight": "18px",
+        "overflowY": "auto",
+        "scrollHeight": 62,
+        "scrollTop": 0,
+        "scrollWidth": 423,
+        "visibleHeight": 63.99857711791992,
+        "width": 424.772705078125,
+        "x": 29.90056800842285,
+        "y": 643.600830078125
+      },
+      "#source-view": {
+        "bottom": 704.7371826171875,
+        "clientHeight": 484,
+        "clientWidth": 1038,
+        "fontSize": "16px",
+        "height": 484.3323669433594,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 1068,
+        "scrollTop": 0,
+        "scrollWidth": 1038,
+        "visibleHeight": 484.3323669433594,
+        "width": 1038.352294921875,
+        "x": 500.3835144042969,
+        "y": 220.40481567382812
+      },
+      "#studio-code-input": {
+        "bottom": 903.139190673828,
+        "clientHeight": 492,
+        "clientWidth": 469,
+        "fontSize": "13px",
+        "height": 491.9673156738281,
+        "lineHeight": "21.45px",
+        "overflowY": "auto",
+        "scrollHeight": 2036,
+        "scrollTop": 0,
+        "scrollWidth": 1377,
+        "visibleHeight": 301.56248474121094,
+        "width": 468.522705078125,
+        "x": 663.288330078125,
+        "y": 411.171875
+      },
+      "#workspace": {
+        "bottom": 797.6348876953125,
+        "clientHeight": 720,
+        "clientWidth": 1056,
+        "fontSize": "16px",
+        "height": 719.6448364257812,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 720,
+        "scrollTop": 0,
+        "scrollWidth": 1056,
+        "visibleHeight": 719.6448364257812,
+        "width": 1056.164794921875,
+        "x": 491.4772644042969,
+        "y": 77.99005126953125
+      },
+      ".editor-files": {
+        "bottom": 934.6306457519532,
+        "clientHeight": 551,
+        "clientWidth": 150,
+        "fontSize": "16px",
+        "height": 550.9090576171875,
+        "lineHeight": "normal",
+        "overflowY": "auto",
+        "scrollHeight": 551,
+        "scrollTop": 0,
+        "scrollWidth": 150,
+        "visibleHeight": 329.0127716064453,
+        "width": 150,
+        "x": 501.2926025390625,
+        "y": 383.7215881347656
+      },
+      ".editor-preview": {
+        "bottom": 934.6306457519532,
+        "clientHeight": 551,
+        "clientWidth": 393,
+        "fontSize": "16px",
+        "height": 550.9090576171875,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 551,
+        "scrollTop": 0,
+        "scrollWidth": 393,
+        "visibleHeight": 329.0127716064453,
+        "width": 394.0198669433594,
+        "x": 1143.8067626953125,
+        "y": 383.7215881347656
+      },
+      ".editor-toolbar": {
+        "bottom": 374.815315246582,
+        "clientHeight": 37,
+        "clientWidth": 1038,
+        "fontSize": "16px",
+        "height": 36.789772033691406,
+        "lineHeight": "normal",
+        "overflowY": "visible",
+        "scrollHeight": 37,
+        "scrollTop": 0,
+        "scrollWidth": 1038,
+        "visibleHeight": 36.789772033691406,
+        "width": 1038.352294921875,
+        "x": 500.3835144042969,
+        "y": 338.0255432128906
+      }
+    },
+    "scrollY": 0,
+    "viewport": {
+      "dpr": 1.100000023841858,
+      "height": 813,
+      "width": 1563
+    },
+    "editorSha256": "da2b387ed22786e350e8427538cc76e48e3c8c43bdac3f7182c70294b7afd221",
+    "requestSha256": "15a8cb2ede91fef40b22cc6a8089955c854bfac1e9f0c8889c2165c39848896a",
+    "buttonsGeometry": [
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "app.js",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "index.html",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "lib.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "README.md",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "styles.css",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "tests.mjs",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Afficher le fichier",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Comparer à la version précédente",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Copier le contenu",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Modifier le code",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Réessayer la lecture",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "← Consulter la version et ses différences",
+        "y": 220.40481567382812
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Vérifier et actualiser",
+        "y": 338.42327880859375
+      },
+      {
+        "disabled": true,
+        "height": 35.99431610107422,
+        "text": "Adopter cette version",
+        "y": 338.42327880859375
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Récupérer mes modifications",
+        "y": 385.7244262695313
+      },
+      {
+        "disabled": false,
+        "height": 35.99431610107422,
+        "text": "Préparer une correction",
+        "y": 427.7130432128906
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Reprendre la version active",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 0,
+        "text": "Relire le brouillon partagé (copie à télécharger)",
+        "y": 0
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "app.js",
+        "y": 393.7215881347656
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "index.html",
+        "y": 435.2130432128906
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "lib.mjs",
+        "y": 476.70452880859375
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "README.md",
+        "y": 518.1959838867188
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "styles.css",
+        "y": 559.6875
+      },
+      {
+        "disabled": false,
+        "height": 37.492897033691406,
+        "text": "tests.mjs",
+        "y": 601.178955078125
+      }
+    ]
+  }
+}

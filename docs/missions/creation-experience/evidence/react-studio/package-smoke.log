@@ -1,0 +1,10 @@
+
+> devmethod-ai@0.5.0 test:package
+> node scripts/package-smoke.mjs /private/tmp/devmethod-react-release-package/devmethod-ai-0.5.0.tgz
+
+Packed Atelier: real local assets, read-only discovery, numerical example, persistent project and agent request contract passed. No provider dispatch.
+Packed Studio: example, exact assets/source, isolated ESM edit, syntax rejection, adoption, durable draft, restart and export/restore passed. No provider calls or human validation.
+Packed React: installed actual archive and runtime dependencies, real strict build, local Monaco assets and preserved data passed. No provider call.
+Packed application evidence journey: correction, restart, maintenance and sticky stop passed.
+Packed restart checker: healthy acceptance and known restart fault detection passed.
+Packed 0.5.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.

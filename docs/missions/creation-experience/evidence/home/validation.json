@@ -1,0 +1,66 @@
+{
+  "at": "2026-09-17T10:45:56.567Z",
+  "baseCommit": "708afdbb7ea87dc70a34c42f6e9760f42ff89caf",
+  "scope": "Uncommitted Studio home changes. The base commit is context, not a claim that these changes are committed.",
+  "nodeVersion": "v24.18.0",
+  "checks": {
+    "fullSuite": {
+      "date": "2026-09-17",
+      "command": "npm test",
+      "exitCode": 0,
+      "tests": 843,
+      "passed": 843,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/private/tmp/devmethod-home-2026-09-17T10-19-56-796Z-test-localhost.log",
+      "scope": "Build and full suite before the final home CSS grid adjustment and before the CLI launch helper extraction."
+    },
+    "cliAfterRefactor": {
+      "date": "2026-09-17",
+      "command": "node --test tests/studio-home-cli.test.mjs tests/studio-import-cli.test.mjs tests/studio-progress-cli.test.mjs",
+      "exitCode": 0,
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/private/tmp/devmethod-home-2026-09-17T10-19-56-796Z-cli-final.log",
+      "scope": "Targeted CLI regression after extraction of openWorkspace(options)."
+    },
+    "lint": {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "log": "/private/tmp/devmethod-home-final-2026-09-17T10-44-33-173Z-lint.log"
+    },
+    "format": {
+      "command": "npm run format:check",
+      "exitCode": 0,
+      "log": "/private/tmp/devmethod-home-final-2026-09-17T10-44-33-173Z-format.log"
+    },
+    "docs": {
+      "command": "npm run check:docs",
+      "exitCode": 0,
+      "log": "/private/tmp/devmethod-home-final-2026-09-17T10-44-33-173Z-docs-complete.log",
+      "scope": "Local Markdown file links, including final home RESULTS.md, PLAN.md and this validation record; external URLs and anchors are not checked."
+    },
+    "package": {
+      "command": "npm pack --dry-run --cache /private/tmp/devmethod-npm-cache",
+      "exitCode": 0,
+      "log": "/private/tmp/devmethod-home-final-2026-09-17T10-44-33-173Z-pack.log",
+      "scope": "Includes final home.css, UI-OBSERVATIONS.md and DEVMethod-GAPS.md. This validation record was written after the dry-run; no archive digest is claimed."
+    }
+  },
+  "initialEnvironmentFailure": {
+    "command": "npm test",
+    "exitCode": 1,
+    "tests": 843,
+    "passed": 783,
+    "failed": 60,
+    "reason": "Loopback listeners were denied with listen EPERM. The complete suite passed after allowing local listeners.",
+    "log": "/private/tmp/devmethod-home-2026-09-17T10-19-56-796Z-test.log"
+  },
+  "limits": [
+    "Final lint, format, documentation and package checks ran after the CSS-only grid adjustment. The full suite was not repeated for that CSS change.",
+    "Local command results do not certify visual layout, native coding-agent execution, external service connections, or other operating systems.",
+    "No publication or commit was performed. Detailed logs are temporary local files."
+  ]
+}

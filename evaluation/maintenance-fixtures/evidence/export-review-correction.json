@@ -1,0 +1,23 @@
+{
+  "format": 1,
+  "kind": "Parent review of derived export; no model or case rerun",
+  "finding": "Initial normalization/scan omitted the /var/folders alias; the original export-validation absence claim was incorrect for two visible logs.",
+  "correction": "Normalize only host temporary path strings in two derived logs, retaining original private records and their hashes. No archive, bundle, case, verdict or timing change.",
+  "observations": [
+    {
+      "path": "evidence/public-adoption.json",
+      "beforePublicSha256": "93e1fbcbd3dce89b87cd53d4f20c3de1366439b8207bc09cddd5b27e4962b761",
+      "afterPublicSha256": "a03a873593ffdcd3de88d471cc8f7f8d7c236c1d10e5bb50c5f546d5e905873b",
+      "remainingHostPathsBefore": 9,
+      "remainingHostPathsAfter": 0
+    },
+    {
+      "path": "evidence/private-companion-adoption.json",
+      "beforePublicSha256": "615bf696dd12394076f378e91423418259bdbc0965aefc2200259c3c1bf1863e",
+      "afterPublicSha256": "8eed2f65096121d8bc4c32f7145900c20dd40ad6a380e51948518931c69391e5",
+      "remainingHostPathsBefore": 9,
+      "remainingHostPathsAfter": 0
+    }
+  ],
+  "resolved": true
+}

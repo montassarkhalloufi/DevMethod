@@ -1,0 +1,11 @@
+✔ a valid read-only prototype has a usable empty control state (0.988916ms)
+✔ creation choices follow the target prototype, including new action identities (0.214583ms)
+✔ a shared identifier with different action kinds remains available in both controls (0.182167ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 79.462375

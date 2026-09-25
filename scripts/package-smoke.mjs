@@ -5,6 +5,9 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { checkPackedGuard } from './package-guard-smoke.mjs';
+import { checkPackedAtelier } from './package-atelier-smoke.mjs';
+import { checkPackedReact } from './package-react-smoke.mjs';
+import { checkPackedStudio } from './package-studio-smoke.mjs';
 const archive = process.argv[2];
 if (!archive) throw new Error('Usage: node scripts/package-smoke.mjs PACKAGE_TGZ');
 const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'devmethod-package-'));
@@ -18,8 +21,53 @@ try {
   run('tar', ['-xzf', '-'], root, 0, fs.readFileSync(path.resolve(archive)));
   const pkg = path.join(root, 'package');
   const cli = path.join(pkg, 'dist/cli.js');
+  await checkPackedAtelier(pkg, path.join(root, 'atelier'));
+  await checkPackedStudio(pkg, path.join(root, 'studio'));
+  await checkPackedReact(path.join(root, 'react-studio'), path.resolve(archive));
+  if (process.platform !== 'win32') {
+    run(process.execPath, ['scripts/evidence-demo.mjs'], pkg);
+    console.log(
+      'Packed application evidence journey: correction, restart, maintenance and sticky stop passed.',
+    );
+    const { prepareRestartFixture } = await import(
+      pathToFileURL(path.join(pkg, 'scripts/evidence-restart-comparison.mjs')).href
+    );
+    const { inspectEvidence, runEvidence } = await import(
+      pathToFileURL(path.join(pkg, 'dist/evidence-runtime.js')).href
+    );
+    const restartWorkspace = path.join(root, 'restart-evidence');
+    fs.mkdirSync(restartWorkspace);
+    const restartOptions = prepareRestartFixture(restartWorkspace);
+    for (const candidate of ['healthy', 'lost-restart']) {
+      const candidateRoot = path.join(restartWorkspace, candidate);
+      const expected = candidate === 'healthy' ? 0 : 1;
+      run(
+        process.execPath,
+        [
+          path.join(restartOptions.evaluatorRoot, 'restart-check.mjs'),
+          candidateRoot,
+          'candidate',
+          'queue-partial',
+        ],
+        root,
+        expected,
+      );
+      const plan = inspectEvidence({ ...restartOptions, root: candidateRoot });
+      const result = await runEvidence({
+        ...restartOptions,
+        root: candidateRoot,
+        session: path.join(restartWorkspace, `session-${candidate}`),
+        permit: plan.permit,
+      });
+      assert.equal(result.status, expected === 0 ? 'supported' : 'failed');
+    }
+    console.log(
+      'Packed restart checker: healthy acceptance and known restart fault detection passed.',
+    );
+  }
   const call = (args, expected = 0) => run(process.execPath, [cli, ...args], root, expected);
-  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.5.0');
+  assert.equal(JSON.parse(fs.readFileSync(path.join(pkg, 'package.json'))).version, '0.6.0-beta.1');
+  run(process.execPath, ['evaluation/maintenance-fixtures/scripts/verify.mjs'], pkg);
   run(process.execPath, ['scripts/check-docs.mjs'], pkg);
   assert.match(call(['--help']), /Markdown PLAN\/tickets and legacy missions/);
   assert.ok(fs.existsSync(path.join(pkg, 'dist/closure.js')));
@@ -385,7 +433,7 @@ try {
     );
   }
   console.log(
-    'Packed 0.5.0: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.',
+    'Packed 0.6.0-beta.1: three host installs, subset, customization preservation, mission/context/staleness/planning and documentation links passed. No native host execution.',
   );
 } finally {
   fs.rmSync(root, { recursive: true, force: true });

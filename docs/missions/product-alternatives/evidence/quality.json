@@ -1,0 +1,3540 @@
+{
+  "format": 1,
+  "scope": "Maintained CLI, review UI, tooling, tests, five maintained applications and Atelier and the independent example evaluator; other fixtures and generated code excluded.",
+  "analyzer": {
+    "eslint": "10.10.0",
+    "sonarjs": "4.2.1"
+  },
+  "files": 159,
+  "threshold": 15,
+  "maximum": 15,
+  "overThreshold": 0,
+  "positiveScores": [
+    {
+      "file": "examples/evidence-lab/app/server.mjs",
+      "line": 51,
+      "score": 15
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 55,
+      "score": 15
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 485,
+      "score": 14
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 280,
+      "score": 13
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 390,
+      "score": 12
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 148,
+      "score": 12
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 52,
+      "score": 12
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 50,
+      "score": 11
+    },
+    {
+      "file": "examples/pocket-tasks/public/app.js",
+      "line": 156,
+      "score": 11
+    },
+    {
+      "file": "examples/seance/code/domain.js",
+      "line": 99,
+      "score": 11
+    },
+    {
+      "file": "scripts/build-review.mjs",
+      "line": 14,
+      "score": 11
+    },
+    {
+      "file": "scripts/probe-codex-children.mjs",
+      "line": 26,
+      "score": 11
+    },
+    {
+      "file": "src/application-evidence-cli.ts",
+      "line": 5,
+      "score": 11
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 163,
+      "score": 11
+    },
+    {
+      "file": "src/review-cli.ts",
+      "line": 27,
+      "score": 11
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 69,
+      "score": 10
+    },
+    {
+      "file": "examples/pocket-tasks/src/domain.mjs",
+      "line": 13,
+      "score": 10
+    },
+    {
+      "file": "scripts/atelier/store.mjs",
+      "line": 7,
+      "score": 10
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 171,
+      "score": 10
+    },
+    {
+      "file": "scripts/prepare-behavior-case.mjs",
+      "line": 39,
+      "score": 10
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 38,
+      "score": 10
+    },
+    {
+      "file": "src/commands.ts",
+      "line": 37,
+      "score": 10
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 72,
+      "score": 10
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 96,
+      "score": 10
+    },
+    {
+      "file": "tests/install.test.mjs",
+      "line": 110,
+      "score": 10
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 49,
+      "score": 9
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 98,
+      "score": 9
+    },
+    {
+      "file": "scripts/evaluation.mjs",
+      "line": 17,
+      "score": 9
+    },
+    {
+      "file": "scripts/hosts/codex-task.mjs",
+      "line": 5,
+      "score": 9
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 362,
+      "score": 9
+    },
+    {
+      "file": "scripts/prepare-behavior-case.mjs",
+      "line": 20,
+      "score": 9
+    },
+    {
+      "file": "scripts/prepare-behavior-case.mjs",
+      "line": 66,
+      "score": 9
+    },
+    {
+      "file": "scripts/prepare-behavior-case.mjs",
+      "line": 87,
+      "score": 9
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 252,
+      "score": 9
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 225,
+      "score": 9
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 111,
+      "score": 9
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 123,
+      "score": 9
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 138,
+      "score": 9
+    },
+    {
+      "file": "src/review-cli.ts",
+      "line": 96,
+      "score": 9
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 390,
+      "score": 9
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 461,
+      "score": 9
+    },
+    {
+      "file": "examples/seance/code/domain.js",
+      "line": 74,
+      "score": 8
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 192,
+      "score": 8
+    },
+    {
+      "file": "scripts/atelier/public/views.js",
+      "line": 85,
+      "score": 8
+    },
+    {
+      "file": "scripts/atelier/server.mjs",
+      "line": 131,
+      "score": 8
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 55,
+      "score": 8
+    },
+    {
+      "file": "scripts/evaluation.mjs",
+      "line": 55,
+      "score": 8
+    },
+    {
+      "file": "scripts/hosts/codex-rpc.mjs",
+      "line": 60,
+      "score": 8
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 193,
+      "score": 8
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 66,
+      "score": 8
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 235,
+      "score": 8
+    },
+    {
+      "file": "src/filesystem.ts",
+      "line": 36,
+      "score": 8
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 102,
+      "score": 8
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 96,
+      "score": 8
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 227,
+      "score": 8
+    },
+    {
+      "file": "src/review-app.ts",
+      "line": 202,
+      "score": 8
+    },
+    {
+      "file": "src/review-app.ts",
+      "line": 331,
+      "score": 8
+    },
+    {
+      "file": "src/review-cli.ts",
+      "line": 50,
+      "score": 8
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 373,
+      "score": 8
+    },
+    {
+      "file": "src/review-panels.ts",
+      "line": 117,
+      "score": 8
+    },
+    {
+      "file": "tests/install.test.mjs",
+      "line": 18,
+      "score": 8
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 88,
+      "score": 7
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 157,
+      "score": 7
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/reference.mjs",
+      "line": 28,
+      "score": 7
+    },
+    {
+      "file": "examples/seance/code/domain.js",
+      "line": 51,
+      "score": 7
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 90,
+      "score": 7
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 277,
+      "score": 7
+    },
+    {
+      "file": "scripts/atelier/public/views.js",
+      "line": 1,
+      "score": 7
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 71,
+      "score": 7
+    },
+    {
+      "file": "scripts/hosts/codex-meter.mjs",
+      "line": 1,
+      "score": 7
+    },
+    {
+      "file": "scripts/hosts/codex-task.mjs",
+      "line": 16,
+      "score": 7
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 111,
+      "score": 7
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 98,
+      "score": 7
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 168,
+      "score": 7
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 271,
+      "score": 7
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 330,
+      "score": 7
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 103,
+      "score": 7
+    },
+    {
+      "file": "src/init.ts",
+      "line": 128,
+      "score": 7
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 182,
+      "score": 7
+    },
+    {
+      "file": "src/review-detail.ts",
+      "line": 111,
+      "score": 7
+    },
+    {
+      "file": "examples/evidence-lab/app/public/app.js",
+      "line": 34,
+      "score": 6
+    },
+    {
+      "file": "examples/evidence-lab/app/public/app.js",
+      "line": 64,
+      "score": 6
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/check.mjs",
+      "line": 67,
+      "score": 6
+    },
+    {
+      "file": "examples/pocket-tasks/tests/app.test.mjs",
+      "line": 171,
+      "score": 6
+    },
+    {
+      "file": "examples/pocket-tasks/tests/ui-errors.test.mjs",
+      "line": 46,
+      "score": 6
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 362,
+      "score": 6
+    },
+    {
+      "file": "scripts/atelier/server.mjs",
+      "line": 34,
+      "score": 6
+    },
+    {
+      "file": "scripts/atelier/server.mjs",
+      "line": 86,
+      "score": 6
+    },
+    {
+      "file": "scripts/atelier/server.mjs",
+      "line": 96,
+      "score": 6
+    },
+    {
+      "file": "scripts/check-docs.mjs",
+      "line": 8,
+      "score": 6
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 83,
+      "score": 6
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 98,
+      "score": 6
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 144,
+      "score": 6
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 264,
+      "score": 6
+    },
+    {
+      "file": "scripts/hosts/codex-rpc.mjs",
+      "line": 78,
+      "score": 6
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 410,
+      "score": 6
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 156,
+      "score": 6
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 241,
+      "score": 6
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 71,
+      "score": 6
+    },
+    {
+      "file": "src/evidence-process.ts",
+      "line": 92,
+      "score": 6
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 42,
+      "score": 6
+    },
+    {
+      "file": "src/guard-state.ts",
+      "line": 68,
+      "score": 6
+    },
+    {
+      "file": "src/init.ts",
+      "line": 85,
+      "score": 6
+    },
+    {
+      "file": "src/init.ts",
+      "line": 169,
+      "score": 6
+    },
+    {
+      "file": "src/init.ts",
+      "line": 211,
+      "score": 6
+    },
+    {
+      "file": "src/review-cli.ts",
+      "line": 66,
+      "score": 6
+    },
+    {
+      "file": "src/review-summary.ts",
+      "line": 55,
+      "score": 6
+    },
+    {
+      "file": "src/update.ts",
+      "line": 56,
+      "score": 6
+    },
+    {
+      "file": "tests/closure-loop.test.mjs",
+      "line": 263,
+      "score": 6
+    },
+    {
+      "file": "tests/review-open.test.mjs",
+      "line": 6,
+      "score": 6
+    },
+    {
+      "file": "examples/clair-from-zero/app/domain.mjs",
+      "line": 32,
+      "score": 5
+    },
+    {
+      "file": "examples/evidence-lab/app/server.mjs",
+      "line": 18,
+      "score": 5
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 111,
+      "score": 5
+    },
+    {
+      "file": "examples/fullstack/api/http.ts",
+      "line": 22,
+      "score": 5
+    },
+    {
+      "file": "examples/seance/code/domain.js",
+      "line": 174,
+      "score": 5
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 64,
+      "score": 5
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 94,
+      "score": 5
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 99,
+      "score": 5
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 166,
+      "score": 5
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 72,
+      "score": 5
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 130,
+      "score": 5
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 187,
+      "score": 5
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 198,
+      "score": 5
+    },
+    {
+      "file": "scripts/check-codex-git.mjs",
+      "line": 5,
+      "score": 5
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 45,
+      "score": 5
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 210,
+      "score": 5
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 251,
+      "score": 5
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 288,
+      "score": 5
+    },
+    {
+      "file": "scripts/hosts/codex-meter.mjs",
+      "line": 18,
+      "score": 5
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 69,
+      "score": 5
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 106,
+      "score": 5
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 171,
+      "score": 5
+    },
+    {
+      "file": "src/init.ts",
+      "line": 226,
+      "score": 5
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 115,
+      "score": 5
+    },
+    {
+      "file": "src/review-app.ts",
+      "line": 105,
+      "score": 5
+    },
+    {
+      "file": "src/review-app.ts",
+      "line": 146,
+      "score": 5
+    },
+    {
+      "file": "src/review-cli.ts",
+      "line": 131,
+      "score": 5
+    },
+    {
+      "file": "src/review-dom.ts",
+      "line": 50,
+      "score": 5
+    },
+    {
+      "file": "src/review-dom.ts",
+      "line": 70,
+      "score": 5
+    },
+    {
+      "file": "src/review-panels.ts",
+      "line": 26,
+      "score": 5
+    },
+    {
+      "file": "src/review-summary.ts",
+      "line": 11,
+      "score": 5
+    },
+    {
+      "file": "src/review-summary.ts",
+      "line": 103,
+      "score": 5
+    },
+    {
+      "file": "src/update.ts",
+      "line": 88,
+      "score": 5
+    },
+    {
+      "file": "src/update.ts",
+      "line": 110,
+      "score": 5
+    },
+    {
+      "file": "tests/evidence-restart.test.mjs",
+      "line": 18,
+      "score": 5
+    },
+    {
+      "file": "tests/evidence-traces.test.mjs",
+      "line": 152,
+      "score": 5
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 46,
+      "score": 4
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 32,
+      "score": 4
+    },
+    {
+      "file": "examples/fullstack/api/main.ts",
+      "line": 4,
+      "score": 4
+    },
+    {
+      "file": "examples/fullstack/tests/e2e.test.cjs",
+      "line": 19,
+      "score": 4
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 18,
+      "score": 4
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 39,
+      "score": 4
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 99,
+      "score": 4
+    },
+    {
+      "file": "examples/pocket-tasks/src/domain.mjs",
+      "line": 26,
+      "score": 4
+    },
+    {
+      "file": "examples/seance/code/render.js",
+      "line": 19,
+      "score": 4
+    },
+    {
+      "file": "examples/seance/code/render.js",
+      "line": 65,
+      "score": 4
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 38,
+      "score": 4
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 123,
+      "score": 4
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 171,
+      "score": 4
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 206,
+      "score": 4
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 21,
+      "score": 4
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 2,
+      "score": 4
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 10,
+      "score": 4
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 87,
+      "score": 4
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 197,
+      "score": 4
+    },
+    {
+      "file": "scripts/evidence-restart-check.mjs",
+      "line": 37,
+      "score": 4
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 196,
+      "score": 4
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 291,
+      "score": 4
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 369,
+      "score": 4
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 223,
+      "score": 4
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 107,
+      "score": 4
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 144,
+      "score": 4
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 366,
+      "score": 4
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 109,
+      "score": 4
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 168,
+      "score": 4
+    },
+    {
+      "file": "src/evidence-process.ts",
+      "line": 15,
+      "score": 4
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 207,
+      "score": 4
+    },
+    {
+      "file": "src/guard-cli.ts",
+      "line": 6,
+      "score": 4
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 125,
+      "score": 4
+    },
+    {
+      "file": "src/guard-state.ts",
+      "line": 28,
+      "score": 4
+    },
+    {
+      "file": "src/guard-store.ts",
+      "line": 26,
+      "score": 4
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 141,
+      "score": 4
+    },
+    {
+      "file": "src/init.ts",
+      "line": 65,
+      "score": 4
+    },
+    {
+      "file": "src/init.ts",
+      "line": 146,
+      "score": 4
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 9,
+      "score": 4
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 169,
+      "score": 4
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 214,
+      "score": 4
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 70,
+      "score": 4
+    },
+    {
+      "file": "src/records.ts",
+      "line": 83,
+      "score": 4
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 247,
+      "score": 4
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 371,
+      "score": 4
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 426,
+      "score": 4
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 436,
+      "score": 4
+    },
+    {
+      "file": "src/review-panels.ts",
+      "line": 11,
+      "score": 4
+    },
+    {
+      "file": "src/review-panels.ts",
+      "line": 90,
+      "score": 4
+    },
+    {
+      "file": "tests/native-host.test.mjs",
+      "line": 218,
+      "score": 4
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 123,
+      "score": 3
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 186,
+      "score": 3
+    },
+    {
+      "file": "examples/clair-from-zero/app/domain.mjs",
+      "line": 3,
+      "score": 3
+    },
+    {
+      "file": "examples/clair-from-zero/app/domain.mjs",
+      "line": 28,
+      "score": 3
+    },
+    {
+      "file": "examples/evidence-lab/app/public/app.js",
+      "line": 106,
+      "score": 3
+    },
+    {
+      "file": "examples/evidence-lab/app/server.mjs",
+      "line": 34,
+      "score": 3
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/check.mjs",
+      "line": 53,
+      "score": 3
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/reference.mjs",
+      "line": 5,
+      "score": 3
+    },
+    {
+      "file": "examples/fullstack/api/domain/task.ts",
+      "line": 7,
+      "score": 3
+    },
+    {
+      "file": "examples/fullstack/tests/postgres.test.cjs",
+      "line": 13,
+      "score": 3
+    },
+    {
+      "file": "examples/pocket-tasks/public/app.js",
+      "line": 135,
+      "score": 3
+    },
+    {
+      "file": "examples/pocket-tasks/src/store.mjs",
+      "line": 13,
+      "score": 3
+    },
+    {
+      "file": "examples/pocket-tasks/tests/app.test.mjs",
+      "line": 23,
+      "score": 3
+    },
+    {
+      "file": "examples/pocket-tasks/tests/app.test.mjs",
+      "line": 33,
+      "score": 3
+    },
+    {
+      "file": "examples/seance/code/render.js",
+      "line": 35,
+      "score": 3
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 42,
+      "score": 3
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 29,
+      "score": 3
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 63,
+      "score": 3
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 22,
+      "score": 3
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 109,
+      "score": 3
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 238,
+      "score": 3
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 325,
+      "score": 3
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 346,
+      "score": 3
+    },
+    {
+      "file": "scripts/evaluation.mjs",
+      "line": 33,
+      "score": 3
+    },
+    {
+      "file": "scripts/hosts/codex.mjs",
+      "line": 45,
+      "score": 3
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 52,
+      "score": 3
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 86,
+      "score": 3
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 153,
+      "score": 3
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 47,
+      "score": 3
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 141,
+      "score": 3
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 251,
+      "score": 3
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 144,
+      "score": 3
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 322,
+      "score": 3
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 345,
+      "score": 3
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 128,
+      "score": 3
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 287,
+      "score": 3
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 320,
+      "score": 3
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 344,
+      "score": 3
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 42,
+      "score": 3
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 140,
+      "score": 3
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 208,
+      "score": 3
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 117,
+      "score": 3
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 137,
+      "score": 3
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 113,
+      "score": 3
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 142,
+      "score": 3
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 206,
+      "score": 3
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 216,
+      "score": 3
+    },
+    {
+      "file": "src/filesystem.ts",
+      "line": 9,
+      "score": 3
+    },
+    {
+      "file": "src/filesystem.ts",
+      "line": 27,
+      "score": 3
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 73,
+      "score": 3
+    },
+    {
+      "file": "src/guard-state.ts",
+      "line": 39,
+      "score": 3
+    },
+    {
+      "file": "src/guard-store.ts",
+      "line": 54,
+      "score": 3
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 66,
+      "score": 3
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 212,
+      "score": 3
+    },
+    {
+      "file": "src/init.ts",
+      "line": 52,
+      "score": 3
+    },
+    {
+      "file": "src/init.ts",
+      "line": 75,
+      "score": 3
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 109,
+      "score": 3
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 196,
+      "score": 3
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 245,
+      "score": 3
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 157,
+      "score": 3
+    },
+    {
+      "file": "src/review-app.ts",
+      "line": 323,
+      "score": 3
+    },
+    {
+      "file": "src/review-detail.ts",
+      "line": 24,
+      "score": 3
+    },
+    {
+      "file": "src/review-detail.ts",
+      "line": 76,
+      "score": 3
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 66,
+      "score": 3
+    },
+    {
+      "file": "src/review-open.ts",
+      "line": 5,
+      "score": 3
+    },
+    {
+      "file": "src/review-panels.ts",
+      "line": 48,
+      "score": 3
+    },
+    {
+      "file": "src/review-panels.ts",
+      "line": 64,
+      "score": 3
+    },
+    {
+      "file": "src/update.ts",
+      "line": 28,
+      "score": 3
+    },
+    {
+      "file": "src/update.ts",
+      "line": 40,
+      "score": 3
+    },
+    {
+      "file": "src/update.ts",
+      "line": 69,
+      "score": 3
+    },
+    {
+      "file": "tests/atelier-domain.test.mjs",
+      "line": 207,
+      "score": 3
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 408,
+      "score": 3
+    },
+    {
+      "file": "tests/closure-loop.test.mjs",
+      "line": 308,
+      "score": 3
+    },
+    {
+      "file": "tests/codex-task.test.mjs",
+      "line": 29,
+      "score": 3
+    },
+    {
+      "file": "tests/commands.test.mjs",
+      "line": 34,
+      "score": 3
+    },
+    {
+      "file": "tests/doctor.test.mjs",
+      "line": 145,
+      "score": 3
+    },
+    {
+      "file": "tests/evidence-application.test.mjs",
+      "line": 19,
+      "score": 3
+    },
+    {
+      "file": "tests/evidence-traces.test.mjs",
+      "line": 17,
+      "score": 3
+    },
+    {
+      "file": "tests/guard.test.mjs",
+      "line": 140,
+      "score": 3
+    },
+    {
+      "file": "tests/guard.test.mjs",
+      "line": 234,
+      "score": 3
+    },
+    {
+      "file": "tests/planner.test.mjs",
+      "line": 37,
+      "score": 3
+    },
+    {
+      "file": "tests/resume-cli.test.mjs",
+      "line": 86,
+      "score": 3
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 26,
+      "score": 2
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 57,
+      "score": 2
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 79,
+      "score": 2
+    },
+    {
+      "file": "examples/evidence-lab/app/public/app.js",
+      "line": 19,
+      "score": 2
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 187,
+      "score": 2
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/reference.mjs",
+      "line": 49,
+      "score": 2
+    },
+    {
+      "file": "examples/fullstack/tests/e2e.test.cjs",
+      "line": 74,
+      "score": 2
+    },
+    {
+      "file": "examples/fullstack/tests/http.test.cjs",
+      "line": 4,
+      "score": 2
+    },
+    {
+      "file": "examples/pocket-tasks/public/app.js",
+      "line": 15,
+      "score": 2
+    },
+    {
+      "file": "examples/pocket-tasks/public/app.js",
+      "line": 120,
+      "score": 2
+    },
+    {
+      "file": "examples/pocket-tasks/public/app.js",
+      "line": 197,
+      "score": 2
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 28,
+      "score": 2
+    },
+    {
+      "file": "examples/pocket-tasks/tests/app.test.mjs",
+      "line": 41,
+      "score": 2
+    },
+    {
+      "file": "examples/pocket-tasks/tests/app.test.mjs",
+      "line": 96,
+      "score": 2
+    },
+    {
+      "file": "examples/seance/code/app.js",
+      "line": 77,
+      "score": 2
+    },
+    {
+      "file": "examples/seance/code/app.js",
+      "line": 109,
+      "score": 2
+    },
+    {
+      "file": "examples/seance/code/domain.js",
+      "line": 32,
+      "score": 2
+    },
+    {
+      "file": "examples/seance/code/render.js",
+      "line": 27,
+      "score": 2
+    },
+    {
+      "file": "examples/seance/code/render.js",
+      "line": 52,
+      "score": 2
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 153,
+      "score": 2
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 228,
+      "score": 2
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 31,
+      "score": 2
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 79,
+      "score": 2
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 232,
+      "score": 2
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 463,
+      "score": 2
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 468,
+      "score": 2
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 100,
+      "score": 2
+    },
+    {
+      "file": "scripts/atelier/server.mjs",
+      "line": 54,
+      "score": 2
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 39,
+      "score": 2
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 35,
+      "score": 2
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 360,
+      "score": 2
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 386,
+      "score": 2
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 418,
+      "score": 2
+    },
+    {
+      "file": "scripts/evidence-restart-check.mjs",
+      "line": 76,
+      "score": 2
+    },
+    {
+      "file": "scripts/evidence-restart-comparison.mjs",
+      "line": 24,
+      "score": 2
+    },
+    {
+      "file": "scripts/evidence-restart-comparison.mjs",
+      "line": 102,
+      "score": 2
+    },
+    {
+      "file": "scripts/hosts/codex-rpc.mjs",
+      "line": 34,
+      "score": 2
+    },
+    {
+      "file": "scripts/hosts/codex-rpc.mjs",
+      "line": 42,
+      "score": 2
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 9,
+      "score": 2
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 24,
+      "score": 2
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 234,
+      "score": 2
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 304,
+      "score": 2
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 75,
+      "score": 2
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 78,
+      "score": 2
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 210,
+      "score": 2
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 224,
+      "score": 2
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 245,
+      "score": 2
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 273,
+      "score": 2
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 62,
+      "score": 2
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 219,
+      "score": 2
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 223,
+      "score": 2
+    },
+    {
+      "file": "src/evidence-process.ts",
+      "line": 55,
+      "score": 2
+    },
+    {
+      "file": "src/evidence-process.ts",
+      "line": 81,
+      "score": 2
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 49,
+      "score": 2
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 84,
+      "score": 2
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 182,
+      "score": 2
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 309,
+      "score": 2
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 138,
+      "score": 2
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 86,
+      "score": 2
+    },
+    {
+      "file": "src/guard-store.ts",
+      "line": 36,
+      "score": 2
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 28,
+      "score": 2
+    },
+    {
+      "file": "src/init.ts",
+      "line": 240,
+      "score": 2
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 90,
+      "score": 2
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 151,
+      "score": 2
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 162,
+      "score": 2
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 188,
+      "score": 2
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 243,
+      "score": 2
+    },
+    {
+      "file": "src/records.ts",
+      "line": 40,
+      "score": 2
+    },
+    {
+      "file": "src/review-app.ts",
+      "line": 65,
+      "score": 2
+    },
+    {
+      "file": "src/review-dom.ts",
+      "line": 7,
+      "score": 2
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 124,
+      "score": 2
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 152,
+      "score": 2
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 187,
+      "score": 2
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 319,
+      "score": 2
+    },
+    {
+      "file": "src/review-panels.ts",
+      "line": 56,
+      "score": 2
+    },
+    {
+      "file": "src/review.ts",
+      "line": 11,
+      "score": 2
+    },
+    {
+      "file": "tests/atelier-domain.test.mjs",
+      "line": 84,
+      "score": 2
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 157,
+      "score": 2
+    },
+    {
+      "file": "tests/checkpoint.test.mjs",
+      "line": 103,
+      "score": 2
+    },
+    {
+      "file": "tests/checkpoint.test.mjs",
+      "line": 152,
+      "score": 2
+    },
+    {
+      "file": "tests/comparison.test.mjs",
+      "line": 14,
+      "score": 2
+    },
+    {
+      "file": "tests/evidence-application.test.mjs",
+      "line": 36,
+      "score": 2
+    },
+    {
+      "file": "tests/evidence-runtime.test.mjs",
+      "line": 599,
+      "score": 2
+    },
+    {
+      "file": "tests/install.test.mjs",
+      "line": 64,
+      "score": 2
+    },
+    {
+      "file": "tests/native-host.test.mjs",
+      "line": 86,
+      "score": 2
+    },
+    {
+      "file": "tests/native-maintenance.test.mjs",
+      "line": 105,
+      "score": 2
+    },
+    {
+      "file": "tests/payload-memory.test.mjs",
+      "line": 64,
+      "score": 2
+    },
+    {
+      "file": "tests/planner.test.mjs",
+      "line": 55,
+      "score": 2
+    },
+    {
+      "file": "tests/prepare-behavior-case.test.mjs",
+      "line": 168,
+      "score": 2
+    },
+    {
+      "file": "tests/update.test.mjs",
+      "line": 106,
+      "score": 2
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 65,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 113,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 142,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 156,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 174,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 227,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/app/app.mjs",
+      "line": 234,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/app/domain.mjs",
+      "line": 12,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/app/domain.mjs",
+      "line": 14,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/app/domain.mjs",
+      "line": 21,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/tests/domain.test.mjs",
+      "line": 15,
+      "score": 1
+    },
+    {
+      "file": "examples/clair-from-zero/tests/domain.test.mjs",
+      "line": 52,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/public/app.js",
+      "line": 49,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/public/app.js",
+      "line": 97,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/public/app.js",
+      "line": 143,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/public/app.js",
+      "line": 161,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/server.mjs",
+      "line": 41,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/server.test.mjs",
+      "line": 18,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/server.test.mjs",
+      "line": 26,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/server.test.mjs",
+      "line": 41,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/server.test.mjs",
+      "line": 101,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 24,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 28,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 138,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/store.mjs",
+      "line": 145,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/store.test.mjs",
+      "line": 52,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/app/store.test.mjs",
+      "line": 104,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/check.mjs",
+      "line": 34,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/check.mjs",
+      "line": 39,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/check.mjs",
+      "line": 128,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/reference.mjs",
+      "line": 13,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/reference.mjs",
+      "line": 22,
+      "score": 1
+    },
+    {
+      "file": "examples/evidence-lab/evaluator/run-controls.mjs",
+      "line": 12,
+      "score": 1
+    },
+    {
+      "file": "examples/fullstack/api/infrastructure/postgres.ts",
+      "line": 15,
+      "score": 1
+    },
+    {
+      "file": "examples/fullstack/tests/postgres.test.cjs",
+      "line": 45,
+      "score": 1
+    },
+    {
+      "file": "examples/fullstack/tests/unit.test.cjs",
+      "line": 5,
+      "score": 1
+    },
+    {
+      "file": "examples/fullstack/tests/web-model.test.cjs",
+      "line": 24,
+      "score": 1
+    },
+    {
+      "file": "examples/fullstack/web/app/page.tsx",
+      "line": 4,
+      "score": 1
+    },
+    {
+      "file": "examples/fullstack/web/features/tasks/components/task-list.tsx",
+      "line": 4,
+      "score": 1
+    },
+    {
+      "file": "examples/fullstack/web/features/tasks/model/tasks.ts",
+      "line": 9,
+      "score": 1
+    },
+    {
+      "file": "examples/fullstack/web/features/tasks/server/list-tasks.ts",
+      "line": 3,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/public/app.js",
+      "line": 73,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/public/app.js",
+      "line": 80,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/public/app.js",
+      "line": 85,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/public/app.js",
+      "line": 170,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 42,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 48,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 58,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 62,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/server.mjs",
+      "line": 110,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/src/domain.mjs",
+      "line": 7,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/src/store.mjs",
+      "line": 36,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/src/store.mjs",
+      "line": 52,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/src/store.mjs",
+      "line": 61,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/tests/app.test.mjs",
+      "line": 133,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/tests/app.test.mjs",
+      "line": 151,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/tests/ui-errors.test.mjs",
+      "line": 6,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/tests/ui-errors.test.mjs",
+      "line": 42,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/tests/ui-errors.test.mjs",
+      "line": 68,
+      "score": 1
+    },
+    {
+      "file": "examples/pocket-tasks/tests/ui-errors.test.mjs",
+      "line": 139,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/app.js",
+      "line": 5,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/app.js",
+      "line": 18,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/app.js",
+      "line": 47,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/app.js",
+      "line": 87,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/domain.js",
+      "line": 158,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/render.js",
+      "line": 13,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/render.js",
+      "line": 61,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/render.js",
+      "line": 70,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/render.js",
+      "line": 74,
+      "score": 1
+    },
+    {
+      "file": "examples/seance/code/storage.js",
+      "line": 5,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/domain.mjs",
+      "line": 113,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 243,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 398,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 434,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/public/app.js",
+      "line": 458,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/public/controls.js",
+      "line": 2,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/public/views.js",
+      "line": 66,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/public/views.js",
+      "line": 137,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 15,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 24,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 37,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 50,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/schema.mjs",
+      "line": 148,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/server.mjs",
+      "line": 22,
+      "score": 1
+    },
+    {
+      "file": "scripts/atelier/store.mjs",
+      "line": 47,
+      "score": 1
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 5,
+      "score": 1
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 6,
+      "score": 1
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 113,
+      "score": 1
+    },
+    {
+      "file": "scripts/comparison.mjs",
+      "line": 138,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 14,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 15,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 17,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 22,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 26,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 31,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 91,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 193,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 303,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 358,
+      "score": 1
+    },
+    {
+      "file": "scripts/evaluate-behavior.mjs",
+      "line": 424,
+      "score": 1
+    },
+    {
+      "file": "scripts/evidence-demo.mjs",
+      "line": 26,
+      "score": 1
+    },
+    {
+      "file": "scripts/evidence-demo.mjs",
+      "line": 68,
+      "score": 1
+    },
+    {
+      "file": "scripts/evidence-demo.mjs",
+      "line": 94,
+      "score": 1
+    },
+    {
+      "file": "scripts/evidence-demo.mjs",
+      "line": 106,
+      "score": 1
+    },
+    {
+      "file": "scripts/evidence-holdout.mjs",
+      "line": 112,
+      "score": 1
+    },
+    {
+      "file": "scripts/evidence-restart-check.mjs",
+      "line": 15,
+      "score": 1
+    },
+    {
+      "file": "scripts/hosts/checks.mjs",
+      "line": 5,
+      "score": 1
+    },
+    {
+      "file": "scripts/hosts/codex-meter.mjs",
+      "line": 30,
+      "score": 1
+    },
+    {
+      "file": "scripts/hosts/codex-rpc.mjs",
+      "line": 5,
+      "score": 1
+    },
+    {
+      "file": "scripts/hosts/codex-rpc.mjs",
+      "line": 55,
+      "score": 1
+    },
+    {
+      "file": "scripts/hosts/codex-rpc.mjs",
+      "line": 95,
+      "score": 1
+    },
+    {
+      "file": "scripts/hosts/codex-rpc.mjs",
+      "line": 105,
+      "score": 1
+    },
+    {
+      "file": "scripts/hosts/codex.mjs",
+      "line": 3,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 6,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 13,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 60,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-host.mjs",
+      "line": 135,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 59,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 86,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 111,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 146,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 361,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 380,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 382,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-journey-smoke.mjs",
+      "line": 400,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 247,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 252,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 267,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 292,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 316,
+      "score": 1
+    },
+    {
+      "file": "scripts/native-maintenance.mjs",
+      "line": 419,
+      "score": 1
+    },
+    {
+      "file": "scripts/package-atelier-smoke.mjs",
+      "line": 7,
+      "score": 1
+    },
+    {
+      "file": "scripts/prepare-behavior-case.mjs",
+      "line": 8,
+      "score": 1
+    },
+    {
+      "file": "scripts/summarize-native-pilot.mjs",
+      "line": 14,
+      "score": 1
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 24,
+      "score": 1
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 84,
+      "score": 1
+    },
+    {
+      "file": "src/behavior.ts",
+      "line": 92,
+      "score": 1
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 54,
+      "score": 1
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 57,
+      "score": 1
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 60,
+      "score": 1
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 63,
+      "score": 1
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 67,
+      "score": 1
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 86,
+      "score": 1
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 96,
+      "score": 1
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 100,
+      "score": 1
+    },
+    {
+      "file": "src/checkpoint.ts",
+      "line": 399,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 33,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 37,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 117,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 124,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 155,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 186,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 195,
+      "score": 1
+    },
+    {
+      "file": "src/closure.ts",
+      "line": 201,
+      "score": 1
+    },
+    {
+      "file": "src/commands.ts",
+      "line": 21,
+      "score": 1
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 37,
+      "score": 1
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 41,
+      "score": 1
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 56,
+      "score": 1
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 92,
+      "score": 1
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 106,
+      "score": 1
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 128,
+      "score": 1
+    },
+    {
+      "file": "src/doctor.ts",
+      "line": 133,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 47,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 58,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 64,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 80,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 162,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 198,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-contract.ts",
+      "line": 280,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-process.ts",
+      "line": 23,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-process.ts",
+      "line": 28,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-process.ts",
+      "line": 63,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-process.ts",
+      "line": 73,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 112,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 138,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-runtime.ts",
+      "line": 319,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 47,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 51,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 63,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 71,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 74,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 89,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 115,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 189,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 224,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 235,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 239,
+      "score": 1
+    },
+    {
+      "file": "src/evidence-store.ts",
+      "line": 259,
+      "score": 1
+    },
+    {
+      "file": "src/filesystem.ts",
+      "line": 47,
+      "score": 1
+    },
+    {
+      "file": "src/guard-cli.ts",
+      "line": 31,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 56,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 58,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 61,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 69,
+      "score": 1
+    },
+    {
+      "file": "src/guard-context.ts",
+      "line": 85,
+      "score": 1
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 64,
+      "score": 1
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 71,
+      "score": 1
+    },
+    {
+      "file": "src/guard-revision.ts",
+      "line": 99,
+      "score": 1
+    },
+    {
+      "file": "src/guard-state.ts",
+      "line": 5,
+      "score": 1
+    },
+    {
+      "file": "src/guard-store.ts",
+      "line": 18,
+      "score": 1
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 86,
+      "score": 1
+    },
+    {
+      "file": "src/guard.ts",
+      "line": 195,
+      "score": 1
+    },
+    {
+      "file": "src/init.ts",
+      "line": 113,
+      "score": 1
+    },
+    {
+      "file": "src/init.ts",
+      "line": 162,
+      "score": 1
+    },
+    {
+      "file": "src/init.ts",
+      "line": 191,
+      "score": 1
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 60,
+      "score": 1
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 62,
+      "score": 1
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 66,
+      "score": 1
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 69,
+      "score": 1
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 81,
+      "score": 1
+    },
+    {
+      "file": "src/loop.ts",
+      "line": 158,
+      "score": 1
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 49,
+      "score": 1
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 50,
+      "score": 1
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 74,
+      "score": 1
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 94,
+      "score": 1
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 112,
+      "score": 1
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 134,
+      "score": 1
+    },
+    {
+      "file": "src/mission.ts",
+      "line": 204,
+      "score": 1
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 25,
+      "score": 1
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 37,
+      "score": 1
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 48,
+      "score": 1
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 151,
+      "score": 1
+    },
+    {
+      "file": "src/planner.ts",
+      "line": 165,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 7,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 9,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 11,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 14,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 17,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 26,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 49,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 76,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 105,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 115,
+      "score": 1
+    },
+    {
+      "file": "src/records.ts",
+      "line": 118,
+      "score": 1
+    },
+    {
+      "file": "src/review-app.ts",
+      "line": 285,
+      "score": 1
+    },
+    {
+      "file": "src/review-app.ts",
+      "line": 384,
+      "score": 1
+    },
+    {
+      "file": "src/review-cli.ts",
+      "line": 69,
+      "score": 1
+    },
+    {
+      "file": "src/review-cli.ts",
+      "line": 100,
+      "score": 1
+    },
+    {
+      "file": "src/review-detail.ts",
+      "line": 138,
+      "score": 1
+    },
+    {
+      "file": "src/review-dom.ts",
+      "line": 27,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 49,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 51,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 53,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 55,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 58,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 60,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 62,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 79,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 83,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 92,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 96,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 140,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 178,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 182,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 238,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 335,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 396,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 399,
+      "score": 1
+    },
+    {
+      "file": "src/review-model.ts",
+      "line": 490,
+      "score": 1
+    },
+    {
+      "file": "src/review-open.ts",
+      "line": 17,
+      "score": 1
+    },
+    {
+      "file": "src/review-runtime.ts",
+      "line": 14,
+      "score": 1
+    },
+    {
+      "file": "src/update.ts",
+      "line": 124,
+      "score": 1
+    },
+    {
+      "file": "tests/atelier-domain.test.mjs",
+      "line": 94,
+      "score": 1
+    },
+    {
+      "file": "tests/atelier-domain.test.mjs",
+      "line": 233,
+      "score": 1
+    },
+    {
+      "file": "tests/atelier-domain.test.mjs",
+      "line": 264,
+      "score": 1
+    },
+    {
+      "file": "tests/atelier-domain.test.mjs",
+      "line": 273,
+      "score": 1
+    },
+    {
+      "file": "tests/atelier-domain.test.mjs",
+      "line": 386,
+      "score": 1
+    },
+    {
+      "file": "tests/atelier-server.test.mjs",
+      "line": 19,
+      "score": 1
+    },
+    {
+      "file": "tests/atelier-server.test.mjs",
+      "line": 20,
+      "score": 1
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 76,
+      "score": 1
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 127,
+      "score": 1
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 144,
+      "score": 1
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 182,
+      "score": 1
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 192,
+      "score": 1
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 312,
+      "score": 1
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 326,
+      "score": 1
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 375,
+      "score": 1
+    },
+    {
+      "file": "tests/behavioral-evaluation.test.mjs",
+      "line": 399,
+      "score": 1
+    },
+    {
+      "file": "tests/checkpoint.test.mjs",
+      "line": 51,
+      "score": 1
+    },
+    {
+      "file": "tests/checkpoint.test.mjs",
+      "line": 172,
+      "score": 1
+    },
+    {
+      "file": "tests/closure-loop.test.mjs",
+      "line": 120,
+      "score": 1
+    },
+    {
+      "file": "tests/closure-loop.test.mjs",
+      "line": 171,
+      "score": 1
+    },
+    {
+      "file": "tests/closure-loop.test.mjs",
+      "line": 300,
+      "score": 1
+    },
+    {
+      "file": "tests/closure-loop.test.mjs",
+      "line": 374,
+      "score": 1
+    },
+    {
+      "file": "tests/closure-loop.test.mjs",
+      "line": 404,
+      "score": 1
+    },
+    {
+      "file": "tests/codex-meter.test.mjs",
+      "line": 27,
+      "score": 1
+    },
+    {
+      "file": "tests/codex-rpc.test.mjs",
+      "line": 18,
+      "score": 1
+    },
+    {
+      "file": "tests/codex-task.test.mjs",
+      "line": 72,
+      "score": 1
+    },
+    {
+      "file": "tests/commands.test.mjs",
+      "line": 74,
+      "score": 1
+    },
+    {
+      "file": "tests/commands.test.mjs",
+      "line": 94,
+      "score": 1
+    },
+    {
+      "file": "tests/comparison-readiness.test.mjs",
+      "line": 13,
+      "score": 1
+    },
+    {
+      "file": "tests/comparison.test.mjs",
+      "line": 45,
+      "score": 1
+    },
+    {
+      "file": "tests/comparison.test.mjs",
+      "line": 57,
+      "score": 1
+    },
+    {
+      "file": "tests/doctor.test.mjs",
+      "line": 29,
+      "score": 1
+    },
+    {
+      "file": "tests/doctor.test.mjs",
+      "line": 38,
+      "score": 1
+    },
+    {
+      "file": "tests/doctor.test.mjs",
+      "line": 52,
+      "score": 1
+    },
+    {
+      "file": "tests/doctor.test.mjs",
+      "line": 76,
+      "score": 1
+    },
+    {
+      "file": "tests/doctor.test.mjs",
+      "line": 124,
+      "score": 1
+    },
+    {
+      "file": "tests/doctor.test.mjs",
+      "line": 164,
+      "score": 1
+    },
+    {
+      "file": "tests/evidence-application.test.mjs",
+      "line": 89,
+      "score": 1
+    },
+    {
+      "file": "tests/evidence-runtime.test.mjs",
+      "line": 22,
+      "score": 1
+    },
+    {
+      "file": "tests/evidence-traces.test.mjs",
+      "line": 115,
+      "score": 1
+    },
+    {
+      "file": "tests/guard-revision.test.mjs",
+      "line": 93,
+      "score": 1
+    },
+    {
+      "file": "tests/guard-revision.test.mjs",
+      "line": 226,
+      "score": 1
+    },
+    {
+      "file": "tests/guard.test.mjs",
+      "line": 199,
+      "score": 1
+    },
+    {
+      "file": "tests/guard.test.mjs",
+      "line": 282,
+      "score": 1
+    },
+    {
+      "file": "tests/install.test.mjs",
+      "line": 98,
+      "score": 1
+    },
+    {
+      "file": "tests/json-errors.test.mjs",
+      "line": 8,
+      "score": 1
+    },
+    {
+      "file": "tests/mission.test.mjs",
+      "line": 118,
+      "score": 1
+    },
+    {
+      "file": "tests/mission.test.mjs",
+      "line": 145,
+      "score": 1
+    },
+    {
+      "file": "tests/native-host.test.mjs",
+      "line": 133,
+      "score": 1
+    },
+    {
+      "file": "tests/native-journey-smoke.test.mjs",
+      "line": 43,
+      "score": 1
+    },
+    {
+      "file": "tests/payload-memory.test.mjs",
+      "line": 20,
+      "score": 1
+    },
+    {
+      "file": "tests/payload-memory.test.mjs",
+      "line": 59,
+      "score": 1
+    },
+    {
+      "file": "tests/payload-memory.test.mjs",
+      "line": 79,
+      "score": 1
+    },
+    {
+      "file": "tests/payload-memory.test.mjs",
+      "line": 109,
+      "score": 1
+    },
+    {
+      "file": "tests/planner.test.mjs",
+      "line": 75,
+      "score": 1
+    },
+    {
+      "file": "tests/prepare-behavior-case.test.mjs",
+      "line": 25,
+      "score": 1
+    },
+    {
+      "file": "tests/prepare-behavior-case.test.mjs",
+      "line": 96,
+      "score": 1
+    },
+    {
+      "file": "tests/prepare-behavior-case.test.mjs",
+      "line": 125,
+      "score": 1
+    },
+    {
+      "file": "tests/review-agent.test.mjs",
+      "line": 13,
+      "score": 1
+    },
+    {
+      "file": "tests/review-agent.test.mjs",
+      "line": 32,
+      "score": 1
+    },
+    {
+      "file": "tests/review-detection.test.mjs",
+      "line": 26,
+      "score": 1
+    },
+    {
+      "file": "tests/review-open.test.mjs",
+      "line": 22,
+      "score": 1
+    },
+    {
+      "file": "tests/review-open.test.mjs",
+      "line": 29,
+      "score": 1
+    },
+    {
+      "file": "tests/review.test.mjs",
+      "line": 16,
+      "score": 1
+    },
+    {
+      "file": "tests/review.test.mjs",
+      "line": 88,
+      "score": 1
+    },
+    {
+      "file": "tests/review.test.mjs",
+      "line": 114,
+      "score": 1
+    },
+    {
+      "file": "tests/review.test.mjs",
+      "line": 151,
+      "score": 1
+    },
+    {
+      "file": "tests/review.test.mjs",
+      "line": 211,
+      "score": 1
+    },
+    {
+      "file": "tests/review.test.mjs",
+      "line": 244,
+      "score": 1
+    },
+    {
+      "file": "tests/seance.test.mjs",
+      "line": 70,
+      "score": 1
+    },
+    {
+      "file": "tests/seance.test.mjs",
+      "line": 143,
+      "score": 1
+    },
+    {
+      "file": "tests/update.test.mjs",
+      "line": 31,
+      "score": 1
+    },
+    {
+      "file": "tests/update.test.mjs",
+      "line": 40,
+      "score": 1
+    },
+    {
+      "file": "tests/update.test.mjs",
+      "line": 50,
+      "score": 1
+    },
+    {
+      "file": "tests/update.test.mjs",
+      "line": 76,
+      "score": 1
+    }
+  ],
+  "limitations": "Cognitive complexity is a static heuristic, not a correctness, readability or scalability proof. Functions scoring zero are omitted."
+}

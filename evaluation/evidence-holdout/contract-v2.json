@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "durable-queue-holdout",
+  "intent": "Provide a local durable job queue: enqueue an identity once, complete it permanently, preserve pending jobs and completion identities across process restarts.",
+  "criteria": [
+    { "id": "idempotency", "description": "An enqueued identity has exactly one pending job until completion, including after process restart; retrying enqueue must not duplicate it." },
+    { "id": "finality", "description": "Completing a pending job removes it from pending work permanently; retrying its identity, including after process restart, must not enqueue it again." }
+  ],
+  "candidateInputs": ["queue.mjs"],
+  "evaluatorFiles": ["runner-v2.mjs", "controls.mjs"],
+  "checks": [{ "id": "queue-partial", "runner": "runner-v2.mjs", "criteria": ["idempotency", "finality"], "healthy": "healthy", "faults": [{ "id": "duplicate", "target": "idempotency" }, { "id": "resurrect", "target": "finality" }] }],
+  "limits": { "maxAttempts": 3, "maxNoProgress": 2, "childTimeoutMs": 3000, "attemptTimeoutMs": 15000, "maxOutputBytes": 16384 }
+}

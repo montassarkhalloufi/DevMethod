@@ -1,0 +1,103 @@
+{
+  "date": "2026-09-17",
+  "instance": "http://127.0.0.1:4354/",
+  "note": "Copie isolée ; mesures natives Chrome, aucune mutation métier effectuée",
+  "leftResize": {
+    "drag": {
+      "aria": "152",
+      "height": 151.9957275390625,
+      "messageTop": 481.5766906738281,
+      "sendBottom": 730.4545383453369,
+      "topBottom": 467.5781135559082,
+      "viewport": 762
+    },
+    "reload": {
+      "aria": "152",
+      "height": 151.9957275390625
+    }
+  },
+  "explorerDrag": {
+    "pageWidth": 1562,
+    "sourceWidth": 573.0894775390625,
+    "viewport": 1562,
+    "width": "360"
+  },
+  "explorerReload": {
+    "composerTop": 552.03125,
+    "contentBottom": 538.0326538085938,
+    "names": [
+      {
+        "left": 320.8877868652344,
+        "name": "App.tsx · React / TypeScript",
+        "path": "src/app/App.tsx"
+      },
+      {
+        "left": 352.87640380859375,
+        "name": "Registrations.tsx · React / TypeScript",
+        "path": "src/features/workshops/components/Registrations.tsx"
+      },
+      {
+        "left": 352.87640380859375,
+        "name": "WorkshopCard.tsx · React / TypeScript",
+        "path": "src/features/workshops/components/WorkshopCard.tsx"
+      },
+      {
+        "left": 352.87640380859375,
+        "name": "WorkshopPage.tsx · React / TypeScript",
+        "path": "src/features/workshops/components/WorkshopPage.tsx"
+      }
+    ],
+    "rows": [
+      {
+        "left": 288.8991394042969,
+        "text": "src"
+      },
+      {
+        "left": 304.8934631347656,
+        "text": "app"
+      },
+      {
+        "left": 304.8934631347656,
+        "text": "features"
+      },
+      {
+        "left": 320.8877868652344,
+        "text": "workshops"
+      },
+      {
+        "left": 336.882080078125,
+        "text": "components"
+      }
+    ],
+    "width": "364"
+  },
+  "leftWheelFinal": {
+    "card": 99.09090423583984,
+    "cardHeight": 533,
+    "cardScroll": 633,
+    "overscroll": "auto",
+    "parent": 488.1817932128906,
+    "underPointer": "<details id=\"preserve-constraints\" class=\"preserve-constraints\">\n            <summary>\n              <svg class=\"ui-icon\" aria-hidden=\"true\"><use href=\"#studio-icon-lock\"></use></svg>À\n              p"
+  },
+  "menuLayerFinal": {
+    "foreground": true,
+    "menu": {
+      "bottom": 462.99713134765625,
+      "height": 184.4247131347656,
+      "left": 933.991455078125,
+      "right": 1213.991455078125,
+      "top": 278.5724182128906,
+      "width": 280,
+      "x": 933.991455078125,
+      "y": 278.5724182128906
+    },
+    "sticky": []
+  },
+  "mobilePanelCheck": {
+    "composerHeight": 262.44317626953125,
+    "handleHidden": true,
+    "pageWidth": 390,
+    "stacked": "true",
+    "viewport": 390
+  }
+}

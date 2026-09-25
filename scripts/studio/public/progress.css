@@ -1,0 +1,228 @@
+.job-progress-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  min-width: 0;
+  font-size: 13px;
+}
+.progress-heading,
+.job-progress-card summary,
+.progress-action-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+.progress-heading h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+}
+.progress-agent-badge {
+  background: var(--agent-bg);
+  color: var(--agent);
+  border: 1px solid #347388;
+  border-radius: 5px;
+  font-size: 11px;
+  padding: 2px 7px;
+}
+.progress-job-picker {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.progress-job-picker select {
+  min-width: 0;
+  width: 100%;
+  min-height: 34px;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+.progress-request {
+  margin: 12px 0 8px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+.progress-job-status {
+  color: var(--agent);
+  font-size: 12px;
+  font-weight: 600;
+}
+.progress-job-status.status-queued,
+.progress-job-status.status-interrupted,
+.progress-error {
+  color: var(--warning);
+}
+.progress-job-status.status-failed {
+  color: var(--danger);
+}
+.progress-worker,
+.progress-empty,
+.progress-note,
+.progress-received {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.progress-current {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 9px 10px;
+  background: var(--canvas);
+  border-left: 2px solid var(--accent);
+  border-radius: 3px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.progress-plan,
+.progress-actions {
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.job-progress-card summary {
+  padding-block: 11px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  list-style: none;
+}
+.job-progress-card summary::-webkit-details-marker {
+  display: none;
+}
+.job-progress-card summary::before {
+  content: '›';
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 12px;
+  transform: rotate(0deg);
+  transition: transform 120ms ease;
+}
+.job-progress-card details[open] > summary::before {
+  transform: rotate(90deg);
+}
+.job-progress-card summary > span:first-of-type {
+  flex: 1;
+}
+.job-progress-card summary:hover {
+  color: var(--accent);
+}
+.job-progress-card :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.progress-count {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.progress-plan-title {
+  font-size: 12px;
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+.job-progress-card ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.progress-step,
+.progress-action {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 8px;
+  line-height: 1.45;
+  padding: 7px 0;
+  overflow-wrap: anywhere;
+}
+.progress-step small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 2px;
+}
+.progress-state-icon {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 20px;
+}
+.progress-state-icon.state-completed {
+  color: var(--agent);
+}
+.progress-state-icon.state-running {
+  color: var(--accent);
+}
+.progress-state-icon.state-failed {
+  color: var(--danger);
+}
+.progress-state-icon.state-blocked {
+  color: var(--warning);
+}
+.progress-actions ol {
+  max-height: 290px;
+  overflow: auto;
+  overscroll-behavior: auto;
+  scrollbar-gutter: stable;
+}
+.progress-action {
+  border-top: 1px solid var(--border);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 80px;
+}
+.progress-action:first-child {
+  border-top: 0;
+}
+.progress-action-kind {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+}
+.progress-action-label {
+  display: block;
+  font-size: 12px;
+}
+.progress-action code {
+  display: block;
+  font-size: 11px;
+  color: var(--agent);
+  overflow-wrap: anywhere;
+  margin-top: 3px;
+}
+.progress-action-meta {
+  flex-wrap: wrap;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.progress-action-meta button,
+.progress-earlier {
+  font-size: 11px;
+  min-height: 28px;
+  padding: 3px 5px;
+  color: var(--accent);
+  background: transparent;
+  border-color: transparent;
+}
+.progress-action-meta button:hover,
+.progress-earlier:hover {
+  border-color: var(--accent);
+}
+.progress-error {
+  font-size: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .job-progress-card summary::before {
+    transition: none;
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "date": "2026-09-16",
+  "case": "Le vestiaire des objets",
+  "kind": "real browser observation by the parent agent, separate from the implementing worker",
+  "humanValidation": false,
+  "blindComparison": false,
+  "observed": [
+    "Two browser tabs opened against the same holdout app.",
+    "Tab A kept a draft named <script>test</script> with reference EVAL101.",
+    "Tab B saved Panier / EVAL102, then tab A submitted its older version.",
+    "The app showed the conflict and retained the input; retry preserved both objects.",
+    "The En prêt filter showed OUT102 held by Noé; original loan records were not changed.",
+    "The object name containing script markup was rendered as literal text, with no script element under #objects."
+  ],
+  "evidence": "holdout-conflict.jpg",
+  "limits": [
+    "A transfer exercise through the host bridge, not a matched A/B/C trial or a native-provider comparison.",
+    "The scope differs from an earlier private trial outline; due dates and repair workflows were not evaluated.",
+    "Time and human effort were not independently measured."
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "version": 10,
+  "data": {
+    "workshops": [
+      {
+        "id": "repair-bike",
+        "category": "repair",
+        "title": "Réparer son vélo",
+        "date": "2026-09-20",
+        "time": "10 h–12 h",
+        "location": "Maison des associations",
+        "capacity": 2
+      },
+      {
+        "id": "season-cooking",
+        "category": "cooking",
+        "title": "Cuisine de saison",
+        "date": "2026-09-23",
+        "time": "18 h–20 h",
+        "location": "Cuisine partagée",
+        "capacity": 3
+      },
+      {
+        "id": "sewing-intro",
+        "category": "sewing",
+        "title": "Initiation à la couture",
+        "date": "2026-09-26",
+        "time": "14 h–16 h",
+        "location": "Salle des pratiques",
+        "capacity": 2
+      }
+    ],
+    "registrations": [
+      {
+        "id": "8738af40-a36f-428f-b3c2-71f66dc0ea20",
+        "workshopId": "season-cooking",
+        "name": "Noa"
+      },
+      {
+        "id": "25368870-e6ba-471b-8c92-1701013790dd",
+        "workshopId": "repair-bike",
+        "name": "Omar"
+      },
+      {
+        "id": "588fc129-7af5-4b71-9c2c-34c10e9ed83a",
+        "workshopId": "repair-bike",
+        "name": "Lina"
+      }
+    ],
+    "waitlist": [
+      {
+        "id": "69b2c7a6-59dc-44bd-a886-7be5d93fdb72",
+        "workshopId": "repair-bike",
+        "name": "Sami"
+      }
+    ]
+  }
+}

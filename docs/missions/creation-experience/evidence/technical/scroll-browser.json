@@ -1,0 +1,116 @@
+{
+  "observedAt": "2026-09-16T23:16:14.836715+00:00",
+  "environment": {
+    "browser": "Chrome via CUA",
+    "url": "http://127.0.0.1:4348/",
+    "project": "Validation technique · démonstration",
+    "revisionId": "04c0ef55-2bf7-4186-b7d7-04dde4ff6d70",
+    "viewport": {
+      "width": 1562,
+      "height": 762
+    }
+  },
+  "method": "Gestes CUA scroll sur coordonnées observées ; lectures DOM avant/après uniquement. Aucune mutation scrollTop ni simulation wheel JS. Aucun contrôle métier exécuté.",
+  "qualityBefore": {
+    "workspace": {
+      "clientHeight": 682,
+      "scrollHeight": 2975,
+      "scrollTopBefore": 0,
+      "scrollTopAfterWheel": 0
+    },
+    "panel": {
+      "clientHeight": 2974,
+      "scrollHeight": 2974,
+      "overflowY": "auto",
+      "overscrollBehaviorY": "contain"
+    },
+    "detailHeadingY": 2536.399169921875,
+    "cause": "Le panel interne sans débordement restait un conteneur de défilement avec contain, bloquant la propagation vers #workspace."
+  },
+  "qualityAfter": {
+    "panelOverscrollBehaviorY": "auto",
+    "wheelTarget": [
+      950,
+      550
+    ],
+    "workspaceScrollTop": [
+      0,
+      692.7272338867188,
+      2293.181884765625
+    ],
+    "detailHeadingY": 243.21731567382812,
+    "detailHeadingBottom": 268.7215766906738
+  },
+  "code": {
+    "explorerScrollTop": [
+      0,
+      373.1818237304687
+    ],
+    "inspectorScrollTop": [
+      0,
+      253.1818084716797
+    ],
+    "backendMonaco": {
+      "path": "backend/server.ts",
+      "wheelTarget": [
+        950,
+        450
+      ],
+      "rendering": "virtualized",
+      "verticalSliderTopPxAfterDown": 31,
+      "verticalSliderTopPxAfterUp": 0,
+      "line1VisibleAfterUp": true,
+      "note": "Monaco défile par rendu virtualisé, scrollTop DOM seul ne décrit pas sa position."
+    }
+  },
+  "flows": {
+    "scrollContainer": ".project-main-grid",
+    "scrollTop": [
+      0,
+      692.7272338867188
+    ]
+  },
+  "impact": {
+    "scrollContainer": ".project-main-grid",
+    "scrollTop": [
+      0,
+      378.1818237304687
+    ]
+  },
+  "design": {
+    "route": "#journey-design",
+    "workspaceScrollTop": [
+      0,
+      304.5454406738281
+    ],
+    "withEveryAvailableWorkspaceDisclosureOpen": {
+      "disclosures": [
+        "Voir les critères"
+      ],
+      "workspaceScrollTop": [
+        0,
+        469.5454406738281
+      ],
+      "clientHeight": 686,
+      "scrollHeight": 1156
+    }
+  },
+  "limitations": [
+    "Observation réelle sur le projet technique et ce viewport, pas certification de tous navigateurs ou périphériques.",
+    "La fixture technique ne contient pas de directions visuelles ; tous les détails disponibles de son espace Design ont été ouverts.",
+    "Le changement de la molette n’ajoute aucun handler wheel global."
+  ],
+  "diagnosticSourceNavigation": {
+    "url": "http://127.0.0.1:4352/?qa=source-focus-final#checks",
+    "interaction": "Premier clic sur le diagnostic src/registration.ts:5 après rechargement complet, sans modification ni nouvelle exécution de contrôle.",
+    "revisionPrefix": "09ca76c6",
+    "path": "src/registration.ts",
+    "selectionLine": 5,
+    "currentLineText": "5",
+    "activeElement": {
+      "tag": "TEXTAREA",
+      "ariaLabel": "Code source multicolore"
+    },
+    "fixedCause": "Le focus demandé avant le chargement asynchrone est mémorisé puis appliqué après affichage du host Monaco ; une lecture source devenue obsolète ne peut plus déplacer le focus."
+  }
+}

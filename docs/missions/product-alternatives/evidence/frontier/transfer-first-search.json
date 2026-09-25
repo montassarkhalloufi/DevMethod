@@ -1,0 +1,71 @@
+{
+  "started": "2026-09-16T11:15:01.693Z",
+  "result": {
+    "status": "witness",
+    "trace": [
+      {
+        "action": {
+          "kind": "rent",
+          "minutes": 20
+        },
+        "observations": [
+          {
+            "value": {
+              "chargedMinutes": 30,
+              "elapsedMinutes": 20,
+              "priceCents": 300,
+              "usedMinutes": 20
+            },
+            "variantId": "per-session-0"
+          },
+          {
+            "value": {
+              "chargedMinutes": 30,
+              "elapsedMinutes": 20,
+              "priceCents": 300,
+              "usedMinutes": 20
+            },
+            "variantId": "daily-total-1"
+          }
+        ]
+      },
+      {
+        "action": {
+          "kind": "rent",
+          "minutes": 40
+        },
+        "observations": [
+          {
+            "value": {
+              "chargedMinutes": 90,
+              "elapsedMinutes": 60,
+              "priceCents": 900,
+              "usedMinutes": 60
+            },
+            "variantId": "per-session-0"
+          },
+          {
+            "value": {
+              "chargedMinutes": 60,
+              "elapsedMinutes": 60,
+              "priceCents": 600,
+              "usedMinutes": 60
+            },
+            "variantId": "daily-total-1"
+          }
+        ]
+      }
+    ],
+    "stats": {
+      "states": 5,
+      "transitions": 6
+    },
+    "limits": {
+      "maxDepth": 4,
+      "maxStates": 2000,
+      "maxTransitions": 10000
+    },
+    "reason": "difference"
+  },
+  "elapsedMs": 1.7994170000000018
+}

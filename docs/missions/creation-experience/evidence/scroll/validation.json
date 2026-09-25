@@ -1,0 +1,67 @@
+{
+  "recordedAt": "2026-09-16T21:56:21.428807+00:00",
+  "baseCommit": "23b7a34399b1913f2d0b7aedd36d5dd45f1195f6",
+  "scope": "Conception workspaces, semantic Studio hierarchy, exact displayed evidence and guarded comparison",
+  "checks": [
+    {
+      "command": "npm test",
+      "passed": 606,
+      "failed": 0,
+      "status": "passed"
+    },
+    {
+      "command": "npm run lint",
+      "status": "passed"
+    },
+    {
+      "command": "npm run format:check",
+      "status": "passed"
+    },
+    {
+      "command": "npm run check:docs",
+      "status": "passed"
+    },
+    {
+      "command": "npm --cache /private/tmp/devmethod-pack-cache pack --dry-run --json",
+      "status": "passed"
+    }
+  ],
+  "filesSHA256": {
+    "dist/studio-ui/journey-widget.js": "234a8684a0cced3bbafad3503b26cbe3cde637c17898c3f0465f78b7af36d1d7",
+    "dist/studio-ui/layout.js": "4c2af821d286a5199dba524635aa7e1bd6a636c585e4d418aa5c0fda6a757315",
+    "scripts/studio/bundle.mjs": "52c95c5934bad089434c72324575c662b43ecd3dfe40ccf5bbea6e4003d48124",
+    "scripts/studio/preview.mjs": "b59781db24cfaaada12acad591ff809bd1172f6ff227aa7360266ebd9bdc1ba4",
+    "scripts/studio/public/app.js": "82cc8f4691666c62039577bc06195b5c0e310aceae68ebf9ce107d4dbd7bce34",
+    "scripts/studio/public/comparison-view.js": "259df16bfbb159bb59577c772f434dfb5e6215e6132bcdefe2b1139ef0602c23",
+    "scripts/studio/public/index.html": "3f27cbb3f0c318630f0df6ada35724bf77cbd2fbe03dd8d00fb6bd4cec209d09",
+    "scripts/studio/public/layout.css": "3d56dfa77db456c45d555d5b5538dce1a546b9eb32c3887957b820799bdd376a",
+    "scripts/studio/public/proposal-controller.js": "a439f81adafe24b07fd0986be1b751d9124057aadb6e7e486e364fe5b1e97c31",
+    "scripts/studio/public/style.css": "5cec2af45c08ecbbfe5917f6bfa5d34126c34dd594d01846e43d5a781e944e8c",
+    "scripts/studio/public/views.js": "1cc4ed1144350231391ac7fa5b57015dc624b9e5bb70f6214ee83bab4ce26f65",
+    "scripts/studio/source.mjs": "19eb146b3a9392d7ae35b734e4fcbd838467a5b7340161aab595616d5631590d",
+    "studio-ui/src/features/journey/components/DesignJourney.tsx": "ee5794de546ca406b688dd16b4466b2297852d1f7fef599bd401c624918bc409",
+    "studio-ui/src/features/journey/components/JourneyView.tsx": "ab5ff80f873de6560caf39dc3827eeb70eca106ec218a51821066d4ca8950e93",
+    "studio-ui/src/features/journey/model/contracts.ts": "6851385ad86516d6e0f934a572eb0d214242b81cf6a8e3ad834ed625cca3aa98",
+    "studio-ui/src/features/journey/model/journey.ts": "7fc497847fe2b279308623e774553954c197eb3d2481ad76ebca2f690842ae53",
+    "studio-ui/src/layout.ts": "a875d884afbadf50fab69107fb1f53e305beba488443da334e2f4109138a0e23",
+    "tests/studio-archive.test.mjs": "20e38348670dd809192e7f81991a0e087b6e987755f366569882ecd6d1bb72ab",
+    "tests/studio-comparison-preview.test.mjs": "87e6a8218a63c295665473afc1eac820d663665c21594dbe3110935b38b655d6",
+    "tests/studio-journey-ui.test.mjs": "d4375c9ce565f50f331b957b97e30f984f8f58bea89a41aae7b6333d17a3f39b",
+    "tests/studio-ui.test.mjs": "4eaa42b22df8d870818040e136a1c9525619b066acb739fc32c16d2548b47c51",
+    "scripts/studio/public/comparison-guard.js": "2d6ccdcb1ec8508d610c667cfbcfb6bc540ce6dcd64b5c464a43e616db659527",
+    "scripts/studio/public/version-presentation.js": "987f0c557dae7f03bc4f013e2e4315bafbc2d41f1badb156460348556e224686",
+    "studio-ui/src/features/journey/components/StageWorkspace.tsx": "8cafe376587c9e66b307a2e4ff7371b0c86b6ba9a41805e434cdcc944a0c60b7",
+    "studio-ui/src/features/journey/hooks/useJourneyNavigation.ts": "8a5df1b95460376c9a989abd4b5fb0fb550c201cfe69966fa84ce3bcc5040305",
+    "studio-ui/src/features/journey/model/navigation.ts": "d2878161053b99f11c048d947783e7bbc2aebbbb75a09ff0f1206add6f84ad0e",
+    "tests/studio-version-presentation.test.mjs": "ef45ae4bc5d00b17ebd1e335152cd4852d2afad1e5ddca591863abf54ed7cba3"
+  },
+  "limits": [
+    "Browser observations are agent checks, not human acceptance or independent comparative evaluation.",
+    "Contrast calculations cover declared UI pairs, not a full WCAG audit.",
+    "Host agent execution remains manual in the two live workspaces.",
+    "The comparison guard is not a general-purpose sandbox for arbitrary app code."
+  ],
+  "environmentNotes": [
+    "Le premier dry-run final a échoué EPERM dans ~/.npm/_cacache. Relancé avec un cache temporaire dédié, sans modifier les permissions du cache utilisateur."
+  ]
+}
