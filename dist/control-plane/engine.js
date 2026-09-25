@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { refreshGraph } from './graph.js';
-import { assessRisk, decideAutonomy, evidenceSupports, policy, riskOrder } from './policy.js';
+import { assessRisk, decideAutonomy, evidenceSupports, policyFor, riskOrder } from './policy.js';
 export function fingerprint(value) {
     return createHash('sha256').update(JSON.stringify(value)).digest('hex');
 }
@@ -12,6 +12,7 @@ export function contextKey(input) {
         input.dependencies,
         input.stopSignature,
         input.signals,
+        ...(input.policyId ? [input.policyId] : []),
     ]);
 }
 function attentionSignals(snapshot) {
@@ -77,6 +78,7 @@ function updateAttention(snapshot, previous, interventions) {
     return items.sort((a, b) => riskOrder[b.severity] - riskOrder[a.severity] || a.at.localeCompare(b.at));
 }
 export function evaluateControl(input, previous) {
+    const policy = policyFor(input.policyId);
     const key = contextKey(input);
     const interventions = previous?.interventions ?? [];
     const matching = interventions.filter((entry) => entry.contextKey === key);
@@ -177,6 +179,7 @@ export function evaluateControl(input, previous) {
     const changed = snapshot.key !== previous?.snapshot.key;
     return {
         schemaVersion: 1,
+        ...(previous?.analyses ? { analyses: previous.analyses } : {}),
         policy,
         snapshot: changed ? snapshot : previous.snapshot,
         attention: updateAttention(snapshot, previous, interventions),

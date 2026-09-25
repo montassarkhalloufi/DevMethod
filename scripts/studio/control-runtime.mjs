@@ -17,6 +17,8 @@ export function runnerStop(store, sourceIssues) {
         .jobs.filter((job) => job.status === 'running')
         .map((job) => job.id),
     );
+    for (const run of store.read().controlPlane?.analyses ?? [])
+      if (run.status === 'running') live.add(run.id);
     return ledger.unknownUsage ||
       ledger.runs.some((run) => run.status === 'running' && !live.has(run.jobId))
       ? digest(JSON.stringify(ledger))

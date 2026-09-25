@@ -8,7 +8,7 @@ import type {
   RiskSignal,
 } from './contracts.js';
 import { refreshGraph } from './graph.js';
-import { assessRisk, decideAutonomy, evidenceSupports, policy, riskOrder } from './policy.js';
+import { assessRisk, decideAutonomy, evidenceSupports, policyFor, riskOrder } from './policy.js';
 
 export function fingerprint(value: unknown): string {
   return createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -22,6 +22,7 @@ export function contextKey(input: ControlInput): string {
     input.dependencies,
     input.stopSignature,
     input.signals,
+    ...(input.policyId ? [input.policyId] : []),
   ]);
 }
 
@@ -99,6 +100,7 @@ export function evaluateControl(
   input: ControlInput,
   previous?: ControlPlaneState,
 ): ControlPlaneState {
+  const policy = policyFor(input.policyId);
   const key = contextKey(input);
   const interventions = previous?.interventions ?? [];
   const matching = interventions.filter((entry) => entry.contextKey === key);
@@ -207,6 +209,7 @@ export function evaluateControl(
   const changed = snapshot.key !== previous?.snapshot.key;
   return {
     schemaVersion: 1,
+    ...(previous?.analyses ? { analyses: previous.analyses } : {}),
     policy,
     snapshot: changed ? snapshot : previous.snapshot,
     attention: updateAttention(snapshot, previous, interventions),

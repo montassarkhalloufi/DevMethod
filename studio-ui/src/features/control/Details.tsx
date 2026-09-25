@@ -1,7 +1,19 @@
 import { modeLabels, riskLabels, type ControlReport } from './model';
 import { Icon } from './Icon';
+import { RiskAnalysis } from './RiskAnalysis';
+import type { SourceLink } from '../../../../src/control-plane/contracts';
 
-export function Risks({ report }: { report: ControlReport }) {
+export function Risks({
+  report,
+  busy,
+  mutate,
+  open,
+}: {
+  report: ControlReport;
+  busy: boolean;
+  mutate: (action: string, input: object) => Promise<void>;
+  open: (link: SourceLink) => void;
+}) {
   const { risk, nodes } = report.snapshot;
   return (
     <>
@@ -9,6 +21,9 @@ export function Risks({ report }: { report: ControlReport }) {
         <h1>Analyse des risques</h1>
         <p>Les signaux qui contribuent à la décision, avec leurs preuves et leurs limites.</p>
       </header>
+      {report.hybrid && (
+        <RiskAnalysis report={report.hybrid} busy={busy} mutate={mutate} open={open} />
+      )}
       <div className="cp-explanation">
         <Icon name="risk" />
         <div>
@@ -151,6 +166,21 @@ export function History({ report }: { report: ControlReport }) {
         <p>Décisions conservées avec leur contexte et leur politique.</p>
       </header>
       <div className="cp-history">
+        {report.analyses?.map((run) => (
+          <details className="cp-detail-card" key={run.id}>
+            <summary>
+              Analyse contextuelle · {run.status} · {run.revisionId}
+            </summary>
+            <p>{run.output?.summary ?? run.error ?? 'En cours'}</p>
+            <p>
+              {run.provider} · {new Date(run.startedAt).toLocaleString('fr-FR')}
+            </p>
+            <p>
+              Contexte : {run.contextKey.slice(0, 16)} · Les résultats historiques ne s’appliquent
+              pas automatiquement à une nouvelle version.
+            </p>
+          </details>
+        ))}
         {[...report.history].reverse().map((entry, index) => (
           <details className="cp-detail-card" key={`${entry.key}:${index}`}>
             <summary>

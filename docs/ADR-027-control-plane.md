@@ -3,6 +3,10 @@
 Date : 2026-09-25. Statut : accepté sous la délégation explicite de la mission Control Plane.
 Complète les ADR 012, 016, 017, 018 (analyse projet), 019, 020, 024 et 026.
 
+Évolution décidée le 25 septembre 2026 : l’[ADR 028](ADR-028-hybrid-risk-analysis.md)
+définit l’analyse de risque hybride. Sa décision est acceptée ; son implémentation et
+son évaluation restent distinctes de la livraison v1 décrite ici.
+
 ## Décision
 
 Ajouter un domaine TypeScript pur (graphe, risque, attention, autonomie) et un adaptateur

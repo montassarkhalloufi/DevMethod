@@ -113,14 +113,20 @@ function collectInput(store, intelligence, quality, broker, runtimeObservation, 
   };
 }
 
-export async function createControlPlane({ store, editor, broker }) {
-  const modules = await Promise.allSettled([import('./quality.mjs'), import('./intelligence.mjs')]);
+export async function createControlPlane({ store, editor, broker, agent }) {
+  const modules = await Promise.allSettled([
+    import('./quality.mjs'),
+    import('./intelligence.mjs'),
+    import('./risk-service.mjs'),
+  ]);
   const quality = modules[0].status === 'fulfilled' ? modules[0].value : null;
   const intelligence =
     modules[1].status === 'fulfilled'
       ? modules[1].value.createProjectIntelligence({ store, editor })
       : null;
   let runtimeObservation;
+  const riskModule = modules[2].status === 'fulfilled' ? modules[2].value : null;
+  const riskService = riskModule?.createRiskService({ store, agent });
 
   function read(revisionId) {
     const input = collectInput(
@@ -131,6 +137,16 @@ export async function createControlPlane({ store, editor, broker }) {
       runtimeObservation,
       revisionId,
     );
+    let hybrid;
+    if (input.revisionId) {
+      try {
+        hybrid = riskService.read(input.revisionId).report;
+        riskModule.applyRiskProfile(input, hybrid);
+        input.edges = graphEdges(input.nodes);
+      } catch {
+        input.sourceIssues.push('Analyse de changement indisponible ; aucune couverture déduite.');
+      }
+    }
     const previous = store.read();
     const plane = evaluateControl(input, previous.controlPlane);
     const next =
@@ -141,6 +157,7 @@ export async function createControlPlane({ store, editor, broker }) {
           });
     return {
       ...next.controlPlane,
+      ...(hybrid ? { hybrid } : {}),
       version: next.version,
       revisions: next.revisions.map(({ id, title }) => ({ id, title })),
       continuation: controlContinuation(next),
@@ -160,6 +177,20 @@ export async function createControlPlane({ store, editor, broker }) {
 
   return {
     read,
+    analyze(input) {
+      read(input.revisionId);
+      if (!riskService) reject('Analyse contextuelle indisponible : dépendances manquantes.', 503);
+      riskService.start(input);
+      return read(input.revisionId);
+    },
+    cancelAnalysis(input) {
+      if (!riskService) reject('Analyse contextuelle indisponible.', 503);
+      riskService.cancel(input.id);
+      return read();
+    },
+    async close() {
+      await riskService?.close();
+    },
     continue(input) {
       const report = read(store.read().controlPlane?.snapshot.input.revisionId);
       if (report.version !== input.version || report.snapshot.key !== input.snapshotKey)

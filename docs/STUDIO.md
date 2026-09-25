@@ -454,3 +454,15 @@ l’application. Cette distinction concerne les usages et les identités, pas un
 selon laquelle tout MCP serait nécessairement global. Les connexions du créateur ne
 deviennent pas celles des utilisateurs finaux de l’application. Voir
 [les contrats et limites](STUDIO-CONNECTORS.md) et [la décision](ADR-024-workspace-mcp.md).
+
+## Analyse de risque hybride
+
+Dans **Contrôle → Analyse des risques**, le Studio compare le contenu des versions : présentation, interactions, réseau, écritures concurrentes, autorisations et logique. Le profil est une analyse syntaxique bornée, pas une preuve de défaut. Une modification de présentation n’exige pas automatiquement un test de concurrence. Une écriture asynchrone peut au contraire rendre ce test obligatoire.
+
+**Analyser le changement avec l’IA** demande une analyse explicite au runner Codex déjà connecté. Le contexte comprend les sources avant/après, les critères et décisions ; les fichiers omis sont annoncés. Aucun appel n’est lancé par le rafraîchissement du panneau. Cette entrée utilise un dossier séparé en lecture seule, sans outils du projet, et partage le budget de demandes, durée et jetons du runner. Sans runner configuré, l’indisponibilité reste visible ; un périmètre nécessitant l’analyse reste au minimum Verify. Le lancement direct avec `--agent codex` est décrit ci-dessus.
+
+Le résultat expose les références, conséquences possibles, invariants, scénarios et incertitudes. Ce sont des hypothèses. Les scénarios ajoutés sont liés aux tickets des vérifications externes ; une ancienne preuve sur la même version doit être renouvelée si son périmètre ne les couvre pas. Une acceptation humaine n’invente jamais un test réussi. Les changements possibles d’autorisation suscitent une décision humaine en plus du contrôle requis.
+
+Une analyse est admise par contexte exact. Une double demande réutilise l’état existant. Un résultat tardif reste historique quand les sources ou critères ont changé. Une interruption ne déclenche pas de nouvel essai automatique ; une consommation inconnue suspend le runner. Le journal conserve au maximum 100 analyses, sans effacement silencieux. Désactiver le runner conserve les constats déjà enregistrés.
+
+Le modèle exact par défaut n’est pas exposé dans le flux JSON du CLI observé ; le panneau l’indique comme défaut du CLI, sans inventer d’identifiant. L’essai natif est limité à macOS et au CLI 0.153.4 ; les tests de plateforme ne sont pas des essais fournisseur. Les résultats, limites et captures sont dans la [mission d’analyse hybride](missions/hybrid-risk/RESULTS.md) et la décision dans [ADR 028](ADR-028-hybrid-risk-analysis.md).
