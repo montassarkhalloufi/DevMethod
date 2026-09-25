@@ -50,6 +50,7 @@ function qualityNode(context, state, row) {
   const local = row.execution === 'studio' && revision;
   const dependencies = local ? checkDependencies(revision, row.id) : {};
   if (proof?.businessCriteria) dependencies.criteria = proof.businessCriteria.fingerprint;
+  if (proof?.riskRequirement) dependencies[`risk:${row.id}`] = proof.riskRequirement.fingerprint;
   return evidenceNode(context, {
     id: `check:${row.id}`,
     kind: /visual|browser/.test(row.id) ? 'visual' : 'check',

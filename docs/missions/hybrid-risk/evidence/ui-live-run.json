@@ -1,0 +1,92 @@
+{
+  "source": "Real browser click against isolated fictional workspace",
+  "policy": "control-plane-v2",
+  "analysis": {
+    "id": "risk-3995eda4-0eb5-4b69-a490-34083208aeb3",
+    "contextKey": "af1fe8e602b7c327d616ad628a3a20ad46b6c9c8424bc06a262bbbf404515e83",
+    "revisionId": "1af94d0b-bb66-4fab-b991-b55a055931cf",
+    "status": "completed",
+    "startedAt": "2026-09-25T11:39:26.495Z",
+    "provider": "Codex CLI · modèle par défaut · hybrid-risk-1 · lecture seule",
+    "finishedAt": "2026-09-25T11:39:49.670Z",
+    "usage": {
+      "inputTokens": 10602,
+      "outputTokens": 656,
+      "cachedInputTokens": 0,
+      "costUSD": null
+    },
+    "output": {
+      "summary": "Trois risques plausibles concernent la réservation : dépassement de capacité, écriture partielle et doublons lors d’une répétition. Aucun échec n’est observé.",
+      "findings": [
+        {
+          "category": "concurrency",
+          "path": "booking.js",
+          "side": "after",
+          "line": 5,
+          "reason": "La capacité est réécrite à partir d’une lecture antérieure. Deux appels peuvent lire 1, insérer chacun une réservation puis écrire tous deux 0, permettant deux réservations pour une seule place.",
+          "invariant": "Le nombre de réservations ne doit pas dépasser le nombre de places disponibles.",
+          "scenario": "Avec une capacité initiale de 1, faire terminer les deux lectures concurrentes avant les insertions ; vérifier qu’une seule réservation est persistée.",
+          "uncertainty": "L’implémentation de db est absente : verrouillage, transaction avec isolation adaptée ou contrainte peuvent empêcher ce scénario."
+        },
+        {
+          "category": "logic",
+          "path": "booking.js",
+          "side": "after",
+          "line": 4,
+          "reason": "L’insertion précède la diminution de capacité. Si cette dernière échoue après une insertion persistée, une réservation existe sans consommation de place, ce qui peut permettre une réservation supplémentaire.",
+          "invariant": "La création d’une réservation et la consommation de sa place doivent être atomiques.",
+          "scenario": "Provoquer un échec de la mise à jour de capacité après l’insertion ; vérifier que la réservation est annulée ou que les deux écritures sont finalement cohérentes.",
+          "uncertainty": "Aucune transaction ni compensation n’est visible ; une protection interne à db reste possible."
+        },
+        {
+          "category": "logic",
+          "path": "booking.js",
+          "side": "after",
+          "line": 4,
+          "reason": "Chaque appel disposant de capacité atteint l’insertion, sans identification visible d’une demande déjà traitée. Une répétition peut créer un doublon et consommer une seconde place, même sans concurrence.",
+          "invariant": "Répéter une même demande ne doit pas créer de réservation supplémentaire.",
+          "scenario": "Avec deux places disponibles, répéter séquentiellement la même demande après un premier succès ; vérifier qu’une seule réservation existe et qu’une seule place a été consommée.",
+          "uncertainty": "Les consommateurs et le contrat de db.insertBooking sont absents ; une clé d’idempotence ou une contrainte unique interne peut protéger l’insertion."
+        }
+      ],
+      "limits": [
+        "before est vide : aucune comparaison avec un comportement antérieur n’est possible.",
+        "Aucun consommateur, schéma de stockage, contrat de db ou mécanisme d’autorisation n’est fourni.",
+        "Le fragment HTML ne fournit ni CSS ni interaction permettant d’établir un risque visuel précis.",
+        "Analyse limitée au code transmis, sans outil ni test exécuté."
+      ]
+    }
+  },
+  "decision": "Verify",
+  "evidence": {
+    "current": 0,
+    "required": 8,
+    "missing": 8
+  },
+  "requiredChecks": [
+    "source-syntax",
+    "relative-imports",
+    "unit-tests",
+    "end-to-end",
+    "visual-comparison",
+    "secret-markers",
+    "concurrency",
+    "business-journey"
+  ],
+  "viewports": [
+    {
+      "width": 1586,
+      "height": 992
+    },
+    {
+      "width": 791,
+      "height": 1011,
+      "pageWidth": 791
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "pageWidth": 390
+    }
+  ]
+}

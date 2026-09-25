@@ -1,0 +1,89 @@
+{
+  "context": {
+    "protocol": "hybrid-risk-1",
+    "revisionId": "fixture-defective",
+    "baseRevisionId": "fixture-base",
+    "criteria": [
+      {
+        "id": "capacity",
+        "text": "La capacité restante ne doit jamais être négative. Une réservation ne doit pas être dupliquée."
+      }
+    ],
+    "before": [],
+    "after": [
+      {
+        "path": "booking.ts",
+        "content": "async function book() {\n  const remaining = await db.capacity();\n  if (remaining > 0) {\n    await db.insertBooking();\n    await db.setCapacity(remaining - 1);\n  }\n}"
+      }
+    ],
+    "changedFiles": [
+      "booking.ts"
+    ],
+    "limits": []
+  },
+  "result": {
+    "ok": true,
+    "result": {
+      "summary": "Le changement présente des risques plausibles de concurrence, de mise à jour partielle et de doublons. Aucun échec n’est observé ; les protections internes de db ne sont pas fournies.",
+      "findings": [
+        {
+          "category": "concurrency",
+          "path": "booking.ts",
+          "side": "after",
+          "line": 5,
+          "reason": "Deux appels peuvent lire une capacité de 1, insérer chacun une réservation puis écrire chacun 0. La capacité reste non négative, mais deux réservations consomment une seule place.",
+          "invariant": "Chaque réservation doit consommer une place disponible, sans dépassement de la capacité réelle.",
+          "scenario": "Avec une place restante, synchroniser deux appels pour que leurs lectures précèdent les insertions ; vérifier qu’une seule réservation est acceptée.",
+          "uncertainty": "Une transaction avec isolation adaptée, un verrou ou une contrainte interne pourrait empêcher ce scénario ; aucune protection de ce type n’est visible."
+        },
+        {
+          "category": "logic",
+          "path": "booking.ts",
+          "side": "after",
+          "line": 4,
+          "reason": "Si l’insertion réussit puis que la mise à jour de capacité échoue, une réservation pourrait persister sans diminution de la capacité, permettant une réservation supplémentaire indue.",
+          "invariant": "La création de réservation et la consommation de capacité doivent être atomiques.",
+          "scenario": "Provoquer un échec de setCapacity après une insertion réussie ; vérifier que la réservation est annulée ou que la capacité reste cohérente.",
+          "uncertainty": "Les frontières transactionnelles et les mécanismes de compensation de db ne sont pas fournis."
+        },
+        {
+          "category": "logic",
+          "path": "booking.ts",
+          "side": "after",
+          "line": 4,
+          "reason": "Chaque appel disposant de capacité déclenche une insertion, sans identification ni déduplication visible de la demande. Une répétition pourrait créer deux réservations pour une même intention.",
+          "invariant": "Une même demande de réservation ne doit pas produire de doublon.",
+          "scenario": "Avec au moins deux places, soumettre deux fois la même demande, notamment après une réponse perdue ; vérifier qu’une seule réservation persiste et qu’une seule place est consommée.",
+          "uncertainty": "Une clé d’idempotence ou une contrainte unique peut exister dans db ; le modèle de réservation et les consommateurs ne sont pas fournis."
+        }
+      ],
+      "limits": [
+        "Aucun code before ni consommateur n’est fourni : la comparaison et l’analyse des appels sont limitées.",
+        "Les garanties de db, le schéma de données et la gestion des erreurs sont inconnus.",
+        "Aucun élément transmis ne permet d’évaluer précisément les autorisations, l’ordre des réponses côté interface ou les interactions CSS.",
+        "Aucun outil utilisé ni test exécuté."
+      ]
+    },
+    "error": "Sortie agent incomplète.",
+    "usage": {
+      "inputTokens": 10270,
+      "outputTokens": 549,
+      "cachedInputTokens": 0,
+      "costUSD": null
+    }
+  },
+  "elapsedMs": 22876,
+  "status": {
+    "kind": "codex-cli",
+    "automatic": false,
+    "connected": true,
+    "running": false,
+    "message": "Nombre maximal de demandes atteint : aucun nouvel appel automatique.",
+    "attempts": 1,
+    "maxJobs": 1,
+    "knownTokens": 10819,
+    "usageUnknown": false,
+    "costUSD": null,
+    "timeoutMs": 90000
+  }
+}

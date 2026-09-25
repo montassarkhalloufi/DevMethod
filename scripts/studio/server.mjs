@@ -465,7 +465,12 @@ export async function startStudio({
   context.control = () => {
     controlPromise ??= import('./control-plane.mjs')
       .then(async ({ createControlPlane }) => {
-        controlInstance = await createControlPlane({ store, editor, broker: mcpBroker });
+        controlInstance = await createControlPlane({
+          store,
+          editor,
+          broker: mcpBroker,
+          agent: () => runner,
+        });
         return controlInstance;
       })
       .catch((error) => {
@@ -554,6 +559,7 @@ export async function startStudio({
     async close() {
       mcpBroker.close();
       await runner?.close();
+      await controlInstance?.close();
       await Promise.all([server, preview, editorPreview, comparisonPreview].map(closeServer));
       fs.rmSync(safeFile(store.root, '.devmethod/runtime.json'), { force: true });
       store.close();

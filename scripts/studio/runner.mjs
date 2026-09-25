@@ -1,4 +1,6 @@
 import fs from 'node:fs';
+import os from 'node:os';
+import { riskCommand, riskOutputSchema } from './risk-model.mjs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { verifySyntax } from './verify.mjs';
@@ -63,22 +65,27 @@ export function runProcess({
   onEvent,
   signal,
   executable = 'codex',
+  inspection = false,
 }) {
   const resultFile = path.join(directory, 'result.json'),
     schemaFile = path.join(directory, 'output-schema.json');
-  fs.writeFileSync(schemaFile, JSON.stringify(outputSchema));
+  fs.writeFileSync(schemaFile, JSON.stringify(inspection ? riskOutputSchema : outputSchema));
   return new Promise((resolve) => {
     const events = [];
     let bytes = 0,
       reason,
       spawnError,
       streamFailed = false;
-    const child = spawn(executable, codexCommand(directory, resultFile, schemaFile), {
-      cwd: directory,
-      env: codexEnvironment(),
-      detached: process.platform !== 'win32',
-      stdio: ['pipe', 'pipe', 'pipe'],
-    });
+    const child = spawn(
+      executable,
+      (inspection ? riskCommand : codexCommand)(directory, resultFile, schemaFile),
+      {
+        cwd: directory,
+        env: codexEnvironment(),
+        detached: process.platform !== 'win32',
+        stdio: ['pipe', 'pipe', 'pipe'],
+      },
+    );
     const stop = (why) => {
       reason ??= why;
       try {
@@ -92,6 +99,12 @@ export function runProcess({
     signal.addEventListener('abort', abort, { once: true });
     const decode = jsonLines((event) => {
       events.push(event);
+      if (
+        inspection &&
+        event.item?.type &&
+        !['agent_message', 'reasoning', 'error'].includes(event.item.type)
+      )
+        stop(`Outil inattendu dans une analyse isolée : ${event.item.type}.`);
       if (['error', 'turn.failed'].includes(event.type)) streamFailed = true;
       try {
         onEvent(event);
@@ -213,6 +226,7 @@ export function createAgentRunner({ store, jobs, options, execute = runProcess }
   let running = null,
     controller,
     closed = false,
+    inspectionId = null,
     message = 'Prêt à traiter une demande locale.';
   const allowed = () =>
     !closed && !ledger.unknownUsage && ledger.attempts < maxJobs && ledger.knownTokens < maxTokens;
@@ -240,6 +254,12 @@ export function createAgentRunner({ store, jobs, options, execute = runProcess }
   }
 
   function receipt(job, result) {
+    if (
+      !['inputTokens', 'outputTokens'].every(
+        (key) => Number.isSafeInteger(result.usage?.[key]) && result.usage[key] >= 0,
+      )
+    )
+      result.usage = null;
     const tokens = result.usage ? result.usage.inputTokens + result.usage.outputTokens : null;
     ledger.knownTokens += tokens ?? 0;
     ledger.unknownUsage ||= tokens === null;
@@ -331,9 +351,53 @@ export function createAgentRunner({ store, jobs, options, execute = runProcess }
     }
   }
 
+  function inspect({ id, prompt }) {
+    if (running || !allowed() || store.read().jobs.some((job) => job.status === 'running'))
+      throw Object.assign(new Error('Runner occupé ou budget indisponible pour l’analyse.'), {
+        status: 409,
+      });
+    ledger.attempts++;
+    ledger.runs.push({ jobId: id, status: 'running', startedAt: new Date().toISOString() });
+    atomicJSON(ledgerFile, ledger);
+    controller = new AbortController();
+    inspectionId = id;
+    running = (async () => {
+      let directory, result;
+      try {
+        directory = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'devmethod-risk-'));
+        result = await execute({
+          directory,
+          prompt,
+          timeoutMs,
+          signal: controller.signal,
+          onEvent: () => {},
+          executable: options.executable,
+          inspection: true,
+        });
+        return result;
+      } catch {
+        result = {
+          ok: false,
+          error: 'Analyse interrompue ou fournisseur indisponible.',
+          usage: null,
+        };
+        return result;
+      } finally {
+        receipt({ id }, result);
+        if (directory) fs.rmSync(directory, { recursive: true, force: true });
+      }
+    })().finally(() => {
+      running = null;
+      inspectionId = null;
+      wake();
+    });
+    return running;
+  }
+
   function wake() {
     if (running) {
-      if (!store.read().jobs.some((j) => j.status === 'running')) controller?.abort();
+      if (!inspectionId && !store.read().jobs.some((j) => j.status === 'running'))
+        controller?.abort();
       return;
     }
     if (!allowed()) return;
@@ -360,6 +424,10 @@ export function createAgentRunner({ store, jobs, options, execute = runProcess }
   return {
     status,
     wake,
+    inspect,
+    cancelInspection(id) {
+      if (id === inspectionId) controller?.abort();
+    },
     async close() {
       closed = true;
       controller?.abort();

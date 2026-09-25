@@ -31,6 +31,8 @@ export async function controlRoute(url, request, response, { control, worker, ru
   const input = await body(request, 8192);
   const plane = await control();
   const actions = {
+    '/api/control/analyze': { keys: ['revisionId', 'contextKey'], run: () => plane.analyze(input) },
+    '/api/control/cancel-analysis': { keys: ['id'], run: () => plane.cancelAnalysis(input) },
     '/api/control/continue': { keys: ['version', 'snapshotKey'], run: () => plane.continue(input) },
     '/api/control/read': { keys: ['version', 'snapshotKey'], run: () => plane.markRead(input) },
     '/api/control/decide': {

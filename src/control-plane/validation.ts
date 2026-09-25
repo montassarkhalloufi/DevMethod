@@ -1,5 +1,6 @@
 import type { ControlPlaneState } from './contracts.js';
-import { policy } from './policy.js';
+import { policy, hybridPolicy } from './policy.js';
+import { validateRiskRuns, validateRiskRunTransition } from './hybrid-validation.js';
 
 function requireValue(value: unknown, message: string): asserts value {
   if (!value) throw new Error(`Control Plane : ${message}`);
@@ -42,7 +43,9 @@ function validateSnapshot(value: unknown) {
     'décision invalide.',
   );
   requireValue(
-    value.decision.policyId === policy.id && value.risk.policyId === policy.id,
+    [policy.id, hybridPolicy.id].includes(value.decision.policyId as typeof policy.id) &&
+      value.risk.policyId === value.decision.policyId &&
+      (value.input.policyId ?? policy.id) === value.decision.policyId,
     'politique inconnue.',
   );
   list(value.nodes, 5000);
@@ -84,10 +87,14 @@ function validateSnapshot(value: unknown) {
 export function validateControlPlane(value: unknown): asserts value is ControlPlaneState {
   record(value);
   requireValue(
-    value.schemaVersion === 1 && JSON.stringify(value.policy) === JSON.stringify(policy),
+    value.schemaVersion === 1 &&
+      [policy, hybridPolicy].some(
+        (entry) => JSON.stringify(value.policy) === JSON.stringify(entry),
+      ),
     'format ou politique inconnus ; aucun remplacement automatique.',
   );
   validateSnapshot(value.snapshot);
+  if (value.analyses !== undefined) validateRiskRuns(value.analyses);
   list(value.history, 250);
   list(value.transitions, 2000);
   list(value.attention, 2000);
@@ -124,6 +131,7 @@ export function validateControlTransition(
 ) {
   if (!previous) return;
   requireValue(next, 'le journal ne peut pas être supprimé.');
+  validateRiskRunTransition(previous.analyses, next.analyses);
   for (const key of ['history', 'interventions', 'transitions'] as const) {
     requireValue(next[key].length >= previous[key].length, 'le passé ne peut pas être supprimé.');
     previous[key].forEach((entry, index) =>

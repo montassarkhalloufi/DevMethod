@@ -1,3 +1,4 @@
+import type { HybridRiskReport, RiskAnalysisRun } from './hybrid-contracts.js';
 export type RequestedMode = 'guided' | 'devauto' | 'delegated';
 export type ExecutionDecision = 'Auto-Continue' | 'Verify' | 'Human Decision' | 'Bounded Stop';
 export type RiskLevel = 'low' | 'medium' | 'high' | 'critical';
@@ -73,8 +74,8 @@ export interface RiskSignal {
   humanResolvable: boolean;
 }
 export interface PolicyVersion {
-  id: 'control-plane-v1';
-  version: 1;
+  id: 'control-plane-v1' | 'control-plane-v2';
+  version: 1 | 2;
   title: string;
   rules: string[];
   calibration: 'disabled';
@@ -88,6 +89,8 @@ export interface EvaluatedAction {
   reserved: boolean;
 }
 export interface ControlInput {
+  policyId?: PolicyVersion['id'];
+  riskRequirements?: Record<string, { fingerprint: string; scenarios: string[] }>;
   projectId: string;
   missionId: string | null;
   revisionId: string | null;
@@ -161,6 +164,7 @@ export interface ControlTransition {
   interventionId?: string;
 }
 export interface ControlPlaneState {
+  analyses?: RiskAnalysisRun[];
   schemaVersion: 1;
   policy: PolicyVersion;
   snapshot: ControlSnapshot;
@@ -170,6 +174,7 @@ export interface ControlPlaneState {
   transitions: ControlTransition[];
 }
 export interface ControlReport extends ControlPlaneState {
+  hybrid?: HybridRiskReport;
   continuation?: { available: boolean; reason: string };
   version: number;
   revisions: { id: string; title: string }[];

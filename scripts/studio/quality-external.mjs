@@ -145,6 +145,7 @@ export function storeExternalQualityResult(store, input) {
     revisionId: ticket.revisionId,
     fingerprint: ticket.fingerprint,
     ...(ticket.businessCriteria ? { businessCriteria: ticket.businessCriteria } : {}),
+    ...(ticket.riskRequirement ? { riskRequirement: ticket.riskRequirement } : {}),
     status: result.status,
     tool: result.tool.name,
     toolVersion: result.tool.version,

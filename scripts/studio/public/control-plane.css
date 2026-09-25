@@ -1558,3 +1558,33 @@ body[data-active-panel='control'] .workspace-expanded .cp-graph-detailed .cp-ins
     padding-top: 52px;
   }
 }
+
+.cp-risk-analysis > h3 {
+  margin-top: 1.4rem;
+  margin-bottom: 0.7rem;
+}
+.cp-risk-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0;
+  list-style: none;
+}
+.cp-risk-findings {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+.cp-risk-findings > li {
+  border: 1px solid var(--cp-line);
+  border-left: 3px solid #9d73ed;
+  border-radius: 0.6rem;
+  padding: 1rem;
+  overflow-wrap: anywhere;
+}
+.cp-risk-analysis button {
+  white-space: normal;
+  text-align: left;
+  overflow-wrap: anywhere;
+}

@@ -909,6 +909,13 @@ export function recordCheck(state, input) {
 }
 export function interruptRunningJobs(state) {
   let count = 0;
+  for (const run of state.controlPlane?.analyses ?? []) {
+    if (run.status !== 'running') continue;
+    run.status = 'interrupted';
+    run.finishedAt = now();
+    run.error = 'Serveur redémarré ; aucun nouvel essai automatique.';
+    count++;
+  }
   for (const job of state.jobs) {
     if (job.status !== 'running') continue;
     job.status = 'interrupted';

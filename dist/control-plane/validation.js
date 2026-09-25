@@ -1,4 +1,5 @@
-import { policy } from './policy.js';
+import { policy, hybridPolicy } from './policy.js';
+import { validateRiskRuns, validateRiskRunTransition } from './hybrid-validation.js';
 function requireValue(value, message) {
     if (!value)
         throw new Error(`Control Plane : ${message}`);
@@ -25,7 +26,9 @@ function validateSnapshot(value) {
     record(value.risk);
     record(value.evidence);
     requireValue(['Auto-Continue', 'Verify', 'Human Decision', 'Bounded Stop'].includes(String(value.decision.effective)), 'décision invalide.');
-    requireValue(value.decision.policyId === policy.id && value.risk.policyId === policy.id, 'politique inconnue.');
+    requireValue([policy.id, hybridPolicy.id].includes(value.decision.policyId) &&
+        value.risk.policyId === value.decision.policyId &&
+        (value.input.policyId ?? policy.id) === value.decision.policyId, 'politique inconnue.');
     list(value.nodes, 5000);
     list(value.edges, 20000);
     for (const node of value.nodes) {
@@ -51,8 +54,11 @@ function validateSnapshot(value) {
 }
 export function validateControlPlane(value) {
     record(value);
-    requireValue(value.schemaVersion === 1 && JSON.stringify(value.policy) === JSON.stringify(policy), 'format ou politique inconnus ; aucun remplacement automatique.');
+    requireValue(value.schemaVersion === 1 &&
+        [policy, hybridPolicy].some((entry) => JSON.stringify(value.policy) === JSON.stringify(entry)), 'format ou politique inconnus ; aucun remplacement automatique.');
     validateSnapshot(value.snapshot);
+    if (value.analyses !== undefined)
+        validateRiskRuns(value.analyses);
     list(value.history, 250);
     list(value.transitions, 2000);
     list(value.attention, 2000);
@@ -80,6 +86,7 @@ export function validateControlTransition(previous, next) {
     if (!previous)
         return;
     requireValue(next, 'le journal ne peut pas être supprimé.');
+    validateRiskRunTransition(previous.analyses, next.analyses);
     for (const key of ['history', 'interventions', 'transitions']) {
         requireValue(next[key].length >= previous[key].length, 'le passé ne peut pas être supprimé.');
         previous[key].forEach((entry, index) => requireValue(JSON.stringify(entry) === JSON.stringify(next[key][index]), 'le passé ne peut pas être réécrit.'));

@@ -6,6 +6,7 @@ import { qualityAdapters } from './quality-adapters.mjs';
 import { qualitySnapshot, readQualityRuns, writeQualityRun } from './quality-storage.mjs';
 import { connectorOffers } from './connectors-catalog.mjs';
 import { storeExternalQualityResult } from './quality-external.mjs';
+import { captureRiskRequirement } from './risk-requirements.mjs';
 import { readProjectConnectors, connectorInterfaceFingerprint } from './connectors.mjs';
 import { businessCriteriaFingerprint } from './quality-criteria.mjs';
 
@@ -61,8 +62,8 @@ function runEvidence(run, snapshot, selectedId, active, connections, criteriaFin
   };
 }
 
-function catalogueRow(definition, capabilities, snapshot, evidence) {
-  const applicable = Boolean(capabilities[definition.scope]);
+function catalogueRow(definition, capabilities, snapshot, evidence, requirement) {
+  const applicable = Boolean(requirement || capabilities[definition.scope]);
   let status = applicable ? 'notrun' : 'notapplicable';
   let reason = applicable
     ? ''
@@ -149,9 +150,24 @@ export function readProjectQuality(store, revisionId, analysis) {
     }
   }
   const criteriaFingerprint = businessCriteriaFingerprint(state);
-  const normalized = runs.map((run) =>
-    runEvidence(run, snapshot, revision.id, active, connections, criteriaFingerprint),
-  );
+  const normalized = runs.map((run) => {
+    const evidence = runEvidence(
+      run,
+      snapshot,
+      revision.id,
+      active,
+      connections,
+      criteriaFingerprint,
+    );
+    const requirement = captureRiskRequirement(state, run.revisionId, run.checkId);
+    if (
+      requirement &&
+      run.riskRequirement?.fingerprint !== requirement.fingerprint &&
+      evidence.freshness === 'current'
+    )
+      evidence.freshness = 'reevaluate';
+    return evidence;
+  });
   const capabilities = projectCapabilities(revision, snapshot.sources);
   const checks = qualityCatalog.map((definition) =>
     catalogueRow(
@@ -159,6 +175,7 @@ export function readProjectQuality(store, revisionId, analysis) {
       capabilities,
       snapshot,
       normalized.find((run) => run.revisionId === revision.id && run.checkId === definition.id),
+      captureRiskRequirement(state, revision.id, definition.id),
     ),
   );
   const linked = new Set(runs.map((run) => run.linkedCheckId));

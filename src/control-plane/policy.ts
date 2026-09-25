@@ -22,6 +22,20 @@ export const policy: PolicyVersion = Object.freeze({
   ],
 });
 export const riskOrder: Record<RiskLevel, number> = { low: 0, medium: 1, high: 2, critical: 3 };
+export const hybridPolicy: PolicyVersion = Object.freeze({
+  ...policy,
+  id: 'control-plane-v2',
+  version: 2,
+  title: 'Politique hybride explicable · v2',
+  rules: [
+    ...policy.rules,
+    'Le contenu modifié et les hypothèses contextuelles ajoutent des preuves ciblées ; aucune hypothèse ne vaut réussite.',
+    'Une couverture incomplète reste Verify ; l’IA ne retire aucune exigence ni permission.',
+  ],
+});
+export function policyFor(id?: PolicyVersion['id']): PolicyVersion {
+  return id === hybridPolicy.id ? hybridPolicy : policy;
+}
 
 export function evidenceSupports(node: EvidenceNode): boolean {
   return node.status === 'observed' && node.freshness === 'current' && node.outcome === 'passed';
@@ -106,7 +120,7 @@ export function assessRisk(
   return {
     level,
     signals,
-    policyId: policy.id,
+    policyId: policyFor(input.policyId).id,
     evidenceIds: nodes.filter(evidenceSupports).map((node) => node.id),
     justification:
       effective.map((signal) => signal.reason).join(' ') ||
@@ -167,6 +181,6 @@ export function decideAutonomy(
     justification: conditions.join(' ') || risk.justification,
     conditions,
     allowedActions: actions[effective],
-    policyId: policy.id,
+    policyId: policyFor(input.policyId).id,
   };
 }

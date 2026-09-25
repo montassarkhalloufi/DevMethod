@@ -1473,21 +1473,179 @@ function L({ report: e, busy: t, mutate: n, run: r, open: a }) {
 	})] });
 }
 //#endregion
+//#region studio-ui/src/features/control/RiskAnalysis.tsx
+var R = {
+	visual: "Présentation",
+	interaction: "Interactions",
+	network: "Échanges réseau",
+	concurrency: "Concurrence et état partagé",
+	permissions: "Autorisations",
+	logic: "Logique"
+}, z = {
+	running: "Analyse en cours",
+	completed: "Analyse terminée",
+	failed: "Analyse échouée",
+	cancelled: "Analyse annulée",
+	interrupted: "Analyse interrompue"
+}, B = {
+	"visual-comparison": "Comparaison visuelle",
+	"end-to-end": "Parcours de bout en bout",
+	keyboard: "Clavier et focus",
+	"network-recovery": "Délais, erreurs et ordre des réponses",
+	concurrency: "Concurrence et idempotence",
+	authorization: "Autorisations et isolation",
+	"unit-tests": "Tests des invariants"
+};
+function V({ finding: e, report: t, open: n }) {
+	let r = e.side === "before" ? t.baseRevisionId : t.revisionId;
+	return /* @__PURE__ */ (0, y.jsxs)("li", { children: [
+		/* @__PURE__ */ (0, y.jsx)("strong", { children: R[e.category] }),
+		" — ",
+		e.reason,
+		/* @__PURE__ */ (0, y.jsx)("p", { children: /* @__PURE__ */ (0, y.jsxs)("button", {
+			onClick: () => n({
+				panel: "code",
+				path: e.path,
+				revisionId: r ?? void 0
+			}),
+			children: [
+				e.path,
+				":",
+				e.line,
+				" · ",
+				e.side === "before" ? "Avant" : "Après"
+			]
+		}) }),
+		"scenario" in e && /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
+			/* @__PURE__ */ (0, y.jsxs)("p", { children: [
+				/* @__PURE__ */ (0, y.jsx)("strong", { children: "À préserver :" }),
+				" ",
+				e.invariant
+			] }),
+			/* @__PURE__ */ (0, y.jsxs)("p", { children: [
+				/* @__PURE__ */ (0, y.jsx)("strong", { children: "À vérifier :" }),
+				" ",
+				e.scenario
+			] }),
+			/* @__PURE__ */ (0, y.jsxs)("p", { children: [
+				/* @__PURE__ */ (0, y.jsx)("strong", { children: "Incertitude :" }),
+				" ",
+				e.uncertainty
+			] })
+		] })
+	] });
+}
+function H({ report: e, busy: t, mutate: n, open: r }) {
+	let i = e.analysis;
+	return /* @__PURE__ */ (0, y.jsxs)("section", {
+		className: "cp-detail-card cp-risk-analysis",
+		"aria-label": "Analyse du changement",
+		children: [
+			/* @__PURE__ */ (0, y.jsx)("h2", { children: "Comprendre ce qui change" }),
+			/* @__PURE__ */ (0, y.jsxs)("p", { children: [
+				e.changedFiles.length,
+				" fichier(s) modifié(s) ·",
+				" ",
+				e.categories.map((e) => R[e]).join(" · ") || "Périmètre à examiner"
+			] }),
+			/* @__PURE__ */ (0, y.jsx)("p", { children: "Le contenu du changement détermine les vérifications. Une hypothèse IA peut en ajouter ; elle ne valide aucun test et n’accorde aucune permission." }),
+			/* @__PURE__ */ (0, y.jsx)("h3", { children: "Vérifications ciblées" }),
+			/* @__PURE__ */ (0, y.jsx)("ul", {
+				className: "cp-risk-checks",
+				children: e.checks.map((t) => /* @__PURE__ */ (0, y.jsx)("li", { children: /* @__PURE__ */ (0, y.jsx)("button", {
+					onClick: () => r({
+						panel: "checks",
+						checkId: t,
+						revisionId: e.revisionId
+					}),
+					children: B[t] ?? t
+				}) }, t))
+			}),
+			/* @__PURE__ */ (0, y.jsxs)("details", { children: [/* @__PURE__ */ (0, y.jsxs)("summary", { children: ["Constats de l’analyse syntaxique · ", e.findings.length] }), /* @__PURE__ */ (0, y.jsx)("ul", { children: e.findings.map((t, n) => /* @__PURE__ */ (0, y.jsx)(V, {
+				finding: t,
+				report: e,
+				open: r
+			}, n)) })] }),
+			/* @__PURE__ */ (0, y.jsx)("h3", { children: "Analyse contextuelle IA" }),
+			/* @__PURE__ */ (0, y.jsx)("p", {
+				role: "status",
+				children: i ? z[i.status] : "Pas encore exécutée sur ce contexte"
+			}),
+			!i && /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
+				/* @__PURE__ */ (0, y.jsx)("p", { children: "Transmet au modèle du runner local le code de cette version et de sa base, les critères et les décisions. Utilise le budget partagé du runner. Aucun accès aux outils du projet." }),
+				/* @__PURE__ */ (0, y.jsx)("button", {
+					className: "cp-primary",
+					disabled: t || !e.available,
+					onClick: () => void n("analyze", {
+						revisionId: e.revisionId,
+						contextKey: e.contextKey
+					}),
+					children: "Analyser le changement avec l’IA"
+				}),
+				!e.available && /* @__PURE__ */ (0, y.jsx)("p", { children: e.availability })
+			] }),
+			i?.status === "running" && /* @__PURE__ */ (0, y.jsx)("button", {
+				disabled: t,
+				onClick: () => void n("cancel-analysis", { id: i.id }),
+				children: "Annuler l’analyse"
+			}),
+			i?.error && /* @__PURE__ */ (0, y.jsx)("p", { children: i.error }),
+			i?.output && /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
+				/* @__PURE__ */ (0, y.jsx)("p", { children: i.output.summary }),
+				/* @__PURE__ */ (0, y.jsx)("p", {
+					className: "cp-note",
+					children: "Hypothèses inférées, à confronter aux vérifications réelles."
+				}),
+				/* @__PURE__ */ (0, y.jsx)("ul", {
+					className: "cp-risk-findings",
+					children: i.output.findings.map((t, n) => /* @__PURE__ */ (0, y.jsx)(V, {
+						finding: t,
+						report: e,
+						open: r
+					}, n))
+				}),
+				/* @__PURE__ */ (0, y.jsx)("ul", { children: i.output.limits.map((e, t) => /* @__PURE__ */ (0, y.jsx)("li", { children: e }, t)) })
+			] }),
+			i && /* @__PURE__ */ (0, y.jsxs)("p", {
+				className: "cp-note",
+				children: [
+					i.provider,
+					" ·",
+					" ",
+					i.usage ? `${i.usage.inputTokens + i.usage.outputTokens} jetons mesurés` : "Consommation non connue",
+					" ",
+					"· coût monétaire non disponible. Une nouvelle version ou un nouveau contexte exige sa propre analyse."
+				]
+			}),
+			e.limits.length > 0 && /* @__PURE__ */ (0, y.jsxs)("details", {
+				open: !0,
+				children: [/* @__PURE__ */ (0, y.jsx)("summary", { children: "Limites de couverture" }), /* @__PURE__ */ (0, y.jsx)("ul", { children: e.limits.map((e, t) => /* @__PURE__ */ (0, y.jsx)("li", { children: e }, t)) })]
+			})
+		]
+	});
+}
+//#endregion
 //#region studio-ui/src/features/control/Details.tsx
-function R({ report: e }) {
-	let { risk: t, nodes: n } = e.snapshot;
+function U({ report: e, busy: t, mutate: n, open: r }) {
+	let { risk: i, nodes: a } = e.snapshot;
 	return /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
 		/* @__PURE__ */ (0, y.jsxs)("header", {
 			className: "cp-heading",
 			children: [/* @__PURE__ */ (0, y.jsx)("h1", { children: "Analyse des risques" }), /* @__PURE__ */ (0, y.jsx)("p", { children: "Les signaux qui contribuent à la décision, avec leurs preuves et leurs limites." })]
 		}),
+		e.hybrid && /* @__PURE__ */ (0, y.jsx)(H, {
+			report: e.hybrid,
+			busy: t,
+			mutate: n,
+			open: r
+		}),
 		/* @__PURE__ */ (0, y.jsxs)("div", {
 			className: "cp-explanation",
-			children: [/* @__PURE__ */ (0, y.jsx)(x, { name: "risk" }), /* @__PURE__ */ (0, y.jsxs)("div", { children: [/* @__PURE__ */ (0, y.jsxs)("h2", { children: ["Risque ", c[t.level].toLowerCase()] }), /* @__PURE__ */ (0, y.jsx)("p", { children: t.justification })] })]
+			children: [/* @__PURE__ */ (0, y.jsx)(x, { name: "risk" }), /* @__PURE__ */ (0, y.jsxs)("div", { children: [/* @__PURE__ */ (0, y.jsxs)("h2", { children: ["Risque ", c[i.level].toLowerCase()] }), /* @__PURE__ */ (0, y.jsx)("p", { children: i.justification })] })]
 		}),
 		/* @__PURE__ */ (0, y.jsx)("div", {
 			className: "cp-risk-list",
-			children: t.signals.map((e) => /* @__PURE__ */ (0, y.jsxs)("article", {
+			children: i.signals.map((e) => /* @__PURE__ */ (0, y.jsxs)("article", {
 				className: "cp-detail-card",
 				children: [
 					/* @__PURE__ */ (0, y.jsx)("span", {
@@ -1502,7 +1660,7 @@ function R({ report: e }) {
 						" ",
 						e.humanResolvable ? "Examen humain possible" : "Observation ou vérification requise"
 					] }),
-					/* @__PURE__ */ (0, y.jsx)("ul", { children: e.evidenceIds.map((e) => /* @__PURE__ */ (0, y.jsx)("li", { children: n.find((t) => t.id === e)?.label ?? e }, e)) })
+					/* @__PURE__ */ (0, y.jsx)("ul", { children: e.evidenceIds.map((e) => /* @__PURE__ */ (0, y.jsx)("li", { children: a.find((t) => t.id === e)?.label ?? e }, e)) })
 				]
 			}, e.id))
 		}),
@@ -1513,15 +1671,15 @@ function R({ report: e }) {
 				/* @__PURE__ */ (0, y.jsx)("p", { children: "Projet : seuls les résultats des contrôles exécutés sont connus." }),
 				/* @__PURE__ */ (0, y.jsxs)("p", { children: [
 					"Couverture Studio : ",
-					n.filter((e) => e.canRun).length,
+					a.filter((e) => e.canRun).length,
 					" contrôles locaux disponibles. Les procédures externes non exécutées restent sans verdict."
 				] }),
-				/* @__PURE__ */ (0, y.jsx)("ul", { children: t.limits.map((e) => /* @__PURE__ */ (0, y.jsx)("li", { children: e }, e)) })
+				/* @__PURE__ */ (0, y.jsx)("ul", { children: i.limits.map((e) => /* @__PURE__ */ (0, y.jsx)("li", { children: e }, e)) })
 			]
 		})
 	] });
 }
-function z({ report: e, probe: t, busy: n, proceed: r }) {
+function W({ report: e, probe: t, busy: n, proceed: r }) {
 	let { decision: i } = e.snapshot;
 	return /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
 		/* @__PURE__ */ (0, y.jsxs)("header", {
@@ -1578,15 +1736,36 @@ function z({ report: e, probe: t, busy: n, proceed: r }) {
 		})
 	] });
 }
-function B({ report: e }) {
+function G({ report: e }) {
 	return /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
 		/* @__PURE__ */ (0, y.jsxs)("header", {
 			className: "cp-heading",
 			children: [/* @__PURE__ */ (0, y.jsx)("h1", { children: "Historique du Control Plane" }), /* @__PURE__ */ (0, y.jsx)("p", { children: "Décisions conservées avec leur contexte et leur politique." })]
 		}),
-		/* @__PURE__ */ (0, y.jsx)("div", {
+		/* @__PURE__ */ (0, y.jsxs)("div", {
 			className: "cp-history",
-			children: [...e.history].reverse().map((t, n) => /* @__PURE__ */ (0, y.jsxs)("details", {
+			children: [e.analyses?.map((e) => /* @__PURE__ */ (0, y.jsxs)("details", {
+				className: "cp-detail-card",
+				children: [
+					/* @__PURE__ */ (0, y.jsxs)("summary", { children: [
+						"Analyse contextuelle · ",
+						e.status,
+						" · ",
+						e.revisionId
+					] }),
+					/* @__PURE__ */ (0, y.jsx)("p", { children: e.output?.summary ?? e.error ?? "En cours" }),
+					/* @__PURE__ */ (0, y.jsxs)("p", { children: [
+						e.provider,
+						" · ",
+						new Date(e.startedAt).toLocaleString("fr-FR")
+					] }),
+					/* @__PURE__ */ (0, y.jsxs)("p", { children: [
+						"Contexte : ",
+						e.contextKey.slice(0, 16),
+						" · Les résultats historiques ne s’appliquent pas automatiquement à une nouvelle version."
+					] })
+				]
+			}, e.id)), [...e.history].reverse().map((t, n) => /* @__PURE__ */ (0, y.jsxs)("details", {
 				className: "cp-detail-card",
 				children: [
 					/* @__PURE__ */ (0, y.jsxs)("summary", { children: [
@@ -1629,7 +1808,7 @@ function B({ report: e }) {
 					/* @__PURE__ */ (0, y.jsx)("ul", { children: t.risk.evidenceIds.map((e) => /* @__PURE__ */ (0, y.jsx)("li", { children: t.nodes.find((t) => t.id === e)?.label ?? e }, e)) }),
 					t.interventionIds.map((t) => /* @__PURE__ */ (0, y.jsx)("p", { children: e.interventions.find((e) => e.id === t)?.reason }, t))
 				]
-			}, `${t.key}:${n}`))
+			}, `${t.key}:${n}`))]
 		}),
 		/* @__PURE__ */ (0, y.jsxs)("details", {
 			className: "cp-detail-card",
@@ -1647,7 +1826,7 @@ function B({ report: e }) {
 }
 //#endregion
 //#region studio-ui/src/features/control/ControlPlane.tsx
-function V({ options: e }) {
+function K({ options: e }) {
 	let t = (0, i.useRef)(null), [n, r] = (0, i.useState)(h), [o, c] = (0, i.useState)(!1), [u, d] = (0, i.useState)(null), f = v({
 		...e,
 		revisionId: u ?? e.revisionId
@@ -1750,8 +1929,13 @@ function V({ options: e }) {
 						run: (e) => void f.runChecks(e),
 						open: e.onOpen
 					}),
-					n === "risks" && /* @__PURE__ */ (0, y.jsx)(R, { report: p }),
-					n === "autonomy" && /* @__PURE__ */ (0, y.jsx)(z, {
+					n === "risks" && /* @__PURE__ */ (0, y.jsx)(U, {
+						report: p,
+						busy: !!(_ || m),
+						mutate: f.mutate,
+						open: e.onOpen
+					}),
+					n === "autonomy" && /* @__PURE__ */ (0, y.jsx)(W, {
 						report: p,
 						busy: !!(_ || m),
 						probe: () => void f.mutate("runtime", {}),
@@ -1760,7 +1944,7 @@ function V({ options: e }) {
 							snapshotKey: p.snapshot.key
 						})
 					}),
-					n === "history" && /* @__PURE__ */ (0, y.jsx)(B, { report: p })
+					n === "history" && /* @__PURE__ */ (0, y.jsx)(G, { report: p })
 				]
 			})
 		]
@@ -1768,11 +1952,11 @@ function V({ options: e }) {
 }
 //#endregion
 //#region studio-ui/src/control-widget.tsx
-function H(e, t) {
+function q(e, t) {
 	let n = (0, o.createRoot)(e);
-	return n.render(/* @__PURE__ */ (0, y.jsx)(V, { options: t })), {
+	return n.render(/* @__PURE__ */ (0, y.jsx)(K, { options: t })), {
 		update(e) {
-			n.render(/* @__PURE__ */ (0, y.jsx)(V, { options: e }));
+			n.render(/* @__PURE__ */ (0, y.jsx)(K, { options: e }));
 		},
 		dispose() {
 			n.unmount();
@@ -1780,4 +1964,4 @@ function H(e, t) {
 	};
 }
 //#endregion
-export { H as mountControlWidget };
+export { q as mountControlWidget };

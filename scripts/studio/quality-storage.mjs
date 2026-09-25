@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { assertRealDirectory, atomicJSON, digest, safeFile } from './files.mjs';
+import { validateRiskRequirement } from './risk-requirements.mjs';
 
 const textual = /\.(?:[mc]?js|jsx|tsx?|json|css|html|md|txt|ya?ml|py|toml|sql|env)$/;
 const maxBytes = 32 * 1024 * 1024;
@@ -84,6 +85,7 @@ export function readQualityRuns(store) {
 }
 
 function validateRun(run) {
+  if (run.riskRequirement !== undefined) validateRiskRequirement(run.riskRequirement);
   if (
     run.requestId !== undefined &&
     (typeof run.requestId !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(run.requestId))

@@ -149,7 +149,14 @@ export function ControlPlane({ options }: { options: ControlOptions }) {
               open={options.onOpen}
             />
           )}
-          {view === 'risks' && <Risks report={report} />}
+          {view === 'risks' && (
+            <Risks
+              report={report}
+              busy={Boolean(busy || error)}
+              mutate={control.mutate}
+              open={options.onOpen}
+            />
+          )}
           {view === 'autonomy' && (
             <Autonomy
               report={report}
