@@ -229,6 +229,13 @@ test('detailed graph keeps all labels and follows real relations with return nav
     required: false,
   });
   value.snapshot.edges.push({
+    id: 'syntax-code',
+    from: 'syntax',
+    to: 'code',
+    relation: 'validates',
+    explanation: 'Le contrôle de syntaxe porte sur ce code.',
+  });
+  value.snapshot.edges.push({
     id: 'visual-code',
     from: 'visual',
     to: 'code',
@@ -252,7 +259,17 @@ test('detailed graph keeps all labels and follows real relations with return nav
   code.click();
   await until(() => f.document.querySelector('.cp-inspector h2').textContent === 'Code du projet');
   assert.match(f.document.querySelector('.cp-node-relations').textContent, /Est examiné par/);
+  assert.equal(
+    f.document.querySelectorAll('.cp-edge-bundle').length,
+    1,
+    'same-type links share one explicit route',
+  );
+  f.button('Isoler ce lien').click();
+  await until(() => f.document.querySelector('.cp-edge-isolated'));
   assert.equal(f.document.querySelectorAll('.cp-detailed-canvas .cp-edge').length, 1);
+  assert.equal(f.document.querySelectorAll('.cp-detail-node').length, value.snapshot.nodes.length);
+  f.button('Afficher tous les liens').click();
+  await until(() => f.document.querySelector('.cp-edge-bundle'));
   f.button('Nœud précédent').click();
   await until(() => f.document.querySelector('.cp-inspector h2').textContent === 'Preuve visuelle');
   assert.equal(

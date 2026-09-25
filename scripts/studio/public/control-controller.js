@@ -17,6 +17,14 @@ export function createControlController({
   const originalNext = tabs?.nextSibling;
   const tabHost = document.getElementById('control-tabs');
   let options;
+  const expand = document.getElementById('expand-workspace');
+  const expansionObserver = new document.defaultView.MutationObserver(() => {
+    if (!options) return;
+    options = { ...options, expanded: expand?.getAttribute('aria-pressed') === 'true' };
+    widget?.update(options);
+  });
+  if (expand)
+    expansionObserver.observe(expand, { attributes: true, attributeFilter: ['aria-pressed'] });
   function onOpen(link) {
     if (link.panel === 'connectors') return openConnectors?.(link.checkId);
     if (link.revisionId) showVersion(link.revisionId);
@@ -36,6 +44,8 @@ export function createControlController({
       if (!state || !host) return;
       options = {
         active: true,
+        expanded: expand?.getAttribute('aria-pressed') === 'true',
+        onExpand: () => expand?.click(),
         revisionId,
         mode: state.project.mode,
         sidebar,
@@ -61,6 +71,7 @@ export function createControlController({
     },
     dispose() {
       disposed = true;
+      expansionObserver.disconnect();
       widget?.dispose();
       if (tabs && originalParent) originalParent.insertBefore(tabs, originalNext);
     },

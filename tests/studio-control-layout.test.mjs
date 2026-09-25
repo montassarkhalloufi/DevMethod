@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { routeBundles } from '../studio-ui/src/features/control/graph-routing.ts';
 import assert from 'node:assert/strict';
 import {
   detailedLayout,
@@ -78,4 +79,52 @@ test('relation navigation preserves edge direction, missing relations and cycles
     ],
   );
   assert.equal(nodeRelations('absent-other', nodes, edges).length, 0);
+});
+
+test('dense selected relations share unique labelled rails instead of stacking duplicate segments', () => {
+  const nodes = [
+    { id: 'code', kind: 'code', label: 'Code' },
+    ...Array.from({ length: 45 }, (_, index) => ({
+      id: `proof:${index}`,
+      kind: 'check',
+      label: `Preuve ${index}`,
+    })),
+  ];
+  const edges = nodes.slice(1).map((node, index) => ({
+    id: `edge:${index}`,
+    from: node.id,
+    to: 'code',
+    relation: index === 44 ? 'contradicts' : 'validates',
+  }));
+  const layout = detailedLayout(nodes);
+  const bundles = routeBundles(edges, 'code', layout.boxes);
+  assert.equal(bundles.length, 2);
+  assert.equal(
+    bundles.reduce((count, bundle) => count + bundle.edges.length, 0),
+    45,
+  );
+  assert.equal(new Set(bundles.map((bundle) => bundle.rail)).size, 2);
+  for (const bundle of bundles) {
+    assert.equal(
+      new Set(bundle.paths.map((path) => path.d)).size,
+      bundle.paths.length,
+      'a shared segment is drawn only once',
+    );
+    assert.equal(
+      bundle.paths.filter((path) => path.arrow).length,
+      1,
+      'incoming evidence ends with one arrow at the selected node',
+    );
+    assert.ok(bundle.paths.every((path) => !path.d.includes('NaN')));
+  }
+  const reverse = routeBundles(
+    edges.map((edge) => ({ ...edge, from: edge.to, to: edge.from })),
+    'code',
+    layout.boxes,
+  );
+  assert.equal(
+    reverse.reduce((count, bundle) => count + bundle.paths.filter((path) => path.arrow).length, 0),
+    45,
+    'outgoing dependencies retain each destination arrow',
+  );
 });

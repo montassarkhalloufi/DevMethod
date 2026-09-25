@@ -3,6 +3,7 @@ import type { EvidenceEdge } from '../../../../src/control-plane/contracts';
 import { detailedEdgePath, detailedLayout } from './graph-layout';
 import { freshnessLabels, statusLabels, type EvidenceNode } from './model';
 import { Icon } from './Icon';
+import { edgeLabels, routeBundles } from './graph-routing';
 
 export interface DetailedGraphHandle {
   reveal: (id: string) => void;
@@ -13,6 +14,8 @@ export function DetailedGraph({
   allNodes,
   edges,
   selected,
+  tracedEdge,
+  trace,
   select,
   zoom,
   ref,
@@ -21,6 +24,8 @@ export function DetailedGraph({
   allNodes: EvidenceNode[];
   edges: EvidenceEdge[];
   selected?: string;
+  tracedEdge: string | null;
+  trace: (id: string | null) => void;
   select: (id: string) => void;
   zoom: number;
   ref: Ref<DetailedGraphHandle>;
@@ -40,6 +45,9 @@ export function DetailedGraph({
       layout.boxes.has(edge.from) &&
       layout.boxes.has(edge.to),
   );
+  const isolated = connections.find((edge) => edge.id === tracedEdge);
+  const bundles = routeBundles(connections, selected ?? '', layout.boxes);
+  const drawingWidth = Math.max(layout.width, ...bundles.map((bundle) => bundle.rail + 24));
   const related = new Set(connections.flatMap((edge) => [edge.from, edge.to]));
   const matches = query.trim()
     ? [...layout.boxes.values()].filter(({ node }) =>
@@ -118,10 +126,18 @@ export function DetailedGraph({
         {nodes.length} nœuds répartis par familles. Lecture de haut en bas ; les familles n’ajoutent
         aucun lien. Sélectionnez un nœud pour suivre ses relations dans l’inspecteur.
       </p>
+      <div className="cp-relation-legend" aria-label="Types de relation">
+        {Object.entries(edgeLabels).map(([relation, label]) => (
+          <span key={relation} className={`cp-relation-${relation}`}>
+            <i />
+            {label}
+          </span>
+        ))}
+      </div>
       <div className="cp-detail-status" role="status">
-        {connections.length} lien{connections.length > 1 ? 's' : ''} affiché
-        {connections.length > 1 ? 's' : ''} pour la sélection · déplacement avec les barres de
-        défilement ou les flèches
+        {isolated ? 'Un lien isolé' : `${connections.length} relations regroupées par type`} · les
+        points marquent les jonctions.
+        {isolated && <button onClick={() => trace(null)}>Afficher tous les liens du nœud</button>}
       </div>
       <div
         ref={viewport}
@@ -132,9 +148,9 @@ export function DetailedGraph({
       >
         <svg
           className="cp-detailed-canvas"
-          width={layout.width * zoom}
+          width={drawingWidth * zoom}
           height={layout.height * zoom}
-          viewBox={`0 0 ${layout.width} ${layout.height}`}
+          viewBox={`0 0 ${drawingWidth} ${layout.height}`}
           role="group"
           aria-label="Nœuds regroupés par étapes de lecture"
         >
@@ -161,16 +177,38 @@ export function DetailedGraph({
               </text>
             </g>
           ))}
-          {connections.map((edge, index) => (
+          {isolated ? (
             <path
-              key={edge.id}
-              className={`cp-edge cp-edge-${edge.relation}`}
-              d={detailedEdgePath(layout.boxes.get(edge.from)!, layout.boxes.get(edge.to)!, index)}
+              className={`cp-edge cp-edge-${isolated.relation} cp-edge-isolated`}
+              d={detailedEdgePath(
+                layout.boxes.get(isolated.from)!,
+                layout.boxes.get(isolated.to)!,
+                0,
+              )}
               markerEnd="url(#cp-detail-arrow)"
             >
-              <title>{edge.explanation}</title>
+              <title>{isolated.explanation}</title>
             </path>
-          ))}
+          ) : (
+            bundles.map((bundle) => (
+              <g key={bundle.key} className={`cp-edge-bundle cp-relation-${bundle.relation}`}>
+                <title>
+                  {edgeLabels[bundle.relation]} · {bundle.edges.length} relations enregistrées
+                </title>
+                {bundle.paths.map((path, index) => (
+                  <path
+                    key={index}
+                    className={`cp-edge cp-edge-${bundle.relation}`}
+                    d={path.d}
+                    markerEnd={path.arrow ? 'url(#cp-detail-arrow)' : undefined}
+                  />
+                ))}
+                {bundle.joins.map((point, index) => (
+                  <circle key={index} cx={point.x} cy={point.y} r="2.5" fill="currentColor" />
+                ))}
+              </g>
+            ))
+          )}
           {[...layout.boxes.values()].map((box) => {
             const node = box.node;
             return (

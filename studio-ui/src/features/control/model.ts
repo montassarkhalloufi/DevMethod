@@ -15,6 +15,8 @@ export type {
 export type ControlView = 'overview' | 'graph' | 'risks' | 'attention' | 'autonomy' | 'history';
 export interface ControlOptions {
   active?: boolean;
+  expanded?: boolean;
+  onExpand?: () => void;
   revisionId: string | null;
   mode: RequestedMode;
   onOpen: (link: SourceLink) => void;

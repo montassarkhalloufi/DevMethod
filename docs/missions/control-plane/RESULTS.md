@@ -8,7 +8,7 @@ Ce rapport décrit les observations locales ; il ne présume ni la CI distante n
 
 ## Livraison
 
-Le [domaine pur](../../../src/control-plane/) calcule graphe, risque, attention et autonomie.
+Le [domaine pur](../../../dist/control-plane/engine.js) calcule graphe, risque, attention et autonomie.
 L’[ADR 027](../../ADR-027-control-plane.md) décrit le stockage atomique existant, les adaptateurs
 Studio et l’admission effective des jobs, de l’application d’une version et des appels MCP.
 Les six vues React lisent ces états ; les actions utilisent les routes et journaux réels.
@@ -52,6 +52,7 @@ visuelle. L’UI ne les déclare pas réussies à partir des tests du Studio.
 | [Mobile](evidence/browser-overview-mobile.jpg) et [historique mobile](evidence/browser-history-mobile.jpg) | 390 × 844, navigation accessible sans débordement horizontal du document |
 | [Clavier et hauteur réduite](evidence/browser-keyboard-short.jpg) | 1280 × 650, focus visible et action atteignable au clavier |
 | [Graphe détaillé : critères](evidence/browser-graph-detailed-criteria.jpg) | Nœuds espacés, noms complets et relations réelles dans les marges |
+| [Plein écran](evidence/browser-graph-fullscreen.jpg) et [lien isolé](evidence/browser-graph-isolated-link.jpg) | 46 relations du code regroupées par type ; un lien isolé sans masquer les 77 nœuds ; Échap conserve sélection et position |
 | [Graphe détaillé : preuves](evidence/browser-graph-detailed-proofs.jpg) | Passage d’une preuve au risque et retour, recherche et familles |
 
 Chargement, échec et reprise sont aussi exercés dans le navigateur DOM automatisé ; les captures
@@ -63,6 +64,9 @@ réelle des services locaux. Les contrôles ne montrent leur résultat qu’apr�
 Écarts motivés aux maquettes : valeurs et textes issus des sources réelles, navigation mobile
 compacte et défilement lorsque les libellés sont longs. Après le retour utilisateur sur le graphe
 dense, la vue complète utilise neuf familles, des nœuds ronds numérotés et des lignes dans les marges.
+Les relations de même type et direction partagent un tracé unique avec des jonctions explicites,
+des couleurs, des pointillés et une légende. « Isoler ce lien » montre un trajet précis.
+Le plein écran réutilise celui du Studio, avec sortie permanente et Échap.
 Elle garde tous les nœuds ; les liens dessinés concernent la sélection, et l’inspecteur permet de
 suivre chaque relation entrante ou sortante et de revenir en arrière. Les familles sont un ordre
 de lecture, pas de nouvelles assertions causales. Le zoom détaillé reste au minimum à 80 % pour
@@ -72,11 +76,12 @@ est retenue dans la vue détaillée aussi. Aucune image de référence n’est u
 
 ## Contrôles locaux
 
-- `npm test` : **1 089 tests réussis**, zéro échec, zéro ignoré ; inclut compilation stricte et UI.
+- `npm test` : **1 090 tests réussis**, zéro échec, zéro ignoré ; inclut compilation stricte et UI.
 - `npm run lint`, `npm run format:check`, `npm run check:docs`, `npm run quality:report` : réussis.
 - `git diff --check` : réussi.
 - `npm pack --dry-run --cache /private/tmp/devmethod-control-npm-cache` : inspection de packaging,
   sans publication ; cache temporaire utilisé car le cache npm personnel n’était pas accessible.
+- `npm run test:package -- /private/tmp/devmethod-control-final-package-i7d5wlic/devmethod-ai-0.6.0-beta.1.tgz` : réussi après correction du lien ; installation réelle du paquet et contrôles de reprise inclus.
 - Tests de disposition : fixture de 90 nœuds, conservation des libellés, absence de recouvrement,
   marges de routage, direction des relations et absence de liens inventés.
 - Tests UI : sélection, retour, filtre vide, attente du résultat réel, panne et reprise.
@@ -102,3 +107,7 @@ est à lire dans la CI du commit exact, sans extrapoler depuis macOS.
 Les fichiers personnels et documents de prépublication restent hors du commit. Les trois
 références approuvées sont versionnées séparément des captures réelles. Les deux autres images
 préexistantes du dossier de mission restent préservées et exclues.
+
+La première CI du commit `acb6470` a détecté un lien documentaire vers `src/`, absent de l’archive
+distribuée. Le lien cible désormais le domaine compilé inclus dans le paquet ; les assertions de
+packaging sont conservées. Les journaux Linux, macOS et Windows identifiaient la même cause.

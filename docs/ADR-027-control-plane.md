@@ -89,3 +89,9 @@ et retour. Ces familles ne créent aucune dépendance ni validation. Filtrer ne 
 nœuds et suivre une relation hors filtre rétablit la vue complète. Le défilement natif, la
 recherche, le choix de famille et un zoom minimum de 80 % remplacent l’ajustement global qui
 rendait 77 nœuds illisibles. Les états restent portés par du texte, pas seulement une couleur.
+
+Les segments partagés sont dessinés une seule fois par type et direction de relation ; une
+jonction explicite représente ce regroupement, sans ajouter d’arête. La couleur, les pointillés
+et les libellés distinguent les types. L’isolation d’une relation laisse tous les nœuds visibles.
+Le plein écran utilise le mécanisme existant du Studio (isolation du fond, Échap, restauration
+du défilement) ; aucun second système modal ni nouvelle permission du navigateur.

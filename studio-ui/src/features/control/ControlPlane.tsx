@@ -130,6 +130,8 @@ export function ControlPlane({ options }: { options: ControlOptions }) {
           {view === 'graph' && (
             <EvidenceGraph
               report={report}
+              expandedWorkspace={options.expanded ?? false}
+              onExpand={options.onExpand}
               missing={missing}
               onMissing={setMissing}
               onRevision={setRevision}

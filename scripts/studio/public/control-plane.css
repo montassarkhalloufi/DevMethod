@@ -1429,3 +1429,109 @@ body[data-active-panel='control'] #project-menu {
     display: none;
   }
 }
+
+/* Relation colour is distinct from evidence status; line patterns and labels repeat it. */
+.cp-relation-depends-on {
+  color: #c594ff;
+}
+.cp-relation-validates {
+  color: #58d8f5;
+}
+.cp-relation-invalidates {
+  color: #ffc35c;
+}
+.cp-relation-contradicts {
+  color: #ff789d;
+}
+.cp-edge-depends-on {
+  stroke: #c594ff;
+  stroke-dasharray: 8 4;
+}
+.cp-edge-validates {
+  stroke: #58d8f5;
+}
+.cp-edge-invalidates {
+  stroke: #ffc35c;
+  stroke-dasharray: 8 3 2 3;
+}
+.cp-edge-contradicts {
+  stroke: #ff789d;
+  stroke-dasharray: 2 4;
+}
+.cp-edge-isolated {
+  stroke-width: 3;
+  opacity: 1;
+}
+.cp-relation-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  padding: 10px 12px;
+  background: #021827;
+}
+.cp-relation-legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+}
+.cp-relation-legend i {
+  width: 22px;
+  border-top: 2px solid currentColor;
+}
+.cp-relation-legend .cp-relation-depends-on i {
+  border-top-style: dashed;
+}
+.cp-relation-legend .cp-relation-invalidates i,
+.cp-relation-legend .cp-relation-contradicts i {
+  border-top-style: dotted;
+}
+.cp-node-relations .cp-trace-link {
+  color: inherit;
+  border-color: currentColor;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.cp-node-relations li > span {
+  color: inherit;
+}
+.cp-detail-status button {
+  font-size: 12px;
+  margin: 6px 10px;
+}
+.cp-graph-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cp-expand-graph {
+  font-size: 14px;
+  white-space: nowrap;
+}
+body[data-active-panel='control'] .workspace-expanded #control-tabs,
+body[data-active-panel='control'] .workspace-expanded .cp-section-brand,
+body[data-active-panel='control'] .workspace-expanded .cp-mobile-nav {
+  display: none;
+}
+body[data-active-panel='control'] .workspace-expanded .cp-detail-viewport {
+  height: calc(100dvh - 345px);
+  max-height: none;
+}
+body[data-active-panel='control'] .workspace-expanded .cp-graph-detailed .cp-inspector {
+  max-height: calc(100dvh - 150px);
+}
+body[data-active-panel='control'] .workspace-expanded .cp-expand-graph {
+  position: fixed;
+  top: 16px;
+  right: 24px;
+  z-index: 65;
+  background: #422274;
+  border-color: #b47aff;
+  box-shadow: 0 3px 14px #001321;
+}
+body[data-active-panel='control'] .workspace-expanded .cp-graph-detailed .cp-inspector {
+  top: 66px;
+  max-height: calc(100dvh - 94px);
+}

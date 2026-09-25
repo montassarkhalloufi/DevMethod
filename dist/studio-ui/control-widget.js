@@ -499,30 +499,91 @@ function O(e, t, n) {
 	});
 }
 //#endregion
+//#region studio-ui/src/features/control/graph-routing.ts
+var k = {
+	"depends-on": "Dépendance",
+	validates: "Validation à examiner",
+	invalidates: "Invalidation",
+	contradicts: "Contradiction"
+};
+function A(e, t, n) {
+	let r = /* @__PURE__ */ new Map();
+	for (let n of e) {
+		let e = n.from === t, i = `${n.relation}:${e}`, a = r.get(i) ?? {
+			relation: n.relation,
+			outgoing: e,
+			edges: []
+		};
+		a.edges.push(n), r.set(i, a);
+	}
+	let i = n.get(t);
+	return i ? [...r.values()].map((e, t) => {
+		let a = 778 + t * 18, o = t * 5 - (r.size - 1) * 2.5, s = i.y + 42 + o, c = i.x + i.width / 2 + Math.sqrt(1156 - o ** 2), l = i.x + i.width + 8 + t * 2, u = i.rowBottom + t * 2, d = e.outgoing ? `M${c} ${s} H${l} V${u} H${a}` : `M${a} ${u} H${l} V${s} H${c}`, f = /* @__PURE__ */ new Map();
+		for (let t of e.edges) {
+			let r = n.get(e.outgoing ? t.to : t.from);
+			f.set(r.rowTop, [...f.get(r.rowTop) ?? [], r]);
+		}
+		let p = [{
+			d,
+			arrow: !e.outgoing
+		}], m = [], h = [u];
+		for (let [n, r] of f) {
+			let i = n + t * 2, s = Math.min(...r.map((e) => e.x - 12 + t * 2));
+			p.push({
+				d: `M${a} ${i} H${s}`,
+				arrow: !1
+			}), m.push({
+				x: a,
+				y: i
+			}), h.push(i);
+			for (let n of r) {
+				let r = n.x - 12 + t * 2, a = n.x + n.width / 2 - Math.sqrt(1156 - o ** 2), s = n.y + 42 + o;
+				p.push({
+					d: e.outgoing ? `M${r} ${i} V${s} H${a}` : `M${a} ${s} H${r} V${i}`,
+					arrow: e.outgoing
+				}), m.push({
+					x: r,
+					y: i
+				});
+			}
+		}
+		return p.push({
+			d: `M${a} ${Math.min(...h)} V${Math.max(...h)}`,
+			arrow: !1
+		}), {
+			...e,
+			key: `${e.relation}:${e.outgoing}`,
+			paths: p,
+			joins: m,
+			rail: a
+		};
+	}) : [];
+}
+//#endregion
 //#region studio-ui/src/features/control/DetailedGraph.tsx
-function k({ nodes: e, allNodes: t, edges: n, selected: r, select: a, zoom: o, ref: s }) {
-	let c = (0, i.useMemo)(() => {
+function j({ nodes: e, allNodes: t, edges: n, selected: r, tracedEdge: a, trace: o, select: s, zoom: c, ref: l }) {
+	let f = (0, i.useMemo)(() => {
 		let n = T(e), r = T(t).boxes;
 		for (let e of n.boxes.values()) e.number = r.get(e.node.id).number;
 		return n;
-	}, [e, t]), l = (0, i.useRef)(null), f = (0, i.useRef)(/* @__PURE__ */ new Map()), [p, m] = (0, i.useState)(""), h = n.filter((e) => (e.from === r || e.to === r) && c.boxes.has(e.from) && c.boxes.has(e.to)), g = new Set(h.flatMap((e) => [e.from, e.to])), _ = p.trim() ? [...c.boxes.values()].filter(({ node: e }) => `${e.label} ${e.id}`.toLocaleLowerCase("fr").includes(p.trim().toLocaleLowerCase("fr"))) : [];
-	function v(e) {
-		let t = c.boxes.get(e);
-		t && l.current && (l.current.scrollTo({
-			top: Math.max(0, (t.y - 80) * o),
-			left: Math.max(0, (t.x - 60) * o)
-		}), f.current.get(e)?.focus({ preventScroll: !0 }));
+	}, [e, t]), p = (0, i.useRef)(null), m = (0, i.useRef)(/* @__PURE__ */ new Map()), [h, g] = (0, i.useState)(""), _ = n.filter((e) => (e.from === r || e.to === r) && f.boxes.has(e.from) && f.boxes.has(e.to)), v = _.find((e) => e.id === a), b = A(_, r ?? "", f.boxes), S = Math.max(f.width, ...b.map((e) => e.rail + 24)), C = new Set(_.flatMap((e) => [e.from, e.to])), w = h.trim() ? [...f.boxes.values()].filter(({ node: e }) => `${e.label} ${e.id}`.toLocaleLowerCase("fr").includes(h.trim().toLocaleLowerCase("fr"))) : [];
+	function D(e) {
+		let t = f.boxes.get(e);
+		t && p.current && (p.current.scrollTo({
+			top: Math.max(0, (t.y - 80) * c),
+			left: Math.max(0, (t.x - 60) * c)
+		}), m.current.get(e)?.focus({ preventScroll: !0 }));
 	}
-	return (0, i.useImperativeHandle)(s, () => ({ reveal: v })), /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
+	return (0, i.useImperativeHandle)(l, () => ({ reveal: D })), /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
 		/* @__PURE__ */ (0, y.jsxs)("div", {
 			className: "cp-detail-tools",
 			children: [
 				/* @__PURE__ */ (0, y.jsxs)("label", { children: ["Aller à une famille", /* @__PURE__ */ (0, y.jsxs)("select", {
 					defaultValue: "",
 					onChange: (e) => {
-						let t = c.groups.find((t) => t.id === e.target.value);
-						t && l.current?.scrollTo({
-							top: t.y * o,
+						let t = f.groups.find((t) => t.id === e.target.value);
+						t && p.current?.scrollTo({
+							top: t.y * c,
 							left: 0
 						});
 					},
@@ -530,7 +591,7 @@ function k({ nodes: e, allNodes: t, edges: n, selected: r, select: a, zoom: o, r
 						value: "",
 						disabled: !0,
 						children: "Choisir une étape"
-					}), c.groups.map((e, t) => /* @__PURE__ */ (0, y.jsxs)("option", {
+					}), f.groups.map((e, t) => /* @__PURE__ */ (0, y.jsxs)("option", {
 						value: e.id,
 						children: [
 							t + 1,
@@ -543,27 +604,27 @@ function k({ nodes: e, allNodes: t, edges: n, selected: r, select: a, zoom: o, r
 				})] }),
 				/* @__PURE__ */ (0, y.jsxs)("label", { children: ["Rechercher un nœud", /* @__PURE__ */ (0, y.jsx)("input", {
 					type: "search",
-					value: p,
-					onChange: (e) => m(e.target.value),
+					value: h,
+					onChange: (e) => g(e.target.value),
 					placeholder: "Nom ou identifiant…"
 				})] }),
 				/* @__PURE__ */ (0, y.jsx)("button", {
-					disabled: !r || !c.boxes.has(r),
-					onClick: () => r && v(r),
+					disabled: !r || !f.boxes.has(r),
+					onClick: () => r && D(r),
 					children: "Centrer la sélection"
 				})
 			]
 		}),
-		p.trim() && /* @__PURE__ */ (0, y.jsxs)("div", {
+		h.trim() && /* @__PURE__ */ (0, y.jsxs)("div", {
 			className: "cp-graph-search",
 			"aria-live": "polite",
 			children: [/* @__PURE__ */ (0, y.jsxs)("span", { children: [
-				_.length,
+				w.length,
 				" résultat",
-				_.length > 1 ? "s" : ""
-			] }), _.map(({ node: e, number: t }) => /* @__PURE__ */ (0, y.jsxs)("button", {
+				w.length > 1 ? "s" : ""
+			] }), w.map(({ node: e, number: t }) => /* @__PURE__ */ (0, y.jsxs)("button", {
 				onClick: () => {
-					a(e.id), v(e.id);
+					s(e.id), D(e.id);
 				},
 				children: [
 					"#",
@@ -577,29 +638,37 @@ function k({ nodes: e, allNodes: t, edges: n, selected: r, select: a, zoom: o, r
 			className: "cp-reading-guide",
 			children: [e.length, " nœuds répartis par familles. Lecture de haut en bas ; les familles n’ajoutent aucun lien. Sélectionnez un nœud pour suivre ses relations dans l’inspecteur."]
 		}),
+		/* @__PURE__ */ (0, y.jsx)("div", {
+			className: "cp-relation-legend",
+			"aria-label": "Types de relation",
+			children: Object.entries(k).map(([e, t]) => /* @__PURE__ */ (0, y.jsxs)("span", {
+				className: `cp-relation-${e}`,
+				children: [/* @__PURE__ */ (0, y.jsx)("i", {}), t]
+			}, e))
+		}),
 		/* @__PURE__ */ (0, y.jsxs)("div", {
 			className: "cp-detail-status",
 			role: "status",
 			children: [
-				h.length,
-				" lien",
-				h.length > 1 ? "s" : "",
-				" affiché",
-				h.length > 1 ? "s" : "",
-				" pour la sélection · déplacement avec les barres de défilement ou les flèches"
+				v ? "Un lien isolé" : `${_.length} relations regroupées par type`,
+				" · les points marquent les jonctions.",
+				v && /* @__PURE__ */ (0, y.jsx)("button", {
+					onClick: () => o(null),
+					children: "Afficher tous les liens du nœud"
+				})
 			]
 		}),
 		/* @__PURE__ */ (0, y.jsx)("div", {
-			ref: l,
+			ref: p,
 			className: "cp-detail-viewport",
 			tabIndex: 0,
 			role: "region",
 			"aria-label": "Schéma détaillé complet, défilement horizontal et vertical",
 			children: /* @__PURE__ */ (0, y.jsxs)("svg", {
 				className: "cp-detailed-canvas",
-				width: c.width * o,
-				height: c.height * o,
-				viewBox: `0 0 ${c.width} ${c.height}`,
+				width: S * c,
+				height: f.height * c,
+				viewBox: `0 0 ${S} ${f.height}`,
 				role: "group",
 				"aria-label": "Nœuds regroupés par étapes de lecture",
 				children: [
@@ -616,7 +685,7 @@ function k({ nodes: e, allNodes: t, edges: n, selected: r, select: a, zoom: o, r
 							stroke: "context-stroke"
 						})
 					}) }),
-					c.groups.map((e, t) => /* @__PURE__ */ (0, y.jsxs)("g", {
+					f.groups.map((e, t) => /* @__PURE__ */ (0, y.jsxs)("g", {
 						className: "cp-graph-family",
 						children: [
 							/* @__PURE__ */ (0, y.jsx)("rect", {
@@ -648,27 +717,48 @@ function k({ nodes: e, allNodes: t, edges: n, selected: r, select: a, zoom: o, r
 							})
 						]
 					}, e.id)),
-					h.map((e, t) => /* @__PURE__ */ (0, y.jsx)("path", {
-						className: `cp-edge cp-edge-${e.relation}`,
-						d: E(c.boxes.get(e.from), c.boxes.get(e.to), t),
+					v ? /* @__PURE__ */ (0, y.jsx)("path", {
+						className: `cp-edge cp-edge-${v.relation} cp-edge-isolated`,
+						d: E(f.boxes.get(v.from), f.boxes.get(v.to), 0),
 						markerEnd: "url(#cp-detail-arrow)",
-						children: /* @__PURE__ */ (0, y.jsx)("title", { children: e.explanation })
-					}, e.id)),
-					[...c.boxes.values()].map((e) => {
+						children: /* @__PURE__ */ (0, y.jsx)("title", { children: v.explanation })
+					}) : b.map((e) => /* @__PURE__ */ (0, y.jsxs)("g", {
+						className: `cp-edge-bundle cp-relation-${e.relation}`,
+						children: [
+							/* @__PURE__ */ (0, y.jsxs)("title", { children: [
+								k[e.relation],
+								" · ",
+								e.edges.length,
+								" relations enregistrées"
+							] }),
+							e.paths.map((t, n) => /* @__PURE__ */ (0, y.jsx)("path", {
+								className: `cp-edge cp-edge-${e.relation}`,
+								d: t.d,
+								markerEnd: t.arrow ? "url(#cp-detail-arrow)" : void 0
+							}, n)),
+							e.joins.map((e, t) => /* @__PURE__ */ (0, y.jsx)("circle", {
+								cx: e.x,
+								cy: e.y,
+								r: "2.5",
+								fill: "currentColor"
+							}, t))
+						]
+					}, e.key)),
+					[...f.boxes.values()].map((e) => {
 						let t = e.node;
 						return /* @__PURE__ */ (0, y.jsxs)("g", {
 							ref: (e) => {
-								e ? f.current.set(t.id, e) : f.current.delete(t.id);
+								e ? m.current.set(t.id, e) : m.current.delete(t.id);
 							},
 							transform: `translate(${e.x} ${e.y})`,
 							role: "button",
 							tabIndex: 0,
-							className: `cp-detail-node cp-${t.freshness === "stale" ? "stale" : t.status} ${g.has(t.id) ? "cp-related-node" : ""}`,
+							className: `cp-detail-node cp-${t.freshness === "stale" ? "stale" : t.status} ${C.has(t.id) ? "cp-related-node" : ""}`,
 							"aria-label": `#${e.number} · ${t.label} · ${u[t.status]} · ${d[t.freshness]}`,
 							"aria-pressed": r === t.id,
-							onClick: () => a(t.id),
+							onClick: () => s(t.id),
 							onKeyDown: (e) => {
-								["Enter", " "].includes(e.key) && (e.preventDefault(), a(t.id));
+								["Enter", " "].includes(e.key) && (e.preventDefault(), s(t.id));
 							},
 							children: [
 								/* @__PURE__ */ (0, y.jsx)("rect", {
@@ -735,7 +825,7 @@ function k({ nodes: e, allNodes: t, edges: n, selected: r, select: a, zoom: o, r
 }
 //#endregion
 //#region studio-ui/src/features/control/EvidenceGraph.tsx
-function A(e, t) {
+function M(e, t) {
 	if (t) return e;
 	let n = [
 		"intention",
@@ -751,7 +841,7 @@ function A(e, t) {
 	}), r = e.find((e) => e.kind === "check" && e.required);
 	return r && n.splice(Math.max(1, n.length - 2), 0, r), n;
 }
-var j = (e) => ({
+var N = (e) => ({
 	code: "code",
 	risk: "risk",
 	autonomy: "search",
@@ -759,14 +849,14 @@ var j = (e) => ({
 	human: "person",
 	agent: "person"
 })[e.kind] ?? "document";
-function M({ node: e, open: t, close: n, run: r, busy: i, nodes: a, edges: o, select: s, back: c }) {
-	let l = O(e.id, a, o), f = T(a).boxes;
+function P({ node: e, open: t, close: n, run: r, busy: i, nodes: a, edges: o, select: s, back: c, trace: l, tracedEdge: f }) {
+	let p = O(e.id, a, o), m = T(a).boxes;
 	return /* @__PURE__ */ (0, y.jsxs)("aside", {
 		className: "cp-inspector",
 		"aria-label": "Détail de la preuve",
 		children: [
 			/* @__PURE__ */ (0, y.jsxs)("header", { children: [
-				/* @__PURE__ */ (0, y.jsx)(x, { name: j(e) }),
+				/* @__PURE__ */ (0, y.jsx)(x, { name: N(e) }),
 				/* @__PURE__ */ (0, y.jsx)("h2", { children: e.label }),
 				/* @__PURE__ */ (0, y.jsx)("button", {
 					"aria-label": "Fermer l’inspecteur",
@@ -807,22 +897,31 @@ function M({ node: e, open: t, close: n, run: r, busy: i, nodes: a, edges: o, se
 				className: "cp-node-relations",
 				"aria-label": "Relations du nœud",
 				children: [
-					/* @__PURE__ */ (0, y.jsxs)("h3", { children: ["Suivre les relations · ", l.length] }),
-					!l.length && /* @__PURE__ */ (0, y.jsx)("p", { children: "Aucune relation enregistrée pour ce nœud." }),
-					/* @__PURE__ */ (0, y.jsx)("ul", { children: l.map(({ edge: e, node: t, label: n }) => /* @__PURE__ */ (0, y.jsxs)("li", { children: [
-						/* @__PURE__ */ (0, y.jsx)("span", { children: n }),
-						/* @__PURE__ */ (0, y.jsxs)("button", {
-							onClick: () => s(t.id),
-							children: [
-								"#",
-								f.get(t.id)?.number,
-								" · ",
-								t.label,
-								" →"
-							]
-						}),
-						/* @__PURE__ */ (0, y.jsx)("small", { children: e.explanation })
-					] }, e.id)) })
+					/* @__PURE__ */ (0, y.jsxs)("h3", { children: ["Suivre les relations · ", p.length] }),
+					!p.length && /* @__PURE__ */ (0, y.jsx)("p", { children: "Aucune relation enregistrée pour ce nœud." }),
+					/* @__PURE__ */ (0, y.jsx)("ul", { children: p.map(({ edge: e, node: t, label: n }) => /* @__PURE__ */ (0, y.jsxs)("li", {
+						className: `cp-relation-${e.relation}`,
+						children: [
+							/* @__PURE__ */ (0, y.jsx)("span", { children: n }),
+							/* @__PURE__ */ (0, y.jsxs)("button", {
+								onClick: () => s(t.id),
+								children: [
+									"#",
+									m.get(t.id)?.number,
+									" · ",
+									t.label,
+									" →"
+								]
+							}),
+							/* @__PURE__ */ (0, y.jsx)("small", { children: e.explanation }),
+							/* @__PURE__ */ (0, y.jsx)("button", {
+								className: "cp-trace-link",
+								"aria-pressed": f === e.id,
+								onClick: () => l(e.id),
+								children: "Isoler ce lien"
+							})
+						]
+					}, e.id)) })
 				]
 			}),
 			/* @__PURE__ */ (0, y.jsxs)("details", { children: [
@@ -848,43 +947,57 @@ function M({ node: e, open: t, close: n, run: r, busy: i, nodes: a, edges: o, se
 		]
 	});
 }
-function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o, busy: s }) {
-	let [c, l] = (0, i.useState)("all"), [f, p] = (0, i.useState)(!1), [h, _] = (0, i.useState)(!1), [v, b] = (0, i.useState)(null), [S, C] = (0, i.useState)([]), w = (0, i.useRef)(null), T = (0, i.useRef)(null);
+function F({ report: e, expandedWorkspace: t, onExpand: n, missing: r, onMissing: a, onRevision: o, open: s, run: c, busy: l }) {
+	let [f, p] = (0, i.useState)("all"), [h, _] = (0, i.useState)(!1), [v, b] = (0, i.useState)(!1), [S, C] = (0, i.useState)(null), [w, T] = (0, i.useState)([]), [E, D] = (0, i.useState)(null), O = (0, i.useRef)(null), k = (0, i.useRef)(null);
 	(0, i.useEffect)(() => {
-		T.current && w.current && (w.current.reveal(T.current), T.current = null);
+		k.current && O.current && (O.current.reveal(k.current), k.current = null);
 	});
-	let E = h || t || c !== "all", [D, O] = (0, i.useState)({
+	let A = v || r || f !== "all", [F, I] = (0, i.useState)({
 		x: 0,
 		y: 0,
 		zoom: 1
-	}), N = (0, i.useRef)(null), P = (t ? m(e.snapshot.nodes) : e.snapshot.nodes).filter((e) => c === "all" || e.kind === c), F = A(P, h || t || c !== "all"), I = !h && !t && c === "all" ? F.find((e) => e.kind === "check") : void 0, L = F.filter((e) => e !== I), R = new Map(L.map((e, t) => [e.id, {
+	}), L = (0, i.useRef)(null), R = (r ? m(e.snapshot.nodes) : e.snapshot.nodes).filter((e) => f === "all" || e.kind === f), z = M(R, v || r || f !== "all"), B = !v && !r && f === "all" ? z.find((e) => e.kind === "check") : void 0, V = z.filter((e) => e !== B), H = new Map(V.map((e, t) => [e.id, {
 		x: 60 + t % 7 * 130,
 		y: 235 + Math.floor(t / 7) * 170
 	}]));
-	I && R.set(I.id, {
+	B && H.set(B.id, {
 		x: 535,
 		y: 90
 	});
-	let z = v === "closed" ? void 0 : e.snapshot.nodes.find((e) => e.id === v) ?? F.find((e) => e.kind === "visual") ?? F[0], B = e.snapshot.edges.filter((e) => R.has(e.from) && R.has(e.to) && (f || e.relation !== "invalidates"));
-	function V(e) {
-		z && z.id !== e && C((e) => [...e, z.id]), b(e);
+	let U = S === "closed" ? void 0 : e.snapshot.nodes.find((e) => e.id === S) ?? z.find((e) => e.kind === "visual") ?? z[0], W = e.snapshot.edges.filter((e) => H.has(e.from) && H.has(e.to) && (h || e.relation !== "invalidates"));
+	function G(e) {
+		D(null), U && U.id !== e && T((e) => [...e, U.id]), C(e);
 	}
-	function H(e) {
-		V(e), F.some((t) => t.id === e) || (l("all"), n(!1), _(!0), O({
+	function K(e) {
+		G(e), z.some((t) => t.id === e) || (p("all"), a(!1), b(!0), I({
 			x: 0,
 			y: 0,
 			zoom: 1
-		})), T.current = e;
+		})), k.current = e;
 	}
-	function U() {
-		let e = S.at(-1);
-		e && (C((e) => e.slice(0, -1)), b(e), w.current?.reveal(e));
+	function q() {
+		let e = w.at(-1);
+		e && (T((e) => e.slice(0, -1)), C(e), O.current?.reveal(e));
 	}
-	let W = [...new Set(e.snapshot.nodes.map((e) => e.kind))];
+	function J(t) {
+		let n = e.snapshot.edges.find((e) => e.id === t);
+		n && (p("all"), a(!1), n.relation === "invalidates" && _(!0), b(!0), D(t), k.current = U?.id ?? null);
+	}
+	let Y = [...new Set(e.snapshot.nodes.map((e) => e.kind))];
 	return /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
 		/* @__PURE__ */ (0, y.jsxs)("header", {
 			className: "cp-heading",
-			children: [/* @__PURE__ */ (0, y.jsx)("h1", { children: "Graphe des preuves" }), /* @__PURE__ */ (0, y.jsx)("p", { children: "Traçabilité des décisions, du code aux preuves" })]
+			children: [/* @__PURE__ */ (0, y.jsxs)("div", {
+				className: "cp-graph-heading-row",
+				children: [/* @__PURE__ */ (0, y.jsx)("h1", { children: "Graphe des preuves" }), n && /* @__PURE__ */ (0, y.jsx)("button", {
+					className: "cp-expand-graph",
+					"aria-pressed": t,
+					onClick: (e) => {
+						n(), e.currentTarget.focus({ preventScroll: !0 });
+					},
+					children: t ? "Quitter le plein écran" : "Plein écran"
+				})]
+			}), /* @__PURE__ */ (0, y.jsx)("p", { children: "Traçabilité des décisions, du code aux preuves" })]
 		}),
 		/* @__PURE__ */ (0, y.jsxs)("div", {
 			className: "cp-filters",
@@ -894,7 +1007,7 @@ function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o
 					children: "Version des preuves"
 				}), /* @__PURE__ */ (0, y.jsxs)("select", {
 					value: e.snapshot.input.revisionId ?? "",
-					onChange: (e) => r(e.target.value),
+					onChange: (e) => o(e.target.value),
 					children: [!e.revisions.length && /* @__PURE__ */ (0, y.jsx)("option", {
 						value: "",
 						children: "Aucune version"
@@ -907,30 +1020,30 @@ function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o
 					className: "sr-only",
 					children: "Type de preuve"
 				}), /* @__PURE__ */ (0, y.jsxs)("select", {
-					value: c,
-					onChange: (e) => l(e.target.value),
+					value: f,
+					onChange: (e) => p(e.target.value),
 					children: [/* @__PURE__ */ (0, y.jsx)("option", {
 						value: "all",
 						children: "Tous les types"
-					}), W.map((e) => /* @__PURE__ */ (0, y.jsx)("option", {
+					}), Y.map((e) => /* @__PURE__ */ (0, y.jsx)("option", {
 						value: e,
 						children: g[e]
 					}, e))]
 				})] }),
 				/* @__PURE__ */ (0, y.jsxs)("label", { children: [/* @__PURE__ */ (0, y.jsx)("input", {
 					type: "checkbox",
-					checked: f,
-					onChange: (e) => p(e.target.checked)
+					checked: h,
+					onChange: (e) => _(e.target.checked)
 				}), "Afficher les invalidations"] }),
 				/* @__PURE__ */ (0, y.jsxs)("label", { children: [/* @__PURE__ */ (0, y.jsx)("input", {
 					type: "checkbox",
-					checked: t,
-					onChange: (e) => n(e.target.checked)
+					checked: r,
+					onChange: (e) => a(e.target.checked)
 				}), "Preuves manquantes"] })
 			]
 		}),
 		/* @__PURE__ */ (0, y.jsxs)("div", {
-			className: `cp-graph-layout ${E ? "cp-graph-detailed" : ""}`,
+			className: `cp-graph-layout ${A ? "cp-graph-detailed" : ""}`,
 			children: [/* @__PURE__ */ (0, y.jsxs)("div", {
 				className: "cp-graph-area",
 				children: [
@@ -939,16 +1052,16 @@ function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o
 						children: [
 							/* @__PURE__ */ (0, y.jsx)("button", {
 								"aria-label": "Réduire le graphe",
-								onClick: () => O((e) => ({
+								onClick: () => I((e) => ({
 									...e,
-									zoom: Math.max(E ? .8 : .4, e.zoom - .2)
+									zoom: Math.max(A ? .8 : .4, e.zoom - .2)
 								})),
 								children: "−"
 							}),
-							/* @__PURE__ */ (0, y.jsxs)("span", { children: [Math.round(D.zoom * 100), " %"] }),
+							/* @__PURE__ */ (0, y.jsxs)("span", { children: [Math.round(F.zoom * 100), " %"] }),
 							/* @__PURE__ */ (0, y.jsx)("button", {
 								"aria-label": "Agrandir le graphe",
-								onClick: () => O((e) => ({
+								onClick: () => I((e) => ({
 									...e,
 									zoom: Math.min(2.4, e.zoom + .2)
 								})),
@@ -956,61 +1069,63 @@ function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o
 							}),
 							/* @__PURE__ */ (0, y.jsx)("button", {
 								onClick: () => {
-									O({
+									I({
 										x: 0,
 										y: 0,
 										zoom: 1
-									}), E && z && w.current?.reveal(z.id);
+									}), A && U && O.current?.reveal(U.id);
 								},
 								children: "Recentrer"
 							}),
 							/* @__PURE__ */ (0, y.jsx)("button", {
-								"aria-pressed": h,
+								"aria-pressed": v,
 								onClick: () => {
-									_(!h), O({
+									b(!v), I({
 										x: 0,
 										y: 0,
 										zoom: 1
 									});
 								},
-								children: h ? "Vue synthétique" : "Tous les nœuds"
+								children: v ? "Vue synthétique" : "Tous les nœuds"
 							})
 						]
 					}),
-					F.length && E ? /* @__PURE__ */ (0, y.jsx)(k, {
-						ref: w,
-						nodes: F,
+					z.length && A ? /* @__PURE__ */ (0, y.jsx)(j, {
+						ref: O,
+						nodes: z,
 						allNodes: e.snapshot.nodes,
-						edges: e.snapshot.edges.filter((e) => f || e.relation !== "invalidates"),
-						selected: z?.id,
-						select: V,
-						zoom: Math.max(.8, D.zoom)
-					}) : F.length ? /* @__PURE__ */ (0, y.jsxs)("svg", {
+						edges: e.snapshot.edges.filter((e) => h || e.relation !== "invalidates"),
+						selected: U?.id,
+						tracedEdge: E,
+						trace: D,
+						select: G,
+						zoom: Math.max(.8, F.zoom)
+					}) : z.length ? /* @__PURE__ */ (0, y.jsxs)("svg", {
 						className: "cp-canvas",
-						viewBox: `0 0 910 ${Math.max(410, Math.ceil(F.length / 7) * 160 + 160)}`,
+						viewBox: `0 0 910 ${Math.max(410, Math.ceil(z.length / 7) * 160 + 160)}`,
 						tabIndex: 0,
 						role: "group",
 						"aria-label": "Graphe des preuves. Flèches pour déplacer, plus et moins pour zoomer. Une liste complète suit le graphe.",
 						onPointerDown: (e) => {
-							e.button === 0 && (N.current = {
+							e.button === 0 && (L.current = {
 								x: e.clientX,
 								y: e.clientY,
-								startX: D.x,
-								startY: D.y
+								startX: F.x,
+								startY: F.y
 							}, e.currentTarget.setPointerCapture(e.pointerId));
 						},
 						onPointerMove: (e) => {
-							N.current && O((t) => ({
+							L.current && I((t) => ({
 								...t,
-								x: N.current.startX + e.clientX - N.current.x,
-								y: N.current.startY + e.clientY - N.current.y
+								x: L.current.startX + e.clientX - L.current.x,
+								y: L.current.startY + e.clientY - L.current.y
 							}));
 						},
 						onPointerUp: () => {
-							N.current = null;
+							L.current = null;
 						},
 						onPointerCancel: () => {
-							N.current = null;
+							L.current = null;
 						},
 						onKeyDown: (e) => {
 							let t = {
@@ -1019,11 +1134,11 @@ function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o
 								ArrowUp: [0, -30],
 								ArrowDown: [0, 30]
 							}[e.key];
-							t && (e.preventDefault(), O((e) => ({
+							t && (e.preventDefault(), I((e) => ({
 								...e,
 								x: e.x + t[0],
 								y: e.y + t[1]
-							}))), ["+", "-"].includes(e.key) && (e.preventDefault(), O((t) => ({
+							}))), ["+", "-"].includes(e.key) && (e.preventDefault(), I((t) => ({
 								...t,
 								zoom: Math.max(.4, Math.min(2.4, t.zoom + (e.key === "+" ? .2 : -.2)))
 							})));
@@ -1041,28 +1156,28 @@ function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o
 								stroke: "currentColor"
 							})
 						}) }), /* @__PURE__ */ (0, y.jsxs)("g", {
-							transform: `translate(${D.x} ${D.y}) scale(${D.zoom})`,
-							children: [B.map((e) => {
-								let t = R.get(e.from), n = R.get(e.to);
+							transform: `translate(${F.x} ${F.y}) scale(${F.zoom})`,
+							children: [W.map((e) => {
+								let t = H.get(e.from), n = H.get(e.to);
 								return /* @__PURE__ */ (0, y.jsx)("path", {
 									className: `cp-edge cp-edge-${e.relation}`,
 									d: `M${t.x} ${t.y - 40} Q${(t.x + n.x) / 2} ${Math.min(t.y, n.y) - 110} ${n.x} ${n.y - 40}`,
 									markerEnd: "url(#cp-arrow)",
 									children: /* @__PURE__ */ (0, y.jsx)("title", { children: e.explanation })
 								}, e.id);
-							}), F.map((e) => {
-								let t = R.get(e.id), n = e.kind === "criterion" ? `Critère ${e.id.replace("criterion:", "")}` : e.label;
+							}), z.map((e) => {
+								let t = H.get(e.id), n = e.kind === "criterion" ? `Critère ${e.id.replace("criterion:", "")}` : e.label;
 								return /* @__PURE__ */ (0, y.jsxs)("g", {
 									className: `cp-node cp-${e.status} ${e.freshness === "stale" ? "cp-stale" : ""}`,
 									transform: `translate(${t.x} ${t.y})`,
 									role: "button",
 									tabIndex: 0,
 									"aria-label": `${e.label} · ${u[e.status]} · ${d[e.freshness]}`,
-									"aria-pressed": z?.id === e.id,
+									"aria-pressed": U?.id === e.id,
 									onPointerDown: (e) => e.stopPropagation(),
-									onClick: () => V(e.id),
+									onClick: () => G(e.id),
 									onKeyDown: (t) => {
-										["Enter", " "].includes(t.key) && (t.preventDefault(), t.stopPropagation(), V(e.id));
+										["Enter", " "].includes(t.key) && (t.preventDefault(), t.stopPropagation(), G(e.id));
 									},
 									children: [
 										/* @__PURE__ */ (0, y.jsx)("circle", { r: "37" }),
@@ -1071,7 +1186,7 @@ function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o
 											y: "-18",
 											width: "34",
 											height: "36",
-											children: /* @__PURE__ */ (0, y.jsx)(x, { name: j(e) })
+											children: /* @__PURE__ */ (0, y.jsx)(x, { name: N(e) })
 										}),
 										/* @__PURE__ */ (0, y.jsx)("text", {
 											textAnchor: "middle",
@@ -1110,12 +1225,12 @@ function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o
 						className: "cp-evidence-list",
 						children: [/* @__PURE__ */ (0, y.jsxs)("summary", { children: [
 							"Liste accessible · ",
-							P.length,
+							R.length,
 							" éléments (",
-							F.length,
+							z.length,
 							" affichés dans le graphe)"
-						] }), /* @__PURE__ */ (0, y.jsx)("ul", { children: P.map((e) => /* @__PURE__ */ (0, y.jsx)("li", { children: /* @__PURE__ */ (0, y.jsxs)("button", {
-							onClick: () => V(e.id),
+						] }), /* @__PURE__ */ (0, y.jsx)("ul", { children: R.map((e) => /* @__PURE__ */ (0, y.jsx)("li", { children: /* @__PURE__ */ (0, y.jsxs)("button", {
+							onClick: () => G(e.id),
 							children: [
 								e.label,
 								" · ",
@@ -1126,23 +1241,25 @@ function N({ report: e, missing: t, onMissing: n, onRevision: r, open: a, run: o
 						}) }, e.id)) })]
 					})
 				]
-			}), z && /* @__PURE__ */ (0, y.jsx)(M, {
-				node: z,
-				open: a,
-				close: () => b("closed"),
-				run: o,
-				busy: s,
+			}), U && /* @__PURE__ */ (0, y.jsx)(P, {
+				node: U,
+				open: s,
+				close: () => C("closed"),
+				run: c,
+				busy: l,
 				nodes: e.snapshot.nodes,
 				edges: e.snapshot.edges,
-				select: H,
-				back: S.length ? U : void 0
-			}, z.id)]
+				select: K,
+				back: w.length ? q : void 0,
+				tracedEdge: E,
+				trace: J
+			}, U.id)]
 		})
 	] });
 }
 //#endregion
 //#region studio-ui/src/features/control/Attention.tsx
-function P({ item: e, busy: t, close: n, decide: r }) {
+function I({ item: e, busy: t, close: n, decide: r }) {
 	let [a, o] = (0, i.useState)("");
 	return /* @__PURE__ */ (0, y.jsxs)("section", {
 		className: "cp-decision-review",
@@ -1202,7 +1319,7 @@ function P({ item: e, busy: t, close: n, decide: r }) {
 		]
 	});
 }
-function F({ report: e, busy: t, mutate: n, run: r, open: a }) {
+function L({ report: e, busy: t, mutate: n, run: r, open: a }) {
 	let o = p(e), [s, l] = (0, i.useState)(null), u = o.find((e) => e.id === s), d = (0, i.useRef)(null), f = (0, i.useRef)(null), m = (0, i.useRef)(null);
 	(0, i.useEffect)(() => {
 		s && !u && m.current?.focus();
@@ -1318,7 +1435,7 @@ function F({ report: e, busy: t, mutate: n, run: r, open: a }) {
 				/* @__PURE__ */ (0, y.jsx)("div", {
 					ref: d,
 					tabIndex: -1,
-					children: u && /* @__PURE__ */ (0, y.jsx)(P, {
+					children: u && /* @__PURE__ */ (0, y.jsx)(I, {
 						item: u,
 						busy: t,
 						close: () => {
@@ -1357,7 +1474,7 @@ function F({ report: e, busy: t, mutate: n, run: r, open: a }) {
 }
 //#endregion
 //#region studio-ui/src/features/control/Details.tsx
-function I({ report: e }) {
+function R({ report: e }) {
 	let { risk: t, nodes: n } = e.snapshot;
 	return /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
 		/* @__PURE__ */ (0, y.jsxs)("header", {
@@ -1404,7 +1521,7 @@ function I({ report: e }) {
 		})
 	] });
 }
-function L({ report: e, probe: t, busy: n, proceed: r }) {
+function z({ report: e, probe: t, busy: n, proceed: r }) {
 	let { decision: i } = e.snapshot;
 	return /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
 		/* @__PURE__ */ (0, y.jsxs)("header", {
@@ -1461,7 +1578,7 @@ function L({ report: e, probe: t, busy: n, proceed: r }) {
 		})
 	] });
 }
-function R({ report: e }) {
+function B({ report: e }) {
 	return /* @__PURE__ */ (0, y.jsxs)(y.Fragment, { children: [
 		/* @__PURE__ */ (0, y.jsxs)("header", {
 			className: "cp-heading",
@@ -1530,7 +1647,7 @@ function R({ report: e }) {
 }
 //#endregion
 //#region studio-ui/src/features/control/ControlPlane.tsx
-function z({ options: e }) {
+function V({ options: e }) {
 	let t = (0, i.useRef)(null), [n, r] = (0, i.useState)(h), [o, c] = (0, i.useState)(!1), [u, d] = (0, i.useState)(null), f = v({
 		...e,
 		revisionId: u ?? e.revisionId
@@ -1615,8 +1732,10 @@ function z({ options: e }) {
 						run: () => void f.runChecks(),
 						busy: !!(_ || m)
 					}),
-					n === "graph" && /* @__PURE__ */ (0, y.jsx)(N, {
+					n === "graph" && /* @__PURE__ */ (0, y.jsx)(F, {
 						report: p,
+						expandedWorkspace: e.expanded ?? !1,
+						onExpand: e.onExpand,
 						missing: o,
 						onMissing: c,
 						onRevision: d,
@@ -1624,15 +1743,15 @@ function z({ options: e }) {
 						run: (e) => void f.runChecks(e),
 						busy: !!(_ || m)
 					}),
-					n === "attention" && /* @__PURE__ */ (0, y.jsx)(F, {
+					n === "attention" && /* @__PURE__ */ (0, y.jsx)(L, {
 						report: p,
 						busy: !!(_ || m),
 						mutate: f.mutate,
 						run: (e) => void f.runChecks(e),
 						open: e.onOpen
 					}),
-					n === "risks" && /* @__PURE__ */ (0, y.jsx)(I, { report: p }),
-					n === "autonomy" && /* @__PURE__ */ (0, y.jsx)(L, {
+					n === "risks" && /* @__PURE__ */ (0, y.jsx)(R, { report: p }),
+					n === "autonomy" && /* @__PURE__ */ (0, y.jsx)(z, {
 						report: p,
 						busy: !!(_ || m),
 						probe: () => void f.mutate("runtime", {}),
@@ -1641,7 +1760,7 @@ function z({ options: e }) {
 							snapshotKey: p.snapshot.key
 						})
 					}),
-					n === "history" && /* @__PURE__ */ (0, y.jsx)(R, { report: p })
+					n === "history" && /* @__PURE__ */ (0, y.jsx)(B, { report: p })
 				]
 			})
 		]
@@ -1649,11 +1768,11 @@ function z({ options: e }) {
 }
 //#endregion
 //#region studio-ui/src/control-widget.tsx
-function B(e, t) {
+function H(e, t) {
 	let n = (0, o.createRoot)(e);
-	return n.render(/* @__PURE__ */ (0, y.jsx)(z, { options: t })), {
+	return n.render(/* @__PURE__ */ (0, y.jsx)(V, { options: t })), {
 		update(e) {
-			n.render(/* @__PURE__ */ (0, y.jsx)(z, { options: e }));
+			n.render(/* @__PURE__ */ (0, y.jsx)(V, { options: e }));
 		},
 		dispose() {
 			n.unmount();
@@ -1661,4 +1780,4 @@ function B(e, t) {
 	};
 }
 //#endregion
-export { B as mountControlWidget };
+export { H as mountControlWidget };

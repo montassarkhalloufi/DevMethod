@@ -52,12 +52,16 @@ function Inspector({
   edges,
   select,
   back,
+  trace,
+  tracedEdge,
 }: {
   node: EvidenceNode;
   nodes: EvidenceNode[];
   edges: EvidenceEdge[];
   select: (id: string) => void;
   back?: () => void;
+  trace: (id: string) => void;
+  tracedEdge: string | null;
   open: (link: SourceLink) => void;
   close: () => void;
   run: (ids: string[]) => void;
@@ -109,12 +113,19 @@ function Inspector({
         {!relations.length && <p>Aucune relation enregistrée pour ce nœud.</p>}
         <ul>
           {relations.map(({ edge, node: neighbor, label }) => (
-            <li key={edge.id}>
+            <li key={edge.id} className={`cp-relation-${edge.relation}`}>
               <span>{label}</span>
               <button onClick={() => select(neighbor.id)}>
                 #{numbers.get(neighbor.id)?.number} · {neighbor.label} →
               </button>
               <small>{edge.explanation}</small>
+              <button
+                className="cp-trace-link"
+                aria-pressed={tracedEdge === edge.id}
+                onClick={() => trace(edge.id)}
+              >
+                Isoler ce lien
+              </button>
             </li>
           ))}
         </ul>
@@ -154,6 +165,8 @@ function Inspector({
 
 export function EvidenceGraph({
   report,
+  expandedWorkspace,
+  onExpand,
   missing,
   onMissing,
   onRevision,
@@ -162,6 +175,8 @@ export function EvidenceGraph({
   busy,
 }: {
   report: ControlReport;
+  expandedWorkspace: boolean;
+  onExpand?: () => void;
   missing: boolean;
   onMissing: (value: boolean) => void;
   onRevision: (id: string) => void;
@@ -174,6 +189,7 @@ export function EvidenceGraph({
     [expanded, setExpanded] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [trail, setTrail] = useState<string[]>([]);
+  const [tracedEdge, setTracedEdge] = useState<string | null>(null);
   const detailRef = useRef<DetailedGraphHandle>(null);
   const pendingFocus = useRef<string | null>(null);
   useEffect(() => {
@@ -214,6 +230,7 @@ export function EvidenceGraph({
       (invalidations || edge.relation !== 'invalidates'),
   );
   function selectNode(id: string) {
+    setTracedEdge(null);
     if (chosen && chosen.id !== id) setTrail((value) => [...value, chosen.id]);
     setSelected(id);
   }
@@ -234,11 +251,35 @@ export function EvidenceGraph({
     setSelected(id);
     detailRef.current?.reveal(id);
   }
+  function traceEdge(id: string) {
+    const edge = report.snapshot.edges.find((entry) => entry.id === id);
+    if (!edge) return;
+    setKind('all');
+    onMissing(false);
+    if (edge.relation === 'invalidates') setInvalidations(true);
+    setExpanded(true);
+    setTracedEdge(id);
+    pendingFocus.current = chosen?.id ?? null;
+  }
   const types = [...new Set(report.snapshot.nodes.map((node) => node.kind))];
   return (
     <>
       <header className="cp-heading">
-        <h1>Graphe des preuves</h1>
+        <div className="cp-graph-heading-row">
+          <h1>Graphe des preuves</h1>
+          {onExpand && (
+            <button
+              className="cp-expand-graph"
+              aria-pressed={expandedWorkspace}
+              onClick={(event) => {
+                onExpand();
+                event.currentTarget.focus({ preventScroll: true });
+              }}
+            >
+              {expandedWorkspace ? 'Quitter le plein écran' : 'Plein écran'}
+            </button>
+          )}
+        </div>
         <p>Traçabilité des décisions, du code aux preuves</p>
       </header>
       <div className="cp-filters">
@@ -334,6 +375,8 @@ export function EvidenceGraph({
                 (edge) => invalidations || edge.relation !== 'invalidates',
               )}
               selected={chosen?.id}
+              tracedEdge={tracedEdge}
+              trace={setTracedEdge}
               select={selectNode}
               zoom={Math.max(0.8, viewport.zoom)}
             />
@@ -520,6 +563,8 @@ export function EvidenceGraph({
             edges={report.snapshot.edges}
             select={followNode}
             back={trail.length ? back : undefined}
+            tracedEdge={tracedEdge}
+            trace={traceEdge}
           />
         )}
       </div>

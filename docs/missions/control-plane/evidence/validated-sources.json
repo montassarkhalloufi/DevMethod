@@ -13,8 +13,8 @@
     "scripts/studio/mcp-actions.mjs": "e7aaf858e7c1436b8b5994b58d5a19e92b5c2f7797d0b049b86011939b251247",
     "scripts/studio/mcp-broker.mjs": "4332c6a45935dff00d39cc7dea69018cc9c3d195c5b9cc1f78420aae6f80fad9",
     "scripts/studio/public/app.js": "923bb31f65328c208f66c5bdd685533ab849ae2a17d8766143dbb598914b9a3b",
-    "scripts/studio/public/control-controller.js": "5a5b6c4b36dba2bf499a616efcbe8ae0970fc424fe0448dee3113a3076c783ec",
-    "scripts/studio/public/control-plane.css": "e8df9b6bb1237e0c7a1b19acc3476fd0d5f7c683810aa8d13f87adb93388c64e",
+    "scripts/studio/public/control-controller.js": "55c754f9fd99dac266f23c62cfed36d9985b55ca2cc6278a33b7560d20291b2b",
+    "scripts/studio/public/control-plane.css": "208c3adc43fee2112a0fbdec7f8660de343ce7c9d343923dd1394ce34c7357d3",
     "scripts/studio/public/index.html": "f7b1354de2b32570decc1156a3ab6fca88ea13919550e9ca2a9cb15ece31522f",
     "scripts/studio/public/technical-workspace.js": "1d295d7d4b401f507e968ca859839a7be92f8178705a3cda4aad08b9366765ac",
     "scripts/studio/quality-catalog.mjs": "841978af8612a234a75e784ea3430aa67faeb19853de7232382b4b2e9c6d25c7",
@@ -30,20 +30,21 @@
     "src/control-plane/validation.ts": "46bc002d3020d7790f108d48d2afae26193ee74cba9c710d33ceb7fe4ec23a24",
     "studio-ui/src/control-widget.tsx": "db6d7a939483ea677404c87d42a0659835ddddf1e7b5a28f8097956ed0e6405c",
     "studio-ui/src/features/control/Attention.tsx": "f73c0340b68df20a310b502943215f4494d80dff6d72c11ba79c80d3c77e51ba",
-    "studio-ui/src/features/control/ControlPlane.tsx": "d1813d1ac67906906802a4b29cd31e67a8b328dc9aa9769da56a34c88409a970",
-    "studio-ui/src/features/control/DetailedGraph.tsx": "e58b343cd80aaad75486f859c1c13d4d863ddec3a704cbfbe9d03c4a9cfbebe5",
+    "studio-ui/src/features/control/ControlPlane.tsx": "da7f77b3190e5a05e941cc893e2d11ea9bccba951a546344df7bfc25a9c90b68",
+    "studio-ui/src/features/control/DetailedGraph.tsx": "928f7771b8faf0215e178ad487b9d05e8e0aedc50cb7da30f1e0c0dfab1f13c7",
     "studio-ui/src/features/control/Details.tsx": "3cc1b1739b239697baaa3a97b57dc0380cfc0f73647d9728eb41a3a89125a511",
-    "studio-ui/src/features/control/EvidenceGraph.tsx": "31130ded545e396ed7fca8518125ff3ed84b23c2d980921952277463d2fa3540",
+    "studio-ui/src/features/control/EvidenceGraph.tsx": "2da334e0fdf0234bbceb16be58c9948269d258327f6bcf805bf45281abddbc3e",
     "studio-ui/src/features/control/Icon.tsx": "1386ec7d65022b1c3732d636677daf91b53af75cc84cd96f74105d12ace68692",
     "studio-ui/src/features/control/Overview.tsx": "9a9d96b58920220b6cc8a695318c7ca874e1c76450faf18611a4cba4490fb705",
     "studio-ui/src/features/control/graph-layout.ts": "5bb31780fb3c2797e83e36855afcb775021327637bdee148e17faa6c6827f363",
-    "studio-ui/src/features/control/model.ts": "bd91025956f5a067fa6e2b8371fea7c76a8c2b4902ffdfd3f8e91375dd4bb864",
+    "studio-ui/src/features/control/graph-routing.ts": "0f00a03681fbe6bfa0eba948f14a4798b21f4a37fa2725cdd5da5ec23a732d23",
+    "studio-ui/src/features/control/model.ts": "274ae2a5c77aef42935eb2aae7466312ae8a35e509662eec49ae9c60ed6222e5",
     "studio-ui/src/features/control/useControl.ts": "5ab6bfb047a0a343b72e1294a23178b16f0dfb884d1422ec7dec306ea307bd6a",
     "studio-ui/vite.config.ts": "ce90df35280e3ca8994dbec7cccdfb4d455525eaa154af44665309d528bd0786",
     "tests/control-plane.test.mjs": "503252d81c5f000eb51ef5b4196904bf92e3910b76880017d437f59dd80669fa",
-    "tests/studio-control-layout.test.mjs": "01532ef2c405dfc37d3e30294aba2392392a1fee327abba6224addbf4c6c6e7b",
+    "tests/studio-control-layout.test.mjs": "68c20d77ca5bcfda60544d86bd81bd5ca2ee1508abe5f2b11f9366bb96f93340",
     "tests/studio-control-plane.test.mjs": "1b111743bfcf4ea9a154757db1bb37b5405055d7e74665f6f04dd721ad4c612d",
-    "tests/studio-control-widget.test.mjs": "69c81d0cd961a92e44a89394ea317eac5f964c15c42acff1145c24d4ea4e2eda",
+    "tests/studio-control-widget.test.mjs": "b341bca8c49afb31b314d38976aeb0d459c2c70775ea65219962cb65d3efa0d3",
     "tests/studio-import.test.mjs": "f5227d5dfdf4a5a525c218c1c9569acab90f664a0c78578e29ead8cda056c785",
     "tests/studio-integration-safety.test.mjs": "9819388f2cda8a0759da0b4779d866481c4f89fdb926358633219a238bb547e8",
     "tests/studio-integration.test.mjs": "44f1158b548bc3908cecdfbd16c84d465fe892cb953d94e3ba06f75514ab55e1",
@@ -53,13 +54,14 @@
     "tests/studio-shell-navigation.test.mjs": "3b76cd6850bd21c37e97135c758419ab4fd8ba07b0270923b6a81f099f5a3a05"
   },
   "validation": {
-    "tests": 1089,
+    "tests": 1090,
     "failed": 0,
     "skipped": 0,
     "lint": "passed",
     "format": "passed",
     "docs": "passed",
-    "qualityReport": "passed"
+    "qualityReport": "passed",
+    "packageSmoke": "passed on locally packed staged tree, including installed dependencies and documentation"
   },
   "browser": {
     "desktop": [
@@ -73,6 +75,9 @@
     "detailedNodes": 77,
     "clippedDetailedLabels": 0,
     "mobileDocumentWidth": 390,
-    "selectedStyle": "round nodes, family layout, orthogonal routes for selected relations"
+    "selectedStyle": "round nodes, family layout, orthogonal routes for selected relations",
+    "colouredBundledRelations": true,
+    "isolatedLinkPreserves77Nodes": true,
+    "fullscreenButtonAndEscape": "passed, selection retained, background inert restored"
   }
 }
