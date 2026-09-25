@@ -45,7 +45,7 @@ export function exportProject(workspace, state) {
       'source-only'
         ? 'Les sources sont exportées pour inspection, modification et reprise dans Studio. Aucun aperçu ni exécution ne sont disponibles pour ce profil dans le runtime Studio. Les scripts du projet n’ont pas été exécutés ; cet export ne constitue pas une validation de leur fonctionnement.\n\n'
         : 'Node.js 22+ suffit. Lancez `node launch.mjs 4399`, puis ouvrez http://127.0.0.1:4399/.\n\n') +
-      'Le code est dans revisions/, les décisions et demandes dans .devmethod/studio.json, les données actuelles dans .devmethod/data.json, les références dans references/. Ce runtime local n’a ni authentification ni déploiement public. Aucun accès fournisseur ou secret n’est exporté.\n\nPour reprendre dans DevMethod : `devmethod studio --workspace /chemin/absolu/vers/ce/dossier`. Revenir à une version de code ne restaure pas d’anciennes données. Les changements de schéma restent à vérifier.\n',
+      'Le code est dans revisions/, les décisions et demandes dans .devmethod/studio.json, les données actuelles dans .devmethod/data.json, les références dans references/. Ce runtime local n’a ni authentification ni déploiement public. Aucun accès fournisseur ou secret n’est exporté.\n\nPour reprendre dans DevMethod : `devmethod-studio --workspace /chemin/absolu/vers/ce/dossier`. Revenir à une version de code ne restaure pas d’anciennes données. Les changements de schéma restent à vérifier.\n',
   );
   return archiveFiles(entries);
 }

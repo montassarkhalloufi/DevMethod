@@ -1,0 +1,27 @@
+{
+  "baseRevision": "b93df7a24a7d2e194cb0062aa54e776fe4bb7958",
+  "source": "Working tree with package split and preserved concurrent handbook changes in README/package scripts; not a published release.",
+  "runtime": "Node.js 24.18.0 / npm 11.16.0 / macOS arm64",
+  "archives": [
+    {
+      "name": "devmethod-ai",
+      "version": "0.6.0-beta.1",
+      "filename": "devmethod-ai-0.6.0-beta.1.tgz",
+      "size": 286816,
+      "unpackedSize": 943751,
+      "entryCount": 224,
+      "integrity": "sha512-DHB0CCEJBpQhcRS18qhVkjUBwnheO1jbw6QW8zevB1KSoy9p1whZNuuWh853Z8Sg+DWW8CDF7se3lxPdvwitWw==",
+      "sha256": "4670e9fdabdcc1529f1ad343b940543aa829edbd5148993ad0341886c5b8c5a0"
+    },
+    {
+      "name": "devmethod-studio",
+      "version": "0.6.0-beta.1",
+      "filename": "devmethod-studio-0.6.0-beta.1.tgz",
+      "size": 10624569,
+      "unpackedSize": 25143247,
+      "entryCount": 511,
+      "integrity": "sha512-n+gMFHThDGMCtHWxxgLgroJcwjDFKrfaWpftKZe+dCFgzpKFOwO9dQVX5X6K1DDCx2afuMtLlUoRxaN/wPDb5g==",
+      "sha256": "9d378c7a1543fe15b92939c70bd2e2c0eb1bb1db6c750c1444692f37f4165f2b"
+    }
+  ]
+}

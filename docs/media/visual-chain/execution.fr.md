@@ -9,7 +9,7 @@ Lis BRIEF.md et inspecte réellement les trois images de references/. Réalise l
 
 ## Sortie Codex CLI
 
-VISUAL-1 est implémenté dans [app/](<projet>/app) avec :
+VISUAL-1 est implémenté dans `<projet>/app` avec :
 
 - bibliothèque responsive fidèle au master ;
 - couvertures recadrées depuis `master.png` ;
@@ -17,7 +17,7 @@ VISUAL-1 est implémenté dans [app/](<projet>/app) avec :
 - persistance `localStorage` protégeant les données invalides ;
 - état vide et erreurs visibles.
 
-Preuves : 6/6 tests Node réussis dans [domain.test.mjs](<projet>/tests/domain.test.mjs), contrôles syntaxiques réussis, aucune requête externe. Relecture effectuée et recadrage responsive corrigé. `CONTRIBUTING.md` est absent, sans blocage. Le rendu navigateur reste volontairement non vérifié par cette mission.
+Preuves : 6/6 tests Node réussis dans `<projet>/tests/domain.test.mjs`, contrôles syntaxiques réussis, aucune requête externe. Relecture effectuée et recadrage responsive corrigé. `CONTRIBUTING.md` est absent, sans blocage. Le rendu navigateur reste volontairement non vérifié par cette mission.
 
 Prochaine commande : `$project-foundation verify VISUAL-1`
 

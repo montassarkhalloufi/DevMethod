@@ -15,10 +15,22 @@ hôte. Il ne les installe ni ne les connecte automatiquement.
 
 ## Démarrer
 
-Node.js 22+ est requis. Depuis une installation DevMethod :
+Node.js 22+ est requis. Le Studio est désormais un paquet distinct de la méthode :
+`devmethod-studio`. Ce candidat n’est pas publié. Depuis le dépôt, construire avec
+`npm run build`, puis créer son archive avec `npm run pack:studio` et installer
+l’archive locale avec `npm install /chemin/absolu/devmethod-studio-0.6.0-beta.1.tgz`.
+Depuis cette installation, utiliser `npx --offline devmethod-studio` ; les commandes
+ci-dessous supposent son exécutable dans le PATH.
+
+La méthode `devmethod-ai` reste utilisable seule, sans télécharger le Studio.
+L’ancienne commande `devmethod studio` fonctionne dans le dépôt source ou si les
+deux paquets sont explicitement installés ensemble. Elle ne télécharge rien
+automatiquement lorsque le Studio manque.
+
+Lancement :
 
 ```sh
-devmethod studio
+devmethod-studio
 ```
 
 Le terminal affiche l’adresse de l’accueil local, par défaut `http://127.0.0.1:4330/`.
@@ -27,7 +39,7 @@ Son registre est conservé dans
 `~/.devmethod/studio-home` ; choisir une autre bibliothèque avec :
 
 ```sh
-devmethod studio home --workspace /chemin/absolu/ma-bibliotheque --port 4330
+devmethod-studio home --workspace /chemin/absolu/ma-bibliotheque --port 4330
 ```
 
 Un nouveau projet reçoit son propre dossier dans `projects/IDENTIFIANT` sous cette
@@ -65,15 +77,15 @@ Le lancement direct reste disponible pour un projet connu, notamment pour conser
 ports fixes et donc l’origine de ses éventuels brouillons navigateur :
 
 ```sh
-devmethod studio serve --workspace /chemin/absolu/mon-produit --port 4330 --preview-port 4331
+devmethod-studio serve --workspace /chemin/absolu/mon-produit --port 4330 --preview-port 4331
 ```
 
-Avec `--workspace` et sans sous-commande, `devmethod studio` conserve ce lancement direct.
+Avec `--workspace` et sans sous-commande, `devmethod-studio` conserve ce lancement direct.
 Avec `home`, `--workspace` désigne la bibliothèque. Les commandes `serve`, `status`, `import`
 et celles du bridge exigent toujours un workspace de projet. L’accueil accepte seulement
 `--workspace` et `--port` ; `--agent`, `--preview-port` et les options propres au projet y sont refusés.
 
-Depuis le dépôt, remplacer `devmethod studio` par `node scripts/studio.mjs` :
+Depuis le dépôt, remplacer `devmethod-studio` par `node scripts/studio.mjs` :
 
 ```sh
 node scripts/studio.mjs home --workspace /chemin/absolu/ma-bibliotheque --port 4330
@@ -283,7 +295,7 @@ Annuler puis reformuler une demande obsolète permet de repartir du contexte cou
 L’adaptateur doit trouver `codex` sur le PATH et utilise son authentification déjà disponible :
 
 ```sh
-devmethod studio --workspace /chemin/absolu/mon-produit --agent codex --max-jobs 2 --timeout-ms 300000
+devmethod-studio --workspace /chemin/absolu/mon-produit --agent codex --max-jobs 2 --timeout-ms 300000
 ```
 
 L’exécution native a été essayée sur macOS seulement. Le lancement direct ne prend pas en
@@ -318,10 +330,10 @@ Garder le serveur lancé. Ces commandes sont destinées à l’agent, pas à la 
 quotidienne de rôles par l’utilisateur :
 
 ```sh
-devmethod studio status --workspace /chemin/absolu/mon-produit
-devmethod studio claim --workspace /chemin/absolu/mon-produit --worker "Agent hôte"
-devmethod studio finish --workspace /chemin/absolu/mon-produit --file /chemin/finish.json
-devmethod studio check --workspace /chemin/absolu/mon-produit --file /chemin/check.json
+devmethod-studio status --workspace /chemin/absolu/mon-produit
+devmethod-studio claim --workspace /chemin/absolu/mon-produit --worker "Agent hôte"
+devmethod-studio finish --workspace /chemin/absolu/mon-produit --file /chemin/finish.json
+devmethod-studio check --workspace /chemin/absolu/mon-produit --file /chemin/check.json
 ```
 
 `claim` renvoie `job`, `context` et `workDirectory`. Lire le contexte retourné et les références
@@ -365,8 +377,8 @@ contrôle, les journaux fournisseur, les identifiants globaux et les dossiers de
 inachevés. Il n’efface pas la consommation pour autoriser un nouvel essai.
 
 ```sh
-devmethod studio restore --workspace /chemin/absolu/projet-restaure --file /chemin/devmethod-project.tar
-devmethod studio --workspace /chemin/absolu/projet-restaure
+devmethod-studio restore --workspace /chemin/absolu/projet-restaure --file /chemin/devmethod-project.tar
+devmethod-studio --workspace /chemin/absolu/projet-restaure
 ```
 
 La destination doit être absente ou vide. Une archive invalide est refusée avant extraction ;

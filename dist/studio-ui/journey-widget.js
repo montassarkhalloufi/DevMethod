@@ -402,7 +402,7 @@ function D(e) {
 //#region studio-ui/src/features/journey/components/ProjectOrigin.tsx
 var O = (e) => `'${e.replaceAll("'", "'\\''")}'`;
 function k() {
-	let [e, t] = (0, h.useState)("/chemin/du-projet"), [n, r] = (0, h.useState)("/chemin/du-studio"), i = `devmethod studio import --source ${O(e)} --workspace ${O(n)}`;
+	let [e, t] = (0, h.useState)("/chemin/du-projet"), [n, r] = (0, h.useState)("/chemin/du-studio"), i = `devmethod-studio import --source ${O(e)} --workspace ${O(n)}`;
 	return /* @__PURE__ */ (0, x.jsxs)("details", {
 		className: "journey-import-guide",
 		children: [
@@ -421,7 +421,7 @@ function k() {
 			/* @__PURE__ */ (0, x.jsxs)("ol", { children: [/* @__PURE__ */ (0, x.jsxs)("li", { children: ["Inspecter les fichiers retenus, exclusions et capacités :", /* @__PURE__ */ (0, x.jsxs)("pre", { children: [i, " --dry-run"] })] }), /* @__PURE__ */ (0, x.jsxs)("li", { children: ["Importer puis ouvrir le nouvel espace :", /* @__PURE__ */ (0, x.jsxs)("pre", { children: [
 				i,
 				"\n",
-				"devmethod studio serve --workspace ",
+				"devmethod-studio serve --workspace ",
 				O(n)
 			] })] })] }),
 			/* @__PURE__ */ (0, x.jsx)("p", {

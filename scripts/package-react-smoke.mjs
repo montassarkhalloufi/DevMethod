@@ -1,34 +1,8 @@
-import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
-export async function checkPackedReact(workspace, archive) {
-  const consumer = workspace + '-consumer';
-  fs.mkdirSync(consumer);
-  const candidates = [
-    process.env.npm_execpath,
-    path.resolve(path.dirname(process.execPath), '../lib/node_modules/npm/bin/npm-cli.js'),
-    path.resolve(path.dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js'),
-  ];
-  const npm = candidates.find((file) => file && fs.existsSync(file));
-  assert.ok(npm, 'Run this check with npm run test:package so the npm executable is known.');
-  const installed = spawnSync(
-    process.execPath,
-    [
-      npm,
-      'install',
-      '--ignore-scripts',
-      '--prefer-online',
-      '--no-audit',
-      '--no-fund',
-      path.resolve(archive),
-    ],
-    { cwd: consumer, encoding: 'utf8', timeout: 120000 },
-  );
-  assert.equal(installed.status, 0, installed.stderr || installed.error?.message);
-  const pkg = path.join(consumer, 'node_modules/devmethod-ai');
+export async function checkPackedReact(workspace, pkg) {
   const { initializeReactExample } = await import(
     pathToFileURL(path.join(pkg, 'scripts/studio/react-example.mjs')).href
   );

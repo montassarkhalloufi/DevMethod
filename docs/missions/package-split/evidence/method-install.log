@@ -1,0 +1,6 @@
+
+> devmethod-ai@0.6.0-beta.1 test:package
+> node scripts/package-smoke.mjs devmethod-ai-0.6.0-beta.1.tgz
+
+Packed restart checker: healthy acceptance and known restart fault detection passed.
+Packed 0.6.0-beta.1: three host installs, subset, customization preservation, mission/context/staleness/planning passed from an offline installation with an empty cache and zero Studio dependencies. No native host execution.

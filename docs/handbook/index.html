@@ -1,0 +1,208 @@
+<!doctype html>
+<html
+  lang="fr"
+  data-content-root="../../"
+  data-public-bundle="false"
+  data-repository-url="https://github.com/montassarkhalloufi/DevMethod/blob/main/"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Manuel navigable pour comprendre et maintenir DevMethod." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://devmethod.dev/docs/handbook/" />
+    <meta property="og:title" content="DevMethod — Manuel de maîtrise" />
+    <meta
+      property="og:description"
+      content="Comprendre la méthode, le Studio, le Control Plane et les chemins du code DevMethod."
+    />
+    <meta property="og:url" content="https://devmethod.dev/docs/handbook/" />
+    <meta property="og:type" content="website" />
+    <title>DevMethod — Manuel de maîtrise</title>
+    <link rel="stylesheet" href="handbook.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#chapter">Aller au chapitre</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Navigation du manuel">
+        <a class="brand" href="#bienvenue" data-route="bienvenue">
+          <span class="brand-mark" aria-hidden="true">⌁</span>
+          <span><strong>DevMethod</strong><small>Manuel de maîtrise</small></span>
+        </a>
+        <div class="level-card">
+          <span class="eyebrow">Progression de lecture</span><strong id="level-title">Lecture à commencer</strong>
+          <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+          <small id="progress-copy">0/14 chapitres lus</small>
+        </div>
+        <nav class="chapter-nav">
+          <p>Comprendre</p>
+          <a href="#bienvenue" data-route="bienvenue"><span>01</span>Bienvenue</a>
+          <a href="#promesse" data-route="promesse"><span>02</span>Promesse</a>
+          <a href="#methode" data-route="methode"><span>03</span>Méthode</a>
+          <p>Utiliser</p>
+          <a href="#studio" data-route="studio"><span>04</span>Studio</a>
+          <a href="#control-plane" data-route="control-plane"><span>05</span>Control Plane</a>
+          <p>Construire</p>
+          <a href="#architecture" data-route="architecture"><span>06</span>Architecture</a>
+          <a href="#code" data-route="code"><span>07</span>Carte du code</a>
+          <a href="#developper" data-route="developper"><span>08</span>Développer</a>
+          <p>Maîtriser</p>
+          <a href="#verifier" data-route="verifier"><span>09</span>Vérifier</a>
+          <a href="#traces" data-route="traces"><span>10</span>Traces</a>
+          <a href="#invariants" data-route="invariants"><span>11</span>Invariants</a>
+          <a href="#diagnostic" data-route="diagnostic"><span>12</span>Diagnostic</a>
+          <a href="#laboratoires" data-route="laboratoires"><span>13</span>Laboratoires</a>
+          <a href="#expert" data-route="expert"><span>14</span>Niveau expert</a>
+        </nav>
+        <div class="sidebar-foot"><a href="https://devmethod.dev/">Site DevMethod</a><a href="../START-HERE.md">Version texte</a><a href="../../CONTRIBUTING.md">Contribuer</a></div>
+      </aside>
+      <main>
+        <header class="topbar">
+          <button class="menu-button" id="menu-button" aria-controls="sidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span class="sr-only">Ouvrir le menu</span></button>
+          <div class="context"><span class="status-dot"></span><span>Référence mainteneur</span><strong>Studio 0.6 · source canonique</strong></div>
+          <button class="search-button" id="search-button" aria-haspopup="dialog"><span aria-hidden="true">⌕</span> Rechercher <kbd>/</kbd></button>
+        </header>
+        <article id="chapter" tabindex="-1">
+          <section class="chapter is-active" id="bienvenue" data-title="Bienvenue">
+            <div class="hero">
+              <div><span class="eyebrow">De zéro à mainteneur expert</span><h1>Comprendre DevMethod comme un système, pas comme une pile de fichiers.</h1><p class="lead">Ce manuel explique la promesse, la méthode, le Studio, le Control Plane et les chemins du code. Il sépare ce qui est déclaré, implémenté, vérifié et publié.</p><div class="hero-actions"><a class="primary" href="#promesse" data-route="promesse">Commencer le parcours</a><a class="secondary" href="#code" data-route="code">Voir la carte du code</a></div></div>
+              <div class="trust-orbit" aria-label="Les quatre piliers de DevMethod"><div class="orbit-center">Confiance<br />explicable</div><span class="orbit-item o1">Intention</span><span class="orbit-item o2">Décisions</span><span class="orbit-item o3">Preuves</span><span class="orbit-item o4">Autonomie</span></div>
+            </div>
+            <div class="path-grid"><button data-route="studio"><span>45–60 min</span><strong>Découvrir</strong><small>Promesse, méthode et écrans</small></button><button data-route="developper"><span>2–3 jours</span><strong>Contribuer</strong><small>Architecture, code et tests</small></button><button data-route="traces"><span>1–2 semaines</span><strong>Maîtriser</strong><small>Traces, invariants, incidents et laboratoires</small></button></div>
+            <div class="callout cyan"><strong>Règle de lecture</strong><p>Une capture montre une interface. Un test démontre un scénario. Un ADR explique un choix. Aucun de ces éléments ne prouve seul la qualité globale du produit.</p></div>
+            <div class="chapter-footer"><button class="master-button" data-master="bienvenue">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="promesse">Suivant · La promesse →</button></div>
+          </section>
+
+          <section class="chapter" id="promesse" data-title="Promesse">
+            <div class="chapter-heading"><span class="chapter-number">02</span><div><span class="eyebrow">Pourquoi le projet existe</span><h1>Des agents rapides, mais un travail qui reste gouvernable.</h1></div></div>
+            <div class="promise-grid"><div class="promise-main"><h2>La promesse</h2><p>DevMethod aide une personne et un agent à transformer un besoin en changement vérifiable, en conservant décisions, responsabilités, preuves et prochaine action.</p></div><div class="metric-card violet"><strong>Mission</strong><span>Un résultat autorisé et observable</span></div><div class="metric-card cyan"><strong>Preuves</strong><span>Une source, une version, un périmètre</span></div><div class="metric-card green"><strong>Reprise</strong><span>Un état et une prochaine action exacts</span></div></div>
+            <h2>Quatre composants, quatre responsabilités</h2>
+            <div class="component-row"><article><span class="icon purple">M</span><h3>Méthode</h3><p>Structure les décisions, la livraison et la vérification.</p></article><article><span class="icon blue">S</span><h3>Skills</h3><p>Rendent quatorze étapes visibles dans l'agent.</p></article><article><span class="icon green">CLI</span><h3>CLI local</h3><p>Installe, inspecte et lance le Studio.</p></article><article><span class="icon amber">UI</span><h3>Studio</h3><p>Relie le besoin, le code et ses preuves.</p></article></div>
+            <div class="split"><div><h2>Ce que DevMethod apporte</h2><ul class="check-list"><li>Des frontières de mission explicites</li><li>Des décisions avant les détails dépendants</li><li>Des preuves liées à la révision inspectée</li><li>Des arrêts et reprises compréhensibles</li></ul></div><div><h2>Ce qu'il ne promet pas</h2><ul class="cross-list"><li>Certification automatique du logiciel</li><li>Déploiement ou publication sans autorisation</li><li>Compréhension parfaite des dépendances</li><li>Supériorité comparative déjà démontrée</li></ul></div></div>
+            <a class="deep-link" href="../product/PROMISE.md">Lire la référence textuelle complète →</a>
+            <div class="chapter-footer"><button class="master-button" data-master="promesse">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="methode">Suivant · La méthode →</button></div>
+          </section>
+
+          <section class="chapter" id="methode" data-title="Méthode">
+            <div class="chapter-heading"><span class="chapter-number">03</span><div><span class="eyebrow">Le workflow complet</span><h1>Décider, livrer, vérifier, corriger et reprendre.</h1></div></div>
+            <div class="workflow-visual"><div class="phase purple-phase"><b>Comprendre</b><strong>Explore · Frame · Design</strong><span>Réduire l'incertitude utile</span></div><i>→</i><div class="phase blue-phase"><b>Décider</b><strong>Architecture · Plan · Ready</strong><span>Fixer les contrats nécessaires</span></div><i>→</i><div class="phase green-phase"><b>Livrer</b><strong>Implement · Review · Verify</strong><span>Produire un résultat démontré</span></div><i>→</i><div class="phase amber-phase"><b>Intégrer</b><strong>Integrate</strong><span>Respecter les gates du dépôt</span></div></div>
+            <div class="return-flow">↺ Correct course · Next · Status · Handoff — reprendre sans inventer une nouvelle autorisation</div>
+            <h2>Les trois modes de collaboration</h2><div class="mode-grid"><article><span>Guidé</span><p>Les choix et résultats utiles sont discutés avec la personne.</p></article><article><span>DevAuto</span><p>Les choix structurants sont acceptés, puis l'agent livre dans ce cadre.</p></article><article><span>Autonome</span><p>Les choix réversibles sont délégués ; les mêmes gates restent applicables.</p></article></div>
+            <div class="callout amber"><strong>À ne pas confondre</strong><p>Le mode demandé organise la collaboration. Le Control Plane calcule séparément l'autonomie effective d'une action.</p></div>
+            <div class="source-links"><a href="../method/OVERVIEW.md">Vue textuelle</a><a href="../method/WORKFLOW.md">Workflow détaillé</a><a href="../COMMANDS.md">Commandes</a><a href="../MISSIONS.md">Missions</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="methode">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="studio">Suivant · Le Studio →</button></div>
+          </section>
+
+          <section class="chapter" id="studio" data-title="Studio">
+            <div class="chapter-heading"><span class="chapter-number">04</span><div><span class="eyebrow">Le produit local</span><h1>Du besoin aux fichiers exécutés, dans un même espace.</h1></div></div>
+            <figure class="screenshot wide"><img src="../missions/creation-experience/evidence/scroll/studio-semantic-desktop.png" alt="Interface DevMethod Studio avec responsabilités, aperçu et vérifications" /><figcaption>Capture réelle de la direction visuelle Studio M. Les données sont fictives.</figcaption></figure>
+            <div class="screen-map"><article><b>Conception</b><p>Besoin, critères et responsabilités.</p></article><article><b>Aperçu</b><p>Application, candidate et comparaison.</p></article><article><b>Code</b><p>Fichiers, architecture, flux et impact.</p></article><article><b>Décisions</b><p>Choix, raisons, sources et statut.</p></article><article><b>Vérifications</b><p>Contrôles, preuves et limites.</p></article><article><b>Contrôle</b><p>Risque, attention et autonomie.</p></article><article><b>Historique</b><p>Missions, versions et reprise.</p></article></div>
+            <h2>Une version n'est pas une preuve</h2><div class="story-flow"><span>Demande</span><i>→</i><span>Mission</span><i>→</i><span>Candidate</span><i>→</i><span>Contrôles</span><i>→</i><span>Application</span></div><p>Une mission peut livrer une candidate sans démontrer sa correction. Les contrôles restent attachés à leur révision.</p>
+            <div class="source-links"><a href="../STUDIO.md">Guide Studio</a><a href="../STUDIO-IMPORT.md">Import</a><a href="../STUDIO-CONNECTORS.md">Connecteurs</a><a href="../STUDIO-PROGRESS.md">Progression</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="studio">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="control-plane">Suivant · Control Plane →</button></div>
+          </section>
+
+          <section class="chapter" id="control-plane" data-title="Control Plane">
+            <div class="chapter-heading"><span class="chapter-number">05</span><div><span class="eyebrow">Le système de décision</span><h1>Voir pourquoi l'agent continue, vérifie, demande ou s'arrête.</h1></div></div>
+            <figure class="screenshot"><img src="../missions/control-plane/evidence/browser-overview-desktop.jpg" alt="Vue d'ensemble réelle du Control Plane" /><figcaption>Implémentation réelle : demande, risque, preuves et décision effective.</figcaption></figure>
+            <div class="engine-flow"><div class="engine cyan"><strong>Evidence Graph</strong><span>Rassemble et invalide</span></div><b>→</b><div class="engine violet"><strong>Risk Engine</strong><span>Évalue les signaux</span></div><b>→</b><div class="engine amber"><strong>Human Attention</strong><span>Priorise les décisions</span></div><b>→</b><div class="engine green"><strong>Adaptive Autonomy</strong><span>Décide l'action permise</span></div></div>
+            <div class="two-images"><figure class="screenshot"><img src="../missions/control-plane/evidence/browser-graph-desktop.jpg" alt="Graphe de preuves réel" /><figcaption>Provenance et inspecteur.</figcaption></figure><figure class="screenshot"><img src="../missions/control-plane/evidence/browser-attention-desktop.jpg" alt="File d'attention humaine réelle" /><figcaption>Lire ne résout pas une décision.</figcaption></figure></div>
+            <h2>La politique v1 en quatre priorités</h2><ol class="policy-list"><li class="red"><b>Bounded Stop</b><span>Arrêt persistant, refus ou risque critique</span></li><li class="amber"><b>Human Decision</b><span>Risque élevé ou responsabilité réservée</span></li><li class="violet"><b>Verify</b><span>Risque moyen ou preuves insuffisantes</span></li><li class="green"><b>Auto-Continue</b><span>Risque faible, preuves et délégation valides</span></li></ol>
+            <div class="callout violet"><strong>Invariant central</strong><p>Une preuve favorable est observée, actuelle et réussie. Dix succès ne compensent pas un signal élevé encore actif.</p></div>
+            <div class="source-links"><a href="../studio/CONTROL-PLANE.md">Guide complet</a><a href="../ADR-027-control-plane.md">ADR 027</a><a href="../missions/control-plane/RESULTS.md">Preuves</a><a href="../../src/control-plane/policy.ts">Code de la politique</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="control-plane">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="architecture">Suivant · Architecture →</button></div>
+          </section>
+
+          <section class="chapter" id="architecture" data-title="Architecture">
+            <div class="chapter-heading"><span class="chapter-number">06</span><div><span class="eyebrow">Les frontières du système</span><h1>Un package de méthode et un produit Studio local.</h1></div></div>
+            <div class="system-diagram"><div class="layer human"><span>Personne + agent hôte</span><small>Direction, permissions, actions et observations</small></div><div class="down">↓</div><div class="architecture-columns"><div class="layer method"><span>Méthode installable</span><small>Skills · missions · review · guard · evidence</small></div><div class="layer studio"><span>Studio local</span><small>UI React · serveur Node · preview · jobs · MCP</small></div></div><div class="down">↓</div><div class="architecture-columns"><div class="layer domain"><span>Domaines purs</span><small>Mission · preuve · boucle · Control Plane</small></div><div class="layer adapters"><span>Adaptateurs locaux</span><small>Git · fichiers · HTTP loopback · stores</small></div></div><div class="down">↓</div><div class="layer project"><span>Projet utilisateur géré</span><small>Sources, révisions, données et journaux .devmethod</small></div></div>
+            <h2>Trois frontières à protéger</h2><div class="boundary-grid"><article><span>01</span><h3>Domaine / adaptateur</h3><p>Les règles pures ne lisent ni HTTP, ni disque, ni UI.</p></article><article><span>02</span><h3>Déclaration / observation</h3><p>Une progression déclarée ne devient jamais un test réussi.</p></article><article><span>03</span><h3>Permission / autonomie</h3><p>Le Control Plane ne remplace pas une permission MCP.</p></article></div>
+            <div class="adr-strip"><a href="../ADR-016-local-creation-studio.md">ADR 016 · Studio</a><a href="../ADR-017-typed-react-studio.md">ADR 017 · React</a><a href="../ADR-018-project-intelligence-workspace.md">ADR 018 · Intelligence</a><a href="../ADR-020-live-job-progress.md">ADR 020 · Jobs</a><a href="../ADR-024-workspace-mcp.md">ADR 024 · MCP</a><a href="../ADR-027-control-plane.md">ADR 027 · Control Plane</a></div>
+            <div class="source-links"><a href="../architecture/SYSTEM-MAP.md">Architecture détaillée</a><a href="../architecture/THEORY-TO-CODE.md">Théorie → code</a><a href="../architecture/ENGINE-ATLAS.md">Atlas des 7 moteurs</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="architecture">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="code">Suivant · Carte du code →</button></div>
+          </section>
+
+          <section class="chapter" id="code" data-title="Carte du code">
+            <div class="chapter-heading"><span class="chapter-number">07</span><div><span class="eyebrow">Où se trouve quoi</span><h1>Commencer par les propriétaires, pas par 200 fichiers.</h1></div></div>
+            <div class="code-map"><article class="code-zone purple"><header><span>01</span><h2>CLI et installation</h2></header><p>Commandes, payload et diagnostics.</p><a href="../../src/cli.ts">src/cli.ts</a><a href="../../src/cli-commands.ts">cli-commands.ts</a><a href="../../src/init.ts">init.ts</a></article><article class="code-zone blue"><header><span>02</span><h2>Méthode exécutable</h2></header><p>Missions, checkpoints, preuves et guard.</p><a href="../../src/mission.ts">mission.ts</a><a href="../../src/checkpoint.ts">checkpoint.ts</a><a href="../../src/guard.ts">guard.ts</a></article><article class="code-zone cyan"><header><span>03</span><h2>Studio serveur</h2></header><p>HTTP, registre, jobs et qualité.</p><a href="../../scripts/studio/server.mjs">server.mjs</a><a href="../../scripts/studio/domain.mjs">domain.mjs</a><a href="../../scripts/studio/store.mjs">store.mjs</a></article><article class="code-zone green"><header><span>04</span><h2>Studio React</h2></header><p>Îlots et composants métier.</p><a href="../../studio-ui/src/project-widget.tsx">project-widget.tsx</a><a href="../../studio-ui/src/quality-widget.tsx">quality-widget.tsx</a><a href="../../studio-ui/src/control-widget.tsx">control-widget.tsx</a></article><article class="code-zone amber"><header><span>05</span><h2>Control Plane</h2></header><p>Contrats, politique, sources et vues.</p><a href="../../src/control-plane/contracts.ts">contracts.ts</a><a href="../../src/control-plane/engine.ts">engine.ts</a><a href="../../src/control-plane/policy.ts">policy.ts</a></article><article class="code-zone red"><header><span>06</span><h2>Tests et preuves</h2></header><p>Tests Node, UI et mission.</p><a href="../../tests/control-plane.test.mjs">control-plane.test.mjs</a><a href="../../tests/studio-control-plane.test.mjs">studio-control-plane.test.mjs</a><a href="../missions/control-plane/RESULTS.md">résultats</a></article></div>
+            <div class="callout cyan"><strong>Ordre conseillé</strong><p>Contrat métier → règle pure → adaptateur serveur → route → hook UI → vue → tests → navigateur.</p></div><div class="source-links"><a href="../architecture/CODE-MAP.md">Carte complète</a><a href="../architecture/ENGINE-ATLAS.md">Atlas des moteurs</a><a href="../maintainers/CODE-DOSSIERS.md">Dossiers annotés</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="code">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="developper">Suivant · Développer →</button></div>
+          </section>
+
+          <section class="chapter" id="developper" data-title="Développer">
+            <div class="chapter-heading"><span class="chapter-number">08</span><div><span class="eyebrow">Boucle locale</span><h1>Modifier une tranche verticale et conserver ses preuves.</h1></div></div>
+            <div class="terminal-card"><div class="terminal-head"><span></span><span></span><span></span><b>Installation et contrôles</b></div><pre><code>npm ci
+npm run build
+npm test
+npm run lint
+npm run format:check
+npm run check:docs
+npm pack --dry-run</code></pre></div>
+            <div class="step-list"><article><span>1</span><div><h3>Lire les règles</h3><p>CONTRIBUTING, l'ADR, la mission et l'état Git.</p></div></article><article><span>2</span><div><h3>Définir le résultat</h3><p>Relier chaque critère à un contrôle capable d'échouer.</p></div></article><article><span>3</span><div><h3>Livrer verticalement</h3><p>Règle, adaptateur, interface et test dans une intention.</p></div></article><article><span>4</span><div><h3>Vérifier au bon niveau</h3><p>Pur pour la règle, HTTP pour la route, navigateur pour l'UI.</p></div></article><article><span>5</span><div><h3>Relire et transmettre</h3><p>Diff, secrets, compatibilité et état exact de l'intégration.</p></div></article></div>
+            <div class="do-dont"><div><h3>À faire</h3><ul><li>Réutiliser les stores existants</li><li>Partager les types avec React</li><li>Garder les règles pures</li><li>Tester le risque réel</li></ul></div><div><h3>À éviter</h3><ul><li>Recalculer le métier dans la vue</li><li>Créer un second registre</li><li>Présenter une fixture comme preuve réelle</li><li>Désactiver une gate</li></ul></div></div>
+            <div class="source-links"><a href="../maintainers/DEVELOPMENT.md">Développement</a><a href="../maintainers/ADDING-A-FEATURE.md">Ajouter une fonctionnalité</a><a href="../../CONTRIBUTING.md">Contribuer</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="developper">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="verifier">Suivant · Vérifier →</button></div>
+          </section>
+
+          <section class="chapter" id="verifier" data-title="Vérifier">
+            <div class="chapter-heading"><span class="chapter-number">09</span><div><span class="eyebrow">Pyramide de confiance</span><h1>Choisir le contrôle qui peut réellement révéler le défaut.</h1></div></div>
+            <div class="test-pyramid"><div class="tier browser"><strong>Navigateur réel</strong><span>Rendu, focus, responsive, parcours</span></div><div class="tier integration"><strong>Intégration</strong><span>HTTP, persistance, reprise, package</span></div><div class="tier unit"><strong>Règles pures</strong><span>Invariants, bornes, erreurs</span></div><div class="tier static"><strong>Statique</strong><span>Types, lint, format, liens</span></div></div>
+            <table class="matrix"><thead><tr><th>Risque</th><th>Contrôle minimum</th><th>Ne prouve pas</th></tr></thead><tbody><tr><td>Politique pure</td><td>Invariants et cas négatifs</td><td>Le câblage HTTP</td></tr><tr><td>Persistance</td><td>Écriture, conflit et redémarrage</td><td>La production</td></tr><tr><td>Route</td><td>Contrat HTTP et erreurs</td><td>L'UX réelle</td></tr><tr><td>Interface</td><td>DOM, navigateur et clavier</td><td>La suffisance métier</td></tr><tr><td>Release</td><td>Archive, CI et smoke exacts</td><td>La publication avant son exécution</td></tr></tbody></table>
+            <figure class="screenshot"><img src="../missions/control-plane/evidence/browser-graph-fullscreen.jpg" alt="Graphe Control Plane réel en plein écran" /><figcaption>Cette capture démontre la lisibilité observée à cette taille, pas toutes les interactions.</figcaption></figure>
+            <div class="callout red"><strong>Une suite verte n'est pas une conclusion universelle</strong><p>Reliez le critère au contrôle, à la révision, à l'environnement et aux limites.</p></div>
+            <div class="source-links"><a href="../maintainers/TESTING.md">Tests</a><a href="../maintainers/DEBUGGING.md">Diagnostic</a><a href="../RELEASE-CHECKLIST.md">Release</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="verifier">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="traces">Suivant · Traces complètes →</button></div>
+          </section>
+
+          <section class="chapter" id="traces" data-title="Traces de bout en bout">
+            <div class="chapter-heading"><span class="chapter-number">10</span><div><span class="eyebrow">Lire le système en mouvement</span><h1>Suivre une action de l'écran jusqu'à son effet durable.</h1></div></div>
+            <div class="engine-flow"><div class="engine cyan"><strong>Intention UI</strong><span>Clic, saisie, révision</span></div><b>→</b><div class="engine violet"><strong>Contrat HTTP</strong><span>Rôle, origine, forme</span></div><b>→</b><div class="engine amber"><strong>Domaine</strong><span>Règle et transition</span></div><b>→</b><div class="engine green"><strong>Preuve</strong><span>État, journal, réponse</span></div></div>
+            <h2>Cinq traces qu'un mainteneur doit savoir reconstruire</h2>
+            <div class="code-map"><article class="code-zone cyan"><header><span>01</span><h2>Lecture Control Plane</h2></header><p>Polling React → route → sources → moteur pur → commit conditionnel.</p></article><article class="code-zone amber"><header><span>02</span><h2>Décision humaine</h2></header><p>Version + snapshot → intervention immuable → recalcul ciblé.</p></article><article class="code-zone green"><header><span>03</span><h2>Vérification</h2></header><p>Contrôle exécutable → journal de qualité → preuve renouvelée.</p></article><article class="code-zone violet"><header><span>04</span><h2>Candidate</h2></header><p>Job → révision → gates → application, jamais simple fin de tâche.</p></article><article class="code-zone red"><header><span>05</span><h2>Action MCP</h2></header><p>Sélection → permission → admission → schéma → transport → journal.</p></article></div>
+            <div class="callout cyan"><strong>Réflexe expert</strong><p>Pour chaque défaut, nommez l'entrée, le propriétaire du contrat, le propriétaire de la règle, l'effet durable possible et le contrôle qui peut réfuter votre hypothèse.</p></div>
+            <div class="source-links"><a href="../architecture/REQUEST-LIFECYCLE.md">Tutoriel détaillé des cinq traces</a><a href="../architecture/ENGINE-ATLAS.md">Les sept moteurs</a><a href="../studio/SERVER-API.md">Serveur et API</a><a href="../studio/FRONTEND-STATE.md">Frontend et état</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="traces">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="invariants">Suivant · Invariants →</button></div>
+          </section>
+
+          <section class="chapter" id="invariants" data-title="Contrats et invariants">
+            <div class="chapter-heading"><span class="chapter-number">11</span><div><span class="eyebrow">Ce qui ne doit jamais devenir faux</span><h1>Comprendre les propriétés protégées avant de modifier les fichiers.</h1></div></div>
+            <table class="matrix"><thead><tr><th>Frontière</th><th>Invariant</th><th>Conséquence d'une violation</th></tr></thead><tbody><tr><td>Mission</td><td>scope, critères, sources et arrêt sont bornés</td><td>travail non gouvernable</td></tr><tr><td>Preuve</td><td>observed + current + passed</td><td>faux vert</td></tr><tr><td>Store</td><td>version, validation, atomicité, append-only</td><td>perte ou réécriture d'histoire</td></tr><tr><td>Acteurs</td><td>un worker ne devient pas la personne</td><td>fausse approbation</td></tr><tr><td>Control Plane</td><td>l'humain ne fabrique pas une preuve</td><td>risque masqué</td></tr><tr><td>UI</td><td>une réponse périmée ne remplace pas l'état courant</td><td>décision sur données anciennes</td></tr></tbody></table>
+            <h2>Double protection contre les décisions obsolètes</h2><div class="story-flow"><span>version Studio</span><i>+</i><span>snapshotKey</span><i>→</i><span>relecture des sources</span><i>→</i><span>mutation ou 409</span></div>
+            <div class="split"><div><h2>État durable</h2><ul class="check-list"><li>Écriture temporaire puis renommage</li><li>Verrou par workspace</li><li>Liens symboliques refusés</li><li>Transitions historiques contrôlées</li></ul></div><div><h2>Sécurité locale</h2><ul class="check-list"><li>Loopback uniquement</li><li>Origine contrôlée</li><li>Token worker séparé</li><li>Corps et schémas bornés</li></ul></div></div>
+            <div class="source-links"><a href="../architecture/CONTRACTS-AND-INVARIANTS.md">Référence complète</a><a href="../../scripts/studio/store.mjs">Store propriétaire</a><a href="../../src/mission.ts">Contrat Mission</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="invariants">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="diagnostic">Suivant · Diagnostic →</button></div>
+          </section>
+
+          <section class="chapter" id="diagnostic" data-title="Diagnostic et récupération">
+            <div class="chapter-heading"><span class="chapter-number">12</span><div><span class="eyebrow">Réduire l'incertitude sans détruire l'état</span><h1>Diagnostiquer la frontière fautive avant de relancer.</h1></div></div>
+            <div class="step-list"><article><span>1</span><div><h3>Préserver</h3><p>État, verrou, journal, version, snapshot et sortie d'erreur.</p></div></article><article><span>2</span><div><h3>Classer</h3><p>Entrée, contrat, règle, persistance, transport ou présentation.</p></div></article><article><span>3</span><div><h3>Formuler</h3><p>Une hypothèse et une observation capable de la réfuter.</p></div></article><article><span>4</span><div><h3>Corriger borné</h3><p>Une modification cohérente, puis le contrôle affecté.</p></div></article><article><span>5</span><div><h3>Réconcilier</h3><p>Effets externes et décisions humaines avant toute reprise.</p></div></article></div>
+            <div class="do-dont"><div><h3>Signaux fréquents</h3><ul><li>409 : version ou snapshot périmé</li><li>Verify : preuve requise insuffisante</li><li>Human Decision : risque ou responsabilité</li><li>Bounded Stop : convergence ou critique</li></ul></div><div><h3>Réactions dangereuses</h3><ul><li>écraser studio.json</li><li>supprimer un verrou actif</li><li>relancer un effet MCP incertain</li><li>transformer stale en success dans l'UI</li></ul></div></div>
+            <div class="source-links"><a href="../maintainers/FAILURE-PLAYBOOK.md">Playbook complet</a><a href="../maintainers/DEBUGGING.md">Diagnostic rapide</a><a href="../maintainers/CHANGE-RECIPES.md">Recettes de changement</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="diagnostic">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="laboratoires">Suivant · Laboratoires →</button></div>
+          </section>
+
+          <section class="chapter" id="laboratoires" data-title="Laboratoires pratiques">
+            <div class="chapter-heading"><span class="chapter-number">13</span><div><span class="eyebrow">Passer de la lecture à la démonstration</span><h1>Dix exercices reproductibles pour prouver la maîtrise.</h1></div></div>
+            <ol class="exercise-list"><li>Raconter le système et ses non-promesses.</li><li>Tracer une lecture Control Plane complète.</li><li>Invalider une preuve par sa dépendance.</li><li>Provoquer un conflit de version sans perte d'état.</li><li>Ajouter un signal de risque sans règle dupliquée.</li><li>Démontrer pourquoi « passed » seul crée un faux vert.</li><li>Tester une route contre origine, rôle et forme hostiles.</li><li>Protéger un widget contre une réponse tardive.</li><li>Réconcilier une action MCP à résultat incertain.</li><li>Préparer une candidate exacte sans la publier.</li></ol>
+            <div class="callout violet"><strong>Un chapitre coché n'est pas une certification</strong><p>La maîtrise se démontre par un changement relu, des invariants explicités, un diagnostic reproductible et des preuves liées à la bonne révision.</p></div>
+            <div class="source-links"><a href="../maintainers/LABS-AND-ASSESSMENT.md">Énoncés, critères et barème</a><a href="../maintainers/CHANGE-RECIPES.md">Recettes guidées</a><a href="../maintainers/LEARNING-PATH.md">Parcours de progression</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="laboratoires">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="expert">Suivant · Niveau expert →</button></div>
+          </section>
+
+          <section class="chapter" id="expert" data-title="Niveau expert">
+            <div class="chapter-heading"><span class="chapter-number">14</span><div><span class="eyebrow">Maintenir les invariants</span><h1>Savoir où changer, quoi revalider et quand s'arrêter.</h1></div></div>
+            <div class="expert-grid"><article><span>A</span><h3>Autorité des sources</h3><p>Le sujet décide quelle source fait foi.</p></article><article><span>B</span><h3>Invalidation sélective</h3><p>Un changement invalide ses dépendances, pas tout l'historique.</p></article><article><span>C</span><h3>Compatibilité honnête</h3><p>Installation, découverte et comportement sont distincts.</p></article><article><span>D</span><h3>Arrêt borné</h3><p>Un échec répété exige diagnostic et réconciliation.</p></article><article><span>E</span><h3>Release exacte</h3><p>Archive, commit et CI soutiennent une candidate précise.</p></article><article><span>F</span><h3>Évolution</h3><p>Une nouvelle frontière exige décision et preuves renouvelées.</p></article></div>
+            <h2>Exercices de maîtrise</h2><ol class="exercise-list"><li>Suivre une intention jusqu'à une décision d'autonomie.</li><li>Identifier les fichiers et tests pour un nouveau signal de risque.</li><li>Expliquer pourquoi « lu » ne signifie pas « résolu ».</li><li>Provoquer une preuve périmée et observer Verify.</li><li>Installer un package jetable et distinguer installation et host vérifié.</li><li>Préparer une candidate sans confondre merge, tag et publication.</li></ol>
+            <div class="mastery-check"><h2>Auto-évaluation avant démonstration</h2><p>Ces cases préparent l'examen ; elles ne certifient aucun niveau.</p><div><label><input type="checkbox" /> expliquer ses promesses et non-promesses ;</label><label><input type="checkbox" /> naviguer du besoin à la preuve et au code ;</label><label><input type="checkbox" /> choisir le bon niveau de test ;</label><label><input type="checkbox" /> étendre une frontière sans la dupliquer ;</label><label><input type="checkbox" /> reprendre sans recycler une autorisation ;</label><label><input type="checkbox" /> préparer uniquement une candidate exacte.</label></div></div>
+            <div class="source-links"><a href="../maintainers/LEARNING-PATH.md">Parcours expert</a><a href="../maintainers/LABS-AND-ASSESSMENT.md">Évaluation</a><a href="../maintainers/CODE-DOSSIERS.md">Dossiers de code</a><a href="../maintainers/RELEASE.md">Release</a><a href="../../COMPATIBILITY.md">Compatibilité</a><a href="../ROADMAP.md">Roadmap</a></div>
+            <div class="chapter-footer"><button class="master-button" data-master="expert">✓ Marquer ce chapitre compris</button><button class="next-button" data-route="bienvenue">↺ Revenir au début</button></div>
+          </section>
+        </article>
+      </main>
+    </div>
+    <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title"><form method="dialog"><header><div><span class="eyebrow">Recherche locale globale</span><h2 id="search-title">Trouver un concept, un moteur ou un fichier</h2></div><button aria-label="Fermer">×</button></header></form><label class="search-field"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="Ex. OAuth, import, preuve périmée, policy.ts…" autocomplete="off" /></label><div id="search-results" class="search-results" aria-live="polite"></div></dialog>
+    <div class="backdrop" id="backdrop"></div>
+    <script src="handbook.js"></script>
+  </body>
+</html>

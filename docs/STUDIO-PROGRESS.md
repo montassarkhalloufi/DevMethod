@@ -63,7 +63,7 @@ Studio. L’authentification exige `Authorization: Bearer <token>` ; le token se
 pas ce token. La commande suivante gère cette authentification localement :
 
 ```sh
-devmethod studio progress --workspace /chemin/absolu/mon-produit --file payload.json
+devmethod-studio progress --workspace /chemin/absolu/mon-produit --file payload.json
 ```
 
 `claim.context.progress` fournit le point d’entrée, la commande, les schémas et les limites.

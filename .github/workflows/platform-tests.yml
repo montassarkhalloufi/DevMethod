@@ -53,14 +53,16 @@ jobs:
       - name: Check committed build
         run: git diff --exit-code -- dist/
       - name: Package
-        run: npm pack --json > package-result.json
+        run: |
+          npm pack --json > package-result.json
+          npm pack ./packages/studio --json > studio-package-result.json
       - name: Install archive once and verify each host through npx
         run: |
-          STUDIO_ARCHIVE="$(node -p 'require("node:path").resolve(require("./package-result.json")[0].filename)')"
-          export STUDIO_CONSUMER="$RUNNER_TEMP/devmethod-cli-consumer"
-          node -e 'const fs=require("node:fs"),path=require("node:path"),root=process.env.STUDIO_CONSUMER; fs.mkdirSync(root,{recursive:true}); fs.writeFileSync(path.join(root,"package.json"),JSON.stringify({private:true}));'
-          npm install --prefix "$STUDIO_CONSUMER" --ignore-scripts --prefer-offline --no-audit --no-fund "$STUDIO_ARCHIVE"
-          cd "$STUDIO_CONSUMER"
+          METHOD_ARCHIVE="$(node -p 'require("node:path").resolve(require("./package-result.json")[0].filename)')"
+          export METHOD_CONSUMER="$RUNNER_TEMP/devmethod-cli-consumer"
+          node -e 'const fs=require("node:fs"),path=require("node:path"),root=process.env.METHOD_CONSUMER; fs.mkdirSync(root,{recursive:true}); fs.writeFileSync(path.join(root,"package.json"),JSON.stringify({private:true}));'
+          npm install --prefix "$METHOD_CONSUMER" --ignore-scripts --prefer-offline --no-audit --no-fund "$METHOD_ARCHIVE"
+          cd "$METHOD_CONSUMER"
           for PROFILE_TOOL in codex claude cursor; do
             export CASE_DIR="$RUNNER_TEMP/devmethod $PROFILE_TOOL"
             npx --offline --yes=false devmethod init --tool "$PROFILE_TOOL" --dest "$CASE_DIR"
@@ -73,3 +75,9 @@ jobs:
         run: |
           PACKAGE_FILE="$(node -p 'require("./package-result.json")[0].filename')"
           npm run test:package -- "$PACKAGE_FILE"
+
+      - name: Verify independent Studio archive and explicit combined install
+        run: |
+          METHOD_FILE="$(node -p 'require("./package-result.json")[0].filename')"
+          STUDIO_FILE="$(node -p 'require("./studio-package-result.json")[0].filename')"
+          npm run test:package:studio -- "$STUDIO_FILE" "$METHOD_FILE"

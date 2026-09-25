@@ -2,6 +2,10 @@
 
 From idea to delivery with your AI coding agents.
 
+**New to the project?** Start with the [maintainer and user learning portal](docs/START-HERE.md),
+which connects the product promise, method, illustrated Studio guide, architecture, code map,
+testing and release responsibilities.
+
 A reusable method for human–AI collaboration, organized around missions and supported by verification evidence. Start from a need, discuss important decisions, implement a bounded scope, and preserve what was checked and what comes next.
 
 **The human sets the direction, agents execute, and evidence informs the decision.** Humans define goals and constraints, arbitrate consequential trade-offs and retain responsibility for authorizations. Agents carry out the authorized work, surface uncertainty and prepare reviewable outcomes. Reuse valid authorization instead of repeatedly interrupting routine work; ask at a meaningful decision boundary with concrete evidence. Automated checks and bounded loops support this collaboration without proving that the goal, tests or architecture are sufficient.
@@ -98,7 +102,7 @@ npx --yes devmethod-ai@0.4.1 init --tool claude --dest ../foundation-staging --d
 
 Remove `--dry-run` to write. Select a subset with `--modules decision-architecture,scoped-delivery`; `project-foundation` is always included. Without `--modules`, all six modules are installed. The installer refuses divergent files and duplicate skills across host directories. It never edits AGENTS.md, CLAUDE.md or your package.json. Review the staging output, then merge only what the project needs.
 
-The skill installer makes no network requests after npm obtains the package. Studio adds pinned runtime dependencies for local React/TypeScript compilation. To pin the final version, use `npx --yes devmethod-ai@0.4.1 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
+The method candidate has no runtime dependencies and its installer makes no network requests after npm obtains the package. Studio and its React/TypeScript dependencies are distributed separately as `devmethod-studio`. To pin the final version, use `npx --yes devmethod-ai@0.4.1 init ...`. To pin a reviewed repository commit instead, use: `npx --yes --package=github:montassarkhalloufi/DevMethod#<commit-sha> devmethod init ...`.
 
 Complete PROJECT_PROFILE.md with your real stack, commands, scope, deployment permissions and data requirements. Merge AGENTS.foundation.md into the project's existing instructions only after review. Claude Code reads CLAUDE.md: preserve its current content and, if the project has AGENTS.md, optionally add `@AGENTS.md` to import it. Keep existing accepted architecture decisions authoritative.
 
@@ -122,7 +126,9 @@ node dist/cli.js doctor --dest ../candidate-staging --json
 node dist/cli.js update-preview --dest ../candidate-staging --json
 ```
 
-The package includes advanced docs and fictional examples. `init` copies only the skills and adoption templates, preserving the application. Read the package docs from its checkout or extracted tarball. The method commands do not load the Studio compiler; the distributed package includes its pinned React/TypeScript build dependencies. Standalone example applications declare their own dependencies.
+The method archive includes skills, adoption templates, the CLI/review runtime and small resources required by its commands. `init` copies the selected skills, templates and review support, preserving the application. Studio code, UI, compiler and runtime dependencies are excluded. Full documentation, labs and examples remain in the [source repository](https://github.com/montassarkhalloufi/DevMethod); documentation links in this README refer to that checkout. Standalone example applications declare their own dependencies.
+
+**Two packages, one public repository.** `devmethod-ai` installs the method; `devmethod-studio` installs the local Studio independently. The split is an unpublished candidate and does not change existing registry releases. Build with `npm run build`, pack the method with `npm pack`, and pack Studio with `npm run pack:studio`. Install the reviewed local Studio archive, then run `npx --offline devmethod-studio --help`. The compatibility command `devmethod studio` works in the source checkout or when both packages are explicitly installed together; otherwise it explains the separate installation without downloading anything. See [distribution boundaries](docs/ADR-029-independent-packages.md).
 
 ## Inspect an adopted installation
 

@@ -47,7 +47,7 @@ La fenêtre officielle Slack affiche une demande de workspace avant l’authenti
 
 Dans S2, le constructeur configure un client OAuth ; l’utilisateur final effectuera ensuite sa propre autorisation. Callback affiché : `https://connector-gateway.lovable.dev/api/v1/app-users/oauth2/callback`. Cette URL appartient à Lovable : elle ne doit jamais être copiée comme callback DevMethod. [Capture App user](guided-scenarios/slack-app-user.png).
 
-**Transposition :** le guide DevMethod doit demander identité et actions séparément, expliquer les droits utiles, montrer les prérequis et garder le besoin lors d’une annulation. Les capacités MCP existantes ne suffisent pas à fournir Slack OAuth bot ou un runtime App user. Les contraintes officielles Slack sont détaillées dans [GUIDED-CONTRACT.md](GUIDED-CONTRACT.md#prérequis-mcp-slack-qui-changent-réellement-le-parcours).
+**Transposition :** le guide DevMethod doit demander identité et actions séparément, expliquer les droits utiles, montrer les prérequis et garder le besoin lors d’une annulation. Les capacités MCP existantes ne suffisent pas à fournir Slack OAuth bot ou un runtime App user. Les contraintes officielles Slack sont détaillées dans [GUIDED-CONTRACT.md](GUIDED-CONTRACT.md#prerequis-mcp-slack-qui-changent-reellement-le-parcours).
 
 ## S3–S6 : formulaires adaptés et contrat de service
 

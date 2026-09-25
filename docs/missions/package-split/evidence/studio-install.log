@@ -1,0 +1,7 @@
+
+> devmethod-ai@0.6.0-beta.1 test:package:studio
+> node scripts/package-studio-check.mjs devmethod-studio-0.6.0-beta.1.tgz devmethod-ai-0.6.0-beta.1.tgz
+
+Packed Studio: example, exact assets/source, isolated ESM edit, syntax rejection, adoption, durable draft, restart and export/restore passed. No provider calls or human validation.
+Packed React: installed actual archive and runtime dependencies, real strict build, local Monaco assets and preserved data passed. No provider call.
+Standalone Studio and explicit method + Studio installation passed. No automatic installation or provider call.
