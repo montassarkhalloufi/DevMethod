@@ -89,6 +89,20 @@ async function fixture(t, connected = true) {
   };
 }
 
+async function approveAction(f, requestId) {
+  const decision = await f.post('/api/mcp/actions/decide', { requestId, decision: 'allow' });
+  assert.equal(decision.status, 202, JSON.stringify(decision.body));
+  for (let attempt = 0; attempt < 100; attempt++) {
+    const response = await fetch(
+      f.studio.runtime().url + '/api/mcp/actions?requestId=' + requestId,
+    );
+    const action = (await response.json()).actions[0];
+    if (action.status !== 'executing') return action;
+    await new Promise((resolve) => setTimeout(resolve, 10));
+  }
+  assert.fail('MCP action did not complete');
+}
+
 function queue(studio) {
   studio.store.commit(studio.store.read().version, (state) =>
     queueRequest(state, { request: 'Lire la fixture MCP locale, sans action fournisseur réel' }),
@@ -128,19 +142,31 @@ test('real local MCP transport is callable from worker CLI only for the selected
   fs.writeFileSync(file, JSON.stringify(payload));
   const call = await run(['mcp', 'call', '--workspace', f.studio.store.root, '--file', file]);
   assert.equal(call.code, 0, call.stderr);
-  const result = JSON.parse(call.stdout);
+  const pending = JSON.parse(call.stdout);
+  assert.equal(
+    pending.status,
+    'pending',
+    'Control Plane requires an exact human decision without delivery evidence',
+  );
+  assert.equal(f.service.state.calls, 0);
+  const result = await approveAction(f, pending.requestId);
   assert.equal(result.result.content[0].text, 'Fixture result');
   assert.equal(result.isError, false);
   assert.equal(f.service.state.calls, 1);
-  assert.deepEqual(f.studio.store.read(), before);
+  const { controlPlane: _plane, version: _version, ...afterData } = f.studio.store.read();
+  const { controlPlane: _previousPlane, version: _previousVersion, ...beforeData } = before;
+  assert.deepEqual(afterData, beforeData);
+  assert.ok(_plane.history.length >= _previousPlane.history.length);
+  assert.ok(_version >= _previousVersion);
   f.service.state.toolError = true;
   const refused = await f.post(
     '/api/mcp/call',
     { ...payload, requestId: randomUUID() },
     f.worker(),
   );
-  assert.equal(refused.status, 200);
-  assert.equal(refused.body.isError, true);
+  assert.equal(refused.status, 202);
+  assert.equal(refused.body.status, 'pending');
+  assert.equal((await approveAction(f, refused.body.requestId)).isError, true);
   assert.equal(f.service.state.calls, 2);
   fs.writeFileSync(file, 'invalid fixture-private-value');
   const malformed = await run(['mcp', 'call', '--workspace', f.studio.store.root, '--file', file]);
@@ -356,8 +382,10 @@ test('permission is checked again after provider discovery immediately before to
     },
     f.worker(),
   );
-  assert.equal(result.body.status, 'cancelled');
-  assert.equal(result.body.error.code, 'policy-denied');
+  assert.equal(result.body.status, 'pending');
+  const decided = await approveAction(f, result.body.requestId);
+  assert.equal(decided.status, 'cancelled');
+  assert.equal(decided.error.code, 'policy-denied');
   assert.equal(f.service.state.calls, 0);
   assert.equal(f.manager.list().connections[0].status, 'connected');
 });
@@ -395,4 +423,45 @@ test('standalone project honestly reports unavailable MCP and CLI documents boun
   assert.equal(missing.code, 1);
   assert.match(missing.stderr, /--file payload.json/);
   assert.equal(missing.stdout, '');
+});
+
+test('a persistent Control Plane stop appearing during discovery prevents even an approved MCP dispatch', async (t) => {
+  const f = await fixture(t);
+  await f.post('/api/mcp/selection', { connectionIds: [f.connection.id] });
+  queue(f.studio);
+  const { job } = f.studio.jobs.claim('manual host');
+  const invoke = f.manager.invoke;
+  f.manager.invoke = (id, name, args, options) =>
+    invoke(id, name, args, {
+      ...options,
+      beforeCall() {
+        fs.writeFileSync(
+          path.join(f.studio.store.root, '.devmethod/agent.json'),
+          JSON.stringify({
+            attempts: 1,
+            knownTokens: 0,
+            unknownUsage: true,
+            runs: [{ jobId: job.id, status: 'failed', usage: null }],
+          }),
+        );
+        options.beforeCall();
+      },
+    });
+  const pending = await f.post(
+    '/api/mcp/call',
+    {
+      requestId: randomUUID(),
+      jobId: job.id,
+      connectionId: f.connection.id,
+      toolName: 'fixture.read',
+      arguments: {},
+    },
+    f.worker(),
+  );
+  assert.equal(pending.body.status, 'pending');
+  const action = await approveAction(f, pending.body.requestId);
+  assert.equal(action.status, 'cancelled');
+  assert.equal(action.error.code, 'control-plane-blocked');
+  assert.equal(f.service.state.calls, 0);
+  assert.equal(f.studio.store.read().controlPlane.snapshot.decision.effective, 'Bounded Stop');
 });

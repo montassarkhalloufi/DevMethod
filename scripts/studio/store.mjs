@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { interruptRunningJobs, validateStudioState } from './domain.mjs';
 import { validateProposalTransition } from './proposals.mjs';
 import { validateDesignJourneyTransition } from './design-journey.mjs';
+import { validateControlTransition } from '../../dist/control-plane/validation.js';
 
 export { validateStudioState } from './domain.mjs';
 
@@ -125,6 +126,7 @@ function checkDecisionTransition(previous, next) {
 }
 
 function validateTransition(previous, next) {
+  validateControlTransition(previous.controlPlane, next.controlPlane);
   if (previous.import !== undefined) unchanged(previous.import, next.import, 'Provenance importée');
   validateProposalTransition(previous, next);
   validateDesignJourneyTransition(previous, next);

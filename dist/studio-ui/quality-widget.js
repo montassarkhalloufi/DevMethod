@@ -1,6 +1,6 @@
-import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
+import { i as e, n as t, t as n } from "./jsx-runtime-D7gWoUTT.js";
 //#region studio-ui/src/features/quality/model/selectors.ts
-var r = t(), i = e(), a = {
+var r = e(), i = t(), a = {
 	notrun: "Non exécuté",
 	running: "En cours",
 	passed: "Réussi",

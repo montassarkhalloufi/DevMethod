@@ -1,6 +1,6 @@
-import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
+import { i as e, n as t, t as n } from "./jsx-runtime-D7gWoUTT.js";
 //#region studio-ui/src/features/project/hooks/useProjectModel.ts
-var r = e(), i = t();
+var r = t(), i = e();
 function a(e, t, n) {
 	let [r, a] = (0, i.useState)({
 		key: "",
@@ -715,7 +715,7 @@ function H({ revisionId: e, activeRevisionId: t, revisions: n, onSelectVersion: 
 }
 //#endregion
 //#region studio-ui/src/features/project/components/ProjectWorkbench.tsx
-var U = (0, i.lazy)(() => import("./ArchitectureView-BNuLi3C-.js").then((e) => ({ default: e.ArchitectureView }))), W = (0, i.lazy)(() => import("./FlowView-yFu7Q8N-.js").then((e) => ({ default: e.FlowView }))), G = (0, i.lazy)(() => import("./ImpactView-nO-JJW_f.js").then((e) => ({ default: e.ImpactView })));
+var U = (0, i.lazy)(() => import("./ArchitectureView-Bc2kDYH1.js").then((e) => ({ default: e.ArchitectureView }))), W = (0, i.lazy)(() => import("./FlowView-Ct_ai35e.js").then((e) => ({ default: e.FlowView }))), G = (0, i.lazy)(() => import("./ImpactView-Br0Pn4fs.js").then((e) => ({ default: e.ImpactView })));
 function K(e, t, n, r) {
 	return e ? "Brouillon enregistré · non appliqué" : r === "import" ? "Référence importée" : t === n ? "Appliquée" : "Consultation";
 }

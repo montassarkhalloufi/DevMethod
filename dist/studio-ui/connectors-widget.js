@@ -1,7 +1,7 @@
-import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
-import { a as r, c as i, n as a, o, r as s, t as c, u as l } from "./ConnectorGuide-lY7QqwYz.js";
+import { i as e, n as t, t as n } from "./jsx-runtime-D7gWoUTT.js";
+import { a as r, c as i, n as a, o, r as s, t as c, u as l } from "./ConnectorGuide-66T_yuwk.js";
 //#region studio-ui/src/features/connectors/model/catalog.ts
-var u = t(), d = e();
+var u = e(), d = t();
 function f(e, t, n) {
 	let r = e.filter((e) => e.checkIds.includes(n || ""));
 	for (let e of ["attested", "configured"]) {

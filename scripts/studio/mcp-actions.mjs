@@ -8,7 +8,14 @@ import {
   publicMcpAction,
 } from './mcp-actions-store.mjs';
 
-export function createMcpActions({ root, inspect, validate, execute, now = Date.now }) {
+export function createMcpActions({
+  root,
+  inspect,
+  validate,
+  execute,
+  requestApproval,
+  now = Date.now,
+}) {
   const storage = createMcpActionsStore(root, now),
     tasks = new Map();
   const stamp = () => new Date(now()).toISOString();
@@ -111,6 +118,7 @@ export function createMcpActions({ root, inspect, validate, execute, now = Date.
     await validate(input);
     const raced = existing(input);
     if (raced) return raced;
+    const needsControlApproval = await requestApproval?.();
     const { access, tool, permission } = inspect(input);
     for (const entry of storage.read().filter((entry) => entry.jobId === input.jobId))
       refresh(entry);
@@ -143,7 +151,9 @@ export function createMcpActions({ root, inspect, validate, execute, now = Date.
       execution: 'manual-host-only',
     };
     storage.save(entry);
-    return permission === 'allow' ? start(entry, false) : publicMcpAction(entry);
+    return permission === 'allow' && !needsControlApproval
+      ? start(entry, false)
+      : publicMcpAction(entry);
   }
 
   function list(input = {}) {

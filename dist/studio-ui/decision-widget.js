@@ -1,6 +1,6 @@
-import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
+import { i as e, n as t, t as n } from "./jsx-runtime-D7gWoUTT.js";
 //#region studio-ui/src/features/decisions/hooks/useDecisionAction.ts
-var r = e(), i = t(), a = 4e3, o = "Le stockage local est indisponible. Votre raison reste en mémoire ; copiez-la avant de quitter.";
+var r = t(), i = e(), a = 4e3, o = "Le stockage local est indisponible. Votre raison reste en mémoire ; copiez-la avant de quitter.";
 function s(e) {
 	return !e.draftScope || e.draftScope.length > 4096 ? null : "devmethod:decision-reason:v1:" + JSON.stringify([
 		e.draftScope,

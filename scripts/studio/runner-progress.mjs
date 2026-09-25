@@ -61,10 +61,11 @@ function shortText(value) {
 }
 
 function localPath(directory, value) {
-  if (typeof value !== 'string' || value.length > 500 || value.includes('\\')) return null;
+  if (typeof value !== 'string' || value.length > 500) return null;
+  if (value.includes('\\') && process.platform !== 'win32') return null;
   const app = path.join(directory, 'app');
   const absolute = path.isAbsolute(value) ? value : path.resolve(directory, value);
-  const relative = path.relative(app, absolute);
+  const relative = path.relative(app, absolute).split(path.sep).join('/');
   if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) return null;
   if (relative.split('/').some((part) => part.startsWith('.') || !/^[\w .@()+-]+$/u.test(part)))
     return null;
@@ -151,11 +152,20 @@ function fileReader(directory, onValue) {
     if (exhausted) return;
     let fd;
     try {
+      // O_NOFOLLOW is not available on every platform (notably Windows).
+      // Inspect the path itself as well as the descriptor and reject substitutions.
+      const original = fs.lstatSync(file);
+      if (!original.isFile() || original.isSymbolicLink()) {
+        exhausted = true;
+        return;
+      }
       fd = fs.openSync(file, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW);
       const stat = fs.fstatSync(fd);
       const key = `${stat.dev}:${stat.ino}`;
       if (
         !stat.isFile() ||
+        stat.dev !== original.dev ||
+        stat.ino !== original.ino ||
         stat.size > MAX_FILE_BYTES ||
         stat.size < offset ||
         (identity && identity !== key)

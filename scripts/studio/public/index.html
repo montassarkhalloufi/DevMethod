@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/shell-navigation.css" />
     <link rel="stylesheet" href="/discussion-sizing.css" />
     <link rel="stylesheet" href="/progress.css" />
+    <link rel="stylesheet" href="/control-plane.css" />
     <script type="module" src="/app.js"></script>
     <script type="module" src="/studio-ui/layout.js"></script>
   </head>
@@ -150,6 +151,17 @@
           <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-shield" /></svg
           >Vérifications</button
         ><button
+          id="tab-control"
+          type="button"
+          role="tab"
+          aria-controls="control"
+          aria-selected="false"
+          data-panel="control"
+          tabindex="-1"
+        >
+          <svg class="ui-icon" aria-hidden="true"><use href="#studio-icon-shield" /></svg>Contrôle
+        </button>
+        <button
           id="tab-history"
           type="button"
           role="tab"
@@ -162,6 +174,7 @@
           >Historique
         </button>
       </nav>
+      <div id="control-modes"></div>
       <label class="shell-mode" for="studio-mode">
         <span class="sr-only">Mode de travail</span>
         <select
@@ -217,6 +230,7 @@
             </div>
             <div id="policy"></div>
           </section>
+          <div id="control-navigation"></div>
           <section id="project" class="panel introduction" aria-labelledby="project-title">
             <div class="section-heading">
               <div>
@@ -451,6 +465,7 @@
       <main id="workspace" tabindex="-1" data-scroll-region="preview">
         <section id="project-cap" class="project-cap" aria-label="Le résultat visé"></section>
         <div class="workbench">
+          <div id="control-tabs"></div>
           <div class="preview-toolbar preview-command-bar">
             <button
               id="expand-workspace"
@@ -653,6 +668,15 @@
             </div>
             <div id="checks-list"></div>
             <div id="quality-workbench"></div>
+          </section>
+          <section
+            id="control"
+            class="panel control-panel"
+            aria-labelledby="tab-control"
+            role="tabpanel"
+            hidden=""
+          >
+            <div id="control-workbench"></div>
           </section>
           <section
             id="history"

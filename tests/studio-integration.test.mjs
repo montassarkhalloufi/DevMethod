@@ -73,7 +73,17 @@ test('real files, isolated preview, conflicts, code rollback, export and restart
     true,
   );
   assert.equal(finished.status, 200, JSON.stringify(finished.body));
-  const first = finished.body.state.activeRevision;
+  assert.equal(finished.body.state.activeRevision, null, 'unverified delivery cannot apply itself');
+  const first = finished.body.state.revisions.at(-1).id;
+  assert.equal(
+    (
+      await env.request('/api/activate', {
+        id: first,
+        reason: 'Application explicite de la fixture de test',
+      })
+    ).status,
+    200,
+  );
   let origin = env.studio.runtime().previewOrigin;
   assert.match(await (await fetch(origin + '/')).text(), /Application réelle/);
   const dataWrite = async (version, data) =>
@@ -101,7 +111,22 @@ test('real files, isolated preview, conflicts, code rollback, export and restart
       true,
     )
   ).body;
-  assert.notEqual(second.state.activeRevision, first);
+  assert.equal(
+    second.state.activeRevision,
+    first,
+    'the unverified candidate preserves the active application',
+  );
+  const candidate = second.state.revisions.at(-1).id;
+  assert.notEqual(candidate, first);
+  assert.equal(
+    (
+      await env.request('/api/activate', {
+        id: candidate,
+        reason: 'Application explicite du second cas de test',
+      })
+    ).status,
+    200,
+  );
   await env.request('/api/activate', { id: first, reason: 'Retour au titre précédent' });
   assert.deepEqual((await (await fetch(origin + '/api/data')).json()).data, {
     inscriptions: ['Amina'],
@@ -183,6 +208,17 @@ test('element targeting identifies the selected repeated heading and ignores for
     '/api/jobs/finish',
     { jobId: claim.job.id, title: 'Cibles', summary: 'Fixture réelle.' },
     true,
+  );
+  const candidate = env.studio.store.read().revisions.at(-1).id;
+  assert.equal(env.studio.store.read().activeRevision, null);
+  assert.equal(
+    (
+      await env.request('/api/activate', {
+        id: candidate,
+        reason: 'Application explicite pour tester le ciblage',
+      })
+    ).status,
+    200,
   );
   const dom = new JSDOM(await (await fetch(env.studio.runtime().previewOrigin + '/')).text(), {
     runScripts: 'dangerously',

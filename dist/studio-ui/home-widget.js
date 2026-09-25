@@ -1,9 +1,9 @@
-import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
-import { c as r, i, n as a, r as o, s } from "./useMcpSelection-BrYUToXT.js";
-import { a as c, n as l, o as u, r as d, t as f, u as p } from "./ConnectorGuide-lY7QqwYz.js";
-import "./mcp-BH8zszrc.js";
+import { i as e, n as t, t as n } from "./jsx-runtime-D7gWoUTT.js";
+import { c as r, i, n as a, r as o, s } from "./useMcpSelection-cY7JsTrR.js";
+import { a as c, n as l, o as u, r as d, t as f, u as p } from "./ConnectorGuide-66T_yuwk.js";
+import "./mcp-ZcSN80MA.js";
 //#region studio-ui/src/features/home/model/home.ts
-var m = t(), h = e(), g = {
+var m = e(), h = t(), g = {
 	new: "Nouveau projet",
 	imported: "Sources importées",
 	existing: "Projet Studio"

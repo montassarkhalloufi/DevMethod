@@ -1,4 +1,4 @@
-import { r as e, t } from "./jsx-runtime-Bz8zB3tG.js";
+import { i as e, t } from "./jsx-runtime-D7gWoUTT.js";
 import { d as n, i as r, n as i } from "./architecture-model-BrTs_SJo.js";
 /* empty css                      */
 //#region studio-ui/src/features/project/components/FlowView.tsx

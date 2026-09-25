@@ -119,6 +119,9 @@ export function createMcpBroker({
   manager,
   timeoutMs = mcpBrokerLimits.timeoutMs,
   now = Date.now,
+  controlAdmission,
+  controlRecheck,
+  requestControlApproval,
 }) {
   const pending = new Map();
   let closed = false;
@@ -127,6 +130,7 @@ export function createMcpBroker({
     inspect: inspectAction,
     validate: validateAction,
     execute: executeAction,
+    requestApproval: requestControlApproval,
     now,
   });
 
@@ -398,6 +402,11 @@ export function createMcpBroker({
           'approval-expired',
         );
         mcpRequire(!operation.controller.signal.aborted, 'Appel MCP annulé.', 409, 'cancelled');
+        try {
+          controlRecheck?.(approved);
+        } catch (error) {
+          throw Object.assign(error, { mcpSafe: true, code: 'control-plane-blocked' });
+        }
         operation.dispatched = true;
       },
     });
@@ -428,6 +437,17 @@ export function createMcpBroker({
   }
 
   async function executeAction(input, approved) {
+    if (controlAdmission) {
+      try {
+        await controlAdmission(approved);
+      } catch (error) {
+        throw Object.assign(error, {
+          dispatched: false,
+          mcpSafe: true,
+          code: 'control-plane-blocked',
+        });
+      }
+    }
     inspectAction(input);
     mcpRequire(
       !pending.has(input.jobId),

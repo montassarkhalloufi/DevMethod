@@ -84,6 +84,11 @@ export function readQualityRuns(store) {
 }
 
 function validateRun(run) {
+  if (
+    run.requestId !== undefined &&
+    (typeof run.requestId !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(run.requestId))
+  )
+    throw new Error('Identifiant du journal qualité invalide.');
   const status = ['running', 'passed', 'failed', 'blocked'];
   const texts = [
     'id',

@@ -197,6 +197,36 @@ replie la discussion tout en conservant l’accès aux décisions à examiner. L
 vérifications et aperçus du brouillon sont repliables. Les limites et essais de cette tranche
 sont consignés dans le [checkpoint technique](missions/creation-experience/TECHNICAL-CHECKPOINT.md).
 
+## Contrôle : preuves, risque et autonomie effective
+
+L’onglet **Contrôle**, entre Vérifications et Historique, rassemble la vue d’ensemble,
+le graphe des preuves, l’attention humaine, les risques, l’autonomie et son historique.
+Les modes Guidé, DevAuto et Autonome sont une demande ; la politique versionnée calcule
+Auto-Continue, Verify, Human Decision ou Bounded Stop depuis les sources disponibles.
+
+**Lancer les vérifications** exécute les contrôles locaux du catalogue et enregistre leurs
+véritables résultats. Les audits navigateur, la comparaison visuelle et les critères métier
+requièrent leurs preuves externes par le pont existant. Un outil configuré, une analyse statique,
+un job livré ou une déclaration d’agent ne vaut pas un contrôle réussi. Le graphe affiche la
+provenance, la révision observée, la fraîcheur, les dépendances et les limites. Les preuves
+locales aux dépendances inchangées peuvent rester actuelles après une nouvelle version ; les
+observations externes restent attachées à leur révision et à leur contrat de connecteur.
+
+Dans **Attention humaine**, lire un élément ne le résout pas. Examiner enregistre une décision
+motivée sur l’action et la version exactes ; une preuve manquante exige son exécution réelle.
+Les autorisations MCP ouvrent leur parcours existant avec les arguments de l’action, sans les
+recopier dans le graphe. Une source indisponible ou un arrêt persistant empêche toute déduction
+de réussite. La calibration automatique est désactivée.
+
+Une candidate n’est plus appliquée automatiquement à sa livraison sans preuves. Dans
+**Autonomie adaptative**, **Appliquer la version vérifiée** devient disponible lorsque les
+preuves et les délégations le permettent. Le pont agent dispose de la même admission par
+`POST /api/control/continue` avec `version` et `snapshotKey` de l’observation courante.
+Les versions appliquées explicitement par une personne conservent leur statut de preuves réel.
+L’historique et la file sont restaurés au redémarrage depuis le registre du projet.
+
+Voir [l’ADR 027](ADR-027-control-plane.md) et [les preuves de la mission](missions/control-plane/PLAN.md).
+
 ## Modifier le code et essayer le brouillon
 
 Les fichiers texte existants jusqu’à 256 Kio sont éditables. Les binaires et les fichiers plus

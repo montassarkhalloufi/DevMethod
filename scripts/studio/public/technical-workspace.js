@@ -1,3 +1,4 @@
+import { createControlController } from './control-controller.js';
 // The existing editor owns durable drafts and adoption. React owns the technical views.
 export function createTechnicalWorkspace({
   document,
@@ -21,6 +22,14 @@ export function createTechnicalWorkspace({
   const sourceHost = document.getElementById('source-view');
   const projectHost = document.getElementById('project-workbench');
   const qualityHost = document.getElementById('quality-workbench');
+  const control = createControlController({
+    document,
+    openPanel,
+    showVersion,
+    openSource,
+    openConnectors: onOpenConnectors,
+    refresh,
+  });
   function showChecks() {
     openPanel('checks', 'push');
   }
@@ -122,6 +131,7 @@ export function createTechnicalWorkspace({
         document.getElementById('checks-list').hidden = true;
         qualityHost.parentElement.classList.add('quality-mounted');
         updateQuality();
+        control.update(state, revisionId, panel);
       })
       .catch(() => {
         qualityLoading = null;
@@ -156,6 +166,7 @@ export function createTechnicalWorkspace({
       if (panelChanged) window.dispatchEvent(new window.Event('resize'));
       updateProject();
       updateQuality();
+      control.update(state, revisionId, panel);
     },
     selectPath(path) {
       selectedPath = path;
@@ -175,6 +186,7 @@ export function createTechnicalWorkspace({
     },
     destroy() {
       disposed = true;
+      control.dispose();
       projectWidget?.dispose();
       qualityWidget?.dispose();
       document.body.classList.remove('technical-focus');

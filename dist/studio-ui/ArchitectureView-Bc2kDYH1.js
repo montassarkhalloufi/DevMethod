@@ -1,4 +1,4 @@
-import { r as e, t } from "./jsx-runtime-Bz8zB3tG.js";
+import { i as e, t } from "./jsx-runtime-D7gWoUTT.js";
 import { a as n, c as r, f as i, i as a, l as o, n as s, o as c, p as l, r as u, s as d, t as f, u as p } from "./architecture-model-BrTs_SJo.js";
 /* empty css                      */
 //#region studio-ui/src/features/project/hooks/useArchitectureCanvas.ts

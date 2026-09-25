@@ -1,8 +1,8 @@
-import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
-import { c as r, i, n as a, r as o, s, t as c } from "./useMcpSelection-BrYUToXT.js";
-import { a as l, n as u, o as d, r as f, t as p } from "./ConnectorGuide-lY7QqwYz.js";
+import { i as e, n as t, t as n } from "./jsx-runtime-D7gWoUTT.js";
+import { c as r, i, n as a, r as o, s, t as c } from "./useMcpSelection-cY7JsTrR.js";
+import { a as l, n as u, o as d, r as f, t as p } from "./ConnectorGuide-66T_yuwk.js";
 //#region studio-ui/src/features/mcp/components/ProjectConnectorGuide.tsx
-var m = t(), h = e(), g = n();
+var m = e(), h = t(), g = n();
 function _({ guide: e, controller: t }) {
 	return e.definition ? /* @__PURE__ */ (0, g.jsxs)(g.Fragment, { children: [
 		/* @__PURE__ */ (0, g.jsx)(p, {

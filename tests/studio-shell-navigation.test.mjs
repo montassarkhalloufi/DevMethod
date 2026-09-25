@@ -193,7 +193,7 @@ test('the header owns one tablist with unique IDs, labelled panels and a form-as
   assert.equal(document.querySelector('#workspace .workspace-tabs'), null);
   assert.deepEqual(
     tabs.map((tab) => tab.dataset.panel),
-    ['journey', 'product', 'code', 'choices', 'checks', 'history'],
+    ['journey', 'product', 'code', 'choices', 'checks', 'control', 'history'],
   );
   const allIds = [...document.querySelectorAll('[id]')].map((node) => node.id);
   assert.equal(new Set(allIds).size, allIds.length);

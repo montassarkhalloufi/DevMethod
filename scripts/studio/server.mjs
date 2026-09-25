@@ -5,6 +5,7 @@ import { connectorGuideRoute } from './connector-guide-routes.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
+import { controlRoute } from './control-routes.mjs';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { createStudioStore } from './store.mjs';
@@ -268,6 +269,7 @@ async function postRoute(url, request, response, context) {
       ).runProjectQuality(store, input.revisionId, input.checkId),
     );
   }
+  await admitControlAction(url, worker, context);
   const workerRoutes = {
     '/api/proposals/delegate-approval': () => {
       const approval = { ...input };
@@ -341,6 +343,11 @@ async function postRoute(url, request, response, context) {
   wake();
 }
 
+async function admitControlAction(url, worker, context) {
+  if (worker && ['/api/jobs/claim', '/api/jobs/finish'].includes(url.pathname))
+    (await context.control()).admit('prepare');
+}
+
 const listen = (server, port) =>
   new Promise((resolve, reject) => {
     server.once('error', reject);
@@ -367,11 +374,23 @@ export async function startStudio({
   const packageRoot = fileURLToPath(new URL('../../', import.meta.url));
   if (path.resolve(workspace) === path.resolve(packageRoot))
     throw new Error('Choisissez un dossier dédié au produit, distinct du dépôt DevMethod.');
+  let controlInstance;
   const store = createStudioStore(workspace),
-    mcpBroker = createMcpBroker({ store, manager: mcpManager }),
+    mcpBroker = createMcpBroker({
+      store,
+      manager: mcpManager,
+      controlAdmission: async (approved) =>
+        (await context.control()).admit(approved ? 'prepare' : 'external'),
+      controlRecheck: (approved) => controlInstance.admit(approved ? 'prepare' : 'external'),
+      requestControlApproval: async () =>
+        (await context.control()).read().snapshot.decision.effective !== 'Auto-Continue',
+    }),
     interactions = createConnectorInteractions(store, { mcpManager }),
     guideDrafts = createConnectorGuideDrafts(store.root, { scope: 'project' }),
-    jobs = createJobs(store, { mcpContext: mcpBroker.claimContext }),
+    jobs = createJobs(store, {
+      mcpContext: mcpBroker.claimContext,
+      control: () => controlInstance,
+    }),
     token = randomUUID();
   let url, previewOrigin, editorPreviewOrigin, comparisonPreviewOrigin, runner;
   let editor;
@@ -442,12 +461,33 @@ export async function startStudio({
     tools: projectTools(store, editor),
     wake: () => runner?.wake(),
   };
+  let controlPromise;
+  context.control = () => {
+    controlPromise ??= import('./control-plane.mjs')
+      .then(async ({ createControlPlane }) => {
+        controlInstance = await createControlPlane({ store, editor, broker: mcpBroker });
+        return controlInstance;
+      })
+      .catch((error) => {
+        controlPromise = null;
+        throw error;
+      });
+    return controlPromise;
+  };
   const globalMcpRoutes = createMcpRoutes(mcpManager, () => url, { getUsage: mcpUsage });
   const server = http.createServer(async (request, response) => {
     try {
       if (request.headers.host !== new URL(url).host)
         return send(response, 403, { error: 'Hôte non autorisé.' });
       const requestUrl = new URL(request.url, url);
+      if (
+        await controlRoute(requestUrl, request, response, {
+          control: context.control,
+          worker: authorized(request, token),
+          runtime,
+        })
+      )
+        return;
       if (await connectorGuideRoute(request, response, requestUrl, url)) return;
       if (
         await connectorInteractionRoute(request, response, requestUrl, {
@@ -496,6 +536,7 @@ export async function startStudio({
     await listen(server, port);
     url = 'http://127.0.0.1:' + server.address().port;
     if (agent) {
+      await context.control();
       const { createAgentRunner } = await import('./runner.mjs');
       runner = createAgentRunner({ store, jobs, options: agent });
     }

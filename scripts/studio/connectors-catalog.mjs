@@ -137,6 +137,7 @@ const tests = [
   'server-validation',
 ];
 const browser = [
+  'visual-comparison',
   'end-to-end',
   'keyboard',
   'responsive',

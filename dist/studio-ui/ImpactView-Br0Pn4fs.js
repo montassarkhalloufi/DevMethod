@@ -1,4 +1,4 @@
-import { r as e, t } from "./jsx-runtime-Bz8zB3tG.js";
+import { i as e, t } from "./jsx-runtime-D7gWoUTT.js";
 /* empty css                      */
 //#region studio-ui/src/features/project/components/ImpactView.tsx
 var n = e(), r = t(), i = {

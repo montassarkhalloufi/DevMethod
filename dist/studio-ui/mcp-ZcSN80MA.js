@@ -1,5 +1,5 @@
-import { r as e, t } from "./jsx-runtime-Bz8zB3tG.js";
-import { c as n, n as r, o as i, s as a, t as o } from "./useMcpSelection-BrYUToXT.js";
+import { i as e, t } from "./jsx-runtime-D7gWoUTT.js";
+import { c as n, n as r, o as i, s as a, t as o } from "./useMcpSelection-cY7JsTrR.js";
 //#region studio-ui/src/features/mcp/hooks/useMcpActions.ts
 var s = e();
 function c(e, t) {

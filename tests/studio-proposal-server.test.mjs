@@ -350,6 +350,16 @@ test('HTTP runtime catalog and real health probes expose known sources and decla
     { worker: true },
   );
   assert.equal(finished.status, 200, JSON.stringify(finished.body));
+  assert.equal(env.studio.store.read().activeRevision, null);
+  assert.equal(
+    (
+      await env.post('/api/activate', {
+        id: env.studio.store.read().revisions.at(-1).id,
+        reason: 'Application explicite pour observer le runtime',
+      })
+    ).status,
+    200,
+  );
   const before = env.studio.store.read();
   const dataUrl = env.studio.runtime().previewOrigin + '/api/data';
   const dataBefore = await (await fetch(dataUrl)).json();

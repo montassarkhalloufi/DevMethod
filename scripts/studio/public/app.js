@@ -139,7 +139,8 @@ export function mountStudio({
   });
 
   function openPanel(id, navigation = 'replace') {
-    if (!['journey', 'product', 'code', 'choices', 'checks', 'history'].includes(id)) return;
+    if (!['journey', 'product', 'code', 'choices', 'checks', 'control', 'history'].includes(id))
+      return;
     if (isJourneyHash()) lastJourneyHash = window.location.hash;
     const hash = id === 'journey' ? lastJourneyHash : '#' + id;
     if (navigation !== 'none' && window.location.hash !== hash)
@@ -498,7 +499,9 @@ export function mountStudio({
         initialPanel = false;
         const requestedPanel = window.location.hash.slice(1);
         if (isJourneyHash()) openPanel('journey');
-        else if (['product', 'code', 'choices', 'checks', 'history'].includes(requestedPanel))
+        else if (
+          ['product', 'code', 'choices', 'checks', 'control', 'history'].includes(requestedPanel)
+        )
           openPanel(requestedPanel);
         else if (!state.revisions.length) openPanel('journey');
       }
@@ -846,6 +849,7 @@ export function mountStudio({
     if (editingProject) el('idea').focus();
   });
   function openProjectSettings() {
+    if (activePanel === 'control') openPanel('journey', 'push');
     editingProject = true;
     projectPresentation();
     el('idea').focus();
@@ -942,7 +946,9 @@ export function mountStudio({
     () => {
       if (isJourneyHash()) openPanel('journey', 'none');
       else if (
-        ['product', 'code', 'choices', 'checks', 'history'].includes(window.location.hash.slice(1))
+        ['product', 'code', 'choices', 'checks', 'control', 'history'].includes(
+          window.location.hash.slice(1),
+        )
       )
         openPanel(window.location.hash.slice(1), 'none');
     },

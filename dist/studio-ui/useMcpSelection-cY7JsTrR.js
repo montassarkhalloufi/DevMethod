@@ -1,5 +1,5 @@
-import { r as e, t } from "./jsx-runtime-Bz8zB3tG.js";
-import { c as n, i as r, l as i, r as a, s as o, t as s, u as c } from "./ConnectorGuide-lY7QqwYz.js";
+import { i as e, t } from "./jsx-runtime-D7gWoUTT.js";
+import { c as n, i as r, l as i, r as a, s as o, t as s, u as c } from "./ConnectorGuide-66T_yuwk.js";
 //#region studio-ui/src/features/mcp/model/mcp.ts
 var l = e();
 function u(e) {

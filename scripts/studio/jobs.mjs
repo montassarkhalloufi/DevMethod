@@ -56,11 +56,12 @@ function prepareRevision(before, job, input, files, compilation) {
   return revision;
 }
 
-export function createJobs(store, { mcpContext } = {}) {
+export function createJobs(store, { mcpContext, control } = {}) {
   const mutate = (fn) => store.commit(store.read().version, fn);
   const progress = createJobProgress(store);
 
   function claim(worker) {
+    const autonomy = control?.()?.admit('prepare');
     let job;
     const state = mutate((draft) => {
       job = domain.claimJob(draft, { worker });
@@ -87,6 +88,7 @@ export function createJobs(store, { mcpContext } = {}) {
       throw error;
     }
     const context = {
+      ...(autonomy ? { autonomy } : {}),
       project: state.project,
       delegation: domain.effectiveDelegation(state),
       approval: domain.planApprovalStatus(state),

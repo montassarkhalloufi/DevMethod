@@ -1,9 +1,9 @@
-import { n as e, r as t, t as n } from "./jsx-runtime-Bz8zB3tG.js";
+import { i as e, n as t, t as n } from "./jsx-runtime-D7gWoUTT.js";
 import { a as r, c as i, i as a, l as o, n as s, r as c, s as ee, t as l } from "./editor.api-CBhnZFl3.js";
 import { t as u } from "./toggleHighContrast-wJCBnj4M.js";
 import { a as d, i as f, n as p, r as m, t as h } from "./register-CoIKknfv.js";
 //#region node_modules/monaco-editor/esm/external/monaco-lsp-client/out/index.js
-var g = t(), _ = e(), v = Object.defineProperty, te = (e, t, n) => t in e ? v(e, t, {
+var g = e(), _ = t(), v = Object.defineProperty, te = (e, t, n) => t in e ? v(e, t, {
 	enumerable: !0,
 	configurable: !0,
 	writable: !0,

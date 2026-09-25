@@ -9,6 +9,7 @@ import { designJourneyView, validateDesignJourney } from './design-journey.mjs';
 import { prepareConnectorGuides, validateConnectorGuideSnapshots } from './connector-guides.mjs';
 import { validRelativePath } from './import-paths.mjs';
 import { validateImportRecord } from './import-contract.mjs';
+import { validateControlPlane } from '../../dist/control-plane/validation.js';
 export {
   setDesignMaster,
   approveDesignMaster,
@@ -321,6 +322,7 @@ export function validateStudioState(state) {
       'proposals',
       'designJourney',
       'import',
+      'controlPlane',
     ],
     'État',
   );
@@ -388,6 +390,7 @@ export function validateStudioState(state) {
   for (const check of state.checks) validateCheck(check, revisionIds);
   validateProposals(state);
   validateDesignJourney(state);
+  if (state.controlPlane !== undefined) validateControlPlane(state.controlPlane);
   for (const entry of state.events) {
     shape(entry, ['id', 'type', 'text', 'createdAt'], 'Événement');
     identifier(entry.id);
@@ -594,8 +597,7 @@ function completedProposals(state, { revision, brief, decisions, proposals = [] 
   appendDecisions(result, decisions ?? []);
   if (revision !== undefined) {
     result.revisions.push(structuredClone(revision));
-    if (revision.profile !== 'source-only' && effectiveDelegation(state).adoption === 'agent')
-      result.activeRevision = revision.id;
+    if (automaticAdoptionAllowed(state, revision)) result.activeRevision = revision.id;
   }
   const created = [];
   for (const input of proposals) {
@@ -643,11 +645,7 @@ export function finishJob(state, completion) {
   job.finishedAt = now();
   job.summary = summary;
   event(state, 'ready', 'Résultat disponible ; les vérifications restent distinctes.');
-  if (
-    revision !== undefined &&
-    revision.profile !== 'source-only' &&
-    effectiveDelegation(state).adoption === 'agent'
-  ) {
+  if (revision !== undefined && automaticAdoptionAllowed(state, revision)) {
     state.activeRevision = revision.id;
     appendDecisions(state, [
       {
@@ -662,6 +660,56 @@ export function finishJob(state, completion) {
     event(state, 'activated', 'Révision activée dans le cadre de la délégation.');
   }
 }
+
+function automaticAdoptionAllowed(state, revision) {
+  if (revision.profile === 'source-only' || effectiveDelegation(state).adoption !== 'agent')
+    return false;
+  // A newly produced revision has no evidence yet. The Control Plane must observe it
+  // before an automatic adoption; historical projects retain their original contract.
+  if (!state.controlPlane) return true;
+  return (
+    state.controlPlane.snapshot.input.revisionId === revision.id &&
+    state.controlPlane.snapshot.decision.effective === 'Auto-Continue'
+  );
+}
+
+export function controlContinuation(state) {
+  const snapshot = state.controlPlane?.snapshot;
+  const revision = state.revisions.find((entry) => entry.id === snapshot?.input.revisionId);
+  const job = state.jobs.find((entry) => entry.id === revision?.jobId);
+  let reason = 'La version vérifiée peut être appliquée dans la délégation enregistrée.';
+  if (!revision || !automaticAdoptionAllowed(state, revision))
+    reason = 'L’application exige Auto-Continue et une responsabilité d’application déléguée.';
+  else if (state.activeRevision === revision.id) reason = 'Cette version est déjà appliquée.';
+  else if (!job || job.baseRevision !== state.activeRevision || job.status !== 'ready')
+    reason = 'La base de cette livraison a changé ; préparer une nouvelle version.';
+  else if (state.jobs.some((entry) => entry.status === 'running'))
+    reason = 'Une mission est encore en cours sur la version actuelle.';
+  else if (!hasApprovedPlan(state)) reason = 'Les validations du cadrage restent requises.';
+  else return { available: true, reason };
+  return { available: false, reason };
+}
+
+export function continueVerifiedRevision(state) {
+  const admission = controlContinuation(state);
+  if (!admission.available) reject(admission.reason, 409);
+  const revision = state.revisions.find(
+    (entry) => entry.id === state.controlPlane.snapshot.input.revisionId,
+  );
+  state.activeRevision = revision.id;
+  appendDecisions(state, [
+    {
+      id: randomUUID(),
+      topic: 'Version active',
+      choice: revision.title,
+      reason: `Control Plane ${state.controlPlane.policy.id} : preuves actuelles, risque faible et délégation vérifiés.`,
+      source: 'agent',
+      status: 'active',
+    },
+  ]);
+  event(state, 'activated', 'Version vérifiée appliquée dans la délégation du Control Plane.');
+}
+
 export function chooseDesign(state, { id, reason }) {
   const design = find(state.designs, id, 'Design');
   text(reason, 'Raison', 4000);

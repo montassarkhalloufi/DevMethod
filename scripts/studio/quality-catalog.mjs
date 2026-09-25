@@ -105,6 +105,14 @@ export const qualityCatalog = [
     'frontend',
   ),
   external(
+    'visual-comparison',
+    'Comparaison visuelle',
+    'functional',
+    'Navigateur et référence visuelle approuvée',
+    'Comparer les écrans réellement rendus à la référence et conserver la version, la taille et les limites observées.',
+    'frontend',
+  ),
+  external(
     'mutation-testing',
     'Pertinence par mutation',
     'functional',

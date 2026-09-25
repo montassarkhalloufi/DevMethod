@@ -234,11 +234,13 @@ function finishRun(store, run, result, snapshot) {
   writeQualityRun(store, run);
 }
 
-export async function runProjectQuality(store, revisionId, checkId) {
+export async function runProjectQuality(store, revisionId, checkId, requestId) {
   const definition = qualityCatalog.find((check) => check.id === checkId);
   if (!definition) reject('Contrôle inconnu.');
   const { revision } = revisionFrom(store, revisionId),
     snapshot = qualitySnapshot(store, revision);
+  if (qualityRequestReplay(store, revision.id, checkId, requestId))
+    return readProjectQuality(store, revision.id);
   const report = readProjectQuality(store, revision.id),
     row = report.checks.find((check) => check.id === checkId);
   if (snapshot.issue) reject(snapshot.issue, 409);
@@ -252,6 +254,7 @@ export async function runProjectQuality(store, revisionId, checkId) {
   if (readQualityRuns(store).length >= 500)
     reject('Journal qualité plein ; archiver explicitement avant de continuer.');
   const run = {
+    ...(requestId ? { requestId } : {}),
     schemaVersion: 1,
     id: randomUUID(),
     checkId,
@@ -292,4 +295,15 @@ export async function runProjectQuality(store, revisionId, checkId) {
 export function importExternalQualityResult(store, input) {
   const run = storeExternalQualityResult(store, input);
   return readProjectQuality(store, run.revisionId);
+}
+
+function qualityRequestReplay(store, revisionId, checkId, requestId) {
+  if (requestId === undefined) return false;
+  if (typeof requestId !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(requestId))
+    reject('Identifiant de vérification invalide.');
+  const previous = readQualityRuns(store).find((run) => run.requestId === requestId);
+  if (!previous) return false;
+  if (previous.revisionId !== revisionId || previous.checkId !== checkId)
+    reject('Identifiant déjà utilisé pour une autre vérification.', 409);
+  return true;
 }

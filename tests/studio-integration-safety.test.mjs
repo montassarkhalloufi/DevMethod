@@ -53,6 +53,11 @@ test('starting Studio in its own package directory fails before creating project
   const source = fileURLToPath(new URL('../scripts/studio/', import.meta.url));
   const target = path.join(packageRoot, 'scripts', 'studio');
   fs.cpSync(source, target, { recursive: true });
+  fs.cpSync(
+    fileURLToPath(new URL('../dist/control-plane/', import.meta.url)),
+    path.join(packageRoot, 'dist/control-plane'),
+    { recursive: true },
+  );
   const { startStudio } = await import(pathToFileURL(path.join(target, 'server.mjs')).href);
   await assert.rejects(startStudio({ workspace: packageRoot, port: 0 }), /distinct du dépôt/);
   assert.equal(fs.existsSync(path.join(packageRoot, '.devmethod')), false);

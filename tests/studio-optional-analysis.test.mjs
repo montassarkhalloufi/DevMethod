@@ -18,6 +18,13 @@ async function unpackedStudio(t, { missingModule = false } = {}) {
   fs.cpSync(fileURLToPath(new URL('../scripts/studio', import.meta.url)), scripts, {
     recursive: true,
   });
+  // The shipped pure Control Plane domain is part of Studio itself, not an
+  // installed analyzer dependency. Keep it in this unpacked package fixture.
+  fs.cpSync(
+    fileURLToPath(new URL('../dist/control-plane', import.meta.url)),
+    path.join(packageRoot, 'dist/control-plane'),
+    { recursive: true },
+  );
   if (missingModule) fs.rmSync(path.join(scripts, 'intelligence.mjs'));
   assert.equal(fs.existsSync(path.join(packageRoot, 'node_modules')), false);
   const { startStudio } = await import(pathToFileURL(path.join(scripts, 'server.mjs')).href);
@@ -67,6 +74,12 @@ test('Studio without installed dependencies keeps static creation, preview and s
   });
   assert.equal(run.status, 503);
   assert.deepEqual(studio.store.read(), stateBefore);
+  const control = await fetch(url + '/api/control');
+  assert.equal(control.status, 200);
+  const snapshot = (await control.json()).snapshot;
+  assert.equal(snapshot.decision.effective, 'Verify');
+  assert.equal(snapshot.evidence.current, 0);
+  assert.ok(snapshot.input.sourceIssues.some((issue) => issue.includes('Qualité indisponible')));
   assert.equal((await fetch(url + '/api/state')).status, 200);
 });
 
