@@ -1,0 +1,60 @@
+<!doctype html>
+<html
+  lang="fr"
+  data-content-root="../../"
+  data-public-bundle="false"
+  data-repository-url="https://github.com/montassarkhalloufi/DevMethod/blob/main/"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Lecteur HTML structuré des références documentaires DevMethod."
+    />
+    <meta name="robots" content="noindex,follow" />
+    <title>DevMethod — Référence</title>
+    <link rel="stylesheet" href="reader.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#document">Aller au document</a>
+    <header class="reader-topbar">
+      <a class="reader-brand" href="index.html">
+        <span aria-hidden="true">⌁</span>
+        <strong>DevMethod</strong>
+        <small>Manuel de maîtrise</small>
+      </a>
+      <nav aria-label="Navigation du lecteur">
+        <a id="back-link" href="index.html">← Retour au manuel</a>
+        <a id="source-link" href="#" download hidden>Télécharger la source</a>
+      </nav>
+    </header>
+    <div class="reader-shell">
+      <aside class="reader-sidebar" aria-label="Sommaire du document">
+        <div class="document-meta">
+          <span class="eyebrow">Référence approfondie</span>
+          <strong id="document-name">Chargement…</strong>
+          <small id="document-path"></small>
+        </div>
+        <nav id="toc" class="reader-toc"></nav>
+      </aside>
+      <main id="document" tabindex="-1">
+        <div id="loading" class="reader-state" role="status">
+          <span class="spinner" aria-hidden="true"></span>
+          <p>Lecture et structuration de la référence…</p>
+        </div>
+        <div id="error" class="reader-state reader-error" role="alert" hidden>
+          <h1>Cette référence ne peut pas être affichée</h1>
+          <p id="error-copy"></p>
+          <a href="index.html">Revenir au manuel</a>
+        </div>
+        <article id="rendered-document" class="prose" hidden></article>
+      </main>
+    </div>
+    <button id="toc-button" class="toc-button" aria-controls="toc" aria-expanded="false">
+      Sommaire
+    </button>
+    <script src="reader.js"></script>
+  </body>
+</html>

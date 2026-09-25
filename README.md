@@ -2,6 +2,10 @@
 
 From idea to delivery with your AI coding agents.
 
+**New to the project?** Start with the [maintainer and user learning portal](docs/START-HERE.md),
+which connects the product promise, method, illustrated Studio guide, architecture, code map,
+testing and release responsibilities.
+
 A reusable method for human–AI collaboration, organized around missions and supported by verification evidence. Start from a need, discuss important decisions, implement a bounded scope, and preserve what was checked and what comes next.
 
 **The human sets the direction, agents execute, and evidence informs the decision.** Humans define goals and constraints, arbitrate consequential trade-offs and retain responsibility for authorizations. Agents carry out the authorized work, surface uncertainty and prepare reviewable outcomes. Reuse valid authorization instead of repeatedly interrupting routine work; ask at a meaningful decision boundary with concrete evidence. Automated checks and bounded loops support this collaboration without proving that the goal, tests or architecture are sufficient.

@@ -31,6 +31,7 @@
     "test": "npm run build && node --experimental-strip-types --test tests/*.test.mjs examples/studio-ateliers-react/tests/*.test.ts",
     "test:fixtures": "node --test tests/evaluation.test.mjs",
     "check:docs": "node scripts/check-docs.mjs",
+    "build:public-handbook": "node scripts/build-public-handbook.mjs",
     "test:cli": "node --test tests/install.test.mjs tests/doctor.test.mjs tests/update.test.mjs tests/checkpoint.test.mjs tests/resume-cli.test.mjs tests/mission.test.mjs tests/planner.test.mjs tests/closure-loop.test.mjs tests/guard.test.mjs tests/guard-store.test.mjs tests/guard-revision.test.mjs",
     "test:behavior": "node --test tests/behavioral-evaluation.test.mjs tests/prepare-behavior-case.test.mjs",
     "test:protocols": "node --test tests/comparison.test.mjs",
